@@ -158,6 +158,8 @@ img,svg{display:block;max-width:100%}
   display:block;margin-top:14px;font-size:11px;color:#8a97b8;position:relative;
   letter-spacing:.04em;
 }
+.beehiiv-embed{position:relative;min-height:56px}
+.beehiiv-embed iframe{max-width:100%!important;width:100%!important}
 .optin .badge{
   position:absolute;top:16px;right:16px;
   font-size:10px;letter-spacing:.2em;text-transform:uppercase;
