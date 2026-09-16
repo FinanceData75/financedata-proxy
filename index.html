@@ -3,261 +3,301 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FinanceData — La finance décodée, chaque semaine.</title>
-<meta name="description" content="La newsletter finance & investissement pour les jeunes actifs. Chaque semaine, on décode les marchés, les entreprises et les concepts clés — sans jargon.">
-<meta property="og:title" content="FinanceData — La finance décodée">
-<meta property="og:description" content="La newsletter finance & investissement des jeunes actifs. Concepts, marchés, pépites. Chaque dimanche.">
-<meta property="og:type" content="website">
+<title>FinanceData</title>
+<meta name="description" content="Une lecture hebdomadaire sur les marchés, les entreprises et les grands concepts d'investissement. Pour les 25–35 ans qui veulent piger avant de placer.">
+<meta property="og:title" content="FinanceData">
+<meta property="og:description" content="Une lecture hebdomadaire sur les marchés, les entreprises et les concepts d'investissement.">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
-<!-- Ticker -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker__inner">
     <span><b>CAC 40</b> 7 812 <em>+0.42%</em></span>
     <span><b>S&amp;P 500</b> 5 640 <em>+0.18%</em></span>
     <span><b>NASDAQ</b> 18 210 <em>+0.61%</em></span>
-    <span><b>BTC</b> 71 240 $ <em class="down">-1.12%</em></span>
+    <span><b>BTC</b> 71 240 $ <em class="down">−1.12%</em></span>
     <span><b>OR</b> 2 615 $ <em>+0.24%</em></span>
-    <span><b>EUR/USD</b> 1.087 <em class="down">-0.08%</em></span>
-    <span><b>10Y FR</b> 2.92% <em>+2 pb</em></span>
-    <!-- duplicate for seamless loop -->
+    <span><b>EUR/USD</b> 1.087 <em class="down">−0.08%</em></span>
+    <span><b>OAT 10 ans</b> 2.92% <em>+2 pb</em></span>
+    <span><b>Brent</b> 78.30 $ <em>+0.55%</em></span>
     <span><b>CAC 40</b> 7 812 <em>+0.42%</em></span>
     <span><b>S&amp;P 500</b> 5 640 <em>+0.18%</em></span>
     <span><b>NASDAQ</b> 18 210 <em>+0.61%</em></span>
-    <span><b>BTC</b> 71 240 $ <em class="down">-1.12%</em></span>
+    <span><b>BTC</b> 71 240 $ <em class="down">−1.12%</em></span>
     <span><b>OR</b> 2 615 $ <em>+0.24%</em></span>
-    <span><b>EUR/USD</b> 1.087 <em class="down">-0.08%</em></span>
-    <span><b>10Y FR</b> 2.92% <em>+2 pb</em></span>
+    <span><b>EUR/USD</b> 1.087 <em class="down">−0.08%</em></span>
+    <span><b>OAT 10 ans</b> 2.92% <em>+2 pb</em></span>
+    <span><b>Brent</b> 78.30 $ <em>+0.55%</em></span>
   </div>
 </div>
 
-<!-- Nav -->
 <header class="nav">
   <div class="nav__inner">
-    <a class="nav__logo" href="/"><img src="/assets/logo.svg" alt="FinanceData"></a>
+    <a class="brand" href="/">
+      <span class="brand__mark">
+        <svg viewBox="0 0 32 32"><path d="M6 22 L12 14 L17 17 L26 8" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="square"/></svg>
+      </span>
+      <span class="brand__name">FinanceData</span>
+    </a>
     <nav class="nav__links" aria-label="principale">
       <a href="#editions">Éditions</a>
-      <a href="#concepts">Concepts</a>
-      <a href="#about">À propos</a>
+      <a href="#lexique">Lexique</a>
+      <a href="#manifeste">Manifeste</a>
       <a href="#partenaires">Partenaires</a>
     </nav>
-    <a class="nav__cta" href="#subscribe">S'abonner</a>
+    <div class="nav__right">
+      <a class="nav__cta" href="#subscribe">S'abonner</a>
+    </div>
   </div>
 </header>
 
-<!-- Hero -->
 <section class="hero">
   <div class="hero__inner">
-    <div>
-      <span class="eyebrow">Newsletter · Chaque dimanche · 8 min</span>
-      <h1>La finance décodée,<br><em>chaque semaine.</em></h1>
-      <p class="lede">FinanceData, c'est la newsletter finance &amp; investissement des jeunes actifs. On analyse les marchés, on démonte les concepts, on repère les pépites — sans jargon, sans blabla.</p>
+    <div class="hero__left">
+      <span class="eyebrow">N°142 · dimanche 14 septembre · lecture 8 min</span>
+      <h1>Piger les marchés avant de <em>placer</em> son argent.</h1>
+      <p class="lede">Une lecture hebdomadaire pour les 25–35 ans qui veulent comprendre ce qu'ils achètent — des actions Nvidia à leur PER. Un dimanche, un focus, une pépite, un mot du lexique.</p>
       <div class="hero__stats">
-        <div class="stat"><b>18 000+</b><span>Lecteurs</span></div>
-        <div class="stat"><b>52%</b><span>Taux d'ouverture</span></div>
-        <div class="stat"><b>4.8/5</b><span>Satisfaction</span></div>
+        <div class="stat"><b>18&thinsp;412</b><span>Abonnés</span></div>
+        <div class="stat"><b>52,3%</b><span>Ouverture moyenne</span></div>
+        <div class="stat"><b>4,8/5</b><span>Note lecteurs</span></div>
       </div>
     </div>
 
     <aside class="optin" id="subscribe">
-      <span class="badge">Gratuit</span>
-      <h3>Rejoins 18 000+ investisseurs.</h3>
-      <p>Chaque dimanche à 9h. Marchés, concepts, pépites — décodés en 8 minutes.</p>
+      <div class="optin__label"><span>[ Newsletter ]</span><b>Gratuit</b></div>
+      <h3>Le dimanche matin, dans ta boîte.</h3>
+      <p>Rejoins 18 400 lecteurs. Une édition par semaine, jamais plus. Se désabonner prend deux clics.</p>
       <div class="beehiiv-embed">
         <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="e48bd215-d09b-4186-b427-41d0be39c539"></script>
       </div>
-      <small>Zéro spam. Désabonnement en un clic.</small>
+      <small>Pas de spam · Édition #142 en préparation</small>
     </aside>
   </div>
 </section>
 
-<!-- Featured + Grid -->
 <section class="section" id="editions">
   <div class="section__head">
-    <h2>Dernières éditions</h2>
+    <div>
+      <span class="kicker">[ Archives · 142 éditions ]</span>
+      <h2>Dernières éditions</h2>
+    </div>
     <a href="#editions">Toutes les éditions</a>
   </div>
 
   <article class="feature">
     <a class="feature__thumb" href="/articles/nvidia-le-plus-grand-piege-de-2026.html" aria-label="Nvidia : le plus grand piège de 2026 ?">
-      <img src="/assets/thumb.svg" alt="">
+      <svg viewBox="0 0 600 400"><use href="#fd-thumb"/></svg>
     </a>
     <div class="feature__body">
-      <div class="card__meta"><span>Focus</span><span class="dot"></span><em>14 septembre 2026</em></div>
-      <h3><a href="/articles/nvidia-le-plus-grand-piege-de-2026.html">Nvidia : le plus grand piège de 2026 ?</a></h3>
-      <p>Le titre a triplé en 18 mois. Mais entre valorisation stratosphérique, dépendance à Big Tech et menace chinoise, la mécanique commence à grincer. On dissèque le dossier chiffres à l'appui.</p>
+      <div class="meta"><span>Focus</span><span class="sep"></span><em>14 sept. 2026 · 8 min</em></div>
+      <h3><a href="/articles/nvidia-le-plus-grand-piege-de-2026.html">Nvidia a triplé en 18 mois. Ce que le marché refuse de voir.</a></h3>
+      <p>PER à 55, dépendance à quatre clients, rattrapage chinois. Un titre qui n'a plus le droit à l'erreur, et ce que ça change pour ton portefeuille.</p>
       <a class="card__more" href="/articles/nvidia-le-plus-grand-piege-de-2026.html">Lire l'édition</a>
     </div>
   </article>
 
   <div class="grid">
     <article class="card">
-      <a class="card__thumb" href="/articles/etf-monde-vs-sp500.html" aria-hidden="true"><img src="/assets/thumb.svg" alt=""></a>
+      <a class="card__thumb" href="/articles/etf-monde-vs-sp500.html"><svg viewBox="0 0 600 400"><use href="#fd-thumb"/></svg></a>
       <div class="card__body">
-        <div class="card__meta"><span>Focus</span><span class="dot"></span><em>07 sept. 2026</em></div>
-        <h3><a href="/articles/etf-monde-vs-sp500.html">ETF Monde vs S&amp;P 500 : le vrai match sur 20 ans.</a></h3>
-        <p>Diversification mondiale ou pari sur l'Amérique ? On compare rendement, risque et fiscalité PEA.</p>
+        <div class="meta"><span>Focus</span><span class="sep"></span><em>07 sept.</em></div>
+        <h3><a href="/articles/etf-monde-vs-sp500.html">ETF Monde ou S&amp;P 500 : 20 ans de données au banc d'essai.</a></h3>
+        <p>Deux briques d'ETF qui se ressemblent. Sur 20 ans, l'écart de performance est spectaculaire — et la fiscalité PEA change le verdict.</p>
         <span class="card__more">Lire</span>
       </div>
     </article>
 
     <article class="card">
-      <a class="card__thumb" href="/articles/pepite-hermes.html" aria-hidden="true"><img src="/assets/thumb.svg" alt=""></a>
+      <a class="card__thumb" href="/articles/pepite-hermes.html"><svg viewBox="0 0 600 400"><use href="#fd-thumb"/></svg></a>
       <div class="card__body">
-        <div class="card__meta"><span>Pépite</span><span class="dot"></span><em>31 août 2026</em></div>
-        <h3><a href="/articles/pepite-hermes.html">Hermès : la machine à cash la plus discrète du CAC 40.</a></h3>
-        <p>Marge nette de 30%, dette nulle, carnet de commande saturé. Pourquoi le marché n'a toujours pas fini de la re-noter.</p>
+        <div class="meta"><span>Pépite</span><span class="sep"></span><em>31 août</em></div>
+        <h3><a href="/articles/pepite-hermes.html">Hermès : 30% de marge nette, zéro dette, sept ans d'attente.</a></h3>
+        <p>Le seul groupe du CAC 40 qui refuse d'accélérer sa production. Pourquoi ce contre-pied stratégique reste sa meilleure rente.</p>
         <span class="card__more">Lire</span>
       </div>
     </article>
 
     <article class="card">
-      <a class="card__thumb" href="/articles/concept-per.html" aria-hidden="true"><img src="/assets/thumb.svg" alt=""></a>
+      <a class="card__thumb" href="/articles/concept-per.html"><svg viewBox="0 0 600 400"><use href="#fd-thumb"/></svg></a>
       <div class="card__body">
-        <div class="card__meta"><span>Concept</span><span class="dot"></span><em>24 août 2026</em></div>
-        <h3><a href="/articles/concept-per.html">Le PER expliqué comme si tu avais 12 ans.</a></h3>
-        <p>Plan Épargne Retraite : le placement le plus mal compris de France. Ce qu'il coûte vraiment, ce qu'il rapporte.</p>
+        <div class="meta"><span>Lexique</span><span class="sep"></span><em>24 août</em></div>
+        <h3><a href="/articles/concept-per.html">Le PER, en dix minutes, sans lire une brochure d'assureur.</a></h3>
+        <p>Combien tu récupères vraiment à la sortie, à quelle tranche marginale ça vaut le coup, et où ça devient un piège.</p>
         <span class="card__more">Lire</span>
       </div>
     </article>
 
     <article class="card">
-      <a class="card__thumb" href="/articles/marches-septembre.html" aria-hidden="true"><img src="/assets/thumb.svg" alt=""></a>
+      <a class="card__thumb" href="/articles/marches-septembre.html"><svg viewBox="0 0 600 400"><use href="#fd-thumb"/></svg></a>
       <div class="card__body">
-        <div class="card__meta"><span>Marchés</span><span class="dot"></span><em>17 août 2026</em></div>
-        <h3><a href="/articles/marches-septembre.html">Septembre rouge : faut-il vendre en mai et revenir en octobre ?</a></h3>
-        <p>La saisonnalité des marchés, entre mythe boursier et statistique implacable. Ce que dit vraiment la data depuis 1950.</p>
+        <div class="meta"><span>Marchés</span><span class="sep"></span><em>17 août</em></div>
+        <h3><a href="/articles/marches-septembre.html">Sell in May : ce que les données depuis 1950 disent vraiment.</a></h3>
+        <p>Une règle boursière recyclée en dicton. On a regardé les 74 dernières années mois par mois. Le verdict n'est pas celui qu'on entend en dîner de famille.</p>
         <span class="card__more">Lire</span>
       </div>
     </article>
 
     <article class="card">
-      <a class="card__thumb" href="/articles/or-vs-bitcoin.html" aria-hidden="true"><img src="/assets/thumb.svg" alt=""></a>
+      <a class="card__thumb" href="/articles/or-vs-bitcoin.html"><svg viewBox="0 0 600 400"><use href="#fd-thumb"/></svg></a>
       <div class="card__body">
-        <div class="card__meta"><span>Focus</span><span class="dot"></span><em>10 août 2026</em></div>
-        <h3><a href="/articles/or-vs-bitcoin.html">Or vs Bitcoin : le nouveau match des valeurs refuges.</a></h3>
-        <p>À 2 600 $ l'once, l'or bat des records. Pendant que le BTC divise. Qui gagne la bataille de la réserve de valeur ?</p>
+        <div class="meta"><span>Focus</span><span class="sep"></span><em>10 août</em></div>
+        <h3><a href="/articles/or-vs-bitcoin.html">Or à 2 615 $, Bitcoin à 71 000 $. Le vrai match a lieu ailleurs.</a></h3>
+        <p>Les banques centrales rachètent de l'or comme jamais depuis 1971. BlackRock stocke du BTC pour ses clients. Deux paris opposés sur la même chose.</p>
         <span class="card__more">Lire</span>
       </div>
     </article>
 
     <article class="card">
-      <a class="card__thumb" href="/articles/concept-inflation.html" aria-hidden="true"><img src="/assets/thumb.svg" alt=""></a>
+      <a class="card__thumb" href="/articles/concept-inflation.html"><svg viewBox="0 0 600 400"><use href="#fd-thumb"/></svg></a>
       <div class="card__body">
-        <div class="card__meta"><span>Concept</span><span class="dot"></span><em>03 août 2026</em></div>
-        <h3><a href="/articles/concept-inflation.html">Inflation : le voleur invisible de ton compte courant.</a></h3>
-        <p>Pourquoi 10 000 € qui dorment perdent 500 € par an — et comment arrêter l'hémorragie sans prendre de risque.</p>
+        <div class="meta"><span>Lexique</span><span class="sep"></span><em>03 août</em></div>
+        <h3><a href="/articles/concept-inflation.html">Pourquoi ton livret A perd de l'argent, même quand il en gagne.</a></h3>
+        <p>3% de rendement, 2,5% d'inflation. Tu ne gagnes pas 3%, tu gagnes 0,5 — et c'est la meilleure année. Le calcul complet, en une page.</p>
         <span class="card__more">Lire</span>
       </div>
     </article>
   </div>
 </section>
 
-<!-- About strip -->
-<section class="strip" id="about">
+<section class="strip" id="manifeste">
   <div class="strip__inner">
-    <div>
-      <h4>Sans jargon.</h4>
-      <p>La finance n'a pas besoin d'être compliquée. On explique tout comme si tu avais 12 ans, même la partie « macro ».</p>
-    </div>
-    <div>
-      <h4>Data d'abord.</h4>
-      <p>Chaque affirmation est sourcée, chaque graphique vérifié. On préfère un chiffre juste à une opinion forte.</p>
-    </div>
-    <div>
-      <h4>Indépendant.</h4>
-      <p>Pas de conseil, pas de reco. Juste de l'analyse claire pour que tu prennes tes décisions en connaissance de cause.</p>
+    <div class="strip__lead">[ Manifeste — 03 principes ]</div>
+    <div class="strip__body">
+      <div>
+        <b>01 / Une source, un chiffre.</b>
+        <h4>La donnée avant l'avis.</h4>
+        <p>Chaque affirmation renvoie à un rapport, un communiqué, une note de banque centrale. Ce qu'on n'a pas pu sourcer, on ne l'écrit pas.</p>
+      </div>
+      <div>
+        <b>02 / Français, jamais approximatif.</b>
+        <h4>Un vocabulaire qui tient.</h4>
+        <p>PER, spread, DCA : on définit à la première occurrence, dans le corps du texte. Personne ne devrait ouvrir un dictionnaire pour lire une newsletter.</p>
+      </div>
+      <div>
+        <b>03 / Zéro recommandation.</b>
+        <h4>Analyse, pas conseil.</h4>
+        <p>On explique comment les choses fonctionnent. La décision d'acheter, de vendre, de garder — elle reste la tienne. Aucun sponsor n'a jamais changé ça.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Concepts -->
-<section class="section" id="concepts">
+<section class="section" id="lexique">
   <div class="section__head">
-    <h2>Les incontournables</h2>
-    <a href="#concepts">Voir tout</a>
+    <div>
+      <span class="kicker">[ Fiches lexique — les fondations ]</span>
+      <h2>Ce qu'il faut avoir lu.</h2>
+    </div>
+    <a href="#lexique">Toutes les fiches</a>
   </div>
   <div class="grid">
     <article class="card">
-      <a class="card__thumb" href="/articles/concept-pea.html" aria-hidden="true"><img src="/assets/thumb.svg" alt=""></a>
+      <a class="card__thumb" href="/articles/concept-pea.html"><svg viewBox="0 0 600 400"><use href="#fd-thumb"/></svg></a>
       <div class="card__body">
-        <div class="card__meta"><span>Concept</span></div>
-        <h3><a href="/articles/concept-pea.html">Le PEA en 5 minutes : l'enveloppe préférée des Français.</a></h3>
-        <p>Plafond, fiscalité, choix des ETF — tout ce qu'il faut savoir avant d'ouvrir un PEA.</p>
+        <div class="meta"><span>Lexique</span></div>
+        <h3><a href="/articles/concept-pea.html">Le PEA, l'enveloppe qui rembourse tes impôts.</a></h3>
+        <p>Plafond, fiscalité après 5 ans, choix d'ETF éligibles. Ce que ta banque ne t'explique pas au moment de signer.</p>
         <span class="card__more">Lire</span>
       </div>
     </article>
     <article class="card">
-      <a class="card__thumb" href="/articles/concept-dca.html" aria-hidden="true"><img src="/assets/thumb.svg" alt=""></a>
+      <a class="card__thumb" href="/articles/concept-dca.html"><svg viewBox="0 0 600 400"><use href="#fd-thumb"/></svg></a>
       <div class="card__body">
-        <div class="card__meta"><span>Concept</span></div>
-        <h3><a href="/articles/concept-dca.html">DCA : la stratégie qui bat 80% des investisseurs.</a></h3>
-        <p>Investir la même somme chaque mois, sans se poser de questions. Ça marche vraiment ? La data dit oui.</p>
+        <div class="meta"><span>Lexique</span></div>
+        <h3><a href="/articles/concept-dca.html">Le DCA bat 80% des investisseurs. Y compris les pros.</a></h3>
+        <p>Investir la même somme chaque mois — la stratégie la moins glamour, celle qui gagne. Trois graphiques suffisent pour le montrer.</p>
         <span class="card__more">Lire</span>
       </div>
     </article>
     <article class="card">
-      <a class="card__thumb" href="/articles/concept-obligations.html" aria-hidden="true"><img src="/assets/thumb.svg" alt=""></a>
+      <a class="card__thumb" href="/articles/concept-obligations.html"><svg viewBox="0 0 600 400"><use href="#fd-thumb"/></svg></a>
       <div class="card__body">
-        <div class="card__meta"><span>Concept</span></div>
-        <h3><a href="/articles/concept-obligations.html">Les obligations : le pilier oublié de ton portefeuille.</a></h3>
-        <p>Comment ça marche, à quoi ça sert, et pourquoi 2026 pourrait être leur grande année.</p>
+        <div class="meta"><span>Lexique</span></div>
+        <h3><a href="/articles/concept-obligations.html">Les obligations, ce que 40 ans de baisse de taux ont fait oublier.</a></h3>
+        <p>Prix, coupon, yield : trois mots, un seul concept. Et pourquoi 2026 pourrait être leur meilleur millésime depuis longtemps.</p>
         <span class="card__more">Lire</span>
       </div>
     </article>
   </div>
 </section>
 
-<!-- Big CTA -->
-<section class="cta" id="subscribe-cta">
+<section class="cta">
   <div class="cta__inner">
-    <span class="eyebrow">Newsletter</span>
-    <h2>Investis plus intelligemment. En 8 minutes par semaine.</h2>
-    <p>Chaque dimanche, un focus, une pépite, un concept. Rien de plus. 100% gratuit.</p>
+    <span class="eyebrow">Newsletter · N°142 dimanche prochain</span>
+    <h2>Un dimanche.<br>Un focus. <em>Un lecteur en plus.</em></h2>
+    <p>Chaque semaine, une édition dans ta boîte. Un focus qui pèse, une pépite qu'on regarde de près, une fiche pour combler les trous. 18 400 abonnés lisent déjà.</p>
     <div class="beehiiv-embed beehiiv-embed--light">
       <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="e48bd215-d09b-4186-b427-41d0be39c539"></script>
     </div>
-    <small>Zéro spam. Désabonnement en un clic.</small>
+    <small>Deux clics pour te désabonner · Aucun spam</small>
   </div>
 </section>
 
-<!-- Footer -->
 <footer id="partenaires">
   <div class="foot__inner">
     <div class="foot__brand">
-      <img src="/assets/logo.svg" alt="FinanceData" height="28">
-      <p>La newsletter finance &amp; investissement pour les jeunes actifs. Décoder les marchés, un dimanche à la fois.</p>
+      <div class="brand">
+        <span class="brand__mark">
+          <svg viewBox="0 0 32 32"><path d="M6 22 L12 14 L17 17 L26 8" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="square"/></svg>
+        </span>
+        <span class="brand__name">FinanceData</span>
+      </div>
+      <p>Une lecture hebdomadaire sur les marchés, les entreprises et les concepts d'investissement, écrite pour les 25–35 ans.</p>
     </div>
     <div class="foot">
-      <h5>Contenu</h5>
+      <h5>[ Sommaire ]</h5>
       <a href="#editions">Éditions</a>
-      <a href="#concepts">Concepts</a>
-      <a href="#about">À propos</a>
+      <a href="#lexique">Lexique</a>
+      <a href="#manifeste">Manifeste</a>
     </div>
     <div class="foot">
-      <h5>Partenaires</h5>
+      <h5>[ Partenaires ]</h5>
       <a href="#">XTB</a>
       <a href="#">Auguste Patrimoine</a>
       <a href="#">CORUM L'Épargne</a>
     </div>
     <div class="foot">
-      <h5>Suivre</h5>
+      <h5>[ Ailleurs ]</h5>
       <a href="#">LinkedIn</a>
       <a href="#">Instagram</a>
       <a href="#">TikTok</a>
     </div>
   </div>
   <div class="foot__bottom">
-    <span>© 2026 FinanceData — Tous droits réservés</span>
-    <span>Mentions légales · Confidentialité</span>
+    <span>© 2026 FinanceData</span>
+    <span>Mentions légales · Confidentialité · Contact</span>
   </div>
 </footer>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="fd-thumb" viewBox="0 0 600 400">
+    <rect width="600" height="400" fill="#00194B"/>
+    <g stroke="#ffffff" stroke-opacity="0.06" stroke-width="1">
+      <line x1="0" y1="100" x2="600" y2="100"/>
+      <line x1="0" y1="200" x2="600" y2="200"/>
+      <line x1="0" y1="300" x2="600" y2="300"/>
+      <line x1="150" y1="0" x2="150" y2="400"/>
+      <line x1="300" y1="0" x2="300" y2="400"/>
+      <line x1="450" y1="0" x2="450" y2="400"/>
+    </g>
+    <polyline points="40,310 130,270 220,285 310,200 400,220 490,130 560,155"
+              fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="square"/>
+    <g fill="#ffffff">
+      <circle cx="130" cy="270" r="3"/>
+      <circle cx="310" cy="200" r="3"/>
+      <circle cx="490" cy="130" r="3"/>
+    </g>
+    <text x="40" y="60" font-family="JetBrains Mono, ui-monospace, monospace" font-weight="500" font-size="12" fill="#ffffff" letter-spacing="1">FINANCEDATA</text>
+    <text x="40" y="78" font-family="JetBrains Mono, ui-monospace, monospace" font-weight="400" font-size="10" fill="#9ec5ff" letter-spacing="1">// édition</text>
+    <rect x="40" y="360" width="24" height="1" fill="#ffffff"/>
+  </symbol>
+</svg>
 
 </body>
 </html>
