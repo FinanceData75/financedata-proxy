@@ -3,5 +3,7 @@
     "api/apify.js": {
       "maxDuration": 120
     }
-  }
+  },
+  "cleanUrls": true,
+  "trailingSlash": false
 }

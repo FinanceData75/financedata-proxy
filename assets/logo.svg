@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 40" fill="none">
+  <rect x="0" y="8" width="24" height="24" fill="#00194B"/>
+  <path d="M6 26 L10 20 L14 22 L18 14" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="square"/>
+  <text x="34" y="27" font-family="Inter, Helvetica, Arial, sans-serif" font-weight="700" font-size="20" letter-spacing="-0.5" fill="#00194B">FinanceData</text>
+</svg>
