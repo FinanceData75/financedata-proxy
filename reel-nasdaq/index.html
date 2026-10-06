@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/reel-data.js"></script>
+    <style>
+      /* Helvetica Neue non disponible ici : Nimbus Sans (clone URW d'Helvetica) en attendant les fichiers .otf */
+      @font-face { font-family: "Helvetica Neue"; src: url("assets/fonts/NimbusSans-Regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Helvetica Neue"; src: url("assets/fonts/NimbusSans-Bold.otf") format("opentype"); font-weight: 700; }
+
+      :root {
+        --paper: #f3f2ee;
+        --ink: #111214;
+        --soft: #4d5057;
+        --rule: #c9c8c2;
+        --blue: #00194b;
+        --cyan: #18a6d9;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--paper); }
+      #root { width: 100%; height: 100%; position: relative; font-family: "Helvetica Neue", sans-serif; color: var(--ink); }
+      #stage { position: absolute; inset: 0; }
+      .fx { position: absolute; width: 0; height: 0; }
+
+      .paper { position: absolute; inset: 0; background: var(--paper); }
+      /* tout le contenu passe par un léger "bavé d'encre" */
+      #content { position: absolute; inset: 0; filter: url(#ink); }
+      /* grain posé PAR-DESSUS tout, titres et textes compris */
+      .grain { position: absolute; inset: 0; pointer-events: none; }
+      .grain svg { width: 100%; height: 100%; display: block; }
+
+      .scene { position: absolute; left: 80px; top: 290px; width: 920px; height: 920px; opacity: 0; }
+      .chart-title { font-size: 76px; line-height: 1.02; font-weight: 700; letter-spacing: -0.04em; }
+      .chart-sub { margin-top: 16px; font-size: 30px; font-weight: 400; color: var(--soft); letter-spacing: -0.01em; }
+      .scene svg.chart { position: absolute; left: 0; top: 200px; width: 920px; height: 660px; overflow: visible; }
+      .source { position: absolute; left: 0; top: 890px; font-size: 21px; color: var(--soft); letter-spacing: -0.005em; }
+
+      svg text { font-family: "Helvetica Neue", sans-serif; }
+      svg .axis { stroke: var(--ink); stroke-width: 2.5; fill: none; }
+      svg .grid { stroke: var(--rule); stroke-width: 1.5; fill: none; }
+      svg .tick { font-size: 24px; fill: var(--soft); letter-spacing: -0.01em; }
+      svg .line { stroke: var(--ink); stroke-width: 5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+      svg .hl { stroke: var(--blue); stroke-width: 7; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+      svg .lead { stroke: var(--blue); stroke-width: 2.5; fill: none; }
+      svg .dash { stroke: var(--blue); stroke-width: 3; fill: none; stroke-dasharray: 12 9; }
+      svg .ref { stroke: var(--soft); stroke-width: 2; fill: none; stroke-dasharray: 4 7; }
+      svg .lab { font-weight: 700; fill: var(--blue); letter-spacing: -0.03em; }
+      svg .val { font-weight: 700; fill: var(--ink); letter-spacing: -0.03em; }
+
+      #captions { position: absolute; left: 60px; right: 60px; top: 1330px; height: 260px; }
+      .cap { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-weight: 700; font-size: 92px; line-height: 1.02; letter-spacing: -0.05em; opacity: 0; }
+      .cap .k { color: var(--blue); }
+
+      #sign { position: absolute; left: 0; right: 0; top: 1620px; text-align: center; opacity: 0; font-weight: 700; font-size: 60px; letter-spacing: -0.045em; color: var(--blue); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="52.1" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="52.1" data-track-index="0">
+        <svg class="fx" aria-hidden="true">
+          <filter id="ink" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="4" result="n" />
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="2.4" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </svg>
+
+        <div class="paper"></div>
+
+        <div id="content">
+          <!-- 1 + 2 : Nasdaq -->
+          <div class="scene" id="sc-nasdaq">
+            <h2 class="chart-title">Nasdaq Composite</h2>
+            <div class="chart-sub">Clôtures mensuelles 2026, en points</div>
+            <svg class="chart" id="ch-nasdaq" viewBox="0 0 920 660"></svg>
+            <div class="source">Source : Nasdaq. Dernier point : clôture du 5 octobre.</div>
+          </div>
+
+          <!-- 3 : Taux 10 ans -->
+          <div class="scene" id="sc-yield">
+            <h2 class="chart-title">Taux à 10 ans américain</h2>
+            <div class="chart-sub">Plus hauts atteints, en %</div>
+            <svg class="chart" id="ch-yield" viewBox="0 0 920 660"></svg>
+            <div class="source">Source : Trésor américain, CNBC.</div>
+          </div>
+
+          <!-- 4 : Fed -->
+          <div class="scene" id="sc-fed">
+            <h2 class="chart-title">Taux directeur de la Fed</h2>
+            <div class="chart-sub">Borne haute de la fourchette, en %</div>
+            <svg class="chart" id="ch-fed" viewBox="0 0 920 660"></svg>
+            <div class="source">Source : Réserve fédérale.</div>
+          </div>
+
+          <!-- 5 : Pétrole -->
+          <div class="scene" id="sc-oil">
+            <h2 class="chart-title">Baril de Brent</h2>
+            <div class="chart-sub">2026, en dollars</div>
+            <svg class="chart" id="ch-oil" viewBox="0 0 920 660"></svg>
+            <div class="source">Moyennes mensuelles, puis clôtures des 12 sept. et 5 oct.</div>
+          </div>
+
+          <!-- 6 : IA -->
+          <div class="scene" id="sc-ai">
+            <h2 class="chart-title">Investissements Big Tech</h2>
+            <div class="chart-sub">Amazon, Alphabet, Microsoft, Meta, en milliards de $</div>
+            <svg class="chart" id="ch-ai" viewBox="0 0 920 660"></svg>
+            <div class="source">Sources : publications des entreprises. 2026 : prévisions.</div>
+          </div>
+
+          <!-- 7 : Bénéfices -->
+          <div class="scene" id="sc-earn">
+            <h2 class="chart-title">Bénéfices du S&amp;P 500</h2>
+            <div class="chart-sub">Croissance sur un an, en %</div>
+            <svg class="chart" id="ch-earn" viewBox="0 0 920 660"></svg>
+            <div class="source">Source : FactSet. T2 hors gains exceptionnels d'Alphabet et d'Amazon.</div>
+          </div>
+
+          <div id="captions"></div>
+          <div id="sign">FinanceData</div>
+        </div>
+
+        <div class="grain">
+          <svg viewBox="0 0 1080 1920" preserveAspectRatio="none">
+            <filter id="mottle" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.004 0.012" numOctaves="4" seed="3" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0.30  0 0 0 0 0.31  0 0 0 0 0.33  0 0 0 0.8 -0.3" />
+            </filter>
+            <filter id="dark" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0.1  0 0 0 0 0.1  0 0 0 0 0.12  0 0 0 1.4 -0.55" />
+            </filter>
+            <filter id="light" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="12" stitchTiles="stitch" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0.97  0 0 0 0 0.96  0 0 0 0 0.94  0 0 0 3.2 -1.75" />
+            </filter>
+            <rect width="1080" height="1920" filter="url(#mottle)" opacity="0.35" />
+            <rect width="1080" height="1920" filter="url(#dark)" opacity="0.4" />
+            <rect width="1080" height="1920" filter="url(#light)" opacity="0.85" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg";
+        var R = window.REEL;
+        var tl = gsap.timeline({ paused: true });
+
+        function el(parent, tag, attrs, text) {
+          var n = document.createElementNS(NS, tag);
+          for (var k in attrs) n.setAttribute(k, attrs[k]);
+          if (text != null) n.textContent = text;
+          parent.appendChild(n);
+          return n;
+        }
+        function scale(d0, d1, r0, r1) { return function (v) { return r0 + ((v - d0) / (d1 - d0)) * (r1 - r0); }; }
+        function pathD(pts, sx, sy) {
+          return pts.map(function (p, i) { return (i ? "L" : "M") + sx(p[0]).toFixed(1) + " " + sy(p[1]).toFixed(1); }).join(" ");
+        }
+        function drawIn(node, at, dur, ease) {
+          var len = node.getTotalLength();
+          node.style.strokeDasharray = len + " " + len;
+          tl.fromTo(node, { opacity: 0 }, { opacity: 1, duration: 0.01 }, at);
+          tl.fromTo(node, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: dur, ease: ease || "power1.inOut" }, at);
+        }
+        function fadeIn(node, at, dur, y) {
+          tl.fromTo(node, { opacity: 0, y: y || 0 }, { opacity: 1, y: 0, duration: dur || 0.35, ease: "power2.out" }, at);
+        }
+        function fadeOut(node, at, dur) { tl.to(node, { opacity: 0, duration: dur || 0.3 }, at); }
+        function grow(node, at, dur) {
+          tl.fromTo(node, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: dur || 0.55, ease: "power2.out" }, at);
+        }
+        function growX(node, at, dur) {
+          tl.fromTo(node, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: dur || 0.6, ease: "power2.out" }, at);
+        }
+        function pop(node, at) {
+          tl.fromTo(node, { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.3, ease: "power2.out" }, at);
+        }
+        function sceneTimes(id) { return R.scenes.filter(function (s) { return s.id === id; })[0]; }
+        function wordAt(id, key) {
+          var s = sceneTimes(id), hit = null;
+          s.chunks.forEach(function (c) { c.words.forEach(function (w) { if (!hit && w.key === key) hit = w; }); });
+          if (!hit) throw new Error("mot introuvable : " + key);
+          return hit.start;
+        }
+        function showScene(node, start, end) {
+          tl.fromTo(node, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, start);
+          if (end) tl.to(node, { opacity: 0, duration: 0.3, ease: "power1.in" }, end - 0.3);
+        }
+        function axes(svg, yTicks, sy, xTicks, sx, fmt) {
+          var g = el(svg, "g", {});
+          yTicks.forEach(function (v) {
+            el(g, "line", { x1: 70, x2: 880, y1: sy(v), y2: sy(v), class: "grid" });
+            el(g, "text", { x: 0, y: sy(v) + 8, class: "tick" }, fmt ? fmt(v) : v);
+          });
+          el(g, "line", { x1: 70, x2: 880, y1: 600, y2: 600, class: "axis" });
+          xTicks.forEach(function (t) { el(g, "text", { x: sx(t[0]), y: 642, class: "tick", "text-anchor": t[2] || "middle" }, t[1]); });
+          return g;
+        }
+        var fr = function (v) { return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, " "); };
+
+        // ================= 1 + 2. NASDAQ (clôtures réelles) =================
+        (function () {
+          var svg = document.getElementById("ch-nasdaq");
+          var s1 = sceneTimes("nasdaq"), s2 = sceneTimes("breakout");
+          var sx = scale(0, 9.3, 120, 880), sy = scale(21000, 28000, 600, 40);
+          axes(svg, [22000, 24000, 26000, 28000], sy, [[1, "janv."], [3, "mars"], [5, "mai"], [7, "juil."], [9, "sept."]], sx, fr);
+          // 31/12/25, fins de mois 2026, record du 2 juin, 5 oct.
+          var pts = [[0, 23242], [1, 23223], [2, 22524], [3, 21786], [4, 24941], [5, 26934], [5.07, 27094], [6, 26213], [7, 25374], [8, 26371], [9, 26527], [9.17, 27477]];
+          var line = el(svg, "path", { d: pathD(pts, sx, sy), class: "line" });
+          var REC = 27094, ex = sx(9.17), ey = sy(27477);
+          var xCross = 9 + 0.17 * ((REC - 26527) / (27477 - 26527));
+          var brk = el(svg, "path", { d: pathD([[xCross, REC], [9.17, 27477]], sx, sy), class: "hl" });
+          var dot = el(svg, "circle", { cx: ex, cy: ey, r: 9, fill: "#00194b" });
+          var ring = el(svg, "circle", { cx: ex, cy: ey, r: 12, fill: "none", stroke: "#18a6d9", "stroke-width": 3 });
+          var endLab = el(svg, "text", { x: ex - 18, y: ey - 26, class: "val", "font-size": 34, "text-anchor": "end" }, "27 477");
+
+          var g18 = el(svg, "g", {});
+          var base = el(g18, "line", { x1: sx(0), x2: ex + 22, y1: sy(23242), y2: sy(23242), class: "ref" });
+          var bracket = el(g18, "path", { d: "M" + (ex + 22) + " " + sy(23242) + " L" + (ex + 22) + " " + (ey + 16), class: "lead" });
+          var lab18 = el(g18, "text", { x: ex - 14, y: sy(23500), class: "lab", "font-size": 92, "text-anchor": "end" }, "+18 %");
+
+          var gRec = el(svg, "g", {});
+          var recLine = el(gRec, "path", { d: "M" + sx(5.07) + " " + sy(REC) + " L" + 880 + " " + sy(REC), class: "dash" });
+          var recLab = el(gRec, "text", { x: sx(8.5), y: sy(REC) - 16, class: "lab", "font-size": 28, "text-anchor": "end" }, "record du 2 juin : 27 094");
+
+          showScene(document.getElementById("sc-nasdaq"), s1.start - 0.3, s2.end);
+          drawIn(line, s1.start + 0.2, 3.2, "power1.inOut");
+          pop(dot, s1.start + 3.4);
+          pop(ring, s1.start + 3.4);
+          tl.to(ring, { scale: 2.6, opacity: 0, transformOrigin: "50% 50%", duration: 1.0, ease: "power1.out" }, wordAt("nasdaq", "record"));
+          fadeIn(endLab, wordAt("nasdaq", "record") - 0.1, 0.3, 6);
+          var t18 = wordAt("nasdaq", "+18 %");
+          fadeIn(base, t18 - 0.4, 0.3);
+          drawIn(bracket, t18 - 0.2, 0.5, "power2.out");
+          fadeIn(lab18, t18, 0.3, 8);
+
+          fadeOut(g18, s2.start - 0.1, 0.35);
+          drawIn(recLine, wordAt("breakout", "juin") - 0.1, 0.9, "power1.inOut");
+          fadeIn(recLab, wordAt("breakout", "niveau") - 0.1, 0.3, 6);
+          var tA = wordAt("breakout", "passé");
+          drawIn(brk, tA - 0.1, 0.5, "power2.out");
+          tl.fromTo(ring, { scale: 1, opacity: 1 }, { scale: 2.6, opacity: 0, transformOrigin: "50% 50%", duration: 1.0, ease: "power1.out", immediateRender: false }, tA + 0.3);
+        })();
+
+        // ================= 3. TAUX 10 ANS : plus hauts =================
+        (function () {
+          var svg = document.getElementById("ch-yield");
+          var s = sceneTimes("yield");
+          var sx = scale(4.5, 5.5, 230, 860);
+          var rows = [["juin 2007", 5.26, "5,26 %"], ["oct. 2023", 4.99, "4,99 %"], ["sept. 2026", 5.31, "5,31 %"]];
+          var ys = [120, 290, 460];
+          var g = el(svg, "g", {});
+          [4.5, 5.0, 5.5].forEach(function (v) {
+            el(g, "line", { x1: sx(v), x2: sx(v), y1: 40, y2: 560, class: "grid" });
+            el(g, "text", { x: sx(v), y: 610, class: "tick", "text-anchor": "middle" }, String(v.toFixed(1)).replace(".", ",") + " %");
+          });
+          var ref = el(svg, "line", { x1: sx(5.26), x2: sx(5.26), y1: 60, y2: 560, class: "ref" });
+          var items = rows.map(function (r, i) {
+            var last = i === 2, col = last ? "#00194b" : "#111214";
+            var lab = el(svg, "text", { x: 0, y: ys[i] + 11, class: last ? "lab" : "val", "font-size": 34 }, r[0]);
+            var bar = el(svg, "rect", { x: sx(4.5), y: ys[i] - (last ? 7 : 4), width: sx(r[1]) - sx(4.5), height: last ? 14 : 8, fill: col });
+            var dot = el(svg, "circle", { cx: sx(r[1]), cy: ys[i], r: last ? 16 : 12, fill: col });
+            var val = el(svg, "text", { x: sx(r[1]), y: ys[i] - 32, class: last ? "lab" : "val", "font-size": last ? 44 : 32, "text-anchor": "middle" }, r[2]);
+            return [lab, bar, dot, val];
+          });
+
+          showScene(document.getElementById("sc-yield"), s.start - 0.15, s.end);
+          items.slice(0, 2).forEach(function (it, i) {
+            var at = s.start + 0.4 + i * 0.35;
+            fadeIn(it[0], at, 0.3);
+            growX(it[1], at, 0.6);
+            pop(it[2], at + 0.5);
+            fadeIn(it[3], at + 0.55, 0.3, 6);
+          });
+          fadeIn(ref, s.start + 1.5, 0.4);
+          var t = wordAt("yield", "5,3 %");
+          var it = items[2];
+          fadeIn(it[0], t - 0.6, 0.3);
+          growX(it[1], t - 0.5, 0.7);
+          pop(it[2], t + 0.15);
+          fadeIn(it[3], t + 0.2, 0.3, 6);
+        })();
+
+        // ================= 4. FED (borne haute réelle) =================
+        (function () {
+          var svg = document.getElementById("ch-fed");
+          var s = sceneTimes("fed");
+          var sx = scale(2023, 2026.85, 70, 880), sy = scale(3, 6, 600, 40);
+          axes(svg, [3, 4, 5, 6], sy, [[2023, "2023", "start"], [2024, "2024"], [2025, "2025"], [2026, "2026"]], sx, function (v) { return v + " %"; });
+          var steps = [[2023.0, 4.5], [2023.085, 4.75], [2023.22, 5.0], [2023.34, 5.25], [2023.565, 5.5], [2024.715, 5.0], [2024.85, 4.75], [2024.965, 4.5],
+            [2025.71, 4.25], [2025.825, 4.0], [2025.94, 3.75]];
+          var d = "M" + sx(steps[0][0]) + " " + sy(steps[0][1]);
+          for (var i = 1; i < steps.length; i++) d += " L" + sx(steps[i][0]) + " " + sy(steps[i - 1][1]) + " L" + sx(steps[i][0]) + " " + sy(steps[i][1]);
+          var xH = 2026.71;
+          d += " L" + sx(xH) + " " + sy(3.75);
+          var line = el(svg, "path", { d: d, class: "line" });
+          var hike = el(svg, "path", { d: "M" + sx(xH) + " " + sy(3.75) + " L" + sx(xH) + " " + sy(4.0) + " L" + 880 + " " + sy(4.0), class: "hl" });
+          var lab = el(svg, "text", { x: 880, y: 250, class: "lab", "font-size": 46, "text-anchor": "end" }, "+0,25 pt");
+          var lab2 = el(svg, "text", { x: 880, y: 288, class: "lab", "font-size": 28, "text-anchor": "end" }, "1re hausse depuis 2023");
+
+          showScene(document.getElementById("sc-fed"), s.start - 0.15, s.end);
+          drawIn(line, s.start + 0.1, 1.5, "power1.inOut");
+          var t = wordAt("fed", "septembre");
+          drawIn(hike, t - 0.3, 0.4, "power2.out");
+          fadeIn(lab, t + 0.1, 0.3, 6);
+          fadeIn(lab2, t + 0.2, 0.3, 6);
+        })();
+
+        // ================= 5. BRENT =================
+        (function () {
+          var svg = document.getElementById("ch-oil");
+          var s = sceneTimes("oil");
+          var sx = scale(0.5, 10.25, 90, 880), sy = scale(50, 130, 600, 40);
+          axes(svg, [60, 80, 100, 120], sy, [[0.5, "janv.", "start"], [3.5, "avr."], [6.5, "juil."], [9.5, "oct.", "end"]], sx, function (v) { return v + " $"; });
+          // moyennes mensuelles (milieu de mois), puis clôtures des 12 sept. et 5 oct.
+          var pts = [[0.5, 66.8], [1.5, 71.1], [2.5, 103.7], [3.5, 117.3], [4.5, 107.5], [5.5, 85.4], [6.5, 83.4], [7.5, 90.9], [8.4, 104.6], [9.17, 102.4]];
+          var line = el(svg, "path", { d: pathD(pts, sx, sy), class: "line" });
+          var lvl = el(svg, "path", { d: "M90 " + sy(100) + " L880 " + sy(100), class: "dash" });
+          var lvlLab = el(svg, "text", { x: 100, y: sy(100) - 16, class: "lab", "font-size": 34 }, "100 $");
+          var ret = el(svg, "path", { d: pathD([[7.5 + (100 - 90.9) / (104.6 - 90.9) * 0.9, 100], [8.4, 104.6], [9.17, 102.4]], sx, sy), class: "hl" });
+          var dot = el(svg, "circle", { cx: sx(9.17), cy: sy(102.4), r: 9, fill: "#00194b" });
+          var val = el(svg, "text", { x: sx(9.17), y: sy(102.4) - 26, class: "val", "font-size": 32, "text-anchor": "middle" }, "102 $");
+
+          showScene(document.getElementById("sc-oil"), s.start - 0.15, s.end);
+          drawIn(line, s.start + 0.15, 1.8, "power1.inOut");
+          drawIn(lvl, s.start + 0.6, 0.8, "power1.inOut");
+          fadeIn(lvlLab, s.start + 1.1, 0.3);
+          var t = wordAt("oil", "repassé");
+          drawIn(ret, t - 0.1, 0.45, "power2.out");
+          pop(dot, t + 0.3);
+          fadeIn(val, wordAt("oil", "100 dollars") - 0.1, 0.3, 6);
+        })();
+
+        // ================= 6. CAPEX DES GÉANTS DE LA TECH =================
+        (function () {
+          var svg = document.getElementById("ch-ai");
+          var s = sceneTimes("ai");
+          var defs = el(svg, "defs", {});
+          var pat = el(defs, "pattern", { id: "hatch", width: 11, height: 11, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" });
+          el(pat, "rect", { width: 11, height: 11, fill: "#f3f2ee" });
+          el(pat, "line", { x1: 0, y1: 0, x2: 0, y2: 11, stroke: "#00194b", "stroke-width": 4 });
+          var sy = scale(0, 800, 600, 40);
+          el(svg, "line", { x1: 70, x2: 880, y1: 600, y2: 600, class: "axis" });
+          var data = [["2024", 230, "≈ 230"], ["2025", 410, "≈ 410"], ["2026", 725, "≈ 725"]];
+          var bw = 190, x0 = 120, gap = (760 - 3 * bw) / 2;
+          var bars = data.map(function (d, i) {
+            var x = x0 + i * (bw + gap), last = i === 2;
+            var b = el(svg, "rect", { x: x, y: sy(d[1]), width: bw, height: 600 - sy(d[1]), fill: last ? "url(#hatch)" : "#111214", stroke: last ? "#00194b" : "none", "stroke-width": 4 });
+            var v = el(svg, "text", { x: x + bw / 2, y: sy(d[1]) - 22, class: last ? "lab" : "val", "font-size": last ? 50 : 40, "text-anchor": "middle" }, d[2]);
+            var y = el(svg, "text", { x: x + bw / 2, y: 642, class: "tick", "text-anchor": "middle" }, last ? "2026 (prévu)" : d[0]);
+            return [b, v, y];
+          });
+          var mult = el(svg, "text", { x: 70, y: 220, class: "lab", "font-size": 56 }, "×3 en deux ans");
+
+          showScene(document.getElementById("sc-ai"), s.start - 0.15, s.end);
+          bars.forEach(function (b, i) {
+            var at = i < 2 ? s.start + 0.3 + i * 0.3 : wordAt("ai", "explose") - 0.25;
+            fadeIn(b[2], at, 0.3);
+            grow(b[0], at, i < 2 ? 0.55 : 0.8);
+            fadeIn(b[1], at + (i < 2 ? 0.45 : 0.7), 0.3, 6);
+          });
+          fadeIn(mult, wordAt("ai", "revenus") - 0.2, 0.35, 8);
+        })();
+
+        // ================= 7. BÉNÉFICES S&P 500 =================
+        (function () {
+          var svg = document.getElementById("ch-earn");
+          var s = sceneTimes("earnings");
+          var sy = scale(0, 40, 600, 40);
+          axes(svg, [0, 10, 20, 30, 40], sy, [], null, function (v) { return v + " %"; });
+          var data = [["T4 2025", 13.2, "+13,2 %"], ["T1 2026", 28.6, "+28,6 %"], ["T2 2026", 32.0, "+32,0 %"]];
+          var bw = 170, x0 = 150, gap = (730 - 3 * bw) / 2;
+          var bars = data.map(function (d, i) {
+            var x = x0 + i * (bw + gap), last = i === 2;
+            var b = el(svg, "rect", { x: x, y: sy(d[1]), width: bw, height: 600 - sy(d[1]), fill: last ? "#00194b" : "#111214" });
+            var v = el(svg, "text", { x: x + bw / 2, y: sy(d[1]) - 22, class: last ? "lab" : "val", "font-size": last ? 48 : 38, "text-anchor": "middle" }, d[2]);
+            var y = el(svg, "text", { x: x + bw / 2, y: 642, class: "tick", "text-anchor": "middle" }, d[0]);
+            return [b, v, y];
+          });
+
+          showScene(document.getElementById("sc-earn"), s.start - 0.15, null);
+          var t = wordAt("earnings", "bénéfices") - 0.2;
+          bars.forEach(function (b, i) {
+            fadeIn(b[2], t + i * 0.3, 0.3);
+            grow(b[0], t + i * 0.3, 0.6);
+            fadeIn(b[1], t + i * 0.3 + 0.5, 0.3, 6);
+          });
+          tl.to("#sc-earn", { opacity: 0.18, duration: 0.6 }, R.total - 2.0);
+          fadeIn(document.getElementById("sign"), R.total - 1.8, 0.6, 12);
+        })();
+
+        // ================= SOUS-TITRES (3 mots max) =================
+        (function () {
+          var KEY = { "+18 %": 1, "record": 1, "juin": 1, "au-dessus": 1, "5,3 %": 1, "2002": 1, "Fed": 1, "septembre": 1, "Brent": 1, "100 dollars": 1,
+            "l'intelligence": 1, "artificielle": 1, "explose": 1, "bénéfices": 1, "progressent": 1 };
+          var box = document.getElementById("captions");
+          R.chunks.forEach(function (c) {
+            var div = document.createElement("div");
+            div.className = "cap";
+            c.words.forEach(function (w, i) {
+              var span = document.createElement("span");
+              if (KEY[w.key]) span.className = "k";
+              span.textContent = w.text.replace(/\u202f(?=[A-Za-zÀ-ÿ])/g, "\u00a0");
+              div.appendChild(span);
+              if (i < c.words.length - 1) div.appendChild(document.createTextNode(" "));
+            });
+            box.appendChild(div);
+            tl.fromTo(div, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }, c.start - 0.05);
+            tl.to(div, { opacity: 0, duration: 0.06 }, c.end);
+          });
+        })();
+
+        tl.set({}, {}, R.total);
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
