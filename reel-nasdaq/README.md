@@ -17,8 +17,15 @@ npx hyperframes@0.8.137 check
 npx hyperframes@0.8.137 render -o renders/reel.mp4
 ```
 
-## Étape suivante : voix off
-ElevenLabs, voix « Waul Storyteller », modèle `eleven_v3`, français, clé dans `ELEVENLABS_API_KEY`.
-Générer avec timestamps (`/v1/text-to-speech/{voice_id}/with-timestamps`), placer l'audio dans
-`assets/voiceover.mp3`, ajouter un `<audio id="vo">` dans `index.html`, et remplacer le timing estimé
-de `reel-data.js` par les timestamps réels (mot par mot) pour les sous-titres et les animations.
+## Voix off (ElevenLabs)
+Voix « Waul Storyteller », modèle `eleven_v3`, français, clé (`sk_…`) dans `ELEVENLABS_API_KEY`.
+```
+node scripts/voiceover.mjs          # VOICE_ID=... pour forcer l'ID de la voix
+npx hyperframes@0.8.137 render -o renders/reel.mp4
+```
+Le script appelle `/v1/text-to-speech/{voice_id}/with-timestamps` avec `voix-off-elevenlabs-v3.txt`, écrit
+`assets/voiceover.mp3`, `assets/voiceover-alignment.json` et `assets/vo-words.js` (timing mot par mot),
+ajoute `<audio id="vo">` dans `index.html` et cale la durée de la composition sur la voix.
+`reel-data.js` aligne alors chaque mot des sous-titres (3 mots max) sur la voix réelle ; les animations,
+qui sont accrochées aux mots (`wordAt`) et aux scènes, suivent automatiquement.
+`node scripts/voiceover.mjs --from-alignment` rejoue le recalage sans rappeler l'API.
