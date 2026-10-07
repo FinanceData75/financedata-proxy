@@ -355,7 +355,7 @@
           });
 
           wipeAt(s.start);
-          showScene(document.getElementById("sc-yield"), s.start - 0.05, s.end);
+          showScene(document.getElementById("sc-yield"), s.start, s.end);
           items.slice(0, 2).forEach(function (it, i) {
             var at = s.start + 0.25 + i * 0.25;
             fadeIn(it[0], at, 0.2);
@@ -393,7 +393,7 @@
           var lab = el(svg, "text", { x: 880, y: 250, class: "rlab", "font-size": 56, "text-anchor": "end" }, "+0,25 pt");
           var lab2 = el(svg, "text", { x: 880, y: 292, class: "rlab", "font-size": 30, "text-anchor": "end" }, "1re hausse depuis 2023");
 
-          showScene(document.getElementById("sc-fed"), s.start - 0.05, s.end);
+          showScene(document.getElementById("sc-fed"), s.start, s.end);
           drawIn(line, s.start + 0.05, 0.85, "power2.inOut");
           var t = wordAt("fed", "septembre");
           zoom(svg, t - 0.35, 1.18, 860, 380, 0.45);
@@ -419,7 +419,7 @@
           var px = sx(9.17), py = sy(102.4);
           var dot = el(svg, "circle", { cx: px, cy: py, r: 10, fill: RED });
 
-          showScene(document.getElementById("sc-oil"), s.start - 0.05, s.end);
+          showScene(document.getElementById("sc-oil"), s.start, s.end);
           drawIn(line, s.start + 0.05, 0.9, "power2.inOut");
           drawIn(lvl, s.start + 0.4, 0.5, "power2.out");
           fadeIn(lvlLab, s.start + 0.7, 0.2);
@@ -452,7 +452,7 @@
           });
 
           wipeAt(s.start);
-          showScene(document.getElementById("sc-ai"), s.start - 0.05, s.end);
+          showScene(document.getElementById("sc-ai"), s.start, s.end);
           var tE = wordAt("ai", "explose");
           var at = [s.start + 0.3, wordAt("ai", "records") - 0.1, tE - 0.2];
           bars.forEach(function (b, i) {
@@ -486,7 +486,7 @@
           });
 
           wipeAt(s.start);
-          showScene(document.getElementById("sc-earn"), s.start - 0.05, null);
+          showScene(document.getElementById("sc-earn"), s.start, null);
           var t = wordAt("earnings", "bénéfices") - 0.15;
           bars.forEach(function (b, i) {
             fadeIn(b[2], t + i * 0.2, 0.2);
