@@ -5,9 +5,10 @@ noir + bleu FinanceData #00194B (+ cyan en touche). Sous-titres 3 mots max, Helv
 attendant les fichiers Helvetica Neue).
 
 ## Thème et safe zones
+- Sous-titres en Inter SemiBold (OFL, `assets/fonts/Inter-SemiBold.otf`), posés au-dessus du grain : texte net, sans texture.
 - `data-theme="navy"` sur `<html>` (dans `index.html`) : papier bleu FinanceData #00194B, texte clair, annotations rouges,
   mots-clés des sous-titres en bleu clair. `data-theme="paper"` : papier blanc d'origine.
-- Tout le contenu reste dans la zone sûre Reels / TikTok : x 80–930 px, y 250–1500 px
+- Bloc centré dans la vidéo (x 160–920, y 530–1390), dans la zone sûre Reels / TikTok : x 80–930 px, y 250–1500 px
   (250 px libres en haut, 420 px en bas pour légende et pseudo, 150 px à droite pour les boutons).
 
 ## Voix off déjà enregistrée

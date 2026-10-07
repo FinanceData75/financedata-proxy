@@ -10,6 +10,8 @@
       /* Helvetica Neue non disponible ici : Nimbus Sans (clone URW d'Helvetica) en attendant les fichiers .otf */
       @font-face { font-family: "Helvetica Neue"; src: url("assets/fonts/NimbusSans-Regular.otf") format("opentype"); font-weight: 400; }
       @font-face { font-family: "Helvetica Neue"; src: url("assets/fonts/NimbusSans-Bold.otf") format("opentype"); font-weight: 700; }
+      /* sous-titres : Inter (OFL), sans grain ni bavé d'encre */
+      @font-face { font-family: "Inter Captions"; src: url("assets/fonts/Inter-SemiBold.otf") format("opentype"); font-weight: 600; }
 
       :root {
         --paper: #f3f2ee;
@@ -45,12 +47,12 @@
       .grain { position: absolute; inset: 0; pointer-events: none; }
       .grain svg { width: 100%; height: 100%; display: block; }
 
-      /* safe zone Reels / TikTok : rien d'important hors de x 80–930 px et y 250–1500 px */
-      .scene { position: absolute; left: 80px; top: 250px; width: 850px; height: 860px; opacity: 0; }
-      .chart-title { font-size: 68px; white-space: nowrap; line-height: 1.02; font-weight: 700; letter-spacing: -0.04em; }
-      .chart-sub { margin-top: 16px; font-size: 30px; font-weight: 400; color: var(--soft); letter-spacing: -0.01em; }
-      .scene svg.chart { position: absolute; left: 0; top: 190px; width: 850px; height: 610px; overflow: visible; }
-      .source { position: absolute; left: 0; top: 825px; font-size: 21px; color: var(--soft); letter-spacing: -0.005em; }
+      /* Bloc centré dans la vidéo (x 160–920, y 530–1390), dans la safe zone Reels / TikTok (x 80–930, y 250–1500) */
+      .scene { position: absolute; left: 160px; top: 530px; width: 760px; height: 740px; opacity: 0; text-align: center; }
+      .chart-title { font-size: 58px; white-space: nowrap; line-height: 1.02; font-weight: 700; letter-spacing: -0.04em; }
+      .chart-sub { margin-top: 12px; font-size: 25px; font-weight: 400; color: var(--soft); letter-spacing: -0.01em; }
+      .scene svg.chart { position: absolute; left: 0; top: 150px; width: 760px; height: 545px; overflow: visible; }
+      .source { position: absolute; left: 0; right: 0; top: 715px; font-size: 18px; color: var(--soft); letter-spacing: -0.005em; }
 
       svg text { font-family: "Helvetica Neue", sans-serif; }
       svg .axis { stroke: var(--ink); stroke-width: 2.5; fill: none; }
@@ -70,12 +72,12 @@
       svg .rlab { font-weight: 700; fill: var(--red); letter-spacing: -0.03em; }
       svg .tagtxt { font-weight: 700; fill: #fff; letter-spacing: -0.02em; }
 
-      #captions { position: absolute; left: 80px; right: 150px; top: 1190px; height: 200px; }
-      .cap { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-weight: 700; font-size: 86px; line-height: 1.02; letter-spacing: -0.05em; opacity: 0; }
+      #captions { position: absolute; left: 160px; right: 160px; top: 1330px; height: 130px; }
+      .cap { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-family: "Inter Captions", "Inter", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.02em; color: var(--ink); opacity: 0; }
       .cap span { display: inline-block; }
       .cap .k { color: var(--blue); }
 
-      #sign { position: absolute; left: 80px; right: 150px; top: 1230px; text-align: center; opacity: 0; font-weight: 700; font-size: 60px; letter-spacing: -0.045em; color: var(--blue); }
+      #sign { position: absolute; left: 160px; right: 160px; top: 1320px; text-align: center; opacity: 0; font-weight: 700; font-size: 60px; letter-spacing: -0.045em; color: var(--blue); }
     </style>
   </head>
   <body>
@@ -140,7 +142,6 @@
             <div class="source">Source : FactSet. T2 hors gains exceptionnels d'Alphabet et d'Amazon.</div>
           </div>
 
-          <div id="captions"></div>
           <div id="sign">FinanceData</div>
         </div>
 
@@ -182,6 +183,9 @@
             <rect width="1080" height="1920" filter="url(#light-n)" opacity="0.35" />
           </svg>
         </div>
+
+        <!-- sous-titres au-dessus du grain : texte net, sans texture -->
+        <div id="captions"></div>
       </div>
     </div>
 
