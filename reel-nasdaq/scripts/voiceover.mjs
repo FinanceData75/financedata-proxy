@@ -3,7 +3,10 @@
 // (timing mot par mot lu par reel-data.js) et cale la durée de la composition sur la voix.
 // Usage : ELEVENLABS_API_KEY=sk_... node scripts/voiceover.mjs   (VOICE_ID=... pour forcer la voix)
 // Sans clé : node scripts/voiceover.mjs --from-alignment  (rejoue à partir du JSON existant)
+// Voix déjà enregistrée : node scripts/voiceover.mjs --audio prise.wav  (convertit en MP3 et aligne le
+// fichier sur voix-off-elevenlabs-v3.txt via /v1/forced-alignment ; le texte doit être celui réellement lu)
 import fs from "node:fs";
+import { execFileSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -50,8 +53,26 @@ function words(al) {
 }
 
 let alignment, audioEnd;
+const audioArg = process.argv.includes("--audio") ? process.argv[process.argv.indexOf("--audio") + 1] : null;
 if (process.argv.includes("--from-alignment")) {
   alignment = JSON.parse(fs.readFileSync(A("voiceover-alignment.json"), "utf8"));
+} else if (audioArg) {
+  if (!KEY) throw new Error("ELEVENLABS_API_KEY manquante");
+  const text = fs.readFileSync(path.join(DIR, "voix-off-elevenlabs-v3.txt"), "utf8").trim();
+  execFileSync("ffmpeg", ["-v", "error", "-y", "-i", audioArg, "-codec:a", "libmp3lame", "-b:a", "192k", A("voiceover.mp3")]);
+  const fd = new FormData();
+  fd.append("file", new Blob([fs.readFileSync(audioArg)]), path.basename(audioArg));
+  fd.append("text", text);
+  console.log("Alignement forcé…");
+  const r = await fetch(API + "/v1/forced-alignment", { method: "POST", headers: { "xi-api-key": KEY }, body: fd });
+  if (!r.ok) throw new Error(`/v1/forced-alignment → ${r.status} ${await r.text()}`);
+  const fa = await r.json();
+  alignment = {
+    characters: fa.characters.map((c) => c.text),
+    character_start_times_seconds: fa.characters.map((c) => c.start),
+    character_end_times_seconds: fa.characters.map((c) => c.end),
+  };
+  fs.writeFileSync(A("voiceover-alignment.json"), JSON.stringify(alignment));
 } else {
   if (!KEY) throw new Error("ELEVENLABS_API_KEY manquante");
   const text = fs.readFileSync(path.join(DIR, "voix-off-elevenlabs-v3.txt"), "utf8").trim();

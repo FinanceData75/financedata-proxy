@@ -7,10 +7,10 @@
   var SCENES = [
     { id: "nasdaq", text: "Le Nasdaq / vient de battre / un nouveau record / et gagne +18" + NB + "% / depuis janvier, / alors que tout / devrait le faire / chuter." },
     { id: "breakout", text: "Depuis juin, / il butait / sur un niveau / qu'il n'arrivait pas / à dépasser. / Cette fois, / il est passé / au-dessus." },
-    { id: "yield", text: "Et pourtant, / le contexte / fait peur. / Le taux / à 10" + NB + "ans américain / dépasse 5,3" + NB + "%, / du jamais vu / depuis 2002." },
+    { id: "yield", text: "Et pourtant, / le contexte / fait peur. / Le taux / à 10" + NB + "ans américain / dépasse 5,3" + NB + "%. / Du jamais vu / depuis 2002." },
     { id: "fed", text: "La Fed / a relevé / ses taux / en septembre." },
-    { id: "oil", text: "Et le baril / de Brent / est repassé / au-dessus / de 100" + NB + "dollars." },
-    { id: "ai", text: "Mais si / les marchés américains / montent, / c'est encore grâce / à l'intelligence / artificielle. / La demande / explose, / et elle fait / gonfler les revenus / des entreprises / américaines." },
+    { id: "oil", text: "Et le baril / de pétrole / reste toujours / au-dessus / de 100" + NB + "dollars." },
+    { id: "ai", text: "Mais si / les marchés américains / atteignent des records, / c'est encore grâce / à l'intelligence / artificielle. / La demande / explose, / et elle fait / gonfler les revenus / des entreprises / américaines." },
     { id: "earnings", text: "Résultat" + NB + ": / leurs bénéfices / progressent. / Et pour / le moment, / c'est tout / ce qui compte / pour les investisseurs." }
   ];
 
