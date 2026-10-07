@@ -4,6 +4,16 @@ Reel vertical 1080×1920, ~52 s. DA : papier blanc avec grain sur tout (titres e
 noir + bleu FinanceData #00194B (+ cyan en touche). Sous-titres 3 mots max, Helvetica (Nimbus Sans en
 attendant les fichiers Helvetica Neue).
 
+## Thème et safe zones
+- `data-theme="navy"` sur `<html>` (dans `index.html`) : papier bleu FinanceData #00194B, texte clair, annotations rouges,
+  mots-clés des sous-titres en bleu clair. `data-theme="paper"` : papier blanc d'origine.
+- Tout le contenu reste dans la zone sûre Reels / TikTok : x 80–930 px, y 250–1500 px
+  (250 px libres en haut, 420 px en bas pour légende et pseudo, 150 px à droite pour les boutons).
+
+## Voix off déjà enregistrée
+`node scripts/voiceover.mjs --audio prise.wav` : convertit en MP3 et aligne la prise sur `voix-off-elevenlabs-v3.txt`
+(texte exactement lu) via l'API forced-alignment d'ElevenLabs.
+
 ## Fichiers
 - `index.html` : composition (7 graphiques, données fact-checkées, sources sous chaque graphique)
 - `assets/reel-data.js` : script découpé en sous-titres + timing (estimé, à recaler sur la voix off)

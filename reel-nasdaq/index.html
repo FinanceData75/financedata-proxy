@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" data-resolution="portrait">
+<html lang="fr" data-resolution="portrait" data-theme="navy">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
@@ -19,7 +19,19 @@
         --blue: #00194b;
         --cyan: #18a6d9;
         --red: #ff2a1a;
+        --bar: #111214;
       }
+      /* Thème « papier bleu » FinanceData (data-theme="navy" sur <html> ; data-theme="paper" pour le papier blanc) */
+      html[data-theme="navy"] {
+        --paper: #00194b;
+        --ink: #f3f2ee;
+        --soft: #a3b3d6;
+        --rule: #22397a;
+        --blue: #7dd0f5;
+        --red: #ff3b2e;
+        --bar: #e9e8e3;
+      }
+      html[data-theme="navy"] .grain-paper, html:not([data-theme="navy"]) .grain-navy { display: none; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--paper); }
       #root { width: 100%; height: 100%; position: relative; font-family: "Helvetica Neue", sans-serif; color: var(--ink); }
@@ -33,11 +45,12 @@
       .grain { position: absolute; inset: 0; pointer-events: none; }
       .grain svg { width: 100%; height: 100%; display: block; }
 
-      .scene { position: absolute; left: 80px; top: 290px; width: 920px; height: 920px; opacity: 0; }
-      .chart-title { font-size: 76px; line-height: 1.02; font-weight: 700; letter-spacing: -0.04em; }
+      /* safe zone Reels / TikTok : rien d'important hors de x 80–930 px et y 250–1500 px */
+      .scene { position: absolute; left: 80px; top: 250px; width: 850px; height: 860px; opacity: 0; }
+      .chart-title { font-size: 68px; white-space: nowrap; line-height: 1.02; font-weight: 700; letter-spacing: -0.04em; }
       .chart-sub { margin-top: 16px; font-size: 30px; font-weight: 400; color: var(--soft); letter-spacing: -0.01em; }
-      .scene svg.chart { position: absolute; left: 0; top: 200px; width: 920px; height: 660px; overflow: visible; }
-      .source { position: absolute; left: 0; top: 890px; font-size: 21px; color: var(--soft); letter-spacing: -0.005em; }
+      .scene svg.chart { position: absolute; left: 0; top: 190px; width: 850px; height: 610px; overflow: visible; }
+      .source { position: absolute; left: 0; top: 825px; font-size: 21px; color: var(--soft); letter-spacing: -0.005em; }
 
       svg text { font-family: "Helvetica Neue", sans-serif; }
       svg .axis { stroke: var(--ink); stroke-width: 2.5; fill: none; }
@@ -57,12 +70,12 @@
       svg .rlab { font-weight: 700; fill: var(--red); letter-spacing: -0.03em; }
       svg .tagtxt { font-weight: 700; fill: #fff; letter-spacing: -0.02em; }
 
-      #captions { position: absolute; left: 60px; right: 60px; top: 1330px; height: 260px; }
-      .cap { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-weight: 700; font-size: 92px; line-height: 1.02; letter-spacing: -0.05em; opacity: 0; }
+      #captions { position: absolute; left: 80px; right: 150px; top: 1190px; height: 200px; }
+      .cap { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-weight: 700; font-size: 86px; line-height: 1.02; letter-spacing: -0.05em; opacity: 0; }
       .cap span { display: inline-block; }
       .cap .k { color: var(--blue); }
 
-      #sign { position: absolute; left: 0; right: 0; top: 1620px; text-align: center; opacity: 0; font-weight: 700; font-size: 60px; letter-spacing: -0.045em; color: var(--blue); }
+      #sign { position: absolute; left: 80px; right: 150px; top: 1230px; text-align: center; opacity: 0; font-weight: 700; font-size: 60px; letter-spacing: -0.045em; color: var(--blue); }
     </style>
   </head>
   <body>
@@ -131,7 +144,7 @@
           <div id="sign">FinanceData</div>
         </div>
 
-        <div class="grain">
+        <div class="grain grain-paper">
           <svg viewBox="0 0 1080 1920" preserveAspectRatio="none">
             <filter id="mottle" x="0" y="0" width="100%" height="100%">
               <feTurbulence type="fractalNoise" baseFrequency="0.004 0.012" numOctaves="4" seed="3" />
@@ -150,13 +163,34 @@
             <rect width="1080" height="1920" filter="url(#light)" opacity="0.85" />
           </svg>
         </div>
+        <div class="grain grain-navy">
+          <svg viewBox="0 0 1080 1920" preserveAspectRatio="none">
+            <filter id="mottle-n" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.004 0.012" numOctaves="4" seed="3" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0.10  0 0 0 0 0.22  0 0 0 0 0.45  0 0 0 0.8 -0.3" />
+            </filter>
+            <filter id="dark-n" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0.0  0 0 0 0 0.03  0 0 0 0 0.14  0 0 0 1.4 -0.55" />
+            </filter>
+            <filter id="light-n" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="12" stitchTiles="stitch" />
+              <feColorMatrix type="matrix" values="0 0 0 0 0.62  0 0 0 0 0.70  0 0 0 0 0.86  0 0 0 3.2 -1.75" />
+            </filter>
+            <rect width="1080" height="1920" filter="url(#mottle-n)" opacity="0.35" />
+            <rect width="1080" height="1920" filter="url(#dark-n)" opacity="0.4" />
+            <rect width="1080" height="1920" filter="url(#light-n)" opacity="0.35" />
+          </svg>
+        </div>
       </div>
     </div>
 
     <script>
       (function () {
         var NS = "http://www.w3.org/2000/svg";
-        var RED = "#ff2a1a";
+        var CSSV = getComputedStyle(document.documentElement);
+        function cv(n) { return CSSV.getPropertyValue(n).trim(); }
+        var RED = cv("--red"), BAR = cv("--bar"), PAPER = cv("--paper");
         var R = window.REEL;
         var tl = gsap.timeline({ paused: true });
 
@@ -320,7 +354,7 @@
           });
           var ref = el(svg, "line", { x1: sx(5.26), x2: sx(5.26), y1: 60, y2: 560, class: "ref" });
           var items = rows.map(function (r, i) {
-            var last = i === 2, col = last ? RED : "#111214";
+            var last = i === 2, col = last ? RED : BAR;
             var lab = el(svg, "text", { x: 0, y: ys[i] + 11, class: last ? "rlab" : "val", "font-size": 34 }, r[0]);
             var bar = el(svg, "rect", { x: sx(4.5), y: ys[i] - (last ? 8 : 4), width: sx(r[1]) - sx(4.5), height: last ? 16 : 8, fill: col });
             var dot = el(svg, "circle", { cx: sx(r[1]), cy: ys[i], r: last ? 17 : 12, fill: col });
@@ -406,7 +440,7 @@
           var s = sceneTimes("ai");
           var defs = el(svg, "defs", {});
           var pat = el(defs, "pattern", { id: "hatch", width: 11, height: 11, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" });
-          el(pat, "rect", { width: 11, height: 11, fill: "#f3f2ee" });
+          el(pat, "rect", { width: 11, height: 11, fill: PAPER });
           el(pat, "line", { x1: 0, y1: 0, x2: 0, y2: 11, stroke: RED, "stroke-width": 5 });
           var sy = scale(0, 800, 600, 40);
           el(svg, "line", { x1: 70, x2: 880, y1: 600, y2: 600, class: "axis" });
@@ -414,7 +448,7 @@
           var bw = 190, x0 = 120, gap = (760 - 3 * bw) / 2;
           var bars = data.map(function (d, i) {
             var x = x0 + i * (bw + gap), last = i === 2;
-            var b = el(svg, "rect", { x: x, y: sy(d[1]), width: bw, height: 600 - sy(d[1]), fill: last ? "url(#hatch)" : "#111214", stroke: last ? RED : "none", "stroke-width": 5 });
+            var b = el(svg, "rect", { x: x, y: sy(d[1]), width: bw, height: 600 - sy(d[1]), fill: last ? "url(#hatch)" : BAR, stroke: last ? RED : "none", "stroke-width": 5 });
             var v = el(svg, "text", { x: x + bw / 2, y: sy(d[1]) - 22, class: last ? "rlab" : "val", "font-size": last ? 56 : 40, "text-anchor": "middle" }, d[2]);
             var y = el(svg, "text", { x: x + bw / 2, y: 642, class: "tick", "text-anchor": "middle" }, last ? "2026 (prévu)" : d[0]);
             return [b, v, y];
@@ -443,7 +477,7 @@
           var bw = 170, x0 = 150, gap = (730 - 3 * bw) / 2;
           var bars = data.map(function (d, i) {
             var x = x0 + i * (bw + gap), last = i === 2;
-            var b = el(svg, "rect", { x: x, y: sy(d[1]), width: bw, height: 600 - sy(d[1]), fill: last ? RED : "#111214" });
+            var b = el(svg, "rect", { x: x, y: sy(d[1]), width: bw, height: 600 - sy(d[1]), fill: last ? RED : BAR });
             var v = el(svg, "text", { x: x + bw / 2, y: sy(d[1]) - 22, class: last ? "rlab" : "val", "font-size": last ? 54 : 38, "text-anchor": "middle" }, d[2]);
             var y = el(svg, "text", { x: x + bw / 2, y: 642, class: "tick", "text-anchor": "middle" }, d[0]);
             return [b, v, y];
