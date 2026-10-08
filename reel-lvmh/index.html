@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <script src="assets/reel-data.js"></script>
+    <style>
+      /* Helvetica Neue non disponible ici : Nimbus Sans (clone URW d'Helvetica) ; sous-titres en Inter (OFL) */
+      @font-face { font-family: "Helvetica Neue"; src: url("assets/fonts/NimbusSans-Regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Helvetica Neue"; src: url("assets/fonts/NimbusSans-Bold.otf") format("opentype"); font-weight: 700; }
+      @font-face { font-family: "Inter Captions"; src: url("assets/fonts/Inter-SemiBold.otf") format("opentype"); font-weight: 600; }
+
+      /* DA FinanceData : fond bleu uni, texte clair, bleu clair en accent, rouge pour les annotations */
+      :root {
+        --bg: #00194b;
+        --ink: #f3f2ee;
+        --soft: #a3b3d6;
+        --rule: #22397a;
+        --blue: #7dd0f5;
+        --red: #ff3b2e;
+        --bar: #e9e8e3;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { width: 100%; height: 100%; position: relative; font-family: "Helvetica Neue", sans-serif; color: var(--ink); background: var(--bg); }
+      #stage { position: absolute; inset: 0; }
+
+      /* Bloc centré (x 160–920, y 470–1440), dans la safe zone Reels / TikTok (x 80–930, y 250–1500) */
+      .scene { position: absolute; left: 160px; top: 470px; width: 760px; height: 800px; opacity: 0; text-align: center; }
+      .chart-title { font-size: 58px; white-space: nowrap; line-height: 1.02; font-weight: 700; letter-spacing: -0.04em; }
+      .chart-title .n { color: var(--blue); }
+      .chart-sub { margin-top: 12px; font-size: 25px; font-weight: 400; color: var(--soft); letter-spacing: -0.01em; }
+      .scene svg.chart { position: absolute; left: 0; top: 150px; width: 760px; height: 545px; overflow: visible; }
+      .source { position: absolute; left: 0; right: 0; top: 735px; font-size: 18px; color: var(--soft); letter-spacing: -0.005em; }
+
+      /* cartes de chiffres */
+      .stats { position: absolute; left: 0; right: 0; top: 175px; display: flex; flex-direction: column; gap: 48px; align-items: center; }
+      .stat { opacity: 0; }
+      .stat .big { font-size: 128px; font-weight: 700; letter-spacing: -0.05em; line-height: 1; }
+      .stat .big.red { color: var(--red); }
+      .stat .big.blue { color: var(--blue); }
+      .stat .lbl { margin-top: 12px; font-size: 28px; color: var(--soft); letter-spacing: -0.01em; line-height: 1.25; }
+
+      /* liste des 3 raisons */
+      .reasons { position: absolute; left: 70px; right: 70px; top: 200px; display: flex; flex-direction: column; gap: 44px; text-align: left; }
+      .reason { display: flex; align-items: center; gap: 34px; font-size: 52px; font-weight: 700; letter-spacing: -0.035em; opacity: 0; }
+      .reason .num { flex: 0 0 96px; height: 96px; border-radius: 50%; border: 5px solid var(--red); color: var(--red); display: flex; align-items: center; justify-content: center; font-size: 50px; }
+
+      svg text { font-family: "Helvetica Neue", sans-serif; }
+      svg .axis { stroke: var(--ink); stroke-width: 2.5; fill: none; }
+      svg .grid { stroke: var(--rule); stroke-width: 1.5; fill: none; }
+      svg .tick { font-size: 26px; fill: var(--soft); letter-spacing: -0.01em; }
+      svg .val { font-weight: 700; fill: var(--ink); letter-spacing: -0.03em; }
+      svg .ref { stroke: var(--soft); stroke-width: 2; fill: none; stroke-dasharray: 4 7; }
+      svg .red { stroke: var(--red); stroke-width: 7; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+      svg .red-thin { stroke: var(--red); stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      svg .rlab { font-weight: 700; fill: var(--red); letter-spacing: -0.03em; }
+      svg .tagtxt { font-weight: 700; fill: #fff; letter-spacing: -0.02em; }
+
+      #captions { position: absolute; left: 160px; right: 160px; top: 1330px; height: 130px; }
+      .cap { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-family: "Inter Captions", "Inter", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.02em; color: var(--ink); opacity: 0; }
+      .cap span { display: inline-block; }
+      .cap .k { color: var(--blue); }
+
+      #sign { position: absolute; left: 160px; right: 160px; top: 1330px; text-align: center; opacity: 0; font-weight: 700; font-size: 60px; letter-spacing: -0.045em; color: var(--blue); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="41.5" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="41.5" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="41.5" data-track-index="0">
+
+        <!-- 1 : hook, cours de l'action -->
+        <div class="scene" id="sc-hook">
+          <h2 class="chart-title">Action LVMH</h2>
+          <div class="chart-sub">Cours en euros</div>
+          <svg class="chart" id="ch-hook" viewBox="0 0 920 660"></svg>
+          <div class="source">Sources : Euronext via Reuters, Boursorama. Record en séance ; clôture du 6 octobre 2026.</div>
+        </div>
+
+        <!-- 2 : sommet de 2023 -->
+        <div class="scene" id="sc-peak">
+          <h2 class="chart-title">En 2023</h2>
+          <div class="chart-sub">Le luxe semblait intouchable</div>
+          <div class="stats">
+            <div class="stat" id="st-peak1"><div class="big" id="peak-num">0 €</div><div class="lbl">record historique de l'action<br />le 24 avril 2023</div></div>
+            <div class="stat" id="st-peak2"><div class="big blue">N°1</div><div class="lbl">plus grande entreprise d'Europe<br />(plus de 500 Md$ en Bourse)</div></div>
+          </div>
+          <div class="source">Sources : Reuters, Bloomberg.</div>
+        </div>
+
+        <!-- 3 : les trois raisons -->
+        <div class="scene" id="sc-slump">
+          <h2 class="chart-title">La machine s'est enrayée</h2>
+          <div class="chart-sub">Trois raisons</div>
+          <div class="reasons">
+            <div class="reason" id="r1"><span class="num">1</span>La Chine</div>
+            <div class="reason" id="r2"><span class="num">2</span>Le luxe aspirationnel</div>
+            <div class="reason" id="r3"><span class="num">3</span>Le Moyen-Orient</div>
+          </div>
+        </div>
+
+        <!-- 4 : Chine -->
+        <div class="scene" id="sc-china">
+          <h2 class="chart-title"><span class="n">1.</span> La Chine</h2>
+          <div class="chart-sub">Part des Chinois dans les achats de luxe mondiaux</div>
+          <svg class="chart" id="ch-china" viewBox="0 0 920 660"></svg>
+          <div class="source">Source : Berenberg (2026).</div>
+        </div>
+
+        <!-- 5 : luxe aspirationnel -->
+        <div class="scene" id="sc-aspi">
+          <h2 class="chart-title"><span class="n">2.</span> Le luxe aspirationnel</h2>
+          <div class="chart-sub">Hausse des prix de produits phares, 2020 → 2023</div>
+          <svg class="chart" id="ch-aspi" viewBox="0 0 920 660"></svg>
+          <div class="source">Source : Bernstein, sélection de produits par marque.</div>
+        </div>
+
+        <!-- 6 : Moyen-Orient -->
+        <div class="scene" id="sc-mideast">
+          <h2 class="chart-title"><span class="n">3.</span> Le Moyen-Orient</h2>
+          <div class="chart-sub">Impact du conflit en mars 2026</div>
+          <div class="stats">
+            <div class="stat" id="st-me1"><div class="big blue">≈ 6 %</div><div class="lbl">des ventes de LVMH<br />se font dans la région</div></div>
+            <div class="stat" id="st-me2"><div class="big red">≈ −50 %</div><div class="lbl">de fréquentation dans les centres<br />commerciaux de la région</div></div>
+          </div>
+          <div class="source">Source : LVMH, chiffre d'affaires du 1er trimestre 2026.</div>
+        </div>
+
+        <!-- 7 : rentabilité -->
+        <div class="scene" id="sc-profit">
+          <h2 class="chart-title">Toujours très rentable</h2>
+          <div class="chart-sub">1er semestre 2026</div>
+          <div class="stats">
+            <div class="stat" id="st-pr1"><div class="big blue" id="margin-num">0 %</div><div class="lbl">de marge opérationnelle</div></div>
+            <div class="stat" id="st-pr2"><div class="big" id="net-num">0 Md€</div><div class="lbl">de bénéfice net</div></div>
+          </div>
+          <div class="source">Source : LVMH, résultats semestriels 2026.</div>
+        </div>
+
+        <!-- 8 : croissance -->
+        <div class="scene" id="sc-growth">
+          <h2 class="chart-title">Le problème : la croissance</h2>
+          <div class="chart-sub">Croissance organique des ventes de LVMH</div>
+          <svg class="chart" id="ch-growth" viewBox="0 0 920 660"></svg>
+          <div class="source">Source : LVMH, résultats annuels et semestriels.</div>
+        </div>
+
+        <!-- 9 : l'action continue de baisser -->
+        <div class="scene" id="sc-doubt">
+          <h2 class="chart-title">La baisse continue</h2>
+          <div class="chart-sub">Cours de l'action, en euros</div>
+          <svg class="chart" id="ch-doubt" viewBox="0 0 920 660"></svg>
+          <div class="source">Sources : Euronext via Reuters, Boursorama.</div>
+        </div>
+
+        <div id="captions"></div>
+        <div id="sign">FinanceData</div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg";
+        var CSSV = getComputedStyle(document.documentElement);
+        function cv(n) { return CSSV.getPropertyValue(n).trim(); }
+        var RED = cv("--red"), BAR = cv("--bar"), BLUE = cv("--blue");
+        var R = window.REEL;
+        var tl = gsap.timeline({ paused: true });
+
+        function el(parent, tag, attrs, text) {
+          var n = document.createElementNS(NS, tag);
+          for (var k in attrs) n.setAttribute(k, attrs[k]);
+          if (text != null) n.textContent = text;
+          parent.appendChild(n);
+          return n;
+        }
+        function scale(d0, d1, r0, r1) { return function (v) { return r0 + ((v - d0) / (d1 - d0)) * (r1 - r0); }; }
+        function drawIn(node, at, dur, ease) {
+          var len = node.getTotalLength();
+          node.style.strokeDasharray = len + " " + len;
+          tl.fromTo(node, { opacity: 0 }, { opacity: 1, duration: 0.01 }, at);
+          tl.fromTo(node, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.out" }, at);
+        }
+        function fadeIn(node, at, dur, y) {
+          tl.fromTo(node, { opacity: 0, y: y == null ? 12 : y }, { opacity: 1, y: 0, duration: dur || 0.4, ease: "power2.out" }, at);
+        }
+        function growY(node, at, dur, origin) {
+          tl.fromTo(node, { scaleY: 0, transformOrigin: origin || "50% 100%" }, { scaleY: 1, duration: dur || 0.6, ease: "power3.out" }, at);
+        }
+        function growX(node, at, dur) {
+          tl.fromTo(node, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: dur || 0.6, ease: "power3.out" }, at);
+        }
+        // compteur animé (nombres au format français)
+        function counter(node, at, to, dec, suffix, dur) {
+          var o = { v: 0 };
+          tl.fromTo(o, { v: 0 }, { v: to, duration: dur || 0.9, ease: "power2.out", onUpdate: function () {
+            node.textContent = o.v.toFixed(dec).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ") + suffix;
+          } }, at);
+        }
+        function sceneTimes(id) { return R.scenes.filter(function (s) { return s.id === id; })[0]; }
+        function wordAt(id, key, nth) {
+          var s = sceneTimes(id), hits = [];
+          s.chunks.forEach(function (c) { c.words.forEach(function (w) { if (w.key === key) hits.push(w); }); });
+          if (!hits.length) throw new Error("mot introuvable : " + key);
+          return hits[nth || 0].start;
+        }
+        // entrée : fondu + légère montée ; sortie : fondu (sans chevauchement entre scènes)
+        function showScene(node, start, end) {
+          tl.fromTo(node, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, Math.max(0, start));
+          if (end) tl.to(node, { opacity: 0, duration: 0.3, ease: "power1.in" }, end - 0.3);
+        }
+        // ---- annotations rouges ----
+        function redCircle(parent, cx, cy, rx, ry, at, dur) {
+          var pts = [], n = 64;
+          for (var i = 0; i <= n; i++) {
+            var a = -2.4 + (i / n) * Math.PI * 2 * 1.13, k = 1 + 0.05 * Math.sin((i / n) * Math.PI * 3);
+            pts.push((cx + Math.cos(a) * rx * k).toFixed(1) + " " + (cy + Math.sin(a) * ry * k + i * 0.18).toFixed(1));
+          }
+          var p = el(parent, "path", { d: "M" + pts.join(" L"), class: "red" });
+          drawIn(p, at, dur || 0.45);
+          return p;
+        }
+        function redArrow(parent, x1, y1, x2, y2, bend, at, dur) {
+          dur = dur || 0.45;
+          var dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy);
+          var cx = (x1 + x2) / 2 - (dy / L) * bend, cy = (y1 + y2) / 2 + (dx / L) * bend;
+          var p = el(parent, "path", { d: "M" + x1 + " " + y1 + " Q" + cx + " " + cy + " " + x2 + " " + y2, class: "red-thin" });
+          var ang = Math.atan2(y2 - cy, x2 - cx), h = 30;
+          var head = el(parent, "path", { d: "M" + (x2 - h * Math.cos(ang - 0.5)) + " " + (y2 - h * Math.sin(ang - 0.5)) + " L" + x2 + " " + y2 +
+            " L" + (x2 - h * Math.cos(ang + 0.5)) + " " + (y2 - h * Math.sin(ang + 0.5)), class: "red-thin" });
+          drawIn(p, at, dur);
+          drawIn(head, at + dur - 0.04, 0.12, "none");
+          return [p, head];
+        }
+        var TAGS = [];
+        function fitTag(t) {
+          var b = t.txt.getBBox(), p = t.size * 0.28;
+          t.rect.setAttribute("x", b.x - p); t.rect.setAttribute("y", b.y - p * 0.35);
+          t.rect.setAttribute("width", b.width + 2 * p); t.rect.setAttribute("height", b.height + p * 0.7);
+        }
+        function redTag(parent, x, y, text, size, anchor, at, rot) {
+          var g = el(parent, "g", {});
+          var rect = el(g, "rect", { fill: RED, rx: 4 });
+          var txt = el(g, "text", { x: x, y: y, class: "tagtxt", "font-size": size, "text-anchor": anchor || "middle" }, text);
+          var t = { rect: rect, txt: txt, size: size };
+          fitTag(t); TAGS.push(t);
+          tl.fromTo(g, { opacity: 0, scale: 1.12, rotation: rot == null ? -3 : rot, transformOrigin: "50% 50%" },
+            { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" }, at);
+          return g;
+        }
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { TAGS.forEach(fitTag); });
+
+        // barres verticales du cours (hook + fin)
+        function priceBars(svg, at) {
+          var sy = scale(0, 1000, 600, 60);
+          el(svg, "line", { x1: 70, x2: 880, y1: 600, y2: 600, class: "axis" });
+          var d = [[230, 904.60, "904,60 €", "Record · 24 avril 2023"], [610, 385.60, "385,60 €", "6 octobre 2026"]];
+          var out = d.map(function (b, i) {
+            var r = el(svg, "rect", { x: b[0], y: sy(b[1]), width: 180, height: 600 - sy(b[1]), fill: i ? RED : BAR });
+            var v = el(svg, "text", { x: b[0] + 90, y: sy(b[1]) - 22, class: i ? "rlab" : "val", "font-size": 44, "text-anchor": "middle" }, b[2]);
+            var l = el(svg, "text", { x: b[0] + 90, y: 644, class: "tick", "text-anchor": "middle" }, b[3]);
+            fadeIn(l, at + i * 0.5, 0.3, 0);
+            growY(r, at + i * 0.5, 0.7);
+            fadeIn(v, at + i * 0.5 + 0.5, 0.3);
+            return { r: r, v: v, top: sy(b[1]) };
+          });
+          return out;
+        }
+
+        // ================= 1. HOOK =================
+        (function () {
+          var s = sceneTimes("hook"), svg = document.getElementById("ch-hook");
+          showScene(document.getElementById("sc-hook"), 0, s.end);
+          var b = priceBars(svg, 0.15);
+          var t57 = wordAt("hook", "57 %");
+          redArrow(svg, 420, 125, 600, b[1].top - 10, -40, t57 - 0.35, 0.5);
+          var lab = el(svg, "text", { x: 770, y: 315, class: "rlab", "font-size": 100, "text-anchor": "middle" }, "−57 %");
+          fadeIn(lab, t57, 0.35);
+          redTag(svg, 700, 150, "PLUS BAS DEPUIS 2020", 34, "middle", wordAt("hook", "2020"));
+        })();
+
+        // ================= 2. SOMMET 2023 =================
+        (function () {
+          var s = sceneTimes("peak");
+          showScene(document.getElementById("sc-peak"), s.start, s.end);
+          fadeIn(document.getElementById("st-peak1"), s.start + 0.15, 0.4);
+          counter(document.getElementById("peak-num"), s.start + 0.15, 904.60, 2, " €", wordAt("peak", "900") - s.start);
+          fadeIn(document.getElementById("st-peak2"), wordAt("peak", "grande") - 0.2, 0.45);
+        })();
+
+        // ================= 3. LES TROIS RAISONS =================
+        (function () {
+          var s = sceneTimes("slump");
+          showScene(document.getElementById("sc-slump"), s.start, s.end);
+          var step = 0.35;
+          ["r1", "r2", "r3"].forEach(function (id, i) { tl.fromTo("#" + id, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, s.start + 0.35 + i * step); });
+          // « D'abord, à cause de la Chine » : la raison 1 s'allume, les autres s'estompent
+          var tC = wordAt("slump", "Chine");
+          tl.to(["#r2", "#r3"], { opacity: 0.3, duration: 0.35 }, tC - 0.3);
+          tl.to("#r1 .num", { backgroundColor: RED, color: "#fff", duration: 0.3 }, tC - 0.3);
+        })();
+
+        // ================= 4. CHINE =================
+        (function () {
+          var s = sceneTimes("china"), svg = document.getElementById("ch-china");
+          showScene(document.getElementById("sc-china"), s.start, s.end);
+          var sy = scale(0, 40, 600, 60);
+          el(svg, "line", { x1: 70, x2: 880, y1: 600, y2: 600, class: "axis" });
+          var d = [[200, 33, "33 %", "2019"], [520, 21, "21 %", "2024"]], bars = [];
+          d.forEach(function (b, i) {
+            var r = el(svg, "rect", { x: b[0], y: sy(b[1]), width: 200, height: 600 - sy(b[1]), fill: i ? RED : BAR });
+            var v = el(svg, "text", { x: b[0] + 100, y: sy(b[1]) - 22, class: i ? "rlab" : "val", "font-size": 56, "text-anchor": "middle" }, b[2]);
+            var l = el(svg, "text", { x: b[0] + 100, y: 644, class: "tick", "text-anchor": "middle" }, b[3]);
+            bars.push([r, v, l]);
+          });
+          var t1 = s.start + 0.3, t2 = wordAt("china", "ralenti") - 0.2;
+          [t1, t2].forEach(function (t, i) { fadeIn(bars[i][2], t, 0.3, 0); growY(bars[i][0], t, 0.7); fadeIn(bars[i][1], t + 0.45, 0.3); });
+          redArrow(svg, 400, sy(33) - 10, 520, sy(21) - 60, -40, wordAt("china", "coupé") - 0.3, 0.45);
+          redTag(svg, 790, sy(21) - 90, "−12 POINTS", 40, "middle", wordAt("china", "dépenses"));
+        })();
+
+        // ================= 5. LUXE ASPIRATIONNEL =================
+        (function () {
+          var s = sceneTimes("aspi"), svg = document.getElementById("ch-aspi");
+          showScene(document.getElementById("sc-aspi"), s.start, s.end);
+          var sx = scale(0, 80, 300, 860);
+          var d = [["Dior", 66], ["Chanel", 59], ["Louis Vuitton", 31]], ys = [140, 290, 440], rows = [];
+          d.forEach(function (r, i) {
+            var lab = el(svg, "text", { x: 280, y: ys[i] + 12, class: "val", "font-size": 38, "text-anchor": "end" }, r[0]);
+            var bar = el(svg, "rect", { x: sx(0), y: ys[i] - 30, width: sx(r[1]) - sx(0), height: 60, fill: BAR });
+            var val = el(svg, "text", { x: sx(r[1]) + 18, y: ys[i] + 15, class: "val", "font-size": 44 }, "+" + r[1] + " %");
+            rows.push([lab, bar, val]);
+          });
+          var t0 = wordAt("aspi", "clients") - 0.2;
+          rows.forEach(function (r, i) { fadeIn(r[0], t0 + i * 0.35, 0.3, 0); growX(r[1], t0 + i * 0.35, 0.7); fadeIn(r[2], t0 + i * 0.35 + 0.5, 0.3); });
+          var tP = wordAt("aspi", "prix");
+          redCircle(svg, sx(66) + 80, 140, 105, 54, tP - 0.1, 0.45);
+          tl.to(rows[0][2], { fill: RED, duration: 0.3 }, tP - 0.1);
+          redTag(svg, 580, 590, "LES CLIENTS DÉCROCHENT", 38, "middle", wordAt("aspi", "réduit"));
+        })();
+
+        // ================= 6. MOYEN-ORIENT =================
+        (function () {
+          var s = sceneTimes("mideast");
+          showScene(document.getElementById("sc-mideast"), s.start, s.end);
+          fadeIn(document.getElementById("st-me1"), wordAt("mideast", "Moyen-Orient") - 0.2, 0.45);
+          fadeIn(document.getElementById("st-me2"), wordAt("mideast", "freiné") - 0.1, 0.45);
+        })();
+
+        // ================= 7. RENTABILITÉ =================
+        (function () {
+          var s = sceneTimes("profit");
+          showScene(document.getElementById("sc-profit"), s.start, s.end);
+          fadeIn(document.getElementById("st-pr1"), s.start + 0.15, 0.4);
+          counter(document.getElementById("margin-num"), s.start + 0.15, 22.5, 1, " %", 0.9);
+          fadeIn(document.getElementById("st-pr2"), s.start + 0.55, 0.4);
+          counter(document.getElementById("net-num"), s.start + 0.55, 5.7, 1, " Md€", 0.9);
+        })();
+
+        // ================= 8. CROISSANCE =================
+        (function () {
+          var s = sceneTimes("growth"), svg = document.getElementById("ch-growth");
+          showScene(document.getElementById("sc-growth"), s.start, s.end);
+          var sy = scale(-4, 16, 600, 60), y0 = sy(0);
+          el(svg, "line", { x1: 70, x2: 880, y1: y0, y2: y0, class: "axis" });
+          var d = [["2023", 13, "+13 %"], ["2024", 1, "+1 %"], ["2025", -1, "−1 %"], ["S1 2026", 2, "+2 %"]], bars = [];
+          d.forEach(function (b, i) {
+            var x = 130 + i * 190, top = Math.min(sy(b[1]), y0), h = Math.abs(sy(b[1]) - y0);
+            var r = el(svg, "rect", { x: x, y: top, width: 130, height: Math.max(h, 4), fill: BAR });
+            var v = el(svg, "text", { x: x + 65, y: b[1] >= 0 ? top - 20 : top + h + 50, class: "val", "font-size": 44, "text-anchor": "middle" }, b[2]);
+            var l = el(svg, "text", { x: x + 65, y: 644, class: "tick", "text-anchor": "middle" }, b[0]);
+            bars.push([r, v, l, b[1] >= 0]);
+          });
+          bars.forEach(function (b, i) {
+            var t = s.start + 0.2 + i * 0.25;
+            fadeIn(b[2], t, 0.3, 0); growY(b[0], t, 0.55, b[3] ? "50% 100%" : "50% 0%"); fadeIn(b[1], t + 0.35, 0.3);
+          });
+          var tC = wordAt("growth", "croissance");
+          redCircle(svg, 130 + 190 * 2 - 30 + 65, y0 - 10, 330, 95, tC - 0.1, 0.5);
+          redTag(svg, 600, 230, "QUASI À L'ARRÊT", 40, "middle", tC + 0.25);
+        })();
+
+        // ================= 9. L'ACTION CONTINUE DE BAISSER =================
+        (function () {
+          var s = sceneTimes("doubt"), svg = document.getElementById("ch-doubt");
+          showScene(document.getElementById("sc-doubt"), s.start, null);
+          var b = priceBars(svg, s.start + 0.1);
+          var tB = wordAt("doubt", "baisser");
+          redArrow(svg, 420, 125, 600, b[1].top - 10, -40, s.start + 1.0, 0.5);
+          var lab = el(svg, "text", { x: 770, y: 315, class: "rlab", "font-size": 100, "text-anchor": "middle" }, "−57 %");
+          fadeIn(lab, s.start + 1.3, 0.35);
+          redArrow(svg, 800, b[1].top + 40, 870, b[1].top + 150, 10, tB - 0.2, 0.45);
+          tl.to("#sc-doubt", { opacity: 0.12, duration: 0.5 }, R.total - 1.9);
+          fadeIn(document.getElementById("sign"), R.total - 1.7, 0.5);
+        })();
+
+        // ================= SOUS-TITRES (3 mots max, mot par mot) =================
+        (function () {
+          var KEY = { "57 %": 1, "2020": 1, "trois": 1, "900": 1, "Europe": 1, "Chine": 1, "ralenti": 1, "aspirationnel": 1, "prix": 1, "hauts": 1,
+            "Moyen-Orient": 1, "rentable": 1, "croissance": 1, "doutent": 1, "baisser": 1 };
+          var box = document.getElementById("captions");
+          R.chunks.forEach(function (c) {
+            var div = document.createElement("div");
+            div.className = "cap";
+            box.appendChild(div);
+            tl.fromTo(div, { opacity: 0 }, { opacity: 1, duration: 0.01 }, c.start - 0.04);
+            c.words.forEach(function (w, i) {
+              var span = document.createElement("span");
+              var k = w.key.replace(/^d'/, "");
+              if (KEY[w.key] || KEY[k]) span.className = "k";
+              span.textContent = w.text.replace(/ (?=[A-Za-zÀ-ÿ])/g, " ");
+              div.appendChild(span);
+              if (i < c.words.length - 1) div.appendChild(document.createTextNode(" "));
+              tl.fromTo(span, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, w.start - 0.05);
+            });
+            tl.to(div, { opacity: 0, duration: 0.01 }, c.end - 0.035);
+          });
+        })();
+
+        tl.set({}, {}, R.total);
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
