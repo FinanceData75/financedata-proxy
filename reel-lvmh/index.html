@@ -27,6 +27,12 @@
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
       #root { width: 100%; height: 100%; position: relative; font-family: "Helvetica Neue", sans-serif; color: var(--ink); background: var(--bg); }
       #stage { position: absolute; inset: 0; }
+      /* profondeur : halo bleu derrière le contenu, quadrillage léger qui s'estompe vers les bords, vignette */
+      #bg-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 62% 40% at 50% 47%, #0d3d8f 0%, rgba(0, 25, 75, 0) 72%); }
+      #bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px); background-size: 60px 60px; background-position: 0 30px;
+        -webkit-mask-image: radial-gradient(ellipse 72% 52% at 50% 48%, #000 35%, transparent 88%); mask-image: radial-gradient(ellipse 72% 52% at 50% 48%, #000 35%, transparent 88%); }
+      #bg-vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 48%, rgba(0, 0, 0, 0) 55%, rgba(0, 6, 26, 0.55) 100%); }
+      #defs { position: absolute; width: 0; height: 0; }
 
       /* Bloc centré (x 160–920, y 470–1460), dans la safe zone Reels / TikTok (x 80–930, y 250–1500) */
       .scene { position: absolute; left: 160px; top: 470px; width: 760px; height: 800px; opacity: 0; text-align: center; }
@@ -52,6 +58,8 @@
       svg .red { stroke: var(--red); stroke-width: 7; fill: none; stroke-linejoin: round; stroke-linecap: round; }
       svg .red-thin { stroke: var(--red); stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
       svg .rlab { font-weight: 700; fill: var(--red); letter-spacing: -0.03em; }
+      /* liseré bleu nuit autour des textes posés sur l'aire, pour la lisibilité */
+      svg .halo { paint-order: stroke; stroke: #00194b; stroke-width: 12px; stroke-linejoin: round; }
       svg .tagtxt { font-weight: 700; fill: #fff; letter-spacing: -0.02em; }
       /* illustrations : trait clair arrondi, aplats bleu nuit */
       svg .ill { stroke: var(--ink); stroke-width: 7; fill: none; stroke-linejoin: round; stroke-linecap: round; }
@@ -71,6 +79,32 @@
     <div id="root" data-composition-id="main" data-start="0" data-duration="41.5" data-width="1080" data-height="1920">
       <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="41.5" data-track-index="1"></audio>
       <div id="stage" class="clip" data-start="0" data-duration="41.5" data-track-index="0">
+        <div id="bg-glow"></div>
+        <div id="bg-grid"></div>
+        <div id="bg-vig"></div>
+        <svg id="defs" aria-hidden="true">
+          <defs>
+            <linearGradient id="gGold" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff1c4" /><stop offset="0.45" stop-color="#e9c46a" /><stop offset="1" stop-color="#b8862f" /></linearGradient>
+            <linearGradient id="gGoldDeep" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6a84a" /><stop offset="1" stop-color="#8f6420" /></linearGradient>
+            <linearGradient id="gIvory" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#ffffff" /><stop offset="1" stop-color="#ddd6c6" /></linearGradient>
+            <linearGradient id="gIvoryFlap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1ece0" /><stop offset="1" stop-color="#d3cab5" /></linearGradient>
+            <linearGradient id="gTan" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9b07a" /><stop offset="1" stop-color="#8e6236" /></linearGradient>
+            <linearGradient id="gSole" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef1f6" /><stop offset="1" stop-color="#b9c1d1" /></linearGradient>
+            <linearGradient id="gBlueSoft" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fdcff" /><stop offset="1" stop-color="#3f86d8" /></linearGradient>
+            <linearGradient id="gRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff6f61" /><stop offset="1" stop-color="#e2261b" /></linearGradient>
+            <linearGradient id="gRedBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff5a4d" /><stop offset="1" stop-color="#d61f15" /></linearGradient>
+            <linearGradient id="gRedBarH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d61f15" /><stop offset="1" stop-color="#ff5a4d" /></linearGradient>
+            <linearGradient id="gBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" /><stop offset="1" stop-color="#c9d2e3" /></linearGradient>
+            <linearGradient id="gBarH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c9d2e3" /><stop offset="1" stop-color="#ffffff" /></linearGradient>
+            <linearGradient id="gGlass" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#bfe6ff" /><stop offset="1" stop-color="#4c8fd6" /></linearGradient>
+            <linearGradient id="gFacade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c4aa3" /><stop offset="1" stop-color="#0e2f75" /></linearGradient>
+            <linearGradient id="gPerson" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" /><stop offset="1" stop-color="#b9c8e6" /></linearGradient>
+            <radialGradient id="gGem" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#d7f2ff" /><stop offset="0.5" stop-color="#5fb8f0" /><stop offset="1" stop-color="#1d5fb8" /></radialGradient>
+            <filter id="fShadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#000818" flood-opacity="0.55" /></filter>
+            <filter id="fSoft" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="8" /></filter>
+            <filter id="fGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+          </defs>
+        </svg>
 
         <!-- 1 : hook, cours de l'action en aire -->
         <div class="scene" id="sc-hook">
@@ -246,71 +280,107 @@
         }
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { TAGS.forEach(fitTag); });
 
-        // =============== ILLUSTRATIONS (SVG dessinés, coordonnées locales) ===============
+        // =============== ILLUSTRATIONS (style minimaliste : dégradés doux, ombres portées, reflets) ===============
+        // les dégradés et filtres (#gGold, #gIvory, #gRed, #gGlass, #gNavy, #fShadow, #fSoft…) sont définis dans <svg id="defs">
         function g(parent, tx, ty, s) { return el(parent, "g", { transform: "translate(" + tx + " " + ty + ") scale(" + (s || 1) + ")" }); }
+        function groundShadow(c, cx, cy, rx, ry) { el(c, "ellipse", { cx: cx, cy: cy, rx: rx, ry: ry, fill: "#000a24", opacity: 0.45, filter: "url(#fSoft)" }); }
+        function shine(c, d, o) { el(c, "path", { d: d, fill: "#fff", opacity: o == null ? 0.22 : o }); }
+        // apparition douce : fondu + légère montée + mise à l'échelle
+        function appear(node, at, dur) {
+          tl.fromTo(node, { opacity: 0, y: 34, scale: 0.94, transformOrigin: "50% 100%" }, { opacity: 1, y: 0, scale: 1, duration: dur || 0.75, ease: "power3.out" }, at);
+        }
         function crown(parent, tx, ty, s) {
-          var c = g(parent, tx, ty, s);
-          el(c, "path", { d: "M20 200 L0 40 L90 120 L150 0 L210 120 L300 40 L280 200 Z", class: "ill-bf" });
-          el(c, "path", { d: "M20 240 L280 240", class: "ill-b" });
-          el(c, "circle", { cx: 0, cy: 40, r: 14, class: "ill-bf" });
-          el(c, "circle", { cx: 150, cy: 0, r: 14, class: "ill-bf" });
-          el(c, "circle", { cx: 300, cy: 40, r: 14, class: "ill-bf" });
-          el(c, "path", { d: "M120 165 L150 135 L180 165 L150 195 Z", class: "ill-b" });
-          return c;
+          var o = g(parent, tx, ty, s), c = el(o, "g", {});
+          groundShadow(c, 150, 292, 140, 16);
+          var body = el(c, "g", { filter: "url(#fShadow)" });
+          el(body, "path", { d: "M26 214 L4 70 Q2 54 16 62 L86 118 Q92 122 96 115 L140 26 Q150 8 160 26 L204 115 Q208 122 214 118 L284 62 Q298 54 296 70 L274 214 Z", fill: "url(#gGold)" });
+          el(body, "rect", { x: 20, y: 206, width: 260, height: 52, rx: 14, fill: "url(#gGoldDeep)" });
+          shine(body, "M30 206 L12 76 L84 132 Q60 170 30 206 Z", 0.18);
+          shine(body, "M28 214 Q150 196 272 214 L270 222 Q150 206 30 222 Z", 0.35);
+          [[6, 58], [150, 14], [294, 58]].forEach(function (p) {
+            el(body, "circle", { cx: p[0], cy: p[1], r: 17, fill: "url(#gGem)" });
+            el(body, "circle", { cx: p[0] - 5, cy: p[1] - 6, r: 5, fill: "#fff", opacity: 0.8 });
+          });
+          el(body, "path", { d: "M150 214 L172 232 L150 250 L128 232 Z", fill: "url(#gGem)" });
+          el(body, "path", { d: "M150 218 L162 232 L150 238 Z", fill: "#fff", opacity: 0.5 });
+          return o;
         }
         function handbag(parent, tx, ty, s) {
-          var c = g(parent, tx, ty, s);
-          el(c, "path", { d: "M70 80 Q70 0 140 0 Q210 0 210 80", class: "ill" });
-          el(c, "path", { d: "M20 80 L260 80 L240 280 Q238 300 218 300 L62 300 Q42 300 40 280 Z", class: "ill-f" });
-          el(c, "path", { d: "M20 80 L260 80 L250 150 Q140 190 30 150 Z", class: "ill" });
-          el(c, "rect", { x: 122, y: 150, width: 36, height: 30, rx: 6, class: "ill" });
-          return c;
+          var o = g(parent, tx, ty, s), c = el(o, "g", {});
+          groundShadow(c, 140, 308, 120, 12);
+          el(c, "path", { d: "M84 104 Q84 18 140 18 Q196 18 196 104", fill: "none", stroke: "url(#gTan)", "stroke-width": 16, "stroke-linecap": "round" });
+          var body = el(c, "g", { filter: "url(#fShadow)" });
+          el(body, "path", { d: "M34 100 L246 100 Q262 100 263 116 L250 282 Q248 300 230 300 L50 300 Q32 300 30 282 L17 116 Q18 100 34 100 Z", fill: "url(#gIvory)" });
+          el(body, "path", { d: "M17 116 Q18 100 34 100 L246 100 Q262 100 263 116 L259 168 Q140 212 21 168 Z", fill: "url(#gIvoryFlap)" });
+          el(body, "path", { d: "M30 160 Q140 198 250 160", fill: "none", stroke: "#c9bfa9", "stroke-width": 3, "stroke-dasharray": "8 8" });
+          el(body, "rect", { x: 120, y: 172, width: 40, height: 32, rx: 9, fill: "url(#gGold)" });
+          shine(body, "M40 108 L120 108 L100 290 L52 290 Q40 290 38 278 Z", 0.25);
+          return o;
         }
         function sneaker(parent, tx, ty, s) {
-          var c = g(parent, tx, ty, s);
-          el(c, "path", { d: "M10 150 L10 70 Q10 40 40 45 L95 60 Q120 95 165 105 L250 120 Q300 130 300 160 L300 170 L10 170 Z", class: "ill-f" });
-          el(c, "path", { d: "M10 150 L300 150", class: "ill" });
-          el(c, "path", { d: "M70 70 L95 95 M90 64 L118 92 M112 80 L138 104", class: "ill" });
-          return c;
+          var o = g(parent, tx, ty, s), c = el(o, "g", {});
+          groundShadow(c, 160, 182, 150, 10);
+          var body = el(c, "g", { filter: "url(#fShadow)" });
+          el(body, "path", { d: "M10 140 L310 140 Q318 172 292 176 L28 176 Q4 172 10 140 Z", fill: "url(#gSole)" });
+          el(body, "path", { d: "M12 142 L12 74 Q12 44 42 48 L98 60 Q124 98 172 108 L258 122 Q306 132 312 142 Z", fill: "url(#gIvory)" });
+          el(body, "path", { d: "M12 74 Q12 44 42 48 L60 52 L48 142 L12 142 Z", fill: "url(#gBlueSoft)" });
+          el(body, "path", { d: "M70 70 L96 92 M92 64 L118 88 M116 84 L140 104", stroke: "#a7b0c2", "stroke-width": 5, "stroke-linecap": "round", fill: "none" });
+          shine(body, "M60 60 L98 66 Q124 100 172 112 L250 126 L246 132 Q170 120 120 104 Q90 92 60 66 Z", 0.35);
+          return o;
         }
         function priceTag(parent, tx, ty, s, text) {
-          var c = g(parent, tx, ty, s);
-          el(c, "path", { d: "M0 40 L40 0 L190 0 L190 80 L40 80 Z", fill: RED, stroke: RED, "stroke-width": 6, "stroke-linejoin": "round" });
-          el(c, "circle", { cx: 34, cy: 40, r: 9, fill: cv("--bg") });
-          el(c, "text", { x: 112, y: 54, class: "tagtxt", "font-size": 40, "text-anchor": "middle" }, text);
-          return c;
+          var o = g(parent, tx, ty, s), c = el(o, "g", { filter: "url(#fShadow)" });
+          el(c, "path", { d: "M4 44 L44 6 Q50 0 58 0 L182 0 Q196 0 196 14 L196 74 Q196 88 182 88 L58 88 Q50 88 44 82 Z", fill: "url(#gRed)" });
+          el(c, "circle", { cx: 40, cy: 44, r: 9, fill: "#0b2a66" });
+          shine(c, "M48 6 L182 6 Q190 6 190 14 L190 30 L48 30 Z", 0.18);
+          el(c, "text", { x: 122, y: 59, class: "tagtxt", "font-size": 42, "text-anchor": "middle" }, text);
+          return o;
         }
-        function storefront(parent, tx, ty, s) {
-          var c = g(parent, tx, ty, s);
-          el(c, "path", { d: "M20 110 L20 330 L380 330 L380 110", class: "ill-f" });
-          el(c, "path", { d: "M0 110 L30 30 L370 30 L400 110 Z", class: "ill" });
-          el(c, "path", { d: "M0 110 Q33 150 67 110 Q100 150 133 110 Q167 150 200 110 Q233 150 267 110 Q300 150 333 110 Q367 150 400 110", class: "ill-b" });
-          el(c, "rect", { x: 150, y: 200, width: 100, height: 130, class: "ill" });
-          el(c, "rect", { x: 50, y: 190, width: 70, height: 70, class: "ill" });
-          el(c, "rect", { x: 280, y: 190, width: 70, height: 70, class: "ill" });
-          return c;
+        function boutique(parent, tx, ty, s) {
+          var o = g(parent, tx, ty, s), c = el(o, "g", {});
+          groundShadow(c, 200, 346, 200, 16);
+          var b = el(c, "g", { filter: "url(#fShadow)" });
+          el(b, "rect", { x: 22, y: 72, width: 356, height: 266, rx: 12, fill: "url(#gFacade)" });
+          el(b, "rect", { x: 6, y: 48, width: 388, height: 34, rx: 10, fill: "url(#gIvory)" });
+          el(b, "rect", { x: 140, y: 96, width: 120, height: 24, rx: 6, fill: "url(#gGold)" });
+          [[52, 150, 92, 130], [256, 150, 92, 130]].forEach(function (w) {
+            el(b, "path", { d: "M" + w[0] + " " + (w[1] + w[2] / 2) + " a" + (w[2] / 2) + " " + (w[2] / 2) + " 0 0 1 " + w[2] + " 0 L" + (w[0] + w[2]) + " " + (w[1] + w[3]) + " L" + w[0] + " " + (w[1] + w[3]) + " Z", fill: "url(#gGlass)" });
+            shine(b, "M" + (w[0] + 10) + " " + (w[1] + 52) + " l24 -20 l0 70 l-24 20 Z", 0.25);
+          });
+          el(b, "path", { d: "M160 338 L160 196 a40 40 0 0 1 80 0 L240 338 Z", fill: "#081f55" });
+          el(b, "circle", { cx: 228, cy: 270, r: 5, fill: "url(#gGold)" });
+          return o;
         }
         function person(parent, tx, ty, s) {
-          var c = g(parent, tx, ty, s);
-          el(c, "circle", { cx: 30, cy: 20, r: 18, class: "ill" });
-          el(c, "path", { d: "M0 110 Q0 50 30 50 Q60 50 60 110", class: "ill" });
-          return c;
+          var o = g(parent, tx, ty, s);
+          el(o, "circle", { cx: 30, cy: 20, r: 18, fill: "url(#gPerson)" });
+          el(o, "rect", { x: 0, y: 46, width: 60, height: 70, rx: 30, fill: "url(#gPerson)" });
+          return o;
+        }
+        function coin(parent, x, y) {
+          el(parent, "path", { d: "M" + x + " " + y + " l0 20 a62 20 0 0 0 124 0 l0 -20 Z", fill: "url(#gGoldDeep)" });
+          el(parent, "ellipse", { cx: x + 62, cy: y, rx: 62, ry: 20, fill: "url(#gGold)" });
+          el(parent, "ellipse", { cx: x + 62, cy: y, rx: 46, ry: 13, fill: "none", stroke: "#fff3c8", "stroke-width": 2, opacity: 0.55 });
         }
         function coins(parent, tx, ty, s) {
-          var c = g(parent, tx, ty, s);
-          [[0, 3], [130, 5], [260, 7]].forEach(function (st) {
-            for (var i = 0; i < st[1]; i++) {
-              el(c, "path", { d: "M" + st[0] + " " + (300 - i * 40) + " a60 18 0 1 0 120 0 a60 18 0 1 0 -120 0 M" + st[0] + " " + (300 - i * 40) + " l0 22 a60 18 0 0 0 120 0 l0 -22", class: "ill-f" });
-            }
+          var o = g(parent, tx, ty, s), stacks = [];
+          groundShadow(o, 200, 338, 220, 18);
+          [[0, 3], [138, 5], [276, 7]].forEach(function (st) {
+            var gs = el(o, "g", { filter: "url(#fShadow)" });
+            for (var i = 0; i < st[1]; i++) coin(gs, st[0], 310 - i * 32);
+            stacks.push(gs);
           });
-          el(c, "text", { x: 320, y: 30, "font-size": 70, "font-weight": 700, fill: BLUE, "text-anchor": "middle" }, "€");
-          return c;
+          var top = el(o, "text", { x: 338, y: 310 - 6 * 32 + 9, "font-size": 30, "font-weight": 700, fill: "#a87b2a", "text-anchor": "middle" }, "€");
+          stacks.push(top);
+          return { g: o, parts: stacks };
         }
         function yuanCoin(parent, tx, ty, s) {
-          var c = g(parent, tx, ty, s);
-          el(c, "circle", { cx: 50, cy: 50, r: 42, class: "ill-bf" });
-          el(c, "path", { d: "M32 26 L50 50 L68 26 M50 50 L50 78 M36 54 L64 54 M36 66 L64 66", class: "ill-b" });
-          return c;
+          var o = g(parent, tx, ty, s);
+          el(o, "circle", { cx: 50, cy: 52, r: 42, fill: "url(#gGoldDeep)" });
+          el(o, "circle", { cx: 50, cy: 48, r: 42, fill: "url(#gGold)" });
+          el(o, "circle", { cx: 50, cy: 48, r: 32, fill: "none", stroke: "#fff3c8", "stroke-width": 2.5, opacity: 0.6 });
+          el(o, "path", { d: "M34 26 L50 48 L66 26 M50 48 L50 74 M37 52 L63 52 M37 63 L63 63", fill: "none", stroke: "#8a611b", "stroke-width": 6, "stroke-linecap": "round", "stroke-linejoin": "round" });
+          return o;
         }
 
         // =============== AIRE DU COURS (hook + fin) ===============
@@ -334,16 +404,16 @@
           var cr = el(clip, "rect", { x: 0, y: 0, width: 0, height: 700 });
           var line = PTS.map(function (p, i) { return (i ? "L" : "M") + sx(p[0]).toFixed(1) + " " + sy(p[1]).toFixed(1); }).join(" ");
           var area = el(svg, "path", { d: line + " L" + sx(PTS[5][0]) + " 600 L" + sx(PTS[0][0]) + " 600 Z", fill: "url(#" + clipId + "-g)", "clip-path": "url(#" + clipId + ")" });
-          el(svg, "path", { d: line, class: "line", "clip-path": "url(#" + clipId + ")" });
+          el(svg, "path", { d: line, class: "line", filter: "url(#fGlow)", "clip-path": "url(#" + clipId + ")" });
           tl.fromTo(cr, { attr: { width: 0 } }, { attr: { width: 900 }, duration: drawDur, ease: "power1.inOut" }, at);
           // segment de la chute (record → aujourd'hui) en rouge
           var fall = PTS.slice(1).map(function (p, i) { return (i ? "L" : "M") + sx(p[0]).toFixed(1) + " " + sy(p[1]).toFixed(1); }).join(" ");
-          var red = el(svg, "path", { d: fall, class: "red" });
+          var red = el(svg, "path", { d: fall, class: "red", filter: "url(#fGlow)" });
           var hi = { x: sx(PTS[1][0]), y: sy(PTS[1][1]) }, lo = { x: sx(PTS[5][0]), y: sy(PTS[5][1]) };
           var dHi = el(svg, "circle", { cx: hi.x, cy: hi.y, r: 10, fill: INK });
           var dLo = el(svg, "circle", { cx: lo.x, cy: lo.y, r: 11, fill: RED });
           var lHi = el(svg, "text", { x: hi.x, y: hi.y - 26, class: "val", "font-size": 38, "text-anchor": "middle" }, "904,60 €");
-          var lLo = el(svg, "text", { x: lo.x - 22, y: lo.y + 56, class: "rlab", "font-size": 38, "text-anchor": "end" }, "385,60 €");
+          var lLo = el(svg, "text", { x: lo.x - 22, y: lo.y + 56, class: "rlab halo", "font-size": 38, "text-anchor": "end" }, "385,60 €");
           return { red: red, dHi: dHi, dLo: dLo, lHi: lHi, lLo: lLo, hi: hi, lo: lo, sx: sx, sy: sy };
         }
 
@@ -356,7 +426,7 @@
           tl.fromTo([a.dHi, a.lHi], { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.45);
           drawIn(a.red, t57 - 0.5, 0.7, "power1.inOut");
           tl.fromTo([a.dLo, a.lLo], { opacity: 0 }, { opacity: 1, duration: 0.3 }, t57 + 0.15);
-          var lab = el(svg, "text", { x: 400, y: 410, class: "rlab", "font-size": 100, "text-anchor": "middle" }, "−57 %");
+          var lab = el(svg, "text", { x: 400, y: 410, class: "rlab halo", "font-size": 100, "text-anchor": "middle" }, "−57 %");
           fadeIn(lab, t57 + 0.1, 0.35);
           redCircle(svg, a.lo.x, a.lo.y, 46, 40, wordAt("hook", "2020") - 0.2, 0.4);
           redTag(svg, 690, 525, "PLUS BAS DEPUIS 2020", 34, "middle", wordAt("hook", "2020"));
@@ -366,8 +436,8 @@
         (function () {
           var s = sceneTimes("peak"), svg = document.getElementById("ch-peak");
           showScene(document.getElementById("sc-peak"), s.start, s.end);
-          var c = crown(svg, 310, 40, 1);
-          drawGroup(c, s.start + 0.15, 0.9);
+          var c = crown(svg, 310, 20, 1);
+          appear(c, s.start + 0.15, 0.85);
           var t1 = el(svg, "text", { x: 460, y: 380, class: "val", "font-size": 92, "text-anchor": "middle", fill: BLUE }, "N°1 en Europe");
           t1.setAttribute("style", "fill:" + BLUE);
           fadeIn(t1, wordAt("peak", "grande") - 0.2, 0.45);
@@ -382,8 +452,8 @@
           var s = sceneTimes("slump");
           showScene(document.getElementById("sc-slump"), s.start, s.end);
           yuanCoin(document.getElementById("ic1"), 0, 0, 1);
-          handbag(document.getElementById("ic2"), 8, 6, 0.3);
-          storefront(document.getElementById("ic3"), 0, 10, 0.25);
+          handbag(document.getElementById("ic2"), 8, 0, 0.3);
+          boutique(document.getElementById("ic3"), 0, 6, 0.25);
           ["r1", "r2", "r3"].forEach(function (id, i) { tl.fromTo("#" + id, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, s.start + 0.35 + i * 0.35); });
           var tC = wordAt("slump", "Chine");
           tl.to(["#r2", "#r3"], { opacity: 0.3, duration: 0.35 }, tC - 0.3);
@@ -398,7 +468,7 @@
           el(svg, "line", { x1: 70, x2: 880, y1: 600, y2: 600, class: "axis" });
           var d = [[200, 33, "33 %", "2019"], [520, 21, "21 %", "2024"]], bars = [];
           d.forEach(function (b, i) {
-            var r = el(svg, "rect", { x: b[0], y: sy(b[1]), width: 200, height: 600 - sy(b[1]), fill: i ? RED : BAR });
+            var r = el(svg, "rect", { x: b[0], y: sy(b[1]), width: 200, height: 600 - sy(b[1]), rx: 14, fill: i ? "url(#gRedBar)" : "url(#gBar)", filter: "url(#fShadow)" });
             var v = el(svg, "text", { x: b[0] + 100, y: sy(b[1]) - 22, class: i ? "rlab" : "val", "font-size": 56, "text-anchor": "middle" }, b[2]);
             var l = el(svg, "text", { x: b[0] + 100, y: 644, class: "tick", "text-anchor": "middle" }, b[3]);
             bars.push([r, v, l]);
@@ -413,9 +483,9 @@
         (function () {
           var s = sceneTimes("aspi"), svg = document.getElementById("ch-aspi");
           showScene(document.getElementById("sc-aspi"), s.start, s.end);
-          var bag = handbag(svg, 170, 0, 0.8), shoe = sneaker(svg, 450, 100, 0.95);
-          drawGroup(bag, wordAt("aspi", "sac") - 0.3, 0.7);
-          drawGroup(shoe, wordAt("aspi", "chaussures") - 0.4, 0.7);
+          var bag = handbag(svg, 150, -10, 0.85), shoe = sneaker(svg, 450, 110, 0.95);
+          appear(bag, wordAt("aspi", "sac") - 0.35, 0.7);
+          appear(shoe, wordAt("aspi", "chaussures") - 0.45, 0.7);
           var tag = priceTag(svg, 330, 210, 1, "€€€");
           var tP = wordAt("aspi", "prix");
           tl.fromTo(tag, { opacity: 0, rotation: -25, transformOrigin: "0% 50%" }, { opacity: 1, rotation: -8, duration: 0.45, ease: "back.out(1.6)" }, tP - 0.25);
@@ -424,7 +494,7 @@
           var t0 = wordAt("aspi", "ont") - 0.1;
           rows.forEach(function (r, i) {
             var lab = el(svg, "text", { x: 310, y: r[2] + 12, class: "val", "font-size": 36, "text-anchor": "end" }, r[0]);
-            var bar = el(svg, "rect", { x: sx(0), y: r[2] - 26, width: sx(r[1]) - sx(0), height: 52, fill: i ? BAR : RED });
+            var bar = el(svg, "rect", { x: sx(0), y: r[2] - 26, width: sx(r[1]) - sx(0), height: 52, rx: 12, fill: i ? "url(#gBarH)" : "url(#gRedBarH)", filter: "url(#fShadow)" });
             var val = el(svg, "text", { x: sx(r[1]) + 16, y: r[2] + 14, class: i ? "val" : "rlab", "font-size": 42 }, "+" + r[1] + " %");
             fadeIn(lab, t0 + i * 0.3, 0.3, 0); growX(bar, t0 + i * 0.3, 0.6); fadeIn(val, t0 + i * 0.3 + 0.45, 0.3);
           });
@@ -435,14 +505,13 @@
         (function () {
           var s = sceneTimes("mideast"), svg = document.getElementById("ch-mideast");
           showScene(document.getElementById("sc-mideast"), s.start, s.end);
-          var shop = storefront(svg, 60, 20, 0.95);
-          drawGroup(shop, s.start + 0.2, 1.0);
-          var people = [person(svg, 480, 230, 0.9), person(svg, 560, 230, 0.9), person(svg, 640, 230, 0.9), person(svg, 720, 230, 0.9)];
+          var shop = boutique(svg, 50, 10, 0.95);
+          appear(shop, s.start + 0.15, 0.8);
+          var people = [person(svg, 470, 230, 1), person(svg, 556, 230, 1), person(svg, 642, 230, 1), person(svg, 728, 230, 1)];
           var tP = wordAt("mideast", "Moyen-Orient");
           people.forEach(function (p, i) { fadeIn(p, tP - 0.2 + i * 0.1, 0.3, 0); });
           var tF = wordAt("mideast", "freiné");
           tl.to([people[1], people[3]], { opacity: 0.12, duration: 0.4 }, tF);
-          redArrow(svg, 820, 220, 820, 360, 0, tF, 0.4);
           var big = el(svg, "text", { x: 460, y: 500, class: "rlab", "font-size": 110, "text-anchor": "middle" }, "≈ −50 %");
           fadeIn(big, tF + 0.2, 0.4);
           var lbl = el(svg, "text", { x: 460, y: 560, class: "lbl", "font-size": 32, "text-anchor": "middle" }, "de visiteurs dans les centres commerciaux");
@@ -455,9 +524,8 @@
         (function () {
           var s = sceneTimes("profit"), svg = document.getElementById("ch-profit");
           showScene(document.getElementById("sc-profit"), s.start, s.end);
-          var c = coins(svg, 270, 120, 1);
-          var parts = c.querySelectorAll("path, text");
-          Array.prototype.forEach.call(parts, function (p, i) { fadeIn(p, s.start + 0.1 + i * 0.06, 0.25, -14); });
+          var c = coins(svg, 260, 140, 1);
+          c.parts.forEach(function (p, i) { appear(p, s.start + 0.05 + i * 0.16, 0.6); });
         })();
 
         // ================= 8. CROISSANCE =================
@@ -469,7 +537,7 @@
           var d = [["2023", 13, "+13 %"], ["2024", 1, "+1 %"], ["2025", -1, "−1 %"], ["S1 2026", 2, "+2 %"]], bars = [];
           d.forEach(function (b, i) {
             var x = 130 + i * 190, top = Math.min(sy(b[1]), y0), h = Math.abs(sy(b[1]) - y0);
-            var r = el(svg, "rect", { x: x, y: top, width: 130, height: Math.max(h, 4), fill: BAR });
+            var r = el(svg, "rect", { x: x, y: top, width: 130, height: Math.max(h, 4), rx: 10, fill: "url(#gBar)", filter: "url(#fShadow)" });
             var v = el(svg, "text", { x: x + 65, y: b[1] >= 0 ? top - 20 : top + h + 50, class: "val", "font-size": 44, "text-anchor": "middle" }, b[2]);
             var l = el(svg, "text", { x: x + 65, y: 644, class: "tick", "text-anchor": "middle" }, b[0]);
             bars.push([r, v, l, b[1] >= 0]);

@@ -1,11 +1,11 @@
 # Reel FinanceData – LVMH (HyperFrames)
 
-Reel vertical 1080×1920, ~41,5 s. DA FinanceData : fond bleu uni #00194B (sans texture), texte clair,
+Reel vertical 1080×1920, ~41,5 s. DA FinanceData : fond bleu #00194B sans texture, halo central, quadrillage léger estompé et vignette pour la profondeur ; texte clair,
 bleu clair en accent, annotations en rouge. Bloc centré dans la safe zone Reels / TikTok
 (contenu dans x 160–920, y 470–1460). Sous-titres en Inter SemiBold, 3 mots max, apparition mot par mot.
 
 ## Fichiers
-- `index.html` : composition (9 scènes : graphiques sourcés + illustrations SVG dessinées : couronne, sac, basket, étiquette prix, boutique, pièces)
+- `index.html` : composition (9 scènes : graphiques sourcés + illustrations SVG minimalistes à dégradés et ombres douces : couronne, sac, basket, étiquette prix, boutique, pièces)
 - `assets/reel-data.js` : découpage des sous-titres par scène, recalé sur la voix
 - `voix-off.txt` : texte exactement lu dans la prise montée
 - `audio/voix-off-lvmh.wav` : voix off montée (meilleures prises, pauses ≤ 0,15 s), sans autre traitement
