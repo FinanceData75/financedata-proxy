@@ -15,6 +15,14 @@ attendant les fichiers Helvetica Neue).
 `node scripts/voiceover.mjs --audio prise.wav` : convertit en MP3 et aligne la prise sur `voix-off-elevenlabs-v3.txt`
 (texte exactement lu) via l'API forced-alignment d'ElevenLabs.
 
+## Voix off enregistrée (montage + mastering)
+1. Isolation de la voix (bruit de pièce, réverbération) : API ElevenLabs `/v1/audio-isolation`.
+2. Montage à partir de la transcription mot à mot (`/v1/speech-to-text`, scribe_v1) : redites supprimées,
+   silences > 0,30 s ramenés à ~0,2 s, fondus de 12–18 ms à chaque coupe.
+3. Mastering ffmpeg : `highpass=f=80, equalizer 220 Hz −2,5 dB, 3,2 kHz +2,5 dB, 11 kHz +1,5 dB, deesser,
+   acompressor (−20 dB, 3:1), loudnorm 2 passes I=−14 LUFS, TP=−1 dBTP` (norme réseaux sociaux).
+4. `node scripts/voiceover.mjs --audio master.wav` pour l'alignement et le recalage des sous-titres.
+
 ## Fichiers
 - `index.html` : composition (7 graphiques, données fact-checkées, sources sous chaque graphique)
 - `assets/reel-data.js` : script découpé en sous-titres + timing (estimé, à recaler sur la voix off)

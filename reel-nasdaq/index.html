@@ -81,9 +81,9 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="39.5" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="39.5" data-track-index="1"></audio>
-      <div id="stage" class="clip" data-start="0" data-duration="39.5" data-track-index="0">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="33" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="33" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="33" data-track-index="0">
         <svg class="fx" aria-hidden="true">
           <filter id="ink" x="0" y="0" width="100%" height="100%">
             <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="2" seed="4" result="n" />
@@ -318,9 +318,9 @@
           var g18 = el(svg, "g", {});
           var base = el(g18, "line", { x1: sx(0), x2: ex + 22, y1: sy(23242), y2: sy(23242), class: "ref" });
           var bracket = el(g18, "path", { d: "M" + (ex + 22) + " " + sy(23242) + " L" + (ex + 22) + " " + (ey + 16), class: "red-thin" });
-          var lab18 = el(g18, "text", { x: ex - 14, y: sy(23500), class: "rlab", "font-size": 104, "text-anchor": "end" }, "+18 %");
+          var lab18 = el(g18, "text", { x: ex - 14, y: sy(23500), class: "rlab", "font-size": 104, "text-anchor": "end" }, "+24 %");
 
-          var tRec = wordAt("nasdaq", "record"), t18 = wordAt("nasdaq", "+18 %");
+          var tRec = wordAt("nasdaq", "record"), t18 = wordAt("nasdaq", "+24 %");
           showScene(document.getElementById("sc-nasdaq"), 0, s2.end);
           drawIn(line, 0.1, tRec - 0.2, "power2.inOut");
           pop(dot, tRec - 0.12);
@@ -349,7 +349,7 @@
           var svg = document.getElementById("ch-yield");
           var s = sceneTimes("yield");
           var sx = scale(4.5, 5.5, 230, 860);
-          var rows = [["juin 2007", 5.26, "5,26 %"], ["oct. 2023", 4.99, "4,99 %"], ["sept. 2026", 5.31, "5,31 %"]];
+          var rows = [["juin 2007", 5.26, "5,26 %"], ["oct. 2023", 4.99, "4,99 %"], ["sept. 2026", 5.2, "5,2 %"]];
           var ys = [120, 290, 460];
           var g = el(svg, "g", {});
           [4.5, 5.0, 5.5].forEach(function (v) {
@@ -375,8 +375,8 @@
             fadeIn(it[3], at + 0.42, 0.2, 6);
           });
           fadeIn(ref, s.start + 1.0, 0.3);
-          var t = wordAt("yield", "5,3 %");
-          var it = items[2], x3 = sx(5.31);
+          var t = wordAt("yield", "5,2 %");
+          var it = items[2], x3 = sx(5.2);
           fadeIn(it[0], t - 0.5, 0.2);
           growX(it[1], t - 0.45, 0.55);
           pop(it[2], t + 0.05);
@@ -460,7 +460,7 @@
 
           showScene(document.getElementById("sc-ai"), s.start, s.end);
           var tE = wordAt("ai", "explose");
-          var at = [s.start + 0.3, wordAt("ai", "records") - 0.1, tE - 0.2];
+          var at = [s.start + 0.3, wordAt("ai", "montent") - 0.1, tE - 0.2];
           bars.forEach(function (b, i) {
             fadeIn(b[2], at[i], 0.2);
             grow(b[0], at[i], i < 2 ? 0.4 : 0.55);
@@ -504,8 +504,8 @@
 
         // ================= SOUS-TITRES (3 mots max, mot par mot) =================
         (function () {
-          var KEY = { "+18 %": 1, "record": 1, "chuter": 1, "juin": 1, "au-dessus": 1, "peur": 1, "5,3 %": 1, "2002": 1, "Fed": 1, "septembre": 1, "pétrole": 1, "100 dollars": 1,
-            "records": 1, "l'intelligence": 1, "artificielle": 1, "explose": 1, "bénéfices": 1, "progressent": 1 };
+          var KEY = { "+24 %": 1, "record": 1, "chuter": 1, "juin": 1, "au-dessus": 1, "peur": 1, "5,2 %": 1, "2002": 1, "Fed": 1, "septembre": 1, "pétrole": 1, "100 dollars": 1,
+            "montent": 1, "l'intelligence": 1, "artificielle": 1, "explose": 1, "bénéfices": 1, "progressent": 1 };
           var box = document.getElementById("captions");
           R.chunks.forEach(function (c) {
             var div = document.createElement("div");

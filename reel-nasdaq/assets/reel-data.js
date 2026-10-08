@@ -5,16 +5,16 @@
   var NB = " "; // espace fine insécable : "+18 %" ou "Résultat :" restent un seul bloc
   // " / " = coupure de sous-titre (3 mots max par groupe)
   var SCENES = [
-    { id: "nasdaq", text: "Le Nasdaq / vient de battre / un nouveau record / et gagne +18" + NB + "% / depuis janvier, / alors que tout / devrait le faire / chuter." },
-    { id: "breakout", text: "Depuis juin, / il butait / sur un niveau / qu'il n'arrivait pas / à dépasser. / Cette fois, / il est passé / au-dessus." },
-    { id: "yield", text: "Et pourtant, / le contexte / fait peur. / Le taux / à 10" + NB + "ans américain / dépasse 5,3" + NB + "%. / Du jamais vu / depuis 2002." },
+    { id: "nasdaq", text: "Le Nasdaq / vient de battre / un nouveau record / et gagne +24" + NB + "% / depuis janvier, / alors que tout / devrait le faire / chuter." },
+    { id: "breakout", text: "Depuis juin, / il butait / sur un niveau / qu'il n'arrivait pas / à dépasser, / mais cette fois-ci, / il est passé / au-dessus." },
+    { id: "yield", text: "Et pourtant, / le contexte / fait peur. / Le taux / à 10" + NB + "ans américain / dépasse les 5,2" + NB + "%. / Du jamais vu / depuis 2002." },
     { id: "fed", text: "La Fed / a relevé / ses taux / en septembre." },
-    { id: "oil", text: "Et le baril / de pétrole / reste toujours / au-dessus / de 100" + NB + "dollars." },
-    { id: "ai", text: "Mais si / les marchés américains / atteignent des records, / c'est encore grâce / à l'intelligence / artificielle. / La demande / explose, / et elle fait / gonfler les revenus / des entreprises / américaines." },
+    { id: "oil", text: "Et le baril / de pétrole / reste au-dessus / des 100" + NB + "dollars." },
+    { id: "ai", text: "Mais si / les marchés montent, / c'est encore grâce / à l'intelligence / artificielle. / La demande / explose, / et elle fait / gonfler les revenus / des entreprises / américaines." },
     { id: "earnings", text: "Résultat" + NB + ": / leurs bénéfices / progressent. / Et pour / le moment, / c'est tout / ce qui compte / pour les investisseurs." }
   ];
 
-  var SPOKEN = { "+18 %": 0.95, "5,3 %": 0.95, "10 ans": 0.5, "2002": 0.75, "100 dollars": 0.75, "Résultat :": 0.5 };
+  var SPOKEN = { "+24 %": 0.95, "5,2 %": 0.95, "10 ans": 0.5, "2002": 0.75, "100 dollars": 0.75, "Résultat :": 0.5 };
 
   function bare(w) { return w.replace(/[.,]$/, "").replace(/ /g, " "); }
   function wordDur(w) {

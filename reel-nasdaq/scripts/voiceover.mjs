@@ -59,7 +59,7 @@ if (process.argv.includes("--from-alignment")) {
 } else if (audioArg) {
   if (!KEY) throw new Error("ELEVENLABS_API_KEY manquante");
   const text = fs.readFileSync(path.join(DIR, "voix-off-elevenlabs-v3.txt"), "utf8").trim();
-  execFileSync("ffmpeg", ["-v", "error", "-y", "-i", audioArg, "-codec:a", "libmp3lame", "-b:a", "192k", A("voiceover.mp3")]);
+  execFileSync("ffmpeg", ["-v", "error", "-y", "-i", audioArg, "-codec:a", "libmp3lame", "-b:a", "256k", A("voiceover.mp3")]);
   const fd = new FormData();
   fd.append("file", new Blob([fs.readFileSync(audioArg)]), path.basename(audioArg));
   fd.append("text", text);
