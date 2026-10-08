@@ -40,16 +40,19 @@
       #bg-light::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(255, 255, 255, 0) 55%, rgba(0, 25, 75, 0.08) 100%); }
       /* hook : photo plein cadre, assombrie */
       #bg-photo { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
-      #bg-photo img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 39% 50%; filter: brightness(0.62) saturate(0.85); }
-      #bg-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 25, 75, 0.15) 0%, rgba(0, 25, 75, 0.25) 40%, rgba(0, 25, 75, 0.85) 100%); }
-      #shot { position: absolute; left: 120px; top: 740px; width: 840px; border-radius: 26px; background: #fff; box-shadow: 0 30px 70px rgba(0, 5, 25, 0.55); overflow: hidden; opacity: 0; }
+      #bg-photo img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
+      #bg-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 10, 30, 0.55) 0%, rgba(0, 10, 30, 0) 22%, rgba(0, 10, 30, 0) 45%, rgba(0, 25, 75, 0.88) 100%); }
+      #shot { position: absolute; left: 120px; top: 800px; width: 840px; border-radius: 26px; background: #fff; box-shadow: 0 30px 70px rgba(0, 5, 25, 0.55); overflow: hidden; opacity: 0; }
       #shot .hd { display: flex; align-items: baseline; gap: 16px; padding: 30px 34px 6px; color: #1f1f1f; }
       #shot .hd b { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; }
       #shot .hd span { font-size: 54px; font-weight: 500; letter-spacing: -0.03em; }
       #shot .hd i { font-style: normal; font-size: 26px; color: #6b6b6b; }
+      #shot .rv { clip-path: inset(0 100% 0 0); }
       #shot img { display: block; width: 100%; padding: 4px 18px 18px; }
-      #shot-ann { position: absolute; left: 120px; top: 740px; width: 840px; height: 520px; overflow: visible; }
-      #badge { position: absolute; right: 96px; top: 650px; padding: 10px 26px 14px; border-radius: 16px; background: var(--red); color: #fff; font-size: 92px; font-weight: 600; letter-spacing: -0.04em; box-shadow: 0 18px 40px rgba(120, 10, 0, 0.45); opacity: 0; }
+      .trio { position: absolute; top: 1222px; width: 220px; height: 64px; border-radius: 14px; background: rgba(255, 255, 255, 0.96); color: #00194b; font-size: 30px; font-weight: 600; letter-spacing: -0.02em; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 14px 30px rgba(0, 5, 25, 0.4); opacity: 0; }
+      .trio b { color: var(--red); font-weight: 600; }
+      #shot-ann { position: absolute; left: 120px; top: 800px; width: 840px; height: 520px; overflow: visible; }
+      #badge { position: absolute; right: 96px; top: 712px; padding: 10px 26px 14px; border-radius: 16px; background: var(--red); color: #fff; font-size: 92px; font-weight: 600; letter-spacing: -0.04em; box-shadow: 0 18px 40px rgba(120, 10, 0, 0.45); opacity: 0; }
 
       /* scènes sur fond clair */
       .scene.light { --ink: #00194b; --soft: #5b6b8a; --hair: rgba(0, 25, 75, 0.14); --panel: rgba(0, 25, 75, 0.035); --cyan: #0b6fd0; }
@@ -101,7 +104,6 @@
       .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 14px; background: rgba(30, 34, 42, 0.74);
         font-family: "Inter UI", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.045em; word-spacing: -0.02em; color: #fff; white-space: nowrap; }
       .cap-box span { display: inline-block; }
-      .cap-box .k { color: #7dd0f5; }
 
       #sign { position: absolute; left: 160px; right: 160px; top: 1330px; text-align: center; opacity: 0; font-weight: 600; font-size: 58px; letter-spacing: -0.04em; color: var(--ink); }
       #sign b { color: var(--cyan); font-weight: 600; }
@@ -115,7 +117,7 @@
         <div id="bg-grid"></div>
         <div id="bg-vig"></div>
         <div id="bg-light"></div>
-        <div id="bg-photo"><img src="assets/img/bernard-arnault.jpg" alt="" /></div>
+        <div id="bg-photo"><img src="assets/img/hook-arnault-1080x1920.jpg" alt="" /></div>
         <div class="corner" style="left:130px;top:410px;border-left-width:2px;border-top-width:2px"></div>
         <div class="corner" style="right:130px;top:410px;border-right-width:2px;border-top-width:2px"></div>
         <div class="corner" style="left:130px;top:1240px;border-left-width:2px;border-bottom-width:2px"></div>
@@ -137,9 +139,12 @@
 
         <!-- 1 : hook, photo + capture du cours sur 5 ans -->
         <div id="sc-hook" style="position:absolute;inset:0">
-          <div id="shot"><div class="hd"><b>LVMH</b><span>380,90</span><i>EUR · 5 ans</i></div><img src="assets/img/cours-lvmh-5a.png" alt="" /></div>
+          <div id="shot"><div class="hd"><b>LVMH</b><span id="hdp">904,60</span><i>EUR · 5 ans</i></div><div class="rv"><img src="assets/img/cours-lvmh-5a.png" alt="" /></div></div>
           <svg id="shot-ann" viewBox="0 0 840 520"></svg>
           <div id="badge">−57 %</div>
+          <div class="trio" id="tr1" style="left:140px"><b>01</b> Raison</div>
+          <div class="trio" id="tr2" style="left:430px"><b>02</b> Raison</div>
+          <div class="trio" id="tr3" style="left:720px"><b>03</b> Raison</div>
         </div>
 
         <!-- 2 : sommet de 2023, carte KPI -->
@@ -357,20 +362,30 @@
           return { fall: fall, guide: guide, dHi: dHi, pHi: pHi, dLo: dLo, pLo: pLo, hi: hi, lo: lo };
         }
 
-        // ================= 1. HOOK : photo + capture =================
+        // ================= 1. HOOK : photo + capture (5 premières secondes rythmées) =================
         (function () {
           var s = sceneTimes("hook"), svg = document.getElementById("shot-ann");
-          tl.fromTo("#bg-photo", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0);
+          tl.set("#bg-photo", { opacity: 1 }, 0);
           tl.to("#bg-photo", { opacity: 0, duration: 0.4 }, s.end - 0.4);
-          tl.fromTo("#shot", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.25);
-          tl.to(["#shot", "#shot-ann", "#badge"], { opacity: 0, duration: 0.3 }, s.end - 0.3);
-          var t57 = wordAt("hook", "57 %"), t20 = wordAt("hook", "2020");
-          tl.fromTo("#badge", { opacity: 0, scale: 0.85, transformOrigin: "100% 100%" }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, t57 - 0.1);
+          // la carte monte, la courbe se trace pendant que le cours dégringole de 904,60 à 380,90
+          tl.fromTo("#shot", { opacity: 0, y: 70 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.0);
+          tl.fromTo("#shot .rv", { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.6, ease: "power1.inOut" }, 0.15);
+          var hdp = document.getElementById("hdp"), o = { v: 904.6 };
+          tl.fromTo(o, { v: 904.6 }, { v: 380.9, duration: 1.6, ease: "power1.inOut", onUpdate: function () { hdp.textContent = o.v.toFixed(2).replace(".", ","); } }, 0.15);
+          tl.to(["#shot", "#shot-ann", "#badge", ".trio"], { opacity: 0, duration: 0.3 }, s.end - 0.3);
+          var t57 = wordAt("hook", "57 %"), tB = wordAt("hook", "bas"), t20 = wordAt("hook", "2020"), t3 = wordAt("hook", "trois");
+          tl.fromTo("#badge", { opacity: 0, scale: 0.6, transformOrigin: "100% 100%" }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, t57);
           // dernier point de la capture : (1060, 278) dans l'image 1090×408, rendue à 804 px de large sous un en-tête de 96 px
           var k = 804 / 1090, x = 18 + 1060 * k, y = 96 + 278 * k;
-          ring(svg, x, y, 30, t20 - 0.2);
-          chip(svg, x + 22, 96 + 408 * k + 62, "PLUS BAS DEPUIS 2020", 26, t20, "red", "end");
-          SFX.push(["shutter", 0.2, 0.7], ["impact", t57 - 0.12, 0.5], ["pop", t20 - 0.15, 0.55]);
+          ring(svg, x, y, 30, tB - 0.1);
+          var c20 = chip(svg, x + 22, 96 + 408 * k + 62, "PLUS BAS DEPUIS 2020", 26, t20, "red", "end");
+          c20.querySelector("rect").setAttribute("fill", RED); c20.querySelector("text").setAttribute("fill", "#fff");
+          tl.to(c20, { opacity: 0, duration: 0.2 }, t3 - 0.35);
+          ["#tr1", "#tr2", "#tr3"].forEach(function (id, i) {
+            tl.fromTo(id, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.8)" }, t3 - 0.1 + i * 0.14);
+            SFX.push(["pop", t3 - 0.12 + i * 0.14, 0.4]);
+          });
+          SFX.push(["shutter", 0.0, 0.7], ["tick", 0.2, 0.28], ["impact", t57 - 0.02, 0.5], ["pop", tB - 0.12, 0.5]);
         })();
 
         // ================= 2. SOMMET 2023 : carte KPI =================
@@ -438,7 +453,6 @@
           fadeIn(gl, tc, 0.3, 0);
           arrow(svg, 620, sy(33) + 6, 620, sy(21) - 76, tc + 0.1, 0.4);
           chip(svg, 760, sy(27) + 8, "−12 PTS", 26, wordAt("china", "dépenses"), "red");
-          SFX.push(["down", tc + 0.05, 0.4]);
         })();
 
         // ================= 5. LUXE ASPIRATIONNEL =================
@@ -486,7 +500,6 @@
           });
           var big = el(svg, "text", { x: 460, y: 500, class: "rval", "font-size": 92, "text-anchor": "middle" }, "≈ −50 %");
           fadeIn(big, tF + 0.35, 0.45);
-          SFX.push(["down", tF + 0.2, 0.4]);
           chip(svg, 460, 572, "RÉGION ≈ 6 % DES VENTES DE LVMH", 20, wordAt("mideast", "région"), "neutral");
         })();
 
@@ -544,7 +557,6 @@
           fadeIn(a.dLo, s.start + 1.1, 0.3, 0); fadeIn(a.pLo, s.start + 1.15, 0.3, 6);
           var tB = wordAt("doubt", "baisser");
           arrow(svg, a.lo.x + 30, a.lo.y + 20, a.lo.x + 30, a.lo.y + 140, tB - 0.25, 0.45);
-          SFX.push(["down", tB - 0.3, 0.45]);
           tl.to(["#sc-doubt", ".corner"], { opacity: 0.1, duration: 0.5 }, R.total - 1.9);
           fadeIn(document.getElementById("sign"), R.total - 1.7, 0.5);
         })();

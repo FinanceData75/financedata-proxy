@@ -5,6 +5,7 @@ halo central, quadrillage fin estompé, repères d'angle ; typo Inter (chiffres 
 panneaux translucides à filets fins, pictos au trait, annotations rouges sobres (puces, anneaux, flèches droites). Bloc centré dans la safe zone Reels / TikTok
 (contenu dans x 160–920, y 470–1460). Sous-titres en Inter SemiBold, 3 mots max, sur un fond gris translucide, lettres resserrées.
 
+v6 : hook rythmé sur la photo HD de Bernard Arnault (pupitre LVMH), la courbe se trace pendant que le cours passe de 904,60 à 380,90 ; puis badge, anneau, 3 raisons. Sous-titres uniquement en blanc, sans effet « descente ».
 v5 : hook visuel avec la photo de Bernard Arnault en plein cadre et la capture du cours sur 5 ans au centre
 (badge « −57 % », anneau sur le dernier point, « PLUS BAS DEPUIS 2020 »). Les fonds alternent entre le bleu quadrillé
 et un blanc cassé quadrillé (Diagnostic, Luxe aspirationnel, Rentabilité, La baisse continue). Effets sonores
