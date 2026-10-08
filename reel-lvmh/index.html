@@ -7,72 +7,77 @@
     <script src="assets/vo-words.js"></script>
     <script src="assets/reel-data.js"></script>
     <style>
-      /* Helvetica Neue non disponible ici : Nimbus Sans (clone URW d'Helvetica) ; sous-titres en Inter (OFL) */
-      @font-face { font-family: "Helvetica Neue"; src: url("assets/fonts/NimbusSans-Regular.otf") format("opentype"); font-weight: 400; }
-      @font-face { font-family: "Helvetica Neue"; src: url("assets/fonts/NimbusSans-Bold.otf") format("opentype"); font-weight: 700; }
-      @font-face { font-family: "Inter Captions"; src: url("assets/fonts/Inter-SemiBold.otf") format("opentype"); font-weight: 600; }
+      /* Inter (OFL) partout : chiffres tabulaires pour les données */
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf") format("opentype"); font-weight: 600; }
 
-      /* DA FinanceData : fond bleu uni, texte clair, bleu clair en accent, rouge pour les annotations */
+      /* DA FinanceData, version « terminal de données » : bleu nuit, filets fins, cyan en accent, rouge pour les alertes */
       :root {
         --bg: #00194b;
-        --ink: #f3f2ee;
-        --soft: #a3b3d6;
-        --rule: #22397a;
-        --fill: #0d2a66;
-        --blue: #7dd0f5;
-        --red: #ff3b2e;
-        --bar: #e9e8e3;
+        --ink: #eaf1fb;
+        --soft: #8fa3c7;
+        --hair: rgba(255, 255, 255, 0.12);
+        --panel: rgba(255, 255, 255, 0.04);
+        --cyan: #7dd0f5;
+        --red: #ff4d3d;
+        --bar: #dce6f7;
       }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
-      #root { width: 100%; height: 100%; position: relative; font-family: "Helvetica Neue", sans-serif; color: var(--ink); background: var(--bg); }
+      #root { width: 100%; height: 100%; position: relative; font-family: "Inter UI", sans-serif; color: var(--ink); background: var(--bg); font-feature-settings: "tnum" 1; }
       #stage { position: absolute; inset: 0; }
-      /* profondeur : halo bleu derrière le contenu, quadrillage léger qui s'estompe vers les bords, vignette */
-      #bg-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 62% 40% at 50% 47%, #0d3d8f 0%, rgba(0, 25, 75, 0) 72%); }
-      #bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px); background-size: 60px 60px; background-position: 0 30px;
-        -webkit-mask-image: radial-gradient(ellipse 72% 52% at 50% 48%, #000 35%, transparent 88%); mask-image: radial-gradient(ellipse 72% 52% at 50% 48%, #000 35%, transparent 88%); }
-      #bg-vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 48%, rgba(0, 0, 0, 0) 55%, rgba(0, 6, 26, 0.55) 100%); }
+
+      /* profondeur : halo central, quadrillage fin qui s'estompe, vignette */
+      #bg-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 38% at 50% 46%, #0b3480 0%, rgba(0, 25, 75, 0) 72%); }
+      #bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(0, 0, 0, 0) 55%, rgba(0, 5, 22, 0.6) 100%); }
+      /* repères d'angle du cadre de données */
+      .corner { position: absolute; width: 34px; height: 34px; border-color: rgba(255, 255, 255, 0.22); border-style: solid; border-width: 0; }
       #defs { position: absolute; width: 0; height: 0; }
 
-      /* Bloc centré (x 160–920, y 470–1460), dans la safe zone Reels / TikTok (x 80–930, y 250–1500) */
-      .scene { position: absolute; left: 160px; top: 470px; width: 760px; height: 800px; opacity: 0; text-align: center; }
-      .chart-title { font-size: 58px; white-space: nowrap; line-height: 1.02; font-weight: 700; letter-spacing: -0.04em; }
-      .chart-title .n { color: var(--blue); }
-      .chart-sub { margin-top: 12px; font-size: 25px; font-weight: 400; color: var(--soft); letter-spacing: -0.01em; }
-      .scene svg.chart { position: absolute; left: 0; top: 150px; width: 760px; height: 545px; overflow: visible; }
-      .source { position: absolute; left: 0; right: 0; top: 735px; font-size: 18px; color: var(--soft); letter-spacing: -0.005em; }
+      /* Bloc centré (x 160–920, y 440–1250), dans la safe zone Reels / TikTok (x 80–930, y 250–1500) */
+      .scene { position: absolute; left: 160px; top: 440px; width: 760px; height: 840px; opacity: 0; text-align: center; }
+      .kicker { font-size: 20px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cyan); }
+      .chart-title { margin-top: 14px; font-size: 54px; white-space: nowrap; line-height: 1.04; font-weight: 600; letter-spacing: -0.035em; }
+      .chart-sub { margin-top: 12px; font-size: 24px; font-weight: 400; color: var(--soft); letter-spacing: -0.005em; }
+      .scene svg.chart { position: absolute; left: 0; top: 175px; width: 760px; height: 545px; overflow: visible; }
+      .source { position: absolute; left: 0; right: 0; top: 752px; font-size: 17px; color: var(--soft); opacity: 0.85; }
+
+      svg text { font-family: "Inter UI", sans-serif; font-feature-settings: "tnum" 1; }
+      svg .grid { stroke: var(--hair); stroke-width: 1.5; fill: none; }
+      svg .gridd { stroke: var(--hair); stroke-width: 1.5; fill: none; stroke-dasharray: 3 7; }
+      svg .axis { stroke: rgba(255, 255, 255, 0.45); stroke-width: 2; fill: none; }
+      svg .tick { font-size: 22px; fill: var(--soft); }
+      svg .val { font-weight: 600; fill: var(--ink); letter-spacing: -0.02em; }
+      svg .lbl { fill: var(--soft); }
+      svg .cap { font-weight: 500; fill: var(--soft); letter-spacing: 0.16em; }
+      svg .rval { font-weight: 600; fill: var(--red); letter-spacing: -0.02em; }
+      svg .cval { font-weight: 600; fill: var(--cyan); letter-spacing: -0.02em; }
+      svg .line { stroke: var(--ink); stroke-width: 3.5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+      svg .rline { stroke: var(--red); stroke-width: 4.5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+      svg .rthin { stroke: var(--red); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      svg .icon { stroke: var(--cyan); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      svg .icon-r { stroke: var(--red); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      svg .panel { fill: var(--panel); stroke: rgba(255, 255, 255, 0.14); stroke-width: 1.5; }
+      svg .halo { paint-order: stroke; stroke: #00194b; stroke-width: 12px; stroke-linejoin: round; }
 
       /* liste des 3 raisons */
-      .reasons { position: absolute; left: 30px; right: 0; top: 190px; display: flex; flex-direction: column; gap: 40px; text-align: left; }
-      .reason { display: flex; align-items: center; gap: 24px; font-size: 44px; white-space: nowrap; font-weight: 700; letter-spacing: -0.035em; opacity: 0; }
-      .reason .num { flex: 0 0 92px; height: 92px; border-radius: 50%; border: 5px solid var(--red); color: var(--red); display: flex; align-items: center; justify-content: center; font-size: 48px; }
-      .reason svg { flex: 0 0 80px; width: 80px; height: 80px; overflow: visible; }
-
-      svg text { font-family: "Helvetica Neue", sans-serif; }
-      svg .axis { stroke: var(--ink); stroke-width: 2.5; fill: none; }
-      svg .grid { stroke: var(--rule); stroke-width: 1.5; fill: none; }
-      svg .tick { font-size: 26px; fill: var(--soft); letter-spacing: -0.01em; }
-      svg .val { font-weight: 700; fill: var(--ink); letter-spacing: -0.03em; }
-      svg .lbl { fill: var(--soft); letter-spacing: -0.01em; }
-      svg .line { stroke: var(--ink); stroke-width: 5; fill: none; stroke-linejoin: round; stroke-linecap: round; }
-      svg .red { stroke: var(--red); stroke-width: 7; fill: none; stroke-linejoin: round; stroke-linecap: round; }
-      svg .red-thin { stroke: var(--red); stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-      svg .rlab { font-weight: 700; fill: var(--red); letter-spacing: -0.03em; }
-      /* liseré bleu nuit autour des textes posés sur l'aire, pour la lisibilité */
-      svg .halo { paint-order: stroke; stroke: #00194b; stroke-width: 12px; stroke-linejoin: round; }
-      svg .tagtxt { font-weight: 700; fill: #fff; letter-spacing: -0.02em; }
-      /* illustrations : trait clair arrondi, aplats bleu nuit */
-      svg .ill { stroke: var(--ink); stroke-width: 7; fill: none; stroke-linejoin: round; stroke-linecap: round; }
-      svg .ill-f { stroke: var(--ink); stroke-width: 7; fill: var(--fill); stroke-linejoin: round; stroke-linecap: round; }
-      svg .ill-b { stroke: var(--blue); stroke-width: 7; fill: none; stroke-linejoin: round; stroke-linecap: round; }
-      svg .ill-bf { stroke: var(--blue); stroke-width: 7; fill: var(--fill); stroke-linejoin: round; stroke-linecap: round; }
+      .reasons { position: absolute; left: 40px; right: 40px; top: 205px; display: flex; flex-direction: column; gap: 22px; text-align: left; }
+      .reason { position: relative; display: flex; align-items: center; gap: 26px; height: 120px; padding: 0 30px; border-radius: 20px; background: var(--panel); border: 1.5px solid rgba(255, 255, 255, 0.14); opacity: 0; }
+      .reason .num { font-size: 22px; font-weight: 500; letter-spacing: 0.12em; color: var(--soft); width: 40px; }
+      .reason svg { flex: 0 0 64px; width: 64px; height: 64px; overflow: visible; }
+      .reason .txt { font-size: 40px; font-weight: 600; letter-spacing: -0.03em; white-space: nowrap; }
+      .reason .bar { position: absolute; left: -1.5px; top: 22px; bottom: 22px; width: 5px; border-radius: 3px; background: var(--red); opacity: 0; }
 
       #captions { position: absolute; left: 160px; right: 160px; top: 1330px; height: 130px; }
-      .cap { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-family: "Inter Captions", "Inter", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.02em; color: var(--ink); opacity: 0; }
-      .cap span { display: inline-block; }
-      .cap .k { color: var(--blue); }
+      .cap-line { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-family: "Inter UI", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.02em; color: var(--ink); opacity: 0; }
+      .cap-line span { display: inline-block; }
+      .cap-line .k { color: var(--cyan); }
 
-      #sign { position: absolute; left: 160px; right: 160px; top: 1330px; text-align: center; opacity: 0; font-weight: 700; font-size: 60px; letter-spacing: -0.045em; color: var(--blue); }
+      #sign { position: absolute; left: 160px; right: 160px; top: 1330px; text-align: center; opacity: 0; font-weight: 600; font-size: 58px; letter-spacing: -0.04em; color: var(--ink); }
+      #sign b { color: var(--cyan); font-weight: 600; }
     </style>
   </head>
   <body>
@@ -82,41 +87,36 @@
         <div id="bg-glow"></div>
         <div id="bg-grid"></div>
         <div id="bg-vig"></div>
+        <div class="corner" style="left:130px;top:410px;border-left-width:2px;border-top-width:2px"></div>
+        <div class="corner" style="right:130px;top:410px;border-right-width:2px;border-top-width:2px"></div>
+        <div class="corner" style="left:130px;top:1240px;border-left-width:2px;border-bottom-width:2px"></div>
+        <div class="corner" style="right:130px;top:1240px;border-right-width:2px;border-bottom-width:2px"></div>
         <svg id="defs" aria-hidden="true">
           <defs>
-            <linearGradient id="gGold" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#fff1c4" /><stop offset="0.45" stop-color="#e9c46a" /><stop offset="1" stop-color="#b8862f" /></linearGradient>
-            <linearGradient id="gGoldDeep" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6a84a" /><stop offset="1" stop-color="#8f6420" /></linearGradient>
-            <linearGradient id="gIvory" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#ffffff" /><stop offset="1" stop-color="#ddd6c6" /></linearGradient>
-            <linearGradient id="gIvoryFlap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1ece0" /><stop offset="1" stop-color="#d3cab5" /></linearGradient>
-            <linearGradient id="gTan" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9b07a" /><stop offset="1" stop-color="#8e6236" /></linearGradient>
-            <linearGradient id="gSole" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef1f6" /><stop offset="1" stop-color="#b9c1d1" /></linearGradient>
-            <linearGradient id="gBlueSoft" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fdcff" /><stop offset="1" stop-color="#3f86d8" /></linearGradient>
-            <linearGradient id="gRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff6f61" /><stop offset="1" stop-color="#e2261b" /></linearGradient>
-            <linearGradient id="gRedBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff5a4d" /><stop offset="1" stop-color="#d61f15" /></linearGradient>
-            <linearGradient id="gRedBarH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d61f15" /><stop offset="1" stop-color="#ff5a4d" /></linearGradient>
-            <linearGradient id="gBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" /><stop offset="1" stop-color="#c9d2e3" /></linearGradient>
-            <linearGradient id="gBarH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c9d2e3" /><stop offset="1" stop-color="#ffffff" /></linearGradient>
-            <linearGradient id="gGlass" x1="0" y1="0" x2="0.4" y2="1"><stop offset="0" stop-color="#bfe6ff" /><stop offset="1" stop-color="#4c8fd6" /></linearGradient>
-            <linearGradient id="gFacade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c4aa3" /><stop offset="1" stop-color="#0e2f75" /></linearGradient>
-            <linearGradient id="gPerson" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" /><stop offset="1" stop-color="#b9c8e6" /></linearGradient>
-            <radialGradient id="gGem" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#d7f2ff" /><stop offset="0.5" stop-color="#5fb8f0" /><stop offset="1" stop-color="#1d5fb8" /></radialGradient>
-            <filter id="fShadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#000818" flood-opacity="0.55" /></filter>
-            <filter id="fSoft" x="-50%" y="-200%" width="200%" height="500%"><feGaussianBlur stdDeviation="8" /></filter>
-            <filter id="fGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+            <linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7dd0f5" stop-opacity="0.34" /><stop offset="1" stop-color="#7dd0f5" stop-opacity="0" /></linearGradient>
+            <linearGradient id="gBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef4fd" /><stop offset="1" stop-color="#b9c8e2" /></linearGradient>
+            <linearGradient id="gBarH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b9c8e2" /><stop offset="1" stop-color="#eef4fd" /></linearGradient>
+            <linearGradient id="gRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff6a5c" /><stop offset="1" stop-color="#d9281c" /></linearGradient>
+            <linearGradient id="gRedH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d9281c" /><stop offset="1" stop-color="#ff6a5c" /></linearGradient>
+            <linearGradient id="gGauge" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3f86d8" /><stop offset="1" stop-color="#7dd0f5" /></linearGradient>
+            <filter id="fGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+            <filter id="fShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000818" flood-opacity="0.5" /></filter>
           </defs>
         </svg>
 
         <!-- 1 : hook, cours de l'action en aire -->
         <div class="scene" id="sc-hook">
-          <h2 class="chart-title">Action LVMH</h2>
-          <div class="chart-sub">Cours en euros, 2023 → 2026</div>
+          <div class="kicker">LVMH · Euronext Paris</div>
+          <h2 class="chart-title">L'action LVMH</h2>
+          <div class="chart-sub">Cours de l'action, en euros</div>
           <svg class="chart" id="ch-hook" viewBox="0 0 920 660"></svg>
           <div class="source">Points : clôtures de fin d'année (LVMH), record en séance du 24/04/2023, clôture du 06/10/2026.</div>
         </div>
 
-        <!-- 2 : sommet de 2023 (illustration) -->
+        <!-- 2 : sommet de 2023, carte KPI -->
         <div class="scene" id="sc-peak">
-          <h2 class="chart-title">En 2023</h2>
+          <div class="kicker">Avril 2023</div>
+          <h2 class="chart-title">Au sommet</h2>
           <div class="chart-sub">Le luxe semblait intouchable</div>
           <svg class="chart" id="ch-peak" viewBox="0 0 920 660"></svg>
           <div class="source">Sources : Reuters, Bloomberg.</div>
@@ -124,48 +124,53 @@
 
         <!-- 3 : les trois raisons -->
         <div class="scene" id="sc-slump">
+          <div class="kicker">Diagnostic</div>
           <h2 class="chart-title">La machine s'est enrayée</h2>
-          <div class="chart-sub">Trois raisons</div>
           <div class="reasons">
-            <div class="reason" id="r1"><span class="num">1</span><svg id="ic1" viewBox="0 0 100 100"></svg>La Chine</div>
-            <div class="reason" id="r2"><span class="num">2</span><svg id="ic2" viewBox="0 0 100 100"></svg>Le luxe aspirationnel</div>
-            <div class="reason" id="r3"><span class="num">3</span><svg id="ic3" viewBox="0 0 100 100"></svg>Le Moyen-Orient</div>
+            <div class="reason" id="r1"><span class="bar"></span><span class="num">01</span><svg id="ic1" viewBox="0 0 100 100"></svg><span class="txt">La Chine</span></div>
+            <div class="reason" id="r2"><span class="bar"></span><span class="num">02</span><svg id="ic2" viewBox="0 0 100 100"></svg><span class="txt">Le luxe aspirationnel</span></div>
+            <div class="reason" id="r3"><span class="bar"></span><span class="num">03</span><svg id="ic3" viewBox="0 0 100 100"></svg><span class="txt">Le Moyen-Orient</span></div>
           </div>
         </div>
 
         <!-- 4 : Chine -->
         <div class="scene" id="sc-china">
-          <h2 class="chart-title"><span class="n">1.</span> La Chine</h2>
+          <div class="kicker">Raison 1/3</div>
+          <h2 class="chart-title">La Chine</h2>
           <div class="chart-sub">Part des Chinois dans les achats de luxe mondiaux</div>
           <svg class="chart" id="ch-china" viewBox="0 0 920 660"></svg>
           <div class="source">Source : Berenberg (2026).</div>
         </div>
 
-        <!-- 5 : luxe aspirationnel (illustration + données) -->
+        <!-- 5 : luxe aspirationnel -->
         <div class="scene" id="sc-aspi">
-          <h2 class="chart-title"><span class="n">2.</span> Le luxe aspirationnel</h2>
+          <div class="kicker">Raison 2/3</div>
+          <h2 class="chart-title">Le luxe aspirationnel</h2>
           <div class="chart-sub">Hausse des prix de produits phares, 2020 → 2023</div>
           <svg class="chart" id="ch-aspi" viewBox="0 0 920 660"></svg>
           <div class="source">Source : Bernstein, sélection de produits par marque.</div>
         </div>
 
-        <!-- 6 : Moyen-Orient (illustration) -->
+        <!-- 6 : Moyen-Orient -->
         <div class="scene" id="sc-mideast">
-          <h2 class="chart-title"><span class="n">3.</span> Le Moyen-Orient</h2>
+          <div class="kicker">Raison 3/3</div>
+          <h2 class="chart-title">Le Moyen-Orient</h2>
           <div class="chart-sub">Impact du conflit en mars 2026</div>
           <svg class="chart" id="ch-mideast" viewBox="0 0 920 660"></svg>
           <div class="source">Source : LVMH, chiffre d'affaires du 1er trimestre 2026.</div>
         </div>
 
-        <!-- 7 : rentabilité (illustration seule) -->
+        <!-- 7 : rentabilité (jauge, sans chiffre) -->
         <div class="scene" id="sc-profit">
+          <div class="kicker">Malgré tout</div>
           <h2 class="chart-title">Toujours très rentable</h2>
           <svg class="chart" id="ch-profit" viewBox="0 0 920 660"></svg>
         </div>
 
         <!-- 8 : croissance -->
         <div class="scene" id="sc-growth">
-          <h2 class="chart-title">Le problème : la croissance</h2>
+          <div class="kicker">Le vrai problème</div>
+          <h2 class="chart-title">La croissance</h2>
           <div class="chart-sub">Croissance organique des ventes de LVMH</div>
           <svg class="chart" id="ch-growth" viewBox="0 0 920 660"></svg>
           <div class="source">Source : LVMH, résultats annuels et semestriels.</div>
@@ -173,6 +178,7 @@
 
         <!-- 9 : l'action continue de baisser -->
         <div class="scene" id="sc-doubt">
+          <div class="kicker">Les investisseurs doutent</div>
           <h2 class="chart-title">La baisse continue</h2>
           <div class="chart-sub">Cours de l'action, en euros</div>
           <svg class="chart" id="ch-doubt" viewBox="0 0 920 660"></svg>
@@ -180,7 +186,7 @@
         </div>
 
         <div id="captions"></div>
-        <div id="sign">FinanceData</div>
+        <div id="sign">Finance<b>Data</b></div>
       </div>
     </div>
 
@@ -189,7 +195,7 @@
         var NS = "http://www.w3.org/2000/svg";
         var CSSV = getComputedStyle(document.documentElement);
         function cv(n) { return CSSV.getPropertyValue(n).trim(); }
-        var RED = cv("--red"), BAR = cv("--bar"), BLUE = cv("--blue"), INK = cv("--ink");
+        var RED = cv("--red"), INK = cv("--ink"), CYAN = cv("--cyan");
         var R = window.REEL;
         var tl = gsap.timeline({ paused: true });
 
@@ -205,27 +211,22 @@
           var len = node.getTotalLength();
           node.style.strokeDasharray = len + " " + len;
           tl.fromTo(node, { opacity: 0 }, { opacity: 1, duration: 0.01 }, at);
-          tl.fromTo(node, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.out" }, at);
+          tl.fromTo(node, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.inOut" }, at);
         }
         function fadeIn(node, at, dur, y) {
-          tl.fromTo(node, { opacity: 0, y: y == null ? 12 : y }, { opacity: 1, y: 0, duration: dur || 0.4, ease: "power2.out" }, at);
-        }
-        function popIn(node, at, dur) {
-          tl.fromTo(node, { opacity: 0, scale: 0.85, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: dur || 0.45, ease: "power2.out" }, at);
+          tl.fromTo(node, { opacity: 0, y: y == null ? 14 : y }, { opacity: 1, y: 0, duration: dur || 0.45, ease: "power2.out" }, at);
         }
         function growY(node, at, dur, origin) {
-          tl.fromTo(node, { scaleY: 0, transformOrigin: origin || "50% 100%" }, { scaleY: 1, duration: dur || 0.6, ease: "power3.out" }, at);
+          tl.fromTo(node, { scaleY: 0, transformOrigin: origin || "50% 100%" }, { scaleY: 1, duration: dur || 0.7, ease: "power3.out" }, at);
         }
         function growX(node, at, dur) {
-          tl.fromTo(node, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: dur || 0.6, ease: "power3.out" }, at);
+          tl.fromTo(node, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: dur || 0.7, ease: "power3.out" }, at);
         }
-        // trace successivement tous les traits d'une illustration (les aplats suivent leur contour)
-        function drawGroup(g, at, total) {
-          var parts = g.querySelectorAll("path, rect, circle, ellipse, line, polyline");
-          var step = (total || 0.9) / Math.max(1, parts.length);
-          Array.prototype.forEach.call(parts, function (p, i) {
-            if (p.getTotalLength) drawIn(p, at + i * step * 0.6, Math.max(0.25, step * 1.6));
-          });
+        function counter(node, at, to, dec, suffix, dur) {
+          var o = { v: 0 };
+          tl.fromTo(o, { v: 0 }, { v: to, duration: dur || 1, ease: "power2.out", onUpdate: function () {
+            node.textContent = o.v.toFixed(dec).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " ") + suffix;
+          } }, at);
         }
         function sceneTimes(id) { return R.scenes.filter(function (s) { return s.id === id; })[0]; }
         function wordAt(id, key, nth) {
@@ -236,228 +237,152 @@
         }
         // entrée : fondu + légère montée ; sortie : fondu (sans chevauchement entre scènes)
         function showScene(node, start, end) {
-          tl.fromTo(node, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, Math.max(0, start));
+          tl.fromTo(node, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, Math.max(0, start));
           if (end) tl.to(node, { opacity: 0, duration: 0.3, ease: "power1.in" }, end - 0.3);
         }
-        // ---- annotations rouges ----
-        function redCircle(parent, cx, cy, rx, ry, at, dur) {
-          var pts = [], n = 64;
-          for (var i = 0; i <= n; i++) {
-            var a = -2.4 + (i / n) * Math.PI * 2 * 1.13, k = 1 + 0.05 * Math.sin((i / n) * Math.PI * 3);
-            pts.push((cx + Math.cos(a) * rx * k).toFixed(1) + " " + (cy + Math.sin(a) * ry * k + i * 0.18).toFixed(1));
-          }
-          var p = el(parent, "path", { d: "M" + pts.join(" L"), class: "red" });
-          drawIn(p, at, dur || 0.45);
-          return p;
+
+        // ---------- annotations : anneaux précis, flèches droites, puces sobres ----------
+        function ring(parent, cx, cy, r, at, color) {
+          var c = el(parent, "circle", { cx: cx, cy: cy, r: r, fill: "none", stroke: color || RED, "stroke-width": 3 });
+          drawIn(c, at, 0.45);
+          var p = el(parent, "circle", { cx: cx, cy: cy, r: r, fill: "none", stroke: color || RED, "stroke-width": 2, opacity: 0 });
+          tl.fromTo(p, { opacity: 0.8, scale: 1, transformOrigin: "50% 50%" }, { opacity: 0, scale: 1.8, duration: 0.9, ease: "power1.out", immediateRender: false }, at + 0.35);
+          return c;
         }
-        function redArrow(parent, x1, y1, x2, y2, bend, at, dur) {
+        function arrow(parent, x1, y1, x2, y2, at, dur, cls) {
           dur = dur || 0.45;
-          var dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy);
-          var cx = (x1 + x2) / 2 - (dy / L) * bend, cy = (y1 + y2) / 2 + (dx / L) * bend;
-          var p = el(parent, "path", { d: "M" + x1 + " " + y1 + " Q" + cx + " " + cy + " " + x2 + " " + y2, class: "red-thin" });
-          var ang = Math.atan2(y2 - cy, x2 - cx), h = 30;
-          var head = el(parent, "path", { d: "M" + (x2 - h * Math.cos(ang - 0.5)) + " " + (y2 - h * Math.sin(ang - 0.5)) + " L" + x2 + " " + y2 +
-            " L" + (x2 - h * Math.cos(ang + 0.5)) + " " + (y2 - h * Math.sin(ang + 0.5)), class: "red-thin" });
+          var p = el(parent, "path", { d: "M" + x1 + " " + y1 + " L" + x2 + " " + y2, class: cls || "rthin" });
+          var a = Math.atan2(y2 - y1, x2 - x1), h = 18;
+          var head = el(parent, "path", { d: "M" + (x2 - h * Math.cos(a - 0.45)) + " " + (y2 - h * Math.sin(a - 0.45)) + " L" + x2 + " " + y2 +
+            " L" + (x2 - h * Math.cos(a + 0.45)) + " " + (y2 - h * Math.sin(a + 0.45)), class: cls || "rthin" });
           drawIn(p, at, dur);
-          drawIn(head, at + dur - 0.04, 0.12, "none");
-          return [p, head];
+          drawIn(head, at + dur - 0.05, 0.15, "none");
         }
-        var TAGS = [];
-        function fitTag(t) {
-          var b = t.txt.getBBox(), p = t.size * 0.28;
-          t.rect.setAttribute("x", b.x - p); t.rect.setAttribute("y", b.y - p * 0.35);
-          t.rect.setAttribute("width", b.width + 2 * p); t.rect.setAttribute("height", b.height + p * 0.7);
+        var CHIPS = [];
+        function fitChip(t) {
+          var b = t.txt.getBBox(), px = t.size * 0.7, py = t.size * 0.45;
+          t.rect.setAttribute("x", b.x - px); t.rect.setAttribute("y", b.y - py);
+          t.rect.setAttribute("width", b.width + 2 * px); t.rect.setAttribute("height", b.height + 2 * py);
         }
-        function redTag(parent, x, y, text, size, anchor, at, rot) {
-          var g = el(parent, "g", {});
-          var rect = el(g, "rect", { fill: RED, rx: 4 });
-          var txt = el(g, "text", { x: x, y: y, class: "tagtxt", "font-size": size, "text-anchor": anchor || "middle" }, text);
+        // puce : contour fin + fond translucide ; kind = "red" | "neutral"
+        function chip(parent, x, y, text, size, at, kind, anchor) {
+          var red = kind !== "neutral";
+          var gg = el(parent, "g", {});
+          var rect = el(gg, "rect", { rx: 10, fill: red ? "rgba(255,77,61,0.14)" : "rgba(8,30,80,0.9)", stroke: red ? RED : "rgba(255,255,255,0.28)", "stroke-width": 2 });
+          var txt = el(gg, "text", { x: x, y: y, "font-size": size, "font-weight": 600, fill: red ? RED : INK, "letter-spacing": "0.08em", "text-anchor": anchor || "middle" }, text);
           var t = { rect: rect, txt: txt, size: size };
-          fitTag(t); TAGS.push(t);
-          tl.fromTo(g, { opacity: 0, scale: 1.12, rotation: rot == null ? -3 : rot, transformOrigin: "50% 50%" },
-            { opacity: 1, scale: 1, duration: 0.35, ease: "power2.out" }, at);
-          return g;
+          fitChip(t); CHIPS.push(t);
+          if (at != null) fadeIn(gg, at, 0.35, 8);
+          return gg;
         }
-        if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { TAGS.forEach(fitTag); });
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { CHIPS.forEach(fitChip); });
 
-        // =============== ILLUSTRATIONS (style minimaliste : dégradés doux, ombres portées, reflets) ===============
-        // les dégradés et filtres (#gGold, #gIvory, #gRed, #gGlass, #gNavy, #fShadow, #fSoft…) sont définis dans <svg id="defs">
-        function g(parent, tx, ty, s) { return el(parent, "g", { transform: "translate(" + tx + " " + ty + ") scale(" + (s || 1) + ")" }); }
-        function groundShadow(c, cx, cy, rx, ry) { el(c, "ellipse", { cx: cx, cy: cy, rx: rx, ry: ry, fill: "#000a24", opacity: 0.45, filter: "url(#fSoft)" }); }
-        function shine(c, d, o) { el(c, "path", { d: d, fill: "#fff", opacity: o == null ? 0.22 : o }); }
-        // apparition douce : fondu + légère montée + mise à l'échelle
-        function appear(node, at, dur) {
-          tl.fromTo(node, { opacity: 0, y: 34, scale: 0.94, transformOrigin: "50% 100%" }, { opacity: 1, y: 0, scale: 1, duration: dur || 0.75, ease: "power3.out" }, at);
+        // ---------- pictos au trait (viewBox 100×100) ----------
+        var ICONS = {
+          yuan: ["M50 10 a40 40 0 1 1 -0.1 0 Z", "M34 28 L50 50 L66 28 M50 50 L50 76 M37 54 L63 54 M37 65 L63 65"],
+          bag: ["M36 38 Q36 16 50 16 Q64 16 64 38", "M22 38 L78 38 L74 82 Q73 87 68 87 L32 87 Q27 87 26 82 Z", "M24 54 Q50 64 76 54", "M46 56 L54 56 L54 64 L46 64 Z"],
+          shoe: ["M8 72 L8 44 Q8 34 18 36 L36 40 Q44 54 62 57 L82 61 Q94 64 94 72 Z", "M8 80 L94 80", "M30 46 L38 54 M38 42 L46 51"],
+          tag: ["M10 50 L32 26 L88 26 L88 74 L32 74 Z", "M36 50 a5 5 0 1 0 -0.1 0 Z"],
+          store: ["M14 40 L20 18 L80 18 L86 40 Z", "M14 40 Q23 50 32 40 Q41 50 50 40 Q59 50 68 40 Q77 50 86 40", "M20 44 L20 86 L80 86 L80 44", "M42 86 L42 62 L58 62 L58 86"]
+        };
+        function icon(parent, name, tx, ty, s, cls) {
+          var gg = el(parent, "g", { transform: "translate(" + tx + " " + ty + ") scale(" + (s || 1) + ")" });
+          ICONS[name].forEach(function (d) { el(gg, "path", { d: d, class: cls || "icon", "vector-effect": "non-scaling-stroke" }); });
+          return gg;
         }
-        function crown(parent, tx, ty, s) {
-          var o = g(parent, tx, ty, s), c = el(o, "g", {});
-          groundShadow(c, 150, 292, 140, 16);
-          var body = el(c, "g", { filter: "url(#fShadow)" });
-          el(body, "path", { d: "M26 214 L4 70 Q2 54 16 62 L86 118 Q92 122 96 115 L140 26 Q150 8 160 26 L204 115 Q208 122 214 118 L284 62 Q298 54 296 70 L274 214 Z", fill: "url(#gGold)" });
-          el(body, "rect", { x: 20, y: 206, width: 260, height: 52, rx: 14, fill: "url(#gGoldDeep)" });
-          shine(body, "M30 206 L12 76 L84 132 Q60 170 30 206 Z", 0.18);
-          shine(body, "M28 214 Q150 196 272 214 L270 222 Q150 206 30 222 Z", 0.35);
-          [[6, 58], [150, 14], [294, 58]].forEach(function (p) {
-            el(body, "circle", { cx: p[0], cy: p[1], r: 17, fill: "url(#gGem)" });
-            el(body, "circle", { cx: p[0] - 5, cy: p[1] - 6, r: 5, fill: "#fff", opacity: 0.8 });
-          });
-          el(body, "path", { d: "M150 214 L172 232 L150 250 L128 232 Z", fill: "url(#gGem)" });
-          el(body, "path", { d: "M150 218 L162 232 L150 238 Z", fill: "#fff", opacity: 0.5 });
-          return o;
+        function drawIcon(gg, at, dur) {
+          Array.prototype.forEach.call(gg.querySelectorAll("path"), function (p, i) { drawIn(p, at + i * 0.08, dur || 0.6); });
         }
-        function handbag(parent, tx, ty, s) {
-          var o = g(parent, tx, ty, s), c = el(o, "g", {});
-          groundShadow(c, 140, 308, 120, 12);
-          el(c, "path", { d: "M84 104 Q84 18 140 18 Q196 18 196 104", fill: "none", stroke: "url(#gTan)", "stroke-width": 16, "stroke-linecap": "round" });
-          var body = el(c, "g", { filter: "url(#fShadow)" });
-          el(body, "path", { d: "M34 100 L246 100 Q262 100 263 116 L250 282 Q248 300 230 300 L50 300 Q32 300 30 282 L17 116 Q18 100 34 100 Z", fill: "url(#gIvory)" });
-          el(body, "path", { d: "M17 116 Q18 100 34 100 L246 100 Q262 100 263 116 L259 168 Q140 212 21 168 Z", fill: "url(#gIvoryFlap)" });
-          el(body, "path", { d: "M30 160 Q140 198 250 160", fill: "none", stroke: "#c9bfa9", "stroke-width": 3, "stroke-dasharray": "8 8" });
-          el(body, "rect", { x: 120, y: 172, width: 40, height: 32, rx: 9, fill: "url(#gGold)" });
-          shine(body, "M40 108 L120 108 L100 290 L52 290 Q40 290 38 278 Z", 0.25);
-          return o;
-        }
-        function sneaker(parent, tx, ty, s) {
-          var o = g(parent, tx, ty, s), c = el(o, "g", {});
-          groundShadow(c, 160, 182, 150, 10);
-          var body = el(c, "g", { filter: "url(#fShadow)" });
-          el(body, "path", { d: "M10 140 L310 140 Q318 172 292 176 L28 176 Q4 172 10 140 Z", fill: "url(#gSole)" });
-          el(body, "path", { d: "M12 142 L12 74 Q12 44 42 48 L98 60 Q124 98 172 108 L258 122 Q306 132 312 142 Z", fill: "url(#gIvory)" });
-          el(body, "path", { d: "M12 74 Q12 44 42 48 L60 52 L48 142 L12 142 Z", fill: "url(#gBlueSoft)" });
-          el(body, "path", { d: "M70 70 L96 92 M92 64 L118 88 M116 84 L140 104", stroke: "#a7b0c2", "stroke-width": 5, "stroke-linecap": "round", fill: "none" });
-          shine(body, "M60 60 L98 66 Q124 100 172 112 L250 126 L246 132 Q170 120 120 104 Q90 92 60 66 Z", 0.35);
-          return o;
-        }
-        function priceTag(parent, tx, ty, s, text) {
-          var o = g(parent, tx, ty, s), c = el(o, "g", { filter: "url(#fShadow)" });
-          el(c, "path", { d: "M4 44 L44 6 Q50 0 58 0 L182 0 Q196 0 196 14 L196 74 Q196 88 182 88 L58 88 Q50 88 44 82 Z", fill: "url(#gRed)" });
-          el(c, "circle", { cx: 40, cy: 44, r: 9, fill: "#0b2a66" });
-          shine(c, "M48 6 L182 6 Q190 6 190 14 L190 30 L48 30 Z", 0.18);
-          el(c, "text", { x: 122, y: 59, class: "tagtxt", "font-size": 42, "text-anchor": "middle" }, text);
-          return o;
-        }
-        function boutique(parent, tx, ty, s) {
-          var o = g(parent, tx, ty, s), c = el(o, "g", {});
-          groundShadow(c, 200, 346, 200, 16);
-          var b = el(c, "g", { filter: "url(#fShadow)" });
-          el(b, "rect", { x: 22, y: 72, width: 356, height: 266, rx: 12, fill: "url(#gFacade)" });
-          el(b, "rect", { x: 6, y: 48, width: 388, height: 34, rx: 10, fill: "url(#gIvory)" });
-          el(b, "rect", { x: 140, y: 96, width: 120, height: 24, rx: 6, fill: "url(#gGold)" });
-          [[52, 150, 92, 130], [256, 150, 92, 130]].forEach(function (w) {
-            el(b, "path", { d: "M" + w[0] + " " + (w[1] + w[2] / 2) + " a" + (w[2] / 2) + " " + (w[2] / 2) + " 0 0 1 " + w[2] + " 0 L" + (w[0] + w[2]) + " " + (w[1] + w[3]) + " L" + w[0] + " " + (w[1] + w[3]) + " Z", fill: "url(#gGlass)" });
-            shine(b, "M" + (w[0] + 10) + " " + (w[1] + 52) + " l24 -20 l0 70 l-24 20 Z", 0.25);
-          });
-          el(b, "path", { d: "M160 338 L160 196 a40 40 0 0 1 80 0 L240 338 Z", fill: "#081f55" });
-          el(b, "circle", { cx: 228, cy: 270, r: 5, fill: "url(#gGold)" });
-          return o;
-        }
-        function person(parent, tx, ty, s) {
-          var o = g(parent, tx, ty, s);
-          el(o, "circle", { cx: 30, cy: 20, r: 18, fill: "url(#gPerson)" });
-          el(o, "rect", { x: 0, y: 46, width: 60, height: 70, rx: 30, fill: "url(#gPerson)" });
-          return o;
-        }
-        function coin(parent, x, y) {
-          el(parent, "path", { d: "M" + x + " " + y + " l0 20 a62 20 0 0 0 124 0 l0 -20 Z", fill: "url(#gGoldDeep)" });
-          el(parent, "ellipse", { cx: x + 62, cy: y, rx: 62, ry: 20, fill: "url(#gGold)" });
-          el(parent, "ellipse", { cx: x + 62, cy: y, rx: 46, ry: 13, fill: "none", stroke: "#fff3c8", "stroke-width": 2, opacity: 0.55 });
-        }
-        function coins(parent, tx, ty, s) {
-          var o = g(parent, tx, ty, s), stacks = [];
-          groundShadow(o, 200, 338, 220, 18);
-          [[0, 3], [138, 5], [276, 7]].forEach(function (st) {
-            var gs = el(o, "g", { filter: "url(#fShadow)" });
-            for (var i = 0; i < st[1]; i++) coin(gs, st[0], 310 - i * 32);
-            stacks.push(gs);
-          });
-          var top = el(o, "text", { x: 338, y: 310 - 6 * 32 + 9, "font-size": 30, "font-weight": 700, fill: "#a87b2a", "text-anchor": "middle" }, "€");
-          stacks.push(top);
-          return { g: o, parts: stacks };
-        }
-        function yuanCoin(parent, tx, ty, s) {
-          var o = g(parent, tx, ty, s);
-          el(o, "circle", { cx: 50, cy: 52, r: 42, fill: "url(#gGoldDeep)" });
-          el(o, "circle", { cx: 50, cy: 48, r: 42, fill: "url(#gGold)" });
-          el(o, "circle", { cx: 50, cy: 48, r: 32, fill: "none", stroke: "#fff3c8", "stroke-width": 2.5, opacity: 0.6 });
-          el(o, "path", { d: "M34 26 L50 48 L66 26 M50 48 L50 74 M37 52 L63 52 M37 63 L63 63", fill: "none", stroke: "#8a611b", "stroke-width": 6, "stroke-linecap": "round", "stroke-linejoin": "round" });
-          return o;
+        function panel(parent, x, y, w, h, at) {
+          var r = el(parent, "rect", { x: x, y: y, width: w, height: h, rx: 22, class: "panel", filter: "url(#fShadow)" });
+          var hl = el(parent, "path", { d: "M" + (x + 22) + " " + (y + 1) + " L" + (x + w - 22) + " " + (y + 1), stroke: "rgba(255,255,255,0.25)", "stroke-width": 1.5 });
+          if (at != null) { fadeIn(r, at, 0.5, 10); fadeIn(hl, at, 0.5, 10); }
+          return r;
         }
 
-        // =============== AIRE DU COURS (hook + fin) ===============
+        // ================= AIRE DU COURS (hook + fin) =================
         // points sourcés : clôtures de fin d'année (rapports LVMH), record en séance, clôture du 06/10/2026
         var PTS = [[2022.997, 679.90], [2023.31, 904.60], [2023.997, 733.60], [2024.997, 635.50], [2025.997, 645], [2026.765, 385.60]];
-        function priceArea(svg, at, drawDur, clipId) {
-          var sx = scale(2022.997, 2026.765, 110, 860), sy = scale(0, 1000, 600, 40);
+        function priceArea(svg, at, drawDur) {
+          var sx = scale(2022.997, 2026.765, 120, 850), sy = scale(0, 1000, 600, 40);
           [250, 500, 750, 1000].forEach(function (v) {
-            el(svg, "line", { x1: 90, x2: 880, y1: sy(v), y2: sy(v), class: "grid" });
-            el(svg, "text", { x: 0, y: sy(v) + 8, class: "tick", "text-anchor": "start" }, v);
+            el(svg, "line", { x1: 100, x2: 880, y1: sy(v), y2: sy(v), class: "gridd" });
+            el(svg, "text", { x: 84, y: sy(v) + 8, class: "tick", "text-anchor": "end" }, v);
           });
-          el(svg, "line", { x1: 90, x2: 880, y1: 600, y2: 600, class: "axis" });
-          [[2023, "2023"], [2024, "2024"], [2025, "2025"], [2026, "2026"]].forEach(function (t) {
-            el(svg, "text", { x: sx(t[0]), y: 644, class: "tick", "text-anchor": "middle" }, t[1]);
-          });
-          var defs = el(svg, "defs", {});
-          var grad = el(defs, "linearGradient", { id: clipId + "-g", x1: 0, y1: 0, x2: 0, y2: 1 });
-          el(grad, "stop", { offset: "0%", "stop-color": BLUE, "stop-opacity": 0.45 });
-          el(grad, "stop", { offset: "100%", "stop-color": BLUE, "stop-opacity": 0.02 });
-          var clip = el(defs, "clipPath", { id: clipId });
-          var cr = el(clip, "rect", { x: 0, y: 0, width: 0, height: 700 });
+          el(svg, "line", { x1: 100, x2: 880, y1: 600, y2: 600, class: "axis" });
+          [2023, 2024, 2025, 2026].forEach(function (y) { el(svg, "text", { x: sx(y), y: 640, class: "tick", "text-anchor": "middle" }, y); });
+          var defs = el(svg, "defs", {}), id = svg.id + "-clip";
+          var cr = el(el(defs, "clipPath", { id: id }), "rect", { x: 0, y: 0, width: 0, height: 700 });
           var line = PTS.map(function (p, i) { return (i ? "L" : "M") + sx(p[0]).toFixed(1) + " " + sy(p[1]).toFixed(1); }).join(" ");
-          var area = el(svg, "path", { d: line + " L" + sx(PTS[5][0]) + " 600 L" + sx(PTS[0][0]) + " 600 Z", fill: "url(#" + clipId + "-g)", "clip-path": "url(#" + clipId + ")" });
-          el(svg, "path", { d: line, class: "line", filter: "url(#fGlow)", "clip-path": "url(#" + clipId + ")" });
+          el(svg, "path", { d: line + " L" + sx(PTS[5][0]) + " 600 L" + sx(PTS[0][0]) + " 600 Z", fill: "url(#gArea)", "clip-path": "url(#" + id + ")" });
+          el(svg, "path", { d: line, class: "line", filter: "url(#fGlow)", "clip-path": "url(#" + id + ")" });
           tl.fromTo(cr, { attr: { width: 0 } }, { attr: { width: 900 }, duration: drawDur, ease: "power1.inOut" }, at);
-          // segment de la chute (record → aujourd'hui) en rouge
-          var fall = PTS.slice(1).map(function (p, i) { return (i ? "L" : "M") + sx(p[0]).toFixed(1) + " " + sy(p[1]).toFixed(1); }).join(" ");
-          var red = el(svg, "path", { d: fall, class: "red", filter: "url(#fGlow)" });
           var hi = { x: sx(PTS[1][0]), y: sy(PTS[1][1]) }, lo = { x: sx(PTS[5][0]), y: sy(PTS[5][1]) };
-          var dHi = el(svg, "circle", { cx: hi.x, cy: hi.y, r: 10, fill: INK });
-          var dLo = el(svg, "circle", { cx: lo.x, cy: lo.y, r: 11, fill: RED });
-          var lHi = el(svg, "text", { x: hi.x, y: hi.y - 26, class: "val", "font-size": 38, "text-anchor": "middle" }, "904,60 €");
-          var lLo = el(svg, "text", { x: lo.x - 22, y: lo.y + 56, class: "rlab halo", "font-size": 38, "text-anchor": "end" }, "385,60 €");
-          return { red: red, dHi: dHi, dLo: dLo, lHi: lHi, lLo: lLo, hi: hi, lo: lo, sx: sx, sy: sy };
+          var fall = el(svg, "path", { d: PTS.slice(1).map(function (p, i) { return (i ? "L" : "M") + sx(p[0]).toFixed(1) + " " + sy(p[1]).toFixed(1); }).join(" "), class: "rline", filter: "url(#fGlow)" });
+          var guide = el(svg, "line", { x1: hi.x, x2: hi.x, y1: hi.y + 14, y2: 600, stroke: "rgba(255,255,255,0.35)", "stroke-width": 1.5, "stroke-dasharray": "4 6" });
+          var dHi = el(svg, "circle", { cx: hi.x, cy: hi.y, r: 8, fill: INK });
+          var pHi = chip(svg, hi.x + 34, hi.y - 26, "RECORD · 904,60 €", 22, null, "neutral", "start");
+          var dLo = el(svg, "circle", { cx: lo.x, cy: lo.y, r: 9, fill: RED });
+          var pLo = chip(svg, lo.x - 34, lo.y + 64, "385,60 €", 26, null, "red", "end");
+          return { fall: fall, guide: guide, dHi: dHi, pHi: pHi, dLo: dLo, pLo: pLo, hi: hi, lo: lo };
         }
 
         // ================= 1. HOOK =================
         (function () {
           var s = sceneTimes("hook"), svg = document.getElementById("ch-hook");
           showScene(document.getElementById("sc-hook"), 0, s.end);
-          var a = priceArea(svg, 0.1, 1.2, "clipH");
+          var a = priceArea(svg, 0.15, 1.3);
           var t57 = wordAt("hook", "57 %");
-          tl.fromTo([a.dHi, a.lHi], { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.45);
-          drawIn(a.red, t57 - 0.5, 0.7, "power1.inOut");
-          tl.fromTo([a.dLo, a.lLo], { opacity: 0 }, { opacity: 1, duration: 0.3 }, t57 + 0.15);
-          var lab = el(svg, "text", { x: 400, y: 410, class: "rlab halo", "font-size": 100, "text-anchor": "middle" }, "−57 %");
-          fadeIn(lab, t57 + 0.1, 0.35);
-          redCircle(svg, a.lo.x, a.lo.y, 46, 40, wordAt("hook", "2020") - 0.2, 0.4);
-          redTag(svg, 690, 525, "PLUS BAS DEPUIS 2020", 34, "middle", wordAt("hook", "2020"));
+          fadeIn(a.guide, 0.6, 0.4, 0); fadeIn(a.dHi, 0.6, 0.3, 0); fadeIn(a.pHi, 0.75, 0.4, 6);
+          drawIn(a.fall, t57 - 0.55, 0.8);
+          fadeIn(a.dLo, t57 + 0.2, 0.3, 0); fadeIn(a.pLo, t57 + 0.3, 0.35, 6);
+          var lab = el(svg, "text", { x: 420, y: 420, class: "rval halo", "font-size": 104, "text-anchor": "middle" }, "−57 %");
+          fadeIn(lab, t57 + 0.1, 0.4);
+          var t20 = wordAt("hook", "2020");
+          ring(svg, a.lo.x, a.lo.y, 26, t20 - 0.15);
+          chip(svg, 640, 540, "PLUS BAS DEPUIS 2020", 24, t20, "red");
         })();
 
-        // ================= 2. SOMMET 2023 : couronne =================
+        // ================= 2. SOMMET 2023 : carte KPI =================
         (function () {
           var s = sceneTimes("peak"), svg = document.getElementById("ch-peak");
           showScene(document.getElementById("sc-peak"), s.start, s.end);
-          var c = crown(svg, 310, 20, 1);
-          appear(c, s.start + 0.15, 0.85);
-          var t1 = el(svg, "text", { x: 460, y: 380, class: "val", "font-size": 92, "text-anchor": "middle", fill: BLUE }, "N°1 en Europe");
-          t1.setAttribute("style", "fill:" + BLUE);
-          fadeIn(t1, wordAt("peak", "grande") - 0.2, 0.45);
-          var t2 = el(svg, "text", { x: 460, y: 460, class: "lbl", "font-size": 34, "text-anchor": "middle" }, "plus de 500 milliards de dollars en Bourse");
-          fadeIn(t2, wordAt("peak", "grande") + 0.1, 0.4);
-          var t3 = el(svg, "text", { x: 460, y: 560, class: "val", "font-size": 56, "text-anchor": "middle" }, "904,60 € l'action");
-          fadeIn(t3, wordAt("peak", "900") - 0.15, 0.4);
+          panel(svg, 70, 20, 780, 600, s.start + 0.1);
+          var head = el(svg, "g", {});
+          el(head, "text", { x: 120, y: 98, class: "val", "font-size": 34 }, "LVMH");
+          chip(head, 238, 97, "MC.PA", 18, null, "neutral", "start");
+          el(head, "text", { x: 800, y: 97, class: "cap", "font-size": 17, "text-anchor": "end" }, "PLUS HAUT HISTORIQUE");
+          fadeIn(head, s.start + 0.25, 0.4);
+          var big = el(svg, "text", { x: 460, y: 268, class: "val", "font-size": 132, "text-anchor": "middle" }, "0,00 €");
+          fadeIn(big, s.start + 0.3, 0.4);
+          counter(big, s.start + 0.3, 904.60, 2, " €", wordAt("peak", "900") - s.start);
+          var sub = el(svg, "text", { x: 460, y: 322, class: "lbl", "font-size": 26, "text-anchor": "middle" }, "Record en séance · 24 avril 2023");
+          fadeIn(sub, s.start + 0.5, 0.4);
+          var div = el(svg, "line", { x1: 120, x2: 800, y1: 380, y2: 380, class: "grid" });
+          growX(div, wordAt("peak", "grande") - 0.4, 0.5);
+          var m = el(svg, "g", {});
+          el(m, "line", { x1: 460, x2: 460, y1: 420, y2: 570, class: "grid" });
+          el(m, "text", { x: 290, y: 446, class: "cap", "font-size": 18, "text-anchor": "middle" }, "CAPITALISATION");
+          el(m, "text", { x: 290, y: 530, class: "val", "font-size": 68, "text-anchor": "middle" }, "> 500 Md$");
+          el(m, "text", { x: 630, y: 446, class: "cap", "font-size": 18, "text-anchor": "middle" }, "RANG EN EUROPE");
+          el(m, "text", { x: 630, y: 530, class: "cval", "font-size": 68, "text-anchor": "middle" }, "N°1");
+          fadeIn(m, wordAt("peak", "grande") - 0.2, 0.5);
         })();
 
-        // ================= 3. LES TROIS RAISONS (pictos) =================
+        // ================= 3. LES TROIS RAISONS =================
         (function () {
           var s = sceneTimes("slump");
           showScene(document.getElementById("sc-slump"), s.start, s.end);
-          yuanCoin(document.getElementById("ic1"), 0, 0, 1);
-          handbag(document.getElementById("ic2"), 8, 0, 0.3);
-          boutique(document.getElementById("ic3"), 0, 6, 0.25);
-          ["r1", "r2", "r3"].forEach(function (id, i) { tl.fromTo("#" + id, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power2.out" }, s.start + 0.35 + i * 0.35); });
+          var ic = [icon(document.getElementById("ic1"), "yuan", 0, 0, 1), icon(document.getElementById("ic2"), "bag", 0, 0, 1), icon(document.getElementById("ic3"), "store", 0, 0, 1)];
+          ["r1", "r2", "r3"].forEach(function (id, i) {
+            var at = s.start + 0.35 + i * 0.3;
+            tl.fromTo("#" + id, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, at);
+            drawIcon(ic[i], at + 0.1, 0.5);
+          });
           var tC = wordAt("slump", "Chine");
-          tl.to(["#r2", "#r3"], { opacity: 0.3, duration: 0.35 }, tC - 0.3);
-          tl.to("#r1 .num", { backgroundColor: RED, color: "#fff", duration: 0.3 }, tC - 0.3);
+          tl.to(["#r2", "#r3"], { opacity: 0.32, duration: 0.35 }, tC - 0.3);
+          tl.to("#r1 .bar", { opacity: 1, duration: 0.3 }, tC - 0.3);
+          tl.to("#r1", { borderColor: "rgba(255,77,61,0.55)", duration: 0.3 }, tC - 0.3);
         })();
 
         // ================= 4. CHINE =================
@@ -465,67 +390,90 @@
           var s = sceneTimes("china"), svg = document.getElementById("ch-china");
           showScene(document.getElementById("sc-china"), s.start, s.end);
           var sy = scale(0, 40, 600, 60);
-          el(svg, "line", { x1: 70, x2: 880, y1: 600, y2: 600, class: "axis" });
-          var d = [[200, 33, "33 %", "2019"], [520, 21, "21 %", "2024"]], bars = [];
+          [10, 20, 30, 40].forEach(function (v) { el(svg, "line", { x1: 100, x2: 860, y1: sy(v), y2: sy(v), class: "gridd" }); el(svg, "text", { x: 84, y: sy(v) + 8, class: "tick", "text-anchor": "end" }, v + " %"); });
+          el(svg, "line", { x1: 100, x2: 860, y1: 600, y2: 600, class: "axis" });
+          var d = [[220, 33, "33 %", "2019"], [540, 21, "21 %", "2024"]], bars = [];
           d.forEach(function (b, i) {
-            var r = el(svg, "rect", { x: b[0], y: sy(b[1]), width: 200, height: 600 - sy(b[1]), rx: 14, fill: i ? "url(#gRedBar)" : "url(#gBar)", filter: "url(#fShadow)" });
-            var v = el(svg, "text", { x: b[0] + 100, y: sy(b[1]) - 22, class: i ? "rlab" : "val", "font-size": 56, "text-anchor": "middle" }, b[2]);
-            var l = el(svg, "text", { x: b[0] + 100, y: 644, class: "tick", "text-anchor": "middle" }, b[3]);
+            var r = el(svg, "rect", { x: b[0], y: sy(b[1]), width: 160, height: 600 - sy(b[1]), rx: 8, fill: i ? "url(#gRed)" : "url(#gBar)", filter: "url(#fShadow)" });
+            var v = el(svg, "text", { x: b[0] + 80, y: sy(b[1]) - 22, class: i ? "rval" : "val", "font-size": 54, "text-anchor": "middle" }, b[2]);
+            var l = el(svg, "text", { x: b[0] + 80, y: 640, class: "tick", "text-anchor": "middle" }, b[3]);
             bars.push([r, v, l]);
           });
           var t1 = s.start + 0.3, t2 = wordAt("china", "ralenti") - 0.2;
-          [t1, t2].forEach(function (t, i) { fadeIn(bars[i][2], t, 0.3, 0); growY(bars[i][0], t, 0.7); fadeIn(bars[i][1], t + 0.45, 0.3); });
-          redArrow(svg, 400, sy(33) - 10, 520, sy(21) - 60, -40, wordAt("china", "coupé") - 0.3, 0.45);
-          redTag(svg, 790, sy(21) - 90, "−12 POINTS", 40, "middle", wordAt("china", "dépenses"));
+          [t1, t2].forEach(function (t, i) { fadeIn(bars[i][2], t, 0.3, 0); growY(bars[i][0], t, 0.75); fadeIn(bars[i][1], t + 0.5, 0.3); });
+          var tc = wordAt("china", "coupé") - 0.3;
+          var gl = el(svg, "line", { x1: 380, x2: 540, y1: sy(33), y2: sy(33), stroke: "rgba(255,255,255,0.4)", "stroke-width": 1.5, "stroke-dasharray": "4 6" });
+          fadeIn(gl, tc, 0.3, 0);
+          arrow(svg, 620, sy(33) + 6, 620, sy(21) - 76, tc + 0.1, 0.4);
+          chip(svg, 760, sy(27) + 8, "−12 PTS", 26, wordAt("china", "dépenses"), "red");
         })();
 
-        // ================= 5. LUXE ASPIRATIONNEL : sac + basket + étiquette, puis Dior / Louis Vuitton =================
+        // ================= 5. LUXE ASPIRATIONNEL =================
         (function () {
           var s = sceneTimes("aspi"), svg = document.getElementById("ch-aspi");
           showScene(document.getElementById("sc-aspi"), s.start, s.end);
-          var bag = handbag(svg, 150, -10, 0.85), shoe = sneaker(svg, 450, 110, 0.95);
-          appear(bag, wordAt("aspi", "sac") - 0.35, 0.7);
-          appear(shoe, wordAt("aspi", "chaussures") - 0.45, 0.7);
-          var tag = priceTag(svg, 330, 210, 1, "€€€");
-          var tP = wordAt("aspi", "prix");
-          tl.fromTo(tag, { opacity: 0, rotation: -25, transformOrigin: "0% 50%" }, { opacity: 1, rotation: -8, duration: 0.45, ease: "back.out(1.6)" }, tP - 0.25);
-          // données : deux marques du groupe
-          var sx = scale(0, 80, 330, 860), rows = [["Dior", 66, 440], ["Louis Vuitton", 31, 540]];
+          var tiles = [["bag", 150, wordAt("aspi", "sac") - 0.35], ["shoe", 370, wordAt("aspi", "chaussures") - 0.45], ["tag", 590, wordAt("aspi", "prix") - 0.3]];
+          tiles.forEach(function (t, i) {
+            panel(svg, t[1], 0, 180, 180, t[2]);
+            var ic = icon(svg, t[0], t[1] + 30, 30, 1.2, i === 2 ? "icon-r" : "icon");
+            drawIcon(ic, t[2] + 0.1, 0.55);
+          });
+          var tagTxt = el(svg, "text", { x: 694, y: 101, "font-size": 20, "font-weight": 600, fill: RED, "text-anchor": "middle", "letter-spacing": "0.04em" }, "€€€");
+          fadeIn(tagTxt, tiles[2][2] + 0.4, 0.3, 0);
+          chip(svg, 460, 268, "LES CLIENTS DÉCROCHENT", 24, wordAt("aspi", "réduit"), "red");
+          var sx = scale(0, 80, 320, 820), rows = [["Dior", 66, 400], ["Louis Vuitton", 31, 510]];
           var t0 = wordAt("aspi", "ont") - 0.1;
           rows.forEach(function (r, i) {
-            var lab = el(svg, "text", { x: 310, y: r[2] + 12, class: "val", "font-size": 36, "text-anchor": "end" }, r[0]);
-            var bar = el(svg, "rect", { x: sx(0), y: r[2] - 26, width: sx(r[1]) - sx(0), height: 52, rx: 12, fill: i ? "url(#gBarH)" : "url(#gRedBarH)", filter: "url(#fShadow)" });
-            var val = el(svg, "text", { x: sx(r[1]) + 16, y: r[2] + 14, class: i ? "val" : "rlab", "font-size": 42 }, "+" + r[1] + " %");
-            fadeIn(lab, t0 + i * 0.3, 0.3, 0); growX(bar, t0 + i * 0.3, 0.6); fadeIn(val, t0 + i * 0.3 + 0.45, 0.3);
+            var lab = el(svg, "text", { x: 296, y: r[2] + 10, class: "val", "font-size": 32, "text-anchor": "end" }, r[0]);
+            var track = el(svg, "rect", { x: sx(0), y: r[2] - 22, width: sx(80) - sx(0), height: 44, rx: 10, fill: "rgba(255,255,255,0.05)" });
+            var bar = el(svg, "rect", { x: sx(0), y: r[2] - 22, width: sx(r[1]) - sx(0), height: 44, rx: 10, fill: i ? "url(#gBarH)" : "url(#gRedH)", filter: "url(#fShadow)" });
+            var val = el(svg, "text", { x: sx(r[1]) + 16, y: r[2] + 12, class: i ? "val" : "rval", "font-size": 36 }, "+" + r[1] + " %");
+            fadeIn(lab, t0 + i * 0.3, 0.3, 0); fadeIn(track, t0 + i * 0.3, 0.3, 0); growX(bar, t0 + i * 0.3, 0.7); fadeIn(val, t0 + i * 0.3 + 0.5, 0.3);
           });
-          redTag(svg, 460, 360, "LES CLIENTS DÉCROCHENT", 36, "middle", wordAt("aspi", "réduit"));
         })();
 
-        // ================= 6. MOYEN-ORIENT : boutique désertée =================
+        // ================= 6. MOYEN-ORIENT : fréquentation =================
         (function () {
           var s = sceneTimes("mideast"), svg = document.getElementById("ch-mideast");
           showScene(document.getElementById("sc-mideast"), s.start, s.end);
-          var shop = boutique(svg, 50, 10, 0.95);
-          appear(shop, s.start + 0.15, 0.8);
-          var people = [person(svg, 470, 230, 1), person(svg, 556, 230, 1), person(svg, 642, 230, 1), person(svg, 728, 230, 1)];
-          var tP = wordAt("mideast", "Moyen-Orient");
-          people.forEach(function (p, i) { fadeIn(p, tP - 0.2 + i * 0.1, 0.3, 0); });
-          var tF = wordAt("mideast", "freiné");
-          tl.to([people[1], people[3]], { opacity: 0.12, duration: 0.4 }, tF);
-          var big = el(svg, "text", { x: 460, y: 500, class: "rlab", "font-size": 110, "text-anchor": "middle" }, "≈ −50 %");
-          fadeIn(big, tF + 0.2, 0.4);
-          var lbl = el(svg, "text", { x: 460, y: 560, class: "lbl", "font-size": 32, "text-anchor": "middle" }, "de visiteurs dans les centres commerciaux");
-          fadeIn(lbl, tF + 0.35, 0.4);
-          var lbl2 = el(svg, "text", { x: 460, y: 605, class: "lbl", "font-size": 32, "text-anchor": "middle" }, "d'une région qui pèse ≈ 6 % des ventes");
-          fadeIn(lbl2, tF + 0.5, 0.4);
+          panel(svg, 70, 20, 780, 600, s.start + 0.1);
+          var ic = icon(svg, "store", 112, 52, 0.62);
+          drawIcon(ic, s.start + 0.3, 0.5);
+          var h1 = el(svg, "text", { x: 190, y: 86, class: "val", "font-size": 28 }, "Fréquentation des centres commerciaux");
+          var h2 = el(svg, "text", { x: 190, y: 120, class: "lbl", "font-size": 22 }, "Moyen-Orient · indice, avant conflit = 100");
+          fadeIn(h1, s.start + 0.35, 0.4); fadeIn(h2, s.start + 0.45, 0.4);
+          var sx = scale(0, 100, 120, 800), tM = wordAt("mideast", "Moyen-Orient"), tF = wordAt("mideast", "freiné");
+          [["Avant le conflit", 100, 210, tM - 0.2, false], ["Mars 2026", 50, 320, tF - 0.1, true]].forEach(function (r) {
+            var l = el(svg, "text", { x: 120, y: r[2] - 20, class: "cap", "font-size": 18 }, r[0].toUpperCase());
+            var track = el(svg, "rect", { x: sx(0), y: r[2], width: sx(100) - sx(0), height: 40, rx: 10, fill: "rgba(255,255,255,0.05)" });
+            var b = el(svg, "rect", { x: sx(0), y: r[2], width: sx(r[1]) - sx(0), height: 40, rx: 10, fill: r[4] ? "url(#gRedH)" : "url(#gBarH)" });
+            var v = el(svg, "text", { x: r[4] ? sx(r[1]) + 16 : sx(r[1]) - 16, y: r[2] + 30, "font-size": 28, "font-weight": 600, "text-anchor": r[4] ? "start" : "end", fill: r[4] ? RED : "#0b2a66" }, r[4] ? "≈ 50" : "100");
+            fadeIn(l, r[3], 0.3, 0); fadeIn(track, r[3], 0.3, 0); growX(b, r[3], 0.7); fadeIn(v, r[3] + 0.5, 0.3, 0);
+          });
+          var big = el(svg, "text", { x: 460, y: 500, class: "rval", "font-size": 92, "text-anchor": "middle" }, "≈ −50 %");
+          fadeIn(big, tF + 0.35, 0.45);
+          chip(svg, 460, 572, "RÉGION ≈ 6 % DES VENTES DE LVMH", 20, wordAt("mideast", "région"), "neutral");
         })();
 
-        // ================= 7. RENTABILITÉ : illustration seule =================
+        // ================= 7. RENTABILITÉ : jauge (sans chiffre) =================
         (function () {
           var s = sceneTimes("profit"), svg = document.getElementById("ch-profit");
           showScene(document.getElementById("sc-profit"), s.start, s.end);
-          var c = coins(svg, 260, 140, 1);
-          c.parts.forEach(function (p, i) { appear(p, s.start + 0.05 + i * 0.16, 0.6); });
+          var cx = 460, cy = 420, r = 250;
+          function pt(f, rr) { var a = Math.PI * (1 - f); return [cx + Math.cos(a) * rr, cy - Math.sin(a) * rr]; }
+          function arc(f0, f1, rr) { var a = pt(f0, rr), b = pt(f1, rr); return "M" + a[0].toFixed(1) + " " + a[1].toFixed(1) + " A" + rr + " " + rr + " 0 0 1 " + b[0].toFixed(1) + " " + b[1].toFixed(1); }
+          el(svg, "path", { d: arc(0, 1, r), fill: "none", stroke: "rgba(255,255,255,0.1)", "stroke-width": 26, "stroke-linecap": "round" });
+          for (var i = 0; i <= 20; i++) { var a = pt(i / 20, r - 34), b = pt(i / 20, r - (i % 5 ? 46 : 58)); el(svg, "line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: "rgba(255,255,255,0.3)", "stroke-width": i % 5 ? 1.5 : 2.5 }); }
+          var val = el(svg, "path", { d: arc(0, 0.84, r), fill: "none", stroke: "url(#gGauge)", "stroke-width": 26, "stroke-linecap": "round", filter: "url(#fGlow)" });
+          drawIn(val, s.start + 0.2, 1.0, "power2.out");
+          var needle = el(svg, "g", {});
+          el(needle, "line", { x1: cx, y1: cy, x2: cx - r + 70, y2: cy, stroke: INK, "stroke-width": 5, "stroke-linecap": "round" });
+          el(needle, "circle", { cx: cx, cy: cy, r: 16, fill: INK });
+          el(needle, "circle", { cx: cx, cy: cy, r: 6, fill: "#00194b" });
+          tl.fromTo(needle, { rotation: 0, svgOrigin: cx + " " + cy }, { rotation: 0.84 * 180, svgOrigin: cx + " " + cy, duration: 1.0, ease: "power2.out" }, s.start + 0.2);
+          var lbl = el(svg, "text", { x: cx, y: cy + 80, class: "cap", "font-size": 22, "text-anchor": "middle" }, "RENTABILITÉ");
+          var lv = el(svg, "text", { x: cx, y: cy + 140, class: "cval", "font-size": 52, "text-anchor": "middle" }, "Élevée");
+          fadeIn(lbl, s.start + 0.4, 0.4); fadeIn(lv, s.start + 0.55, 0.4);
         })();
 
         // ================= 8. CROISSANCE =================
@@ -533,35 +481,34 @@
           var s = sceneTimes("growth"), svg = document.getElementById("ch-growth");
           showScene(document.getElementById("sc-growth"), s.start, s.end);
           var sy = scale(-4, 16, 600, 60), y0 = sy(0);
-          el(svg, "line", { x1: 70, x2: 880, y1: y0, y2: y0, class: "axis" });
+          [-4, 4, 8, 12, 16].forEach(function (v) { el(svg, "line", { x1: 100, x2: 870, y1: sy(v), y2: sy(v), class: "gridd" }); el(svg, "text", { x: 84, y: sy(v) + 8, class: "tick", "text-anchor": "end" }, (v > 0 ? "+" : "−") + Math.abs(v) + " %"); });
+          el(svg, "line", { x1: 100, x2: 870, y1: y0, y2: y0, class: "axis" });
           var d = [["2023", 13, "+13 %"], ["2024", 1, "+1 %"], ["2025", -1, "−1 %"], ["S1 2026", 2, "+2 %"]], bars = [];
           d.forEach(function (b, i) {
-            var x = 130 + i * 190, top = Math.min(sy(b[1]), y0), h = Math.abs(sy(b[1]) - y0);
-            var r = el(svg, "rect", { x: x, y: top, width: 130, height: Math.max(h, 4), rx: 10, fill: "url(#gBar)", filter: "url(#fShadow)" });
-            var v = el(svg, "text", { x: x + 65, y: b[1] >= 0 ? top - 20 : top + h + 50, class: "val", "font-size": 44, "text-anchor": "middle" }, b[2]);
-            var l = el(svg, "text", { x: x + 65, y: 644, class: "tick", "text-anchor": "middle" }, b[0]);
+            var x = 150 + i * 185, top = Math.min(sy(b[1]), y0), h = Math.abs(sy(b[1]) - y0);
+            var r = el(svg, "rect", { x: x, y: top, width: 110, height: Math.max(h, 4), rx: 8, fill: "url(#gBar)", filter: "url(#fShadow)" });
+            var v = el(svg, "text", { x: x + 55, y: b[1] >= 0 ? top - 18 : top + h + 44, class: "val", "font-size": 38, "text-anchor": "middle" }, b[2]);
+            var l = el(svg, "text", { x: x + 55, y: 640, class: "tick", "text-anchor": "middle" }, b[0]);
             bars.push([r, v, l, b[1] >= 0]);
           });
-          bars.forEach(function (b, i) {
-            var t = s.start + 0.2 + i * 0.25;
-            fadeIn(b[2], t, 0.3, 0); growY(b[0], t, 0.55, b[3] ? "50% 100%" : "50% 0%"); fadeIn(b[1], t + 0.35, 0.3);
-          });
+          bars.forEach(function (b, i) { var t = s.start + 0.2 + i * 0.25; fadeIn(b[2], t, 0.3, 0); growY(b[0], t, 0.6, b[3] ? "50% 100%" : "50% 0%"); fadeIn(b[1], t + 0.35, 0.3); });
           var tC = wordAt("growth", "croissance");
-          redCircle(svg, 130 + 190 * 2 - 30 + 65, y0 - 10, 330, 95, tC - 0.1, 0.5);
-          redTag(svg, 600, 230, "QUASI À L'ARRÊT", 40, "middle", tC + 0.25);
+          var box = el(svg, "rect", { x: 312, y: y0 - 110, width: 540, height: 200, rx: 18, fill: "rgba(255,77,61,0.07)", stroke: RED, "stroke-width": 2.5, "stroke-dasharray": "8 6" });
+          fadeIn(box, tC - 0.1, 0.4, 0);
+          chip(svg, 582, y0 - 140, "QUASI À L'ARRÊT", 26, tC + 0.2, "red");
         })();
 
         // ================= 9. L'ACTION CONTINUE DE BAISSER =================
         (function () {
           var s = sceneTimes("doubt"), svg = document.getElementById("ch-doubt");
           showScene(document.getElementById("sc-doubt"), s.start, null);
-          var a = priceArea(svg, s.start + 0.05, 0.9, "clipD");
-          tl.fromTo([a.dHi, a.lHi], { opacity: 0 }, { opacity: 1, duration: 0.3 }, s.start + 0.3);
-          drawIn(a.red, s.start + 0.6, 0.6, "power1.inOut");
-          tl.fromTo([a.dLo, a.lLo], { opacity: 0 }, { opacity: 1, duration: 0.3 }, s.start + 1.1);
+          var a = priceArea(svg, s.start + 0.05, 0.9);
+          fadeIn(a.guide, s.start + 0.3, 0.3, 0); fadeIn(a.dHi, s.start + 0.3, 0.3, 0); fadeIn(a.pHi, s.start + 0.4, 0.3, 6);
+          drawIn(a.fall, s.start + 0.6, 0.6);
+          fadeIn(a.dLo, s.start + 1.1, 0.3, 0); fadeIn(a.pLo, s.start + 1.15, 0.3, 6);
           var tB = wordAt("doubt", "baisser");
-          redArrow(svg, a.lo.x + 14, a.lo.y + 30, a.lo.x + 14, a.lo.y + 150, 0, tB - 0.25, 0.45);
-          tl.to("#sc-doubt", { opacity: 0.12, duration: 0.5 }, R.total - 1.9);
+          arrow(svg, a.lo.x + 30, a.lo.y + 20, a.lo.x + 30, a.lo.y + 140, tB - 0.25, 0.45);
+          tl.to(["#sc-doubt", ".corner"], { opacity: 0.1, duration: 0.5 }, R.total - 1.9);
           fadeIn(document.getElementById("sign"), R.total - 1.7, 0.5);
         })();
 
@@ -572,7 +519,7 @@
           var box = document.getElementById("captions");
           R.chunks.forEach(function (c) {
             var div = document.createElement("div");
-            div.className = "cap";
+            div.className = "cap-line";
             box.appendChild(div);
             tl.fromTo(div, { opacity: 0 }, { opacity: 1, duration: 0.01 }, c.start - 0.04);
             c.words.forEach(function (w, i) {
