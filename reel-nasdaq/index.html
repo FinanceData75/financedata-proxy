@@ -96,10 +96,10 @@
         <div id="content">
           <!-- 1 + 2 : Nasdaq -->
           <div class="scene" id="sc-nasdaq">
-            <h2 class="chart-title">Nasdaq Composite</h2>
-            <div class="chart-sub">Clôtures mensuelles 2026, en points</div>
+            <h2 class="chart-title">Nasdaq 100</h2>
+            <div class="chart-sub">Chandeliers mensuels 2026, en points</div>
             <svg class="chart" id="ch-nasdaq" viewBox="0 0 920 660"></svg>
-            <div class="source">Source : Nasdaq. Dernier point : clôture du 5 octobre.</div>
+            <div class="source">Source : Nasdaq (variations mensuelles). Octobre : jusqu'au 6 oct. Corps seuls, sans mèches.</div>
           </div>
 
           <!-- 3 : Taux 10 ans -->
@@ -294,40 +294,52 @@
         }
         var fr = function (v) { return String(v).replace(/\B(?=(\d{3})+(?!\d))/g, " "); };
 
-        // ================= 1 + 2. NASDAQ (clôtures réelles) =================
+        // ================= 1 + 2. NASDAQ 100 : chandeliers mensuels =================
         (function () {
           var svg = document.getElementById("ch-nasdaq");
           var s1 = sceneTimes("nasdaq"), s2 = sceneTimes("breakout");
-          var sx = scale(0, 9.3, 120, 880), sy = scale(21000, 28000, 600, 40);
-          axes(svg, [22000, 24000, 26000, 28000], sy, [[1, "janv."], [3, "mars"], [5, "mai"], [7, "juil."], [9, "sept."]], sx, fr);
-          // 31/12/25, fins de mois 2026, record du 2 juin, 5 oct.
-          var pts = [[0, 23242], [1, 23223], [2, 22524], [3, 21786], [4, 24941], [5, 26934], [5.07, 27094], [6, 26213], [7, 25374], [8, 26371], [9, 26527], [9.17, 27477]];
-          var line = el(svg, "path", { d: pathD(pts, sx, sy), class: "line" });
-          var REC = 27094, ex = sx(9.17), ey = sy(27477);
-          var xCross = 9 + 0.17 * ((REC - 26527) / (27477 - 26527));
+          var sx = function (i) { return 158 + i * 76; }, sy = scale(22000, 32000, 600, 40);
+          axes(svg, [24000, 26000, 28000, 30000, 32000], sy, [], null, fr);
+          // Corps seulement (ouverture = clôture du mois précédent), sans mèches : niveaux reconstitués à partir de la
+          // clôture du 6 oct. (31 224,47 ; +23,66 % depuis le 31/12/25) et des variations mensuelles publiées par Nasdaq.
+          var M = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O"];
+          var C = [[25250, 25561], [25561, 24983], [24983, 23781], [23781, 27506], [27506, 30416], [30416, 30379],
+            [30379, 28377], [28377, 29580], [29580, 30557], [30557, 31224]];
+          var BW = 44, candles = C.map(function (c, i) {
+            var up = c[1] >= c[0], y0 = sy(Math.max(c[0], c[1])), h = Math.max(3, Math.abs(sy(c[0]) - sy(c[1])));
+            el(svg, "text", { x: sx(i), y: 642, class: "tick", "text-anchor": "middle" }, M[i]);
+            return { up: up, r: el(svg, "rect", { x: sx(i) - BW / 2, y: y0, width: BW, height: h,
+              fill: up ? BAR : PAPER, stroke: BAR, "stroke-width": 4 }) };
+          });
+          var ex = sx(9), ey = sy(31224), BASE = 25250;
 
-          var gRec = el(svg, "g", {});
-          var recLine = el(gRec, "path", { d: "M" + sx(5.07) + " " + sy(REC) + " L" + 880 + " " + sy(REC), class: "red-dash" });
-          var recLab = el(gRec, "text", { x: sx(8.5), y: sy(REC) - 16, class: "rlab", "font-size": 28, "text-anchor": "end" }, "record du 2 juin : 27 094");
-          var brk = el(svg, "path", { d: pathD([[xCross, REC], [9.17, 27477]], sx, sy), class: "red" });
+          // zone des plus hauts de juin (résistance)
+          var gRes = el(svg, "g", {});
+          var band = el(gRes, "rect", { x: sx(4) - BW, y: sy(30700), width: 880 - sx(4) + BW, height: sy(30400) - sy(30700), fill: RED, opacity: 0.22 });
+          var bandLine = el(gRes, "path", { d: "M" + (sx(4) - BW) + " " + sy(30700) + " L880 " + sy(30700), class: "red-dash" });
+          var recLab = el(gRes, "text", { x: sx(4) - BW, y: sy(30700) - 16, class: "rlab", "font-size": 28 }, "plafond des records de juin");
+          var brk = el(svg, "rect", { x: ex - BW / 2 - 9, y: ey - 9, width: BW + 18, height: sy(30557) - ey + 18, rx: 6, fill: "none", class: "red" });
 
-          var dot = el(svg, "circle", { cx: ex, cy: ey, r: 10, fill: RED });
-          var ring = el(svg, "circle", { cx: ex, cy: ey, r: 12, fill: "none", stroke: RED, "stroke-width": 3 });
-          var endLab = el(svg, "text", { x: ex - 18, y: ey - 26, class: "val", "font-size": 34, "text-anchor": "end" }, "27 477");
+          var ring = el(svg, "circle", { cx: ex, cy: ey, r: 14, fill: "none", stroke: RED, "stroke-width": 3 });
+          var endLab = el(svg, "text", { x: ex, y: ey - 24, class: "val", "font-size": 32, "text-anchor": "middle" }, "31 224");
 
           var g18 = el(svg, "g", {});
-          var base = el(g18, "line", { x1: sx(0), x2: ex + 22, y1: sy(23242), y2: sy(23242), class: "ref" });
-          var bracket = el(g18, "path", { d: "M" + (ex + 22) + " " + sy(23242) + " L" + (ex + 22) + " " + (ey + 16), class: "red-thin" });
-          var lab18 = el(g18, "text", { x: ex - 14, y: sy(23500), class: "rlab", "font-size": 104, "text-anchor": "end" }, "+24 %");
+          var base = el(g18, "line", { x1: 120, x2: 896, y1: sy(BASE), y2: sy(BASE), class: "ref" });
+          var bracket = el(g18, "path", { d: "M896 " + sy(BASE) + " L896 " + (ey + 4), class: "red-thin" });
+          var lab18 = el(g18, "text", { x: 880, y: sy(BASE) - 24, class: "rlab", "font-size": 104, "text-anchor": "end" }, "+24 %");
 
           var tRec = wordAt("nasdaq", "record"), t18 = wordAt("nasdaq", "+24 %");
           showScene(document.getElementById("sc-nasdaq"), 0, s2.end);
-          drawIn(line, 0.1, tRec - 0.2, "power2.inOut");
-          pop(dot, tRec - 0.12);
+          // les bougies montent l'une après l'autre jusqu'au record
+          var step = (tRec - 0.35) / C.length;
+          candles.forEach(function (c, i) {
+            tl.fromTo(c.r, { opacity: 0, scaleY: 0, transformOrigin: c.up ? "50% 100%" : "50% 0%" },
+              { opacity: 1, scaleY: 1, duration: 0.28, ease: "power2.out" }, 0.15 + i * step);
+          });
           gsap.set(ring, { opacity: 0 });
           tl.fromTo(ring, { scale: 1, opacity: 1 }, { scale: 3, opacity: 0, transformOrigin: "50% 50%", duration: 0.8, ease: "power1.out", immediateRender: false }, tRec);
           fadeIn(endLab, tRec - 0.05, 0.2, 6);
-          redCircle(g18, ex, ey, 52, 44, tRec, 0.35);
+          redCircle(g18, ex, ey + 4, 50, 42, tRec, 0.35);
           redTag(g18, 700, 62, "RECORD", 48, "end", tRec + 0.1);
           fadeIn(base, t18 - 0.2, 0.2);
           drawIn(bracket, t18 - 0.1, 0.35, "power2.out");
@@ -335,13 +347,14 @@
 
           // breakout
           fadeOut(g18, s2.start - 0.15, 0.2);
-          drawIn(recLine, wordAt("breakout", "juin") - 0.1, 0.6, "power2.out");
+          fadeIn(band, wordAt("breakout", "juin") - 0.1, 0.3);
+          drawIn(bandLine, wordAt("breakout", "juin") - 0.1, 0.6, "power2.out");
           fadeIn(recLab, wordAt("breakout", "niveau") - 0.1, 0.25, 6);
           var tA = wordAt("breakout", "passé");
-          drawIn(brk, tA - 0.1, 0.35, "power2.out");
+          drawIn(brk, tA - 0.1, 0.4, "power2.out");
           tl.fromTo(ring, { scale: 1, opacity: 1 }, { scale: 3, opacity: 0, transformOrigin: "50% 50%", duration: 0.8, ease: "power1.out", immediateRender: false }, tA + 0.2);
-          redArrow(svg, 700, 300, ex - 22, ey + 34, -60, tA + 0.15);
-          redTag(svg, 840, 380, "SEUIL FRANCHI", 42, "end", wordAt("breakout", "au-dessus"));
+          redArrow(svg, 690, 330, ex - BW / 2 - 14, sy(30900), -50, tA + 0.15);
+          redTag(svg, 840, 400, "SEUIL FRANCHI", 42, "end", wordAt("breakout", "au-dessus"));
         })();
 
         // ================= 3. TAUX 10 ANS : plus hauts =================
