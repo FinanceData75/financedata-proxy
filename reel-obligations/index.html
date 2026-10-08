@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <script src="assets/reel-data.js"></script>
+    <style>
+      /* Typo éditoriale : Source Serif 4 (titres, façon FT / The Economist), Inter (données, chiffres tabulaires),
+         IBM Plex Mono (étiquettes, sources, façon terminal Bloomberg) — toutes OFL */
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf") format("opentype"); font-weight: 600; }
+      @font-face { font-family: "Serif FD"; src: url("assets/fonts/source-serif-4-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Serif FD"; src: url("assets/fonts/source-serif-4-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; }
+      @font-face { font-family: "Serif FD"; src: url("assets/fonts/source-serif-4-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+      @font-face { font-family: "Mono FD"; src: url("assets/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+      @font-face { font-family: "Mono FD"; src: url("assets/fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2"); font-weight: 500; }
+
+      /* DA FinanceData, version éditoriale premium : bleu #00194B, filets fins, blanc cassé, cyan en accent, rouge réservé aux alertes */
+      :root {
+        --bg: #00194b;
+        --ink: #f2f5fa;
+        --soft: #93a5c6;
+        --hair: rgba(255, 255, 255, 0.14);
+        --cyan: #7dd0f5;
+        --red: #ff2e24;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { width: 100%; height: 100%; position: relative; font-family: "Inter UI", sans-serif; color: var(--ink); background: var(--bg); font-feature-settings: "tnum" 1; }
+      #stage { position: absolute; inset: 0; }
+
+      /* profondeur : halo central, quadrillage fin qui s'estompe, vignette */
+      #bg-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 62% 40% at 50% 46%, #0b3480 0%, rgba(0, 25, 75, 0) 72%); }
+      #bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 72% 52% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 72% 52% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(0, 0, 0, 0) 55%, rgba(0, 5, 22, 0.62) 100%); }
+      #defs { position: absolute; width: 0; height: 0; }
+
+
+      /* Bloc (x 160–920, y 440–1270), dans la safe zone Reels / TikTok */
+      .scene { position: absolute; left: 160px; top: 448px; width: 760px; height: 830px; opacity: 0; text-align: left; }
+      .chart-title { margin-top: 0; font-family: "Serif FD", serif; font-size: 62px; white-space: nowrap; line-height: 1.02; font-weight: 600; letter-spacing: -0.02em; }
+      .chart-sub { margin-top: 12px; font-size: 24px; font-weight: 400; color: var(--soft); }
+      .scene svg.chart { position: absolute; left: 0; top: 170px; width: 760px; height: 545px; overflow: visible; }
+      .source { position: absolute; left: 0; right: 0; top: 768px; padding-top: 12px; border-top: 1px solid var(--hair); font-family: "Mono FD", monospace; font-size: 15px; letter-spacing: 0.02em; color: var(--soft); }
+
+      svg text { font-family: "Inter UI", sans-serif; font-feature-settings: "tnum" 1; }
+      svg .grid { stroke: var(--hair); stroke-width: 1.5; fill: none; }
+      svg .gridd { stroke: var(--hair); stroke-width: 1.5; fill: none; stroke-dasharray: 3 7; }
+      svg .axis { stroke: rgba(255, 255, 255, 0.55); stroke-width: 2; fill: none; }
+      svg .tick { font-size: 22px; fill: var(--soft); }
+      svg .mono { font-family: "Mono FD", monospace; font-weight: 500; letter-spacing: 0.12em; fill: var(--soft); }
+      svg .serif { font-family: "Serif FD", serif; font-weight: 600; fill: var(--ink); letter-spacing: -0.015em; }
+      svg .serif-i { font-family: "Serif FD", serif; font-style: italic; font-weight: 400; fill: var(--ink); }
+      svg .val { font-weight: 600; fill: var(--ink); letter-spacing: -0.02em; }
+      svg .lbl { fill: var(--soft); }
+      svg .rval { font-weight: 600; fill: var(--red); letter-spacing: -0.02em; }
+      svg .cval { font-weight: 600; fill: var(--cyan); letter-spacing: -0.02em; }
+      svg .line { stroke: var(--cyan); stroke-width: 4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+      svg .rline { stroke: var(--red); stroke-width: 4; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+      svg .rthin { stroke: var(--red); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      svg .cthin { stroke: var(--cyan); stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      svg .panel { fill: rgba(255, 255, 255, 0.035); stroke: rgba(255, 255, 255, 0.16); stroke-width: 1.5; }
+
+      /* sous-titres : bandeau gris-noir, capitales blanches */
+      #captions { position: absolute; left: 120px; right: 120px; top: 1338px; height: 130px; }
+      .cap-line { position: absolute; left: 0; right: 0; top: 0; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 10px 24px 14px; border-radius: 14px; background: rgba(38, 42, 50, 0.55);
+        font-family: "Inter UI", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.02em; color: #fff; white-space: nowrap; }
+      .cap-box span { display: inline-block; }
+
+      #sign { position: absolute; left: 160px; right: 160px; top: 1330px; text-align: center; opacity: 0; font-family: "Serif FD", serif; font-weight: 600; font-size: 64px; letter-spacing: -0.02em; color: var(--ink); }
+      #sign b { color: var(--cyan); font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="53.6" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="53.6" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="53.6" data-track-index="0">
+        <div id="bg-glow"></div>
+        <div id="bg-grid"></div>
+        <div id="bg-vig"></div>
+        <svg id="defs" aria-hidden="true">
+          <defs>
+            <linearGradient id="gBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f8fe" /><stop offset="1" stop-color="#bccbe4" /></linearGradient>
+            <linearGradient id="gCyan" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fdcf8" /><stop offset="1" stop-color="#3f9fd8" /></linearGradient>
+            <linearGradient id="gMute" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5f77a3" /><stop offset="1" stop-color="#2f4677" /></linearGradient>
+            <linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7dd0f5" stop-opacity="0.28" /><stop offset="1" stop-color="#7dd0f5" stop-opacity="0" /></linearGradient>
+            <linearGradient id="gAreaR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff4d3d" stop-opacity="0.22" /><stop offset="1" stop-color="#ff4d3d" stop-opacity="0" /></linearGradient>
+            <filter id="fGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+            <filter id="fShadow" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000818" flood-opacity="0.5" /></filter>
+          </defs>
+        </svg>
+
+        <!-- 1 : hook, taille des marchés -->
+        <div class="scene" id="sc-hook">
+          <h2 class="chart-title">Obligations vs actions</h2>
+          <div class="chart-sub">Encours mondial, en milliards de dollars</div>
+          <svg class="chart" id="ch-hook" viewBox="0 0 920 660"></svg>
+          <div class="source">SOURCE : SIFMA, CAPITAL MARKETS FACT BOOK 2025 (FIN 2024)</div>
+        </div>
+
+        <!-- 2 : action ou obligation -->
+        <div class="scene" id="sc-versus">
+          <h2 class="chart-title">Action ou obligation ?</h2>
+          <svg class="chart" id="ch-versus" viewBox="0 0 920 660"></svg>
+        </div>
+
+        <!-- 3 : fiche d'une obligation -->
+        <div class="scene" id="sc-term">
+          <h2 class="chart-title">La fiche d'une obligation</h2>
+          <svg class="chart" id="ch-term" viewBox="0 0 920 660"></svg>
+        </div>
+
+        <!-- 4 : flux reçus -->
+        <div class="scene" id="sc-flows">
+          <h2 class="chart-title">Ce que vous recevez</h2>
+          <div class="chart-sub">1 000 € prêtés à 5 % pendant 10 ans</div>
+          <svg class="chart" id="ch-flows" viewBox="0 0 920 660"></svg>
+        </div>
+
+        <!-- 5 : risque et rendement -->
+        <div class="scene" id="sc-risk">
+          <h2 class="chart-title">Plus de risque, plus payé</h2>
+          <svg class="chart" id="ch-risk" viewBox="0 0 920 660"></svg>
+        </div>
+
+        <!-- 6 : taux et prix -->
+        <div class="scene" id="sc-rates">
+          <h2 class="chart-title">Taux en hausse, prix en baisse</h2>
+          <svg class="chart" id="ch-rates" viewBox="0 0 920 660"></svg>
+        </div>
+
+        <!-- 7 : pourquoi -->
+        <div class="scene" id="sc-why">
+          <h2 class="chart-title">La concurrence du neuf</h2>
+          <svg class="chart" id="ch-why" viewBox="0 0 920 660"></svg>
+          <div class="source">CALCUL : COUPON 4 %, 10 ANS RESTANTS, TAUX DU MARCHÉ 6 %</div>
+        </div>
+
+        <div id="captions"></div>
+        <div id="sign">Finance<b>Data</b></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg";
+        var CSSV = getComputedStyle(document.documentElement);
+        function cv(n) { return CSSV.getPropertyValue(n).trim(); }
+        var RED = cv("--red"), INK = cv("--ink"), CYAN = cv("--cyan");
+        var R = window.REEL;
+        var tl = gsap.timeline({ paused: true });
+
+        function el(parent, tag, attrs, text) {
+          var n = document.createElementNS(NS, tag);
+          for (var k in attrs) n.setAttribute(k, attrs[k]);
+          if (text != null) n.textContent = text;
+          parent.appendChild(n);
+          return n;
+        }
+        function scale(d0, d1, r0, r1) { return function (v) { return r0 + ((v - d0) / (d1 - d0)) * (r1 - r0); }; }
+        function drawIn(node, at, dur, ease) {
+          var len = node.getTotalLength();
+          node.style.strokeDasharray = len + " " + len;
+          tl.fromTo(node, { opacity: 0 }, { opacity: 1, duration: 0.01 }, at);
+          tl.fromTo(node, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.inOut" }, at);
+        }
+        function fadeIn(node, at, dur, y) {
+          tl.fromTo(node, { opacity: 0, y: y == null ? 14 : y }, { opacity: 1, y: 0, duration: dur || 0.45, ease: "power2.out" }, at);
+        }
+        function fadeTo(node, at, op, dur) { tl.to(node, { opacity: op, duration: dur || 0.35 }, at); }
+        function growY(node, at, dur, origin) {
+          tl.fromTo(node, { scaleY: 0, transformOrigin: origin || "50% 100%" }, { scaleY: 1, duration: dur || 0.7, ease: "power3.out" }, at);
+        }
+        function growX(node, at, dur) {
+          tl.fromTo(node, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: dur || 0.7, ease: "power3.out" }, at);
+        }
+        function fmt(v, dec) { return v.toFixed(dec).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
+        function counter(node, at, from, to, dec, suffix, dur) {
+          var o = { v: from };
+          tl.fromTo(o, { v: from }, { v: to, duration: dur || 1, ease: "power2.out", onUpdate: function () { node.textContent = fmt(o.v, dec) + suffix; } }, at);
+        }
+        function sceneTimes(id) { return R.scenes.filter(function (s) { return s.id === id; })[0]; }
+        function wordAt(id, key, nth) {
+          var s = sceneTimes(id), hits = [];
+          s.chunks.forEach(function (c) { c.words.forEach(function (w) { if (w.key === key) hits.push(w); }); });
+          if (!hits.length) throw new Error("mot introuvable : " + key);
+          return hits[nth || 0].start;
+        }
+        // entrée : fondu + légère montée ; sortie : fondu (sans chevauchement entre scènes)
+        function showScene(node, start, end) {
+          tl.fromTo(node, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, Math.max(0, start));
+          if (end) tl.to(node, { opacity: 0, duration: 0.3, ease: "power1.in" }, end - 0.3);
+        }
+
+        // ---------- annotations sobres ----------
+        function ring(parent, cx, cy, r, at, color) {
+          var c = el(parent, "circle", { cx: cx, cy: cy, r: r, fill: "none", stroke: color || RED, "stroke-width": 3 });
+          drawIn(c, at, 0.45);
+          return c;
+        }
+        function arrow(parent, x1, y1, x2, y2, at, dur, cls) {
+          dur = dur || 0.45;
+          var p = el(parent, "path", { d: "M" + x1 + " " + y1 + " L" + x2 + " " + y2, class: cls || "rthin" });
+          var a = Math.atan2(y2 - y1, x2 - x1), h = 18;
+          var head = el(parent, "path", { d: "M" + (x2 - h * Math.cos(a - 0.45)) + " " + (y2 - h * Math.sin(a - 0.45)) + " L" + x2 + " " + y2 +
+            " L" + (x2 - h * Math.cos(a + 0.45)) + " " + (y2 - h * Math.sin(a + 0.45)), class: cls || "rthin" });
+          drawIn(p, at, dur);
+          drawIn(head, at + dur - 0.05, 0.15, "none");
+          return [p, head];
+        }
+        var CHIPS = [];
+        function fitChip(t) {
+          var b = t.txt.getBBox(), px = t.size * 0.7, py = t.size * 0.45;
+          t.rect.setAttribute("x", b.x - px); t.rect.setAttribute("y", b.y - py);
+          t.rect.setAttribute("width", b.width + 2 * px); t.rect.setAttribute("height", b.height + 2 * py);
+        }
+        // étiquette en police mono : kind = "red" | "cyan" | "neutral"
+        function chip(parent, x, y, text, size, at, kind, anchor) {
+          var col = kind === "red" ? RED : kind === "cyan" ? CYAN : INK;
+          var fill = kind === "red" ? "rgba(255,46,36,0.16)" : kind === "cyan" ? "rgba(125,208,245,0.12)" : "rgba(8,30,80,0.92)";
+          var gg = el(parent, "g", {});
+          var rect = el(gg, "rect", { rx: 6, fill: fill, stroke: kind === "neutral" ? "rgba(255,255,255,0.3)" : col, "stroke-width": 1.8 });
+          var txt = el(gg, "text", { x: x, y: y, "font-size": size, "font-family": "Mono FD, monospace", "font-weight": 500, fill: col, "letter-spacing": "0.08em", "text-anchor": anchor || "middle" }, text);
+          var t = { rect: rect, txt: txt, size: size };
+          fitChip(t); CHIPS.push(t);
+          if (at != null) fadeIn(gg, at, 0.35, 8);
+          return gg;
+        }
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { CHIPS.forEach(fitChip); });
+
+        function panel(parent, x, y, w, h, at, rx) {
+          var r = el(parent, "rect", { x: x, y: y, width: w, height: h, rx: rx == null ? 14 : rx, class: "panel", filter: "url(#fShadow)" });
+          if (at != null) fadeIn(r, at, 0.5, 10);
+          return r;
+        }
+
+        // ================= 1. HOOK : obligations vs actions =================
+        (function () {
+          var s = sceneTimes("hook"), svg = document.getElementById("ch-hook");
+          showScene(document.getElementById("sc-hook"), 0, s.end);
+          var sy = scale(0, 160000, 590, 40);
+          [40000, 80000, 120000, 160000].forEach(function (v) {
+            el(svg, "line", { x1: 110, x2: 880, y1: sy(v), y2: sy(v), class: "gridd" });
+            el(svg, "text", { x: 96, y: sy(v) + 8, class: "tick", "text-anchor": "end" }, fmt(v / 1000, 0) + " 000");
+          });
+          el(svg, "line", { x1: 110, x2: 880, y1: 590, y2: 590, class: "axis" });
+          var d = [[220, 145100, "Obligations", "url(#gCyan)", "cval", wordAt("hook", "obligataire") - 0.3], [560, 126700, "Actions", "url(#gMute)", "val", wordAt("hook", "actions") - 0.25]];
+          d.forEach(function (b) {
+            var r = el(svg, "rect", { x: b[0], y: sy(b[1]), width: 200, height: 590 - sy(b[1]), fill: b[3], filter: "url(#fShadow)" });
+            var v = el(svg, "text", { x: b[0] + 100, y: sy(b[1]) - 24, class: b[4], "font-size": 50, "text-anchor": "middle" }, "0");
+            var l = el(svg, "text", { x: b[0] + 100, y: 636, class: "mono", "font-size": 22, "text-anchor": "middle" }, b[2].toUpperCase());
+            fadeIn(l, b[5], 0.3, 0); growY(r, b[5], 0.9); fadeIn(v, b[5] + 0.2, 0.3, 0);
+            counter(v, b[5] + 0.2, 0, b[1], 0, "", 0.9);
+          });
+          var tP = wordAt("hook", "personne");
+          var gl = el(svg, "line", { x1: 420, x2: 790, y1: sy(145100), y2: sy(145100), stroke: "rgba(255,255,255,0.45)", "stroke-width": 1.5, "stroke-dasharray": "4 6" });
+          var gl2 = el(svg, "line", { x1: 770, x2: 790, y1: sy(126700), y2: sy(126700), stroke: "rgba(255,255,255,0.45)", "stroke-width": 1.5 });
+          var brk = el(svg, "line", { x1: 790, x2: 790, y1: sy(145100), y2: sy(126700), class: "cthin" });
+          fadeIn(gl, tP - 0.3, 0.3, 0); fadeIn(gl2, tP - 0.3, 0.3, 0); growY(brk, tP - 0.2, 0.35, "50% 0%");
+          chip(svg, 812, (sy(145100) + sy(126700)) / 2 + 9, "+15 %", 24, tP, "cyan", "start");
+        })();
+
+        // ================= 2. ACTION OU OBLIGATION =================
+        (function () {
+          var s = sceneTimes("versus"), svg = document.getElementById("ch-versus");
+          showScene(document.getElementById("sc-versus"), s.start, s.end);
+          var tA = s.start + 0.25, tO = wordAt("versus", "obligation") - 0.3, tB = wordAt("versus", "banque") - 0.45;
+          // colonne action
+          var pA = panel(svg, 20, 10, 425, 300, tA);
+          var gA = el(svg, "g", {});
+          el(gA, "text", { x: 52, y: 62, class: "mono", "font-size": 20 }, "ACTION");
+          el(gA, "text", { x: 232, y: 178, class: "lbl", "font-size": 24, "text-anchor": "middle" }, "Vous êtes");
+          el(gA, "text", { x: 232, y: 236, class: "serif", "font-size": 54, "text-anchor": "middle" }, "propriétaire");
+          fadeIn(gA, tA + 0.15, 0.4);
+          // colonne obligation
+          var pO = panel(svg, 475, 10, 425, 300, tO);
+          var gO = el(svg, "g", {});
+          el(gO, "text", { x: 507, y: 62, class: "mono", "font-size": 20 }, "OBLIGATION");
+          el(gO, "text", { x: 687, y: 178, class: "lbl", "font-size": 24, "text-anchor": "middle" }, "Vous êtes");
+          el(gO, "text", { x: 687, y: 236, class: "serif", "font-size": 54, "text-anchor": "middle" }, "prêteur");
+          fadeIn(gO, tO + 0.15, 0.4);
+          // autrement dit : vous êtes la banque
+          var hl = el(svg, "rect", { x: 475, y: 10, width: 425, height: 300, rx: 14, fill: "none", stroke: CYAN, "stroke-width": 2.5 });
+          fadeIn(hl, tB, 0.35, 0);
+          fadeTo([pA, gA], tB, 0.4);
+          var band = el(svg, "g", {});
+          el(band, "text", { x: 460, y: 450, class: "serif-i", "font-size": 72, "text-anchor": "middle" }, "C'est vous, la banque.");
+          fadeIn(band, tB + 0.1, 0.45);
+        })();
+
+        // ================= 3. FICHE DE L'OBLIGATION =================
+        (function () {
+          var s = sceneTimes("term"), svg = document.getElementById("ch-term");
+          showScene(document.getElementById("sc-term"), s.start, s.end);
+          panel(svg, 20, 0, 880, 560, s.start + 0.1, 10);
+          var rows = [
+            ["ÉMETTEUR", "État ou entreprise", wordAt("term", "État") - 0.3],
+            ["MONTANT PRÊTÉ", "1 000 €", wordAt("term", "prêtez") + 0.1],
+            ["DURÉE", "10 ans", wordAt("term", "pendant") - 0.1],
+            ["COUPON", "Intérêts annuels", wordAt("term", "intérêts") - 0.2]
+          ];
+          rows.sort(function (a, b) { return a[2] - b[2]; });
+          var order = ["ÉMETTEUR", "MONTANT PRÊTÉ", "DURÉE", "COUPON"];
+          rows.forEach(function (r) {
+            var i = order.indexOf(r[0]), y = 10 + i * 136;
+            var g = el(svg, "g", {});
+            if (i) el(g, "line", { x1: 56, x2: 864, y1: y, y2: y, class: "grid" });
+            el(g, "text", { x: 56, y: y + 56, class: "mono", "font-size": 19 }, r[0]);
+            el(g, "text", { x: 56, y: y + 106, class: i === 1 || i === 2 ? "val" : "serif", "font-size": i === 1 || i === 2 ? 44 : 36 }, r[1]);
+            fadeIn(g, r[2], 0.4, 10);
+            r.push(g, y);
+          });
+          var tC = wordAt("term", "coupon");
+          var cRow = rows.filter(function (r) { return r[0] === "COUPON"; })[0];
+          var mk = el(svg, "rect", { x: 20, y: cRow[4] + 8, width: 6, height: 120, fill: CYAN });
+          growY(mk, tC - 0.3, 0.4, "50% 50%");
+        })();
+
+        // ================= 4. FLUX REÇUS =================
+        (function () {
+          var s = sceneTimes("flows"), svg = document.getElementById("ch-flows");
+          showScene(document.getElementById("sc-flows"), s.start, s.end);
+          var sy = scale(0, 1100, 560, 40), x0 = 110, step = 76, w = 50;
+          [250, 500, 750, 1000].forEach(function (v) {
+            el(svg, "line", { x1: 90, x2: 890, y1: sy(v), y2: sy(v), class: "gridd" });
+            el(svg, "text", { x: 76, y: sy(v) + 8, class: "tick", "text-anchor": "end" }, fmt(v, 0));
+          });
+          el(svg, "line", { x1: 90, x2: 890, y1: 560, y2: 560, class: "axis" });
+          var t50 = wordAt("flows", "50") - 0.2;
+          var big = el(svg, "text", { x: 460, y: 200, class: "cval", "font-size": 84, "text-anchor": "middle" }, "50 € / an");
+          fadeIn(big, t50, 0.4);
+          var tR = wordAt("flows", "rend");
+          for (var i = 0; i < 10; i++) {
+            var x = x0 + i * step;
+            var lab = el(svg, "text", { x: x + w / 2, y: 600, class: "tick", "text-anchor": "middle", "font-size": 20 }, i + 1);
+            var r = el(svg, "rect", { x: x, y: sy(50), width: w, height: 560 - sy(50), fill: "url(#gCyan)" });
+            var t = t50 + 0.25 + i * 0.12;
+            fadeIn(lab, t, 0.25, 0); growY(r, t, 0.4);
+          }
+          fadeTo(big, tR - 0.6, 0, 0.3);
+          // remboursement du capital en année 10
+          var xr = x0 + 9 * step;
+          var cap = el(svg, "rect", { x: xr, y: sy(1050), width: w, height: sy(50) - sy(1050), fill: "url(#gBar)", filter: "url(#fShadow)" });
+          growY(cap, tR - 0.1, 0.8);
+          var capL = el(svg, "text", { x: xr + w, y: sy(1050) - 18, class: "val", "font-size": 34, "text-anchor": "end" }, "1 000 €");
+          var capS = el(svg, "text", { x: xr - 18, y: sy(800), class: "mono", "font-size": 18, "text-anchor": "end" }, "CAPITAL");
+          fadeIn(capL, tR + 0.4, 0.35); fadeIn(capS, tR + 0.5, 0.35, 0);
+          // total des intérêts
+          var tG = wordAt("flows", "gagné") - 0.2;
+          var br = el(svg, "path", { d: "M" + x0 + " " + (sy(50) - 44) + " L" + x0 + " " + (sy(50) - 58) + " L" + (x0 + 9 * step + w) + " " + (sy(50) - 58) + " L" + (x0 + 9 * step + w) + " " + (sy(50) - 44), class: "cthin" });
+          drawIn(br, tG, 0.5);
+          var tot = el(svg, "text", { x: 420, y: sy(50) - 96, class: "cval", "font-size": 64, "text-anchor": "middle" }, "+500 €");
+          fadeIn(tot, tG + 0.3, 0.4);
+        })();
+
+        // ================= 5. RISQUE ET RENDEMENT =================
+        (function () {
+          var s = sceneTimes("risk"), svg = document.getElementById("ch-risk");
+          showScene(document.getElementById("sc-risk"), s.start, s.end);
+          var X0 = 110, Y0 = 560;
+          [160, 260, 360, 460].forEach(function (y) { el(svg, "line", { x1: X0, x2: 880, y1: y, y2: y, class: "gridd" }); });
+          var ax = el(svg, "g", {});
+          el(ax, "line", { x1: X0, x2: 880, y1: Y0, y2: Y0, class: "axis" });
+          el(ax, "line", { x1: X0, x2: X0, y1: 60, y2: Y0, class: "axis" });
+          el(ax, "text", { x: 880, y: Y0 + 44, class: "mono", "font-size": 18, "text-anchor": "end" }, "RISQUE →");
+          el(ax, "text", { x: X0 - 20, y: 60, class: "mono", "font-size": 18, "text-anchor": "end", transform: "rotate(-90 " + (X0 - 20) + " 60)" }, "INTÉRÊTS →");
+          fadeIn(ax, s.start + 0.2, 0.4, 0);
+          // Allemagne : peu de risque, paie peu
+          var tD = wordAt("risk", "l'Allemagne") - 0.25, pD = { x: 230, y: 470 };
+          var dD = el(svg, "circle", { cx: pD.x, cy: pD.y, r: 16, fill: INK, filter: "url(#fGlow)" });
+          var lD = el(svg, "g", {});
+          el(lD, "text", { x: pD.x + 34, y: pD.y + 12, class: "serif", "font-size": 36 }, "Allemagne");
+          fadeIn(dD, tD, 0.3, 0); fadeIn(lD, tD + 0.1, 0.35);
+          // entreprise fragile : risque élevé, paie beaucoup
+          var tF = wordAt("risk", "fragile") - 0.3, pF = { x: 720, y: 150 };
+          var dF = el(svg, "circle", { cx: pF.x, cy: pF.y, r: 16, fill: RED, filter: "url(#fGlow)" });
+          var lF = el(svg, "g", {});
+          el(lF, "text", { x: pF.x - 50, y: pF.y + 12, class: "serif", "font-size": 36, "text-anchor": "end" }, "Entreprise fragile");
+          fadeIn(dF, tF, 0.3, 0); fadeIn(lF, tF + 0.1, 0.35);
+          var tJ = wordAt("risk", "jamais") - 0.2;
+          ring(svg, pF.x, pF.y, 34, tJ);
+          chip(svg, pF.x, pF.y - 72, "RISQUE DE DÉFAUT", 20, tJ + 0.15, "red");
+          // en clair : la pente
+          arrow(svg, pD.x + 30, pD.y - 70, pF.x - 60, pF.y + 150, wordAt("risk", "élevé") - 0.5, 0.7, "cthin");
+        })();
+
+        // ================= 6. TAUX ET PRIX =================
+        (function () {
+          var s = sceneTimes("rates"), svg = document.getElementById("ch-rates");
+          showScene(document.getElementById("sc-rates"), s.start, s.end);
+          // graphique : taux ↑, prix ↓
+          var bot = 600;
+          [150, 250, 350, 450].forEach(function (y) { el(svg, "line", { x1: 60, x2: 860, y1: y, y2: y, class: "gridd" }); });
+          el(svg, "line", { x1: 60, x2: 860, y1: bot, y2: bot, class: "axis" });
+          var tT = wordAt("rates", "taux") - 0.3, tP = wordAt("rates", "montent");
+          var taux = "M60 540 C 260 530, 420 400, 560 300 S 760 150, 860 130";
+          var prix = "M60 130 C 260 140, 420 270, 560 370 S 760 520, 860 540";
+          var aT = el(svg, "path", { d: taux + " L860 " + bot + " L60 " + bot + " Z", fill: "url(#gArea)" });
+          var lT = el(svg, "path", { d: taux, class: "line", filter: "url(#fGlow)" });
+          var lP = el(svg, "path", { d: prix, class: "rline", filter: "url(#fGlow)" });
+          drawIn(lT, tT, 0.9); fadeIn(aT, tT + 0.4, 0.5, 0);
+          drawIn(lP, tP, 0.9);
+          var gT = el(svg, "g", {});
+          el(gT, "text", { x: 860, y: 100, class: "cval", "font-size": 40, "text-anchor": "end" }, "Taux ↑");
+          var gP = el(svg, "g", {});
+          el(gP, "text", { x: 860, y: 590, class: "rval", "font-size": 40, "text-anchor": "end" }, "Prix ↓");
+          fadeIn(gT, tT + 0.7, 0.3, 0); fadeIn(gP, tP + 0.7, 0.3, 0);
+        })();
+
+        // ================= 7. POURQUOI : 4 % contre 6 % =================
+        (function () {
+          var s = sceneTimes("why"), svg = document.getElementById("ch-why");
+          showScene(document.getElementById("sc-why"), s.start, null);
+          var t4 = wordAt("why", "rapporte") + 0.1, t6 = wordAt("why", "rapporter") + 0.1;
+          var cards = [[20, "VOTRE OBLIGATION", "4 %", "val", t4 - 0.4], [475, "NOUVELLES OBLIGATIONS", "6 %", "cval", t6 - 0.5]];
+          var cardEls = [];
+          cards.forEach(function (c) {
+            var p = panel(svg, c[0], 0, 425, 300, c[4]);
+            var g = el(svg, "g", {});
+            el(g, "text", { x: c[0] + 32, y: 52, class: "mono", "font-size": 19 }, c[1]);
+            el(g, "text", { x: c[0] + 32, y: 220, class: c[3], "font-size": 128 }, c[2]);
+            fadeIn(g, c[4] + 0.15, 0.4);
+            cardEls.push([p, g]);
+          });
+          var tPv = wordAt("why", "voudra") - 0.3;
+          var hl = el(svg, "rect", { x: 475, y: 0, width: 425, height: 300, rx: 14, fill: "none", stroke: CYAN, "stroke-width": 2.5 });
+          fadeIn(hl, t6 + 0.2, 0.35, 0);
+          fadeTo(cardEls[0], tPv, 0.45);
+          // prix de revente
+          var tB = wordAt("why", "baisser") - 0.35;
+          var pr = el(svg, "g", {});
+          el(pr, "line", { x1: 20, x2: 900, y1: 400, y2: 400, class: "grid" });
+          el(pr, "text", { x: 20, y: 452, class: "mono", "font-size": 19 }, "PRIX DE REVENTE");
+          fadeIn(pr, wordAt("why", "vendre") - 0.3, 0.4, 0);
+          var old = el(svg, "text", { x: 20, y: 560, class: "val", "font-size": 92 }, "1 000 €");
+          fadeIn(old, wordAt("why", "vendre") - 0.2, 0.4);
+          var strike = el(svg, "line", { x1: 14, x2: 360, y1: 528, y2: 528, stroke: RED, "stroke-width": 5 });
+          growX(strike, tB, 0.35);
+          fadeTo(old, tB + 0.3, 0.4);
+          arrow(svg, 400, 528, 500, 528, tB + 0.3, 0.35);
+          var nw = el(svg, "text", { x: 530, y: 560, class: "rval", "font-size": 92 }, "1 000 €");
+          fadeIn(nw, tB + 0.55, 0.3, 0);
+          counter(nw, tB + 0.55, 1000, 853, 0, " €", 0.9);
+          chip(svg, 900, 620, "≈ −15 %", 22, tB + 1.3, "red", "end");
+          tl.to(["#sc-why"], { opacity: 0.08, duration: 0.5 }, R.total - 1.9);
+          fadeIn(document.getElementById("sign"), R.total - 1.7, 0.5);
+        })();
+
+        // ================= SOUS-TITRES (3 mots max, groupe entier, fond gris translucide) =================
+        (function () {
+          var box = document.getElementById("captions");
+          R.chunks.forEach(function (c) {
+            var div = document.createElement("div");
+            div.className = "cap-line";
+            var inner = document.createElement("div");
+            inner.className = "cap-box";
+            div.appendChild(inner);
+            box.appendChild(div);
+            tl.fromTo(div, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, c.start - 0.06);
+            c.words.forEach(function (w, i) {
+              var span = document.createElement("span");
+              span.textContent = w.text.replace(/ (?=[A-Za-zÀ-ÿ])/g, " ");
+              inner.appendChild(span);
+              if (i < c.words.length - 1) inner.appendChild(document.createTextNode(" "));
+            });
+            tl.to(div, { opacity: 0, duration: 0.01 }, c.end - 0.035);
+          });
+        })();
+
+        tl.set({}, {}, R.total);
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
