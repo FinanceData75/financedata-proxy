@@ -33,12 +33,37 @@
       #bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
         -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
       #bg-vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(0, 0, 0, 0) 55%, rgba(0, 5, 22, 0.6) 100%); }
+      /* fond clair (alterné avec le bleu) : blanc cassé, quadrillage marine très léger */
+      #bg-light { position: absolute; inset: 0; opacity: 0; background: #f6f8fc; }
+      #bg-light::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0, 25, 75, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 25, 75, 0.06) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-light::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(255, 255, 255, 0) 55%, rgba(0, 25, 75, 0.08) 100%); }
+      /* hook : photo plein cadre, assombrie */
+      #bg-photo { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      #bg-photo img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: 39% 50%; filter: brightness(0.62) saturate(0.85); }
+      #bg-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 25, 75, 0.15) 0%, rgba(0, 25, 75, 0.25) 40%, rgba(0, 25, 75, 0.85) 100%); }
+      #shot { position: absolute; left: 120px; top: 740px; width: 840px; border-radius: 26px; background: #fff; box-shadow: 0 30px 70px rgba(0, 5, 25, 0.55); overflow: hidden; opacity: 0; }
+      #shot .hd { display: flex; align-items: baseline; gap: 16px; padding: 30px 34px 6px; color: #1f1f1f; }
+      #shot .hd b { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; }
+      #shot .hd span { font-size: 54px; font-weight: 500; letter-spacing: -0.03em; }
+      #shot .hd i { font-style: normal; font-size: 26px; color: #6b6b6b; }
+      #shot img { display: block; width: 100%; padding: 4px 18px 18px; }
+      #shot-ann { position: absolute; left: 120px; top: 740px; width: 840px; height: 520px; overflow: visible; }
+      #badge { position: absolute; right: 96px; top: 650px; padding: 10px 26px 14px; border-radius: 16px; background: var(--red); color: #fff; font-size: 92px; font-weight: 600; letter-spacing: -0.04em; box-shadow: 0 18px 40px rgba(120, 10, 0, 0.45); opacity: 0; }
+
+      /* scènes sur fond clair */
+      .scene.light { --ink: #00194b; --soft: #5b6b8a; --hair: rgba(0, 25, 75, 0.14); --panel: rgba(0, 25, 75, 0.035); --cyan: #0b6fd0; }
+      .scene.light svg .panel { stroke: rgba(0, 25, 75, 0.14); fill: #ffffff; }
+      .scene.light svg .axis { stroke: rgba(0, 25, 75, 0.5); }
+      .scene.light .reason { background: #ffffff; border-color: rgba(0, 25, 75, 0.12); box-shadow: 0 12px 30px rgba(0, 25, 75, 0.08); }
+      #sign.light { color: #00194b; }
+      #sign.light b { color: #0b6fd0; }
       /* repères d'angle du cadre de données */
       .corner { position: absolute; width: 34px; height: 34px; border-color: rgba(255, 255, 255, 0.22); border-style: solid; border-width: 0; }
       #defs { position: absolute; width: 0; height: 0; }
 
       /* Bloc centré (x 160–920, y 440–1250), dans la safe zone Reels / TikTok (x 80–930, y 250–1500) */
-      .scene { position: absolute; left: 160px; top: 440px; width: 760px; height: 840px; opacity: 0; text-align: center; }
+      .scene { position: absolute; left: 160px; top: 440px; width: 760px; height: 840px; opacity: 0; text-align: center; color: var(--ink); }
       .kicker { font-size: 20px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--cyan); }
       .chart-title { margin-top: 14px; font-size: 54px; white-space: nowrap; line-height: 1.04; font-weight: 600; letter-spacing: -0.035em; }
       .chart-sub { margin-top: 12px; font-size: 24px; font-weight: 400; color: var(--soft); letter-spacing: -0.005em; }
@@ -72,9 +97,11 @@
       .reason .bar { position: absolute; left: -1.5px; top: 22px; bottom: 22px; width: 5px; border-radius: 3px; background: var(--red); opacity: 0; }
 
       #captions { position: absolute; left: 160px; right: 160px; top: 1330px; height: 130px; }
-      .cap-line { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-family: "Inter UI", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.02em; color: var(--ink); opacity: 0; }
-      .cap-line span { display: inline-block; }
-      .cap-line .k { color: var(--cyan); }
+      .cap-line { position: absolute; left: -60px; right: -60px; top: 0; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 14px; background: rgba(30, 34, 42, 0.74);
+        font-family: "Inter UI", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.045em; word-spacing: -0.02em; color: #fff; white-space: nowrap; }
+      .cap-box span { display: inline-block; }
+      .cap-box .k { color: #7dd0f5; }
 
       #sign { position: absolute; left: 160px; right: 160px; top: 1330px; text-align: center; opacity: 0; font-weight: 600; font-size: 58px; letter-spacing: -0.04em; color: var(--ink); }
       #sign b { color: var(--cyan); font-weight: 600; }
@@ -87,6 +114,8 @@
         <div id="bg-glow"></div>
         <div id="bg-grid"></div>
         <div id="bg-vig"></div>
+        <div id="bg-light"></div>
+        <div id="bg-photo"><img src="assets/img/bernard-arnault.jpg" alt="" /></div>
         <div class="corner" style="left:130px;top:410px;border-left-width:2px;border-top-width:2px"></div>
         <div class="corner" style="right:130px;top:410px;border-right-width:2px;border-top-width:2px"></div>
         <div class="corner" style="left:130px;top:1240px;border-left-width:2px;border-bottom-width:2px"></div>
@@ -96,6 +125,8 @@
             <linearGradient id="gArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7dd0f5" stop-opacity="0.34" /><stop offset="1" stop-color="#7dd0f5" stop-opacity="0" /></linearGradient>
             <linearGradient id="gBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef4fd" /><stop offset="1" stop-color="#b9c8e2" /></linearGradient>
             <linearGradient id="gBarH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b9c8e2" /><stop offset="1" stop-color="#eef4fd" /></linearGradient>
+            <linearGradient id="gBarN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d4a9e" /><stop offset="1" stop-color="#00194b" /></linearGradient>
+            <linearGradient id="gBarHN" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#00194b" /><stop offset="1" stop-color="#1d4a9e" /></linearGradient>
             <linearGradient id="gRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff6a5c" /><stop offset="1" stop-color="#d9281c" /></linearGradient>
             <linearGradient id="gRedH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d9281c" /><stop offset="1" stop-color="#ff6a5c" /></linearGradient>
             <linearGradient id="gGauge" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3f86d8" /><stop offset="1" stop-color="#7dd0f5" /></linearGradient>
@@ -104,13 +135,11 @@
           </defs>
         </svg>
 
-        <!-- 1 : hook, cours de l'action en aire -->
-        <div class="scene" id="sc-hook">
-          <div class="kicker">LVMH · Euronext Paris</div>
-          <h2 class="chart-title">L'action LVMH</h2>
-          <div class="chart-sub">Cours de l'action, en euros</div>
-          <svg class="chart" id="ch-hook" viewBox="0 0 920 660"></svg>
-          <div class="source">Points : clôtures de fin d'année (LVMH), record en séance du 24/04/2023, clôture du 06/10/2026.</div>
+        <!-- 1 : hook, photo + capture du cours sur 5 ans -->
+        <div id="sc-hook" style="position:absolute;inset:0">
+          <div id="shot"><div class="hd"><b>LVMH</b><span>380,90</span><i>EUR · 5 ans</i></div><img src="assets/img/cours-lvmh-5a.png" alt="" /></div>
+          <svg id="shot-ann" viewBox="0 0 840 520"></svg>
+          <div id="badge">−57 %</div>
         </div>
 
         <!-- 2 : sommet de 2023, carte KPI -->
@@ -123,7 +152,7 @@
         </div>
 
         <!-- 3 : les trois raisons -->
-        <div class="scene" id="sc-slump">
+        <div class="scene light" id="sc-slump">
           <div class="kicker">Diagnostic</div>
           <h2 class="chart-title">La machine s'est enrayée</h2>
           <div class="reasons">
@@ -143,7 +172,7 @@
         </div>
 
         <!-- 5 : luxe aspirationnel -->
-        <div class="scene" id="sc-aspi">
+        <div class="scene light" id="sc-aspi">
           <div class="kicker">Raison 2/3</div>
           <h2 class="chart-title">Le luxe aspirationnel</h2>
           <div class="chart-sub">Hausse des prix de produits phares, 2020 → 2023</div>
@@ -161,7 +190,7 @@
         </div>
 
         <!-- 7 : rentabilité (jauge, sans chiffre) -->
-        <div class="scene" id="sc-profit">
+        <div class="scene light" id="sc-profit">
           <div class="kicker">Malgré tout</div>
           <h2 class="chart-title">Toujours très rentable</h2>
           <svg class="chart" id="ch-profit" viewBox="0 0 920 660"></svg>
@@ -177,12 +206,12 @@
         </div>
 
         <!-- 9 : l'action continue de baisser -->
-        <div class="scene" id="sc-doubt">
+        <div class="scene light" id="sc-doubt">
           <div class="kicker">Les investisseurs doutent</div>
           <h2 class="chart-title">La baisse continue</h2>
           <div class="chart-sub">Cours de l'action, en euros</div>
           <svg class="chart" id="ch-doubt" viewBox="0 0 920 660"></svg>
-          <div class="source">Points : clôtures de fin d'année (LVMH), record du 24/04/2023, clôture du 06/10/2026.</div>
+          <div class="source">Points : clôtures de fin d'année (LVMH), record du 24/04/2023, clôture du 08/10/2026.</div>
         </div>
 
         <div id="captions"></div>
@@ -198,6 +227,7 @@
         var RED = cv("--red"), INK = cv("--ink"), CYAN = cv("--cyan");
         var R = window.REEL;
         var tl = gsap.timeline({ paused: true });
+        var SFX = []; // [nom, instant, gain] → mixés après le rendu par scripts/sfx.mjs
 
         function el(parent, tag, attrs, text) {
           var n = document.createElementNS(NS, tag);
@@ -269,7 +299,7 @@
           var red = kind !== "neutral";
           var gg = el(parent, "g", {});
           var rect = el(gg, "rect", { rx: 10, fill: red ? "rgba(255,77,61,0.14)" : "rgba(8,30,80,0.9)", stroke: red ? RED : "rgba(255,255,255,0.28)", "stroke-width": 2 });
-          var txt = el(gg, "text", { x: x, y: y, "font-size": size, "font-weight": 600, fill: red ? RED : INK, "letter-spacing": "0.08em", "text-anchor": anchor || "middle" }, text);
+          var txt = el(gg, "text", { "data-keep": 1, x: x, y: y, "font-size": size, "font-weight": 600, fill: red ? RED : INK, "letter-spacing": "0.08em", "text-anchor": anchor || "middle" }, text);
           var t = { rect: rect, txt: txt, size: size };
           fitChip(t); CHIPS.push(t);
           if (at != null) fadeIn(gg, at, 0.35, 8);
@@ -302,9 +332,9 @@
 
         // ================= AIRE DU COURS (hook + fin) =================
         // points sourcés : clôtures de fin d'année (rapports LVMH), record en séance, clôture du 06/10/2026
-        var PTS = [[2022.997, 679.90], [2023.31, 904.60], [2023.997, 733.60], [2024.997, 635.50], [2025.997, 645], [2026.765, 385.60]];
+        var PTS = [[2022.997, 679.90], [2023.31, 904.60], [2023.997, 733.60], [2024.997, 635.50], [2025.997, 645], [2026.77, 380.90]];
         function priceArea(svg, at, drawDur) {
-          var sx = scale(2022.997, 2026.765, 120, 850), sy = scale(0, 1000, 600, 40);
+          var sx = scale(2022.997, 2026.77, 120, 850), sy = scale(0, 1000, 600, 40);
           [250, 500, 750, 1000].forEach(function (v) {
             el(svg, "line", { x1: 100, x2: 880, y1: sy(v), y2: sy(v), class: "gridd" });
             el(svg, "text", { x: 84, y: sy(v) + 8, class: "tick", "text-anchor": "end" }, v);
@@ -323,24 +353,24 @@
           var dHi = el(svg, "circle", { cx: hi.x, cy: hi.y, r: 8, fill: INK });
           var pHi = chip(svg, hi.x + 34, hi.y - 26, "RECORD · 904,60 €", 22, null, "neutral", "start");
           var dLo = el(svg, "circle", { cx: lo.x, cy: lo.y, r: 9, fill: RED });
-          var pLo = chip(svg, lo.x - 34, lo.y + 64, "385,60 €", 26, null, "red", "end");
+          var pLo = chip(svg, lo.x - 34, lo.y + 64, "380,90 €", 26, null, "red", "end");
           return { fall: fall, guide: guide, dHi: dHi, pHi: pHi, dLo: dLo, pLo: pLo, hi: hi, lo: lo };
         }
 
-        // ================= 1. HOOK =================
+        // ================= 1. HOOK : photo + capture =================
         (function () {
-          var s = sceneTimes("hook"), svg = document.getElementById("ch-hook");
-          showScene(document.getElementById("sc-hook"), 0, s.end);
-          var a = priceArea(svg, 0.15, 1.3);
-          var t57 = wordAt("hook", "57 %");
-          fadeIn(a.guide, 0.6, 0.4, 0); fadeIn(a.dHi, 0.6, 0.3, 0); fadeIn(a.pHi, 0.75, 0.4, 6);
-          drawIn(a.fall, t57 - 0.55, 0.8);
-          fadeIn(a.dLo, t57 + 0.2, 0.3, 0); fadeIn(a.pLo, t57 + 0.3, 0.35, 6);
-          var lab = el(svg, "text", { x: 420, y: 420, class: "rval halo", "font-size": 104, "text-anchor": "middle" }, "−57 %");
-          fadeIn(lab, t57 + 0.1, 0.4);
-          var t20 = wordAt("hook", "2020");
-          ring(svg, a.lo.x, a.lo.y, 26, t20 - 0.15);
-          chip(svg, 640, 540, "PLUS BAS DEPUIS 2020", 24, t20, "red");
+          var s = sceneTimes("hook"), svg = document.getElementById("shot-ann");
+          tl.fromTo("#bg-photo", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 0);
+          tl.to("#bg-photo", { opacity: 0, duration: 0.4 }, s.end - 0.4);
+          tl.fromTo("#shot", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }, 0.25);
+          tl.to(["#shot", "#shot-ann", "#badge"], { opacity: 0, duration: 0.3 }, s.end - 0.3);
+          var t57 = wordAt("hook", "57 %"), t20 = wordAt("hook", "2020");
+          tl.fromTo("#badge", { opacity: 0, scale: 0.85, transformOrigin: "100% 100%" }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, t57 - 0.1);
+          // dernier point de la capture : (1060, 278) dans l'image 1090×408, rendue à 804 px de large sous un en-tête de 96 px
+          var k = 804 / 1090, x = 18 + 1060 * k, y = 96 + 278 * k;
+          ring(svg, x, y, 30, t20 - 0.2);
+          chip(svg, x + 22, 96 + 408 * k + 62, "PLUS BAS DEPUIS 2020", 26, t20, "red", "end");
+          SFX.push(["shutter", 0.2, 0.7], ["impact", t57 - 0.12, 0.5], ["pop", t20 - 0.15, 0.55]);
         })();
 
         // ================= 2. SOMMET 2023 : carte KPI =================
@@ -356,6 +386,7 @@
           var big = el(svg, "text", { x: 460, y: 268, class: "val", "font-size": 132, "text-anchor": "middle" }, "0,00 €");
           fadeIn(big, s.start + 0.3, 0.4);
           counter(big, s.start + 0.3, 904.60, 2, " €", wordAt("peak", "900") - s.start);
+          SFX.push(["tick", s.start + 0.3, 0.3]);
           var sub = el(svg, "text", { x: 460, y: 322, class: "lbl", "font-size": 26, "text-anchor": "middle" }, "Record en séance · 24 avril 2023");
           fadeIn(sub, s.start + 0.5, 0.4);
           var div = el(svg, "line", { x1: 120, x2: 800, y1: 380, y2: 380, class: "grid" });
@@ -383,6 +414,7 @@
           tl.to(["#r2", "#r3"], { opacity: 0.32, duration: 0.35 }, tC - 0.3);
           tl.to("#r1 .bar", { opacity: 1, duration: 0.3 }, tC - 0.3);
           tl.to("#r1", { borderColor: "rgba(255,77,61,0.55)", duration: 0.3 }, tC - 0.3);
+          SFX.push(["pop", tC - 0.32, 0.5]);
         })();
 
         // ================= 4. CHINE =================
@@ -406,6 +438,7 @@
           fadeIn(gl, tc, 0.3, 0);
           arrow(svg, 620, sy(33) + 6, 620, sy(21) - 76, tc + 0.1, 0.4);
           chip(svg, 760, sy(27) + 8, "−12 PTS", 26, wordAt("china", "dépenses"), "red");
+          SFX.push(["down", tc + 0.05, 0.4]);
         })();
 
         // ================= 5. LUXE ASPIRATIONNEL =================
@@ -421,6 +454,7 @@
           var tagTxt = el(svg, "text", { x: 694, y: 101, "font-size": 20, "font-weight": 600, fill: RED, "text-anchor": "middle", "letter-spacing": "0.04em" }, "€€€");
           fadeIn(tagTxt, tiles[2][2] + 0.4, 0.3, 0);
           chip(svg, 460, 268, "LES CLIENTS DÉCROCHENT", 24, wordAt("aspi", "réduit"), "red");
+          SFX.push(["pop", wordAt("aspi", "réduit") - 0.05, 0.5]);
           var sx = scale(0, 80, 320, 820), rows = [["Dior", 66, 400], ["Louis Vuitton", 31, 510]];
           var t0 = wordAt("aspi", "ont") - 0.1;
           rows.forEach(function (r, i) {
@@ -452,6 +486,7 @@
           });
           var big = el(svg, "text", { x: 460, y: 500, class: "rval", "font-size": 92, "text-anchor": "middle" }, "≈ −50 %");
           fadeIn(big, tF + 0.35, 0.45);
+          SFX.push(["down", tF + 0.2, 0.4]);
           chip(svg, 460, 572, "RÉGION ≈ 6 % DES VENTES DE LVMH", 20, wordAt("mideast", "région"), "neutral");
         })();
 
@@ -496,6 +531,7 @@
           var box = el(svg, "rect", { x: 312, y: y0 - 110, width: 540, height: 200, rx: 18, fill: "rgba(255,77,61,0.07)", stroke: RED, "stroke-width": 2.5, "stroke-dasharray": "8 6" });
           fadeIn(box, tC - 0.1, 0.4, 0);
           chip(svg, 582, y0 - 140, "QUASI À L'ARRÊT", 26, tC + 0.2, "red");
+          SFX.push(["pop", tC + 0.15, 0.5]);
         })();
 
         // ================= 9. L'ACTION CONTINUE DE BAISSER =================
@@ -508,11 +544,40 @@
           fadeIn(a.dLo, s.start + 1.1, 0.3, 0); fadeIn(a.pLo, s.start + 1.15, 0.3, 6);
           var tB = wordAt("doubt", "baisser");
           arrow(svg, a.lo.x + 30, a.lo.y + 20, a.lo.x + 30, a.lo.y + 140, tB - 0.25, 0.45);
+          SFX.push(["down", tB - 0.3, 0.45]);
           tl.to(["#sc-doubt", ".corner"], { opacity: 0.1, duration: 0.5 }, R.total - 1.9);
           fadeIn(document.getElementById("sign"), R.total - 1.7, 0.5);
         })();
 
-        // ================= SOUS-TITRES (3 mots max, mot par mot) =================
+        // ================= FONDS ALTERNÉS : bleu quadrillé / blanc =================
+        (function () {
+          var LIGHT = { slump: 1, aspi: 1, profit: 1, doubt: 1 };
+          R.scenes.forEach(function (sc, i) {
+            if (!LIGHT[sc.id]) return;
+            tl.to("#bg-light", { opacity: 1, duration: 0.35, ease: "power1.inOut" }, sc.start - 0.15);
+            if (i < R.scenes.length - 1) tl.to("#bg-light", { opacity: 0, duration: 0.35, ease: "power1.inOut" }, sc.end - 0.2);
+          });
+          tl.to(".corner", { opacity: 0, duration: 0.01 }, 0);
+          // les éléments SVG dessinés pour le fond bleu sont recolorés pour le fond clair
+          Array.prototype.forEach.call(document.querySelectorAll(".scene.light svg *"), function (n) {
+            if (n.hasAttribute("data-keep")) return;
+            ["fill", "stroke"].forEach(function (a) {
+              var v = n.getAttribute(a);
+              if (!v) return;
+              if (v === INK) n.setAttribute(a, "#00194b");
+              else if (v === "url(#gBar)") n.setAttribute(a, "url(#gBarN)");
+              else if (v === "url(#gBarH)") n.setAttribute(a, "url(#gBarHN)");
+              else if (v === "#00194b" && n.tagName === "circle") n.setAttribute(a, "#ffffff");
+              else { var m = v.match(/^rgba\(255,\s*255,\s*255,\s*([\d.]+)\)$/); if (m) n.setAttribute(a, "rgba(0,25,75," + Math.min(0.5, +m[1] * 1.1).toFixed(3) + ")"); }
+            });
+          });
+          document.getElementById("sign").className = "light";
+          // effets sonores : transitions entre scènes
+          R.scenes.forEach(function (sc, i) { if (i) SFX.push(["whoosh", sc.start - 0.25, 0.3]); });
+          window.__SFX = SFX.map(function (c) { return { name: c[0], t: +c[1].toFixed(3), gain: c[2] }; });
+        })();
+
+        // ================= SOUS-TITRES (3 mots max, groupe entier, fond gris translucide) =================
         (function () {
           var KEY = { "57 %": 1, "2020": 1, "trois": 1, "900": 1, "Europe": 1, "Chine": 1, "ralenti": 1, "aspirationnel": 1, "prix": 1, "hauts": 1,
             "Moyen-Orient": 1, "rentable": 1, "croissance": 1, "doutent": 1, "baisser": 1 };
@@ -520,16 +585,18 @@
           R.chunks.forEach(function (c) {
             var div = document.createElement("div");
             div.className = "cap-line";
+            var inner = document.createElement("div");
+            inner.className = "cap-box";
+            div.appendChild(inner);
             box.appendChild(div);
-            tl.fromTo(div, { opacity: 0 }, { opacity: 1, duration: 0.01 }, c.start - 0.04);
+            tl.fromTo(div, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.12, ease: "power2.out" }, c.start - 0.06);
             c.words.forEach(function (w, i) {
               var span = document.createElement("span");
               var k = w.key.replace(/^d'/, "");
               if (KEY[w.key] || KEY[k]) span.className = "k";
               span.textContent = w.text.replace(/ (?=[A-Za-zÀ-ÿ])/g, " ");
-              div.appendChild(span);
-              if (i < c.words.length - 1) div.appendChild(document.createTextNode(" "));
-              tl.fromTo(span, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.15, ease: "power2.out" }, w.start - 0.05);
+              inner.appendChild(span);
+              if (i < c.words.length - 1) inner.appendChild(document.createTextNode(" "));
             });
             tl.to(div, { opacity: 0, duration: 0.01 }, c.end - 0.035);
           });
