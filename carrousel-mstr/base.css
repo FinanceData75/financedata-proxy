@@ -1,0 +1,11 @@
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1350px;background:#fff;font-family:Inter,sans-serif;color:#111;overflow:hidden}
+.page{position:relative;width:1080px;height:1350px;padding:90px 80px 50px;display:flex;flex-direction:column;align-items:center}
+.red{background:#ef3b3b;color:#fff;border-radius:22px;padding:30px 50px;font-weight:600;font-size:76px;line-height:1.12;text-align:center;letter-spacing:-1px}
+.pill{background:#111;color:#fff;border-radius:18px;padding:16px 34px;font-weight:600;font-size:44px;margin-top:26px;text-align:center}
+.small{font-size:30px;color:#666;text-align:center;line-height:1.4}
+.brand{margin-top:24px;text-align:center;font-weight:700;font-size:30px;letter-spacing:2px;color:#111}
+.brand span{color:#ef3b3b}
+.dots{margin-top:auto;padding-top:30px;display:flex;justify-content:center;gap:14px}
+.dots i{width:14px;height:14px;border-radius:50%;background:#ddd}.dots i.on{background:#ef3b3b}
+.card{width:100%;border:3px solid #eee;border-radius:28px;padding:40px 50px}
