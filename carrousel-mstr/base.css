@@ -1,11 +1,8 @@
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{width:1080px;height:1350px;background:#fff;font-family:Inter,sans-serif;color:#111;overflow:hidden}
-.page{position:relative;width:1080px;height:1350px;padding:90px 80px 50px;display:flex;flex-direction:column;align-items:center}
-.red{background:#ef3b3b;color:#fff;border-radius:22px;padding:30px 50px;font-weight:600;font-size:76px;line-height:1.12;text-align:center;letter-spacing:-1px}
-.pill{background:#111;color:#fff;border-radius:18px;padding:16px 34px;font-weight:600;font-size:44px;margin-top:26px;text-align:center}
-.small{font-size:30px;color:#666;text-align:center;line-height:1.4}
-.brand{margin-top:24px;text-align:center;font-weight:700;font-size:30px;letter-spacing:2px;color:#111}
-.brand span{color:#ef3b3b}
-.dots{margin-top:auto;padding-top:30px;display:flex;justify-content:center;gap:14px}
-.dots i{width:14px;height:14px;border-radius:50%;background:#ddd}.dots i.on{background:#ef3b3b}
-.card{width:100%;border:3px solid #eee;border-radius:28px;padding:40px 50px}
+html,body{width:1080px;height:1440px;background:#fff;font-family:Inter,sans-serif;overflow:hidden}
+.page{width:1080px;height:1440px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 70px;gap:22px;text-align:center}
+.red{background:#ef3b3b;color:#fff;border-radius:20px;padding:22px 40px;font-weight:600;font-size:74px;line-height:1.15;letter-spacing:-1px}
+.blk{background:#111;color:#fff;border-radius:16px;padding:14px 30px;font-weight:600;font-size:46px;line-height:1.25}
+.wht{background:#fff;color:#111;border-radius:16px;padding:14px 30px;font-weight:600;font-size:46px;line-height:1.25;box-shadow:0 0 0 2px #eee}
+.out{color:#fff;font-weight:700;font-size:40px;text-shadow:-2px -2px 0 #111,2px -2px 0 #111,-2px 2px 0 #111,2px 2px 0 #111,0 2px 0 #111,0 -2px 0 #111,2px 0 0 #111,-2px 0 0 #111}
+.photo{width:620px;height:720px;border:4px dashed #ddd;border-radius:24px;display:flex;align-items:center;justify-content:center;color:#aaa;font-size:30px;margin-top:20px}
