@@ -5,7 +5,7 @@ bleu clair en accent, annotations en rouge. Bloc centré dans la safe zone Reels
 (contenu dans x 160–920, y 470–1460). Sous-titres en Inter SemiBold, 3 mots max, apparition mot par mot.
 
 ## Fichiers
-- `index.html` : composition (9 scènes, chiffres sourcés sous chaque visuel)
+- `index.html` : composition (9 scènes : graphiques sourcés + illustrations SVG dessinées : couronne, sac, basket, étiquette prix, boutique, pièces)
 - `assets/reel-data.js` : découpage des sous-titres par scène, recalé sur la voix
 - `voix-off.txt` : texte exactement lu dans la prise montée
 - `audio/voix-off-lvmh.wav` : voix off montée (meilleures prises, pauses ≤ 0,15 s), sans autre traitement
@@ -20,10 +20,10 @@ ffmpeg -i renders/reel-lvmh.mp4 -i audio/voix-off-lvmh.wav -map 0:v -map 1:a -c:
 ```
 
 ## Sources des chiffres
-- Record 904,60 € (24/04/2023, séance) : Reuters ; 385,60 € (clôture 06/10/2026) : Boursorama ; plus bas depuis 2020 : Zonebourse, Idéal Investisseur
+- Aire du cours : clôtures de fin d'année 679,90 € (2022), 733,60 € (2023), 635,50 € (2024) (lettres aux actionnaires et rapports annuels LVMH), ≈ 645 € (2025, déduit des variations publiées), record 904,60 € (24/04/2023, séance, Reuters), 385,60 € (clôture 06/10/2026, Boursorama). Points reliés en ligne droite, sans données intermédiaires.
+- Plus bas depuis 2020 : Zonebourse, Idéal Investisseur
 - N°1 en Europe, > 500 Md$ (avril 2023) : Reuters, Bloomberg
 - Part des Chinois dans le luxe mondial 33 % (2019) → 21 % (2024) : Berenberg
-- Hausses de prix 2020–2023 (Dior +66 %, Chanel +59 %, Louis Vuitton +31 %) : Bernstein
+- Hausses de prix 2020–2023 (Dior +66 %, Louis Vuitton +31 %) : Bernstein
 - Moyen-Orient ≈ 6 % des ventes, fréquentation ≈ −50 % : LVMH, T1 2026
-- Marge opérationnelle 22,5 %, résultat net 5,7 Md€ (S1 2026) : LVMH
 - Croissance organique +13 % (2023), +1 % (2024), −1 % (2025), +2 % (S1 2026) : LVMH
