@@ -24,21 +24,20 @@ Le carrousel doit être prêt à valider à 17h.
    `type` (`cover`, `buy`, `cta`) et `lines`, **3 lignes maximum, courtes** (~35 caractères),
    car le rendu imite le texte natif TikTok (petit, centré). Le rendu refuse une slide trop longue.
 
-   Rédiger comme un copywriter TikTok, en français, tutoiement, ton oral :
-   - **Couverture** = l'accroche qui stoppe le scroll. Un chiffre choc + une tension/curiosité,
-     pas de titre descriptif. Ex. « Hier, 4 patrons US ont sorti 38 M$ / de leur poche pour acheter /
-     leurs propres actions 👀 », « Ce PDG vient de racheter / pour 32 M$ de sa propre boîte. /
-     Pourquoi maintenant ? 👀 ».
+   Rédiger comme un copywriter TikTok, en français, tutoiement, ton oral, **sans aucun émoji**
+   (le rendu les refuse). Parler d'**insiders** (« 4 insiders US », « Chaque jour, des insiders US
+   achètent ») plutôt que de « patrons ». Pour l'action, utiliser simplement **acheter** ou
+   **investir** (pas d'images du type « met sur la table », « pose », « sort de sa poche »).
+   - **Couverture** = l'accroche qui stoppe le scroll : un chiffre choc + de la curiosité, pas de
+     titre descriptif. Ex. « Hier, 4 insiders US ont investi 38 M$ / dans les actions / de leur
+     propre entreprise », « Le PDG de 51Talk vient d'acheter / pour 32 M$ de ses propres actions ».
    - **3 à 5 slides `buy`**, une par ligne de `top`, du plus gros au plus petit :
-     ligne 1 = « #1 · Société ($TICKER) », puis 1 à 2 lignes punchy : qui (`rolesFr`, ex. « Le PDG »,
-     « Un administrateur ») + montant en format FR (« 32 M$ », « 850 k$ ») + au plus UN détail fort
-     (« D'un seul coup. », `clusterSize` > 1 : « 3 dirigeants achètent en même temps »,
-     `positionIncreasePct` élevé : « Il gonfle sa position de 40 % »).
-     Verbes concrets (« pose », « sort », « rachète », « met sur la table »), phrases courtes,
-     pas de jargon. Créer une envie de swiper (le #1 n'est pas forcément le plus gros si l'histoire
-     d'un autre est plus forte, mais garder la numérotation cohérente).
-   - **CTA** : « Abonne-toi pour ne pas louper / les prochains » + une ligne d'amorce
-     (ex. « Chaque jour, des patrons US achètent. »). Pas de mention de FinanceData.
+     ligne 1 = « #1 · Société ($TICKER) », puis 1 à 2 lignes courtes : qui (`rolesFr`, ex. « Le PDG »,
+     « Un administrateur ») + achète/investit + montant en format FR (« 32 M$ », « 850 k$ ») + au plus
+     UN détail fort (« en une seule fois », `clusterSize` > 1 : « 3 insiders achètent en même temps »,
+     `positionIncreasePct` élevé : « Il augmente sa position de 40 % »).
+   - **CTA** : « Abonne-toi pour ne pas louper / les prochains » précédé d'une ligne d'amorce
+     (ex. « Chaque jour, des insiders achètent. »). Pas de mention de FinanceData.
    - Jamais de conseil (« achète », « fonce ») ni d'insinuation de délit d'initié : on rapporte
      des achats publics et légaux. N'utiliser que les chiffres de `buys.json`, ne rien inventer.
    - Fonds : les slides `buy` prennent uniquement des photos neutres (`backgrounds/`) ; les photos

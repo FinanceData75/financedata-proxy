@@ -7,8 +7,8 @@
 // Format de slides.json :
 // {
 //   "slides": [
-//     { "type": "cover", "lines": ["Ce PDG vient de mettre 32 M$", "dans sa propre boîte 👀"] },
-//     { "type": "buy",   "lines": ["#1 51Talk ($COE)", "Le PDG rachète 32 M$ d'actions", "en une seule fois"] },
+//     { "type": "cover", "lines": ["Hier, 4 insiders US ont investi 38 M$", "dans leur propre entreprise"] },
+//     { "type": "buy",   "lines": ["#1 · 51Talk ($COE)", "Le PDG achète pour 32 M$", "d'actions en une seule fois"] },
 //     { "type": "cta",   "lines": ["Abonne-toi pour ne pas louper", "les prochains"] }
 //   ]
 // }
@@ -17,7 +17,8 @@
 // - "buy" pioche uniquement dans backgrounds/ : jamais de visage connu à côté
 //   d'un achat, pour ne pas laisser croire que cette personne est l'acheteur.
 // La rotation change chaque jour. Sans photo disponible, le rendu échoue.
-// Le rendu échoue aussi si une slide dépasse 3 lignes une fois mise en page.
+// Le rendu échoue aussi si une slide dépasse 3 lignes une fois mise en page
+// ou contient un émoji.
 // Les images sont écrites à côté de slides.json : slide-01.jpg, slide-02.jpg, ...
 import { chromium } from "playwright-core";
 import { readFile, writeFile, readdir } from "node:fs/promises";
@@ -97,6 +98,7 @@ html, body { width: ${W}px; height: ${H}px; overflow: hidden; background: #000; 
 for (const [i, s] of spec.slides.entries()) {
   if (!s.lines?.length) throw new Error(`Slide ${i + 1} : "lines" manquant`);
   if (s.lines.length > MAX_LINES) throw new Error(`Slide ${i + 1} : ${s.lines.length} lignes (max ${MAX_LINES})`);
+  if (s.lines.some(l => /\p{Extended_Pictographic}/u.test(l))) throw new Error(`Slide ${i + 1} : pas d'émoji`);
   if (!s.background && !pickBackground(s, i)) {
     console.error("Aucune photo dans backgrounds/ : ajoute des photos naturelles verticales (JPEG/PNG/WebP/AVIF).");
     process.exit(1);
