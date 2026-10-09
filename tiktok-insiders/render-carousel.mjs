@@ -45,11 +45,11 @@ async function dataUri(path, mime) {
   const buf = await readFile(resolve(dirname(resolve(specPath)), path));
   return `data:${mime};base64,${buf.toString("base64")}`;
 }
-const imageMime = p => ({ ".png": "image/png", ".webp": "image/webp" })[extname(p).toLowerCase()] || "image/jpeg";
+const imageMime = p => ({ ".png": "image/png", ".webp": "image/webp", ".avif": "image/avif" })[extname(p).toLowerCase()] || "image/jpeg";
 
 // Photos de fond disponibles (chemins absolus), triées pour une rotation stable
 const library = (await readdir(join(HERE, "backgrounds")).catch(() => []))
-  .filter(f => /\.(jpe?g|png|webp)$/i.test(f)).sort().map(f => join(HERE, "backgrounds", f));
+  .filter(f => /\.(jpe?g|png|webp|avif)$/i.test(f)).sort().map(f => join(HERE, "backgrounds", f));
 const dayIndex = Math.floor(Date.now() / 86_400_000);
 const pickBackground = i => library.length ? library[(dayIndex * 7 + i) % library.length] : null;
 if (!library.length && !spec.background && spec.slides.some(s => !s.background)) {
