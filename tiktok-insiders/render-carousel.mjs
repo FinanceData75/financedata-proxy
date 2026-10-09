@@ -12,8 +12,9 @@
 //     { "type": "cta",   "lines": ["Abonne-toi pour ne pas louper", "les prochains"] }
 //   ]
 // }
-// Tout le carrousel utilise UNE seule photo de fond, choisie chaque jour dans
-// backgrounds/ (rotation quotidienne), ou forcée via "background" au niveau racine.
+// Tout le carrousel utilise UNE seule photo de fond : backgrounds/fond.jpg si elle
+// existe (fond fixe), sinon une photo de backgrounds/ choisie chaque jour
+// (rotation quotidienne). "background" au niveau racine de slides.json force un fond.
 // Les photos de backgrounds/personnalites/ ne sont pas utilisées : un visage
 // connu à côté d'un achat laisserait croire que cette personne est l'acheteur.
 // Sans photo disponible, le rendu échoue.
@@ -58,7 +59,8 @@ const imageMime = p => ({ ".png": "image/png", ".webp": "image/webp", ".avif": "
 const library = (await readdir(join(HERE, "backgrounds")).catch(() => []))
   .filter(f => /\.(jpe?g|png|webp|avif)$/i.test(f)).sort().map(f => join(HERE, "backgrounds", f));
 const dayIndex = Math.floor(Date.now() / 86_400_000);
-const bgPath = spec.background ?? (library.length ? library[dayIndex % library.length] : null);
+const fixed = library.find(p => /\/fond\.[a-z]+$/i.test(p));
+const bgPath = spec.background ?? fixed ?? (library.length ? library[dayIndex % library.length] : null);
 if (!bgPath) {
   console.error("Aucune photo dans backgrounds/ : ajoute des photos naturelles verticales (JPEG/PNG/WebP/AVIF).");
   process.exit(1);

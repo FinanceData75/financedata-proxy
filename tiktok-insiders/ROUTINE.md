@@ -40,8 +40,8 @@ Le carrousel doit être prêt à valider à 17h.
      (ex. « Chaque jour, des insiders achètent. »). Pas de mention de FinanceData.
    - Jamais de conseil (« achète », « fonce ») ni d'insinuation de délit d'initié : on rapporte
      des achats publics et légaux. N'utiliser que les chiffres de `buys.json`, ne rien inventer.
-   - Fond : une seule photo pour tout le carrousel, choisie automatiquement chaque jour dans
-     `backgrounds/` (les photos de `backgrounds/personnalites/` ne sont pas utilisées).
+   - Fond : une seule photo pour tout le carrousel, `backgrounds/fond.jpg` (salle de trading
+     Bloomberg), appliquée automatiquement par le rendu.
 4. `node render-carousel.mjs out/<date>/slides.json` → `slide-01.jpg`… (JPEG 1080x1920).
    Vérifier visuellement chaque slide (lecture de l'image) avant de continuer.
 5. Upload Higgsfield : `media_upload` (files[] avec chaque JPEG), `curl -X PUT` de chaque
