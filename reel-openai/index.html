@@ -50,7 +50,7 @@
       svg .axis { stroke: var(--soft); stroke-width: 2; fill: none; opacity: 0.6; }
 
       /* formes à angles droits, peu de texte */
-      #heat { position: absolute; left: 0; top: 560px; width: 1080px; overflow: hidden; box-shadow: 0 30px 70px rgba(0, 5, 25, 0.6); opacity: 0; }
+      #heat { position: absolute; left: 170px; top: 760px; width: 740px; overflow: hidden; box-shadow: 0 30px 70px rgba(0, 5, 25, 0.6); opacity: 0; }
       #heat img { display: block; width: 100%; }
       .badge { position: absolute; padding: 12px 28px 16px; background: var(--red); color: #fff; font-weight: 600; letter-spacing: -0.04em; white-space: nowrap; opacity: 0; }
       .big { font-size: 210px; }
@@ -87,7 +87,7 @@
         <!-- hook : Sam Altman + capture du marché -->
         <div id="sc-hook" class="layer">
           <div id="heat"><img src="assets/img/heatmap.png" alt="" /></div>
-          <div class="badge" id="b500" style="left:540px;top:440px;font-size:100px;transform:translateX(-50%)">−500 Md$</div>
+          <div class="badge" id="b500" style="right:150px;top:690px;font-size:76px">−500 Md$</div>
         </div>
         <!-- 50 au lieu de 70 -->
         <div class="scene light" id="sc-gap">
@@ -151,7 +151,6 @@
         function counter(node, at, to, dur, pre, suf) {
           var o = { v: 0 };
           tl.fromTo(o, { v: 0 }, { v: to, duration: dur, ease: "power2.out", immediateRender: false, onUpdate: function () { node.textContent = (pre || "") + fmt(o.v, 0) + (suf || ""); } }, at);
-          SFX.push(["swell", at, 0.12]);
         }
         function sc(id) { return R.scenes.filter(function (s) { return s.id === id; })[0]; }
         function wordAt(id, key, nth) {
@@ -168,7 +167,7 @@
           if (i && prev !== cur) {
             if (cur !== "bg-dark") tl.fromTo("#" + cur, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power1.inOut" }, s.start - 0.2);
             if (prev !== "bg-dark") tl.to("#" + prev, { opacity: 0, duration: 0.35, ease: "power1.inOut" }, s.start - 0.1);
-            SFX.push(["whoosh", s.start - 0.25, 0.2]);
+            SFX.push(["whoosh", s.start - 0.25, 0.14]);
           }
           var node = $("sc-" + s.id);
           if (!node) return;
@@ -184,7 +183,6 @@
           tl.fromTo("#b500", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, t5 - 0.15);
           var b = $("b500"), o = { v: 0 };
           tl.fromTo(o, { v: 0 }, { v: 500, duration: 0.7, ease: "power2.out", onUpdate: function () { b.textContent = "−" + fmt(o.v, 0) + " Md$"; } }, t5 - 0.15);
-          SFX.push(["impact", t5 - 0.15, 0.45]);
         })();
 
         // ---------- 50 au lieu de 70 ----------
@@ -202,7 +200,6 @@
           el(tag, "rect", { x: 450, y: base - 70 * k - 6, width: 220, height: 20 * k + 6, fill: "rgba(255,46,36,0.12)", stroke: RED, "stroke-width": 2, "stroke-dasharray": "6 6" });
           el(tag, "text", { x: 560, y: base - 60 * k + 14, "font-size": 40, "font-weight": 600, fill: RED, "text-anchor": "middle" }, "−20");
           fadeIn(tag, tG, 0.6, 0);
-          SFX.push(["pop", tG, 0.35]);
         })();
 
         // ---------- l'IA chute : trois valeurs ----------
