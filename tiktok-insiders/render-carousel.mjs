@@ -13,7 +13,8 @@
 //   ]
 // }
 // Chaque slide peut surcharger "background". Sans fond indiqué, une photo du
-// dossier backgrounds/ est choisie (rotation quotidienne, une par slide). Les images sont écrites à côté de
+// dossier backgrounds/ est choisie (rotation quotidienne, une par slide). Sans
+// aucune photo disponible, le rendu échoue : pas de fond de remplacement. Les images sont écrites à côté de
 // slides.json sous slide-01.jpg, slide-02.jpg, ...
 import { chromium } from "playwright-core";
 import { readFile, writeFile, readdir } from "node:fs/promises";
@@ -51,6 +52,10 @@ const library = (await readdir(join(HERE, "backgrounds")).catch(() => []))
   .filter(f => /\.(jpe?g|png|webp)$/i.test(f)).sort().map(f => join(HERE, "backgrounds", f));
 const dayIndex = Math.floor(Date.now() / 86_400_000);
 const pickBackground = i => library.length ? library[(dayIndex * 7 + i) % library.length] : null;
+if (!library.length && !spec.background && spec.slides.some(s => !s.background)) {
+  console.error("Aucune photo dans backgrounds/ : ajoute des photos naturelles verticales (JPEG/PNG/WebP).");
+  process.exit(1);
+}
 
 const font700 = await dataUri(join(HERE, "fonts/TikTokSans-700.ttf"), "font/ttf");
 const font900 = await dataUri(join(HERE, "fonts/TikTokSans-900.ttf"), "font/ttf");
@@ -69,8 +74,8 @@ function html(s, bg) {
 @font-face { font-family: "TikTok Sans"; font-weight: 700; src: url(${font700}); }
 @font-face { font-family: "TikTok Sans"; font-weight: 900; src: url(${font900}); }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { width: ${W}px; height: ${H}px; overflow: hidden; background: #1d2a24; }
-.bg { position: absolute; inset: 0; background: ${bg ? `url(${bg}) center / cover no-repeat` : "linear-gradient(160deg,#3b5a4a,#14201a)"}; }
+html, body { width: ${W}px; height: ${H}px; overflow: hidden; background: #000; }
+.bg { position: absolute; inset: 0; background: url(${bg}) center / cover no-repeat; }
 .shade { position: absolute; inset: 0; background: rgba(0,0,0,.18); }
 /* Zone utile : TikTok masque le bas (~420px) et la colonne droite (~140px) */
 .safe { position: absolute; top: 260px; left: 70px; right: 150px; bottom: 440px;
@@ -99,11 +104,8 @@ const bgCache = new Map();
 try {
   for (const [i, s] of spec.slides.entries()) {
     const bgPath = s.background ?? spec.background ?? pickBackground(i);
-    let bg = null;
-    if (bgPath) {
-      if (!bgCache.has(bgPath)) bgCache.set(bgPath, await dataUri(bgPath, imageMime(bgPath)));
-      bg = bgCache.get(bgPath);
-    }
+    if (!bgCache.has(bgPath)) bgCache.set(bgPath, await dataUri(bgPath, imageMime(bgPath)));
+    const bg = bgCache.get(bgPath);
     await page.setContent(html(s, bg), { waitUntil: "load" });
     await page.evaluate(() => document.fonts.ready);
     // Réduit la taille du texte tant qu'il déborde de la zone utile
