@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <script src="assets/reel-data.js"></script>
+    <style>
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf") format("opentype"); font-weight: 600; }
+
+      /* DA FinanceData : bleu #00194B quadrillé, alterné avec un blanc cassé quadrillé et des photos plein cadre */
+      :root { --bg: #00194b; --ink: #eaf1fb; --soft: #8fa3c7; --hair: rgba(255, 255, 255, 0.12); --cyan: #7dd0f5; --red: #ff2e24; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { width: 100%; height: 100%; position: relative; font-family: "Inter UI", sans-serif; color: var(--ink); background: var(--bg); font-feature-settings: "tnum" 1; }
+      #stage { position: absolute; inset: 0; overflow: hidden; }
+
+      .layer { position: absolute; inset: 0; opacity: 0; }
+      #bg-dark { opacity: 1; }
+      #bg-dark .glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 38% at 50% 46%, #0b3480 0%, rgba(0, 25, 75, 0) 72%); }
+      #bg-dark .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-dark .vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(0, 0, 0, 0) 55%, rgba(0, 5, 22, 0.6) 100%); }
+      #bg-light { background: #f6f8fc; }
+      #bg-light::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0, 25, 75, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 25, 75, 0.06) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-light::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(255, 255, 255, 0) 55%, rgba(0, 25, 75, 0.08) 100%); }
+      .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0, 10, 30, 0.45) 0%, rgba(0, 10, 30, 0) 20%, rgba(0, 10, 30, 0) 50%, rgba(0, 20, 60, 0.85) 100%); }
+      #ph-sam2 img { filter: grayscale(1) brightness(0.8); }
+
+      /* scènes : bloc centré dans la safe zone (x 140–940, y 440–1290) */
+      .scene { position: absolute; left: 140px; top: 440px; width: 800px; height: 850px; opacity: 0; text-align: center; color: var(--ink); }
+      .scene.light { --ink: #00194b; --soft: #5b6b8a; --hair: rgba(0, 25, 75, 0.14); --cyan: #0b6fd0; }
+      .kicker { font-size: 22px; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); }
+      .title { margin-top: 14px; font-size: 60px; font-weight: 600; letter-spacing: -0.035em; line-height: 1.04; white-space: nowrap; }
+      .sub { margin-top: 12px; font-size: 26px; color: var(--soft); }
+      .big + .sub { margin-top: 36px; }
+      .big { font-weight: 600; letter-spacing: -0.05em; line-height: 1; white-space: nowrap; }
+      .scene svg.chart { position: absolute; left: 0; top: 190px; width: 800px; height: 600px; overflow: visible; }
+      .source { position: absolute; left: 0; right: 0; top: 800px; font-size: 17px; color: var(--soft); }
+      svg text { font-family: "Inter UI", sans-serif; font-feature-settings: "tnum" 1; }
+      svg .val { font-weight: 600; fill: var(--ink); letter-spacing: -0.02em; }
+      svg .lbl { fill: var(--soft); }
+      svg .cap { font-weight: 500; fill: var(--soft); letter-spacing: 0.14em; }
+      svg .grid { stroke: var(--hair); stroke-width: 1.5; fill: none; }
+      svg .axis { stroke: var(--soft); stroke-width: 2; fill: none; opacity: 0.6; }
+
+      /* hook */
+      #heat { position: absolute; left: 90px; top: 650px; width: 900px; border-radius: 24px; overflow: hidden; box-shadow: 0 30px 70px rgba(0, 5, 25, 0.6); opacity: 0; }
+      #heat img { display: block; width: 100%; }
+      #heat .flash { position: absolute; inset: 0; border-radius: 24px; box-shadow: inset 0 0 0 6px var(--red); opacity: 0; }
+      .badge { position: absolute; padding: 10px 26px 14px; border-radius: 16px; background: var(--red); color: #fff; font-weight: 600; letter-spacing: -0.04em; white-space: nowrap; box-shadow: 0 18px 40px rgba(120, 10, 0, 0.45); opacity: 0; }
+      .pill { position: absolute; left: 50%; padding: 16px 30px 18px; border-radius: 14px; font-size: 34px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap; opacity: 0; transform: translateX(-50%); }
+      .pill.red { background: var(--red); color: #fff; box-shadow: 0 16px 36px rgba(120, 10, 0, 0.4); }
+      .pill.white { background: rgba(255, 255, 255, 0.96); color: #00194b; box-shadow: 0 16px 36px rgba(0, 5, 25, 0.45); }
+      .pill.white small { display: block; margin-top: 6px; font-size: 22px; font-weight: 500; letter-spacing: 0.08em; color: #5b6b8a; }
+
+      /* portrait rond */
+      .portrait { width: 300px; height: 300px; margin: 40px auto 0; border-radius: 50%; overflow: hidden; box-shadow: 0 24px 50px rgba(0, 25, 75, 0.25); border: 6px solid #fff; }
+      .portrait img { width: 100%; height: 177%; object-fit: cover; object-position: 50% 0; transform: translateY(-14%); }
+
+      /* fin : logo + bouton */
+      #end { position: absolute; left: 140px; top: 470px; width: 800px; height: 820px; opacity: 0; text-align: center; }
+      #logo { position: absolute; left: 250px; top: 0; width: 300px; height: 300px; overflow: visible; }
+      #wordmark { position: absolute; left: 0; right: 0; top: 350px; font-size: 76px; font-weight: 600; letter-spacing: -0.045em; opacity: 0; }
+      #wordmark b { color: var(--cyan); font-weight: 600; }
+      #tagline { position: absolute; left: 0; right: 0; top: 452px; font-size: 28px; color: var(--soft); opacity: 0; }
+      #btn { position: absolute; left: 50%; top: 560px; width: 400px; height: 104px; margin-left: -200px; border-radius: 52px; background: var(--red); color: #fff; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; display: flex; align-items: center; justify-content: center; gap: 14px; opacity: 0; box-shadow: 0 18px 40px rgba(120, 10, 0, 0.4); }
+      #btn .t2 { display: none; }
+      #btn svg { width: 38px; height: 38px; display: none; }
+
+      /* sous-titres : blanc, fond gris translucide, lettres resserrées */
+      #captions { position: absolute; left: 140px; right: 140px; top: 1330px; height: 130px; }
+      .cap-line { position: absolute; left: -60px; right: -60px; top: 0; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 14px; background: rgba(30, 34, 42, 0.74);
+        font-family: "Inter UI", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.045em; word-spacing: -0.02em; color: #fff; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="30.7" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="30.7" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="30.7" data-track-index="0">
+        <div class="layer" id="bg-dark"><div class="glow"></div><div class="grid"></div><div class="vig"></div></div>
+        <div class="layer" id="bg-light"></div>
+        <div class="layer photo" id="ph-sam" style="opacity:1"><img src="assets/img/sam-altman.jpg" alt="" /></div>
+        <div class="layer photo" id="ph-openai"><img src="assets/img/openai.jpg" alt="" /></div>
+        <div class="layer photo" id="ph-sam2"><img src="assets/img/sam-altman.jpg" alt="" /></div>
+        <div class="layer photo" id="ph-dario"><img src="assets/img/dario-amodei.jpg" alt="" /></div>
+
+        <!-- 1 : hook -->
+        <div id="sc-hook" class="layer">
+          <div id="heat"><img src="assets/img/heatmap.png" alt="" /><div class="flash"></div></div>
+          <div class="badge" id="b500" style="right:60px;top:560px;font-size:96px">−500 Md$</div>
+        </div>
+        <!-- 2 : OpenAI a déçu -->
+        <div id="sc-decu" class="layer"><div class="pill red" id="p-decu" style="top:1150px">A DÉÇU LES INVESTISSEURS</div></div>
+        <!-- 3 : Sam Altman publie -->
+        <div class="scene light" id="sc-rev1">
+          <div class="kicker">Créateur de ChatGPT</div>
+          <div class="title">OpenAI publie ses chiffres</div>
+          <div class="portrait" id="por-sam"><img src="assets/img/sam-altman.jpg" alt="" /></div>
+          <div class="title" id="n-sam" style="font-size:48px;margin-top:34px">Sam Altman</div>
+          <div class="sub" id="r-sam">PDG d'OpenAI</div>
+        </div>
+        <!-- 4 : 50 Md$ -->
+        <div class="scene" id="sc-rev2">
+          <div class="kicker" style="margin-top:120px">OpenAI · Revenu annualisé</div>
+          <div class="big" id="v50" style="margin-top:40px;font-size:230px">0 Md$</div>
+          <div class="sub" style="font-size:32px">de dollars par an</div>
+        </div>
+        <!-- 5 : 50 au lieu de 70 -->
+        <div class="scene light" id="sc-gap">
+          <div class="kicker">Revenu annualisé d'OpenAI</div>
+          <div class="title">Moins que prévu</div>
+          <svg class="chart" id="ch-gap" viewBox="0 0 800 600"></svg>
+        </div>
+        <!-- 6 : les valeurs de l'IA chutent -->
+        <div class="scene" id="sc-crash">
+          <div class="kicker">Hier à Wall Street</div>
+          <div class="title">Les valeurs de l'IA chutent</div>
+          <svg class="chart" id="ch-crash" viewBox="0 0 800 600"></svg>
+          <div class="source">Variations sur la séance (capture de marché)</div>
+        </div>
+        <!-- 7 : mauvais moment -->
+        <div id="sc-timing" class="layer"><div class="pill red" id="p-timing" style="top:1150px">AU PIRE MOMENT</div></div>
+        <!-- 8 : IPO 2027 -->
+        <div class="scene light" id="sc-ipo">
+          <div class="kicker">OpenAI</div>
+          <div class="title">Direction la Bourse</div>
+          <svg class="chart" id="ch-ipo" viewBox="0 0 800 600"></svg>
+        </div>
+        <!-- 9 : 1 400 Md$ -->
+        <div class="scene" id="sc-valo">
+          <div class="kicker" style="margin-top:120px">Valorisation visée</div>
+          <div class="big" id="v1400" style="margin-top:40px;font-size:150px">0 Md$</div>
+          <div class="sub" style="font-size:32px">de dollars</div>
+          <svg class="chart" id="ch-valo" viewBox="0 0 800 600"></svg>
+        </div>
+        <!-- 10 : Dario Amodei -->
+        <div id="sc-anthropic" class="layer"><div class="pill white" id="p-dario" style="top:1120px">ANTHROPIC<small>Dario Amodei · PDG</small></div></div>
+        <!-- 11 : 65 Md$ -->
+        <div class="scene light" id="sc-anthrev">
+          <div class="kicker" style="margin-top:120px">Anthropic · Revenu annualisé</div>
+          <div class="big" id="v65" style="margin-top:40px;font-size:190px">0 Md$</div>
+          <div class="sub" style="font-size:32px">de dollars par an, déjà</div>
+        </div>
+        <!-- 12 : Anthropic devant -->
+        <div class="scene" id="sc-anthcmp">
+          <div class="kicker">Revenu annualisé</div>
+          <div class="title">Anthropic passe devant</div>
+          <svg class="chart" id="ch-cmp" viewBox="0 0 800 600"></svg>
+        </div>
+        <!-- 13-14 : logo + bouton s'abonner -->
+        <div id="end">
+          <svg id="logo" viewBox="0 0 440 440"></svg>
+          <div id="wordmark">Finance<b>Data</b></div>
+          <div id="tagline">Les mécanismes invisibles des marchés</div>
+          <div id="btn"><svg viewBox="0 0 40 40"><path d="M9 21 L17 29 L32 12" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /></svg><span class="t1">S'abonner</span><span class="t2">Abonné</span></div>
+        </div>
+
+        <div id="captions"></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg";
+        var RED = "#ff2e24", NAVY = "#00194b", INK = "#eaf1fb", CYAN = "#7dd0f5", BLUE = "#0b6fd0";
+        var R = window.REEL;
+        var tl = gsap.timeline({ paused: true });
+        var SFX = []; // [nom, instant, gain] → mixés après le rendu par scripts/sfx.mjs
+
+        function el(parent, tag, attrs, text) {
+          var n = document.createElementNS(NS, tag);
+          for (var k in attrs) n.setAttribute(k, attrs[k]);
+          if (text != null) n.textContent = text;
+          parent.appendChild(n);
+          return n;
+        }
+        function $(id) { return document.getElementById(id); }
+        function drawIn(node, at, dur, ease) {
+          var len = node.getTotalLength();
+          node.style.strokeDasharray = len + " " + len;
+          tl.fromTo(node, { opacity: 0 }, { opacity: 1, duration: 0.01 }, at);
+          tl.fromTo(node, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.inOut" }, at);
+        }
+        function fadeIn(node, at, dur, y) { tl.fromTo(node, { opacity: 0, y: y == null ? 16 : y }, { opacity: 1, y: 0, duration: dur || 0.35, ease: "power3.out" }, at); }
+        function popIn(node, at) { tl.fromTo(node, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.32, ease: "back.out(2.2)" }, at); }
+        function growX(node, at, dur) { tl.fromTo(node, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: dur || 0.5, ease: "power3.out" }, at); }
+        function growY(node, at, dur) { tl.fromTo(node, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: dur || 0.5, ease: "power3.out" }, at); }
+        function fmt(v, dec) { return v.toFixed(dec).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
+        function counter(node, at, to, dur, pre, suf) {
+          var o = { v: 0 };
+          tl.fromTo(o, { v: 0 }, { v: to, duration: dur, ease: "power2.out", onUpdate: function () { node.textContent = (pre || "") + fmt(o.v, 0) + (suf || ""); } }, at);
+          SFX.push(["tick", at, 0.25]);
+        }
+        function sc(id) { return R.scenes.filter(function (s) { return s.id === id; })[0]; }
+        function wordAt(id, key, nth) {
+          var hits = [];
+          sc(id).chunks.forEach(function (c) { c.words.forEach(function (w) { if (w.key === key) hits.push(w); }); });
+          if (!hits.length) throw new Error("mot introuvable : " + key);
+          return hits[nth || 0].start;
+        }
+        // une scène = un fond (photo, bleu ou blanc) + un contenu ; transitions courtes, sans chevauchement
+        var LAYER = { hook: "ph-sam", decu: "ph-openai", rev1: "bg-light", rev2: "bg-dark", gap: "bg-light", crash: "bg-dark", timing: "ph-sam2",
+          ipo: "bg-light", valo: "bg-dark", anthropic: "ph-dario", anthrev: "bg-light", anthcmp: "bg-dark", cta: "bg-dark", sub: "bg-dark" };
+        R.scenes.forEach(function (s, i) {
+          var prev = i ? LAYER[R.scenes[i - 1].id] : null, cur = LAYER[s.id];
+          if (i && prev !== cur) {
+            if (cur !== "bg-dark") tl.fromTo("#" + cur, { opacity: 0 }, { opacity: 1, duration: 0.22, ease: "power1.out" }, s.start - 0.12);
+            if (prev !== "bg-dark") tl.to("#" + prev, { opacity: 0, duration: 0.22, ease: "power1.in" }, s.start - 0.06);
+            SFX.push([i % 2 ? "whoosh" : "swipe", s.start - 0.2, 0.22]);
+          }
+          var node = $("sc-" + s.id);
+          if (!node) return;
+          tl.fromTo(node, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, Math.max(0, s.start - 0.02));
+          if (i < R.scenes.length - 1 && s.id !== "cta") tl.to(node, { opacity: 0, duration: 0.15 }, s.end - 0.15);
+        });
+
+        // ================= 1. HOOK =================
+        (function () {
+          var t5 = wordAt("hook", "500"), tP = wordAt("hook", "perdu");
+          tl.fromTo("#heat", { opacity: 0, y: 120, scale: 0.86 }, { opacity: 1, y: 0, scale: 1, duration: 0.42, ease: "back.out(1.6)" }, 0.05);
+          SFX.push(["swipe", 0.0, 0.5]);
+          tl.fromTo("#heat .flash", { opacity: 0 }, { opacity: 1, duration: 0.12, repeat: 1, yoyo: true }, tP);
+          tl.fromTo("#b500", { opacity: 0, scale: 0.5, transformOrigin: "100% 100%" }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.4)" }, t5 - 0.15);
+          var b = $("b500"), o = { v: 0 };
+          tl.fromTo(o, { v: 0 }, { v: 500, duration: 0.55, ease: "power2.out", onUpdate: function () { b.textContent = "−" + fmt(o.v, 0) + " Md$"; } }, t5 - 0.15);
+          SFX.push(["impact", t5 - 0.15, 0.5]);
+        })();
+
+        // ================= 2. OPENAI A DÉÇU =================
+        (function () { var t = wordAt("decu", "déçu") - 0.1; popIn($("p-decu"), t); SFX.push(["pop", t, 0.5]); })();
+
+        // ================= 3. SAM ALTMAN =================
+        (function () {
+          var s = sc("rev1");
+          popIn($("por-sam"), s.start + 0.1);
+          fadeIn($("n-sam"), s.start + 0.3); fadeIn($("r-sam"), s.start + 0.4);
+        })();
+
+        // ================= 4. 50 MD$ =================
+        (function () { var s = sc("rev2"); counter($("v50"), s.start + 0.05, 50, 0.9, "", " Md$"); })();
+
+        // ================= 5. 50 AU LIEU DE 70 =================
+        (function () {
+          var s = sc("gap"), svg = $("ch-gap"), base = 520, k = 5.6;
+          el(svg, "line", { x1: 60, x2: 740, y1: base, y2: base, class: "axis" });
+          var tA = wordAt("gap", "70") - 0.15;
+          var bA = el(svg, "rect", { x: 140, y: base - 70 * k, width: 200, height: 70 * k, rx: 10, fill: "rgba(0,25,75,0.08)", stroke: NAVY, "stroke-width": 3, "stroke-dasharray": "10 8" });
+          var vA = el(svg, "text", { x: 240, y: base - 70 * k - 22, class: "val", "font-size": 56, "text-anchor": "middle" }, "70 Md$");
+          var lA = el(svg, "text", { x: 240, y: base + 44, class: "cap", "font-size": 22, "text-anchor": "middle" }, "ATTENDU");
+          var bP = el(svg, "rect", { x: 460, y: base - 50 * k, width: 200, height: 50 * k, rx: 10, fill: RED });
+          var vP = el(svg, "text", { x: 560, y: base - 50 * k + 66, "font-size": 50, "font-weight": 600, fill: "#fff", "text-anchor": "middle" }, "50 Md$");
+          var lP = el(svg, "text", { x: 560, y: base + 44, class: "cap", "font-size": 22, "text-anchor": "middle" }, "PUBLIÉ");
+          growY(bP, s.start + 0.05, 0.45); fadeIn(vP, s.start + 0.25, 0.25, 0); fadeIn(lP, s.start + 0.05, 0.25, 0);
+          growY(bA, tA, 0.45); fadeIn(vA, tA + 0.2, 0.25, 0); fadeIn(lA, tA, 0.25, 0);
+          var tG = wordAt("gap", "attendus") - 0.1;
+          var gl = el(svg, "line", { x1: 340, x2: 680, y1: base - 70 * k, y2: base - 70 * k, stroke: NAVY, "stroke-width": 2, "stroke-dasharray": "4 6", opacity: 0.6 });
+          fadeIn(gl, tG, 0.2, 0);
+          var br = el(svg, "path", { d: "M700 " + (base - 70 * k) + " L700 " + (base - 50 * k), stroke: RED, "stroke-width": 4, fill: "none", "stroke-linecap": "round" });
+          drawIn(br, tG + 0.1, 0.25);
+          var g = el(svg, "g", {});
+          el(g, "rect", { x: 610, y: base - 60 * k - 72, width: 170, height: 58, rx: 12, fill: RED });
+          el(g, "text", { x: 695, y: base - 60 * k - 31, "font-size": 32, "font-weight": 600, fill: "#fff", "text-anchor": "middle" }, "−20 Md$");
+          popIn(g, tG + 0.3); SFX.push(["pop", tG + 0.3, 0.5]);
+        })();
+
+        // ================= 6. LES VALEURS DE L'IA CHUTENT =================
+        (function () {
+          var s = sc("crash"), svg = $("ch-crash");
+          var rows = [["Arm", 6.48], ["Micron", 4.79], ["Broadcom", 4.35], ["AMD", 3.9], ["Nvidia", 2.94]];
+          rows.forEach(function (r, i) {
+            var y = 40 + i * 106, t = s.start + 0.05 + i * 0.12, w = r[1] * 72;
+            var lab = el(svg, "text", { x: 190, y: y + 40, class: "val", "font-size": 36, "text-anchor": "end" }, r[0]);
+            var bar = el(svg, "rect", { x: 220, y: y + 6, width: w, height: 48, rx: 8, fill: RED });
+            var v = el(svg, "text", { x: 220 + w + 16, y: y + 43, "font-size": 36, "font-weight": 600, fill: RED }, "−" + fmt(r[1], 2) + " %");
+            fadeIn(lab, t, 0.25, 0); growX(bar, t, 0.45); fadeIn(v, t + 0.25, 0.25, 0);
+          });
+          SFX.push(["pop", s.start + 0.1, 0.35]);
+        })();
+
+        // ================= 7. AU PIRE MOMENT =================
+        (function () { var t = wordAt("timing", "mauvais") - 0.1; popIn($("p-timing"), t); SFX.push(["pop", t, 0.5]); })();
+
+        // ================= 8. IPO 2027 =================
+        (function () {
+          var s = sc("ipo"), svg = $("ch-ipo");
+          var line = el(svg, "line", { x1: 120, x2: 680, y1: 330, y2: 330, stroke: NAVY, "stroke-width": 4, "stroke-linecap": "round" });
+          drawIn(line, s.start + 0.1, 0.6, "power2.out");
+          var d1 = el(svg, "circle", { cx: 120, cy: 330, r: 14, fill: NAVY });
+          var l1 = el(svg, "text", { x: 120, y: 392, class: "cap", "font-size": 22, "text-anchor": "middle" }, "AUJOURD'HUI");
+          fadeIn(d1, s.start + 0.1, 0.2, 0); fadeIn(l1, s.start + 0.15, 0.25, 0);
+          var t7 = wordAt("ipo", "2027") - 0.1;
+          var d2 = el(svg, "circle", { cx: 680, cy: 330, r: 20, fill: BLUE });
+          var l2 = el(svg, "text", { x: 680, y: 392, "font-size": 22, "font-weight": 600, fill: BLUE, "letter-spacing": "0.14em", "text-anchor": "middle" }, "INTRODUCTION");
+          popIn(d2, wordAt("ipo", "bourse") - 0.15); fadeIn(l2, wordAt("ipo", "bourse") - 0.1, 0.25, 0);
+          var big = el(svg, "text", { x: 400, y: 250, "font-size": 170, "font-weight": 600, fill: NAVY, "letter-spacing": "-0.05em", "text-anchor": "middle" }, "2027");
+          popIn(big, t7); SFX.push(["pop", t7, 0.45]);
+        })();
+
+        // ================= 9. 1 400 MD$ =================
+        (function () {
+          var s = sc("valo"), svg = $("ch-valo");
+          counter($("v1400"), s.start + 0.05, 1400, 1.0, "", " Md$");
+          var g = el(svg, "g", {});
+          el(g, "rect", { x: 300, y: 300, width: 200, height: 60, rx: 12, fill: "rgba(125,208,245,0.14)", stroke: CYAN, "stroke-width": 2 });
+          el(g, "text", { x: 400, y: 341, "font-size": 28, "font-weight": 600, fill: CYAN, "letter-spacing": "0.16em", "text-anchor": "middle" }, "RECORD");
+          var tR = wordAt("valo", "record") - 0.1;
+          popIn(g, tR); SFX.push(["pop", tR, 0.45]);
+        })();
+
+        // ================= 10. DARIO AMODEI =================
+        (function () { var s = sc("anthropic"); var t = wordAt("anthropic", "Anthropic") - 0.2; popIn($("p-dario"), t); SFX.push(["pop", t, 0.45]); })();
+
+        // ================= 11. 65 MD$ =================
+        (function () { var s = sc("anthrev"); counter($("v65"), s.start + 0.05, 65, 0.9, "> ", " Md$"); })();
+
+        // ================= 12. ANTHROPIC DEVANT =================
+        (function () {
+          var s = sc("anthcmp"), svg = $("ch-cmp"), k = 7.4;
+          [["Anthropic", 65, "> 65 Md$", CYAN], ["OpenAI", 50, "50 Md$", "rgba(234,241,251,0.55)"]].forEach(function (r, i) {
+            var y = 110 + i * 170, t = s.start + 0.05 + i * 0.15;
+            var lab = el(svg, "text", { x: 60, y: y, class: "cap", "font-size": 24 }, r[0].toUpperCase());
+            var bar = el(svg, "rect", { x: 60, y: y + 22, width: r[1] * k, height: 70, rx: 12, fill: r[3] });
+            var v = el(svg, "text", { x: 60 + r[1] * k + 20, y: y + 72, class: "val", "font-size": 44 }, r[2]);
+            fadeIn(lab, t, 0.2, 0); growX(bar, t, 0.5); fadeIn(v, t + 0.3, 0.25, 0);
+          });
+          var g = el(svg, "g", {});
+          el(g, "rect", { x: 250, y: 470, width: 300, height: 60, rx: 12, fill: "rgba(125,208,245,0.14)", stroke: CYAN, "stroke-width": 2 });
+          el(g, "text", { x: 400, y: 511, "font-size": 26, "font-weight": 600, fill: CYAN, "letter-spacing": "0.14em", "text-anchor": "middle" }, "DEPUIS JUILLET");
+          var tJ = wordAt("anthcmp", "juillet") - 0.15;
+          popIn(g, tJ); SFX.push(["pop", tJ, 0.4]);
+        })();
+
+        // ================= 13-14. LOGO + BOUTON S'ABONNER =================
+        (function () {
+          var c = sc("cta"), s = sc("sub"), svg = $("logo");
+          tl.fromTo("#end", { opacity: 0 }, { opacity: 1, duration: 0.2 }, c.start);
+          var sq = el(svg, "rect", { x: 0, y: 0, width: 440, height: 440, rx: 64, fill: "#021b4a", stroke: "rgba(255,255,255,0.22)", "stroke-width": 3 });
+          tl.fromTo(sq, { opacity: 0, scale: 0.6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, c.start + 0.05);
+          // flèche du logo, tracée
+          var ar = el(svg, "path", { d: "M104 326 L160 214 Q185 168 208 214 L222 248 Q234 276 248 250 L290 168", fill: "none", stroke: "#fff", "stroke-width": 26, "stroke-linejoin": "round" });
+          drawIn(ar, c.start + 0.35, 0.6, "power2.inOut");
+          var hd = el(svg, "path", { d: "M268 160 L320 112 L322 184 Z", fill: "#fff" });
+          popIn(hd, c.start + 0.9);
+          SFX.push(["swipe", c.start + 0.35, 0.4], ["pop", c.start + 0.9, 0.5]);
+          fadeIn($("wordmark"), c.start + 0.95, 0.4); fadeIn($("tagline"), c.start + 1.15, 0.4);
+          // bouton : apparaît, clic, devient « Abonné »
+          var tB = s.start - 0.05, tC = s.start + 1.0;
+          tl.fromTo("#btn", { opacity: 0, y: 30, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "back.out(2)" }, tB);
+          SFX.push(["pop", tB, 0.45]);
+          tl.to("#btn", { scale: 0.92, duration: 0.09, ease: "power1.in" }, tC);
+          tl.to("#btn", { scale: 1, duration: 0.25, ease: "back.out(3)" }, tC + 0.09);
+          tl.to("#btn", { backgroundColor: "#2b3040", boxShadow: "0 18px 40px rgba(0,0,0,0.35)", duration: 0.25 }, tC + 0.05);
+          tl.set("#btn .t1", { display: "none" }, tC + 0.1);
+          tl.set(["#btn .t2"], { display: "inline" }, tC + 0.1);
+          tl.set(["#btn svg"], { display: "block" }, tC + 0.1);
+          var ck = document.querySelector("#btn svg path"); drawIn(ck, tC + 0.12, 0.3);
+          SFX.push(["click", tC - 0.02, 0.7], ["chime", tC + 0.12, 0.45]);
+        })();
+
+        // ================= SOUS-TITRES (3 mots max, blancs, fond gris translucide) =================
+        (function () {
+          var box = $("captions");
+          R.chunks.forEach(function (c) {
+            var div = document.createElement("div");
+            div.className = "cap-line";
+            var inner = document.createElement("div");
+            inner.className = "cap-box";
+            inner.textContent = c.words.map(function (w) { return w.text; }).join(" ");
+            div.appendChild(inner);
+            box.appendChild(div);
+            tl.fromTo(div, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }, c.start - 0.06);
+            tl.to(div, { opacity: 0, duration: 0.01 }, c.end - 0.035);
+          });
+        })();
+
+        window.__SFX = SFX.map(function (c) { return { name: c[0], t: +c[1].toFixed(3), gain: c[2] }; });
+        tl.set({}, {}, R.total);
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
