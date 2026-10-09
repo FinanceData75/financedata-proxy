@@ -5,7 +5,7 @@ Le carrousel doit être prêt à valider à 17h.
 
 ## Prérequis (une seule fois)
 
-- Réseau de l'environnement cloud : autoriser `openinsider.com` et `upload.higgsfield.ai`.
+- Réseau de l'environnement cloud : autoriser `www.sec.gov` et `upload.higgsfield.ai`.
 - Compte TikTok connecté dans Higgsfield (`tiktok_connect`).
 - 10 à 30 photos naturelles verticales dans `backgrounds/` (JPEG, idéalement 1080x1920 ou plus) :
   Wall Street, skyline, bureaux, nature… Sans photo, le rendu s'arrête.
@@ -15,10 +15,10 @@ Le carrousel doit être prêt à valider à 17h.
 ## Étapes
 
 1. `cd tiktok-insiders && npm ci`
-2. `node fetch-insider-buys.mjs` → `out/<date>/buys.json` (scrape OpenInsider : achats "P"
-   des dirigeants et administrateurs, ≥ 100 000 $, déposés le dernier jour ouvré US).
-   - Si le script signale une colonne absente, OpenInsider a changé sa mise en page :
-     s'arrêter et le signaler, ne pas deviner les chiffres.
+2. `npm run fetch` → `out/<date>/buys.json` (déclarations Form 4 de la SEC : achats "P"
+   des dirigeants et administrateurs, ≥ 100 000 $, hors fonds, déposés le dernier jour ouvré US).
+   Le script doit passer par le proxy (`NODE_USE_ENV_PROXY=1`, déjà dans `npm run fetch`).
+   - En cas d'erreur réseau ou SEC : s'arrêter et le signaler, ne pas deviner les chiffres.
    - Si `top` est vide (jour férié, rien de notable) : ne rien publier, prévenir l'utilisateur.
 3. Écrire `out/<date>/slides.json` (voir le format dans `render-carousel.mjs`) :
    - **Couverture** : accroche courte et forte, en français, tutoiement. Ex. « Le PDG de X vient
@@ -38,7 +38,7 @@ Le carrousel doit être prêt à valider à 17h.
 6. `tiktok_accounts` → `connector_id` actif, puis `tiktok_prepare_publish` avec
    `mode: DIRECT_POST`, `media_type: PHOTO`, `photo_images` dans l'ordre, `photo_cover_index: 0`,
    `title` (accroche ≤ 150 caractères) et `description` :
-   accroche + liste des tickers + « Source : déclarations SEC (Form 4) via OpenInsider. Pas un
+   accroche + liste des tickers + « Source : déclarations SEC (Form 4). Pas un
    conseil en investissement. » + hashtags (#bourse #investir #insider #actions #wallstreet #finance).
 7. Terminer la session en résumant : tickers retenus, montants, et rappeler que le
    formulaire TikTok attend la validation (musique, confidentialité, publier).
