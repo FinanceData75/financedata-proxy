@@ -7,16 +7,16 @@
 // Format de slides.json :
 // {
 //   "slides": [
-//     { "type": "cover", "lines": ["Hier, 4 insiders US ont investi 38 M$", "dans leur propre entreprise"] },
+//     { "type": "cover", "lines": ["Hier, 4 insiders ont investi 38 M$", "dans leur propre entreprise"] },
 //     { "type": "buy",   "lines": ["#1 · 51Talk ($COE)", "Le PDG achète pour 32 M$", "d'actions en une seule fois"] },
 //     { "type": "cta",   "lines": ["Abonne-toi pour ne pas louper", "les prochains"] }
 //   ]
 // }
-// Chaque slide peut forcer "background" (chemin d'image). Sinon :
-// - "cover" et "cta" piochent dans backgrounds/personnalites/ (puis backgrounds/ si vide),
-// - "buy" pioche uniquement dans backgrounds/ : jamais de visage connu à côté
-//   d'un achat, pour ne pas laisser croire que cette personne est l'acheteur.
-// La rotation change chaque jour. Sans photo disponible, le rendu échoue.
+// Tout le carrousel utilise UNE seule photo de fond, choisie chaque jour dans
+// backgrounds/ (rotation quotidienne), ou forcée via "background" au niveau racine.
+// Les photos de backgrounds/personnalites/ ne sont pas utilisées : un visage
+// connu à côté d'un achat laisserait croire que cette personne est l'acheteur.
+// Sans photo disponible, le rendu échoue.
 // Le rendu échoue aussi si une slide dépasse 3 lignes une fois mise en page
 // ou contient un émoji.
 // Les images sont écrites à côté de slides.json : slide-01.jpg, slide-02.jpg, ...
@@ -54,24 +54,14 @@ async function dataUri(path, mime) {
 }
 const imageMime = p => ({ ".png": "image/png", ".webp": "image/webp", ".avif": "image/avif" })[extname(p).toLowerCase()] || "image/jpeg";
 
-// Photos de fond disponibles (chemins absolus), triées pour une rotation stable
-async function listImages(dir) {
-  return (await readdir(dir).catch(() => []))
-    .filter(f => /\.(jpe?g|png|webp|avif)$/i.test(f)).sort().map(f => join(dir, f));
-}
-const neutral = await listImages(join(HERE, "backgrounds"));
-const people = await listImages(join(HERE, "backgrounds", "personnalites"));
+// Photo de fond du jour (rotation stable sur la liste triée)
+const library = (await readdir(join(HERE, "backgrounds")).catch(() => []))
+  .filter(f => /\.(jpe?g|png|webp|avif)$/i.test(f)).sort().map(f => join(HERE, "backgrounds", f));
 const dayIndex = Math.floor(Date.now() / 86_400_000);
-const used = new Set();
-function pickBackground(slide, i) {
-  const pool = slide.type === "buy" ? neutral : (people.length ? people : neutral);
-  if (!pool.length) return null;
-  // Évite de réutiliser la même photo dans un carrousel tant que c'est possible
-  for (let k = 0; k < pool.length; k++) {
-    const p = pool[(dayIndex * 7 + i + k) % pool.length];
-    if (!used.has(p)) { used.add(p); return p; }
-  }
-  return pool[(dayIndex * 7 + i) % pool.length];
+const bgPath = spec.background ?? (library.length ? library[dayIndex % library.length] : null);
+if (!bgPath) {
+  console.error("Aucune photo dans backgrounds/ : ajoute des photos naturelles verticales (JPEG/PNG/WebP/AVIF).");
+  process.exit(1);
 }
 
 const font700 = await dataUri(join(HERE, "fonts/TikTokSans-700.ttf"), "font/ttf");
@@ -99,20 +89,15 @@ for (const [i, s] of spec.slides.entries()) {
   if (!s.lines?.length) throw new Error(`Slide ${i + 1} : "lines" manquant`);
   if (s.lines.length > MAX_LINES) throw new Error(`Slide ${i + 1} : ${s.lines.length} lignes (max ${MAX_LINES})`);
   if (s.lines.some(l => /\p{Extended_Pictographic}/u.test(l))) throw new Error(`Slide ${i + 1} : pas d'émoji`);
-  if (!s.background && !pickBackground(s, i)) {
-    console.error("Aucune photo dans backgrounds/ : ajoute des photos naturelles verticales (JPEG/PNG/WebP/AVIF).");
-    process.exit(1);
-  }
 }
-used.clear();
 
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
 const page = await browser.newPage({ viewport: { width: W, height: H } });
+const bg = await dataUri(bgPath, imageMime(bgPath));
 const written = [];
 try {
   for (const [i, s] of spec.slides.entries()) {
-    const bgPath = s.background ?? pickBackground(s, i);
-    await page.setContent(html(s, await dataUri(bgPath, imageMime(bgPath))), { waitUntil: "load" });
+    await page.setContent(html(s, bg), { waitUntil: "load" });
     await page.evaluate(() => document.fonts.ready);
     // Réduit légèrement la police si une ligne trop longue se replie,
     // puis refuse la slide si elle dépasse encore 3 lignes affichées.

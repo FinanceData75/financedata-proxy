@@ -25,11 +25,11 @@ Le carrousel doit être prêt à valider à 17h.
    car le rendu imite le texte natif TikTok (petit, centré). Le rendu refuse une slide trop longue.
 
    Rédiger comme un copywriter TikTok, en français, tutoiement, ton oral, **sans aucun émoji**
-   (le rendu les refuse). Parler d'**insiders** (« 4 insiders US », « Chaque jour, des insiders US
-   achètent ») plutôt que de « patrons ». Pour l'action, utiliser simplement **acheter** ou
+   (le rendu les refuse). Parler d'**insiders** (« 4 insiders », « Chaque jour, des insiders achètent »)
+   plutôt que de « patrons », et **ne jamais écrire « US »** ni « américains ». Pour l'action, utiliser simplement **acheter** ou
    **investir** (pas d'images du type « met sur la table », « pose », « sort de sa poche »).
    - **Couverture** = l'accroche qui stoppe le scroll : un chiffre choc + de la curiosité, pas de
-     titre descriptif. Ex. « Hier, 4 insiders US ont investi 38 M$ / dans les actions / de leur
+     titre descriptif. Ex. « Hier, 4 insiders ont investi 38 M$ / dans les actions / de leur
      propre entreprise », « Le PDG de 51Talk vient d'acheter / pour 32 M$ de ses propres actions ».
    - **3 à 5 slides `buy`**, une par ligne de `top`, du plus gros au plus petit :
      ligne 1 = « #1 · Société ($TICKER) », puis 1 à 2 lignes courtes : qui (`rolesFr`, ex. « Le PDG »,
@@ -40,8 +40,8 @@ Le carrousel doit être prêt à valider à 17h.
      (ex. « Chaque jour, des insiders achètent. »). Pas de mention de FinanceData.
    - Jamais de conseil (« achète », « fonce ») ni d'insinuation de délit d'initié : on rapporte
      des achats publics et légaux. N'utiliser que les chiffres de `buys.json`, ne rien inventer.
-   - Fonds : les slides `buy` prennent uniquement des photos neutres (`backgrounds/`) ; les photos
-     de personnalités (`backgrounds/personnalites/`) sont réservées à la couverture et au CTA.
+   - Fond : une seule photo pour tout le carrousel, choisie automatiquement chaque jour dans
+     `backgrounds/` (les photos de `backgrounds/personnalites/` ne sont pas utilisées).
 4. `node render-carousel.mjs out/<date>/slides.json` → `slide-01.jpg`… (JPEG 1080x1920).
    Vérifier visuellement chaque slide (lecture de l'image) avant de continuer.
 5. Upload Higgsfield : `media_upload` (files[] avec chaque JPEG), `curl -X PUT` de chaque
