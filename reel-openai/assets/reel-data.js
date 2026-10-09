@@ -15,8 +15,7 @@
     { id: "ipo", text: "qui cherche / à s'introduire / en bourse / en 2027" },
     { id: "valo", text: "à une valorisation / record de / 1" + NB + "400 milliards / de dollars." },
     { id: "anthropic", text: "Surtout que / son concurrent / Anthropic" },
-    { id: "anthrev", text: "affiche déjà / plus de / 65 milliards" },
-    { id: "anthcmp", text: "de revenus / annualisés / depuis juillet." },
+    { id: "anthrev", text: "affiche déjà / plus de / 65 milliards / de revenus / annualisés / depuis juillet." },
     { id: "cta", text: "Et pour comprendre / les mécanismes / invisibles / des marchés," },
     { id: "sub", text: "abonnez-vous." }
   ];
