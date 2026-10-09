@@ -2,7 +2,7 @@
 
 Reel vertical 1080×1920, 30,7 s, même DA que la v6 LVMH : bleu #00194B quadrillé alterné avec un blanc cassé quadrillé,
 photos plein cadre (Sam Altman, OpenAI, Dario Amodei), Inter, rouge vif pour les alertes, sous-titres blancs sur fond gris translucide.
-14 scènes, aucune au-delà de 3 s (sauf la fin animée : profil Instagram FinanceData (anneau de story, nom en blanc) + bouton « S'abonner » → « Abonné »).
+v3 : 10 scènes plus posées et minimalistes (un seul élément par scène), photos plein écran avec sous-titres seuls, formes à angles droits.
 
 ## Rendu
 ```

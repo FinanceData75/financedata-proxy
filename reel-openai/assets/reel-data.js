@@ -6,14 +6,11 @@
   // " / " = coupure de sous-titre (3 mots max par groupe)
   var SCENES = [
     { id: "hook", text: "Le marché / américain / a perdu près / de 500 milliards / de dollars hier" },
-    { id: "decu", text: "parce que OpenAI / a déçu les / investisseurs." },
-    { id: "rev1", text: "Le créateur / de ChatGPT / a publié un" },
-    { id: "rev2", text: "revenu annualisé / de 50 milliards" },
-    { id: "gap", text: "au lieu de / 70 milliards / attendus par / les investisseurs. / Résultat" + NB + ":" },
+    { id: "decu", text: "parce que OpenAI / a déçu les / investisseurs. / Le créateur / de ChatGPT / a publié un" },
+    { id: "gap", text: "revenu annualisé / de 50 milliards / au lieu de / 70 milliards / attendus par / les investisseurs. / Résultat" + NB + ":" },
     { id: "crash", text: "les actions / de l'intelligence / artificielle / ont chuté hier." },
     { id: "timing", text: "Et la nouvelle / arrive au / mauvais moment / pour OpenAI," },
-    { id: "ipo", text: "qui cherche / à s'introduire / en bourse / en 2027" },
-    { id: "valo", text: "à une valorisation / record de / 1" + NB + "400 milliards / de dollars." },
+    { id: "ipo", text: "qui cherche / à s'introduire / en bourse / en 2027 / à une valorisation / record de / 1" + NB + "400 milliards / de dollars." },
     { id: "anthropic", text: "Surtout que / son concurrent / Anthropic" },
     { id: "anthrev", text: "affiche déjà / plus de / 65 milliards / de revenus / annualisés / depuis juillet." },
     { id: "cta", text: "Et pour comprendre / les mécanismes / invisibles / des marchés," },
