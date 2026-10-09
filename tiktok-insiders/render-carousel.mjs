@@ -1,21 +1,24 @@
-// Rend un carrousel TikTok (JPEG 1080x1920) à partir d'un fichier slides.json.
+// Rend un carrousel TikTok (JPEG 1080x1920) à partir d'un fichier slides.json,
+// avec un texte au rendu "natif" TikTok : TikTok Sans blanc, fin contour noir,
+// taille modeste, 3 lignes maximum par slide.
 //
 // Usage : node render-carousel.mjs out/<date>/slides.json
 //
 // Format de slides.json :
 // {
-//   "background": "chemin/vers/photo.jpg",        // fond par défaut (optionnel)
 //   "slides": [
-//     { "type": "cover", "title": "...", "subtitle": "..." },
-//     { "type": "buy", "kicker": "#1", "title": "Nvidia ($NVDA)", "big": "12,4 M$",
-//       "lines": ["Le PDG Jensen Huang", "a acheté 80 000 actions", "à 155 $ l'unité"] },
-//     { "type": "cta", "title": "...", "subtitle": "..." }
+//     { "type": "cover", "lines": ["Ce PDG vient de mettre 32 M$", "dans sa propre boîte 👀"] },
+//     { "type": "buy",   "lines": ["#1 51Talk ($COE)", "Le PDG rachète 32 M$ d'actions", "en une seule fois"] },
+//     { "type": "cta",   "lines": ["Abonne-toi pour ne pas louper", "les prochains"] }
 //   ]
 // }
-// Chaque slide peut surcharger "background". Sans fond indiqué, une photo du
-// dossier backgrounds/ est choisie (rotation quotidienne, une par slide). Sans
-// aucune photo disponible, le rendu échoue : pas de fond de remplacement. Les images sont écrites à côté de
-// slides.json sous slide-01.jpg, slide-02.jpg, ...
+// Chaque slide peut forcer "background" (chemin d'image). Sinon :
+// - "cover" et "cta" piochent dans backgrounds/personnalites/ (puis backgrounds/ si vide),
+// - "buy" pioche uniquement dans backgrounds/ : jamais de visage connu à côté
+//   d'un achat, pour ne pas laisser croire que cette personne est l'acheteur.
+// La rotation change chaque jour. Sans photo disponible, le rendu échoue.
+// Le rendu échoue aussi si une slide dépasse 3 lignes une fois mise en page.
+// Les images sont écrites à côté de slides.json : slide-01.jpg, slide-02.jpg, ...
 import { chromium } from "playwright-core";
 import { readFile, writeFile, readdir } from "node:fs/promises";
 import { dirname, resolve, join, extname } from "node:path";
@@ -23,6 +26,9 @@ import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const W = 1080, H = 1920;
+const MAX_LINES = 3;
+const FONT_SIZE = 54; // ~ taille du texte ajouté dans l'app TikTok
+const MIN_FONT_SIZE = 44;
 
 const specPath = process.argv[2];
 if (!specPath) {
@@ -34,7 +40,7 @@ const outDir = dirname(resolve(specPath));
 
 // Contour noir arrondi (comme le style "outline" de TikTok) : un anneau
 // d'ombres portées, plus net que -webkit-text-stroke qui fait des pointes.
-const outline = (r, steps = 32) => Array.from({ length: steps }, (_, i) => {
+const outline = (r, steps = 24) => Array.from({ length: steps }, (_, i) => {
   const a = (2 * Math.PI * i) / steps;
   return `${(r * Math.cos(a)).toFixed(1)}px ${(r * Math.sin(a)).toFixed(1)}px 0 #000`;
 }).join(",");
@@ -42,84 +48,82 @@ const outline = (r, steps = 32) => Array.from({ length: steps }, (_, i) => {
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
 async function dataUri(path, mime) {
-  const buf = await readFile(resolve(dirname(resolve(specPath)), path));
+  const buf = await readFile(resolve(outDir, path));
   return `data:${mime};base64,${buf.toString("base64")}`;
 }
 const imageMime = p => ({ ".png": "image/png", ".webp": "image/webp", ".avif": "image/avif" })[extname(p).toLowerCase()] || "image/jpeg";
 
 // Photos de fond disponibles (chemins absolus), triées pour une rotation stable
-const library = (await readdir(join(HERE, "backgrounds")).catch(() => []))
-  .filter(f => /\.(jpe?g|png|webp|avif)$/i.test(f)).sort().map(f => join(HERE, "backgrounds", f));
+async function listImages(dir) {
+  return (await readdir(dir).catch(() => []))
+    .filter(f => /\.(jpe?g|png|webp|avif)$/i.test(f)).sort().map(f => join(dir, f));
+}
+const neutral = await listImages(join(HERE, "backgrounds"));
+const people = await listImages(join(HERE, "backgrounds", "personnalites"));
 const dayIndex = Math.floor(Date.now() / 86_400_000);
-const pickBackground = i => library.length ? library[(dayIndex * 7 + i) % library.length] : null;
-if (!library.length && !spec.background && spec.slides.some(s => !s.background)) {
-  console.error("Aucune photo dans backgrounds/ : ajoute des photos naturelles verticales (JPEG/PNG/WebP).");
-  process.exit(1);
+const used = new Set();
+function pickBackground(slide, i) {
+  const pool = slide.type === "buy" ? neutral : (people.length ? people : neutral);
+  if (!pool.length) return null;
+  // Évite de réutiliser la même photo dans un carrousel tant que c'est possible
+  for (let k = 0; k < pool.length; k++) {
+    const p = pool[(dayIndex * 7 + i + k) % pool.length];
+    if (!used.has(p)) { used.add(p); return p; }
+  }
+  return pool[(dayIndex * 7 + i) % pool.length];
 }
 
 const font700 = await dataUri(join(HERE, "fonts/TikTokSans-700.ttf"), "font/ttf");
-const font900 = await dataUri(join(HERE, "fonts/TikTokSans-900.ttf"), "font/ttf");
 
-function slideBody(s) {
-  const kicker = s.kicker ? `<div class="kicker">${esc(s.kicker)}</div>` : "";
-  const title = s.title ? `<div class="title">${esc(s.title)}</div>` : "";
-  const big = s.big ? `<div class="big">${esc(s.big)}</div>` : "";
-  const subtitle = s.subtitle ? `<div class="subtitle">${esc(s.subtitle)}</div>` : "";
-  const lines = (s.lines || []).map(l => `<div class="line">${esc(l)}</div>`).join("");
-  return `${kicker}${title}${big}${lines}${subtitle}`;
-}
-
-function html(s, bg) {
+function html(slide, bg) {
+  const lines = (slide.lines || []).map(l => `<span class="line">${esc(l)}</span>`).join("<br>");
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face { font-family: "TikTok Sans"; font-weight: 700; src: url(${font700}); }
-@font-face { font-family: "TikTok Sans"; font-weight: 900; src: url(${font900}); }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { width: ${W}px; height: ${H}px; overflow: hidden; background: #000; }
 .bg { position: absolute; inset: 0; background: url(${bg}) center / cover no-repeat; }
-.shade { position: absolute; inset: 0; background: rgba(0,0,0,.18); }
 /* Zone utile : TikTok masque le bas (~420px) et la colonne droite (~140px) */
-.safe { position: absolute; top: 260px; left: 70px; right: 150px; bottom: 440px;
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  text-align: center; gap: 28px; }
-.safe > div { font-family: "TikTok Sans", sans-serif; color: #fff;
-  text-shadow: ${outline(7)}, ${outline(4, 16)}; line-height: 1.15;
-  overflow-wrap: break-word; }
-.kicker { font-weight: 900; font-size: 64px; }
-.title { font-weight: 900; font-size: ${s.type === "cover" ? 96 : 80}px; }
-.big { font-weight: 900; font-size: 150px; text-shadow: ${outline(10)}, ${outline(5, 16)}; }
-.line { font-weight: 700; font-size: 58px; }
-.subtitle { font-weight: 700; font-size: ${s.type === "cover" ? 60 : 54}px; }
+.safe { position: absolute; top: 300px; left: 90px; right: 160px; bottom: 460px;
+  display: flex; align-items: center; justify-content: center; }
+.text { font-family: "TikTok Sans", sans-serif; font-weight: 700; font-size: ${FONT_SIZE}px;
+  line-height: 1.28; color: #fff; text-align: center; overflow-wrap: break-word;
+  text-shadow: ${outline(3.5)}; }
 </style></head><body>
-<div class="bg"></div><div class="shade"></div>
-<div class="safe">${slideBody(s)}</div>
+<div class="bg"></div>
+<div class="safe"><div class="text">${lines}</div></div>
 </body></html>`;
 }
 
-const browser = await chromium.launch({
-  executablePath: process.env.CHROMIUM_PATH || undefined,
-});
+for (const [i, s] of spec.slides.entries()) {
+  if (!s.lines?.length) throw new Error(`Slide ${i + 1} : "lines" manquant`);
+  if (s.lines.length > MAX_LINES) throw new Error(`Slide ${i + 1} : ${s.lines.length} lignes (max ${MAX_LINES})`);
+  if (!s.background && !pickBackground(s, i)) {
+    console.error("Aucune photo dans backgrounds/ : ajoute des photos naturelles verticales (JPEG/PNG/WebP/AVIF).");
+    process.exit(1);
+  }
+}
+used.clear();
+
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
 const page = await browser.newPage({ viewport: { width: W, height: H } });
 const written = [];
-const bgCache = new Map();
 try {
   for (const [i, s] of spec.slides.entries()) {
-    const bgPath = s.background ?? spec.background ?? pickBackground(i);
-    if (!bgCache.has(bgPath)) bgCache.set(bgPath, await dataUri(bgPath, imageMime(bgPath)));
-    const bg = bgCache.get(bgPath);
-    await page.setContent(html(s, bg), { waitUntil: "load" });
+    const bgPath = s.background ?? pickBackground(s, i);
+    await page.setContent(html(s, await dataUri(bgPath, imageMime(bgPath))), { waitUntil: "load" });
     await page.evaluate(() => document.fonts.ready);
-    // Réduit la taille du texte tant qu'il déborde de la zone utile
-    await page.evaluate(() => {
-      const box = document.querySelector(".safe");
-      let scale = 1;
-      while (box.scrollHeight > box.clientHeight + 1 && scale > 0.4) {
-        scale -= 0.05;
-        for (const el of box.children) {
-          const base = el.dataset.base ?? (el.dataset.base = parseFloat(getComputedStyle(el).fontSize));
-          el.style.fontSize = `${base * scale}px`;
-        }
-      }
-    });
+    // Réduit légèrement la police si une ligne trop longue se replie,
+    // puis refuse la slide si elle dépasse encore 3 lignes affichées.
+    const lineCount = await page.evaluate(({ max, min }) => {
+      const el = document.querySelector(".text");
+      const count = () => Math.round(el.getBoundingClientRect().height / parseFloat(getComputedStyle(el).lineHeight));
+      let size = parseFloat(getComputedStyle(el).fontSize);
+      while (count() > max && size > min) el.style.fontSize = `${(size -= 2)}px`;
+      return count();
+    }, { max: MAX_LINES, min: MIN_FONT_SIZE });
+    if (lineCount > MAX_LINES) {
+      throw new Error(`Slide ${i + 1} : le texte tient sur ${lineCount} lignes à l'écran (max ${MAX_LINES}), raccourcis-le`);
+    }
     const file = join(outDir, `slide-${String(i + 1).padStart(2, "0")}.jpg`);
     await writeFile(file, await page.screenshot({ type: "jpeg", quality: 90 }));
     written.push(file);

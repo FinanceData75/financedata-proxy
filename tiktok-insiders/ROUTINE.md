@@ -20,17 +20,29 @@ Le carrousel doit être prêt à valider à 17h.
    Le script doit passer par le proxy (`NODE_USE_ENV_PROXY=1`, déjà dans `npm run fetch`).
    - En cas d'erreur réseau ou SEC : s'arrêter et le signaler, ne pas deviner les chiffres.
    - Si `top` est vide (jour férié, rien de notable) : ne rien publier, prévenir l'utilisateur.
-3. Écrire `out/<date>/slides.json` (voir le format dans `render-carousel.mjs`) :
-   - **Couverture** : accroche courte et forte, en français, tutoiement. Ex. « Le PDG de X vient
-     de mettre 12 M$ dans sa propre boîte 👀 ». Sous-titre : « Les N plus gros achats d'initiés d'hier ».
-   - **3 à 5 slides achat**, une par ligne de `top`, dans l'ordre : `kicker` "#1"…,
-     `title` "Société ($TICKER)", `big` = montant (format FR : « 12,4 M$ », « 850 k$ »),
-     `lines` = qui (`rolesFr`), nombre d'actions, prix moyen, et un fait marquant s'il existe
-     (`clusterSize` > 1 : « 3 dirigeants achètent en même temps » ; `positionIncreasePct`
-     élevé : « +40 % sur sa position » ; `newPosition` : « sa première action »).
-   - **CTA** : `title` « Abonne-toi pour ne pas louper les prochains », `subtitle`
-     « Un nouveau carrousel chaque jour de la semaine ». Pas de mention de FinanceData.
-   - N'utiliser que les chiffres de `buys.json`, ne rien inventer.
+3. Écrire `out/<date>/slides.json` (format dans `render-carousel.mjs`) : chaque slide a un
+   `type` (`cover`, `buy`, `cta`) et `lines`, **3 lignes maximum, courtes** (~35 caractères),
+   car le rendu imite le texte natif TikTok (petit, centré). Le rendu refuse une slide trop longue.
+
+   Rédiger comme un copywriter TikTok, en français, tutoiement, ton oral :
+   - **Couverture** = l'accroche qui stoppe le scroll. Un chiffre choc + une tension/curiosité,
+     pas de titre descriptif. Ex. « Hier, 4 patrons US ont sorti 38 M$ / de leur poche pour acheter /
+     leurs propres actions 👀 », « Ce PDG vient de racheter / pour 32 M$ de sa propre boîte. /
+     Pourquoi maintenant ? 👀 ».
+   - **3 à 5 slides `buy`**, une par ligne de `top`, du plus gros au plus petit :
+     ligne 1 = « #1 · Société ($TICKER) », puis 1 à 2 lignes punchy : qui (`rolesFr`, ex. « Le PDG »,
+     « Un administrateur ») + montant en format FR (« 32 M$ », « 850 k$ ») + au plus UN détail fort
+     (« D'un seul coup. », `clusterSize` > 1 : « 3 dirigeants achètent en même temps »,
+     `positionIncreasePct` élevé : « Il gonfle sa position de 40 % »).
+     Verbes concrets (« pose », « sort », « rachète », « met sur la table »), phrases courtes,
+     pas de jargon. Créer une envie de swiper (le #1 n'est pas forcément le plus gros si l'histoire
+     d'un autre est plus forte, mais garder la numérotation cohérente).
+   - **CTA** : « Abonne-toi pour ne pas louper / les prochains » + une ligne d'amorce
+     (ex. « Chaque jour, des patrons US achètent. »). Pas de mention de FinanceData.
+   - Jamais de conseil (« achète », « fonce ») ni d'insinuation de délit d'initié : on rapporte
+     des achats publics et légaux. N'utiliser que les chiffres de `buys.json`, ne rien inventer.
+   - Fonds : les slides `buy` prennent uniquement des photos neutres (`backgrounds/`) ; les photos
+     de personnalités (`backgrounds/personnalites/`) sont réservées à la couverture et au CTA.
 4. `node render-carousel.mjs out/<date>/slides.json` → `slide-01.jpg`… (JPEG 1080x1920).
    Vérifier visuellement chaque slide (lecture de l'image) avant de continuer.
 5. Upload Higgsfield : `media_upload` (files[] avec chaque JPEG), `curl -X PUT` de chaque
