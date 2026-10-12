@@ -38,10 +38,17 @@
         -webkit-mask-image: radial-gradient(ellipse 72% 52% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 72% 52% at 50% 46%, #000 30%, transparent 85%); }
       #bg-vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(0, 0, 0, 0) 55%, rgba(0, 5, 22, 0.62) 100%); }
       #defs { position: absolute; width: 0; height: 0; }
+      #bg-light { position: absolute; inset: 0; opacity: 0; background: #f6f8fc; }
+      #bg-light::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0, 25, 75, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 25, 75, 0.06) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 72% 52% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 72% 52% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-light::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(255, 255, 255, 0) 55%, rgba(0, 25, 75, 0.08) 100%); }
+      .scene.light { --ink: #00194b; --soft: #5b6b8a; --hair: rgba(0, 25, 75, 0.14); --cyan: #0b6fd0; }
+      .scene.light svg .axis { stroke: rgba(0, 25, 75, 0.5); }
+      .scene.light svg .panel { fill: #ffffff; stroke: rgba(0, 25, 75, 0.14); }
 
 
       /* Bloc (x 160–920, y 440–1270), dans la safe zone Reels / TikTok */
-      .scene { position: absolute; left: 160px; top: 448px; width: 760px; height: 830px; opacity: 0; text-align: left; }
+      .scene { position: absolute; left: 160px; top: 448px; width: 760px; height: 830px; opacity: 0; text-align: left; color: var(--ink); }
       .chart-title { margin-top: 0; font-family: "Serif FD", serif; font-size: 62px; white-space: nowrap; line-height: 1.02; font-weight: 600; letter-spacing: -0.02em; }
       .chart-sub { margin-top: 12px; font-size: 24px; font-weight: 400; color: var(--soft); }
       .scene svg.chart { position: absolute; left: 0; top: 170px; width: 760px; height: 545px; overflow: visible; }
@@ -68,21 +75,29 @@
       /* sous-titres : bandeau gris-noir, capitales blanches */
       #captions { position: absolute; left: 120px; right: 120px; top: 1338px; height: 130px; }
       .cap-line { position: absolute; left: 0; right: 0; top: 0; text-align: center; opacity: 0; }
-      .cap-box { display: inline-block; padding: 10px 24px 14px; border-radius: 14px; background: rgba(38, 42, 50, 0.55);
-        font-family: "Inter UI", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.02em; color: #fff; white-space: nowrap; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30, 34, 42, 0.74);
+        font-family: "Inter UI", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.045em; color: #fff; white-space: nowrap; }
       .cap-box span { display: inline-block; }
 
-      #sign { position: absolute; left: 160px; right: 160px; top: 1330px; text-align: center; opacity: 0; font-family: "Serif FD", serif; font-weight: 600; font-size: 64px; letter-spacing: -0.02em; color: var(--ink); }
-      #sign b { color: var(--cyan); font-weight: 600; }
+      #end { position: absolute; left: 140px; top: 470px; width: 800px; height: 820px; opacity: 0; text-align: center; }
+      #avatar { position: absolute; left: 220px; top: -10px; width: 360px; height: 360px; }
+      #avatar svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+      #avatar .pic { position: absolute; left: 22px; top: 22px; width: 316px; height: 316px; border-radius: 50%; overflow: hidden; border: 8px solid #00194b; box-shadow: 0 20px 50px rgba(0, 5, 25, 0.5); opacity: 0; }
+      #avatar .pic img { width: 100%; height: 100%; display: block; }
+      #wordmark { position: absolute; left: 0; right: 0; top: 380px; font-family: "Inter UI", sans-serif; font-size: 72px; font-weight: 600; letter-spacing: -0.04em; color: #fff; opacity: 0; }
+      #btn { position: absolute; left: 50%; top: 510px; width: 400px; height: 100px; margin-left: -200px; border-radius: 8px; background: #0095f6; color: #fff; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; display: flex; align-items: center; justify-content: center; gap: 14px; opacity: 0; box-shadow: 0 18px 40px rgba(0, 60, 140, 0.4); }
+      #btn .t2 { display: none; }
+      #btn svg { width: 38px; height: 38px; display: none; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="53.6" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="53.6" data-track-index="1"></audio>
-      <div id="stage" class="clip" data-start="0" data-duration="53.6" data-track-index="0">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="57" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="57" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="57" data-track-index="0">
         <div id="bg-glow"></div>
         <div id="bg-grid"></div>
         <div id="bg-vig"></div>
+        <div id="bg-light"></div>
         <svg id="defs" aria-hidden="true">
           <defs>
             <linearGradient id="gBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f8fe" /><stop offset="1" stop-color="#bccbe4" /></linearGradient>
@@ -142,7 +157,13 @@
         </div>
 
         <div id="captions"></div>
-        <div id="sign">Finance<b>Data</b></div>
+        <div id="end">
+          <div id="avatar"><svg viewBox="0 0 360 360"><defs><linearGradient id="gStory" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75" /><stop offset="0.3" stop-color="#fa7e1e" /><stop offset="0.6" stop-color="#d62976" /><stop offset="1" stop-color="#962fbf" /></linearGradient></defs>
+            <circle id="ring" cx="180" cy="180" r="170" fill="none" stroke="url(#gStory)" stroke-width="12" transform="rotate(-90 180 180)" /></svg>
+            <div class="pic"><img src="assets/img/logo-financedata.png" alt="" /></div></div>
+          <div id="wordmark">FinanceData</div>
+          <div id="btn"><svg viewBox="0 0 40 40"><path d="M9 21 L17 29 L32 12" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /></svg><span class="t1">S'abonner</span><span class="t2">Abonné</span></div>
+        </div>
       </div>
     </div>
 
@@ -221,11 +242,11 @@
         }
         // étiquette en police mono : kind = "red" | "cyan" | "neutral"
         function chip(parent, x, y, text, size, at, kind, anchor) {
-          var col = kind === "red" ? RED : kind === "cyan" ? CYAN : INK;
+          var col = kind === "red" ? RED : kind === "cyan" ? "var(--cyan)" : "var(--ink)";
           var fill = kind === "red" ? "rgba(255,46,36,0.16)" : kind === "cyan" ? "rgba(125,208,245,0.12)" : "rgba(8,30,80,0.92)";
           var gg = el(parent, "g", {});
-          var rect = el(gg, "rect", { rx: 6, fill: fill, stroke: kind === "neutral" ? "rgba(255,255,255,0.3)" : col, "stroke-width": 1.8 });
-          var txt = el(gg, "text", { x: x, y: y, "font-size": size, "font-family": "Mono FD, monospace", "font-weight": 500, fill: col, "letter-spacing": "0.08em", "text-anchor": anchor || "middle" }, text);
+          var rect = el(gg, "rect", { rx: 2, fill: fill, style: "stroke:" + (kind === "neutral" ? "var(--hair)" : col), "stroke-width": 1.8 });
+          var txt = el(gg, "text", { x: x, y: y, "font-size": size, "font-family": "Mono FD, monospace", "font-weight": 500, style: "fill:" + col, "letter-spacing": "0.08em", "text-anchor": anchor || "middle" }, text);
           var t = { rect: rect, txt: txt, size: size };
           fitChip(t); CHIPS.push(t);
           if (at != null) fadeIn(gg, at, 0.35, 8);
@@ -234,7 +255,7 @@
         if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { CHIPS.forEach(fitChip); });
 
         function panel(parent, x, y, w, h, at, rx) {
-          var r = el(parent, "rect", { x: x, y: y, width: w, height: h, rx: rx == null ? 14 : rx, class: "panel", filter: "url(#fShadow)" });
+          var r = el(parent, "rect", { x: x, y: y, width: w, height: h, rx: rx == null ? 2 : rx, class: "panel", filter: "url(#fShadow)" });
           if (at != null) fadeIn(r, at, 0.5, 10);
           return r;
         }
@@ -249,17 +270,17 @@
             el(svg, "text", { x: 96, y: sy(v) + 8, class: "tick", "text-anchor": "end" }, fmt(v / 1000, 0) + " 000");
           });
           el(svg, "line", { x1: 110, x2: 880, y1: 590, y2: 590, class: "axis" });
-          var d = [[220, 145100, "Obligations", "url(#gCyan)", "cval", wordAt("hook", "obligataire") - 0.3], [560, 126700, "Actions", "url(#gMute)", "val", wordAt("hook", "actions") - 0.25]];
+          var d = [[220, 145100, "Obligations", RED, "rval", wordAt("hook", "obligataire") - 0.3], [560, 126700, "Actions", "var(--ink)", "val", wordAt("hook", "actions") - 0.25]];
           d.forEach(function (b) {
-            var r = el(svg, "rect", { x: b[0], y: sy(b[1]), width: 200, height: 590 - sy(b[1]), fill: b[3], filter: "url(#fShadow)" });
+            var r = el(svg, "rect", { x: b[0], y: sy(b[1]), width: 200, height: 590 - sy(b[1]), style: "fill:" + b[3] });
             var v = el(svg, "text", { x: b[0] + 100, y: sy(b[1]) - 24, class: b[4], "font-size": 50, "text-anchor": "middle" }, "0");
             var l = el(svg, "text", { x: b[0] + 100, y: 636, class: "mono", "font-size": 22, "text-anchor": "middle" }, b[2].toUpperCase());
             fadeIn(l, b[5], 0.3, 0); growY(r, b[5], 0.9); fadeIn(v, b[5] + 0.2, 0.3, 0);
             counter(v, b[5] + 0.2, 0, b[1], 0, "", 0.9);
           });
           var tP = wordAt("hook", "personne");
-          var gl = el(svg, "line", { x1: 420, x2: 790, y1: sy(145100), y2: sy(145100), stroke: "rgba(255,255,255,0.45)", "stroke-width": 1.5, "stroke-dasharray": "4 6" });
-          var gl2 = el(svg, "line", { x1: 770, x2: 790, y1: sy(126700), y2: sy(126700), stroke: "rgba(255,255,255,0.45)", "stroke-width": 1.5 });
+          var gl = el(svg, "line", { x1: 420, x2: 790, y1: sy(145100), y2: sy(145100), style: "stroke:var(--soft)", "stroke-width": 1.5, "stroke-dasharray": "4 6" });
+          var gl2 = el(svg, "line", { x1: 770, x2: 790, y1: sy(126700), y2: sy(126700), style: "stroke:var(--soft)", "stroke-width": 1.5 });
           var brk = el(svg, "line", { x1: 790, x2: 790, y1: sy(145100), y2: sy(126700), class: "cthin" });
           fadeIn(gl, tP - 0.3, 0.3, 0); fadeIn(gl2, tP - 0.3, 0.3, 0); growY(brk, tP - 0.2, 0.35, "50% 0%");
           chip(svg, 812, (sy(145100) + sy(126700)) / 2 + 9, "+15 %", 24, tP, "cyan", "start");
@@ -285,7 +306,7 @@
           el(gO, "text", { x: 687, y: 236, class: "serif", "font-size": 54, "text-anchor": "middle" }, "prêteur");
           fadeIn(gO, tO + 0.15, 0.4);
           // autrement dit : vous êtes la banque
-          var hl = el(svg, "rect", { x: 475, y: 10, width: 425, height: 300, rx: 14, fill: "none", stroke: CYAN, "stroke-width": 2.5 });
+          var hl = el(svg, "rect", { x: 475, y: 10, width: 425, height: 300, rx: 0, fill: "none", style: "stroke:var(--cyan)", "stroke-width": 2.5 });
           fadeIn(hl, tB, 0.35, 0);
           fadeTo([pA, gA], tB, 0.4);
           var band = el(svg, "g", {});
@@ -317,7 +338,7 @@
           });
           var tC = wordAt("term", "coupon");
           var cRow = rows.filter(function (r) { return r[0] === "COUPON"; })[0];
-          var mk = el(svg, "rect", { x: 20, y: cRow[4] + 8, width: 6, height: 120, fill: CYAN });
+          var mk = el(svg, "rect", { x: 20, y: cRow[4] + 8, width: 6, height: 120, style: "fill:var(--cyan)" });
           growY(mk, tC - 0.3, 0.4, "50% 50%");
         })();
 
@@ -338,14 +359,14 @@
           for (var i = 0; i < 10; i++) {
             var x = x0 + i * step;
             var lab = el(svg, "text", { x: x + w / 2, y: 600, class: "tick", "text-anchor": "middle", "font-size": 20 }, i + 1);
-            var r = el(svg, "rect", { x: x, y: sy(50), width: w, height: 560 - sy(50), fill: "url(#gCyan)" });
+            var r = el(svg, "rect", { x: x, y: sy(50), width: w, height: 560 - sy(50), style: "fill:var(--cyan)" });
             var t = t50 + 0.25 + i * 0.12;
             fadeIn(lab, t, 0.25, 0); growY(r, t, 0.4);
           }
           fadeTo(big, tR - 0.6, 0, 0.3);
           // remboursement du capital en année 10
           var xr = x0 + 9 * step;
-          var cap = el(svg, "rect", { x: xr, y: sy(1050), width: w, height: sy(50) - sy(1050), fill: "url(#gBar)", filter: "url(#fShadow)" });
+          var cap = el(svg, "rect", { x: xr, y: sy(1050), width: w, height: sy(50) - sy(1050), style: "fill:var(--ink)" });
           growY(cap, tR - 0.1, 0.8);
           var capL = el(svg, "text", { x: xr + w, y: sy(1050) - 18, class: "val", "font-size": 34, "text-anchor": "end" }, "1 000 €");
           var capS = el(svg, "text", { x: xr - 18, y: sy(800), class: "mono", "font-size": 18, "text-anchor": "end" }, "CAPITAL");
@@ -372,7 +393,7 @@
           fadeIn(ax, s.start + 0.2, 0.4, 0);
           // Allemagne : peu de risque, paie peu
           var tD = wordAt("risk", "l'Allemagne") - 0.25, pD = { x: 230, y: 470 };
-          var dD = el(svg, "circle", { cx: pD.x, cy: pD.y, r: 16, fill: INK, filter: "url(#fGlow)" });
+          var dD = el(svg, "circle", { cx: pD.x, cy: pD.y, r: 16, style: "fill:var(--ink)" });
           var lD = el(svg, "g", {});
           el(lD, "text", { x: pD.x + 34, y: pD.y + 12, class: "serif", "font-size": 36 }, "Allemagne");
           fadeIn(dD, tD, 0.3, 0); fadeIn(lD, tD + 0.1, 0.35);
@@ -415,7 +436,7 @@
         // ================= 7. POURQUOI : 4 % contre 6 % =================
         (function () {
           var s = sceneTimes("why"), svg = document.getElementById("ch-why");
-          showScene(document.getElementById("sc-why"), s.start, null);
+          showScene(document.getElementById("sc-why"), s.start, s.end);
           var t4 = wordAt("why", "rapporte") + 0.1, t6 = wordAt("why", "rapporter") + 0.1;
           var cards = [[20, "VOTRE OBLIGATION", "4 %", "val", t4 - 0.4], [475, "NOUVELLES OBLIGATIONS", "6 %", "cval", t6 - 0.5]];
           var cardEls = [];
@@ -428,7 +449,7 @@
             cardEls.push([p, g]);
           });
           var tPv = wordAt("why", "voudra") - 0.3;
-          var hl = el(svg, "rect", { x: 475, y: 0, width: 425, height: 300, rx: 14, fill: "none", stroke: CYAN, "stroke-width": 2.5 });
+          var hl = el(svg, "rect", { x: 475, y: 0, width: 425, height: 300, rx: 0, fill: "none", style: "stroke:var(--cyan)", "stroke-width": 2.5 });
           fadeIn(hl, t6 + 0.2, 0.35, 0);
           fadeTo(cardEls[0], tPv, 0.45);
           // prix de revente
@@ -447,8 +468,55 @@
           fadeIn(nw, tB + 0.55, 0.3, 0);
           counter(nw, tB + 0.55, 1000, 853, 0, " €", 0.9);
           chip(svg, 900, 620, "≈ −15 %", 22, tB + 1.3, "red", "end");
-          tl.to(["#sc-why"], { opacity: 0.08, duration: 0.5 }, R.total - 1.9);
-          fadeIn(document.getElementById("sign"), R.total - 1.7, 0.5);
+        })();
+
+        // ================= MONTAGE : alternance fond blanc / fond bleu =================
+        var SFX = [];
+        (function () {
+          function chunkAt(id, text) {
+            var c = R.chunks.filter(function (c) { return R.scenes[c.scene].id === id && c.text.indexOf(text) === 0; })[0];
+            if (!c) throw new Error("groupe introuvable : " + text);
+            return c.start - 0.08;
+          }
+          // changements de fond au milieu des scènes longues
+          var FLIPS = [["versus", "mais quand vous"], ["term", "et en échange"], ["flows", "Puis au bout"], ["risk", "À l'inverse"], ["risk", "En clair"], ["why", "Du coup"]];
+          var seg = R.scenes.map(function (sc) { return { t: Math.max(0, sc.start - 0.02), id: sc.id, first: true }; });
+          FLIPS.forEach(function (f) { seg.push({ t: chunkAt(f[0], f[1]), id: f[0], first: false }); });
+          seg.sort(function (a, b) { return a.t - b.t; });
+          seg.forEach(function (g, i) {
+            var light = i % 2 === 0, node = g.id === "cta" ? null : document.getElementById("sc-" + g.id);
+            tl.to("#bg-light", { opacity: light ? 1 : 0, duration: 0.3, ease: "power1.inOut" }, Math.max(0, g.t - 0.15));
+            if (node) {
+              if (g.first) tl.set(node, { attr: { class: light ? "scene light" : "scene" } }, Math.max(0, g.t - 0.2));
+              else {
+                tl.to(node, { opacity: 0, duration: 0.12 }, g.t - 0.14);
+                tl.set(node, { attr: { class: light ? "scene light" : "scene" } }, g.t - 0.02);
+                tl.to(node, { opacity: 1, duration: 0.22 }, g.t);
+              }
+            }
+            if (i) SFX.push(["whoosh", g.t - 0.2, 0.12]);
+          });
+        })();
+
+        // ================= FIN : profil Instagram, bouton S'abonner → Abonné =================
+        (function () {
+          var c = R.scenes.filter(function (s) { return s.id === "cta"; })[0];
+          var tA = wordAt("cta", "abonnez-vous");
+          tl.fromTo("#end", { opacity: 0 }, { opacity: 1, duration: 0.4 }, c.start);
+          tl.fromTo("#avatar .pic", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.7, ease: "power3.out" }, c.start + 0.05);
+          drawIn(document.getElementById("ring"), c.start + 0.4, 1.2, "power2.inOut");
+          fadeIn(document.getElementById("wordmark"), c.start + 0.8, 0.6);
+          var tB = tA - 0.1, tC = tA + 1.1;
+          tl.fromTo("#btn", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, tB);
+          tl.to("#btn", { scale: 0.94, duration: 0.1, ease: "power1.in" }, tC);
+          tl.to("#btn", { scale: 1, duration: 0.3, ease: "back.out(2)" }, tC + 0.1);
+          tl.to("#btn", { backgroundColor: "#363a45", boxShadow: "0 18px 40px rgba(0,0,0,0.35)", duration: 0.3 }, tC + 0.05);
+          tl.set("#btn .t1", { display: "none" }, tC + 0.1);
+          tl.set("#btn .t2", { display: "inline" }, tC + 0.1);
+          tl.set("#btn svg", { display: "block" }, tC + 0.1);
+          drawIn(document.querySelector("#btn svg path"), tC + 0.12, 0.35);
+          SFX.push(["click", tC - 0.02, 0.6], ["chime", tC + 0.12, 0.35]);
+          window.__SFX = SFX.map(function (x) { return { name: x[0], t: +x[1].toFixed(3), gain: x[2] }; });
         })();
 
         // ================= SOUS-TITRES (3 mots max, groupe entier, fond gris translucide) =================

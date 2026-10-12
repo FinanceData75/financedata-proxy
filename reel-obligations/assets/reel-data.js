@@ -11,7 +11,8 @@
     { id: "flows", text: "Avec un coupon / de 5" + NB + "% / vous touchez donc / 50 euros / par an. / Puis au bout / de 10 ans, / on vous rend / vos 1" + NB + "000 euros / et au total, / vous aurez gagné / 500 euros." },
     { id: "risk", text: "Mais attention, / tous les / emprunteurs ne / se valent pas, / car un État / solide comme / l'Allemagne / rembourse presque / à coup sûr, / donc il / paye peu. / À l'inverse, / une entreprise / fragile / doit payer / beaucoup plus / pour convaincre / les prêteurs, / car elle risque / de ne jamais / rembourser. / En clair, / plus le risque / est élevé, / plus vous / êtes payé." },
     { id: "rates", text: "Enfin, une / obligation peut / se revendre / avant la fin. / Et c'est là / que ça / se complique. / Quand les taux / montent, / son prix / baisse. / Pourquoi ?" },
-    { id: "why", text: "Imaginez votre / obligation rapporte / 4" + NB + "%. / Puis les nouvelles / obligations se / mettent à / rapporter 6" + NB + "%. / Du coup, / personne ne voudra / acheter la vôtre / au même prix. / Et pour / la vendre, / vous devez donc / baisser son prix." }
+    { id: "why", text: "Imaginez votre / obligation rapporte / 4" + NB + "%. / Puis les nouvelles / obligations se / mettent à / rapporter 6" + NB + "%. / Du coup, / personne ne voudra / acheter la vôtre / au même prix. / Et pour / la vendre, / vous devez donc / baisser son prix." },
+    { id: "cta", text: "Et pour comprendre / les mécanismes / invisibles / des marchés, / abonnez-vous." }
   ];
 
   var SPOKEN = { "1 000": 0.5, "5 %": 0.6, "4 %": 0.6, "6 %": 0.6, "500": 0.6 };
@@ -52,9 +53,9 @@
   });
   var end = t;
   if (root.VO && root.VO.words && root.VO.words.length) end = applyVoice(root.VO, chunks, scenes);
-  scenes.forEach(function (s, i) { s.end = i < scenes.length - 1 ? scenes[i + 1].start : end + 2.2; });
+  scenes.forEach(function (s, i) { s.end = i < scenes.length - 1 ? scenes[i + 1].start : end + 2.9; });
 
-  root.REEL = { scenes: scenes, chunks: chunks, total: Math.ceil((end + 2.2) * 10) / 10, synced: end !== t };
+  root.REEL = { scenes: scenes, chunks: chunks, total: Math.ceil((end + 2.9) * 10) / 10, synced: end !== t };
 
   // ---- Recalage sur la vraie voix off (assets/vo-words.js, généré par scripts/voiceover.mjs) ----
   function toks(s) {

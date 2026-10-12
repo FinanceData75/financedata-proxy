@@ -1,6 +1,6 @@
 # Reel FinanceData – Le marché obligataire (HyperFrames)
 
-Reel vertical 1080×1920, 53,6 s. DA FinanceData en version éditoriale minimaliste, inspirée du FT, de Bloomberg et de The Economist :
+Reel vertical 1080×1920, 57 s (v2 : fond blanc au début, barre Obligations en rouge, alternance blanc / bleu toutes les 3 à 6 s, CTA « Et pour comprendre… abonnez-vous » repris de la prise OpenAI, fin façon profil Instagram). DA FinanceData en version éditoriale minimaliste, inspirée du FT, de Bloomberg et de The Economist :
 fond bleu #00194B avec halo, quadrillage fin estompé et vignette. Titres en Source Serif 4, données en Inter (chiffres tabulaires),
 étiquettes en IBM Plex Mono. Cyan en accent, rouge vif (#ff2e24) réservé aux alertes. Sous-titres en Inter SemiBold blanc
 sur fond gris translucide (3 mots max).
@@ -10,6 +10,7 @@ sur fond gris translucide (3 mots max).
 - `assets/reel-data.js` : découpage des sous-titres par scène, recalé sur la voix
 - `voix-off.txt` : texte exactement lu dans la prise montée
 - `audio/voix-off-obligations.wav` : voix off montée (pauses ≤ 0,15 s, ratés coupés), sans autre traitement
+- `audio/voix-off-obligations-cta.wav` : la même + la phrase d'abonnement (Nouvel_enregistrement_42, 64,8–67,6 s), même niveau, sans gain
 
 ## Rendu
 ```
