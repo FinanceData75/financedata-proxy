@@ -53,9 +53,9 @@
   });
   var end = t;
   if (root.VO && root.VO.words && root.VO.words.length) end = applyVoice(root.VO, chunks, scenes);
-  scenes.forEach(function (s, i) { s.end = i < scenes.length - 1 ? scenes[i + 1].start : end + 2.9; });
+  scenes.forEach(function (s, i) { s.end = i < scenes.length - 1 ? scenes[i + 1].start : end + 0.35; });
 
-  root.REEL = { scenes: scenes, chunks: chunks, total: Math.ceil((end + 2.9) * 10) / 10, synced: end !== t };
+  root.REEL = { scenes: scenes, chunks: chunks, total: Math.ceil((end + 0.35) * 10) / 10, synced: end !== t };
 
   // ---- Recalage sur la vraie voix off (assets/vo-words.js, généré par scripts/voiceover.mjs) ----
   function toks(s) {

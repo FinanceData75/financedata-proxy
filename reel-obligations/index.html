@@ -38,7 +38,7 @@
         -webkit-mask-image: radial-gradient(ellipse 72% 52% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 72% 52% at 50% 46%, #000 30%, transparent 85%); }
       #bg-vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(0, 0, 0, 0) 55%, rgba(0, 5, 22, 0.62) 100%); }
       #defs { position: absolute; width: 0; height: 0; }
-      #bg-light { position: absolute; inset: 0; opacity: 0; background: #f6f8fc; }
+      #bg-light { position: absolute; inset: 0; opacity: 1; background: #f6f8fc; }
       #bg-light::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0, 25, 75, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 25, 75, 0.06) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
         -webkit-mask-image: radial-gradient(ellipse 72% 52% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 72% 52% at 50% 46%, #000 30%, transparent 85%); }
       #bg-light::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(255, 255, 255, 0) 55%, rgba(0, 25, 75, 0.08) 100%); }
@@ -91,9 +91,9 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="57" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="57" data-track-index="1"></audio>
-      <div id="stage" class="clip" data-start="0" data-duration="57" data-track-index="0">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="54.5" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="54.5" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="54.5" data-track-index="0">
         <div id="bg-glow"></div>
         <div id="bg-grid"></div>
         <div id="bg-vig"></div>
@@ -111,7 +111,7 @@
         </svg>
 
         <!-- 1 : hook, taille des marchés -->
-        <div class="scene" id="sc-hook">
+        <div class="scene light" id="sc-hook">
           <h2 class="chart-title">Obligations vs actions</h2>
           <div class="chart-sub">Encours mondial, en milliards de dollars</div>
           <svg class="chart" id="ch-hook" viewBox="0 0 920 660"></svg>
@@ -479,13 +479,13 @@
             return c.start - 0.08;
           }
           // changements de fond au milieu des scènes longues
-          var FLIPS = [["versus", "mais quand vous"], ["term", "et en échange"], ["flows", "Puis au bout"], ["risk", "À l'inverse"], ["risk", "En clair"], ["why", "Du coup"]];
+          var FLIPS = [];
           var seg = R.scenes.map(function (sc) { return { t: Math.max(0, sc.start - 0.02), id: sc.id, first: true }; });
           FLIPS.forEach(function (f) { seg.push({ t: chunkAt(f[0], f[1]), id: f[0], first: false }); });
           seg.sort(function (a, b) { return a.t - b.t; });
           seg.forEach(function (g, i) {
             var light = i % 2 === 0, node = g.id === "cta" ? null : document.getElementById("sc-" + g.id);
-            tl.to("#bg-light", { opacity: light ? 1 : 0, duration: 0.3, ease: "power1.inOut" }, Math.max(0, g.t - 0.15));
+            if (i) tl.to("#bg-light", { opacity: light ? 1 : 0, duration: 0.3, ease: "power1.inOut" }, g.t - 0.15);
             if (node) {
               if (g.first) tl.set(node, { attr: { class: light ? "scene light" : "scene" } }, Math.max(0, g.t - 0.2));
               else {
@@ -503,19 +503,19 @@
           var c = R.scenes.filter(function (s) { return s.id === "cta"; })[0];
           var tA = wordAt("cta", "abonnez-vous");
           tl.fromTo("#end", { opacity: 0 }, { opacity: 1, duration: 0.4 }, c.start);
-          tl.fromTo("#avatar .pic", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.7, ease: "power3.out" }, c.start + 0.05);
-          drawIn(document.getElementById("ring"), c.start + 0.4, 1.2, "power2.inOut");
-          fadeIn(document.getElementById("wordmark"), c.start + 0.8, 0.6);
-          var tB = tA - 0.1, tC = tA + 1.1;
+          tl.fromTo("#avatar .pic", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, c.start + 0.05);
+          drawIn(document.getElementById("ring"), c.start + 0.25, 0.8, "power2.inOut");
+          fadeIn(document.getElementById("wordmark"), c.start + 0.5, 0.45);
+          var tB = tA - 0.9, tC = tA + 0.08;
           tl.fromTo("#btn", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, tB);
           tl.to("#btn", { scale: 0.94, duration: 0.1, ease: "power1.in" }, tC);
-          tl.to("#btn", { scale: 1, duration: 0.3, ease: "back.out(2)" }, tC + 0.1);
+          tl.to("#btn", { scale: 1, duration: 0.2, ease: "back.out(2)" }, tC + 0.1);
           tl.to("#btn", { backgroundColor: "#363a45", boxShadow: "0 18px 40px rgba(0,0,0,0.35)", duration: 0.3 }, tC + 0.05);
           tl.set("#btn .t1", { display: "none" }, tC + 0.1);
           tl.set("#btn .t2", { display: "inline" }, tC + 0.1);
           tl.set("#btn svg", { display: "block" }, tC + 0.1);
-          drawIn(document.querySelector("#btn svg path"), tC + 0.12, 0.35);
-          SFX.push(["click", tC - 0.02, 0.6], ["chime", tC + 0.12, 0.35]);
+          drawIn(document.querySelector("#btn svg path"), tC + 0.12, 0.2);
+          SFX.push(["click", tC - 0.02, 0.5]);
           window.__SFX = SFX.map(function (x) { return { name: x[0], t: +x[1].toFixed(3), gain: x[2] }; });
         })();
 
