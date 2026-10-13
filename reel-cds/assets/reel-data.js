@@ -5,16 +5,18 @@
   var NB = " "; // espace fine insécable : "+18 %" ou "Résultat :" restent un seul bloc
   // " / " = coupure de sous-titre (3 mots max par groupe)
   var SCENES = [
-    { id: "hook", text: "En un mois, / le prix pour / s'assurer contre / une faillite / de la France / a plus / que doublé." },
-    { id: "cds", text: "Ce prix, / c'est ce / qu'on appelle / le CDS." },
-    { id: "ami", text: "Et pour bien / le comprendre, / imaginez que / vous prêtez / 1" + NB + "000 euros / à un ami. / Vous lui faites / confiance… / mais pas / totalement." },
-    { id: "assur", text: "Alors vous allez / voir un assureur. / Si votre ami / ne vous rembourse / pas, c'est / l'assureur qui paie. / En échange, / vous lui versez / une petite prime / chaque année." },
-    { id: "pays", text: "Le CDS, / c'est exactement ça, / mais pour / les pays. / Les investisseurs / qui prêtent / à la France / peuvent s'assurer / contre le risque / qu'elle ne / les rembourse pas." },
+    { id: "hook", text: "Les finances / de la France / inquiètent / les marchés / financiers / et si vous / avez un crédit, / de l'épargne / ou que vous / payez des impôts, / ça vous concerne." },
+    { id: "ami", text: "Imaginez que / vous prêtez / 1" + NB + "000 euros / à un ami. / Vous lui faites / confiance… / mais pas / totalement." },
+    { id: "assur", text: "Alors vous allez / voir un assureur. / Si votre ami / ne vous rembourse / pas, c'est / l'assureur qui paie. / Et en échange, / vous lui versez / une petite prime / chaque année." },
+    { id: "pays", text: "Eh bien, / les investisseurs / qui prêtent / à la France / font exactement / la même chose. / Ils s'assurent / contre le risque / qu'elle ne / les rembourse pas." },
     { id: "prix", text: "Et logiquement, / plus le risque / paraît élevé, / plus l'assurance / coûte cher." },
     { id: "chiffres", text: "Début septembre, / assurer 1 million / d'euros de / dette française / coûtait environ / 3" + NB + "500 euros / par an. / Aujourd'hui, / c'est plus / de 8" + NB + "000 euros. / Du jamais vu / depuis 2013." },
-    { id: "pourquoi", text: "Pourquoi" + NB + "? / Parce que / les marchés / s'inquiètent / du budget, / de la dette / et de l'instabilité / politique / à l'approche / des élections." },
+    { id: "nom", text: "On appelle ça / un Credit / Default Swap." },
+    { id: "pourquoi", text: "Et son prix / explose car / les investisseurs / sont inquiets / de la situation / en France / entre la dette, / le vote / du budget / et l'instabilité / politique." },
     { id: "signal", text: "Attention, / ça ne veut / pas dire que / la France / va faire faillite. / Mais c'est / un signal" + NB + ": / les investisseurs / ont moins / confiance." },
-    { id: "emprunt", text: "Et quand / la confiance baisse, / la France paie / plus cher / pour emprunter. / Et au final, / c'est de l'argent / que l'État / ne peut plus / utiliser ailleurs." },
+    { id: "impact", text: "Et quand / la confiance baisse, / la France paie / plus cher / pour emprunter / et ça vous / impacte pour / deux raisons" + NB + ":" },
+    { id: "r1", text: "Premièrement, / l'État paie / plus d'intérêts / pour la dette, / au détriment / d'autres dépenses / utiles." },
+    { id: "r2", text: "Et deuxièmement, / cette hausse / influence aussi / vos taux des / crédits immobiliers / et emprunter / peut donc vous / coûter plus cher." },
     { id: "cta", text: "Et pour comprendre / les mécanismes / invisibles / des marchés, / abonnez-vous." }
   ];
 

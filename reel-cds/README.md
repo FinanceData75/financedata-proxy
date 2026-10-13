@@ -1,6 +1,6 @@
 # Reel FinanceData – Le CDS de la France (HyperFrames)
 
-Reel vertical 1080×1920, 61,6 s. Début sur fond blanc avec la capture du CDS France 5 ans, puis alternance blanc / bleu #00194B
+Reel vertical 1080×1920, 61,6 s (v1) ; v2 : 74 s, nouveau script (hook « ça vous concerne », CDS nommé à 39 s, deux conséquences pour vous). Début sur fond blanc avec la capture du CDS France 5 ans, puis alternance blanc / bleu #00194B
 quadrillé à chaque scène (11 scènes, sans coupe au milieu d'une phrase), angles droits, rouge pour les alertes,
 sous-titres blancs sur fond gris translucide. Analogie ami / assureur, puis investisseurs / France / CDS.
 Fin : profil Instagram FinanceData + bouton « S'abonner » → « Abonné » calé sur « abonnez-vous » ; la vidéo s'arrête avec la voix.

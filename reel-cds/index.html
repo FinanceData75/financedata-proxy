@@ -47,7 +47,7 @@
       svg .arw-r { stroke: var(--red); stroke-width: 4; fill: none; }
 
       /* hook : capture du CDS, sans arrondi */
-      #shot { position: absolute; left: -60px; top: 220px; width: 920px; background: #fff; box-shadow: 0 30px 60px rgba(0, 25, 75, 0.18); border: 1px solid rgba(0, 25, 75, 0.08); }
+      #shot { position: absolute; left: -60px; top: 380px; width: 920px; background: #fff; box-shadow: 0 30px 60px rgba(0, 25, 75, 0.18); border: 1px solid rgba(0, 25, 75, 0.08); }
       #shot img { display: block; width: 100%; }
       .badge { position: absolute; padding: 10px 26px 14px; background: var(--red); color: #fff; font-weight: 600; letter-spacing: -0.04em; white-space: nowrap; opacity: 0; }
 
@@ -70,40 +70,43 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="61.6" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="61.6" data-track-index="1"></audio>
-      <div id="stage" class="clip" data-start="0" data-duration="61.6" data-track-index="0">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="74" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="74" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="74" data-track-index="0">
         <div id="bg-dark"><div class="glow"></div><div class="grid"></div><div class="vig"></div></div>
         <div id="bg-light"></div>
 
-        <div class="scene light" id="sc-hook">
-          <div class="title" style="margin-top:60px">Le CDS de la France</div>
-          <div class="sub">Contrat à 5 ans, en points de base</div>
-          <div id="shot"><img src="assets/img/cds-3-mois.png" alt="" /></div>
-          <div class="badge" id="bx2" style="left:-20px;top:250px;font-size:96px">×2</div>
-        </div>
-        <div class="scene" id="sc-cds">
-          <div class="big" id="cds-big" style="margin-top:170px;font-size:260px">CDS</div>
-          <div class="sub" id="cds-sub" style="font-size:38px;margin-top:30px">Credit Default Swap</div>
-          <div class="sub" id="cds-sub2" style="font-size:34px;margin-top:16px;color:var(--cyan)">une assurance contre la faillite</div>
-        </div>
-        <div class="scene light" id="sc-ami"><svg class="chart" id="ch-ami" viewBox="0 0 800 640"></svg></div>
-        <div class="scene" id="sc-assur"><svg class="chart" id="ch-assur" viewBox="0 0 800 640"></svg></div>
-        <div class="scene light" id="sc-pays"><svg class="chart" id="ch-pays" viewBox="0 0 800 640"></svg></div>
-        <div class="scene" id="sc-prix"><svg class="chart" id="ch-prix" viewBox="0 0 800 640"></svg></div>
-        <div class="scene light" id="sc-chiffres">
+        <div class="scene light" id="sc-hook"><svg class="chart" id="ch-hook" viewBox="0 0 800 640" style="top:40px"></svg></div>
+        <div class="scene" id="sc-ami"><svg class="chart" id="ch-ami" viewBox="0 0 800 640"></svg></div>
+        <div class="scene light" id="sc-assur"><svg class="chart" id="ch-assur" viewBox="0 0 800 640"></svg></div>
+        <div class="scene" id="sc-pays"><svg class="chart" id="ch-pays" viewBox="0 0 800 640"></svg></div>
+        <div class="scene light" id="sc-prix"><svg class="chart" id="ch-prix" viewBox="0 0 800 640"></svg></div>
+        <div class="scene" id="sc-chiffres">
           <div class="title">Assurer 1 M€ de dette</div>
           <div class="sub">française, par an</div>
           <svg class="chart" id="ch-chiffres" viewBox="0 0 800 640"></svg>
         </div>
+        <div class="scene light" id="sc-nom">
+          <div class="big" id="cds-big" style="margin-top:20px;font-size:200px">CDS</div>
+          <div class="sub" id="cds-sub" style="font-size:36px;margin-top:20px">Credit Default Swap</div>
+          <div id="shot"><img src="assets/img/cds-3-mois.png" alt="" /></div>
+        </div>
         <div class="scene" id="sc-pourquoi">
-          <div class="title" style="margin-top:40px">Pourquoi ?</div>
-          <div class="big" id="w1" style="margin-top:90px;font-size:110px;opacity:0">Budget</div>
-          <div class="big" id="w2" style="margin-top:30px;font-size:110px;opacity:0">Dette</div>
+          <div class="title" style="margin-top:40px">Pourquoi ça explose ?</div>
+          <div class="big" id="w1" style="margin-top:90px;font-size:110px;opacity:0">Dette</div>
+          <div class="big" id="w2" style="margin-top:30px;font-size:110px;opacity:0">Budget</div>
           <div class="big" id="w3" style="margin-top:30px;font-size:110px;opacity:0;color:var(--red)">Politique</div>
         </div>
         <div class="scene light" id="sc-signal"><svg class="chart" id="ch-signal" viewBox="0 0 800 640"></svg></div>
-        <div class="scene" id="sc-emprunt"><svg class="chart" id="ch-emprunt" viewBox="0 0 800 640"></svg></div>
+        <div class="scene" id="sc-impact"><svg class="chart" id="ch-impact" viewBox="0 0 800 640"></svg></div>
+        <div class="scene light" id="sc-r1">
+          <div class="title">1. L'État</div>
+          <svg class="chart" id="ch-r1" viewBox="0 0 800 640"></svg>
+        </div>
+        <div class="scene" id="sc-r2">
+          <div class="title">2. Votre crédit</div>
+          <svg class="chart" id="ch-r2" viewBox="0 0 800 640"></svg>
+        </div>
 
         <div id="end">
           <div id="avatar"><svg viewBox="0 0 360 360"><defs><linearGradient id="gStory" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75" /><stop offset="0.3" stop-color="#fa7e1e" /><stop offset="0.6" stop-color="#d62976" /><stop offset="1" stop-color="#962fbf" /></linearGradient></defs>
@@ -184,7 +187,7 @@
         function chip(parent, x, y, text, at, color, fill) {
           var g = el(parent, "g", {});
           var t = el(g, "text", { x: x, y: y, "font-size": 28, "font-weight": 600, "text-anchor": "middle", "letter-spacing": "0.06em", style: "fill:" + (fill ? "#fff" : color) }, text);
-          var w = text.length * 17 + 36;
+          var w = text.length * 20 + 40;
           var r = el(g, "rect", { x: x - w / 2, y: y - 34, width: w, height: 48, style: fill ? "fill:" + color : "fill:none;stroke:" + color + ";stroke-width:2" });
           g.insertBefore(r, t);
           if (at != null) popIn(g, at);
@@ -204,20 +207,26 @@
           tl.to(n, { opacity: 0, duration: 0.2 }, s.end - 0.2);
         });
 
-        // ---------- hook : la capture apparaît vite, puis « ×2 » ----------
+        // ---------- hook : la France inquiète les marchés… et ça vous concerne ----------
         (function () {
-          tl.fromTo("#shot", { opacity: 0, y: 60, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(1.6)" }, 0.0);
-          SFX.push(["swipe", 0.0, 0.45]);
-          var t = wordAt("hook", "doublé") - 0.15;
-          tl.fromTo("#bx2", { opacity: 0, scale: 0.5, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.4)" }, t);
-          SFX.push(["pop", t, 0.35]);
-        })();
-
-        // ---------- CDS ----------
-        (function () {
-          var s = sc("cds"), t = wordAt("cds", "CDS");
-          tl.fromTo("#cds-big", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, t - 0.15);
-          fadeIn($("cds-sub"), t + 0.25, 0.4); fadeIn($("cds-sub2"), t + 0.55, 0.4);
+          var s = sc("hook"), svg = $("ch-hook");
+          var fl = node(svg, 400, 110, "", null, "flag");
+          fl.setAttribute("transform", "translate(400 120) scale(1.9) translate(-400 -110)");
+          tl.fromTo(fl, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.8)" }, 0.0);
+          SFX.push(["swipe", 0.0, 0.4]);
+          var pulse = el(svg, "circle", { cx: 545, cy: 30, r: 22, fill: RED });
+          tl.fromTo(pulse, { opacity: 0 }, { opacity: 1, duration: 0.18, repeat: 7, yoyo: true }, 0.1);
+          var t1 = el(svg, "text", { x: 400, y: 330, "font-size": 56, "font-weight": 600, "text-anchor": "middle", "letter-spacing": "-0.03em", style: "fill:var(--ink)" }, "La France inquiète les marchés");
+          tl.fromTo(t1, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 0.15);
+          [["Crédit", "crédit", 150], ["Épargne", "l'épargne", 400], ["Impôts", "impôts", 650]].forEach(function (w) {
+            var g = el(svg, "g", {});
+            el(g, "rect", { x: w[2] - 115, y: 400, width: 230, height: 90, style: "fill:var(--ink)" });
+            el(g, "text", { x: w[2], y: 460, "font-size": 40, "font-weight": 600, fill: "#fff", "text-anchor": "middle" }, w[0]);
+            popIn(g, wordAt("hook", w[1]) - 0.12);
+            SFX.push(["pop", wordAt("hook", w[1]) - 0.12, 0.25]);
+          });
+          var c = el(svg, "text", { x: 400, y: 620, "font-size": 78, "font-weight": 600, fill: RED, "text-anchor": "middle", "letter-spacing": "-0.03em" }, "Ça vous concerne");
+          popIn(c, wordAt("hook", "concerne") - 0.4);
         })();
 
         // ---------- l'analogie : vous prêtez à un ami ----------
@@ -251,19 +260,20 @@
           fadeIn(l2, tM + 0.35, 0.4, 0);
         })();
 
-        // ---------- même chose pour un pays ----------
+        // ---------- même chose pour la France ----------
         (function () {
           var s = sc("pays"), svg = $("ch-pays");
-          node(svg, P.ami[0], P.ami[1], "France", wordAt("pays", "pays") - 0.2, "flag");
           node(svg, P.you[0], P.you[1], "Investisseurs", wordAt("pays", "investisseurs") - 0.15);
+          node(svg, P.ami[0], P.ami[1], "France", wordAt("pays", "France") - 0.2, "flag");
           var tP = wordAt("pays", "prêtent") - 0.1;
           arrow(svg, 250, 260, 540, 150, tP, 0.6);
           var m = el(svg, "text", { x: 380, y: 170, class: "val", "font-size": 44, "text-anchor": "middle", transform: "rotate(-21 380 170)" }, "€");
           fadeIn(m, tP + 0.4, 0.3, 0);
-          var tA = wordAt("pays", "s'assurer") - 0.15;
+          var tA = wordAt("pays", "s'assurent") - 0.15;
           node(svg, P.ins[0], P.ins[1], "Assureur", tA, "bank");
           arrow(svg, 250, 340, 545, 440, tA + 0.2, 0.6);
-          chip(svg, 400, 365, "CDS", tA + 0.6, RED, true);
+          var l2 = el(svg, "text", { x: 440, y: 360, class: "val", "font-size": 34, "text-anchor": "middle" }, "prime / an");
+          fadeIn(l2, tA + 0.6, 0.4, 0);
         })();
 
         // ---------- risque ↑ = prix ↑ ----------
@@ -296,10 +306,19 @@
           chip(svg, 400, 50, "PLUS HAUT DEPUIS 2013", wordAt("chiffres", "2013") - 0.25, RED, true);
         })();
 
-        // ---------- pourquoi : budget, dette, politique ----------
+        // ---------- le nom : CDS, et sa courbe ----------
         (function () {
-          fadeIn($("w1"), wordAt("pourquoi", "budget") - 0.15, 0.4);
-          fadeIn($("w2"), wordAt("pourquoi", "dette") - 0.15, 0.4);
+          var s = sc("nom"), t = wordAt("nom", "Credit");
+          tl.fromTo("#cds-big", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(1.8)" }, t - 0.25);
+          fadeIn($("cds-sub"), t, 0.35);
+          tl.fromTo("#shot", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.35, ease: "back.out(1.5)" }, t + 0.3);
+          SFX.push(["pop", t - 0.25, 0.35]);
+        })();
+
+        // ---------- pourquoi : dette, budget, politique ----------
+        (function () {
+          fadeIn($("w1"), wordAt("pourquoi", "dette") - 0.15, 0.4);
+          fadeIn($("w2"), wordAt("pourquoi", "budget") - 0.15, 0.4);
           fadeIn($("w3"), wordAt("pourquoi", "politique") - 0.15, 0.4);
         })();
 
@@ -316,25 +335,52 @@
           arrow(svg, 400, 440, 400, 590, tC, 0.4, "arw-r");
         })();
 
-        // ---------- emprunter plus cher ----------
+        // ---------- la France emprunte plus cher… deux raisons ----------
         (function () {
-          var s = sc("emprunt"), svg = $("ch-emprunt");
-          var tE = wordAt("emprunt", "emprunter") - 0.3;
+          var s = sc("impact"), svg = $("ch-impact");
           var t1 = el(svg, "text", { x: 60, y: 60, class: "cap", "font-size": 26 }, "TAUX D'EMPRUNT DE LA FRANCE");
-          fadeIn(t1, wordAt("emprunt", "France") - 0.2, 0.4, 0);
-          var ln = el(svg, "path", { d: "M60 260 L240 240 L420 200 L600 140 L740 80", style: "stroke:" + RED + ";stroke-width:8;fill:none" });
-          drawIn(ln, tE, 0.8, "power2.out");
-          var t2 = el(svg, "text", { x: 60, y: 400, class: "cap", "font-size": 26 }, "BUDGET DE L'ÉTAT");
-          var tB = wordAt("emprunt", "l'argent") - 0.3;
-          fadeIn(t2, tB - 0.2, 0.4, 0);
-          var bg = el(svg, "rect", { x: 60, y: 430, width: 680, height: 90, style: "fill:var(--ink);opacity:0.85" });
-          growX(bg, tB - 0.2, 0.5);
-          var it = el(svg, "rect", { x: 60, y: 430, width: 240, height: 90, fill: RED });
-          growX(it, tB + 0.2, 0.9);
-          var l = el(svg, "text", { x: 180, y: 488, "font-size": 30, "font-weight": 600, fill: "#fff", "text-anchor": "middle" }, "Intérêts");
-          fadeIn(l, tB + 0.8, 0.3, 0);
-          var l2 = el(svg, "text", { x: 520, y: 488, "font-size": 30, "font-weight": 600, "text-anchor": "middle", fill: "#00194b" }, "le reste");
-          fadeIn(l2, wordAt("emprunt", "ailleurs") - 0.3, 0.3, 0);
+          fadeIn(t1, wordAt("impact", "France") - 0.2, 0.4, 0);
+          var ln = el(svg, "path", { d: "M60 300 L240 280 L420 240 L600 170 L740 100", style: "stroke:" + RED + ";stroke-width:8;fill:none" });
+          drawIn(ln, wordAt("impact", "emprunter") - 0.4, 0.8, "power2.out");
+          var tR = wordAt("impact", "deux") - 0.1;
+          [["1", 250], ["2", 550]].forEach(function (n, i) {
+            var g = el(svg, "g", {});
+            el(g, "rect", { x: n[1] - 70, y: 400, width: 140, height: 140, style: "fill:var(--ink)" });
+            el(g, "text", { x: n[1], y: 500, "font-size": 90, "font-weight": 600, fill: "#00194b", "text-anchor": "middle" }, n[0]);
+            popIn(g, tR + i * 0.15);
+          });
+        })();
+
+        // ---------- raison 1 : les intérêts de la dette ----------
+        (function () {
+          var s = sc("r1"), svg = $("ch-r1");
+          var t2 = el(svg, "text", { x: 60, y: 120, class: "cap", "font-size": 26 }, "BUDGET DE L'ÉTAT");
+          fadeIn(t2, s.start + 0.1, 0.4, 0);
+          var bg = el(svg, "rect", { x: 60, y: 150, width: 680, height: 110, style: "fill:var(--ink)" });
+          growX(bg, s.start + 0.1, 0.5);
+          var tI = wordAt("r1", "d'intérêts") - 0.2;
+          var it = el(svg, "rect", { x: 60, y: 150, width: 260, height: 110, fill: RED });
+          growX(it, tI, 0.9);
+          var l = el(svg, "text", { x: 190, y: 218, "font-size": 32, "font-weight": 600, fill: "#fff", "text-anchor": "middle" }, "Intérêts");
+          fadeIn(l, tI + 0.6, 0.3, 0);
+          var l2 = el(svg, "text", { x: 530, y: 218, "font-size": 32, "font-weight": 600, fill: "#fff", "text-anchor": "middle" }, "Autres dépenses");
+          fadeIn(l2, wordAt("r1", "d'autres") - 0.2, 0.3, 0);
+          var ar = arrow(svg, 330, 330, 520, 330, wordAt("r1", "détriment") - 0.2, 0.5, "arw-r");
+          var l3 = el(svg, "text", { x: 400, y: 410, "font-size": 34, "font-weight": 600, fill: RED, "text-anchor": "middle" }, "moins pour le reste");
+          fadeIn(l3, wordAt("r1", "détriment") + 0.2, 0.4, 0);
+        })();
+
+        // ---------- raison 2 : votre crédit immobilier ----------
+        (function () {
+          var s = sc("r2"), svg = $("ch-r2");
+          var h = el(svg, "path", { d: "M200 330 L330 220 L460 330 M230 305 L230 470 L430 470 L430 305 M300 470 L300 390 L360 390 L360 470", class: "node", style: "stroke-width:6" });
+          drawIn(h, s.start + 0.1, 0.9);
+          var tT = wordAt("r2", "immobiliers") - 0.4;
+          var t = el(svg, "text", { x: 620, y: 260, "font-size": 34, "font-weight": 600, "text-anchor": "middle", style: "fill:var(--ink)" }, "Taux de crédit");
+          fadeIn(t, tT, 0.4, 0);
+          arrow(svg, 620, 470, 620, 300, tT + 0.2, 0.5, "arw-r");
+          var c = el(svg, "text", { x: 400, y: 600, "font-size": 56, "font-weight": 600, fill: RED, "text-anchor": "middle" }, "Emprunter coûte plus cher");
+          fadeIn(c, wordAt("r2", "coûter") - 0.4, 0.4, 0);
         })();
 
         // ---------- fin : profil Instagram, bouton calé sur « abonnez-vous » ----------
