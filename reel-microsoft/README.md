@@ -6,4 +6,4 @@ angles droits, sous-titres blancs sur fond gris translucide, fin profil Instagra
 
 Chiffres repris de la voix off (non vérifiés ici) : +46 % en 90 jours, valorisation au plus bas depuis 5 ans,
 Bill Ackman 2 Md$ (mai), achat d'un dirigeant 2 M$ (plus gros achat d'insider depuis 10 ans), niveau clé 350 $.
-Les courbes sont schématiques (sans données réelles).
+Courbes : vrais cours de clôture Yahoo Finance (assets/msft.js). Photo de Bill Ackman fournie par l'utilisateur.
