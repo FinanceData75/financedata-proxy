@@ -386,7 +386,7 @@
           var post = c.rows.filter(function (r) { return r[0] >= "2026-07-29"; });  // jusqu'au 2 oct. 2026 : +46,7 % depuis le plus bas du 25 juin
           line(svg, post.map(function (r, i) { return (i ? "L" : "M") + c.X(r[0]).toFixed(1) + " " + c.Y(r[1]).toFixed(1); }).join(" "), tD, 1.2, "var(--cyan)", 8);
           bigNum(svg, 300, 140, 150, "var(--cyan)", tD + 0.2, 46, 1.0, "+", " %");
-          var lb = el(svg, "text", { x: 300, y: 195, class: "lbl", "font-size": 28, "text-anchor": "middle" }, "en ~90 jours");
+          var lb = el(svg, "text", { x: 300, y: 215, class: "lbl", "font-size": 28, "text-anchor": "middle" }, "en ~90 jours");
           fadeIn(lb, tD + 0.5, 0.3, 0);
         })();
 
