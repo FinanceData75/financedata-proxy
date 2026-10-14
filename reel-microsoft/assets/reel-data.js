@@ -7,7 +7,8 @@
   var SCENES = [
     { id: "hook", text: "L'action Microsoft / vient de bondir / de 46" + NB + "% / en seulement / 90 jours" },
     { id: "intro", text: "et vous auriez / pu en profiter / si vous aviez / repéré ces / trois signaux / que la majorité / du marché / ignorait." },
-    { id: "s1", text: "Premier signal, / le prix. / Microsoft était / revenu à une / valorisation / au plus bas / depuis 5 ans. / Un niveau qui, / historiquement, / a attiré / les meilleurs / investisseurs / à chaque fois." },
+    { id: "s1", text: "Premier signal, / le prix. / Microsoft était / revenu à une / valorisation / au plus bas / depuis 5 ans." },
+    { id: "s1b", text: "Un niveau qui, / historiquement, / a attiré / les meilleurs / investisseurs / à chaque fois." },
     { id: "s2a", text: "Deuxième signal, / la smart money. / En mai, / l'investisseur / de légende / Bill Ackman / a révélé avoir / investi 2 milliards / de dollars / dans Microsoft. / Il l'a jugé / sous-évalué." },
     { id: "s2b", text: "Et quelques mois / plus tôt, / un dirigeant / de l'entreprise / avait acheté / pour 2 millions / de dollars / d'actions, / le plus gros / achat d'un insider / depuis plus / de 10 ans." },
     { id: "s3", text: "Troisième signal, / le graphique. / L'action était / sur un niveau / clé à / 350 dollars / qu'on avait / identifié dans / notre newsletter." },

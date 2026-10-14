@@ -83,14 +83,16 @@
 
         <div class="scene light" id="sc-hook"><svg class="chart" id="ch-hook" viewBox="0 0 800 640" style="top:20px"></svg></div>
         <div class="scene" id="sc-intro"><svg class="chart" id="ch-intro" viewBox="0 0 800 640"></svg></div>
-        <div class="scene light" id="sc-s1"><div class="title">1. Le prix</div><svg class="chart" id="ch-s1" viewBox="0 0 800 640"></svg></div>
-        <!-- photo Bill Ackman : <div class="photo" id="ph-ackman"><img src="assets/img/bill-ackman.jpg" alt="" /></div> -->
+        <div class="scene light" id="sc-s1"><div class="title">1. Le prix</div><div class="sub">Microsoft, cours de clôture</div><svg class="chart" id="ch-s1" viewBox="0 0 800 640"></svg></div>
+        <div class="scene" id="sc-s1b"><svg class="chart" id="ch-s1b" viewBox="0 0 800 640"></svg></div>
+        <div class="photo" id="ph-ackman"><img src="assets/img/bill-ackman.jpg" alt="" /></div>
+        <div class="photo" id="ph-ms"></div>
         <div class="scene" id="sc-s2a"><svg class="chart" id="ch-s2a" viewBox="0 0 800 640"></svg></div>
-        <div class="scene light" id="sc-s2b"><div class="title">Achat d'un dirigeant</div><svg class="chart" id="ch-s2b" viewBox="0 0 800 640"></svg></div>
-        <div class="scene" id="sc-s3"><div class="title">3. Le graphique</div><div class="sub">Microsoft, cours de clôture sur 5 ans</div><svg class="chart" id="ch-s3" viewBox="0 0 800 640"></svg></div>
-        <div class="scene light" id="sc-s3b"><div class="title">Le niveau des 350 $</div><div class="sub">a toujours tenu</div><svg class="chart" id="ch-s3b" viewBox="0 0 800 640"></svg></div>
-        <div class="scene" id="sc-aligned"><svg class="chart" id="ch-aligned" viewBox="0 0 800 640"></svg></div>
-        <div class="scene light" id="sc-result"><svg class="chart" id="ch-result" viewBox="0 0 800 640"></svg></div>
+        <div class="scene" id="sc-s2b"><svg class="chart" id="ch-s2b" viewBox="0 0 800 640"></svg></div>
+        <div class="scene light" id="sc-s3"><div class="title">3. Le graphique</div><div class="sub">Microsoft, cours de clôture sur 5 ans</div><svg class="chart" id="ch-s3" viewBox="0 0 800 640"></svg></div>
+        <div class="scene" id="sc-s3b"><div class="title">Le niveau des 350 $</div><div class="sub">a toujours tenu</div><svg class="chart" id="ch-s3b" viewBox="0 0 800 640"></svg></div>
+        <div class="scene light" id="sc-aligned"><svg class="chart" id="ch-aligned" viewBox="0 0 800 640"></svg></div>
+        <div class="scene" id="sc-result"><svg class="chart" id="ch-result" viewBox="0 0 800 640"></svg></div>
 
         <div id="end">
           <div id="avatar"><svg viewBox="0 0 360 360"><defs><linearGradient id="gStory" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75" /><stop offset="0.3" stop-color="#fa7e1e" /><stop offset="0.6" stop-color="#d62976" /><stop offset="1" stop-color="#962fbf" /></linearGradient></defs>
@@ -191,7 +193,7 @@
           tl.to(n, { opacity: 0, duration: 0.2 }, s.end - 0.2);
         });
 
-        var PHOTO_ACKMAN = false; // passer à true quand assets/img/bill-ackman.jpg est fourni
+        var PHOTO_ACKMAN = true, PHOTO_MS = false; // PHOTO_MS : passer à true quand assets/img/microsoft.jpg est fourni
         function line(svg, d, at, dur, color, w) {
           var p = el(svg, "path", { d: d, style: "fill:none;stroke-linejoin:round;stroke:" + (color || "var(--cyan)") + ";stroke-width:" + (w || 8) });
           drawIn(p, at, dur || 1, "power2.inOut");
@@ -280,63 +282,105 @@
         // ---------- trois signaux ignorés ----------
         (function () {
           var s = sc("intro"), svg = $("ch-intro"), tT = wordAt("intro", "trois") - 0.15;
-          [["Le prix", 120], ["La smart money", 230], ["Le graphique", 340]].forEach(function (r, i) {
+          var top = el(svg, "text", { x: 90, y: 40, class: "cap", "font-size": 26 }, "CE QUE VOUS AURIEZ PU REPÉRER");
+          fadeIn(top, wordAt("intro", "profiter") - 0.2, 0.35, 0);
+          var lines = [];
+          [["Le prix", 140], ["La smart money", 250], ["Le graphique", 360]].forEach(function (r, i) {
             var g = el(svg, "g", {});
             el(g, "text", { x: 90, y: r[1], "font-size": 66, "font-weight": 600, style: "fill:var(--cyan)" }, String(i + 1));
-            el(g, "text", { x: 160, y: r[1], "font-size": 66, "font-weight": 600, "letter-spacing": "-0.03em", style: "fill:var(--ink)" }, r[0]);
-            fadeIn(g, tT + i * 0.18, 0.4, 14);
+            var tx = el(g, "text", { x: 160, y: r[1], "font-size": 66, "font-weight": 600, "letter-spacing": "-0.03em", style: "fill:var(--ink)" }, r[0]);
+            tl.fromTo(g, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, tT + i * 0.2);
+            lines.push(g);
           });
-          chip(svg, 400, 470, "IGNORÉS PAR LA MAJORITÉ", wordAt("intro", "ignorait") - 0.4, RED, true);
+          var tI = wordAt("intro", "ignorait") - 0.5;
+          tl.to(lines, { opacity: 0.35, duration: 0.25, stagger: 0.08 }, wordAt("intro", "majorité") - 0.2);
+          chip(svg, 400, 480, "IGNORÉS PAR LA MAJORITÉ", tI, RED, true);
+          SFX.push(["pop", tI, 0.3]);
         })();
 
-        // ---------- 1. le prix : valorisation au plus bas depuis 5 ans ----------
+        // ---------- 1. le prix : la chute réelle, puis la valorisation ----------
         (function () {
-          var s = sc("s1"), svg = $("ch-s1");
-          var l = el(svg, "text", { x: 400, y: 120, class: "cap", "font-size": 26, "text-anchor": "middle" }, "VALORISATION DE MICROSOFT");
-          fadeIn(l, s.start + 0.1, 0.4, 0);
-          var bar = el(svg, "rect", { x: 60, y: 200, width: 680, height: 26, style: "fill:var(--hair)" });
-          fadeIn(bar, s.start + 0.15, 0.3, 0);
-          el(svg, "text", { x: 60, y: 280, class: "lbl", "font-size": 26 }, "Bon marché");
-          el(svg, "text", { x: 740, y: 280, class: "lbl", "font-size": 26, "text-anchor": "end" }, "Chère");
-          var mk = el(svg, "rect", { x: 0, y: 180, width: 18, height: 66, style: "fill:var(--cyan)" });
-          var tV = wordAt("s1", "valorisation") - 0.2;
-          tl.fromTo(mk, { attr: { x: 620 }, opacity: 0 }, { attr: { x: 110 }, opacity: 1, duration: 1.4, ease: "power2.inOut" }, tV);
-          chip(svg, 400, 400, "PLUS BAS DEPUIS 5 ANS", wordAt("s1", "5") - 0.25, "var(--cyan)", true);
-          var t = el(svg, "text", { x: 400, y: 510, class: "val", "font-size": 40, "text-anchor": "middle" }, "Là où les meilleurs achètent");
-          fadeIn(t, wordAt("s1", "meilleurs") - 0.3, 0.4);
+          var s = sc("s1"), svg = $("ch-s1"), B = [40, 750, 120, 520];
+          var c = priceChart(svg, "2025-07-01", "2026-06-26", B, 330, 570);
+          axisLabels(svg, c, [400, 500], []);
+          var tP = wordAt("s1", "prix") - 0.3;
+          var p = el(svg, "path", { d: c.d, style: "fill:none;stroke:var(--ink);stroke-width:5;stroke-linejoin:round" });
+          drawIn(p, tP, 1.4, "power1.inOut");
+          priceDot(svg, c, "2025-10-28", tP + 0.5, "var(--ink)", "542 $", 0, -24);
+          var low = priceDot(svg, c, "2026-06-25", tP + 1.3, RED, "352 $", -70, 10);
+          var drop = el(svg, "text", { x: 560, y: 110, "font-size": 96, "font-weight": 600, fill: RED, "text-anchor": "middle", "letter-spacing": "-0.04em" }, "0 %");
+          fadeIn(drop, tP + 0.6, 0.3, 0);
+          var o = { v: 0 };
+          tl.fromTo(o, { v: 0 }, { v: 35, duration: 1.0, ease: "power2.out", immediateRender: false, onUpdate: function () { drop.textContent = "−" + Math.round(o.v) + " %"; } }, tP + 0.6);
+          chip(svg, 400, 600, "VALORISATION AU PLUS BAS DEPUIS 5 ANS", wordAt("s1", "5") - 0.35, "var(--cyan)", true);
         })();
 
-        // ---------- 2. la smart money : Bill Ackman ----------
+        // ---------- historiquement : la zone d'achat des meilleurs ----------
+        (function () {
+          var s = sc("s1b"), svg = $("ch-s1b");
+          var l = el(svg, "text", { x: 400, y: 80, class: "cap", "font-size": 26, "text-anchor": "middle" }, "VALORISATION DE MICROSOFT");
+          fadeIn(l, s.start + 0.05, 0.3, 0);
+          var bar = el(svg, "rect", { x: 60, y: 160, width: 680, height: 26, style: "fill:var(--hair)" });
+          var zone = el(svg, "rect", { x: 60, y: 160, width: 180, height: 26, style: "fill:var(--cyan)", opacity: 0.45 });
+          growX(bar, s.start + 0.05, 0.5); growX(zone, wordAt("s1b", "historiquement") - 0.2, 0.6);
+          var a1 = el(svg, "text", { x: 60, y: 240, class: "lbl", "font-size": 26 }, "Bon marché");
+          var a2 = el(svg, "text", { x: 740, y: 240, class: "lbl", "font-size": 26, "text-anchor": "end" }, "Chère");
+          fadeIn(a1, s.start + 0.2, 0.3, 0); fadeIn(a2, s.start + 0.2, 0.3, 0);
+          var mk = el(svg, "rect", { x: 0, y: 140, width: 18, height: 66, style: "fill:var(--ink)" });
+          tl.fromTo(mk, { attr: { x: 640 }, opacity: 0 }, { attr: { x: 140 }, opacity: 1, duration: 1.3, ease: "power2.inOut" }, s.start + 0.2);
+          var t = el(svg, "text", { x: 400, y: 400, class: "val", "font-size": 52, "text-anchor": "middle" }, "La zone d'achat");
+          var t2 = el(svg, "text", { x: 400, y: 470, class: "val", "font-size": 52, "text-anchor": "middle", style: "fill:var(--cyan)" }, "des meilleurs investisseurs");
+          fadeIn(t, wordAt("s1b", "attiré") - 0.3, 0.4); fadeIn(t2, wordAt("s1b", "meilleurs") - 0.2, 0.4);
+        })();
+
+        // ---------- 2. la smart money : Bill Ackman, photo plein écran ----------
+        function lowerThird(svg, name, role, at) {
+          var g = el(svg, "g", {});
+          el(g, "rect", { x: -20, y: 520, width: 560, height: 130, fill: "rgba(0,12,40,0.82)" });
+          el(g, "rect", { x: -20, y: 520, width: 10, height: 130, fill: RED });
+          el(g, "text", { x: 20, y: 576, "font-size": 54, "font-weight": 600, fill: "#fff", "letter-spacing": "-0.02em" }, name);
+          el(g, "text", { x: 20, y: 622, "font-size": 30, "font-weight": 500, fill: "rgba(255,255,255,0.85)" }, role);
+          tl.fromTo(g, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, at);
+          return g;
+        }
+        function photoScene(id, s) {
+          tl.fromTo("#" + id, { opacity: 0 }, { opacity: 1, duration: 0.3 }, s.start - 0.15);
+          tl.to("#" + id, { opacity: 0, duration: 0.25 }, s.end - 0.25);
+        }
+        function badge(svg, x, y, text, at, w) {
+          var g = el(svg, "g", {});
+          el(g, "rect", { x: x - w / 2, y: y - 92, width: w, height: 120, fill: RED });
+          el(g, "text", { x: x, y: y, "font-size": 84, "font-weight": 600, fill: "#fff", "text-anchor": "middle", "letter-spacing": "-0.04em" }, text);
+          popIn(g, at);
+          return g;
+        }
         (function () {
           var s = sc("s2a"), svg = $("ch-s2a");
-          if (PHOTO_ACKMAN) {
-            var tA = wordAt("s2a", "Ackman") - 0.4;
-            tl.fromTo("#ph-ackman", { opacity: 0 }, { opacity: 1, duration: 0.35 }, tA);
-            tl.to("#ph-ackman", { opacity: 0, duration: 0.25 }, s.end - 0.25);
-            var n = el(svg, "text", { x: 400, y: 400, "font-size": 56, "font-weight": 600, fill: "#fff", "text-anchor": "middle" }, "Bill Ackman");
-            fadeIn(n, tA + 0.2, 0.4);
-            var t2 = el(svg, "text", { x: 400, y: 120, "font-size": 34, "font-weight": 600, fill: "#fff", "text-anchor": "middle", "letter-spacing": "0.12em" }, "2. LA SMART MONEY");
-            fadeIn(t2, s.start + 0.05, 0.3, 0);
-          } else {
-            var t2 = el(svg, "text", { x: 400, y: 120, class: "cap", "font-size": 30, "text-anchor": "middle" }, "2. LA SMART MONEY");
-            fadeIn(t2, s.start + 0.05, 0.3, 0);
-            var n = el(svg, "text", { x: 400, y: 330, class: "val", "font-size": 72, "text-anchor": "middle" }, "Bill Ackman");
-            fadeIn(n, wordAt("s2a", "Ackman") - 0.3, 0.4);
-          }
-          var g = el(svg, "g", {});
-          el(g, "rect", { x: 200, y: 440, width: 400, height: 120, fill: RED });
-          var v = el(g, "text", { x: 400, y: 528, "font-size": 80, "font-weight": 600, fill: "#fff", "text-anchor": "middle", "letter-spacing": "-0.04em" }, "2 Md$");
-          popIn(g, wordAt("s2a", "2") - 0.1);
-          chip(svg, 400, 640, "IL LA JUGE SOUS-ÉVALUÉE", wordAt("s2a", "sous-évalué") - 0.3, "#ffffff", false);
+          photoScene("ph-ackman", s);
+          chip(svg, 300, -290, "2. LA SMART MONEY", s.start + 0.05, "#00194b", true);
+          chip(svg, 620, -290, "MAI 2026", wordAt("s2a", "mai") - 0.15, RED, true);
+          lowerThird(svg, "Bill Ackman", "Fondateur de Pershing Square", wordAt("s2a", "Ackman") - 0.3);
+          var t2m = wordAt("s2a", "2") - 0.1;
+          badge(svg, 580, 380, "2 Md$", t2m, 340);
+          var inv = chip(svg, 580, 450, "INVESTIS DANS MICROSOFT", null, "#00194b", true);
+          fadeIn(inv, t2m + 0.3, 0.3, 0);
+          SFX.push(["pop", t2m, 0.3]);
+          var st = chip(svg, 580, 210, "SOUS-ÉVALUÉE", wordAt("s2a", "sous-évalué") - 0.3, RED, true);
+          tl.fromTo(st, { rotation: -6, transformOrigin: "50% 50%" }, { rotation: -6, duration: 0.01 }, 0);
         })();
 
-        // ---------- un dirigeant achète : 2 M$ ----------
+        // ---------- un dirigeant de Microsoft achète 2 M$ ----------
         (function () {
           var s = sc("s2b"), svg = $("ch-s2b");
-          bigNum(svg, 400, 300, 200, "var(--ink)", wordAt("s2b", "2") - 0.1, 2, 0.5, "", " M$");
-          var t = el(svg, "text", { x: 400, y: 380, class: "lbl", "font-size": 34, "text-anchor": "middle" }, "d'actions achetées par un dirigeant");
-          fadeIn(t, wordAt("s2b", "2") + 0.3, 0.4, 0);
-          chip(svg, 400, 500, "PLUS GROS ACHAT D'INSIDER DEPUIS 10 ANS", wordAt("s2b", "10") - 0.3, "var(--cyan)", true);
+          if (PHOTO_MS) photoScene("ph-ms", s);
+          else msLogo(svg, 330, 20, 64, s.start + 0.05);
+          lowerThird(svg, "Un dirigeant", "de Microsoft", wordAt("s2b", "dirigeant") - 0.25);
+          var t2m = wordAt("s2b", "2") - 0.1;
+          badge(svg, 400, 600, "2 M$", t2m, 320);
+          var inv = el(svg, "text", { x: 400, y: 660, "font-size": 30, "font-weight": 600, fill: "#fff", "text-anchor": "middle" }, "d'actions achetées");
+          fadeIn(inv, t2m + 0.3, 0.3, 0);
+          SFX.push(["pop", t2m, 0.3]);
+          chip(svg, 400, 250, "PLUS GROS ACHAT D'INSIDER DEPUIS 10 ANS", wordAt("s2b", "10") - 0.35, "#ffffff", false);
         })();
 
         // ---------- 3. le graphique : vrai cours sur 5 ans, niveau des 350 $ ----------
