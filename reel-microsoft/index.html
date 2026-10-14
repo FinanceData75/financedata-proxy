@@ -84,7 +84,7 @@
         <div class="scene light" id="sc-hook"><svg class="chart" id="ch-hook" viewBox="0 0 800 640" style="top:20px"></svg></div>
         <div class="scene" id="sc-intro"><svg class="chart" id="ch-intro" viewBox="0 0 800 640"></svg></div>
         <div class="scene light" id="sc-s1"><div class="title">1. Le prix</div><svg class="chart" id="ch-s1" viewBox="0 0 800 640"></svg></div>
-        <div class="photo" id="ph-ackman"><img src="assets/img/bill-ackman.jpg" alt="" /><div class="credit">Photo : Senate Democrats, CC BY 2.0</div></div>
+        <!-- photo Bill Ackman : <div class="photo" id="ph-ackman"><img src="assets/img/bill-ackman.jpg" alt="" /></div> -->
         <div class="scene" id="sc-s2a"><svg class="chart" id="ch-s2a" viewBox="0 0 800 640"></svg></div>
         <div class="scene light" id="sc-s2b"><div class="title">Achat d'un dirigeant</div><svg class="chart" id="ch-s2b" viewBox="0 0 800 640"></svg></div>
         <div class="scene" id="sc-s3"><div class="title">3. Le graphique</div><div class="sub">Microsoft, cours de clôture sur 5 ans</div><svg class="chart" id="ch-s3" viewBox="0 0 800 640"></svg></div>
@@ -191,7 +191,7 @@
           tl.to(n, { opacity: 0, duration: 0.2 }, s.end - 0.2);
         });
 
-        var PHOTO_ACKMAN = true;
+        var PHOTO_ACKMAN = false; // passer à true quand assets/img/bill-ackman.jpg est fourni
         function line(svg, d, at, dur, color, w) {
           var p = el(svg, "path", { d: d, style: "fill:none;stroke-linejoin:round;stroke:" + (color || "var(--cyan)") + ";stroke-width:" + (w || 8) });
           drawIn(p, at, dur || 1, "power2.inOut");
@@ -299,7 +299,10 @@
             var t2 = el(svg, "text", { x: 400, y: 120, "font-size": 34, "font-weight": 600, fill: "#fff", "text-anchor": "middle", "letter-spacing": "0.12em" }, "2. LA SMART MONEY");
             fadeIn(t2, s.start + 0.05, 0.3, 0);
           } else {
-            el(svg, "text", { x: 400, y: 120, class: "val", "font-size": 60, "text-anchor": "middle" }, "Bill Ackman");
+            var t2 = el(svg, "text", { x: 400, y: 120, class: "cap", "font-size": 30, "text-anchor": "middle" }, "2. LA SMART MONEY");
+            fadeIn(t2, s.start + 0.05, 0.3, 0);
+            var n = el(svg, "text", { x: 400, y: 330, class: "val", "font-size": 72, "text-anchor": "middle" }, "Bill Ackman");
+            fadeIn(n, wordAt("s2a", "Ackman") - 0.3, 0.4);
           }
           var g = el(svg, "g", {});
           el(g, "rect", { x: 200, y: 440, width: 400, height: 120, fill: RED });
