@@ -235,27 +235,46 @@
           return r;
         }
 
-        // ---------- hook : +46 % en 90 jours, sur le vrai cours ----------
+        // ---------- hook : +46 % en 90 jours, sur le vrai cours (une action toutes les ~0,5 s) ----------
         (function () {
-          var svg = $("ch-hook");
+          var svg = $("ch-hook"), B = [40, 750, 260, 600];
           msLogo(svg, 40, 0, 34, 0.0);
           var tk = el(svg, "text", { x: 130, y: 52, class: "cap", "font-size": 26 }, "MICROSOFT · MSFT");
           fadeIn(tk, 0.1, 0.3, 0);
           SFX.push(["swipe", 0.0, 0.3]);
-          var c = priceChart(svg, "2025-10-02", "2026-10-02", [40, 750, 260, 600], 330, 560);
+          var c = priceChart(svg, "2025-10-02", "2026-10-02", B, 330, 560);
           axisLabels(svg, c, [400, 500], []);
           var base = el(svg, "path", { d: c.d, style: "fill:none;stroke:var(--ink);stroke-width:5;stroke-linejoin:round", opacity: 0.35 });
           drawIn(base, 0.05, 0.9, "power1.inOut");
-          var tB = wordAt("hook", "bondir") - 0.1;
-          var up = priceChart(svg, "2026-06-25", "2026-10-02", [40, 750, 260, 600], 330, 560);
-          up.X = c.X;
-          var d2 = up.rows.map(function (r, i) { return (i ? "L" : "M") + c.X(r[0]).toFixed(1) + " " + c.Y(r[1]).toFixed(1); }).join(" ");
-          line(svg, d2, tB, 1.2, "var(--cyan)", 8);
-          priceDot(svg, c, "2026-06-25", tB, "var(--ink)", "352 $", 0, 52);
-          priceDot(svg, c, c.last[0], tB + 1.1, "var(--cyan)", "", 0, 0);
-          bigNum(svg, 400, 200, 150, "var(--cyan)", tB, 46, 1.0, "+", " %");
-          var d = el(svg, "text", { x: 400, y: 250, class: "lbl", "font-size": 30, "text-anchor": "middle" }, "depuis le plus bas de juin");
-          fadeIn(d, wordAt("hook", "jours") - 0.3, 0.3, 0);
+          // la remontée depuis le plus bas du 25 juin, tracée sur « bondir », avec son aire
+          var up = c.rows.filter(function (r) { return r[0] >= "2026-06-25"; });
+          var dUp = up.map(function (r, i) { return (i ? "L" : "M") + c.X(r[0]).toFixed(1) + " " + c.Y(r[1]).toFixed(1); }).join(" ");
+          var x0 = c.X(up[0][0]), x1 = c.X(up[up.length - 1][0]);
+          var tB = wordAt("hook", "bondir") - 0.15;
+          var area = el(svg, "path", { d: dUp + " L" + x1 + " " + B[3] + " L" + x0 + " " + B[3] + " Z", style: "fill:var(--cyan)", opacity: 0 });
+          tl.fromTo(area, { opacity: 0 }, { opacity: 0.16, duration: 0.6 }, tB + 0.5);
+          line(svg, dUp, tB, 1.0, "var(--cyan)", 8);
+          var low = priceDot(svg, c, "2026-06-25", tB - 0.1, "var(--ink)", "352 $", -70, 10);
+          // « 46 % » : le compteur suit la voix, puis l'étiquette du prix d'arrivée
+          var t46 = wordAt("hook", "46 %") - 0.1;
+          var big = bigNum(svg, 400, 200, 150, "var(--cyan)", t46, 46, 0.9, "+", " %");
+          tl.to(big, { scale: 1.08, transformOrigin: "50% 70%", duration: 0.12, yoyo: true, repeat: 1 }, t46 + 0.9);
+          SFX.push(["pop", t46 + 0.9, 0.3]);
+          var end = up[up.length - 1];
+          var g = el(svg, "g", {});
+          el(g, "circle", { cx: x1, cy: c.Y(end[1]), r: 12, style: "fill:var(--cyan)" });
+          el(g, "text", { x: x1 - 20, y: c.Y(end[1]) - 26, "font-size": 30, "font-weight": 600, "text-anchor": "end", style: "fill:var(--cyan)" }, Math.round(end[1]) + " $");
+          popIn(g, t46 + 0.5);
+          var pulse = el(svg, "circle", { cx: x1, cy: c.Y(end[1]), r: 12, style: "fill:none;stroke:var(--cyan);stroke-width:3", opacity: 0 });
+          tl.fromTo(pulse, { attr: { r: 12 }, opacity: 0.9 }, { attr: { r: 44 }, opacity: 0, duration: 0.8, ease: "power1.out", repeat: 2, immediateRender: false }, t46 + 0.6);
+          // « en seulement 90 jours » : accolade sous la remontée + compteur de jours
+          var tS = wordAt("hook", "seulement") - 0.1, t90 = wordAt("hook", "90") - 0.15;
+          var br = el(svg, "path", { d: "M" + x0 + " 618 L" + x0 + " 632 L" + x1 + " 632 L" + x1 + " 618", style: "fill:none;stroke:var(--ink);stroke-width:4" });
+          drawIn(br, tS, 0.45);
+          var dj = el(svg, "text", { x: (x0 + x1) / 2, y: 680, "font-size": 40, "font-weight": 600, "text-anchor": "middle", style: "fill:var(--ink)" }, "0 jours");
+          fadeIn(dj, tS + 0.2, 0.25, 0);
+          var od = { v: 0 };
+          tl.fromTo(od, { v: 0 }, { v: 90, duration: 0.6, ease: "power2.out", immediateRender: false, onUpdate: function () { dj.textContent = Math.round(od.v) + " jours"; } }, t90 - 0.3);
         })();
 
         // ---------- trois signaux ignorés ----------
@@ -351,7 +370,7 @@
             drawIn(ring, tT + i * 0.22, 0.35);
           });
           var tR = wordAt("s3b", "rebondi") - 0.3;
-          TOUCH.slice(0, 4).forEach(function (d, i) {
+          TOUCH.slice(-3).forEach(function (d, i) {  // seulement les 3 derniers rebonds
             var r = c.rows.filter(function (x) { return x[0] === d; })[0];
             arrow(svg, c.X(d), c.Y(r[1]) - 34, c.X(d), c.Y(r[1]) - 110, tR + i * 0.1, 0.3, "arw-c");
           });
