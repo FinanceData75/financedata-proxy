@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <script src="assets/reel-data.js"></script>
+    <style>
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf") format("opentype"); font-weight: 600; }
+
+      /* DA FinanceData : bleu #00194B quadrillé alterné avec un blanc cassé quadrillé, angles droits, rouge pour les alertes */
+      :root { --bg: #00194b; --ink: #eaf1fb; --soft: #8fa3c7; --hair: rgba(255, 255, 255, 0.14); --cyan: #7dd0f5; --red: #ff2e24; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { width: 100%; height: 100%; position: relative; font-family: "Inter UI", sans-serif; color: var(--ink); background: var(--bg); font-feature-settings: "tnum" 1; }
+      #stage { position: absolute; inset: 0; overflow: hidden; }
+
+      #bg-dark { position: absolute; inset: 0; }
+      #bg-dark .glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 38% at 50% 46%, #0b3480 0%, rgba(0, 25, 75, 0) 72%); }
+      #bg-dark .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-dark .vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(0, 0, 0, 0) 55%, rgba(0, 5, 22, 0.6) 100%); }
+      #bg-light { position: absolute; inset: 0; opacity: 1; background: #f6f8fc; }
+      #bg-light::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0, 25, 75, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 25, 75, 0.06) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-light::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(255, 255, 255, 0) 55%, rgba(0, 25, 75, 0.08) 100%); }
+
+      /* scènes : bloc centré dans la safe zone (x 140–940, y 440–1290) */
+      .scene { position: absolute; left: 140px; top: 440px; width: 800px; height: 850px; opacity: 0; text-align: center; color: var(--ink); }
+      .scene.light { --ink: #00194b; --soft: #5b6b8a; --hair: rgba(0, 25, 75, 0.14); --cyan: #0b6fd0; }
+      .title { font-size: 60px; font-weight: 600; letter-spacing: -0.035em; line-height: 1.04; white-space: nowrap; }
+      .sub { margin-top: 12px; font-size: 26px; color: var(--soft); }
+      .big { font-weight: 600; letter-spacing: -0.05em; line-height: 1; white-space: nowrap; }
+      .scene svg.chart { position: absolute; left: 0; top: 150px; width: 800px; height: 640px; overflow: visible; }
+      svg text { font-family: "Inter UI", sans-serif; font-feature-settings: "tnum" 1; }
+      svg .val { font-weight: 600; fill: var(--ink); letter-spacing: -0.02em; }
+      svg .lbl { fill: var(--soft); }
+      svg .cap { font-weight: 500; fill: var(--soft); letter-spacing: 0.14em; }
+      svg .axis { stroke: var(--soft); stroke-width: 2; fill: none; opacity: 0.6; }
+      svg .node { fill: none; stroke: var(--ink); stroke-width: 3; }
+      svg .ink { fill: var(--ink); }
+      svg .arw { stroke: var(--ink); stroke-width: 4; fill: none; stroke-linecap: square; }
+      svg .arw-c { stroke: var(--cyan); stroke-width: 4; fill: none; }
+      svg .arw-r { stroke: var(--red); stroke-width: 4; fill: none; }
+
+      /* hook : capture du CDS, sans arrondi */
+      #shot { position: absolute; left: -60px; top: 380px; width: 920px; background: #fff; box-shadow: 0 30px 60px rgba(0, 25, 75, 0.18); border: 1px solid rgba(0, 25, 75, 0.08); }
+      #shot img { display: block; width: 100%; }
+      .badge { position: absolute; padding: 10px 26px 14px; background: var(--red); color: #fff; font-weight: 600; letter-spacing: -0.04em; white-space: nowrap; opacity: 0; }
+
+      /* fin : profil Instagram + bouton */
+      #end { position: absolute; left: 140px; top: 470px; width: 800px; height: 820px; opacity: 0; text-align: center; }
+      #avatar { position: absolute; left: 220px; top: -10px; width: 360px; height: 360px; }
+      #avatar svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+      #avatar .pic { position: absolute; left: 22px; top: 22px; width: 316px; height: 316px; border-radius: 50%; overflow: hidden; border: 8px solid #00194b; box-shadow: 0 20px 50px rgba(0, 5, 25, 0.5); opacity: 0; }
+      #avatar .pic img { width: 100%; height: 100%; display: block; }
+      #wordmark { position: absolute; left: 0; right: 0; top: 380px; font-size: 72px; font-weight: 600; letter-spacing: -0.04em; color: #fff; opacity: 0; }
+      #btn { position: absolute; left: 50%; top: 510px; width: 400px; height: 100px; margin-left: -200px; border-radius: 8px; background: #0095f6; color: #fff; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; display: flex; align-items: center; justify-content: center; gap: 14px; opacity: 0; box-shadow: 0 18px 40px rgba(0, 60, 140, 0.4); }
+      #btn .t2 { display: none; }
+      #btn svg { width: 38px; height: 38px; display: none; }
+
+      /* sous-titres : blanc, fond gris translucide, lettres resserrées */
+      #captions { position: absolute; left: 140px; right: 140px; top: 1330px; height: 130px; }
+      .cap-line { position: absolute; left: -60px; right: -60px; top: 0; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30, 34, 42, 0.74);
+        font-family: "Inter UI", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.045em; word-spacing: -0.02em; color: #fff; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="57.6" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="57.6" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="57.6" data-track-index="0">
+        <div id="bg-dark"><div class="glow"></div><div class="grid"></div><div class="vig"></div></div>
+        <div id="bg-light"></div>
+
+        <div class="scene light" id="sc-hook"><svg class="chart" id="ch-hook" viewBox="0 0 800 640" style="top:20px"></svg></div>
+        <div class="scene" id="sc-intro"><svg class="chart" id="ch-intro" viewBox="0 0 800 640"></svg></div>
+        <div class="scene light" id="sc-s1"><div class="title">1. Le prix</div><svg class="chart" id="ch-s1" viewBox="0 0 800 640"></svg></div>
+        <div class="scene" id="sc-s2a"><div class="title">2. La smart money</div><svg class="chart" id="ch-s2a" viewBox="0 0 800 640"></svg></div>
+        <div class="scene light" id="sc-s2b"><div class="title">Achat d'un dirigeant</div><svg class="chart" id="ch-s2b" viewBox="0 0 800 640"></svg></div>
+        <div class="scene" id="sc-s3"><div class="title">3. Le graphique</div><svg class="chart" id="ch-s3" viewBox="0 0 800 640"></svg></div>
+        <div class="scene light" id="sc-s3b"><div class="title">Un niveau qui tient</div><svg class="chart" id="ch-s3b" viewBox="0 0 800 640"></svg></div>
+        <div class="scene" id="sc-aligned"><svg class="chart" id="ch-aligned" viewBox="0 0 800 640"></svg></div>
+        <div class="scene light" id="sc-result"><svg class="chart" id="ch-result" viewBox="0 0 800 640"></svg></div>
+
+        <div id="end">
+          <div id="avatar"><svg viewBox="0 0 360 360"><defs><linearGradient id="gStory" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75" /><stop offset="0.3" stop-color="#fa7e1e" /><stop offset="0.6" stop-color="#d62976" /><stop offset="1" stop-color="#962fbf" /></linearGradient></defs>
+            <circle id="ring" cx="180" cy="180" r="170" fill="none" stroke="url(#gStory)" stroke-width="12" transform="rotate(-90 180 180)" /></svg>
+            <div class="pic"><img src="assets/img/logo-financedata.png" alt="" /></div></div>
+          <div id="wordmark">FinanceData</div>
+          <div id="btn"><svg viewBox="0 0 40 40"><path d="M9 21 L17 29 L32 12" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /></svg><span class="t1">S'abonner</span><span class="t2">Abonné</span></div>
+        </div>
+
+        <div id="captions"></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg";
+        var RED = "#ff2e24";
+        var R = window.REEL;
+        var tl = gsap.timeline({ paused: true });
+        var SFX = []; // [nom, instant, gain] → mixés après le rendu par scripts/sfx.mjs
+
+        function el(parent, tag, attrs, text) {
+          var n = document.createElementNS(NS, tag);
+          for (var k in attrs) n.setAttribute(k, attrs[k]);
+          if (text != null) n.textContent = text;
+          parent.appendChild(n);
+          return n;
+        }
+        function $(id) { return document.getElementById(id); }
+        function drawIn(node, at, dur, ease) {
+          var len = node.getTotalLength();
+          node.style.strokeDasharray = len + " " + len;
+          tl.fromTo(node, { opacity: 0 }, { opacity: 1, duration: 0.01 }, at);
+          tl.fromTo(node, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.inOut" }, at);
+        }
+        function fadeIn(node, at, dur, y) { tl.fromTo(node, { opacity: 0, y: y == null ? 16 : y }, { opacity: 1, y: 0, duration: dur || 0.45, ease: "power2.out" }, at); }
+        function popIn(node, at) { tl.fromTo(node, { opacity: 0, scale: 0.85, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, at); }
+        function growX(node, at, dur) { tl.fromTo(node, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: dur || 0.8, ease: "power2.out" }, at); }
+        function growY(node, at, dur) { tl.fromTo(node, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: dur || 0.8, ease: "power2.out" }, at); }
+        function fmt(v) { return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
+        function counter(node, at, to, dur, suf) {
+          var o = { v: 0 };
+          tl.fromTo(o, { v: 0 }, { v: to, duration: dur, ease: "power2.out", immediateRender: false, onUpdate: function () { node.textContent = fmt(o.v) + (suf || ""); } }, at);
+        }
+        function sc(id) { return R.scenes.filter(function (s) { return s.id === id; })[0]; }
+        function wordAt(id, key, nth) {
+          var hits = [];
+          sc(id).chunks.forEach(function (c) { c.words.forEach(function (w) { if (w.key === key) hits.push(w); }); });
+          if (!hits.length) throw new Error("mot introuvable : " + key);
+          return hits[nth || 0].start;
+        }
+        function arrow(parent, x1, y1, x2, y2, at, dur, cls, dash) {
+          var p = el(parent, "path", { d: "M" + x1 + " " + y1 + " L" + x2 + " " + y2, class: cls || "arw" });
+          if (dash) p.setAttribute("stroke-dasharray", dash);
+          var a = Math.atan2(y2 - y1, x2 - x1), h = 20;
+          var head = el(parent, "path", { d: "M" + (x2 - h * Math.cos(a - 0.5)) + " " + (y2 - h * Math.sin(a - 0.5)) + " L" + x2 + " " + y2 + " L" + (x2 - h * Math.cos(a + 0.5)) + " " + (y2 - h * Math.sin(a + 0.5)), class: cls || "arw" });
+          if (dash) { fadeIn(p, at, dur || 0.5, 0); } else drawIn(p, at, dur || 0.5);
+          fadeIn(head, at + (dur || 0.5) - 0.1, 0.15, 0);
+          return [p, head];
+        }
+        // personnage / institution : carré à angles droits + libellé
+        function node(parent, x, y, label, at, kind) {
+          var g = el(parent, "g", {});
+          if (kind === "bank") {
+            el(g, "path", { d: "M" + (x - 52) + " " + (y - 14) + " L" + x + " " + (y - 50) + " L" + (x + 52) + " " + (y - 14) + " Z M" + (x - 40) + " " + (y - 6) + " L" + (x - 40) + " " + (y + 34) + " M" + x + " " + (y - 6) + " L" + x + " " + (y + 34) + " M" + (x + 40) + " " + (y - 6) + " L" + (x + 40) + " " + (y + 34) + " M" + (x - 58) + " " + (y + 44) + " L" + (x + 58) + " " + (y + 44), class: "node" });
+          } else if (kind === "flag") {
+            el(g, "rect", { x: x - 66, y: y - 44, width: 44, height: 88, fill: "#1f4fbf" });
+            el(g, "rect", { x: x - 22, y: y - 44, width: 44, height: 88, fill: "#ffffff", stroke: "rgba(0,25,75,0.15)" });
+            el(g, "rect", { x: x + 22, y: y - 44, width: 44, height: 88, fill: RED });
+          } else {
+            el(g, "circle", { cx: x, cy: y - 26, r: 24, class: "node" });
+            el(g, "path", { d: "M" + (x - 44) + " " + (y + 44) + " L" + (x - 44) + " " + (y + 28) + " Q" + x + " " + (y - 6) + " " + (x + 44) + " " + (y + 28) + " L" + (x + 44) + " " + (y + 44), class: "node" });
+          }
+          el(g, "text", { x: x, y: y + 96, class: "val", "font-size": 34, "text-anchor": "middle" }, label);
+          if (at != null) popIn(g, at);
+          return g;
+        }
+        function chip(parent, x, y, text, at, color, fill) {
+          var g = el(parent, "g", {});
+          var t = el(g, "text", { x: x, y: y, "font-size": 28, "font-weight": 600, "text-anchor": "middle", "letter-spacing": "0.06em", style: "fill:" + (fill ? "#fff" : color) }, text);
+          var w = text.length * 20 + 40;
+          var r = el(g, "rect", { x: x - w / 2, y: y - 34, width: w, height: 48, style: fill ? "fill:" + color : "fill:none;stroke:" + color + ";stroke-width:2" });
+          g.insertBefore(r, t);
+          if (at != null) popIn(g, at);
+          return g;
+        }
+
+        // ================= MONTAGE : une scène = un fond, alterné blanc / bleu =================
+        R.scenes.forEach(function (s, i) {
+          var light = s.id !== "cta" && i % 2 === 0;
+          if (i) {
+            tl.to("#bg-light", { opacity: light ? 1 : 0, duration: 0.3, ease: "power1.inOut" }, s.start - 0.15);
+            SFX.push(["whoosh", s.start - 0.22, 0.12]);
+          }
+          var n = $("sc-" + s.id);
+          if (!n) return;
+          tl.fromTo(n, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: i ? 0.4 : 0.2, ease: "power2.out" }, Math.max(0, s.start - 0.04));
+          tl.to(n, { opacity: 0, duration: 0.2 }, s.end - 0.2);
+        });
+
+        function line(svg, d, at, dur, color, w) {
+          var p = el(svg, "path", { d: d, style: "fill:none;stroke-linejoin:round;stroke:" + (color || "var(--cyan)") + ";stroke-width:" + (w || 8) });
+          drawIn(p, at, dur || 1, "power2.inOut");
+          return p;
+        }
+        function bigNum(svg, x, y, size, color, at, to, dur, pre, suf) {
+          var t = el(svg, "text", { x: x, y: y, "font-size": size, "font-weight": 600, "text-anchor": "middle", "letter-spacing": "-0.05em", style: "fill:" + color }, (pre || "") + "0" + (suf || ""));
+          fadeIn(t, at, 0.3, 0);
+          if (!pre) counter(t, at, to, dur, suf);
+          else { var o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: to, duration: dur, ease: "power2.out", immediateRender: false, onUpdate: function () { t.textContent = pre + fmt(o.v) + (suf || ""); } }, at); }
+          return t;
+        }
+        function msLogo(svg, x, y, s, at) {
+          var g = el(svg, "g", {});
+          [["#f25022", 0, 0], ["#7fba00", 1, 0], ["#00a4ef", 0, 1], ["#ffb900", 1, 1]].forEach(function (c) { el(g, "rect", { x: x + c[1] * (s + 6), y: y + c[2] * (s + 6), width: s, height: s, fill: c[0] }); });
+          popIn(g, at);
+          return g;
+        }
+        function check(svg, x, y, at) {
+          var g = el(svg, "g", {});
+          el(g, "rect", { x: x - 80, y: y - 80, width: 160, height: 160, style: "fill:var(--cyan)" });
+          var p = el(g, "path", { d: "M" + (x - 40) + " " + y + " L" + (x - 10) + " " + (y + 32) + " L" + (x + 44) + " " + (y - 34), style: "fill:none;stroke:#fff;stroke-width:16" });
+          popIn(g, at);
+          return g;
+        }
+
+        // ---------- hook : +46 % en 90 jours ----------
+        (function () {
+          var svg = $("ch-hook");
+          msLogo(svg, 330, 0, 60, 0.0);
+          SFX.push(["swipe", 0.0, 0.35]);
+          var tk = el(svg, "text", { x: 400, y: 190, class: "cap", "font-size": 30, "text-anchor": "middle" }, "MICROSOFT · MSFT");
+          fadeIn(tk, 0.15, 0.3, 0);
+          var tB = wordAt("hook", "bondir") - 0.1;
+          bigNum(svg, 400, 380, 190, "var(--cyan)", tB, 46, 1.0, "+", " %");
+          var d = el(svg, "text", { x: 400, y: 450, class: "val", "font-size": 46, "text-anchor": "middle" }, "en 90 jours");
+          fadeIn(d, wordAt("hook", "jours") - 0.3, 0.3);
+          line(svg, "M60 620 L200 600 L320 610 L440 560 L560 520 L660 470 L740 420", tB, 1.6);
+        })();
+
+        // ---------- trois signaux ignorés ----------
+        (function () {
+          var s = sc("intro"), svg = $("ch-intro"), tT = wordAt("intro", "trois") - 0.15;
+          [170, 400, 630].forEach(function (x, i) {
+            var g = el(svg, "g", {});
+            el(g, "rect", { x: x - 90, y: 160, width: 180, height: 180, style: "fill:none;stroke:var(--ink);stroke-width:4" });
+            el(g, "text", { x: x, y: 285, "font-size": 110, "font-weight": 600, "text-anchor": "middle", style: "fill:var(--ink)" }, String(i + 1));
+            popIn(g, tT + i * 0.15);
+          });
+          var t = el(svg, "text", { x: 400, y: 120, class: "cap", "font-size": 30, "text-anchor": "middle" }, "3 SIGNAUX");
+          fadeIn(t, tT - 0.2, 0.3, 0);
+          chip(svg, 400, 470, "IGNORÉS PAR LA MAJORITÉ", wordAt("intro", "ignorait") - 0.4, RED, true);
+        })();
+
+        // ---------- 1. le prix : valorisation au plus bas depuis 5 ans ----------
+        (function () {
+          var s = sc("s1"), svg = $("ch-s1");
+          var l = el(svg, "text", { x: 60, y: 60, class: "cap", "font-size": 24 }, "VALORISATION DE MICROSOFT");
+          fadeIn(l, s.start + 0.1, 0.4, 0);
+          line(svg, "M60 160 L150 200 L240 150 L330 230 L420 210 L510 300 L600 360 L690 440", wordAt("s1", "valorisation") - 0.3, 1.3, "var(--ink)", 7);
+          var tL = wordAt("s1", "5") - 0.3;
+          var dot = el(svg, "circle", { cx: 690, cy: 440, r: 16, style: "fill:var(--cyan)" });
+          popIn(dot, tL);
+          var rg = el(svg, "circle", { cx: 690, cy: 440, r: 36, style: "fill:none;stroke:var(--cyan);stroke-width:4" });
+          drawIn(rg, tL + 0.1, 0.4);
+          chip(svg, 470, 530, "PLUS BAS DEPUIS 5 ANS", tL + 0.2, "var(--cyan)", true);
+        })();
+
+        // ---------- 2. Bill Ackman : 2 Md$ ----------
+        (function () {
+          var s = sc("s2a"), svg = $("ch-s2a");
+          node(svg, 400, 110, "Bill Ackman", wordAt("s2a", "Ackman") - 0.25);
+          bigNum(svg, 400, 400, 170, "var(--cyan)", wordAt("s2a", "2") - 0.1, 2, 0.6, "", " Md$");
+          var t = el(svg, "text", { x: 400, y: 495, class: "lbl", "font-size": 32, "text-anchor": "middle" }, "investis dans Microsoft");
+          fadeIn(t, wordAt("s2a", "2") + 0.3, 0.4, 0);
+          chip(svg, 400, 590, "SOUS-ÉVALUÉ", wordAt("s2a", "sous-évalué") - 0.3, "var(--cyan)", true);
+        })();
+
+        // ---------- un dirigeant achète : 2 M$ ----------
+        (function () {
+          var s = sc("s2b"), svg = $("ch-s2b");
+          node(svg, 400, 110, "Un dirigeant", wordAt("s2b", "dirigeant") - 0.2);
+          bigNum(svg, 400, 400, 170, "var(--ink)", wordAt("s2b", "2") - 0.1, 2, 0.6, "", " M$");
+          var t = el(svg, "text", { x: 400, y: 495, class: "lbl", "font-size": 32, "text-anchor": "middle" }, "d'actions achetées");
+          fadeIn(t, wordAt("s2b", "2") + 0.3, 0.4, 0);
+          chip(svg, 400, 590, "PLUS GROS ACHAT DEPUIS 10 ANS", wordAt("s2b", "10") - 0.3, "var(--cyan)", true);
+        })();
+
+        // ---------- 3. le graphique : niveau clé à 350 $ ----------
+        var SUP = 420;
+        (function () {
+          var s = sc("s3"), svg = $("ch-s3");
+          line(svg, "M60 120 L160 180 L250 150 L350 260 L450 230 L560 340 L660 " + (SUP - 6) + " L740 " + (SUP - 10), s.start + 0.2, 1.4, "var(--ink)", 7);
+          var t350 = wordAt("s3", "350") - 0.3;
+          var sl = el(svg, "line", { x1: 40, x2: 760, y1: SUP, y2: SUP, style: "stroke:var(--cyan);stroke-width:4", "stroke-dasharray": "14 10" });
+          fadeIn(sl, t350, 0.3, 0);
+          chip(svg, 120, SUP + 58, "350 $", t350 + 0.1, "var(--cyan)", true);
+          chip(svg, 470, 560, "REPÉRÉ DANS LA NEWSLETTER", wordAt("s3", "newsletter") - 0.3, RED, true);
+        })();
+
+        // ---------- le niveau a toujours tenu ----------
+        (function () {
+          var s = sc("s3b"), svg = $("ch-s3b");
+          var sl = el(svg, "line", { x1: 40, x2: 760, y1: SUP, y2: SUP, style: "stroke:var(--cyan);stroke-width:4", "stroke-dasharray": "14 10" });
+          fadeIn(sl, s.start + 0.05, 0.3, 0);
+          var lab = el(svg, "text", { x: 740, "text-anchor": "end", y: SUP + 50, "font-size": 30, "font-weight": 600, style: "fill:var(--cyan)" }, "350 $");
+          fadeIn(lab, s.start + 0.1, 0.3, 0);
+          line(svg, "M40 200 L130 " + (SUP - 4) + " L220 240 L320 " + (SUP - 4) + " L420 180 L520 " + (SUP - 4) + " L620 230", s.start + 0.2, 2.2, "var(--ink)", 7);
+          var tR = wordAt("s3b", "rebondi") - 0.4;
+          [130, 320, 520].forEach(function (x, i) { arrow(svg, x, SUP + 70, x, SUP + 10, tR + i * 0.15, 0.3, "arw-c"); });
+        })();
+
+        // ---------- trois signaux alignés ----------
+        (function () {
+          var s = sc("aligned"), svg = $("ch-aligned"), t = wordAt("aligned", "alignés") - 0.5;
+          [170, 400, 630].forEach(function (x, i) { check(svg, x, 250, t + i * 0.12); });
+          var l = el(svg, "text", { x: 400, y: 450, class: "val", "font-size": 54, "text-anchor": "middle" }, "Signaux alignés");
+          fadeIn(l, t + 0.4, 0.4);
+          SFX.push(["pop", t, 0.3]);
+        })();
+
+        // ---------- résultat : +46 % en 90 jours ----------
+        (function () {
+          var s = sc("result"), svg = $("ch-result");
+          var tR = wordAt("result", "résultats") - 0.2, tD = wordAt("result", "décollé") - 0.3;
+          var sl = el(svg, "line", { x1: 40, x2: 760, y1: 520, y2: 520, style: "stroke:var(--soft);stroke-width:3", "stroke-dasharray": "14 10" });
+          fadeIn(sl, s.start + 0.1, 0.3, 0);
+          line(svg, "M60 520 L200 515 L300 522", s.start + 0.2, 0.6, "var(--ink)", 7);
+          var m = el(svg, "text", { x: 300, y: 590, class: "cap", "font-size": 24, "text-anchor": "middle" }, "RÉSULTATS");
+          fadeIn(m, tR, 0.3, 0);
+          var tick = el(svg, "line", { x1: 300, x2: 300, y1: 540, y2: 560, style: "stroke:var(--soft);stroke-width:3" });
+          fadeIn(tick, tR, 0.3, 0);
+          line(svg, "M300 522 L380 470 L450 430 L520 360 L600 300 L680 250 L750 210", tD, 1.2, "var(--cyan)", 9);
+          bigNum(svg, 400, 170, 170, "var(--cyan)", tD + 0.3, 46, 1.0, "+", " %");
+        })();
+
+        // ---------- fin : profil Instagram, bouton calé sur « abonnez-vous » ----------
+        (function () {
+          var c = sc("cta"), tA = wordAt("cta", "abonnez-vous");
+          tl.fromTo("#end", { opacity: 0 }, { opacity: 1, duration: 0.4 }, c.start);
+          tl.fromTo("#avatar .pic", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, c.start + 0.05);
+          drawIn($("ring"), c.start + 0.25, 0.8, "power2.inOut");
+          fadeIn($("wordmark"), c.start + 0.5, 0.45);
+          var tB = tA - 0.9, tC = tA + 0.08;
+          tl.fromTo("#btn", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, tB);
+          tl.to("#btn", { scale: 0.94, duration: 0.1, ease: "power1.in" }, tC);
+          tl.to("#btn", { scale: 1, duration: 0.2, ease: "back.out(2)" }, tC + 0.1);
+          tl.to("#btn", { backgroundColor: "#363a45", boxShadow: "0 18px 40px rgba(0,0,0,0.35)", duration: 0.3 }, tC + 0.05);
+          tl.set("#btn .t1", { display: "none" }, tC + 0.1);
+          tl.set("#btn .t2", { display: "inline" }, tC + 0.1);
+          tl.set("#btn svg", { display: "block" }, tC + 0.1);
+          drawIn(document.querySelector("#btn svg path"), tC + 0.12, 0.2);
+          SFX.push(["click", tC - 0.02, 0.5]);
+        })();
+
+        // ---------- sous-titres (3 mots max, blancs, fond gris translucide) ----------
+        (function () {
+          var box = $("captions");
+          R.chunks.forEach(function (c) {
+            var div = document.createElement("div");
+            div.className = "cap-line";
+            var inner = document.createElement("div");
+            inner.className = "cap-box";
+            inner.textContent = c.words.map(function (w) { return w.text; }).join(" ");
+            div.appendChild(inner);
+            box.appendChild(div);
+            tl.fromTo(div, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }, c.start - 0.06);
+            tl.to(div, { opacity: 0, duration: 0.01 }, c.end - 0.035);
+          });
+        })();
+
+        window.__SFX = SFX.map(function (c) { return { name: c[0], t: +c[1].toFixed(3), gain: c[2] }; });
+        tl.set({}, {}, R.total);
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
