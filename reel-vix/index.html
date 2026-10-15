@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <script src="assets/reel-data.js"></script>
+    <script src="assets/vix.js"></script>
+    <style>
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf") format("opentype"); font-weight: 600; }
+
+      /* DA FinanceData : bleu #00194B quadrillé alterné avec un blanc cassé quadrillé, angles droits, rouge pour les alertes */
+      :root { --bg: #00194b; --ink: #eaf1fb; --soft: #8fa3c7; --hair: rgba(255, 255, 255, 0.14); --cyan: #7dd0f5; --red: #ff2e24; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { width: 100%; height: 100%; position: relative; font-family: "Inter UI", sans-serif; color: var(--ink); background: var(--bg); font-feature-settings: "tnum" 1; }
+      #stage { position: absolute; inset: 0; overflow: hidden; }
+
+      #bg-dark { position: absolute; inset: 0; }
+      #bg-dark .glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 38% at 50% 46%, #0b3480 0%, rgba(0, 25, 75, 0) 72%); }
+      #bg-dark .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-dark .vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(0, 0, 0, 0) 55%, rgba(0, 5, 22, 0.6) 100%); }
+      #bg-light { position: absolute; inset: 0; opacity: 1; background: #f6f8fc; }
+      #bg-light::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0, 25, 75, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 25, 75, 0.06) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-light::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(255, 255, 255, 0) 55%, rgba(0, 25, 75, 0.08) 100%); }
+
+      /* scènes : bloc centré dans la safe zone (x 140–940, y 440–1290) */
+      .scene { position: absolute; left: 140px; top: 440px; width: 800px; height: 850px; opacity: 0; text-align: center; color: var(--ink); }
+      .scene.light { --ink: #00194b; --soft: #5b6b8a; --hair: rgba(0, 25, 75, 0.14); --cyan: #0b6fd0; }
+      .title { font-size: 60px; font-weight: 600; letter-spacing: -0.035em; line-height: 1.04; white-space: nowrap; }
+      .sub { margin-top: 12px; font-size: 26px; color: var(--soft); }
+      .big { font-weight: 600; letter-spacing: -0.05em; line-height: 1; white-space: nowrap; }
+      .scene svg.chart { position: absolute; left: 0; top: 150px; width: 800px; height: 640px; overflow: visible; }
+      svg text { font-family: "Inter UI", sans-serif; font-feature-settings: "tnum" 1; }
+      svg .val { font-weight: 600; fill: var(--ink); letter-spacing: -0.02em; }
+      svg .lbl { fill: var(--soft); }
+      svg .cap { font-weight: 500; fill: var(--soft); letter-spacing: 0.14em; }
+      svg .axis { stroke: var(--soft); stroke-width: 2; fill: none; opacity: 0.6; }
+      svg .node { fill: none; stroke: var(--ink); stroke-width: 3; }
+      svg .ink { fill: var(--ink); }
+      svg .arw { stroke: var(--ink); stroke-width: 4; fill: none; stroke-linecap: square; }
+      svg .arw-c { stroke: var(--cyan); stroke-width: 4; fill: none; }
+      svg .arw-r { stroke: var(--red); stroke-width: 4; fill: none; }
+
+      /* hook : capture du CDS, sans arrondi */
+      .photo { position: absolute; inset: 0; opacity: 0; }
+      .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,10,30,0.35) 0%, rgba(0,10,30,0) 25%, rgba(0,10,30,0) 50%, rgba(0,20,60,0.85) 100%); }
+      .credit { position: absolute; right: 24px; bottom: 300px; font-size: 18px; color: rgba(255,255,255,0.7); }
+      #shot { position: absolute; left: -60px; top: 380px; width: 920px; background: #fff; box-shadow: 0 30px 60px rgba(0, 25, 75, 0.18); border: 1px solid rgba(0, 25, 75, 0.08); }
+      #shot img { display: block; width: 100%; }
+      .badge { position: absolute; padding: 10px 26px 14px; background: var(--red); color: #fff; font-weight: 600; letter-spacing: -0.04em; white-space: nowrap; opacity: 0; }
+
+      /* fin : profil Instagram + bouton */
+      #end { position: absolute; left: 140px; top: 470px; width: 800px; height: 820px; opacity: 0; text-align: center; }
+      #avatar { position: absolute; left: 220px; top: -10px; width: 360px; height: 360px; }
+      #avatar svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+      #avatar .pic { position: absolute; left: 22px; top: 22px; width: 316px; height: 316px; border-radius: 50%; overflow: hidden; border: 8px solid #00194b; box-shadow: 0 20px 50px rgba(0, 5, 25, 0.5); opacity: 0; }
+      #avatar .pic img { width: 100%; height: 100%; display: block; }
+      #wordmark { position: absolute; left: 0; right: 0; top: 380px; font-size: 72px; font-weight: 600; letter-spacing: -0.04em; color: #fff; opacity: 0; }
+      #btn { position: absolute; left: 50%; top: 510px; width: 400px; height: 100px; margin-left: -200px; border-radius: 8px; background: #0095f6; color: #fff; font-size: 40px; font-weight: 600; letter-spacing: -0.02em; display: flex; align-items: center; justify-content: center; gap: 14px; opacity: 0; box-shadow: 0 18px 40px rgba(0, 60, 140, 0.4); }
+      #btn .t2 { display: none; }
+      #btn svg { width: 38px; height: 38px; display: none; }
+
+      /* sous-titres : blanc, fond gris translucide, lettres resserrées */
+      #captions { position: absolute; left: 140px; right: 140px; top: 1330px; height: 130px; }
+      .cap-line { position: absolute; left: -60px; right: -60px; top: 0; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30, 34, 42, 0.74);
+        font-family: "Inter UI", sans-serif; font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -0.045em; word-spacing: -0.02em; color: #fff; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="65.2" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voiceover.mp3" data-start="0" data-duration="65.2" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="65.2" data-track-index="0">
+        <div id="bg-dark"><div class="glow"></div><div class="grid"></div><div class="vig"></div></div>
+        <div id="bg-light"></div>
+
+        <div class="scene light" id="sc-hook"><svg class="chart" id="ch-hook" viewBox="0 0 800 640" style="top:20px"></svg></div>
+        <div class="scene" id="sc-intro"><svg class="chart" id="ch-intro" viewBox="0 0 800 640"></svg></div>
+        <div class="scene light" id="sc-levels"><svg class="chart" id="ch-levels" viewBox="0 0 800 640" style="top:60px"></svg></div>
+        <div class="scene" id="sc-heart"><svg class="chart" id="ch-heart" viewBox="0 0 800 640" style="top:60px"></svg></div>
+        <div class="photo" id="ph-buffett"><img src="assets/img/warren-buffett.jpg" alt="" /><div class="credit">Photo : Mark Hirschey · Wikimedia Commons (CC BY-SA)</div></div>
+        <div class="scene" id="sc-buffett"><svg class="chart" id="ch-buffett" viewBox="0 0 800 640"></svg></div>
+        <div class="scene" id="sc-history"><div class="title">Le VIX depuis 1990</div><div class="sub">clôture quotidienne</div><svg class="chart" id="ch-history" viewBox="0 0 800 640"></svg></div>
+        <div class="scene light" id="sc-y2008"><svg class="chart" id="ch-y2008" viewBox="0 0 800 640" style="top:40px"></svg></div>
+        <div class="scene" id="sc-y2020"><svg class="chart" id="ch-y2020" viewBox="0 0 800 640" style="top:40px"></svg></div>
+        <div class="scene light" id="sc-crowd"><svg class="chart" id="ch-crowd" viewBox="0 0 800 640" style="top:60px"></svg></div>
+        <div class="scene" id="sc-rule"><svg class="chart" id="ch-rule" viewBox="0 0 800 640" style="top:60px"></svg></div>
+
+        <div id="end">
+          <div id="avatar"><svg viewBox="0 0 360 360"><defs><linearGradient id="gStory" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75" /><stop offset="0.3" stop-color="#fa7e1e" /><stop offset="0.6" stop-color="#d62976" /><stop offset="1" stop-color="#962fbf" /></linearGradient></defs>
+            <circle id="ring" cx="180" cy="180" r="170" fill="none" stroke="url(#gStory)" stroke-width="12" transform="rotate(-90 180 180)" /></svg>
+            <div class="pic"><img src="assets/img/logo-financedata.png" alt="" /></div></div>
+          <div id="wordmark">FinanceData</div>
+          <div id="btn"><svg viewBox="0 0 40 40"><path d="M9 21 L17 29 L32 12" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" /></svg><span class="t1">S'abonner</span><span class="t2">Abonné</span></div>
+        </div>
+
+        <div id="captions"></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg";
+        var RED = "#ff2e24";
+        var R = window.REEL;
+        var tl = gsap.timeline({ paused: true });
+        var SFX = []; // [nom, instant, gain] → mixés après le rendu par scripts/sfx.mjs
+
+        function el(parent, tag, attrs, text) {
+          var n = document.createElementNS(NS, tag);
+          for (var k in attrs) n.setAttribute(k, attrs[k]);
+          if (text != null) n.textContent = text;
+          parent.appendChild(n);
+          return n;
+        }
+        function $(id) { return document.getElementById(id); }
+        function drawIn(node, at, dur, ease) {
+          var len = node.getTotalLength();
+          node.style.strokeDasharray = len + " " + len;
+          tl.fromTo(node, { opacity: 0 }, { opacity: 1, duration: 0.01 }, at);
+          tl.fromTo(node, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.inOut" }, at);
+        }
+        function fadeIn(node, at, dur, y) { tl.fromTo(node, { opacity: 0, y: y == null ? 16 : y }, { opacity: 1, y: 0, duration: dur || 0.45, ease: "power2.out" }, at); }
+        function popIn(node, at) { tl.fromTo(node, { opacity: 0, scale: 0.85, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, at); }
+        function growX(node, at, dur) { tl.fromTo(node, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: dur || 0.8, ease: "power2.out" }, at); }
+        function growY(node, at, dur) { tl.fromTo(node, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: dur || 0.8, ease: "power2.out" }, at); }
+        function fmt(v) { return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
+        function counter(node, at, to, dur, suf) {
+          var o = { v: 0 };
+          tl.fromTo(o, { v: 0 }, { v: to, duration: dur, ease: "power2.out", immediateRender: false, onUpdate: function () { node.textContent = fmt(o.v) + (suf || ""); } }, at);
+        }
+        function sc(id) { return R.scenes.filter(function (s) { return s.id === id; })[0]; }
+        function wordAt(id, key, nth) {
+          var hits = [];
+          sc(id).chunks.forEach(function (c) { c.words.forEach(function (w) { if (w.key === key) hits.push(w); }); });
+          if (!hits.length) throw new Error("mot introuvable : " + key);
+          return hits[nth || 0].start;
+        }
+        function arrow(parent, x1, y1, x2, y2, at, dur, cls, dash) {
+          var p = el(parent, "path", { d: "M" + x1 + " " + y1 + " L" + x2 + " " + y2, class: cls || "arw" });
+          if (dash) p.setAttribute("stroke-dasharray", dash);
+          var a = Math.atan2(y2 - y1, x2 - x1), h = 20;
+          var head = el(parent, "path", { d: "M" + (x2 - h * Math.cos(a - 0.5)) + " " + (y2 - h * Math.sin(a - 0.5)) + " L" + x2 + " " + y2 + " L" + (x2 - h * Math.cos(a + 0.5)) + " " + (y2 - h * Math.sin(a + 0.5)), class: cls || "arw" });
+          if (dash) { fadeIn(p, at, dur || 0.5, 0); } else drawIn(p, at, dur || 0.5);
+          fadeIn(head, at + (dur || 0.5) - 0.1, 0.15, 0);
+          return [p, head];
+        }
+        // personnage / institution : carré à angles droits + libellé
+        function node(parent, x, y, label, at, kind) {
+          var g = el(parent, "g", {});
+          if (kind === "bank") {
+            el(g, "path", { d: "M" + (x - 52) + " " + (y - 14) + " L" + x + " " + (y - 50) + " L" + (x + 52) + " " + (y - 14) + " Z M" + (x - 40) + " " + (y - 6) + " L" + (x - 40) + " " + (y + 34) + " M" + x + " " + (y - 6) + " L" + x + " " + (y + 34) + " M" + (x + 40) + " " + (y - 6) + " L" + (x + 40) + " " + (y + 34) + " M" + (x - 58) + " " + (y + 44) + " L" + (x + 58) + " " + (y + 44), class: "node" });
+          } else if (kind === "flag") {
+            el(g, "rect", { x: x - 66, y: y - 44, width: 44, height: 88, fill: "#1f4fbf" });
+            el(g, "rect", { x: x - 22, y: y - 44, width: 44, height: 88, fill: "#ffffff", stroke: "rgba(0,25,75,0.15)" });
+            el(g, "rect", { x: x + 22, y: y - 44, width: 44, height: 88, fill: RED });
+          } else {
+            el(g, "circle", { cx: x, cy: y - 26, r: 24, class: "node" });
+            el(g, "path", { d: "M" + (x - 44) + " " + (y + 44) + " L" + (x - 44) + " " + (y + 28) + " Q" + x + " " + (y - 6) + " " + (x + 44) + " " + (y + 28) + " L" + (x + 44) + " " + (y + 44), class: "node" });
+          }
+          el(g, "text", { x: x, y: y + 96, class: "val", "font-size": 34, "text-anchor": "middle" }, label);
+          if (at != null) popIn(g, at);
+          return g;
+        }
+        function chip(parent, x, y, text, at, color, fill) {
+          var g = el(parent, "g", {});
+          var t = el(g, "text", { x: x, y: y, "font-size": 28, "font-weight": 600, "text-anchor": "middle", "letter-spacing": "0.06em", style: "fill:" + (fill ? "#fff" : color) }, text);
+          var w = text.length * 20 + 40;
+          var r = el(g, "rect", { x: x - w / 2, y: y - 34, width: w, height: 48, style: fill ? "fill:" + color : "fill:none;stroke:" + color + ";stroke-width:2" });
+          g.insertBefore(r, t);
+          if (at != null) popIn(g, at);
+          return g;
+        }
+
+        // ================= MONTAGE : une scène = un fond, alterné blanc / bleu =================
+        R.scenes.forEach(function (s, i) {
+          var light = s.id !== "cta" && i % 2 === 0;
+          if (i) {
+            tl.to("#bg-light", { opacity: light ? 1 : 0, duration: 0.3, ease: "power1.inOut" }, s.start - 0.15);
+            SFX.push(["whoosh", s.start - 0.22, 0.12]);
+          }
+          var n = $("sc-" + s.id);
+          if (!n) return;
+          tl.fromTo(n, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: i ? 0.4 : 0.2, ease: "power2.out" }, Math.max(0, s.start - 0.04));
+          tl.to(n, { opacity: 0, duration: 0.2 }, s.end - 0.2);
+        });
+
+        function line(svg, d, at, dur, color, w, ease) {
+          var p = el(svg, "path", { d: d, style: "fill:none;stroke-linejoin:round;stroke:" + (color || "var(--cyan)") + ";stroke-width:" + (w || 8) });
+          drawIn(p, at, dur || 1, ease || "power2.inOut");
+          return p;
+        }
+        function lowerThird(svg, name, role, at) {
+          var g = el(svg, "g", {});
+          el(g, "rect", { x: -20, y: 520, width: 560, height: 130, fill: "rgba(0,12,40,0.82)" });
+          el(g, "rect", { x: -20, y: 520, width: 10, height: 130, fill: RED });
+          el(g, "text", { x: 20, y: 576, "font-size": 54, "font-weight": 600, fill: "#fff", "letter-spacing": "-0.02em" }, name);
+          el(g, "text", { x: 20, y: 622, "font-size": 30, "font-weight": 500, fill: "rgba(255,255,255,0.85)" }, role);
+          tl.fromTo(g, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, at);
+          return g;
+        }
+        function photoScene(id, s) {
+          tl.fromTo("#" + id, { opacity: 0 }, { opacity: 1, duration: 0.3 }, s.start - 0.15);
+          tl.to("#" + id, { opacity: 0, duration: 0.25 }, s.end - 0.25);
+        }
+        function dec(v, n) { return v.toFixed(n == null ? 1 : n).replace(".", ","); }
+        function cnt(node, at, from, to, dur, f) {
+          var o = { v: from };
+          tl.fromTo(o, { v: from }, { v: to, duration: dur, ease: "power2.out", immediateRender: false, onUpdate: function () { node.textContent = f(o.v); } }, at);
+        }
+        function pulse(svg, x, y, color, at, n) {
+          var p = el(svg, "circle", { cx: x, cy: y, r: 12, style: "fill:none;stroke:" + color + ";stroke-width:3", opacity: 0 });
+          tl.fromTo(p, { attr: { r: 12 }, opacity: 0.9 }, { attr: { r: 46 }, opacity: 0, duration: 0.8, ease: "power1.out", repeat: n || 2, immediateRender: false }, at);
+        }
+        function dot(svg, x, y, color, at, lbl, dx, dy, size, anchor) {
+          var g = el(svg, "g", {});
+          el(g, "circle", { cx: x, cy: y, r: 11, style: "fill:" + color });
+          if (lbl) el(g, "text", { x: x + (dx || 0), y: y + (dy || 0), "font-size": size || 30, "font-weight": 600, "text-anchor": anchor || "middle", style: "fill:" + color }, lbl);
+          popIn(g, at);
+          return g;
+        }
+
+        // ---------- vraies séries Yahoo Finance : VIX (plus haut / clôture) et S&P 500 ----------
+        function chart(data, col, from, to, box, vmin, vmax) {
+          var rows = data.filter(function (r) { return r[0] >= from && r[0] <= to; }), t0 = Date.parse(from), t1 = Date.parse(to);
+          var X = function (d) { return box[0] + (Date.parse(d) - t0) / (t1 - t0) * (box[1] - box[0]); };
+          var Y = function (v) { return box[3] - (v - vmin) / (vmax - vmin) * (box[3] - box[2]); };
+          var path = function (rs) { return rs.map(function (r, i) { return (i ? "L" : "M") + X(r[0]).toFixed(1) + " " + Y(r[col]).toFixed(1); }).join(" "); };
+          var at = function (d) { var r = rows.filter(function (x) { return x[0] === d; })[0]; return [X(d), Y(r[col]), r[col]]; };
+          return { rows: rows, X: X, Y: Y, d: path(rows), path: path, at: at, box: box };
+        }
+        function hline(svg, c, v, cls, label, dash) {
+          var l = el(svg, "line", { x1: c.box[0], x2: c.box[1], y1: c.Y(v), y2: c.Y(v), style: "stroke:" + (cls || "var(--hair)") + ";stroke-width:" + (dash ? 3 : 1.5) });
+          if (dash) l.setAttribute("stroke-dasharray", dash);
+          var t = label ? el(svg, "text", { x: c.box[1] + 12, y: c.Y(v) + 8, "font-size": 22, "font-weight": dash ? 600 : 400, style: "fill:" + (dash ? cls : "var(--soft)") }, label) : null;
+          return [l, t];
+        }
+
+        // ---------- hook : le VIX depuis 1990, ses pics, et sa valeur aujourd'hui ----------
+        (function () {
+          var svg = $("ch-hook"), c = chart(window.VIX, 2, "1990-01-01", "2026-10-14", [30, 740, 300, 610], 0, 90);
+          var cap = el(svg, "text", { x: 400, y: -20, class: "cap", "font-size": 24, "text-anchor": "middle" }, "WALL STREET · CBOE VOLATILITY INDEX");
+          fadeIn(cap, 0.0, 0.3, 0);
+          SFX.push(["swipe", 0.0, 0.3]);
+          hline(svg, c, 20, null, "20"); hline(svg, c, 40, null, "40"); hline(svg, c, 80, null, "80");
+          var area = el(svg, "path", { d: c.d + " L740 610 L30 610 Z", style: "fill:var(--ink)", opacity: 0 });
+          var p = el(svg, "path", { d: c.d, style: "fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round" });
+          drawIn(p, 0.05, 1.3, "power1.inOut");
+          tl.fromTo(area, { opacity: 0 }, { opacity: 0.08, duration: 0.6 }, 0.8);
+          var a = c.at("2008-11-20"), b = c.at("2020-03-16");
+          dot(svg, a[0], a[1], RED, 0.75, "2008", 0, -26, 28);
+          dot(svg, b[0], b[1], RED, 1.15, "2020", 0, -26, 28);
+          SFX.push(["pop", 0.75, 0.18]); SFX.push(["pop", 1.15, 0.18]);
+          // « l'indicateur de la peur, le VIX »
+          var tP = wordAt("hook", "peur") - 0.2, tV = wordAt("hook", "VIX") - 0.15;
+          chip(svg, 400, 230, "L'INDICATEUR DE LA PEUR", tP, RED, true);
+          var big = el(svg, "text", { x: 400, y: 175, "font-size": 170, "font-weight": 600, "text-anchor": "middle", "letter-spacing": "-0.05em", style: "fill:var(--ink)" }, "VIX");
+          tl.fromTo(big, { opacity: 0, scale: 1.25, transformOrigin: "50% 70%" }, { opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" }, tV);
+          SFX.push(["pop", tV, 0.3]);
+          // « actuellement » : la valeur du jour, avec un balayage de surveillance
+          var tA = wordAt("hook", "actuellement") - 0.1, now = c.rows[c.rows.length - 1];
+          var xn = c.X(now[0]), yn = c.Y(now[2]);
+          var g = dot(svg, xn, yn, "var(--cyan)", tA, null);
+          pulse(svg, xn, yn, "var(--cyan)", tA + 0.1, 3);
+          var nv = el(svg, "text", { x: 740, y: 680, "font-size": 40, "font-weight": 600, "text-anchor": "end", style: "fill:var(--cyan)" }, "0");
+          fadeIn(nv, tA, 0.25, 0);
+          cnt(nv, tA, 0, now[2], 0.7, function (v) { return "Aujourd'hui " + dec(v); });
+          var tS = wordAt("hook", "surveillent") - 0.25;
+          var scan = el(svg, "rect", { x: 0, y: 300, width: 6, height: 310, style: "fill:var(--cyan)", opacity: 0 });
+          tl.fromTo(scan, { attr: { x: 30 }, opacity: 0.8 }, { attr: { x: 734 }, duration: 0.9, ease: "power1.inOut", immediateRender: false }, tS);
+          tl.to(scan, { opacity: 0, duration: 0.15 }, tS + 0.85);
+        })();
+
+        // ---------- amateurs : le prix / pros : la volatilité ----------
+        (function () {
+          var s = sc("intro"), svg = $("ch-intro");
+          var spx = chart(window.SPX, 1, "2025-10-14", "2026-10-14", [30, 370, 200, 420], 6300, 7900);
+          var vix = chart(window.VIX, 2, "2025-10-14", "2026-10-14", [430, 770, 200, 420], 10, 35);
+          var tA = wordAt("intro", "amateurs") - 0.2, tPx = wordAt("intro", "prix") - 0.2, tPro = wordAt("intro", "pros") - 0.3, tV = wordAt("intro", "volatilité") - 0.3;
+          var h1 = el(svg, "text", { x: 200, y: 150, class: "cap", "font-size": 28, "text-anchor": "middle" }, "LES AMATEURS");
+          var h2 = el(svg, "text", { x: 600, y: 150, class: "cap", "font-size": 28, "text-anchor": "middle" }, "LES PROS");
+          fadeIn(h1, tA, 0.35, 10); fadeIn(h2, tPro, 0.35, 10);
+          var L = el(svg, "g", {}); var Rg = el(svg, "g", {});
+          line(L, spx.d, tPx - 0.1, 1.0, "var(--ink)", 4);
+          var t1 = el(L, "text", { x: 200, y: 500, "font-size": 50, "font-weight": 600, "text-anchor": "middle", style: "fill:var(--ink)" }, "Le prix");
+          fadeIn(t1, tPx, 0.35);
+          line(Rg, vix.d, tV - 0.3, 1.0, "var(--cyan)", 4);
+          var t2 = el(Rg, "text", { x: 600, y: 500, "font-size": 50, "font-weight": 600, "text-anchor": "middle", style: "fill:var(--cyan)" }, "La volatilité");
+          fadeIn(t2, tV, 0.35);
+          var fr = el(svg, "rect", { x: 415, y: 90, width: 370, height: 450, style: "fill:none;stroke:var(--cyan);stroke-width:3" });
+          drawIn(fr, tV + 0.2, 0.6);
+          tl.to([L, h1], { opacity: 0.3, duration: 0.3 }, tPro);
+          SFX.push(["pop", tV, 0.22]);
+        })();
+
+        // ---------- les paliers : 30, 40, 80 ----------
+        (function () {
+          var s = sc("levels"), svg = $("ch-levels");
+          var Y = function (v) { return 600 - v / 90 * 560; };
+          var cap = el(svg, "text", { x: 400, y: -10, class: "cap", "font-size": 24, "text-anchor": "middle" }, "NIVEAU DU VIX");
+          fadeIn(cap, s.start + 0.05, 0.3, 0);
+          var tube = el(svg, "rect", { x: 70, y: Y(90), width: 70, height: 560, style: "fill:var(--hair)" });
+          growY(tube, s.start + 0.05, 0.5);
+          var fill = el(svg, "rect", { x: 70, y: 0, width: 70, height: 0, style: "fill:var(--ink)" });
+          var num = el(svg, "text", { x: 620, y: 590, "font-size": 200, "font-weight": 600, "text-anchor": "middle", "letter-spacing": "-0.05em", style: "fill:var(--ink)" }, "20");
+          fadeIn(num, s.start + 0.1, 0.3, 0);
+          var lv = { v: 20 };
+          function setV() { fill.setAttribute("y", Y(lv.v)); fill.setAttribute("height", 600 - Y(lv.v)); num.textContent = Math.round(lv.v); }
+          tl.fromTo(lv, { v: 0 }, { v: 20, duration: 0.6, ease: "power2.out", onUpdate: setV }, s.start + 0.1);
+          function step(v, at, label, color, strong) {
+            tl.to(lv, { v: v, duration: 0.6, ease: "power2.out", onUpdate: setV, immediateRender: false }, at);
+            var g = el(svg, "g", {});
+            el(g, "rect", { x: 150, y: Y(v) - 2, width: 40, height: 4, style: "fill:" + color });
+            el(g, "text", { x: 205, y: Y(v) + 14, "font-size": 40, "font-weight": 600, style: "fill:" + color }, v + "  " + label);
+            tl.fromTo(g, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, at + 0.25);
+            if (strong) {
+              tl.to([fill, num], { fill: color, duration: 0.25 }, at + 0.2);
+              SFX.push(["pop", at + 0.3, 0.22]);
+            }
+          }
+          step(30, wordAt("levels", "30") - 0.3, "Peur", "var(--ink)");
+          step(40, wordAt("levels", "40") - 0.3, "Panique", RED, true);
+          step(80, wordAt("levels", "80") - 0.3, "Crise mondiale", RED, true);
+          var tM = wordAt("levels", "mars") - 0.2;
+          chip(svg, 400, Y(80) + 90, "MARS 2020 · 82,7", tM, RED, false);
+        })();
+
+        // ---------- le moniteur cardiaque ----------
+        (function () {
+          var s = sc("heart"), svg = $("ch-heart");
+          var Y = function (v) { return 560 - v / 50 * 480; };
+          var cap = el(svg, "text", { x: 400, y: 30, class: "cap", "font-size": 24, "text-anchor": "middle" }, "LE POULS DE LA BOURSE");
+          fadeIn(cap, s.start + 0.05, 0.3, 0);
+          var frame = el(svg, "rect", { x: 0, y: 60, width: 800, height: 520, style: "fill:rgba(0,10,35,0.35);stroke:var(--hair);stroke-width:2" });
+          fadeIn(frame, s.start + 0.05, 0.3, 0);
+          var tB = wordAt("heart", "battement") - 0.2;
+          var band = el(svg, "rect", { x: 0, y: Y(20), width: 800, height: Y(15) - Y(20), style: "fill:var(--cyan)", opacity: 0 });
+          tl.fromTo(band, { opacity: 0 }, { opacity: 0.18, duration: 0.4 }, tB);
+          var l15 = el(svg, "text", { x: 785, y: Y(15) + 30, "font-size": 26, "font-weight": 600, "text-anchor": "end", style: "fill:var(--cyan)" }, "15");
+          var l20 = el(svg, "text", { x: 785, y: Y(20) - 10, "font-size": 26, "font-weight": 600, "text-anchor": "end", style: "fill:var(--cyan)" }, "20");
+          fadeIn(l15, wordAt("heart", "15") - 0.15, 0.25, 0); fadeIn(l20, wordAt("heart", "20") - 0.15, 0.25, 0);
+          var nl = el(svg, "text", { x: 20, y: Y(20) - 10, "font-size": 26, "font-weight": 600, style: "fill:var(--cyan)" }, "NORMAL");
+          fadeIn(nl, wordAt("heart", "normal") - 0.1, 0.3, 0);
+          // tracé ECG : battements réguliers dans la zone 15–20, puis le pic
+          var base = 13, d = "M0 " + Y(base), x = 0;
+          while (x < 470) {
+            d += " L" + (x + 40) + " " + Y(base) + " L" + (x + 50) + " " + Y(base + 1.5) + " L" + (x + 60) + " " + Y(base) + " L" + (x + 68) + " " + Y(base - 4) + " L" + (x + 78) + " " + Y(19) + " L" + (x + 88) + " " + Y(base - 6) + " L" + (x + 96) + " " + Y(base) + " L" + (x + 115) + " " + Y(base + 2) + " L" + (x + 125) + " " + Y(base);
+            x += 125;
+          }
+          var tE = wordAt("heart", "explose") - 0.25;
+          var ecg = el(svg, "path", { d: d, style: "fill:none;stroke:var(--cyan);stroke-width:5;stroke-linejoin:round" });
+          drawIn(ecg, s.start + 0.2, tE - s.start - 0.2, "none");
+          var sx = x;
+          var spike = "M" + sx + " " + Y(base) + " L" + (sx + 20) + " " + Y(base) + " L" + (sx + 30) + " " + Y(base - 6) + " L" + (sx + 48) + " " + Y(47) + " L" + (sx + 66) + " " + Y(base - 9) + " L" + (sx + 78) + " " + Y(40) + " L" + (sx + 92) + " " + Y(base - 5) + " L" + (sx + 110) + " " + Y(30) + " L" + (sx + 124) + " " + Y(base) + " L800 " + Y(base);
+          line(svg, spike, tE, 0.55, RED, 6, "power1.out");
+          hline(svg, { box: [0, 800], Y: Y }, 40, RED, null, "12 10");
+          var l40 = el(svg, "text", { x: sx + 70, y: Y(47) - 4, "font-size": 40, "font-weight": 600, style: "fill:" + RED }, "40+");
+          fadeIn(l40, tE + 0.35, 0.25, 0);
+          SFX.push(["pop", tE + 0.3, 0.25]);
+          var tC = wordAt("heart", "crise") - 0.2;
+          var alarm = el(svg, "rect", { x: 0, y: 60, width: 800, height: 520, style: "fill:none;stroke:" + RED + ";stroke-width:6", opacity: 0 });
+          tl.fromTo(alarm, { opacity: 0 }, { opacity: 1, duration: 0.18, yoyo: true, repeat: 5, immediateRender: false }, tC);
+          chip(svg, 400, 640, "CRISE CARDIAQUE", tC, RED, true);
+          var tPa = wordAt("heart", "panique") - 0.25;
+          chip(svg, 400, 710, "C'EST LA PANIQUE", tPa, RED, false);
+        })();
+
+        // ---------- Warren Buffett, photo plein écran ----------
+        (function () {
+          var s = sc("buffett"), svg = $("ch-buffett");
+          photoScene("ph-buffett", s);
+          chip(svg, 400, -290, "AU PIC DE LA PEUR", s.start + 0.1, RED, true);
+          lowerThird(svg, "Warren Buffett", "Berkshire Hathaway", wordAt("buffett", "Warren") - 0.3);
+          chip(svg, 190, 420, "IL ACHÈTE", wordAt("buffett", "achète") - 0.2, "#00194b", true);
+          var tag = chip(svg, 560, 440, "PRIX BRADÉS", wordAt("buffett", "bradé") - 0.25, RED, true);
+          tl.fromTo(tag, { rotation: -6, transformOrigin: "50% 50%" }, { rotation: -6, duration: 0.01 }, 0);
+          SFX.push(["pop", wordAt("buffett", "bradé") - 0.2, 0.25]);
+        })();
+
+        // ---------- depuis 1990 : chaque pic au-dessus de 40 ----------
+        var PEAKS = ["1998-10-08", "2001-09-20", "2002-08-05", "2008-11-20", "2010-05-20", "2011-08-08", "2015-08-24", "2020-03-16", "2025-04-08"];
+        (function () {
+          var s = sc("history"), svg = $("ch-history"), c = chart(window.VIX, 2, "1990-01-01", "2026-10-14", [30, 740, 70, 560], 0, 90);
+          hline(svg, c, 20, null, "20"); hline(svg, c, 60, null, "60");
+          ["1990", "2000", "2010", "2020"].forEach(function (y) { el(svg, "text", { x: c.X(y + "-01-01"), y: 600, class: "lbl", "font-size": 20, "text-anchor": "middle" }, y); });
+          var p = el(svg, "path", { d: c.d, style: "fill:none;stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round" });
+          drawIn(p, s.start + 0.05, 1.2, "power1.inOut");
+          var t40 = wordAt("history", "40") - 0.3;
+          var l = hline(svg, c, 40, RED, "40", "12 10");
+          growX(l[0], t40, 0.5); fadeIn(l[1], t40 + 0.3, 0.25, 0);
+          var tP = wordAt("history", "pic") - 0.1;
+          PEAKS.forEach(function (d, i) {
+            var a = c.at(d);
+            var ring = el(svg, "circle", { cx: a[0], cy: a[1], r: 18, style: "fill:none;stroke:" + RED + ";stroke-width:4" });
+            drawIn(ring, tP + 0.3 + i * 0.16, 0.3);
+          });
+          var tO = wordAt("history", "opportunité") - 0.25;
+          chip(svg, 400, 30, "OPPORTUNITÉ D'ACHAT", tO, "var(--cyan)", true);
+          SFX.push(["pop", tO, 0.25]);
+        })();
+
+        // ---------- 2008 et 2020 : pic du VIX, point bas du S&P 500, rebond ----------
+        function crisis(id, from, to, vixPeak, vixLbl, low, oneYear, spMin, spMax, lowLbl) {
+          var s = sc(id), svg = $("ch-" + id);
+          var v = chart(window.VIX, 1, from, to, [30, 740, 50, 230], 0, 95);
+          var sp = chart(window.SPX, 1, from, to, [30, 740, 330, 600], spMin, spMax);
+          var c1 = el(svg, "text", { x: 30, y: 20, class: "cap", "font-size": 24 }, "VIX");
+          var c2 = el(svg, "text", { x: 30, y: 300, class: "cap", "font-size": 24 }, "S&P 500");
+          fadeIn(c1, s.start + 0.05, 0.3, 0); fadeIn(c2, s.start + 0.05, 0.3, 0);
+          hline(svg, v, 40, RED, "40", "10 8");
+          line(svg, v.d, s.start + 0.1, 1.1, "var(--ink)", 3.5, "power1.inOut");
+          var pre = sp.rows.filter(function (r) { return r[0] <= low; }), post = sp.rows.filter(function (r) { return r[0] >= low; });
+          line(svg, sp.path(pre), s.start + 0.2, 1.0, "var(--ink)", 4.5, "power1.inOut");
+          var tT = wordAt(id, "touche") - 0.1, pk = v.at(vixPeak);
+          var vt = el(svg, "text", { x: pk[0] + 22, y: pk[1] + 14, "font-size": 56, "font-weight": 600, style: "fill:" + RED, "letter-spacing": "-0.03em" }, "0");
+          dot(svg, pk[0], pk[1], RED, tT, null);
+          pulse(svg, pk[0], pk[1], RED, tT + 0.1, 1);
+          fadeIn(vt, tT, 0.2, 0);
+          cnt(vt, tT, 20, vixPeak === "2008-10-24" ? 89.5 : 85.5, 0.7, function (x) { return dec(x); });
+          SFX.push(["pop", tT + 0.6, 0.25]);
+          var tB = wordAt(id, "bas") - 0.3, lw = sp.at(low);
+          var mk = el(svg, "line", { x1: lw[0], x2: lw[0], y1: 50, y2: 600, style: "stroke:var(--soft);stroke-width:2", "stroke-dasharray": "6 8" });
+          fadeIn(mk, tB, 0.3, 0);
+          dot(svg, lw[0], lw[1], RED, tB, lowLbl, 0, 50, 26);
+          var tR = Math.min(wordAt(id, id === "y2008" ? "rebondit" : "rebondir") - 0.35, tB + 0.45);
+          line(svg, sp.path(post), tR, 0.8, "var(--cyan)", 7);
+          var gain = el(svg, "text", { x: 620, y: 560, "font-size": 72, "font-weight": 600, "text-anchor": "middle", "letter-spacing": "-0.04em", style: "fill:var(--cyan)" }, "+0 %");
+          fadeIn(gain, tR + 0.3, 0.25, 0);
+          cnt(gain, tR + 0.3, 0, oneYear, 0.7, function (x) { return "+" + Math.round(x) + " %"; });
+          var gl = el(svg, "text", { x: 620, y: 598, class: "lbl", "font-size": 26, "text-anchor": "middle" }, "en 1 an");
+          fadeIn(gl, tR + 0.6, 0.3, 0);
+        }
+        // 2008 : VIX 89,5 (plus haut du 24/10/2008), S&P au plus bas le 9/3/2009 (676,5), +68,6 % un an plus tard
+        crisis("y2008", "2008-06-01", "2010-04-30", "2008-10-24", "89", "2009-03-09", 69, 600, 1500, "Mars 2009");
+        // 2020 : VIX 85,5 (plus haut du 18/3/2020), S&P au plus bas le 23/3/2020 (2 237), +74,8 % un an plus tard
+        crisis("y2020", "2019-11-01", "2021-04-30", "2020-03-18", "85", "2020-03-23", 75, 2100, 4300, "23 mars");
+
+        // ---------- la foule vend, les meilleurs achètent ----------
+        (function () {
+          var s = sc("crowd"), svg = $("ch-crowd");
+          var tV = wordAt("crowd", "vend") - 0.4, tM = wordAt("crowd", "meilleurs") - 0.2, tA = wordAt("crowd", "l'achat") - 0.3;
+          var sq = [], cols = 10, rows = 6, S = 52, G = 18, x0 = 400 - (cols * S + (cols - 1) * G) / 2;
+          for (var r = 0; r < rows; r++) for (var k = 0; k < cols; k++) {
+            var q = el(svg, "rect", { x: x0 + k * (S + G), y: 60 + r * (S + G), width: S, height: S, style: "fill:var(--hair)" });
+            sq.push(q);
+          }
+          tl.fromTo(sq, { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: { each: 0.008, from: "random" } }, s.start + 0.05);
+          tl.to(sq, { fill: RED, duration: 0.15, stagger: { each: 0.012, from: "random" } }, tV);
+          var best = [sq[13], sq[36], sq[48]];
+          tl.to(best, { fill: "var(--cyan)", scale: 1.15, transformOrigin: "50% 50%", duration: 0.3, stagger: 0.12, ease: "back.out(2)" }, tM);
+          var l1 = el(svg, "g", {}); el(l1, "rect", { x: 140, y: 520, width: 30, height: 30, fill: RED }); el(l1, "text", { x: 185, y: 546, "font-size": 34, "font-weight": 600, style: "fill:var(--ink)" }, "Vendent");
+          var l2 = el(svg, "g", {}); el(l2, "rect", { x: 440, y: 520, width: 30, height: 30, style: "fill:var(--cyan)" }); el(l2, "text", { x: 485, y: 546, "font-size": 34, "font-weight": 600, style: "fill:var(--ink)" }, "Achètent");
+          fadeIn(l1, tV + 0.4, 0.3, 10); fadeIn(l2, tA, 0.3, 10);
+          SFX.push(["pop", tM + 0.1, 0.22]);
+        })();
+
+        // ---------- la règle : 30 / 40 ----------
+        (function () {
+          var s = sc("rule"), svg = $("ch-rule");
+          var X = function (v) { return 40 + v / 60 * 720; };
+          var cap = el(svg, "text", { x: 400, y: 30, class: "cap", "font-size": 24, "text-anchor": "middle" }, "LA PEUR SE MESURE");
+          fadeIn(cap, s.start + 0.05, 0.3, 0);
+          var bar = el(svg, "rect", { x: 40, y: 110, width: 720, height: 22, style: "fill:var(--hair)" });
+          growX(bar, s.start + 0.05, 0.5);
+          var z30 = el(svg, "rect", { x: X(30), y: 110, width: X(40) - X(30), height: 22, style: "fill:#ffffff", opacity: 0 });
+          var z40 = el(svg, "rect", { x: X(40), y: 110, width: X(60) - X(40), height: 22, style: "fill:" + RED, opacity: 0 });
+          [0, 30, 40, 60].forEach(function (v) { var t = el(svg, "text", { x: X(v), y: 175, class: "lbl", "font-size": 24, "text-anchor": "middle" }, v === 60 ? "60+" : v); fadeIn(t, s.start + 0.3, 0.3, 0); });
+          var mk = el(svg, "rect", { x: 0, y: 92, width: 14, height: 58, style: "fill:var(--ink)" });
+          var m = { v: 15 };
+          tl.fromTo(m, { v: 10 }, { v: 18, duration: 0.6, ease: "power2.out", onUpdate: function () { mk.setAttribute("x", X(m.v) - 7); } }, s.start + 0.1);
+          var t30 = wordAt("rule", "30") - 0.4, t40 = wordAt("rule", "40") - 0.4;
+          tl.to(m, { v: 33, duration: 0.6, ease: "power2.inOut", immediateRender: false, onUpdate: function () { mk.setAttribute("x", X(m.v) - 7); } }, t30);
+          tl.to(m, { v: 50, duration: 0.6, ease: "power2.inOut", immediateRender: false, onUpdate: function () { mk.setAttribute("x", X(m.v) - 7); } }, t40);
+          tl.to(z30, { opacity: 0.85, duration: 0.3 }, t30 + 0.3);
+          tl.to(z40, { opacity: 1, duration: 0.3 }, t40 + 0.3);
+          function row(y, k, txt, at, color, fill) {
+            var g = el(svg, "g", {});
+            el(g, "text", { x: 40, y: y, "font-size": 64, "font-weight": 600, "letter-spacing": "-0.03em", style: "fill:" + color }, k);
+            tl.fromTo(g, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, at);
+            chip(svg, 580, y - 12, txt, at + 0.45, color, fill);
+          }
+          row(330, "VIX > 30", "SOYEZ ATTENTIFS", wordAt("rule", "attentifs") - 0.75, "#ffffff", false);
+          row(470, "VIX > 40", "OPPORTUNITÉ", wordAt("rule", "fortunes") - 0.75, RED, true);
+          SFX.push(["pop", wordAt("rule", "fortunes") - 0.3, 0.25]);
+        })();
+
+        // ---------- fin : profil Instagram, bouton calé sur « abonnez-vous » ----------
+        (function () {
+          var c = sc("cta"), tA = wordAt("cta", "abonnez-vous");
+          tl.fromTo("#end", { opacity: 0 }, { opacity: 1, duration: 0.4 }, c.start);
+          tl.fromTo("#avatar .pic", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5, ease: "power3.out" }, c.start + 0.05);
+          drawIn($("ring"), c.start + 0.25, 0.8, "power2.inOut");
+          fadeIn($("wordmark"), c.start + 0.5, 0.45);
+          var tB = tA - 0.9, tC = tA + 0.08;
+          tl.fromTo("#btn", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, tB);
+          tl.to("#btn", { scale: 0.94, duration: 0.1, ease: "power1.in" }, tC);
+          tl.to("#btn", { scale: 1, duration: 0.2, ease: "back.out(2)" }, tC + 0.1);
+          tl.to("#btn", { backgroundColor: "#363a45", boxShadow: "0 18px 40px rgba(0,0,0,0.35)", duration: 0.3 }, tC + 0.05);
+          tl.set("#btn .t1", { display: "none" }, tC + 0.1);
+          tl.set("#btn .t2", { display: "inline" }, tC + 0.1);
+          tl.set("#btn svg", { display: "block" }, tC + 0.1);
+          drawIn(document.querySelector("#btn svg path"), tC + 0.12, 0.2);
+          SFX.push(["click", tC - 0.02, 0.5]);
+        })();
+
+        // ---------- sous-titres (3 mots max, blancs, fond gris translucide) ----------
+        (function () {
+          var box = $("captions");
+          R.chunks.forEach(function (c) {
+            var div = document.createElement("div");
+            div.className = "cap-line";
+            var inner = document.createElement("div");
+            inner.className = "cap-box";
+            inner.textContent = c.words.map(function (w) { return w.text; }).join(" ");
+            div.appendChild(inner);
+            box.appendChild(div);
+            tl.fromTo(div, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1, ease: "power2.out" }, c.start - 0.06);
+            tl.to(div, { opacity: 0, duration: 0.01 }, c.end - 0.035);
+          });
+        })();
+
+        window.__SFX = SFX.map(function (c) { return { name: c[0], t: +c[1].toFixed(3), gain: c[2] }; });
+        tl.set({}, {}, R.total);
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
