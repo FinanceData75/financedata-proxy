@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>FinanceData · 4 univers</title>
+<script src="assets/spx-rsi.js"></script>
+<style>
+  @font-face { font-family: "Inter UI"; src: url("mondes/fonts/Inter-SemiBold.otf"); font-weight: 600; }
+  @font-face { font-family: "Inter UI"; src: url("mondes/fonts/Inter-Regular.otf"); font-weight: 400; }
+  @font-face { font-family: "Gloock"; src: url("mondes/fonts/Gloock-Regular.ttf"); }
+  @font-face { font-family: "ISans"; src: url("mondes/fonts/InstrumentSans-Regular.ttf"); font-weight: 400; }
+  @font-face { font-family: "ISans"; src: url("mondes/fonts/InstrumentSans-Bold.ttf"); font-weight: 700; }
+  @font-face { font-family: "Plex Mono"; src: url("mondes/fonts/IBMPlexMono-Regular.ttf"); }
+  @font-face { font-family: "Bricolage"; src: url("mondes/fonts/BricolageGrotesque-Bold.ttf"); font-weight: 700; }
+  @font-face { font-family: "Bricolage"; src: url("mondes/fonts/BricolageGrotesque-Regular.ttf"); font-weight: 400; }
+  @font-face { font-family: "DM Mono"; src: url("mondes/fonts/DMMono-Regular.ttf"); }
+  @font-face { font-family: "Work"; src: url("mondes/fonts/WorkSans-Bold.ttf"); font-weight: 700; }
+  @font-face { font-family: "Work"; src: url("mondes/fonts/WorkSans-Regular.ttf"); font-weight: 400; }
+  @font-face { font-family: "ISerif"; src: url("mondes/fonts/InstrumentSerif-Regular.ttf"); font-style: normal; }
+  @font-face { font-family: "ISerif"; src: url("mondes/fonts/InstrumentSerif-Italic.ttf"); font-style: italic; }
+  @font-face { font-family: "Geist Mono"; src: url("mondes/fonts/GeistMono-Regular.ttf"); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1b1b1b; display: grid; grid-template-columns: repeat(3, 1080px); gap: 40px; padding: 40px; width: 3400px; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+  .full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .abs { position: absolute; }
+  .cap { position: absolute; left: 0; right: 0; top: 1330px; text-align: center; z-index: 9; }
+  .cap span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font: 600 54px "Inter UI"; letter-spacing: -.045em; color: #fff; }
+  .tag { position: absolute; left: 30px; top: 30px; z-index: 20; font: 600 26px "Inter UI"; padding: 8px 14px; background: #fff; color: #111; }
+  svg { position: absolute; overflow: visible; }
+  .row-title { grid-column: 1 / -1; color: #fff; font: 600 44px "Inter UI"; padding-top: 30px; }
+  .row-title small { display: block; font: 400 28px "Inter UI"; color: #aaa; margin-top: 8px; }
+
+  /* ===== 1. LE JOURNAL ===== */
+  .ed { background: #f1ece2; color: #16130f; }
+  .ed .folio { position: absolute; left: 90px; right: 90px; top: 300px; display: flex; justify-content: space-between; font: 20px "Plex Mono"; letter-spacing: .08em; border-bottom: 1.5px solid #16130f; padding-bottom: 14px; }
+  /* ===== 2. LE DOCUMENTAIRE ===== */
+  .ci { background: #0a0b0d; color: #f4f1ea; }
+  .ci .kick { font: 22px "DM Mono"; letter-spacing: .14em; color: #f5b83d; }
+  /* ===== 3. LE SIGNAL ===== */
+  .sw { background: #ffffff; color: #000; }
+  /* ===== 4. LA REVUE ===== */
+  .en { background: #efeae0; color: #00194b; }
+</style>
+</head>
+<body>
+
+<div class="row-title">1 · Le Journal <small>Ivoire, encre, rouge brique · Gloock + Instrument Sans + IBM Plex Mono · photos noir et blanc chaud, grain argentique</small></div>
+<div class="f ed" id="e1"><div class="tag">1 · LE JOURNAL</div>
+  <img class="full" src="mondes/img/buffett-editorial.jpg" />
+  <div class="abs" style="inset:0; background:linear-gradient(180deg, rgba(22,19,15,.85) 0%, rgba(22,19,15,.6) 22%, rgba(22,19,15,0) 40%)"></div>
+  <div class="abs" style="left:90px; right:90px; top:300px; display:flex; justify-content:space-between; font:20px 'Plex Mono'; letter-spacing:.08em; color:#f1ece2; border-bottom:1.5px solid rgba(241,236,226,.7); padding-bottom:14px"><span>FINANCEDATA · N°07</span><span>17 OCT. 2026</span></div>
+  <div class="abs" style="left:90px; right:200px; top:360px; font:96px/1 'Gloock'; color:#f1ece2; letter-spacing:-.01em">Le chiffre que Buffett regarde.</div>
+  <div class="cap"><span>Un chiffre caché</span></div>
+</div>
+<div class="f ed" id="e2">
+  <div class="folio"><span>FINANCEDATA · N°07</span><span>LE RSI</span></div>
+  <div class="abs" style="left:90px; top:400px; font:56px 'Gloock'">RSI du S&amp;P 500</div>
+  <div class="abs" style="left:90px; top:480px; font:22px 'Plex Mono'; color:#7a7166; letter-spacing:.04em">14 JOURS · SOURCE : YAHOO FINANCE</div>
+  <svg id="ce" width="900" height="460" style="left:90px; top:640px"></svg>
+  <div class="cap"><span>il repasse sous 30.</span></div>
+</div>
+<div class="f ed" id="e3">
+  <div class="folio"><span>FINANCEDATA · N°07</span><span>LE RÉSULTAT</span></div>
+  <div class="abs" style="left:80px; top:520px; font:430px/1 'Gloock'; letter-spacing:-.03em">+22<span style="color:#c2401c">%</span></div>
+  <div class="abs" style="left:90px; right:90px; top:1030px; border-top:1.5px solid #16130f; padding-top:24px; font:400 40px/1.3 'ISans'">Le S&amp;P 500, depuis le 30 mars.</div>
+  <div class="cap"><span>Vous connaissez la suite.</span></div>
+</div>
+
+<div class="row-title">2 · Le Documentaire <small>Noir, blanc cassé, ambre · Bricolage Grotesque + DM Mono · photos en couleur étalonnées cinéma, vignette</small></div>
+<div class="f ci" id="c1"><div class="tag">2 · LE DOCUMENTAIRE</div>
+  <img class="full" src="mondes/img/buffett-cinema.jpg" />
+  <div class="abs" style="inset:0; background:linear-gradient(180deg, rgba(10,11,13,0) 40%, rgba(10,11,13,.85) 70%)"></div>
+  <div class="abs kick" style="left:90px; top:960px">FINANCEDATA · ÉPISODE 07</div>
+  <div class="abs" style="left:84px; right:60px; top:1000px; font:700 112px/.92 'Bricolage'; letter-spacing:-.04em; text-transform:uppercase">Le chiffre que Buffett regarde</div>
+  <div class="cap" style="top:1400px"><span>Un chiffre caché</span></div>
+</div>
+<div class="f ci" id="c2">
+  <div class="abs kick" style="left:90px; top:470px">RSI · S&amp;P 500 · 14 JOURS</div>
+  <svg id="cc" width="900" height="460" style="left:90px; top:640px"></svg>
+  <div class="cap"><span>il repasse sous 30.</span></div>
+</div>
+<div class="f ci" id="c3">
+  <div class="abs kick" style="left:90px; top:560px">S&amp;P 500 · DEPUIS LE 30 MARS</div>
+  <div class="abs" style="left:76px; top:600px; font:700 340px/1 'Bricolage'; letter-spacing:-.06em">+22%</div>
+  <div class="abs" style="left:90px; top:1080px; width:240px; height:10px; background:#f5b83d"></div>
+  <div class="cap"><span>Vous connaissez la suite.</span></div>
+</div>
+
+<div class="row-title">3 · Le Signal <small>Blanc, noir, bleu électrique · Work Sans + IBM Plex Mono · photos noir et blanc dur, découpées en rectangles, aplats de couleur</small></div>
+<div class="f sw" id="s1"><div class="tag">3 · LE SIGNAL</div>
+  <img src="mondes/img/buffett-suisse.jpg" style="position:absolute; left:0; top:0; width:1080px; height:1020px; object-fit:cover; object-position:50% 20%" />
+  <div class="abs" style="left:0; top:1020px; width:1080px; height:20px; background:#1f3bff"></div>
+  <div class="abs" style="left:84px; top:1070px; font:700 92px/.98 'Work'; letter-spacing:-.05em">Le chiffre que Buffett regarde.</div>
+  <div class="cap" style="top:1400px"><span>Un chiffre caché</span></div>
+</div>
+<div class="f sw" id="s2">
+  <div class="abs" style="left:90px; top:330px; font:20px 'Plex Mono'; letter-spacing:.06em">RSI · S&amp;P 500 · 14 J</div>
+  <div class="abs" style="left:80px; top:370px; font:700 260px/1 'Work'; letter-spacing:-.06em; color:#1f3bff">27,7</div>
+  <svg id="cs" width="900" height="460" style="left:90px; top:720px"></svg>
+  <div class="cap"><span>il repasse sous 30.</span></div>
+</div>
+<div class="f" id="s3" style="background:#1f3bff; color:#fff">
+  <div class="abs" style="left:90px; top:330px; font:20px 'Plex Mono'; letter-spacing:.06em">S&amp;P 500 · DEPUIS LE 30.03.2026</div>
+  <div class="abs" style="left:60px; top:620px; font:700 400px/1 'Work'; letter-spacing:-.07em">+22<span style="font-size:220px; letter-spacing:-.04em">%</span></div>
+  <div class="cap"><span>Vous connaissez la suite.</span></div>
+</div>
+
+<div class="row-title">4 · La Revue <small>Crème, bleu FinanceData, corail · Instrument Serif + Inter + Geist Mono · photos en bichromie bleue sur papier</small></div>
+<div class="f en" id="n1"><div class="tag">4 · LA REVUE</div>
+  <img class="full" src="mondes/img/buffett-encre.jpg" />
+  <div class="abs" style="inset:0; background:linear-gradient(180deg, rgba(0,25,75,.9) 0%, rgba(0,25,75,.65) 22%, rgba(0,25,75,0) 40%)"></div>
+  <div class="abs" style="left:90px; top:300px; font:22px 'Geist Mono'; letter-spacing:.08em; color:#efeae0">FINANCEDATA</div>
+  <div class="abs" style="left:90px; right:150px; top:345px; font:110px/1 'ISerif'; color:#efeae0; letter-spacing:-.01em">Le chiffre que <i>Buffett</i> regarde.</div>
+  <div class="cap"><span>Un chiffre caché</span></div>
+</div>
+<div class="f en" id="n2">
+  <div class="abs" style="left:0; right:0; top:440px; text-align:center; font:64px 'ISerif'">Le RSI du <i>S&amp;P 500</i></div>
+  <div class="abs" style="left:0; right:0; top:530px; text-align:center; font:20px 'Geist Mono'; letter-spacing:.08em; color:#6b7590">14 JOURS · YAHOO FINANCE</div>
+  <svg id="cn" width="900" height="460" style="left:90px; top:660px"></svg>
+  <div class="cap"><span>il repasse sous 30.</span></div>
+</div>
+<div class="f" id="n3" style="background:#00194b; color:#efeae0">
+  <div class="abs" style="left:0; right:0; top:560px; text-align:center; font:440px/1 'ISerif'; letter-spacing:-.03em">+22<i style="color:#ff5a3c">%</i></div>
+  <div class="abs" style="left:390px; width:300px; top:1060px; height:2px; background:#ff5a3c"></div>
+  <div class="abs" style="left:0; right:0; top:1100px; text-align:center; font:20px 'Geist Mono'; letter-spacing:.08em; color:#8fa3c7">S&amp;P 500 · DEPUIS LE 30 MARS</div>
+  <div class="cap"><span>Vous connaissez la suite.</span></div>
+</div>
+
+<script>
+  var NS = "http://www.w3.org/2000/svg", D = window.SPXRSI;
+  function el(p, t, a, txt) { var n = document.createElementNS(NS, t); for (var k in a) n.setAttribute(k, a[k]); if (txt != null) n.textContent = txt; p.appendChild(n); return n; }
+  function chart(id, o) {
+    var svg = document.getElementById(id), w = 900, h = o.h || 420, t0 = Date.parse(D[0][0]), t1 = Date.parse(D[D.length - 1][0]);
+    var X = function (d) { return (Date.parse(d) - t0) / (t1 - t0) * w; }, Y = function (v) { return h - (v - 15) / 70 * h; };
+    if (o.bar) el(svg, "rect", { x: 0, y: Y(30), width: w, height: h - Y(30) + 10, fill: o.bar });
+    el(svg, "line", { x1: 0, x2: w, y1: Y(30), y2: Y(30), stroke: o.ref, "stroke-width": o.refw || 1.5, "stroke-dasharray": o.dash || "none" });
+    el(svg, "text", { x: w + 14, y: Y(30) + 8, "font-family": o.mono, "font-size": 22, fill: o.ref }, "30");
+    el(svg, "path", { d: D.map(function (r, i) { return (i ? "L" : "M") + X(r[0]).toFixed(1) + " " + Y(r[2]).toFixed(1); }).join(" "), fill: "none", stroke: o.ink, "stroke-width": o.sw, "stroke-linejoin": "round" });
+    return { svg: svg, x: X("2026-03-30"), y: Y(27.7) };
+  }
+  // 1. Journal : trait d'encre fin, marque carrée rouge brique, valeur en Gloock
+  var e = chart("ce", { ink: "#16130f", sw: 2.5, ref: "#7a7166", mono: "Plex Mono" });
+  el(e.svg, "rect", { x: e.x - 9, y: e.y - 9, width: 18, height: 18, fill: "#c2401c" });
+  el(e.svg, "line", { x1: e.x, x2: e.x, y1: e.y + 14, y2: e.y + 70, stroke: "#c2401c", "stroke-width": 1.5 });
+  el(e.svg, "text", { x: e.x + 14, y: e.y + 150, "font-family": "Gloock", "font-size": 110, fill: "#c2401c" }, "27,7");
+  // 2. Documentaire : trait blanc, halo ambre
+  var c = chart("cc", { ink: "#f4f1ea", sw: 3, ref: "rgba(244,241,234,.4)", dash: "4 10", mono: "DM Mono" });
+  el(c.svg, "circle", { cx: c.x, cy: c.y, r: 60, fill: "#f5b83d", opacity: .14 });
+  el(c.svg, "circle", { cx: c.x, cy: c.y, r: 12, fill: "#f5b83d" });
+  el(c.svg, "text", { x: c.x, y: c.y + 150, "font-family": "Bricolage", "font-weight": 700, "font-size": 140, fill: "#f5b83d", "text-anchor": "middle", "letter-spacing": "-0.04em" }, "27,7");
+  // 3. Signal : trait noir épais, zone sous 30 en bleu, carré bleu
+  var s = chart("cs", { ink: "#000", sw: 5, ref: "#000", refw: 3, mono: "Plex Mono", bar: "rgba(31,59,255,.10)" });
+  el(s.svg, "rect", { x: s.x - 13, y: s.y - 13, width: 26, height: 26, fill: "#1f3bff" });
+  // 4. Revue : trait bleu, point corail, valeur en serif italique
+  var n = chart("cn", { ink: "#00194b", sw: 3, ref: "#8a94a8", dash: "8 8", mono: "Geist Mono" });
+  el(n.svg, "circle", { cx: n.x, cy: n.y, r: 13, fill: "#ff5a3c" });
+  el(n.svg, "text", { x: n.x, y: n.y + 130, "font-family": "ISerif", "font-style": "italic", "font-size": 120, fill: "#ff5a3c", "text-anchor": "middle" }, "27,7");
+</script>
+</body>
+</html>
