@@ -1,7 +1,7 @@
 # Direction artistique FinanceData
 
 **Photos en bichromie bleu FinanceData, données minimales, une idée par écran.**
-Catalogue des écrans : `planches/types-apercu.jpg` (sources : `types.html`), photo de référence : `planches/direction-a1.png`.
+Catalogue des écrans : `planches/types-apercu.jpg` (sources : `types.html`), références validées : `planches/reference-photo.png` et `planches/reference-graphique.png`.
 
 ## Les fondamentaux
 - **Photos** : toujours réelles, toujours passées en bichromie `#00194B → #EEF3FC` avec `python3 scripts/bichromie.py entree.jpg sortie.jpg`. Plein écran, sans texte ajouté. Seule exception : les captures (preuves), gardées en couleurs réelles.
