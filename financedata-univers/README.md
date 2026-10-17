@@ -1,27 +1,21 @@
-# Direction artistique FinanceData
+# Direction artistique FinanceData : « Le Révélateur »
 
-**Photos en bichromie bleu FinanceData, données minimales, une idée par écran.**
-Catalogue des écrans : `planches/types-apercu.jpg` (sources : `types.html`), références validées : `planches/reference-photo.png` et `planches/reference-graphique.png`.
+**Idée de marque :** FinanceData rend visibles *les mécanismes invisibles des marchés* (la phrase de vos CTA).
+**Traduction visuelle :** le monde est en bichromie bleue ; le **viseur** FinanceData (4 coins à angle droit + coordonnées) montre ce qui se cache dessous : la couleur réelle, le point clé d'une courbe, le chiffre.
 
-## Les fondamentaux
-- **Photos** : toujours réelles, toujours passées en bichromie `#00194B → #EEF3FC` avec `python3 scripts/bichromie.py entree.jpg sortie.jpg`. Plein écran, sans texte ajouté. Seule exception : les captures (preuves), gardées en couleurs réelles.
-- **Données** : fond blanc ou bleu quadrillé, une courbe bleu nuit, une ligne de repère pointillée grise, un seul point rouge avec sa valeur, un libellé gris centré au-dessus.
-- **Une idée par écran**, Inter uniquement, rouge réservé au point clé, sous-titres blancs sur fond gris translucide, alternance blanc / bleu à chaque scène (début en blanc).
+Planches : `planches/da-apercu.jpg` (source `da.html`). Ancien catalogue d'écrans : `types.html`.
 
-## Les 11 types d'écran
-| Type | Quand l'utiliser |
-|---|---|
-| Photo | On cite une personne, une entreprise, un lieu |
-| Graphique | Une évolution réelle (cours, indicateur) |
-| Chiffre | Le résultat à retenir |
-| Comparaison | Deux cas qui s'opposent |
-| Barres | Un historique, une fréquence (« 15 fois sur 17 ») |
-| Échelle | Situer une valeur sur un intervalle (RSI, VIX…) |
-| Citation | Photo en haut, phrase en dessous |
-| Photo + chiffre | Une personne ou une entreprise associée à un chiffre choc |
-| Date | Ouvrir un exemple historique |
-| Frise | Plusieurs événements dans le temps |
-| Règle | La leçon finale, 2 lignes maximum |
-| Capture | Preuve (article, appli, graphique source), petite, angles droits |
+## Les 4 piliers
+1. **Bichromie** : toute photo réelle passe en `#00194B → #EEF3FC` (`scripts/bichromie.py`). C'est la « surface ».
+2. **Le viseur** : signature unique, un seul par écran. Il cadre ce qui compte (visage en couleur, point bas d'une courbe, chiffre, logo). Toujours avec une étiquette en mono (nom, date, source).
+3. **Typo à trois voix** :
+   - *Big Shoulders Bold* (condensée) pour les chiffres : elle remplit le format vertical.
+   - *Geist Mono* en capitales pour les coordonnées et sources (« 30.03.2026 », « RSI · S&P 500 · 14 jours »).
+   - *Inter* pour les sous-titres (inchangés).
+4. **Couleur** : bleu `#00194B` dominant, blanc bleuté `#EEF3FC`, rouge `#FF2E24` uniquement pour la valeur révélée.
 
-Données des exemples : Yahoo Finance, RSI 14 jours (Wilder). Barres : S&P 500, 6 mois après chaque premier passage du RSI sous 30 depuis 2010 (17 cas, 15 positifs).
+## Mouvement (signature animée)
+Le viseur se referme sur sa cible (les 4 coins glissent depuis les bords, 0,4 s), l'étiquette mono s'écrit, puis l'intérieur se révèle (couleur, trait rouge, chiffre). Un seul son : un déclic d'obturateur très discret.
+
+## Règles
+Un écran = une idée. Pas d'icônes, pas de pastilles, pas de dégradés. Graphiques bord à bord, trait blanc fin sur bleu, repère pointillé. Le viseur ne sert qu'une fois par écran.

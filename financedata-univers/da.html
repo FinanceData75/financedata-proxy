@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>DA FinanceData · Le Révélateur</title>
+<script src="assets/spx-rsi.js"></script>
+<style>
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf"); font-weight: 400; }
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf"); font-weight: 500; }
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf"); font-weight: 600; }
+  @font-face { font-family: "Display FD"; src: url("assets/fonts/BigShoulders-Bold.ttf"); font-weight: 700; }
+  @font-face { font-family: "Mono FD"; src: url("assets/fonts/GeistMono-Regular.ttf"); }
+
+  /* Le Révélateur : FinanceData rend visibles les mécanismes invisibles des marchés.
+     Le monde est en bichromie bleue ; le viseur (4 coins + coordonnées) montre ce qui se cache dessous. */
+  :root { --navy: #00194b; --paper: #eef3fc; --red: #ff2e24; --mute: #8fa3c7; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1b1b1b; display: flex; gap: 40px; padding: 40px; width: 6000px; flex-wrap: wrap; }
+  .frame { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter UI", sans-serif; color: #fff; background: var(--navy); }
+  .frame.paper { background: var(--paper); color: var(--navy); }
+  .full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cap { position: absolute; left: 0; right: 0; top: 1330px; text-align: center; z-index: 5; }
+  .cap span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; color: #fff; }
+  .mono { font-family: "Mono FD"; font-size: 22px; letter-spacing: .04em; text-transform: uppercase; }
+  .display { font-family: "Display FD"; font-weight: 700; line-height: .82; letter-spacing: -.01em; }
+  /* le viseur : 4 coins à angle droit + étiquette de coordonnées */
+  .vf { position: absolute; z-index: 4; }
+  .vf i { position: absolute; width: 56px; height: 56px; border: 0 solid currentColor; }
+  .vf i:nth-child(1) { left: 0; top: 0; border-left-width: 5px; border-top-width: 5px; }
+  .vf i:nth-child(2) { right: 0; top: 0; border-right-width: 5px; border-top-width: 5px; }
+  .vf i:nth-child(3) { left: 0; bottom: 0; border-left-width: 5px; border-bottom-width: 5px; }
+  .vf i:nth-child(4) { right: 0; bottom: 0; border-right-width: 5px; border-bottom-width: 5px; }
+  .vf .tagl { position: absolute; left: 0; top: -40px; white-space: nowrap; }
+  .vf .tagr { position: absolute; right: 0; bottom: -40px; white-space: nowrap; }
+  svg { position: absolute; overflow: visible; }
+  .sig { position: absolute; left: 90px; top: 260px; z-index: 6; display: flex; gap: 18px; align-items: center; }
+  .sig b { width: 22px; height: 22px; border: 4px solid currentColor; display: inline-block; }
+</style>
+</head>
+<body>
+
+<!-- 1. HOOK / PHOTO : le monde en bichromie, la vérité en couleur dans le viseur -->
+<div class="frame" id="d1">
+  <img class="full" src="assets/img/buffett-bichromie.jpg" />
+  <img class="full" src="../reel-vix/assets/img/warren-buffett.jpg" style="clip-path: inset(300px 150px 900px 330px)" />
+  <div class="vf" style="left:330px; top:300px; width:600px; height:720px; color:#fff">
+    <i></i><i></i><i></i><i></i>
+    <div class="tagl mono">Warren Buffett · né en 1930</div>
+    <div class="tagr mono">Berkshire Hathaway</div>
+  </div>
+  <div class="cap"><span>que Warren Buffett</span></div>
+</div>
+
+<!-- 2. DATA : la courbe sur bleu, le viseur isole le moment clé -->
+<div class="frame" id="d2">
+  <div class="sig mono" style="color:var(--mute)"><b></b>RSI · S&amp;P 500 · 14 jours</div>
+  <svg id="c2" width="1080" height="560" style="left:0; top:640px"></svg>
+  <div class="display" style="position:absolute; left:80px; top:330px; font-size:300px; color:var(--red)">27,7</div>
+  <div class="cap"><span>il repasse sous 30.</span></div>
+</div>
+
+<!-- 3. CHIFFRE : la typo condensée remplit le format vertical -->
+<div class="frame paper" id="d3">
+  <div class="sig mono" style="color:var(--navy)"><b></b>S&amp;P 500 · depuis le 30.03.2026</div>
+  <div class="display" style="position:absolute; left:80px; top:440px; font-size:600px; color:var(--navy)">+22</div>
+  <div class="display" style="position:absolute; left:770px; top:950px; font-size:230px; color:var(--red)">%</div>
+  <div class="cap"><span>Vous connaissez la suite.</span></div>
+</div>
+
+<!-- 4. PHOTO + DATA : la photo en haut, le mécanisme révélé en dessous -->
+<div class="frame" id="d4">
+  <img src="assets/img/arnault-bichromie.jpg" style="position:absolute; left:0; top:0; width:1080px; height:900px; object-fit:cover; object-position:50% 28%" />
+  <div class="vf" style="left:90px; top:960px; width:900px; height:300px; color:var(--mute)">
+    <i></i><i></i><i></i><i></i>
+    <div class="tagr mono" style="color:var(--mute)">LVMH · cours, 2023 → 2026</div>
+  </div>
+  <div class="display" style="position:absolute; left:130px; top:1000px; font-size:230px; color:var(--red)">−57 %</div>
+  <div class="cap" style="top:1360px"><span>Bernard Arnault</span></div>
+</div>
+
+<!-- 5. SIGNATURE DE FIN : le logo dans le viseur -->
+<div class="frame" id="d5">
+  <div class="vf" style="left:290px; top:520px; width:500px; height:500px; color:#fff">
+    <i></i><i></i><i></i><i></i>
+    <div class="tagl mono" style="color:var(--mute)">FinanceData</div>
+    <div class="tagr mono" style="color:var(--mute)">@financedata</div>
+  </div>
+  <img src="assets/logo-financedata.png" style="position:absolute; left:390px; top:620px; width:300px; height:300px; border-radius:50%" />
+  <div class="mono" style="position:absolute; left:0; right:0; top:1100px; text-align:center; color:#fff; font-size:28px">Les mécanismes invisibles des marchés</div>
+  <div class="cap"><span>abonnez-vous.</span></div>
+</div>
+
+<script>
+  var NS = "http://www.w3.org/2000/svg", D = window.SPXRSI;
+  function el(p, t, a, txt) { var n = document.createElementNS(NS, t); for (var k in a) n.setAttribute(k, a[k]); if (txt != null) n.textContent = txt; p.appendChild(n); return n; }
+  (function () {
+    var svg = document.getElementById("c2"), t0 = Date.parse(D[0][0]), t1 = Date.parse(D[D.length - 1][0]);
+    var X = function (d) { return (Date.parse(d) - t0) / (t1 - t0) * 1080; }, Y = function (v) { return 520 - (v - 15) / (85 - 15) * 480; };
+    el(svg, "line", { x1: 0, x2: 1080, y1: Y(30), y2: Y(30), stroke: "#8fa3c7", "stroke-width": 2, "stroke-dasharray": "4 10" });
+    el(svg, "text", { x: 1040, y: Y(30) - 14, "font-family": "Mono FD", "font-size": 22, fill: "#8fa3c7", "text-anchor": "end" }, "30");
+    el(svg, "path", { d: D.map(function (r, i) { return (i ? "L" : "M") + X(r[0]).toFixed(1) + " " + Y(r[2]).toFixed(1); }).join(" "), fill: "none", stroke: "#fff", "stroke-width": 3.5, "stroke-linejoin": "round" });
+    var x = X("2026-03-30"), y = Y(27.7);
+    el(svg, "circle", { cx: x, cy: y, r: 12, fill: "#ff2e24" });
+    // viseur sur le point bas
+    var w = 220, h = 200, L = 40, x0 = x - w / 2, y0 = y - h / 2 - 20;
+    [[x0, y0, 1, 1], [x0 + w, y0, -1, 1], [x0, y0 + h, 1, -1], [x0 + w, y0 + h, -1, -1]].forEach(function (c) {
+      el(svg, "path", { d: "M" + c[0] + " " + (c[1] + c[3] * L) + " L" + c[0] + " " + c[1] + " L" + (c[0] + c[2] * L) + " " + c[1], fill: "none", stroke: "#fff", "stroke-width": 5 });
+    });
+    el(svg, "text", { x: x0, y: y0 + h + 44, "font-family": "Mono FD", "font-size": 22, fill: "#fff" }, "30.03.2026");
+  })();
+</script>
+</body>
+</html>
