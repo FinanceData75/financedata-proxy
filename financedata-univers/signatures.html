@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Signatures FinanceData</title>
+<script src="assets/spx-rsi.js"></script>
+<style>
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf"); font-weight: 400; }
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf"); font-weight: 500; }
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf"); font-weight: 600; }
+  @font-face { font-family: "Display FD"; src: url("assets/fonts/BigShoulders-Bold.ttf"); font-weight: 700; }
+  @font-face { font-family: "Mono FD"; src: url("assets/fonts/GeistMono-Regular.ttf"); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1b1b1b; display: flex; gap: 40px; padding: 40px; width: 9400px; }
+  .frame { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter UI", sans-serif; background: #f6f8fc; color: #00194b; }
+  .frame.navy { background: #00194b; color: #fff; }
+  .white::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,25,75,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,25,75,.05) 1px, transparent 1px); background-size: 48px 48px; -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+  .full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cap { position: absolute; left: 0; right: 0; top: 1330px; text-align: center; z-index: 5; }
+  .cap span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; color: #fff; }
+  .lbl { position: absolute; left: 0; right: 0; text-align: center; font-size: 26px; font-weight: 500; color: #8a94a8; }
+  .mono { font-family: "Mono FD"; letter-spacing: .04em; text-transform: uppercase; }
+  .num { font-family: "Display FD"; font-weight: 700; line-height: .82; }
+  svg { position: absolute; overflow: visible; }
+  .title { position: absolute; left: 40px; top: 40px; z-index: 9; font: 600 30px "Inter UI"; color: #fff; background: #111; padding: 8px 16px; }
+</style>
+</head>
+<body>
+
+<!-- 1. LE POINT : le point rouge du graphique devient la signature de marque -->
+<div class="frame" id="s1a"><div class="title">1 · LE POINT</div>
+  <img class="full" src="assets/img/buffett-bichromie.jpg" />
+  <div style="position:absolute; left:120px; top:1180px; width:26px; height:26px; border-radius:50%; background:#ff2e24; z-index:4"></div>
+  <div class="mono" style="position:absolute; left:166px; top:1176px; font-size:30px; color:#fff; z-index:4">Warren Buffett</div>
+  <div class="cap"><span>que Warren Buffett</span></div>
+</div>
+<div class="frame white" id="s1b">
+  <div class="lbl" style="top:560px">RSI du S&amp;P 500</div>
+  <svg id="p1" width="840" height="420" style="left:120px; top:700px"></svg>
+  <div class="cap"><span>il repasse sous 30.</span></div>
+</div>
+
+<!-- 2. LE BANDEAU : un aplat rouge porte l'information clé -->
+<div class="frame" id="s2a"><div class="title">2 · LE BANDEAU</div>
+  <img class="full" src="assets/img/buffett-bichromie.jpg" />
+  <div style="position:absolute; left:0; top:1150px; height:84px; padding:0 40px 0 90px; background:#ff2e24; z-index:4; display:flex; align-items:center; font-weight:600; font-size:44px; letter-spacing:-.02em; color:#fff">Warren Buffett</div>
+  <div class="cap"><span>que Warren Buffett</span></div>
+</div>
+<div class="frame white" id="s2b">
+  <div class="lbl" style="top:560px">RSI du S&amp;P 500</div>
+  <svg id="p2" width="840" height="420" style="left:120px; top:700px"></svg>
+  <div class="cap"><span>il repasse sous 30.</span></div>
+</div>
+
+<!-- 3. LE CERCLE : l'écho du logo rond, il révèle la couleur et cerne le point clé -->
+<div class="frame" id="s3a"><div class="title">3 · LE CERCLE</div>
+  <img class="full" src="assets/img/buffett-bichromie.jpg" />
+  <img class="full" src="../reel-vix/assets/img/warren-buffett.jpg" style="clip-path: circle(250px at 640px 620px)" />
+  <div style="position:absolute; left:390px; top:370px; width:500px; height:500px; border-radius:50%; border:6px solid #fff; z-index:4"></div>
+  <div class="cap"><span>que Warren Buffett</span></div>
+</div>
+<div class="frame white" id="s3b">
+  <div class="lbl" style="top:560px">RSI du S&amp;P 500</div>
+  <svg id="p3" width="840" height="420" style="left:120px; top:700px"></svg>
+  <div class="cap"><span>il repasse sous 30.</span></div>
+</div>
+
+<!-- 4. LE TRAIT : un trait rouge épais souligne le mot ou le chiffre clé -->
+<div class="frame" id="s4a"><div class="title">4 · LE TRAIT</div>
+  <img class="full" src="assets/img/buffett-bichromie.jpg" />
+  <div style="position:absolute; left:90px; top:1110px; z-index:4; font-weight:600; font-size:64px; letter-spacing:-.03em; color:#fff">Warren Buffett</div>
+  <div style="position:absolute; left:90px; top:1196px; width:440px; height:12px; background:#ff2e24; z-index:4"></div>
+  <div class="cap"><span>que Warren Buffett</span></div>
+</div>
+<div class="frame white" id="s4b">
+  <div class="lbl" style="top:560px">RSI du S&amp;P 500</div>
+  <svg id="p4" width="840" height="420" style="left:120px; top:700px"></svg>
+  <div class="cap"><span>il repasse sous 30.</span></div>
+</div>
+
+<script>
+  var NS = "http://www.w3.org/2000/svg", D = window.SPXRSI;
+  function el(p, t, a, txt) { var n = document.createElementNS(NS, t); for (var k in a) n.setAttribute(k, a[k]); if (txt != null) n.textContent = txt; p.appendChild(n); return n; }
+  function base(id) {
+    var svg = document.getElementById(id), t0 = Date.parse(D[0][0]), t1 = Date.parse(D[D.length - 1][0]);
+    var X = function (d) { return (Date.parse(d) - t0) / (t1 - t0) * 840; }, Y = function (v) { return 420 - (v - 15) / 70 * 420; };
+    el(svg, "line", { x1: 0, x2: 840, y1: Y(30), y2: Y(30), stroke: "#8a94a8", "stroke-width": 2, "stroke-dasharray": "10 10" });
+    el(svg, "text", { x: 856, y: Y(30) + 9, "font-family": "Inter UI", "font-size": 26, fill: "#8a94a8" }, "30");
+    el(svg, "path", { d: D.map(function (r, i) { return (i ? "L" : "M") + X(r[0]).toFixed(1) + " " + Y(r[2]).toFixed(1); }).join(" "), fill: "none", stroke: "#00194b", "stroke-width": 4, "stroke-linejoin": "round" });
+    return { svg: svg, x: X("2026-03-30"), y: Y(27.7) };
+  }
+  var a = base("p1");  // le point, avec son halo
+  el(a.svg, "circle", { cx: a.x, cy: a.y, r: 46, fill: "#ff2e24", opacity: .15 });
+  el(a.svg, "circle", { cx: a.x, cy: a.y, r: 16, fill: "#ff2e24" });
+  el(a.svg, "text", { x: a.x, y: a.y + 76, "font-family": "Inter UI", "font-weight": 600, "font-size": 44, fill: "#ff2e24", "text-anchor": "middle" }, "27,7");
+  var b = base("p2");  // le bandeau
+  el(b.svg, "circle", { cx: b.x, cy: b.y, r: 12, fill: "#ff2e24" });
+  el(b.svg, "rect", { x: b.x - 80, y: b.y + 34, width: 160, height: 64, fill: "#ff2e24" });
+  el(b.svg, "text", { x: b.x, y: b.y + 80, "font-family": "Inter UI", "font-weight": 600, "font-size": 40, fill: "#fff", "text-anchor": "middle" }, "27,7");
+  var c = base("p3");  // le cercle
+  el(c.svg, "circle", { cx: c.x, cy: c.y, r: 50, fill: "none", stroke: "#ff2e24", "stroke-width": 5 });
+  el(c.svg, "circle", { cx: c.x, cy: c.y, r: 9, fill: "#ff2e24" });
+  el(c.svg, "text", { x: c.x, y: c.y + 104, "font-family": "Inter UI", "font-weight": 600, "font-size": 44, fill: "#ff2e24", "text-anchor": "middle" }, "27,7");
+  var d = base("p4");  // le trait
+  el(d.svg, "circle", { cx: d.x, cy: d.y, r: 12, fill: "#ff2e24" });
+  el(d.svg, "text", { x: d.x, y: d.y + 74, "font-family": "Inter UI", "font-weight": 600, "font-size": 44, fill: "#00194b", "text-anchor": "middle" }, "27,7");
+  el(d.svg, "rect", { x: d.x - 56, y: d.y + 90, width: 112, height: 10, fill: "#ff2e24" });
+</script>
+</body>
+</html>
