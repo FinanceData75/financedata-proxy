@@ -1,29 +1,22 @@
-# Univers FinanceData : « Le Carnet »
+# Univers FinanceData : minimal
 
-Chaque vidéo est un **dossier** ouvert sur le bureau d'un analyste : des vrais chiffres, annotés à la main.
-Planches de référence : `planches/` (source : `planches.html`, données réelles S&P 500 + RSI 14 j).
+Planches de référence : `planches/minimal-1..4.png` (source : `planches-v2.html`).
 
-## Les 5 signatures (présentes dans chaque vidéo)
-1. **Le bandeau dossier** en haut : `FINANCEDATA · DOSSIER N°xx` + sujet (police mono). Numérotation continue = une série, pas des vidéos isolées.
-2. **La main de l'analyste** : cercles, flèches et notes au stylo bleu (Caveat), tracés avec un léger tremblement, sur de vrais graphiques.
-3. **La source** sous chaque graphique : `SOURCE : … · date`. Jamais de chiffre sans provenance.
-4. **La fiche** avant le CTA : la même carte à chaque dossier (3 règles max), faite pour être enregistrée.
-5. **La sortie** : logo + « prochain dossier · N°xx » pour donner un rendez-vous.
+## Une règle : un écran = une idée
+Chaque scène montre **une seule chose** : une photo, un graphique, un chiffre ou une capture. Rien d'autre que les sous-titres.
 
-## Palette et typo
-| Rôle | Valeur |
+## Les 4 types d'écran
+| Type | Règle |
 |---|---|
-| Papier (fond clair) | `#f3efe6` + quadrillage carnet 48 px + grain |
-| Bleu FinanceData (fond foncé) | `#00194b` + quadrillage + profondeur |
-| Encre rouge (alertes, tampons) | `#e3261b` |
-| Stylo bleu (annotations) | `#1d4ed8` (sur papier), `#7dd0f5` (sur bleu) |
-| Titres | Instrument Serif, un mot en italique rouge |
-| Données, sous-titres | Inter (sous-titres inchangés : blanc, fond gris translucide) |
-| Annotations | Caveat |
-| Sources, bandeau | JetBrains Mono |
+| **Photo** | Vraie photo, plein écran, aucun texte ajouté (sous-titres + crédit discret). Une photo dès qu'on cite une personne, un lieu, une entreprise. |
+| **Graphique** | Vraies données. Une courbe, un repère (ligne pointillée), un seul point rouge avec sa valeur. Un libellé gris au-dessus, pas d'axe superflu. |
+| **Chiffre** | Un nombre géant blanc sur bleu, une ligne grise d'explication. |
+| **Capture** | Vraie capture (article, appli, graphique de source), angles droits, ~740 px de large, sur fond blanc. |
 
-## Interdits (ce qui fait « vidéo IA »)
-Images générées, icônes génériques, emojis, dégradés néon, zooms/Ken Burns, whooshes synthétiques, chiffres sans source, voix sans souffle ni intention, sous-titres karaoké jaunes.
+Rythme indicatif : environ 1 scène sur 3 est une photo ou une capture.
 
-## Son
-Bruits réels et discrets : papier, stylo, tampon, clic. Une signature sonore courte à l'ouverture du dossier.
+## Ce qu'on retire
+Pastilles/étiquettes de couleur, badges, tampons, écriture « à la main », icônes, bandeaux, plusieurs textes à l'écran, compteurs partout, dégradés, effets sonores fréquents.
+
+## Ce qui reste
+Fond blanc quadrillé / bleu #00194B quadrillé (alternés à chaque scène, début en blanc), Inter, rouge uniquement pour l'alerte ou le point clé, sous-titres blancs sur fond gris translucide, CTA profil Instagram.
