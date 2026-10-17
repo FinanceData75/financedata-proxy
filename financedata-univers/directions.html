@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Directions artistiques FinanceData</title>
+<script src="assets/spx-rsi.js"></script>
+<style>
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf"); font-weight: 400; }
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf"); font-weight: 500; }
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf"); font-weight: 600; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #222; display: flex; gap: 40px; padding: 40px; }
+  .frame { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter UI", sans-serif; }
+  .full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cap { position: absolute; left: 0; right: 0; top: 1330px; text-align: center; z-index: 3; }
+  .cap span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; color: #fff; }
+  svg { position: absolute; overflow: visible; }
+  .lbl { position: absolute; font-size: 28px; font-weight: 500; letter-spacing: .01em; }
+  .big { position: absolute; font-weight: 600; letter-spacing: -.06em; line-height: .8; }
+</style>
+</head>
+<body>
+
+<!-- A. BICHROMIE : photos en bleu FinanceData, mise en page alignée à gauche, graphiques bord à bord -->
+<div class="frame" id="a1" style="background:#00194b">
+  <img class="full" src="assets/img/buffett-bichromie.jpg" />
+  <div class="cap"><span>que Warren Buffett</span></div>
+</div>
+<div class="frame" id="a2" style="background:#eef3fc">
+  <div class="lbl" style="left:90px; top:470px; color:#00194b">RSI du S&amp;P 500</div>
+  <div class="big" style="left:80px; top:540px; font-size:330px; color:#ff2e24">27,7</div>
+  <svg id="ca" width="1080" height="330" style="left:0; top:900px"></svg>
+  <div class="cap"><span>il repasse sous 30.</span></div>
+</div>
+
+<!-- B. FENÊTRE : tout passe par un carré, la signature qui se déplace d'une scène à l'autre -->
+<div class="frame" id="b1" style="background:#00194b">
+  <div style="position:absolute; left:120px; top:420px; width:840px; height:840px; overflow:hidden"><img class="full" src="../reel-vix/assets/img/warren-buffett.jpg" style="object-position:50% 20%" /></div>
+  <div class="lbl" style="left:120px; top:1272px; color:#8fa3c7; font-size:24px">Warren Buffett</div>
+  <div class="cap" style="top:1360px"><span>que Warren Buffett</span></div>
+</div>
+<div class="frame" id="b2" style="background:#00194b">
+  <div style="position:absolute; left:120px; top:420px; width:840px; height:840px; background:#fff"></div>
+  <div class="lbl" style="left:170px; top:470px; color:#8a94a8">RSI du S&amp;P 500</div>
+  <div class="big" style="left:160px; top:530px; font-size:220px; color:#00194b">27,7</div>
+  <svg id="cb" width="740" height="420" style="left:170px; top:790px"></svg>
+  <div class="cap" style="top:1360px"><span>il repasse sous 30.</span></div>
+</div>
+
+<!-- C. TRAME : photos en trame de presse, papier journal, courbes en points -->
+<div class="frame" id="c1" style="background:#f0ede5">
+  <img class="full" src="assets/img/buffett-trame.jpg" />
+  <div class="cap"><span>que Warren Buffett</span></div>
+</div>
+<div class="frame" id="c2" style="background:#f0ede5">
+  <div class="lbl" style="left:0; right:0; text-align:center; top:500px; color:#0a1634">RSI du S&amp;P 500</div>
+  <svg id="cc" width="900" height="460" style="left:90px; top:640px"></svg>
+  <div class="cap"><span>il repasse sous 30.</span></div>
+</div>
+
+<script>
+  var NS = "http://www.w3.org/2000/svg", D = window.SPXRSI;
+  function el(p, t, a, txt) { var n = document.createElementNS(NS, t); for (var k in a) n.setAttribute(k, a[k]); if (txt != null) n.textContent = txt; p.appendChild(n); return n; }
+  function scale(w, h, lo, hi) {
+    var t0 = Date.parse(D[0][0]), t1 = Date.parse(D[D.length - 1][0]);
+    return { X: function (d) { return (Date.parse(d) - t0) / (t1 - t0) * w; }, Y: function (v) { return h - (v - lo) / (hi - lo) * h; } };
+  }
+  function path(s) { return D.map(function (r, i) { return (i ? "L" : "M") + s.X(r[0]).toFixed(1) + " " + s.Y(r[2]).toFixed(1); }).join(" "); }
+
+  // A : courbe bord à bord, épaisse
+  (function () {
+    var svg = document.getElementById("ca"), s = scale(1080, 330, 15, 85);
+    el(svg, "line", { x1: 0, x2: 1080, y1: s.Y(30), y2: s.Y(30), stroke: "#00194b", "stroke-width": 2, "stroke-dasharray": "4 10", opacity: .5 });
+    el(svg, "path", { d: path(s), fill: "none", stroke: "#00194b", "stroke-width": 7, "stroke-linejoin": "round" });
+    el(svg, "circle", { cx: s.X("2026-03-30"), cy: s.Y(27.7), r: 16, fill: "#ff2e24" });
+  })();
+  // B : dans la fenêtre blanche
+  (function () {
+    var svg = document.getElementById("cb"), s = scale(740, 420, 15, 85);
+    el(svg, "line", { x1: 0, x2: 740, y1: s.Y(30), y2: s.Y(30), stroke: "#8a94a8", "stroke-width": 2, "stroke-dasharray": "8 8" });
+    el(svg, "path", { d: path(s), fill: "none", stroke: "#00194b", "stroke-width": 4, "stroke-linejoin": "round" });
+    el(svg, "circle", { cx: s.X("2026-03-30"), cy: s.Y(27.7), r: 13, fill: "#ff2e24" });
+  })();
+  // C : la courbe devient une trame de points
+  (function () {
+    var svg = document.getElementById("cc"), s = scale(900, 460, 15, 85);
+    for (var x = 0; x <= 900; x += 14) el(svg, "circle", { cx: x, cy: s.Y(30), r: 2.5, fill: "#0a1634", opacity: .45 });
+    D.forEach(function (r, i) { if (i % 2) return; el(svg, "circle", { cx: s.X(r[0]), cy: s.Y(r[2]), r: 5, fill: "#0a1634" }); });
+    var x0 = s.X("2026-03-30"), y0 = s.Y(27.7);
+    el(svg, "circle", { cx: x0, cy: y0, r: 22, fill: "#ff2e24" });
+    el(svg, "text", { x: x0, y: y0 + 90, "font-family": "Inter UI", "font-weight": 600, "font-size": 64, fill: "#ff2e24", "text-anchor": "middle", "letter-spacing": "-0.04em" }, "27,7");
+  })();
+</script>
+</body>
+</html>
