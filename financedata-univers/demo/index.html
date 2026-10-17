@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/spx-rsi.js"></script>
+    <style>
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf"); font-weight: 600; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf"); font-weight: 500; }
+      @font-face { font-family: "Display FD"; src: url("assets/fonts/BigShoulders-Bold.ttf"); font-weight: 700; }
+      @font-face { font-family: "Mono FD"; src: url("assets/fonts/GeistMono-Regular.ttf"); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #00194b; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter UI", sans-serif; }
+      .sc { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      .white { background: #f6f8fc; }
+      .navy { background: #00194b; }
+      .gridl { position: absolute; inset: -96px; background-image: linear-gradient(rgba(0,25,75,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,25,75,.05) 1px, transparent 1px); background-size: 48px 48px; }
+      .gridd { position: absolute; inset: -96px; background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px); background-size: 48px 48px; }
+      .lbl { position: absolute; left: 0; right: 0; text-align: center; font-family: "Mono FD"; font-size: 26px; letter-spacing: .06em; text-transform: uppercase; }
+      .num { position: absolute; left: 0; right: 0; text-align: center; font-family: "Display FD"; font-weight: 700; line-height: .82; }
+      svg { position: absolute; overflow: visible; }
+      #blob { position: absolute; left: 0; top: 0; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; background: #ff2e24; opacity: 0; z-index: 8; }
+      #caps { position: absolute; left: 0; right: 0; top: 1330px; z-index: 9; }
+      .cl { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cl span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; color: #fff; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="12" data-track-index="0" style="position:absolute; inset:0">
+
+        <div class="sc white" id="s1"><div class="gridl" id="g1"></div>
+          <div class="lbl" id="l1" style="top:560px; color:#6b7590">RSI du S&amp;P 500</div>
+          <svg id="c1" width="840" height="420" style="left:120px; top:700px"></svg>
+        </div>
+
+        <div class="sc navy" id="s2"><div class="gridd" id="g2"></div>
+          <div class="num" id="n2" style="top:640px; font-size:520px; color:#fff">+0</div>
+          <div class="lbl" id="l2" style="top:1150px; color:#8fa3c7">S&amp;P 500 · depuis le 30.03.2026</div>
+        </div>
+
+        <div class="sc navy" id="s3">
+          <img id="ph" src="assets/buffett-bichromie.jpg" style="position:absolute; left:-30px; top:-40px; width:1140px; height:2000px; object-fit:cover" />
+          <div id="tag" style="position:absolute; left:120px; top:1190px; display:flex; gap:20px; align-items:center; opacity:0">
+            <span id="tagdot" style="width:26px; height:26px; border-radius:50%; background:#ff2e24"></span>
+            <span style="font-family:'Mono FD'; font-size:32px; letter-spacing:.06em; color:#fff">WARREN BUFFETT</span>
+          </div>
+        </div>
+
+        <div class="sc navy" id="s4"><div class="gridd"></div>
+          <div id="logo" style="position:absolute; left:390px; top:600px; width:300px; height:300px; border-radius:50%; overflow:hidden; opacity:0"><img src="assets/logo-financedata.png" style="width:100%; height:100%" /></div>
+          <div id="wm" style="position:absolute; left:0; right:0; top:960px; text-align:center; font-weight:600; font-size:100px; letter-spacing:-.045em; color:#fff; opacity:0">FinanceData</div>
+          <div class="lbl" id="tl" style="top:1110px; color:#8fa3c7; font-size:24px; opacity:0">Le point sur les mécanismes invisibles des marchés</div>
+        </div>
+
+        <div id="blob"></div>
+        <div id="caps"></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", D = window.SPXRSI, tl = gsap.timeline({ paused: true });
+        window.__SFX = [];
+        function el(p, t, a, txt) { var n = document.createElementNS(NS, t); for (var k in a) n.setAttribute(k, a[k]); if (txt != null) n.textContent = txt; p.appendChild(n); return n; }
+        function sfx(n, t, g) { window.__SFX.push({ name: n, t: t, gain: g }); }
+
+        // fonds : dérive lente et continue (jamais d'image figée)
+        tl.fromTo("#g1", { x: 0, y: 0 }, { x: -48, y: -24, duration: 4, ease: "none" }, 0);
+        tl.fromTo("#g2", { x: 0, y: 0 }, { x: 48, y: -24, duration: 4, ease: "none" }, 3.4);
+
+        // ---------- 1. la courbe, puis le point ----------
+        tl.set("#s1", { opacity: 1 }, 0);
+        var svg = document.getElementById("c1"), t0 = Date.parse(D[0][0]), t1 = Date.parse(D[D.length - 1][0]);
+        var X = function (d) { return (Date.parse(d) - t0) / (t1 - t0) * 840; }, Y = function (v) { return 420 - (v - 15) / 70 * 420; };
+        var ref = el(svg, "line", { x1: 0, x2: 840, y1: Y(30), y2: Y(30), stroke: "#8a94a8", "stroke-width": 2, "stroke-dasharray": "10 10" });
+        var r30 = el(svg, "text", { x: 856, y: Y(30) + 9, "font-family": "Mono FD", "font-size": 24, fill: "#8a94a8" }, "30");
+        var path = el(svg, "path", { d: D.map(function (r, i) { return (i ? "L" : "M") + X(r[0]).toFixed(1) + " " + Y(r[2]).toFixed(1); }).join(" "), fill: "none", stroke: "#00194b", "stroke-width": 4, "stroke-linejoin": "round" });
+        var len = path.getTotalLength(); path.style.strokeDasharray = len + " " + len;
+        tl.fromTo([ref, r30, "#l1"], { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0);
+        tl.fromTo(path, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, 0.05);
+        var px = X("2026-03-30"), py = Y(27.7);
+        var halo = el(svg, "circle", { cx: px, cy: py, r: 16, fill: "#ff2e24", opacity: 0 });
+        var dot = el(svg, "circle", { cx: px, cy: py, r: 16, fill: "#ff2e24", opacity: 0 });
+        tl.fromTo(dot, { opacity: 0, attr: { r: 0 } }, { opacity: 1, attr: { r: 16 }, duration: 0.3, ease: "back.out(3)" }, 0.9);
+        tl.fromTo(halo, { opacity: 0.35, attr: { r: 16 } }, { opacity: 0, attr: { r: 70 }, duration: 0.9, ease: "power2.out" }, 0.95);
+        sfx("tic", 0.9, 0.5);
+        var val = el(svg, "text", { x: px, y: py + 96, "font-family": "Display FD", "font-weight": 700, "font-size": 96, fill: "#ff2e24", "text-anchor": "middle" }, "0");
+        var o = { v: 50 };
+        tl.fromTo(val, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 1.0);
+        tl.fromTo(o, { v: 50 }, { v: 27.7, duration: 0.5, ease: "power2.out", immediateRender: false, onUpdate: function () { val.textContent = o.v.toFixed(1).replace(".", ","); } }, 1.0);
+        tl.to([path, ref, r30, "#l1", val], { opacity: 0.12, duration: 0.3 }, 2.9);
+
+        // ---------- transition : le point grandit et devient l'écran suivant ----------
+        var b = document.getElementById("blob");
+        tl.set(b, { left: 120 + px, top: 700 + py, opacity: 1, scale: 0.8 }, 3.0);
+        tl.set(dot, { opacity: 0 }, 3.0);
+        tl.to(b, { scale: 120, duration: 0.45, ease: "power3.in" }, 3.0);
+        tl.set("#s2", { opacity: 1 }, 3.45);
+        tl.set("#s1", { opacity: 0 }, 3.45);
+        tl.set(b, { opacity: 0, scale: 1 }, 3.5);
+
+        // ---------- 2. le chiffre ----------
+        var n2 = document.getElementById("n2"), o2 = { v: 0 };
+        tl.fromTo(n2, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 3.5);
+        tl.fromTo(o2, { v: 0 }, { v: 22, duration: 0.8, ease: "power2.out", immediateRender: false, onUpdate: function () { n2.innerHTML = "+" + Math.round(o2.v) + '<span style="color:#ff2e24; font-size:260px">%</span>'; } }, 3.5);
+        tl.fromTo("#l2", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 4.1);
+        sfx("tic", 4.3, 0.45);
+        tl.to("#s2", { opacity: 0, duration: 0.35 }, 6.6);
+
+        // ---------- 3. la photo, étiquetée par le point ----------
+        tl.fromTo("#s3", { opacity: 0 }, { opacity: 1, duration: 0.35 }, 6.6);
+        tl.fromTo("#ph", { x: 0, y: 0 }, { x: 20, y: 30, duration: 3.6, ease: "none" }, 6.6);
+        tl.fromTo("#tag", { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, 7.3);
+        tl.fromTo("#tagdot", { scale: 0 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 7.3);
+        sfx("tic", 7.3, 0.45);
+
+        // ---------- 4. signature : le point devient le logo ----------
+        tl.set(b, { left: 540, top: 750, opacity: 1, scale: 0 }, 9.6);
+        tl.set("#s4", { opacity: 1 }, 9.6);
+        tl.set("#s3", { opacity: 0 }, 9.6);
+        tl.to(b, { scale: 1.6, duration: 0.3, ease: "back.out(2.5)" }, 9.6);
+        tl.to(b, { scale: 7.5, duration: 0.45, ease: "power3.inOut" }, 10.0);
+        tl.fromTo("#logo", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3 }, 10.3);
+        tl.to(b, { opacity: 0, duration: 0.2 }, 10.45);
+        tl.fromTo("#wm", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 10.55);
+        tl.fromTo("#tl", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 10.8);
+        sfx("sig", 10.0, 0.55);
+
+        // ---------- sous-titres ----------
+        var C = [["Un chiffre caché", 0.15, 1.3], ["dans votre appli", 1.3, 2.3], ["a crié « soldes ».", 2.3, 3.3], ["Ceux qui l'ont écouté", 3.6, 5.0], ["ont pris 22 %.", 5.0, 6.6], ["Les meilleurs investisseurs", 6.8, 8.2], ["le regardent.", 8.2, 9.5], ["Abonnez-vous.", 10.6, 12]];
+        var box = document.getElementById("caps");
+        C.forEach(function (c) {
+          var d = document.createElement("div"); d.className = "cl"; d.innerHTML = "<span>" + c[0] + "</span>"; box.appendChild(d);
+          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1 }, c[1]);
+          tl.to(d, { opacity: 0, duration: 0.01 }, c[2] - 0.03);
+        });
+        tl.set({}, {}, 12);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>

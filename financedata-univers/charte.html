@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Charte FinanceData · Le Point</title>
+<script src="assets/spx-rsi.js"></script>
+<style>
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf"); font-weight: 400; }
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf"); font-weight: 500; }
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf"); font-weight: 600; }
+  @font-face { font-family: "Display FD"; src: url("assets/fonts/BigShoulders-Bold.ttf"); font-weight: 700; }
+  @font-face { font-family: "Mono FD"; src: url("assets/fonts/GeistMono-Regular.ttf"); }
+  :root { --navy: #00194b; --white: #f6f8fc; --red: #ff2e24; --grey: #8a94a8; --grey-d: #8fa3c7; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1b1b1b; display: flex; flex-wrap: wrap; gap: 40px; padding: 40px; width: 5800px; }
+  .b { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter UI", sans-serif; background: var(--white); color: var(--navy); }
+  .b.n { background: var(--navy); color: #fff; }
+  .grid::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,25,75,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,25,75,.05) 1px, transparent 1px); background-size: 48px 48px; }
+  .n.grid::before { background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px); }
+  .hd { position: absolute; left: 90px; right: 90px; top: 90px; display: flex; justify-content: space-between; font-family: "Mono FD"; font-size: 22px; letter-spacing: .06em; text-transform: uppercase; color: var(--grey); }
+  .n .hd { color: var(--grey-d); }
+  .h { position: absolute; left: 90px; top: 150px; font-weight: 600; font-size: 76px; letter-spacing: -.04em; line-height: 1.02; }
+  .h .dot { display: inline-block; width: 26px; height: 26px; border-radius: 50%; background: var(--red); margin-left: 6px; }
+  .p { font-size: 30px; line-height: 1.4; color: var(--grey); }
+  .n .p { color: var(--grey-d); }
+  .mono { font-family: "Mono FD"; letter-spacing: .05em; text-transform: uppercase; }
+  .num { font-family: "Display FD"; font-weight: 700; line-height: .82; }
+  .abs { position: absolute; }
+  .rule { position: absolute; left: 90px; right: 90px; height: 2px; background: rgba(0,25,75,.12); }
+  .n .rule { background: rgba(255,255,255,.15); }
+  svg { position: absolute; overflow: visible; }
+  .cap { display: inline-block; padding: 6px 18px 10px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; letter-spacing: -.045em; color: #fff; }
+  .mini { position: absolute; overflow: hidden; background: var(--white); outline: 2px solid rgba(0,25,75,.1); }
+  .mini.n { background: var(--navy); outline: none; }
+  .k { font-family: "Mono FD"; font-size: 20px; letter-spacing: .06em; text-transform: uppercase; color: var(--grey); }
+  .n .k { color: var(--grey-d); }
+</style>
+</head>
+<body>
+
+<!-- 01 COUVERTURE -->
+<div class="b n grid" id="b1">
+  <div class="hd"><span>FinanceData · charte vidéo</span><span>v1 · 2026</span></div>
+  <div class="abs" style="left:0; right:0; top:640px; text-align:center">
+    <div style="width:120px; height:120px; border-radius:50%; background:var(--red); margin:0 auto"></div>
+    <div style="margin-top:70px; font-weight:600; font-size:120px; letter-spacing:-.045em">FinanceData</div>
+    <div class="mono" style="margin-top:26px; font-size:28px; color:var(--grey-d)">Le point sur les mécanismes<br />invisibles des marchés</div>
+  </div>
+  <div class="abs p" style="left:90px; right:90px; top:1500px; text-align:center">Réel. Sourcé. Clair.<br />Un écran, une idée, un point.</div>
+</div>
+
+<!-- 02 L'IDÉE -->
+<div class="b grid" id="b2">
+  <div class="hd"><span>01 · L'idée</span><span>FinanceData</span></div>
+  <div class="h">Faire le point<span class="dot"></span></div>
+  <div class="abs p" style="left:90px; right:90px; top:300px">Dans un feed saturé de bruit, FinanceData est le média qui isole <b style="color:var(--navy)">l'information qui compte</b>. Tout le style découle de ce geste.</div>
+  <div class="rule" style="top:520px"></div>
+  <svg id="idea" width="900" height="560" style="left:90px; top:600px"></svg>
+  <div class="abs" style="left:90px; right:90px; top:1260px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:30px">
+    <div><div class="k">Le monde</div><div style="margin-top:12px; font-size:30px; font-weight:600">Bleu, calme, en bichromie</div></div>
+    <div><div class="k">Le bruit</div><div style="margin-top:12px; font-size:30px; font-weight:600">Une courbe, un fait réel</div></div>
+    <div><div class="k" style="color:var(--red)">Le point</div><div style="margin-top:12px; font-size:30px; font-weight:600">Ce qu'il faut retenir</div></div>
+  </div>
+  <div class="abs p" style="left:90px; right:90px; top:1560px">Ennemis : les finfluenceurs criards (néon, emojis, « devenez riche ») et la vidéo IA générique. FinanceData est l'inverse : posé, précis, prouvé.</div>
+</div>
+
+<!-- 03 COULEURS -->
+<div class="b grid" id="b3">
+  <div class="hd"><span>02 · Couleurs</span><span>FinanceData</span></div>
+  <div class="h">70 · 25 · 5</div>
+  <div class="abs" style="left:90px; right:90px; top:320px; height:1000px; display:flex; flex-direction:column">
+    <div style="flex:70; background:var(--navy); color:#fff; padding:40px; display:flex; flex-direction:column; justify-content:space-between">
+      <div style="font-weight:600; font-size:44px">Bleu FinanceData</div>
+      <div class="mono" style="font-size:24px; color:var(--grey-d)">#00194B · le monde, les fonds, les photos</div>
+    </div>
+    <div style="flex:25; background:#fff; padding:30px 40px; display:flex; justify-content:space-between; align-items:flex-end; outline:2px solid rgba(0,25,75,.08)">
+      <div style="font-weight:600; font-size:40px">Blanc bleuté</div>
+      <div class="mono" style="font-size:24px; color:var(--grey)">#F6F8FC · la respiration</div>
+    </div>
+    <div style="flex:7; background:var(--red); color:#fff; padding:0 40px; display:flex; justify-content:space-between; align-items:center">
+      <div style="font-weight:600; font-size:34px">Rouge signal</div>
+      <div class="mono" style="font-size:22px">#FF2E24 · le point, une fois par écran</div>
+    </div>
+  </div>
+  <div class="abs" style="left:90px; top:1400px; display:flex; gap:24px; align-items:center"><div style="width:90px; height:90px; background:var(--grey)"></div><div><div style="font-weight:600; font-size:32px">Gris libellé</div><div class="mono" style="font-size:22px; color:var(--grey)">#8A94A8 · sources, axes, légendes</div></div></div>
+  <div class="abs p" style="left:90px; right:90px; top:1580px">Pas d'autre couleur. Les captures (preuves) gardent leurs couleurs d'origine.</div>
+</div>
+
+<!-- 04 TYPOGRAPHIE -->
+<div class="b grid" id="b4">
+  <div class="hd"><span>03 · Typographie</span><span>FinanceData</span></div>
+  <div class="h">Trois voix</div>
+  <div class="abs" style="left:90px; top:330px"><div class="k">Les chiffres · Big Shoulders Bold</div><div class="num" style="margin-top:30px; font-size:420px">+22<span style="color:var(--red); font-size:220px">%</span></div></div>
+  <div class="rule" style="top:880px"></div>
+  <div class="abs" style="left:90px; right:90px; top:930px"><div class="k">Le texte · Inter SemiBold</div><div style="margin-top:24px; font-weight:600; font-size:72px; letter-spacing:-.04em; line-height:1.05">Le RSI mesure la vitesse d'un mouvement.</div></div>
+  <div class="rule" style="top:1250px"></div>
+  <div class="abs" style="left:90px; right:90px; top:1300px"><div class="k">Les données · Geist Mono</div><div class="mono" style="margin-top:24px; font-size:36px">RSI · S&amp;P 500 · 30.03.2026<br />Source : Yahoo Finance</div></div>
+  <div class="abs" style="left:90px; right:90px; top:1560px"><div class="k">Les sous-titres · Inter, inchangés</div><div style="margin-top:24px"><span class="cap" style="font-size:54px">il repasse sous 30.</span></div></div>
+</div>
+
+<!-- 05 LE POINT -->
+<div class="b n grid" id="b5">
+  <div class="hd"><span>04 · Le point</span><span>Signature</span></div>
+  <div class="h">Un seul point rouge<br />par écran.</div>
+  <svg id="pt" width="900" height="420" style="left:90px; top:400px"></svg>
+  <div class="abs" style="left:90px; right:90px; top:900px; display:grid; grid-template-columns:1fr 1fr; gap:50px 40px">
+    <div><svg width="420" height="170" id="u1" style="position:relative"></svg><div class="k" style="margin-top:14px">Marqueur · la valeur clé</div></div>
+    <div><div style="height:170px; display:flex; align-items:center; gap:18px"><span style="width:24px; height:24px; border-radius:50%; background:var(--red)"></span><span class="mono" style="font-size:30px">Warren Buffett</span></div><div class="k" style="margin-top:14px">Étiquette · une personne, un lieu</div></div>
+    <div><div style="height:170px; display:flex; flex-direction:column; justify-content:center; gap:16px; font-weight:600; font-size:40px"><div><span style="display:inline-block; width:20px; height:20px; border-radius:50%; background:var(--red); margin-right:20px"></span>&gt; 70 méfiance</div><div><span style="display:inline-block; width:20px; height:20px; border-radius:50%; border:4px solid #fff; margin-right:20px"></span>&lt; 30 opportunité</div></div><div class="k" style="margin-top:14px">Puce · la règle</div></div>
+    <div><svg width="420" height="170" id="u4" style="position:relative"></svg><div class="k" style="margin-top:14px">Transition · le point devient l'écran</div></div>
+  </div>
+  <div class="abs p" style="left:90px; right:90px; top:1620px">Interdits : un point décoratif, deux points rouges à l'écran, un point sur une info secondaire.</div>
+</div>
+
+<!-- 06 PHOTO -->
+<div class="b grid" id="b6">
+  <div class="hd"><span>05 · Photo</span><span>FinanceData</span></div>
+  <div class="h">Le réel,<br />dans notre bleu.</div>
+  <div class="abs" style="left:90px; top:400px; width:430px; height:760px; overflow:hidden"><img src="../reel-vix/assets/img/warren-buffett.jpg" style="width:100%; height:100%; object-fit:cover" /></div>
+  <div class="abs" style="left:560px; top:400px; width:430px; height:760px; overflow:hidden"><img src="assets/img/buffett-bichromie.jpg" style="width:100%; height:100%; object-fit:cover" /></div>
+  <div class="abs k" style="left:90px; top:1180px">Photo d'origine</div>
+  <div class="abs k" style="left:560px; top:1180px">Bichromie FinanceData</div>
+  <div class="abs" style="left:90px; right:90px; top:1280px; font-size:32px; line-height:1.6">
+    <div>Toujours de vraies photos, jamais d'image générée.</div>
+    <div>Plein écran, sans texte ajouté, avec un très lent mouvement.</div>
+    <div>Une étiquette au point quand on nomme quelqu'un.</div>
+    <div>Crédit discret en bas à droite.</div>
+  </div>
+</div>
+
+<!-- 07 DATA -->
+<div class="b grid" id="b7">
+  <div class="hd"><span>06 · Données</span><span>FinanceData</span></div>
+  <div class="h">Quatre graphiques,<br />une grammaire.</div>
+  <svg id="d1" width="410" height="300" style="left:90px; top:430px"></svg><div class="abs k" style="left:90px; top:770px">Courbe</div>
+  <svg id="d2" width="410" height="300" style="left:580px; top:430px"></svg><div class="abs k" style="left:580px; top:770px">Barres</div>
+  <div class="abs" style="left:90px; top:900px; width:410px; height:300px; display:flex; align-items:center; justify-content:space-around">
+    <div style="text-align:center"><div class="k">Nvidia</div><div class="num" style="font-size:96px; color:var(--red); margin-top:14px">-26%</div></div>
+    <div style="width:2px; height:200px; background:rgba(0,25,75,.15)"></div>
+    <div style="text-align:center"><div class="k">S&amp;P 500</div><div class="num" style="font-size:96px; margin-top:14px">+35%</div></div>
+  </div><div class="abs k" style="left:90px; top:1240px">Comparaison</div>
+  <svg id="d4" width="410" height="300" style="left:580px; top:900px"></svg><div class="abs k" style="left:580px; top:1240px">Échelle</div>
+  <div class="abs" style="left:90px; right:90px; top:1360px; font-size:32px; line-height:1.6">
+    <div>Trait bleu nuit 4 px, repère pointillé gris, rien d'autre.</div>
+    <div>Le point rouge sur la seule valeur dite par la voix.</div>
+    <div>Valeur en Big Shoulders, libellé et source en mono.</div>
+    <div>Données réelles, datées, sourcées.</div>
+  </div>
+</div>
+
+<!-- 08 MISE EN PAGE -->
+<div class="b grid" id="b8">
+  <div class="hd"><span>07 · Mise en page</span><span>FinanceData</span></div>
+  <div class="h">Zones sûres</div>
+  <div class="abs" style="left:240px; top:330px; width:600px; height:1066px; background:#fff; outline:2px solid rgba(0,25,75,.15)">
+    <div class="abs" style="left:0; right:0; top:0; height:139px; background:rgba(0,25,75,.08)"></div>
+    <div class="abs k" style="left:20px; top:56px; font-size:16px">Interface Instagram</div>
+    <div class="abs" style="left:78px; right:78px; top:245px; height:472px; outline:3px solid var(--navy)"></div>
+    <div class="abs k" style="left:92px; top:258px; font-size:16px; color:var(--navy)">Contenu · x 140–940 · y 440–1290</div>
+    <div class="abs" style="left:78px; right:78px; top:739px; height:72px; background:rgba(255,46,36,.12); outline:2px dashed var(--red)"></div>
+    <div class="abs k" style="left:92px; top:765px; font-size:16px; color:var(--red)">Sous-titres · y 1330</div>
+    <div class="abs" style="left:0; right:0; bottom:0; height:233px; background:rgba(0,25,75,.08)"></div>
+    <div class="abs k" style="left:20px; bottom:100px; font-size:16px">Légende, boutons, son</div>
+    <div class="abs" style="right:0; top:400px; width:70px; height:430px; background:rgba(0,25,75,.08)"></div>
+  </div>
+  <div class="abs" style="left:90px; right:90px; top:1460px; font-size:32px; line-height:1.6">
+    <div>Une seule information dans la zone de contenu.</div>
+    <div>Chiffres et graphiques centrés ; libellé au-dessus.</div>
+    <div>Rien dans les 250 px du haut ni dans le tiers bas.</div>
+  </div>
+</div>
+
+<!-- 09 MOUVEMENT -->
+<div class="b n grid" id="b9">
+  <div class="hd"><span>08 · Mouvement</span><span>FinanceData</span></div>
+  <div class="h">Calme, précis,<br />jamais gratuit.</div>
+  <svg id="mv" width="900" height="520" style="left:90px; top:420px"></svg>
+  <div class="abs" style="left:90px; right:90px; top:1040px; display:grid; grid-template-columns:auto 1fr; gap:22px 40px; font-size:30px">
+    <div class="mono" style="color:var(--grey-d); font-size:24px">0,8 s</div><div>La courbe se trace, ease in-out</div>
+    <div class="mono" style="color:var(--grey-d); font-size:24px">0,3 s</div><div>Le point apparaît avec un léger rebond, sur le mot dit</div>
+    <div class="mono" style="color:var(--grey-d); font-size:24px">0,5 s</div><div>Le chiffre compte jusqu'à sa valeur</div>
+    <div class="mono" style="color:var(--grey-d); font-size:24px">0,45 s</div><div>Transition : le point grandit et devient l'écran suivant</div>
+    <div class="mono" style="color:var(--grey-d); font-size:24px">2–4 s</div><div>Durée d'un écran, coupé sur la voix</div>
+  </div>
+  <div class="abs p" style="left:90px; right:90px; top:1560px">Le fond dérive toujours très lentement. Jamais de zoom caméra, de tremblement ni d'effet néon.</div>
+</div>
+
+<!-- 10 SON -->
+<div class="b grid" id="b10">
+  <div class="hd"><span>09 · Son</span><span>FinanceData</span></div>
+  <div class="h">La voix est<br />notre visage.</div>
+  <svg id="snd" width="900" height="300" style="left:90px; top:460px"></svg>
+  <div class="abs" style="left:90px; right:90px; top:860px; display:grid; grid-template-columns:auto 1fr; gap:34px 40px; font-size:32px; line-height:1.35">
+    <div class="k" style="padding-top:8px">Voix</div><div>Une seule voix, toujours la même. Pauses ≤ 0,15 s, −16 LUFS, aucun traitement.</div>
+    <div class="k" style="padding-top:8px; color:var(--red)">Le son du point</div><div>Un « tic » feutré à chaque apparition du point. C'est notre logo sonore.</div>
+    <div class="k" style="padding-top:8px">Signature</div><div>Deux notes douces sur le logo final, identiques dans chaque vidéo.</div>
+    <div class="k" style="padding-top:8px">Musique</div><div>Aucune, ou une nappe très basse et toujours la même.</div>
+  </div>
+</div>
+
+<!-- 11 COUVERTURE DE REEL -->
+<div class="b grid" id="b11">
+  <div class="hd"><span>10 · Couvertures</span><span>Grille Instagram</span></div>
+  <div class="h">Le profil<br />comme une une.</div>
+  <div class="abs" style="left:90px; top:420px; display:grid; grid-template-columns:repeat(3, 292px); gap:12px">
+    <div style="position:relative; height:389px; overflow:hidden; background:var(--navy)"><img src="assets/img/buffett-bichromie.jpg" style="width:100%; height:100%; object-fit:cover" /><div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,25,75,0) 55%, rgba(0,25,75,.9))"></div><div style="position:absolute; left:22px; bottom:26px; display:flex; gap:10px; align-items:center"><span style="width:14px; height:14px; border-radius:50%; background:var(--red)"></span><span style="font-weight:600; font-size:30px; color:#fff; letter-spacing:-.03em">Le VIX</span></div></div>
+    <div style="position:relative; height:389px; background:var(--white); outline:1px solid rgba(0,25,75,.1)"><div class="num" style="position:absolute; left:0; right:0; top:110px; text-align:center; font-size:150px">27,7</div><div style="position:absolute; left:22px; bottom:26px; display:flex; gap:10px; align-items:center"><span style="width:14px; height:14px; border-radius:50%; background:var(--red)"></span><span style="font-weight:600; font-size:30px; letter-spacing:-.03em">Le RSI</span></div></div>
+    <div style="position:relative; height:389px; overflow:hidden; background:var(--navy)"><img src="assets/img/arnault-bichromie.jpg" style="width:100%; height:100%; object-fit:cover; object-position:50% 25%" /><div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,25,75,0) 55%, rgba(0,25,75,.9))"></div><div style="position:absolute; left:22px; bottom:26px; display:flex; gap:10px; align-items:center"><span style="width:14px; height:14px; border-radius:50%; background:var(--red)"></span><span style="font-weight:600; font-size:30px; color:#fff; letter-spacing:-.03em">LVMH</span></div></div>
+    <div style="position:relative; height:389px; background:var(--navy)"><div class="num" style="position:absolute; left:0; right:0; top:110px; text-align:center; font-size:124px; color:#fff">+46%</div><div style="position:absolute; left:22px; bottom:26px; display:flex; gap:10px; align-items:center"><span style="width:14px; height:14px; border-radius:50%; background:var(--red)"></span><span style="font-weight:600; font-size:30px; color:#fff; letter-spacing:-.03em">Microsoft</span></div></div>
+    <div style="position:relative; height:389px; overflow:hidden; background:var(--navy)"><img src="assets/img/buffett-bichromie.jpg" style="width:100%; height:100%; object-fit:cover; object-position:30% 40%" /><div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,25,75,0) 55%, rgba(0,25,75,.9))"></div><div style="position:absolute; left:22px; bottom:26px; display:flex; gap:10px; align-items:center"><span style="width:14px; height:14px; border-radius:50%; background:var(--red)"></span><span style="font-weight:600; font-size:30px; color:#fff; letter-spacing:-.03em">Buffett</span></div></div>
+    <div style="position:relative; height:389px; background:var(--white); outline:1px solid rgba(0,25,75,.1)"><div class="num" style="position:absolute; left:0; right:0; top:110px; text-align:center; font-size:124px">15/17</div><div style="position:absolute; left:22px; bottom:26px; display:flex; gap:10px; align-items:center"><span style="width:14px; height:14px; border-radius:50%; background:var(--red)"></span><span style="font-weight:600; font-size:30px; letter-spacing:-.03em">Le RSI</span></div></div>
+  </div>
+  <div class="abs" style="left:90px; right:90px; top:1300px; font-size:32px; line-height:1.6">
+    <div>Une photo en bichromie ou un seul chiffre géant.</div>
+    <div>Le sujet en 2 mots, précédé du point, en bas à gauche.</div>
+    <div>Alternance photo / chiffre : la grille devient reconnaissable.</div>
+  </div>
+</div>
+
+<!-- 12 STRUCTURE D'UN ÉPISODE -->
+<div class="b n grid" id="b12">
+  <div class="hd"><span>11 · Épisode</span><span>FinanceData</span></div>
+  <div class="h">Le contrat<br />d'épisode.</div>
+  <div class="abs" style="left:90px; right:90px; top:430px">
+    <div style="display:grid; grid-template-columns:150px 1fr; row-gap:46px; font-size:34px; line-height:1.3">
+      <div class="mono" style="color:var(--grey-d); font-size:24px; padding-top:6px">0–2 s</div><div><b>La réponse d'abord.</b><br /><span class="p">Un chiffre ou une photo, compris sans le son.</span></div>
+      <div class="mono" style="color:var(--grey-d); font-size:24px; padding-top:6px">2–12 s</div><div><b>La question.</b><br /><span class="p">Pourquoi ? Le mécanisme, nommé simplement.</span></div>
+      <div class="mono" style="color:var(--grey-d); font-size:24px; padding-top:6px">12–50 s</div><div><b>Les preuves.</b><br /><span class="p">2 ou 3 cas réels, datés, sourcés, un point chacun.</span></div>
+      <div class="mono" style="color:var(--grey-d); font-size:24px; padding-top:6px">50–58 s</div><div><b>La règle.</b><br /><span class="p">Une phrase qu'on envoie à un ami.</span></div>
+      <div class="mono" style="color:var(--grey-d); font-size:24px; padding-top:6px">58–62 s</div><div><b>La signature.</b><br /><span class="p">Le point devient le logo, deux notes, abonnez-vous.</span></div>
+    </div>
+  </div>
+  <div class="abs" style="left:90px; right:90px; top:1560px; display:flex; gap:20px">
+    <div style="flex:1; border-top:4px solid #fff; padding-top:16px"><div class="k">Série</div><div style="font-weight:600; font-size:34px; margin-top:8px">Le Guide</div></div>
+    <div style="flex:1; border-top:4px solid #fff; padding-top:16px"><div class="k">Série</div><div style="font-weight:600; font-size:34px; margin-top:8px">Décryptage</div></div>
+    <div style="flex:1; border-top:4px solid #fff; padding-top:16px"><div class="k">Série</div><div style="font-weight:600; font-size:34px; margin-top:8px">Portrait</div></div>
+  </div>
+</div>
+
+<script>
+  var NS = "http://www.w3.org/2000/svg", D = window.SPXRSI, RED = "#ff2e24", NAVY = "#00194b", G = "#8a94a8";
+  function el(p, t, a, txt) { var n = document.createElementNS(NS, t); for (var k in a) n.setAttribute(k, a[k]); if (txt != null) n.textContent = txt; p.appendChild(n); return n; }
+  function rsi(svg, w, h, color, opts) {
+    opts = opts || {};
+    var t0 = Date.parse(D[0][0]), t1 = Date.parse(D[D.length - 1][0]);
+    var X = function (d) { return (Date.parse(d) - t0) / (t1 - t0) * w; }, Y = function (v) { return h - (v - 15) / 70 * h; };
+    el(svg, "line", { x1: 0, x2: w, y1: Y(30), y2: Y(30), stroke: opts.ref || G, "stroke-width": 2, "stroke-dasharray": "8 8" });
+    el(svg, "path", { d: D.map(function (r, i) { return (i ? "L" : "M") + X(r[0]).toFixed(1) + " " + Y(r[2]).toFixed(1); }).join(" "), fill: "none", stroke: color, "stroke-width": opts.sw || 4, "stroke-linejoin": "round", opacity: opts.op || 1 });
+    return { x: X("2026-03-30"), y: Y(27.7) };
+  }
+  // 01 l'idée : le bruit, puis le point
+  (function () {
+    var svg = document.getElementById("idea"), p = rsi(svg, 900, 460, NAVY, { op: .35 });
+    el(svg, "circle", { cx: p.x, cy: p.y, r: 60, fill: RED, opacity: .12 });
+    el(svg, "circle", { cx: p.x, cy: p.y, r: 20, fill: RED });
+    el(svg, "text", { x: p.x, y: p.y + 100, "font-family": "Display FD", "font-weight": 700, "font-size": 90, fill: RED, "text-anchor": "middle" }, "27,7");
+  })();
+  // 04 construction du point
+  (function () {
+    var svg = document.getElementById("pt");
+    [150, 110, 70].forEach(function (r, i) { el(svg, "circle", { cx: 450, cy: 210, r: r, fill: "none", stroke: "rgba(255,255,255," + (0.12 + i * 0.08) + ")", "stroke-width": 2, "stroke-dasharray": i ? "none" : "6 8" }); });
+    el(svg, "circle", { cx: 450, cy: 210, r: 34, fill: RED });
+    el(svg, "text", { x: 640, y: 120, "font-family": "Mono FD", "font-size": 20, fill: "#8fa3c7" }, "PLEIN · ROND · ROUGE");
+    el(svg, "text", { x: 640, y: 312, "font-family": "Mono FD", "font-size": 20, fill: "#8fa3c7" }, "HALO 15 % À L'APPARITION");
+    var u1 = document.getElementById("u1"), q = rsi(u1, 420, 150, "#fff", { ref: "#8fa3c7", sw: 3 });
+    el(u1, "circle", { cx: q.x, cy: q.y, r: 10, fill: RED });
+    var u4 = document.getElementById("u4");
+    [[40, 8], [150, 24], [290, 60]].forEach(function (c) { el(u4, "circle", { cx: c[0], cy: 85, r: c[1], fill: RED }); });
+    el(u4, "rect", { x: 360, y: 0, width: 60, height: 170, fill: RED });
+  })();
+  // 06 grammaire data
+  (function () {
+    var s1 = document.getElementById("d1"), p = rsi(s1, 410, 300, NAVY, { sw: 3.5 });
+    el(s1, "circle", { cx: p.x, cy: p.y, r: 11, fill: RED });
+    var s2 = document.getElementById("d2"), V = [10, 12.1, 2.2, 23, 11.7, -2.5, 11.2, 14.9, 7.6, 4.4, 14.4, 9.7, -9.8, 7.7, 21.7, 16, 19.3], w = 410 / V.length;
+    el(s2, "line", { x1: 0, x2: 410, y1: 220, y2: 220, stroke: G, "stroke-width": 2 });
+    V.forEach(function (v, i) { el(s2, "rect", { x: i * w + 4, y: v >= 0 ? 220 - v * 8.5 : 220, width: w - 8, height: Math.abs(v) * 8.5, fill: v >= 0 ? NAVY : RED }); });
+    var s4 = document.getElementById("d4"), X = function (v) { return v / 100 * 410; };
+    el(s4, "line", { x1: 0, x2: 410, y1: 170, y2: 170, stroke: NAVY, "stroke-width": 3 });
+    [0, 30, 70, 100].forEach(function (v) { el(s4, "line", { x1: X(v), x2: X(v), y1: 156, y2: 184, stroke: NAVY, "stroke-width": 3 }); el(s4, "text", { x: X(v), y: 226, "font-family": "Mono FD", "font-size": 20, fill: G, "text-anchor": "middle" }, v); });
+    el(s4, "circle", { cx: X(27.7), cy: 170, r: 14, fill: RED });
+    el(s4, "text", { x: X(27.7), y: 120, "font-family": "Display FD", "font-weight": 700, "font-size": 70, fill: NAVY, "text-anchor": "middle" }, "27,7");
+  })();
+  // 08 storyboard du mouvement
+  (function () {
+    var svg = document.getElementById("mv"), W = 200, H = 356, gap = 33;
+    for (var i = 0; i < 4; i++) {
+      var x = i * (W + gap), g = el(svg, "g", {});
+      el(g, "rect", { x: x, y: 0, width: W, height: H, fill: i === 3 ? RED : "#f6f8fc" });
+      if (i < 3) {
+        var sub = el(g, "svg", { x: x + 16, y: 120, width: W - 32, height: 100, overflow: "visible" });
+        var t0 = Date.parse(D[0][0]), t1 = Date.parse(D[D.length - 1][0]), part = i === 0 ? 0.6 : 1;
+        var rows = D.slice(0, Math.round(D.length * part));
+        sub.appendChild(document.createElementNS(NS, "path")).setAttribute("d", rows.map(function (r, j) { return (j ? "L" : "M") + ((Date.parse(r[0]) - t0) / (t1 - t0) * (W - 32)).toFixed(1) + " " + (100 - (r[2] - 15) / 70 * 100).toFixed(1); }).join(" "));
+        sub.lastChild.setAttribute("fill", "none"); sub.lastChild.setAttribute("stroke", NAVY); sub.lastChild.setAttribute("stroke-width", 2.5);
+        var px = x + 16 + (Date.parse("2026-03-30") - t0) / (t1 - t0) * (W - 32), py = 120 + 100 - (27.7 - 15) / 70 * 100;
+        if (i === 1) el(g, "circle", { cx: px, cy: py, r: 8, fill: RED });
+        if (i === 2) el(g, "circle", { cx: px, cy: py, r: 70, fill: RED });
+      } else {
+        el(g, "text", { x: x + W / 2, y: 210, "font-family": "Display FD", "font-weight": 700, "font-size": 96, fill: "#fff", "text-anchor": "middle" }, "+22%");
+      }
+      el(svg, "text", { x: x, y: H + 50, "font-family": "Mono FD", "font-size": 20, fill: "#8fa3c7" }, ["1 · TRACÉ", "2 · LE POINT", "3 · IL GRANDIT", "4 · ÉCRAN SUIVANT"][i]);
+    }
+  })();
+  // 09 son
+  (function () {
+    var svg = document.getElementById("snd");
+    for (var i = 0; i < 90; i++) { var h = 30 + Math.abs(Math.sin(i * 0.7) * Math.cos(i * 0.23)) * 150; el(svg, "rect", { x: i * 10, y: 150 - h / 2, width: 5, height: h, fill: NAVY, opacity: .8 }); }
+    [210, 520, 760].forEach(function (x) { el(svg, "circle", { cx: x, cy: 280, r: 12, fill: RED }); el(svg, "line", { x1: x, x2: x, y1: 0, y2: 268, stroke: RED, "stroke-width": 2, "stroke-dasharray": "4 6" }); });
+  })();
+</script>
+</body>
+</html>
