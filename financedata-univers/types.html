@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Types d'écrans FinanceData</title>
+<script src="assets/spx-rsi.js"></script>
+<style>
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf"); font-weight: 400; }
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf"); font-weight: 500; }
+  @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf"); font-weight: 600; }
+  :root { --navy: #00194b; --soft: #8a94a8; --soft-d: #8fa3c7; --red: #ff2e24; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #222; display: flex; gap: 40px; padding: 40px; flex-wrap: wrap; width: 6000px; }
+  .frame { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter UI", sans-serif; }
+  .white { background: #f6f8fc; }
+  .white::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,25,75,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,25,75,.05) 1px, transparent 1px); background-size: 48px 48px; -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+  .navy { background: radial-gradient(ellipse 60% 38% at 50% 46%, #0b3480 0%, #00194b 72%); color: #fff; }
+  .navy::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px); background-size: 48px 48px; -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+  .cap { position: absolute; left: 0; right: 0; top: 1330px; text-align: center; z-index: 3; }
+  .cap span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; color: #fff; }
+  .lbl { position: absolute; left: 0; right: 0; text-align: center; font-size: 26px; font-weight: 500; color: var(--soft); }
+  .navy .lbl { color: var(--soft-d); }
+  .num { position: absolute; left: 0; right: 0; text-align: center; font-weight: 600; letter-spacing: -.06em; line-height: 1; }
+  svg { position: absolute; overflow: visible; }
+  .tag { position: absolute; left: 40px; top: 40px; font: 500 22px "Inter UI"; color: #fff; background: #ff2e24; padding: 6px 14px; z-index: 9; }
+</style>
+</head>
+<body>
+
+<!-- 1. CHIFFRE -->
+<div class="frame navy" id="t1"><div class="tag">CHIFFRE</div>
+  <div class="num" style="top:690px; font-size:360px">+22<span style="font-size:200px"> %</span></div>
+  <div class="lbl" style="top:1100px">S&amp;P 500, depuis le 30 mars</div>
+  <div class="cap"><span>Vous connaissez la suite.</span></div>
+</div>
+
+<!-- 2. COMPARAISON -->
+<div class="frame white" id="t2"><div class="tag">COMPARAISON</div>
+  <div style="position:absolute; left:540px; top:640px; width:2px; height:520px; background:rgba(0,25,75,.15)"></div>
+  <div class="lbl" style="left:0; right:540px; top:660px">Nvidia · RSI 81</div>
+  <div class="num" style="left:0; right:540px; top:750px; font-size:136px; color:var(--red)">−26 %</div>
+  <div class="lbl" style="left:0; right:540px; top:960px">7 semaines plus tard</div>
+  <div class="lbl" style="left:540px; right:0; top:660px">S&amp;P 500 · RSI 21</div>
+  <div class="num" style="left:540px; right:0; top:750px; font-size:136px; color:var(--navy)">+35 %</div>
+  <div class="lbl" style="left:540px; right:0; top:960px">6 mois plus tard</div>
+  <div class="cap"><span>même indicateur.</span></div>
+</div>
+
+<!-- 3. HISTORIQUE EN BARRES -->
+<div class="frame white" id="t3"><div class="tag">BARRES</div>
+  <div class="lbl" style="top:560px">S&amp;P 500, 6 mois après un RSI sous 30</div>
+  <svg id="c3" width="860" height="560" style="left:110px; top:640px"></svg>
+  <div class="cap"><span>15 fois sur 17.</span></div>
+</div>
+
+<!-- 4. ÉCHELLE -->
+<div class="frame navy" id="t4"><div class="tag">ÉCHELLE</div>
+  <svg id="c4" width="860" height="300" style="left:110px; top:780px"></svg>
+  <div class="cap"><span>En dessous de 30,</span></div>
+</div>
+
+<!-- 5. CITATION (photo en bichromie + phrase) -->
+<div class="frame navy" id="t5"><div class="tag">CITATION</div>
+  <img src="assets/img/buffett-bichromie.jpg" style="position:absolute; left:0; top:0; width:1080px; height:1000px; object-fit:cover; object-position:50% 25%" />
+  <div style="position:absolute; left:90px; right:90px; top:1060px; font-weight:600; font-size:58px; line-height:1.12; letter-spacing:-.035em">« Soyez craintif quand les autres sont avides. »</div>
+  <div style="position:absolute; left:90px; top:1250px; font-size:26px; color:var(--soft-d)">Warren Buffett</div>
+</div>
+
+<!-- 6. PHOTO + CHIFFRE -->
+<div class="frame white" id="t6"><div class="tag">PHOTO + CHIFFRE</div>
+  <img src="assets/img/arnault-bichromie.jpg" style="position:absolute; left:0; top:0; width:1080px; height:960px; object-fit:cover; object-position:50% 30%" />
+  <div class="num" style="top:1010px; font-size:220px; color:var(--red)">−57 %</div>
+  <div class="lbl" style="top:1230px">LVMH, depuis son record</div>
+  <div class="cap" style="top:1400px"><span>Bernard Arnault</span></div>
+</div>
+
+<!-- 7. DATE -->
+<div class="frame white" id="t7"><div class="tag">DATE</div>
+  <div class="num" style="top:760px; font-size:150px; color:var(--navy)">30 mars</div>
+  <div class="lbl" style="top:940px; font-size:40px">2026</div>
+  <div class="cap"><span>Le 30 mars dernier ?</span></div>
+</div>
+
+<!-- 8. FRISE -->
+<div class="frame white" id="t8"><div class="tag">FRISE</div>
+  <svg id="c8" width="860" height="300" style="left:110px; top:820px"></svg>
+  <div class="cap"><span>trois signaux.</span></div>
+</div>
+
+<!-- 9. RÈGLE -->
+<div class="frame navy" id="t9"><div class="tag">RÈGLE</div>
+  <div style="position:absolute; left:140px; right:140px; top:760px; font-weight:600; font-size:64px; letter-spacing:-.035em; line-height:1.5">
+    <div><span style="color:var(--red)">&gt; 70</span>&nbsp; méfiance</div>
+    <div><span style="color:#7dd0f5">&lt; 30</span>&nbsp; opportunité</div>
+  </div>
+  <div class="cap"><span>La règle ?</span></div>
+</div>
+
+<!-- 10. CAPTURE -->
+<div class="frame white" id="t10"><div class="tag">CAPTURE</div>
+  <img src="../reel-cds/assets/img/cds-3-mois.png" style="position:absolute; left:170px; top:640px; width:740px; box-shadow:0 24px 50px rgba(0,25,75,.16)" />
+  <div class="cap"><span>Le prix du risque</span></div>
+</div>
+
+<script>
+  var NS = "http://www.w3.org/2000/svg";
+  function el(p, t, a, txt) { var n = document.createElementNS(NS, t); for (var k in a) n.setAttribute(k, a[k]); if (txt != null) n.textContent = txt; p.appendChild(n); return n; }
+  // 3. barres : rendement du S&P 500 6 mois après chaque passage sous 30 (Yahoo Finance, RSI 14 j, depuis 2010)
+  (function () {
+    var svg = document.getElementById("c3");
+    var V = [10.0, 12.1, 2.2, 23.0, 11.7, -2.5, 11.2, 14.9, 7.6, 4.4, 14.4, 9.7, -9.8, 7.7, 21.7, 16.0, 19.3];
+    var w = 860 / V.length, Y0 = 400, k = 12;
+    el(svg, "line", { x1: 0, x2: 860, y1: Y0, y2: Y0, stroke: "#8a94a8", "stroke-width": 2 });
+    V.forEach(function (v, i) { el(svg, "rect", { x: i * w + 8, y: v >= 0 ? Y0 - v * k : Y0, width: w - 16, height: Math.abs(v) * k, fill: v >= 0 ? "#00194b" : "#ff2e24" }); });
+    el(svg, "text", { x: 0, y: 470, "font-family": "Inter UI", "font-size": 24, fill: "#8a94a8" }, "2010");
+    el(svg, "text", { x: 860, y: 470, "font-family": "Inter UI", "font-size": 24, fill: "#8a94a8", "text-anchor": "end" }, "2026");
+  })();
+  // 4. échelle 0–100
+  (function () {
+    var svg = document.getElementById("c4"), X = function (v) { return v / 100 * 860; };
+    el(svg, "line", { x1: 0, x2: 860, y1: 120, y2: 120, stroke: "rgba(255,255,255,.35)", "stroke-width": 4 });
+    [0, 30, 70, 100].forEach(function (v) {
+      el(svg, "line", { x1: X(v), x2: X(v), y1: 104, y2: 136, stroke: "rgba(255,255,255,.6)", "stroke-width": 3 });
+      el(svg, "text", { x: X(v), y: 190, "font-family": "Inter UI", "font-size": 30, fill: "#8fa3c7", "text-anchor": "middle" }, v);
+    });
+    el(svg, "circle", { cx: X(27.7), cy: 120, r: 18, fill: "#ff2e24" });
+    el(svg, "text", { x: X(27.7), y: 70, "font-family": "Inter UI", "font-weight": 600, "font-size": 56, fill: "#fff", "text-anchor": "middle", "letter-spacing": "-0.04em" }, "27,7");
+  })();
+  // 8. frise
+  (function () {
+    var svg = document.getElementById("c8");
+    el(svg, "line", { x1: 0, x2: 860, y1: 120, y2: 120, stroke: "#00194b", "stroke-width": 3 });
+    [["Juin 2024", "Nvidia", 80], ["Avril 2025", "S&P 500", 430], ["Mars 2026", "S&P 500", 780]].forEach(function (p, i) {
+      el(svg, "circle", { cx: p[2], cy: 120, r: 14, fill: i === 2 ? "#ff2e24" : "#00194b" });
+      el(svg, "text", { x: p[2], y: 70, "font-family": "Inter UI", "font-weight": 600, "font-size": 34, fill: "#00194b", "text-anchor": "middle" }, p[0]);
+      el(svg, "text", { x: p[2], y: 180, "font-family": "Inter UI", "font-size": 26, fill: "#8a94a8", "text-anchor": "middle" }, p[1]);
+    });
+  })();
+</script>
+</body>
+</html>

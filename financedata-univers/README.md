@@ -1,22 +1,27 @@
-# Univers FinanceData : minimal
+# Direction artistique FinanceData
 
-Planches de référence : `planches/minimal-1..4.png` (source : `planches-v2.html`).
+**Photos en bichromie bleu FinanceData, données minimales, une idée par écran.**
+Catalogue des écrans : `planches/types-apercu.jpg` (sources : `types.html`), photo de référence : `planches/direction-a1.png`.
 
-## Une règle : un écran = une idée
-Chaque scène montre **une seule chose** : une photo, un graphique, un chiffre ou une capture. Rien d'autre que les sous-titres.
+## Les fondamentaux
+- **Photos** : toujours réelles, toujours passées en bichromie `#00194B → #EEF3FC` avec `python3 scripts/bichromie.py entree.jpg sortie.jpg`. Plein écran, sans texte ajouté. Seule exception : les captures (preuves), gardées en couleurs réelles.
+- **Données** : fond blanc ou bleu quadrillé, une courbe bleu nuit, une ligne de repère pointillée grise, un seul point rouge avec sa valeur, un libellé gris centré au-dessus.
+- **Une idée par écran**, Inter uniquement, rouge réservé au point clé, sous-titres blancs sur fond gris translucide, alternance blanc / bleu à chaque scène (début en blanc).
 
-## Les 4 types d'écran
-| Type | Règle |
+## Les 11 types d'écran
+| Type | Quand l'utiliser |
 |---|---|
-| **Photo** | Vraie photo, plein écran, aucun texte ajouté (sous-titres + crédit discret). Une photo dès qu'on cite une personne, un lieu, une entreprise. |
-| **Graphique** | Vraies données. Une courbe, un repère (ligne pointillée), un seul point rouge avec sa valeur. Un libellé gris au-dessus, pas d'axe superflu. |
-| **Chiffre** | Un nombre géant blanc sur bleu, une ligne grise d'explication. |
-| **Capture** | Vraie capture (article, appli, graphique de source), angles droits, ~740 px de large, sur fond blanc. |
+| Photo | On cite une personne, une entreprise, un lieu |
+| Graphique | Une évolution réelle (cours, indicateur) |
+| Chiffre | Le résultat à retenir |
+| Comparaison | Deux cas qui s'opposent |
+| Barres | Un historique, une fréquence (« 15 fois sur 17 ») |
+| Échelle | Situer une valeur sur un intervalle (RSI, VIX…) |
+| Citation | Photo en haut, phrase en dessous |
+| Photo + chiffre | Une personne ou une entreprise associée à un chiffre choc |
+| Date | Ouvrir un exemple historique |
+| Frise | Plusieurs événements dans le temps |
+| Règle | La leçon finale, 2 lignes maximum |
+| Capture | Preuve (article, appli, graphique source), petite, angles droits |
 
-Rythme indicatif : environ 1 scène sur 3 est une photo ou une capture.
-
-## Ce qu'on retire
-Pastilles/étiquettes de couleur, badges, tampons, écriture « à la main », icônes, bandeaux, plusieurs textes à l'écran, compteurs partout, dégradés, effets sonores fréquents.
-
-## Ce qui reste
-Fond blanc quadrillé / bleu #00194B quadrillé (alternés à chaque scène, début en blanc), Inter, rouge uniquement pour l'alerte ou le point clé, sous-titres blancs sur fond gris translucide, CTA profil Instagram.
+Données des exemples : Yahoo Finance, RSI 14 jours (Wilder). Barres : S&P 500, 6 mois après chaque premier passage du RSI sous 30 depuis 2010 (17 cas, 15 positifs).
