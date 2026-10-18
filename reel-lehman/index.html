@@ -4,151 +4,248 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
     <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
     <style>
-      /* Style « financedata » (styles/financedata/STYLE.md), version minimaliste : une idée par écran, rien qui se chevauche */
+      /* Style « financedata » (styles/financedata/STYLE.md), version minimaliste :
+         une idée par écran, coupes franches, chaque élément dans sa zone (rien ne se chevauche). */
       @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-600-normal.woff2"); font-weight: 600; }
       @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-800-normal.woff2"); font-weight: 800; }
-      @font-face { font-family: "Serif FD"; src: url("assets/fonts/LibreBaskerville-Regular.ttf"); }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
       #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter FD", sans-serif; }
       .sc { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
       .white { background: radial-gradient(ellipse 80% 62% at 50% 45%, #f4f2f5 0%, #edebee 45%, #a9a7aa 82%, #5d5b5e 100%); }
       .navy { background: radial-gradient(ellipse 75% 60% at 50% 45%, #1a2275 0%, #14196d 40%, #0d1250 75%, #0a0e3b 100%); }
-      .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-      .photo::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 42%, rgba(0,0,0,0) 50%, rgba(0,0,0,.55) 100%); }
-      .c { position: absolute; left: 0; right: 0; text-align: center; }
+      .black { background: radial-gradient(ellipse 70% 55% at 50% 45%, #1a1a1d 0%, #0b0b0d 70%, #000 100%); }
+      .full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 45%; }
+      .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.05) 35%, rgba(0,0,0,.05) 60%, rgba(0,0,0,.55) 100%); }
+      .card { position: absolute; left: 0; width: 1080px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.45); }
+      .card img { width: 100%; height: 100%; object-fit: cover; display: block; transform-origin: 50% 40%; }
+      .t { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; }
       .big { font-weight: 800; letter-spacing: -.05em; line-height: .95; }
-      .small { font-weight: 600; font-size: 40px; letter-spacing: -.02em; }
+      .small { font-weight: 600; font-size: 42px; letter-spacing: -.02em; }
       .kw { position: absolute; display: inline-block; font-weight: 800; letter-spacing: -.045em; line-height: 1; padding: 10px 22px 16px; white-space: nowrap; z-index: 3; }
       .kw .bx { position: absolute; inset: 0; transform-origin: 0 50%; }
       .kw .tx { position: relative; }
       .kw.dark .bx { background: #0a105e; } .kw.dark .tx { color: #fff; }
       .kw.light .bx { background: #fff; } .kw.light .tx { color: #0a105e; }
+      .kw.red .bx { background: #ff2e24; } .kw.red .tx { color: #fff; }
+      .btn { position: absolute; display: inline-block; padding: 22px 56px 28px; font-weight: 800; font-size: 72px; letter-spacing: -.03em; color: #fff; background: #5b74d6; box-shadow: 0 18px 40px rgba(10,16,94,.35); }
       svg { position: absolute; overflow: visible; }
-      .card { position: absolute; left: 0; width: 1080px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.45); }
-      .card img { width: 100%; height: 100%; object-fit: cover; display: block; transform-origin: 50% 40%; }
       #caps { position: absolute; left: 0; right: 0; top: 1330px; z-index: 20; }
       .cl { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
       .cl span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; color: #fff; white-space: nowrap; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="30.2" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix-debut.mp3" data-start="0" data-duration="30.2" data-track-index="1"></audio>
-      <div id="stage" class="clip" data-start="0" data-duration="30.2" data-track-index="0" style="position:absolute; inset:0">
-
-        <!-- A. la date -->
-        <div class="sc white" id="sA">
-          <div class="c small" id="aDay" style="top:600px; color:#5d5b5e">Lundi</div>
-          <div class="c big" id="aDate" style="top:670px; font-size:150px; color:#000">15 sept. 2008</div>
-          <div class="c small" id="aCity" style="top:860px; color:#0a105e">New York</div>
-        </div>
-
-        <!-- B. le patron le plus détesté : la photo des pancartes « SHAME » -->
-        <div class="sc navy" id="sB">
-          <div class="kw light" id="kB" style="left:0; top:380px; font-size:88px"><span class="bx"></span><span class="tx">le plus détesté</span></div>
-          <div class="card" style="top:560px; height:674px"><img id="phB" src="assets/img/fuld-shame.jpg" alt="" /></div>
-        </div>
-
-        <!-- C. Dick Fuld : gros plan à l'audition -->
-        <div class="sc navy" id="sC">
-          <div class="card" style="top:480px; height:567px"><img id="phC" src="assets/img/fuld-audition.jpg" alt="" /></div>
-          <div class="kw light" id="kC" style="left:0; top:1100px; font-size:96px"><span class="bx"></span><span class="tx">Dick Fuld</span></div>
-        </div>
-
-        <!-- D. Lehman Brothers : l'enseigne -->
-        <div class="sc navy" id="sD">
-          <div class="card" style="top:560px; height:697px"><img id="phD" src="assets/img/lehman-enseigne.jpg" alt="" /></div>
-        </div>
-
-        <!-- E. 1969 -->
-        <div class="sc white" id="sE">
-          <div class="c big" id="eYear" style="top:640px; font-size:300px; color:#000">1969</div>
-          <div class="c small" id="eAge" style="top:960px; color:#0a105e; font-size:56px; font-weight:800">23 ans</div>
-        </div>
-
-        <!-- F. viré de l'armée -->
-        <div class="sc navy" id="sF">
-          <div class="kw light" id="kF" style="left:0; top:760px; font-size:104px"><span class="bx"></span><span class="tx">Viré de l'armée</span></div>
-        </div>
-
-        <!-- G. l'échelle -->
-        <div class="sc white" id="sG">
-          <svg id="stairs" width="840" height="640" style="left:120px; top:520px"></svg>
-        </div>
-
-        <!-- H. 1993, PDG -->
-        <div class="sc navy" id="sH">
-          <div class="c big" id="hYear" style="top:620px; font-size:300px; color:#fff">1993</div>
-          <div class="kw light" id="kH" style="left:0; top:960px; font-size:96px"><span class="bx"></span><span class="tx">PDG</span></div>
-        </div>
-
-        <div id="caps"></div>
-      </div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="97.8" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="97.8" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="97.8" data-track-index="0" style="position:absolute; inset:0"></div>
     </div>
 
     <script>
       (function () {
-        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true });
-        function el(p, t, a, txt) { var n = document.createElementNS(NS, t); for (var k in a) n.setAttribute(k, a[k]); if (txt != null) n.textContent = txt; p.appendChild(n); return n; }
-        function cut(id, a, b) { tl.set(id, { opacity: 1 }, a); tl.set(id, { opacity: 0 }, b); }
-        function slide(id, t) { tl.fromTo(id, { opacity: 0, x: 140, filter: "blur(18px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, t); }
-        function rise(id, t) { tl.fromTo(id, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, t); }
-        function kw(id, t) { tl.fromTo(id + " .bx", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, t); tl.fromTo(id + " .tx", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + 0.08); }
-        function center(id) { var n = document.querySelector(id); n.style.left = (1080 - n.offsetWidth) / 2 + "px"; }
-        function push(id, a, b, from, to) { tl.fromTo(id, { scale: from }, { scale: to, duration: b - a, ease: "none" }, a); }
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), stage = document.getElementById("stage");
+        var W = window.VO.words, toCenter = [];
+        function at(word, after) { after = after || 0; for (var i = 0; i < W.length; i++) if (W[i].s >= after && W[i].w.replace(/[.,]$/, "") === word) return W[i].s; throw new Error("mot introuvable : " + word + " après " + after); }
+        function div(parent, cls, html, style) { var d = document.createElement("div"); d.className = cls; if (html != null) d.innerHTML = html; if (style) d.setAttribute("style", style); parent.appendChild(d); return d; }
+        function svgIn(sc, w, h, left, top) { var s = document.createElementNS(NS, "svg"); s.setAttribute("width", w); s.setAttribute("height", h); s.style.left = left + "px"; s.style.top = top + "px"; sc.appendChild(s); return s; }
+        function path(svg, d, stroke, sw) { var p = document.createElementNS(NS, "path"); p.setAttribute("d", d); p.setAttribute("fill", "none"); p.setAttribute("stroke", stroke); p.setAttribute("stroke-width", sw); p.setAttribute("stroke-linejoin", "round"); svg.appendChild(p); var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; return [p, L]; }
 
-        // A. 0 → 3,4 : la date
-        cut("#sA", 0, 3.4);
-        rise("#aDay", 0.3); slide("#aDate", 0.95); rise("#aCity", 2.6);
-        // B. 3,4 → 9,0 : pancartes « SHAME », « le plus détesté »
-        cut("#sB", 3.4, 9.0);
-        tl.fromTo("#sB .card", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 3.4);
-        push("#phB", 3.4, 9.0, 1.0, 1.06);
-        center("#kB"); kw("#kB", 6.3);
-        // C. 9,0 → 13,8 : Dick Fuld
-        cut("#sC", 9.0, 13.8);
-        push("#phC", 9.0, 13.8, 1.0, 1.06);
-        center("#kC"); kw("#kC", 9.85);
-        // D. 13,8 → 15,0 : Lehman Brothers
-        cut("#sD", 13.8, 15.0);
-        push("#phD", 13.8, 15.0, 1.0, 1.03);
-        // E. 15,0 → 18,6 : 1969, 23 ans
-        cut("#sE", 15.0, 18.6);
-        slide("#eYear", 16.15); rise("#eAge", 17.8);
-        // F. 18,6 → 21,3 : viré de l'armée
-        cut("#sF", 18.6, 21.3);
-        center("#kF"); kw("#kF", 18.68);
-        // G. 21,3 → 26,0 : courtier, puis l'échelle
-        cut("#sG", 21.3, 26.0);
-        (function () {
-          var s = document.getElementById("stairs"), n = 6, w = 840 / n, h = 560 / n, d = "M0 600";
+        // ---- les éléments d'un écran (une idée, chacun dans sa zone) ----
+        function kw(sc, text, t, top, size, tone) {
+          var k = div(sc, "kw " + (tone || "dark"), '<span class="bx"></span><span class="tx">' + text + "</span>", "top:" + top + "px; font-size:" + (size || 96) + "px");
+          toCenter.push(k);
+          tl.fromTo(k.querySelector(".bx"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, t);
+          tl.fromTo(k.querySelector(".tx"), { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + 0.08);
+          return k;
+        }
+        function big(sc, text, t, top, size, color) {
+          var b = div(sc, "t big", text, "top:" + top + "px; font-size:" + size + "px; color:" + color);
+          tl.fromTo(b, { opacity: 0, x: 140, filter: "blur(18px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, t);
+          return b;
+        }
+        function small(sc, text, t, top, color, size) {
+          var s = div(sc, "t small", text, "top:" + top + "px; color:" + color + (size ? "; font-size:" + size + "px; font-weight:800" : ""));
+          tl.fromTo(s, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, t);
+          return s;
+        }
+        function card(sc, src, top, h, a, b) {
+          var c = div(sc, "card", '<img src="assets/img/' + src + '" alt="" />', "top:" + top + "px; height:" + h + "px");
+          tl.fromTo(c, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, a);
+          tl.fromTo(c.querySelector("img"), { scale: 1 }, { scale: 1.06, duration: b - a, ease: "none" }, a);
+          return c;
+        }
+        // un écran : son fond, coupe franche à l'entrée et à la sortie
+        function scene(a, b, bg, fullImg, dark) {
+          var sc = div(stage, "sc " + (bg || ""));
+          if (fullImg) {
+            var im = div(sc, "", '<img class="full" src="assets/img/' + fullImg + '" alt="" />');
+            tl.fromTo(im.firstChild, { scale: 1.0 }, { scale: 1.05, duration: b - a, ease: "none" }, a);
+            div(sc, "shade", null, dark ? "background: rgba(0,0,0," + dark + ")" : null);
+          }
+          tl.set(sc, { opacity: 1 }, a); tl.set(sc, { opacity: 0 }, b);
+          return sc;
+        }
+
+        // =================== MONTAGE ===================
+        var s;
+        // A. 15 septembre 2008, Times Square (le bandeau « Lehman goes bankrupt »)
+        s = scene(0, 3.4, "", "times-square.jpg", 0.35);
+        small(s, "Lundi", 0.3, 940, "#ffffff");
+        big(s, "15 sept. 2008", 0.95, 1010, 150, "#ffffff");
+        small(s, "New York", 2.6, 1190, "#ffffff");
+        // B. le patron le plus détesté
+        s = scene(3.4, 9.0, "navy");
+        card(s, "fuld-shame.jpg", 560, 674, 3.4, 9.0);
+        kw(s, "le plus détesté", at("détesté") - 0.15, 380, 88, "light");
+        // C. Dick Fuld
+        s = scene(9.0, 13.8, "navy");
+        card(s, "fuld-audition.jpg", 480, 567, 9.0, 13.8);
+        kw(s, "Dick Fuld", at("Dick") - 0.05, 1100, 96, "light");
+        // D. Lehman Brothers (l'enseigne)
+        s = scene(13.8, 15.0, "navy");
+        card(s, "lehman-enseigne.jpg", 560, 697, 13.8, 15.0);
+        // E. 1969, 23 ans
+        s = scene(15.0, 18.6, "white");
+        big(s, "1969", at("mille", 15) - 0.1, 640, 300, "#000");
+        small(s, "23 ans", at("vingt-trois") - 0.08, 960, "#0a105e", 56);
+        // F. viré de l'armée
+        s = scene(18.6, 21.3, "navy");
+        kw(s, "Viré de l'armée", 18.68, 760, 104, "light");
+        // G. l'échelle, de courtier à PDG
+        s = scene(21.3, 26.0, "white");
+        (function (sc) {
+          var svg = svgIn(sc, 840, 640, 120, 520), n = 6, w = 840 / n, h = 560 / n, d = "M0 600";
           for (var i = 0; i < n; i++) d += " L" + (i * w) + " " + (600 - (i + 1) * h) + " L" + ((i + 1) * w) + " " + (600 - (i + 1) * h);
-          var p = el(s, "path", { d: d, fill: "none", stroke: "#0a105e", "stroke-width": 10, "stroke-linejoin": "miter" });
-          var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L;
+          var r = path(svg, d, "#0a105e", 10), p = r[0], L = r[1];
           tl.set(p, { strokeDashoffset: L }, 21.3);
           tl.to(p, { strokeDashoffset: L * (1 - 1 / n), duration: 0.5, ease: "power2.out" }, 21.7);
-          var st = el(s, "text", { x: 0, y: 660, "font-family": "Inter FD", "font-weight": 800, "font-size": 52, fill: "#000", "letter-spacing": "-2" }, "Courtier");
-          tl.fromTo(st, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 22.85);
-          tl.to(p, { strokeDashoffset: 0, duration: 1.4, ease: "power2.in" }, 24.6);
-          var dot = el(s, "rect", { x: 840 - 18, y: 600 - 6 * h - 18, width: 36, height: 36, fill: "#ff2e24", opacity: 0 });
-          tl.to(dot, { opacity: 1, duration: 0.15 }, 25.95);
-        })();
-        // H. 26,0 → 30,2 : 1993, PDG
-        cut("#sH", 26.0, 30.2);
-        slide("#hYear", 26.05); center("#kH"); kw("#kH", 27.95);
+          tl.to(p, { strokeDashoffset: 0, duration: 1.4, ease: "power2.in" }, at("grimpe") - 0.1);
+          var tx = document.createElementNS(NS, "text"); tx.setAttribute("x", 0); tx.setAttribute("y", 660); tx.setAttribute("font-family", "Inter FD"); tx.setAttribute("font-weight", 800); tx.setAttribute("font-size", 52); tx.textContent = "Courtier"; svg.appendChild(tx);
+          tl.fromTo(tx, { opacity: 0 }, { opacity: 1, duration: 0.3 }, at("courtier") - 0.05);
+        })(s);
+        // H. 1993, PDG
+        s = scene(26.0, 30.2, "navy");
+        big(s, "1993", 26.05, 620, 300, "#ffffff");
+        kw(s, "PDG", at("PDG", 27) - 0.1, 960, 96, "light");
+        // I. pourtant, il va leur prouver qu'ils ont tort
+        s = scene(30.2, 32.8, "navy");
+        card(s, "fuld-wef.jpg", 480, 806, 30.2, 32.8);
+        // J. il introduit Lehman en bourse
+        s = scene(32.8, 34.3, "", "nyse.jpg");
+        kw(s, "en bourse", at("bourse") - 0.2, 380, 104, "light");
+        // K. il s'étend à l'international
+        s = scene(34.3, 36.4, "navy");
+        card(s, "lehman-londres.jpg", 560, 720, 34.3, 36.4);
+        kw(s, "à l'international", at("l'international") - 0.1, 380, 88, "light");
+        // L. une culture féroce
+        s = scene(36.4, 38.3, "black");
+        kw(s, "une culture féroce", at("culture") - 0.15, 780, 96, "light");
+        // M. bonus en actions, 30 % du capital
+        s = scene(38.3, 42.0, "white");
+        small(s, 'Bonus <span style="color:#000">=</span> actions', at("bonus") - 0.05, 520, "#0a105e", 72);
+        big(s, "30 %", at("trente") - 0.1, 700, 300, "#000");
+        small(s, "du capital aux salariés", at("capital") - 0.1, 1010, "#0a105e");
+        // N. tout le monde a intérêt à ce que le cours monte. Et le cours monte.
+        s = scene(42.0, 45.9, "navy");
+        (function (sc) {
+          var svg = svgIn(sc, 840, 520, 120, 640);
+          var pts = [[0, 480], [90, 450], [170, 462], [250, 400], [330, 410], [420, 330], [500, 345], [590, 250], [670, 215], [760, 120], [840, 40]];
+          var r = path(svg, pts.map(function (q, i) { return (i ? "L" : "M") + q[0] + " " + q[1]; }).join(" "), "#3cff5a", 9), p = r[0], L = r[1];
+          p.style.filter = "drop-shadow(0 0 10px rgba(60,255,90,.55))";
+          tl.set(p, { strokeDashoffset: L }, 42.0);
+          tl.to(p, { strokeDashoffset: L * 0.45, duration: 0.6, ease: "power2.out" }, at("cours") - 0.1);
+          tl.to(p, { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, at("cours", 45) - 0.1);
+        })(s);
+        kw(s, "le cours monte", at("cours") - 0.15, 400, 96, "light");
+        // O. 2007 : plus de 4 milliards de dollars de bénéfices
+        s = scene(45.9, 49.6, "white");
+        small(s, "2007", at("sept", 46) - 0.15, 560, "#0a105e", 64);
+        big(s, "4 Md$", at("quatre", 47) - 0.1, 660, 280, "#000");
+        small(s, "de bénéfices", at("bénéfices") - 0.1, 950, "#0a105e");
+        // P. la plus admirée selon Fortune
+        s = scene(49.6, 54.1, "navy");
+        small(s, "Fortune Magazine", at("Fortune") - 0.05, 640, "#9fa8e6", 56);
+        kw(s, "la plus admirée", at("admirée") - 0.15, 740, 104, "light");
+        // Q. des risques que personne n'ose prendre
+        s = scene(54.1, 57.9, "black");
+        kw(s, "des risques", at("risques") - 0.15, 700, 120, "red");
+        small(s, "que personne n'ose prendre", at("personne", 56) - 0.05, 880, "#ffffff");
+        // R. la crise de 2008 éclate
+        s = scene(57.9, 61.3, "navy");
+        card(s, "salle-chaos.jpg", 520, 754, 57.9, 61.3);
+        // S. des crédits immobiliers pourris : les subprimes
+        s = scene(61.3, 66.0, "navy");
+        card(s, "saisie.jpg", 420, 640, 61.3, 66.0);
+        kw(s, "les subprimes", at("subprimes") - 0.3, 1110, 96, "red");
+        // T. les pertes se comptent en milliards
+        s = scene(66.0, 68.3, "black");
+        big(s, "−3,9 Md$", at("milliards", 66) - 0.2, 700, 210, "#ff2e24");
+        small(s, "de pertes en un trimestre", at("milliards", 66) + 0.2, 930, "#ffffff");
+        // U. les conseillers lui disent de vendre, il refuse
+        s = scene(68.3, 72.8, "white");
+        (function (sc) {
+          var b = div(sc, "btn", "Vendre", "top:720px"); toCenter.push(b);
+          tl.fromTo(b, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, at("vendre", 68) - 0.1);
+          tl.to(b, { scale: 0.93, duration: 0.1 }, at("refuse") - 0.1);
+          tl.to(b, { scale: 1, backgroundColor: "#ff2e24", duration: 0.2 }, at("refuse"));
+          var no = div(sc, "t big", "Refusé", "top:960px; font-size:110px; color:#ff2e24");
+          tl.fromTo(no, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3 }, at("refuse") + 0.05);
+        })(s);
+        // V. vendre, c'est capituler
+        s = scene(72.8, 75.0, "navy");
+        card(s, "fuld-portrait.jpg", 480, 640, 72.8, 75.0);
+        kw(s, "capituler", at("capituler") - 0.15, 1150, 96, "light");
+        // W. c'est officiel : faillite
+        s = scene(75.0, 78.6, "white");
+        card(s, "wsj-15-sept.jpg", 300, 760, 75.0, 78.6);
+        kw(s, "FAILLITE", at("faillite") - 0.15, 1110, 110, "red");
+        // X. 158 ans d'histoire s'effondrent en une journée
+        s = scene(78.6, 81.4, "navy");
+        kw(s, "158 ans", at("Cent") - 0.05, 360, 110, "light");
+        card(s, "enseigne-christies.jpg", 560, 720, 78.6, 81.4);
+        // Y. la pire crise depuis 1929
+        s = scene(81.4, 85.6, "", "krach-1929.jpg", 0.4);
+        small(s, "La pire crise depuis", at("pire") - 0.1, 520, "#ffffff", 64);
+        big(s, "1929", at("mille", 84) - 0.15, 690, 300, "#ffffff");
+        // Z. 25 000 salariés, un carton sous le bras
+        s = scene(85.6, 89.5, "", "carton.jpg");
+        kw(s, "25 000 salariés", at("vingt-cinq") - 0.1, 330, 96, "light");
+        // AA. pas un seul mot d'excuse
+        s = scene(89.5, 93.0, "navy");
+        card(s, "fuld-audition-large.jpg", 520, 688, 89.5, 93.0);
+        // AB. aucun regret : le patron le plus détesté d'Amérique
+        s = scene(93.0, 97.8, "navy");
+        card(s, "fuld-shame.jpg", 560, 674, 93.0, 97.8);
+        kw(s, "aucun regret", at("regret") - 0.2, 380, 96, "light");
 
-        // sous-titres (3 mots max), calés sur la voix (STT ElevenLabs)
-        var C = [["On est le lundi", .14, 1.0], ["15 septembre 2008", 1.02, 2.6], ["à New York,", 2.62, 3.4], ["quand ce PDG", 3.42, 4.56], ["s'apprête à devenir", 4.58, 5.46], ["le patron", 5.48, 5.98], ["le plus détesté", 6.0, 7.0], ["d'Amérique.", 7.04, 7.66], ["Mais il ne", 7.7, 8.04], ["le sait pas", 8.06, 8.46], ["encore.", 8.48, 9.06], ["Lui, c'est", 9.1, 9.88], ["Dick Fuld,", 9.9, 10.68], ["le PDG", 10.7, 11.72], ["de l'une des", 11.74, 12.2], ["plus grosses banques", 12.22, 13.06], ["américaines,", 13.08, 13.9], ["Lehman Brothers.", 13.94, 15.0], ["Fuld avait rejoint", 15.08, 15.72], ["Lehman en 1969", 15.74, 17.76], ["à 23 ans.", 17.78, 18.7], ["Viré de l'armée", 18.72, 19.64], ["après une bagarre", 19.66, 20.34], ["avec son supérieur.", 20.36, 21.3], ["Il entre au", 21.34, 21.76], ["bas de l'échelle", 21.78, 22.68], ["comme courtier,", 22.7, 23.56], ["mais il est", 23.58, 23.94], ["acharné", 23.96, 24.6], ["et grimpe très", 24.62, 25.18], ["vite l'échelle.", 25.2, 26.0], ["En 1993,", 26.02, 27.58], ["il devient PDG", 27.6, 28.34], ["de la banque", 28.36, 28.8], ["quand plus personne", 28.82, 29.38], ["ne croit en elle.", 29.4, 30.2]];
-        var box = document.getElementById("caps");
-        C.forEach(function (c) {
-          var d = document.createElement("div"); d.className = "cl"; d.innerHTML = "<span>" + c[0] + "</span>"; box.appendChild(d);
-          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1 }, c[1] - 0.06);
-          tl.to(d, { opacity: 0, duration: 0.01 }, c[2] - 0.035);
+        // ---- sous-titres : 3 mots max, nombres en chiffres ----
+        var NUM = [[1.02, 2.4, "15 septembre 2008"], [16.24, 17.5, "1969"], [17.86, 18.3, "23"], [26.12, 27.5, "1993,"], [40.72, 41.2, "30 %"], [46.08, 46.4, "2007,"], [47.8, 48.2, "4"], [59.82, 60.3, "2008"], [78.74, 79.1, "158"], [84.32, 85.4, "1929."], [86.48, 87.0, "25 000"]];
+        var T = [];
+        W.forEach(function (w) {
+          var n = NUM.filter(function (r) { return w.s >= r[0] - 0.01 && w.s <= r[1]; })[0];
+          if (n) { if (!n.done) { n.done = 1; T.push({ w: n[2], s: w.s, e: w.e }); } else T[T.length - 1].e = w.e; }
+          else T.push({ w: w.w, s: w.s, e: w.e });
         });
+        var box = div(stage, "", null); box.id = "caps";
+        var g = [];
+        T.forEach(function (w, i) {
+          g.push(w);
+          var len = g.reduce(function (a, x) { return a + x.w.length + 1; }, 0);
+          if (/[.,]$/.test(w.w) || g.length === 3 || len > 20 || i === T.length - 1) {
+            var d = div(box, "cl", "<span>" + g.map(function (x) { return x.w; }).join(" ") + "</span>");
+            var nxt = T[i + 1] ? T[i + 1].s : g[g.length - 1].e + 0.3;
+            tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1 }, g[0].s - 0.06);
+            tl.to(d, { opacity: 0, duration: 0.01 }, Math.min(nxt, g[g.length - 1].e + 0.45) - 0.035);
+            g = [];
+          }
+        });
+
+        // centrage horizontal des encadrés et boutons
+        toCenter.forEach(function (n) { n.style.left = "540px"; gsap.set(n, { xPercent: -50 }); });
         window.__SFX = [];
-        tl.set({}, {}, 30.2);
+        tl.set({}, {}, 97.8);
         window.__timelines = window.__timelines || {};
         window.__timelines["main"] = tl;
         tl.seek(0);
