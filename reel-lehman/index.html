@@ -26,6 +26,8 @@
       .kw.dark .bx { background: #0a105e; } .kw.dark .tx { color: #fff; }
       .kw.light .bx { background: #fff; } .kw.light .tx { color: #0a105e; }
       svg { position: absolute; overflow: visible; }
+      .card { position: absolute; left: 0; width: 1080px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.45); }
+      .card img { width: 100%; height: 100%; object-fit: cover; display: block; transform-origin: 50% 40%; }
       #caps { position: absolute; left: 0; right: 0; top: 1330px; z-index: 20; }
       .cl { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
       .cl span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; color: #fff; white-space: nowrap; }
@@ -43,20 +45,21 @@
           <div class="c small" id="aCity" style="top:860px; color:#0a105e">New York</div>
         </div>
 
-        <!-- B. le patron le plus détesté (photo) -->
-        <div class="sc photo" id="sB"><img id="phB" src="assets/img/fuld.jpg" alt="" onerror="this.remove(); document.getElementById('sB').classList.add('navy'); document.getElementById('kB').classList.replace('dark','light')" />
-          <div class="kw dark" id="kB" style="left:90px; top:300px; font-size:88px"><span class="bx"></span><span class="tx">le plus détesté</span></div>
+        <!-- B. le patron le plus détesté : la photo des pancartes « SHAME » -->
+        <div class="sc navy" id="sB">
+          <div class="kw light" id="kB" style="left:0; top:380px; font-size:88px"><span class="bx"></span><span class="tx">le plus détesté</span></div>
+          <div class="card" style="top:560px; height:674px"><img id="phB" src="assets/img/fuld-shame.jpg" alt="" /></div>
         </div>
 
-        <!-- C. Dick Fuld (photo, autre cadrage) -->
-        <div class="sc photo" id="sC"><img id="phC" src="assets/img/fuld.jpg" alt="" onerror="this.remove(); document.getElementById('sC').classList.add('navy'); document.getElementById('kC').classList.replace('dark','light')" />
-          <div class="kw dark" id="kC" style="left:90px; top:1150px; font-size:96px"><span class="bx"></span><span class="tx">Dick Fuld</span></div>
+        <!-- C. Dick Fuld : gros plan à l'audition -->
+        <div class="sc navy" id="sC">
+          <div class="card" style="top:480px; height:567px"><img id="phC" src="assets/img/fuld-audition.jpg" alt="" /></div>
+          <div class="kw light" id="kC" style="left:0; top:1100px; font-size:96px"><span class="bx"></span><span class="tx">Dick Fuld</span></div>
         </div>
 
-        <!-- D. Lehman Brothers -->
+        <!-- D. Lehman Brothers : l'enseigne -->
         <div class="sc navy" id="sD">
-          <div class="c" id="dLogo" style="top:700px; font-family:'Serif FD'; font-size:92px; letter-spacing:.06em; color:#fff; line-height:1.1">LEHMAN<br />BROTHERS</div>
-          <div class="c small" id="dSub" style="top:960px; color:#9fa8e6">4ᵉ banque d'affaires américaine</div>
+          <div class="card" style="top:560px; height:697px"><img id="phD" src="assets/img/lehman-enseigne.jpg" alt="" /></div>
         </div>
 
         <!-- E. 1969 -->
@@ -99,18 +102,18 @@
         // A. 0 → 3,4 : la date
         cut("#sA", 0, 3.4);
         rise("#aDay", 0.3); slide("#aDate", 0.95); rise("#aCity", 2.6);
-        // B. 3,4 → 9,0 : la photo, « le plus détesté »
+        // B. 3,4 → 9,0 : pancartes « SHAME », « le plus détesté »
         cut("#sB", 3.4, 9.0);
-        push("#phB", 3.4, 9.0, 1.0, 1.05);
-        kw("#kB", 6.3);
+        tl.fromTo("#sB .card", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 3.4);
+        push("#phB", 3.4, 9.0, 1.0, 1.06);
+        center("#kB"); kw("#kB", 6.3);
         // C. 9,0 → 13,8 : Dick Fuld
         cut("#sC", 9.0, 13.8);
-        tl.set("#phC", { scale: 1.18, transformOrigin: "55% 32%" }, 9.0);
-        push("#phC", 9.0, 13.8, 1.18, 1.24);
-        kw("#kC", 9.85);
+        push("#phC", 9.0, 13.8, 1.0, 1.06);
+        center("#kC"); kw("#kC", 9.85);
         // D. 13,8 → 15,0 : Lehman Brothers
         cut("#sD", 13.8, 15.0);
-        rise("#dLogo", 13.85); rise("#dSub", 14.3);
+        push("#phD", 13.8, 15.0, 1.0, 1.03);
         // E. 15,0 → 18,6 : 1969, 23 ans
         cut("#sE", 15.0, 18.6);
         slide("#eYear", 16.15); rise("#eAge", 17.8);
