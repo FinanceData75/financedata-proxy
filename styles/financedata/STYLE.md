@@ -58,6 +58,11 @@ C'est la DA FinanceData telle qu'elle est publiée : ce fichier fait référence
 - les clips générés par IA éventuels et la 3D « gadget » (777) : à remplacer par une vraie image ou un chiffre
 - la musique systématique : seulement une nappe très basse quand le sujet est anxiogène (VIX)
 
+## Règles apprises (retours)
+- **jamais d'écran vide** : chaque écran montre un élément dès sa première image (démarrer l'animation ~0,2 s avant la coupe) ; vérification automatique sur le rendu (5 images/s, zone 250–1300 px : aucune image sans contenu)
+- minimaliste : pas de surtitre quand l'image suffit ; chaque élément dans sa zone, aucun chevauchement
+- photos basse définition : en carte pleine largeur sur fond bleu plutôt qu'en plein écran flou
+
 ## Comment l'appliquer dans HyperFrames
 - `assets/reel-data.js` : une scène ≈ une phrase (3 à 4 s), coupe franche entre scènes
 - `index.html` : classes de fond `bg-white` (vignette), `bg-navy` (vignette), `bg-photo`, `wash-green|red|yellow`, `bg-black` ; composant `kw` (mot encadré bleu qui se dessine), `big-number` (glissement + flou), `chart` (titre, seuil, rectangle de sélection, % vert lumineux)

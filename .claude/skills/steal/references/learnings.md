@@ -19,3 +19,4 @@ Deux sources : les leçons du skill d'origine (`learnings-origine.md`, Melvynx/v
 - **Rythme** : dynamique sans excès ; ne pas couper une scène au milieu ; ne pas rester figé (le hook doit vivre chaque seconde).
 - **Fin** : la vidéo s'arrête quand la voix s'arrête ; CTA profil Instagram + bouton S'abonner → Abonné synchronisé sur la voix.
 - **Pas de zoom caméra ni de tremblement.**
+- **Jamais d'écran vide** : chaque écran a un élément visible dès sa première image ; vérifier le rendu image par image avant de livrer.

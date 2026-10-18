@@ -108,11 +108,12 @@
         card(s, "lehman-enseigne.jpg", 560, 697, 13.8, 15.0);
         // E. 1969, 23 ans
         s = scene(15.0, 18.6, "white");
+        small(s, "Il rejoint Lehman", 14.85, 500, "#0a105e", 64);
         big(s, "1969", at("mille", 15) - 0.1, 640, 300, "#000");
         small(s, "23 ans", at("vingt-trois") - 0.08, 960, "#0a105e", 56);
         // F. viré de l'armée
         s = scene(18.6, 21.3, "navy");
-        kw(s, "Viré de l'armée", 18.68, 760, 104, "light");
+        kw(s, "Viré de l'armée", 18.45, 760, 104, "light");
         // G. l'échelle, de courtier à PDG
         s = scene(21.3, 26.0, "white");
         (function (sc) {
@@ -120,14 +121,14 @@
           for (var i = 0; i < n; i++) d += " L" + (i * w) + " " + (600 - (i + 1) * h) + " L" + ((i + 1) * w) + " " + (600 - (i + 1) * h);
           var r = path(svg, d, "#0a105e", 10), p = r[0], L = r[1];
           tl.set(p, { strokeDashoffset: L }, 21.3);
-          tl.to(p, { strokeDashoffset: L * (1 - 1 / n), duration: 0.5, ease: "power2.out" }, 21.7);
+          tl.to(p, { strokeDashoffset: L * (1 - 1 / n), duration: 0.4, ease: "power2.out" }, 21.32);
           tl.to(p, { strokeDashoffset: 0, duration: 1.4, ease: "power2.in" }, at("grimpe") - 0.1);
           var tx = document.createElementNS(NS, "text"); tx.setAttribute("x", 0); tx.setAttribute("y", 660); tx.setAttribute("font-family", "Inter FD"); tx.setAttribute("font-weight", 800); tx.setAttribute("font-size", 52); tx.textContent = "Courtier"; svg.appendChild(tx);
-          tl.fromTo(tx, { opacity: 0 }, { opacity: 1, duration: 0.3 }, at("courtier") - 0.05);
+          tl.fromTo(tx, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 21.35);
         })(s);
         // H. 1993, PDG
         s = scene(26.0, 30.2, "navy");
-        big(s, "1993", 26.05, 620, 300, "#ffffff");
+        big(s, "1993", 25.8, 620, 300, "#ffffff");
         kw(s, "PDG", at("PDG", 27) - 0.1, 960, 96, "light");
         // I. pourtant, il va leur prouver qu'ils ont tort
         s = scene(30.2, 32.8, "navy");
@@ -141,7 +142,7 @@
         kw(s, "à l'international", at("l'international") - 0.1, 380, 88, "light");
         // L. une culture féroce
         s = scene(36.4, 38.3, "black");
-        kw(s, "une culture féroce", at("culture") - 0.15, 780, 96, "light");
+        kw(s, "une culture féroce", 36.2, 780, 96, "light");
         // M. bonus en actions, 30 % du capital
         s = scene(38.3, 42.0, "white");
         small(s, 'Bonus <span style="color:#000">=</span> actions', at("bonus") - 0.05, 520, "#0a105e", 72);
@@ -155,13 +156,15 @@
           var r = path(svg, pts.map(function (q, i) { return (i ? "L" : "M") + q[0] + " " + q[1]; }).join(" "), "#3cff5a", 9), p = r[0], L = r[1];
           p.style.filter = "drop-shadow(0 0 10px rgba(60,255,90,.55))";
           tl.set(p, { strokeDashoffset: L }, 42.0);
+          tl.to(p, { strokeDashoffset: L * 0.8, duration: 2.0, ease: "none" }, 42.05);
           tl.to(p, { strokeDashoffset: L * 0.45, duration: 0.6, ease: "power2.out" }, at("cours") - 0.1);
           tl.to(p, { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, at("cours", 45) - 0.1);
         })(s);
-        kw(s, "le cours monte", at("cours") - 0.15, 400, 96, "light");
+        small(s, "Tout le monde a intérêt", 41.8, 420, "#9fa8e6", 56);
+        kw(s, "le cours monte", at("cours") - 0.15, 520, 96, "light");
         // O. 2007 : plus de 4 milliards de dollars de bénéfices
         s = scene(45.9, 49.6, "white");
-        small(s, "2007", at("sept", 46) - 0.15, 560, "#0a105e", 64);
+        small(s, "2007", 45.7, 560, "#0a105e", 64);
         big(s, "4 Md$", at("quatre", 47) - 0.1, 660, 280, "#000");
         small(s, "de bénéfices", at("bénéfices") - 0.1, 950, "#0a105e");
         // P. la plus admirée selon Fortune
@@ -170,6 +173,7 @@
         kw(s, "la plus admirée", at("admirée") - 0.15, 740, 104, "light");
         // Q. des risques que personne n'ose prendre
         s = scene(54.1, 57.9, "black");
+        small(s, "Ses profits reposent sur", 53.9, 580, "#ffffff", 56);
         kw(s, "des risques", at("risques") - 0.15, 700, 120, "red");
         small(s, "que personne n'ose prendre", at("personne", 56) - 0.05, 880, "#ffffff");
         // R. la crise de 2008 éclate
@@ -181,13 +185,16 @@
         kw(s, "les subprimes", at("subprimes") - 0.3, 1110, 96, "red");
         // T. les pertes se comptent en milliards
         s = scene(66.0, 68.3, "black");
+        small(s, "Les pertes", 65.8, 570, "#ffffff", 64);
         big(s, "−3,9 Md$", at("milliards", 66) - 0.2, 700, 210, "#ff2e24");
         small(s, "de pertes en un trimestre", at("milliards", 66) + 0.2, 930, "#ffffff");
         // U. les conseillers lui disent de vendre, il refuse
         s = scene(68.3, 72.8, "white");
         (function (sc) {
           var b = div(sc, "btn", "Vendre", "top:720px"); toCenter.push(b);
-          tl.fromTo(b, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, at("vendre", 68) - 0.1);
+          tl.fromTo(b, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 68.35);
+          tl.to(b, { scale: 1.06, duration: 0.18, yoyo: true, repeat: 1 }, at("vendre", 68) - 0.05);
+          tl.to(b, { scale: 1.06, duration: 0.18, yoyo: true, repeat: 1 }, at("supplie") - 0.05);
           tl.to(b, { scale: 0.93, duration: 0.1 }, at("refuse") - 0.1);
           tl.to(b, { scale: 1, backgroundColor: "#ff2e24", duration: 0.2 }, at("refuse"));
           var no = div(sc, "t big", "Refusé", "top:960px; font-size:110px; color:#ff2e24");
