@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Style « financedata » (styles/financedata/STYLE.md), version minimaliste : une idée par écran, rien qui se chevauche */
+      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-800-normal.woff2"); font-weight: 800; }
+      @font-face { font-family: "Serif FD"; src: url("assets/fonts/LibreBaskerville-Regular.ttf"); }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter FD", sans-serif; }
+      .sc { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      .white { background: radial-gradient(ellipse 80% 62% at 50% 45%, #f4f2f5 0%, #edebee 45%, #a9a7aa 82%, #5d5b5e 100%); }
+      .navy { background: radial-gradient(ellipse 75% 60% at 50% 45%, #1a2275 0%, #14196d 40%, #0d1250 75%, #0a0e3b 100%); }
+      .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .photo::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 42%, rgba(0,0,0,0) 50%, rgba(0,0,0,.55) 100%); }
+      .c { position: absolute; left: 0; right: 0; text-align: center; }
+      .big { font-weight: 800; letter-spacing: -.05em; line-height: .95; }
+      .small { font-weight: 600; font-size: 40px; letter-spacing: -.02em; }
+      .kw { position: absolute; display: inline-block; font-weight: 800; letter-spacing: -.045em; line-height: 1; padding: 10px 22px 16px; white-space: nowrap; z-index: 3; }
+      .kw .bx { position: absolute; inset: 0; transform-origin: 0 50%; }
+      .kw .tx { position: relative; }
+      .kw.dark .bx { background: #0a105e; } .kw.dark .tx { color: #fff; }
+      .kw.light .bx { background: #fff; } .kw.light .tx { color: #0a105e; }
+      svg { position: absolute; overflow: visible; }
+      #caps { position: absolute; left: 0; right: 0; top: 1330px; z-index: 20; }
+      .cl { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cl span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; color: #fff; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="30.2" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix-debut.mp3" data-start="0" data-duration="30.2" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="30.2" data-track-index="0" style="position:absolute; inset:0">
+
+        <!-- A. la date -->
+        <div class="sc white" id="sA">
+          <div class="c small" id="aDay" style="top:600px; color:#5d5b5e">Lundi</div>
+          <div class="c big" id="aDate" style="top:670px; font-size:150px; color:#000">15 sept. 2008</div>
+          <div class="c small" id="aCity" style="top:860px; color:#0a105e">New York</div>
+        </div>
+
+        <!-- B. le patron le plus détesté (photo) -->
+        <div class="sc photo" id="sB"><img id="phB" src="assets/img/fuld.jpg" alt="" onerror="this.remove(); document.getElementById('sB').classList.add('navy'); document.getElementById('kB').classList.replace('dark','light')" />
+          <div class="kw dark" id="kB" style="left:90px; top:300px; font-size:88px"><span class="bx"></span><span class="tx">le plus détesté</span></div>
+        </div>
+
+        <!-- C. Dick Fuld (photo, autre cadrage) -->
+        <div class="sc photo" id="sC"><img id="phC" src="assets/img/fuld.jpg" alt="" onerror="this.remove(); document.getElementById('sC').classList.add('navy'); document.getElementById('kC').classList.replace('dark','light')" />
+          <div class="kw dark" id="kC" style="left:90px; top:1150px; font-size:96px"><span class="bx"></span><span class="tx">Dick Fuld</span></div>
+        </div>
+
+        <!-- D. Lehman Brothers -->
+        <div class="sc navy" id="sD">
+          <div class="c" id="dLogo" style="top:700px; font-family:'Serif FD'; font-size:92px; letter-spacing:.06em; color:#fff; line-height:1.1">LEHMAN<br />BROTHERS</div>
+          <div class="c small" id="dSub" style="top:960px; color:#9fa8e6">4ᵉ banque d'affaires américaine</div>
+        </div>
+
+        <!-- E. 1969 -->
+        <div class="sc white" id="sE">
+          <div class="c big" id="eYear" style="top:640px; font-size:300px; color:#000">1969</div>
+          <div class="c small" id="eAge" style="top:960px; color:#0a105e; font-size:56px; font-weight:800">23 ans</div>
+        </div>
+
+        <!-- F. viré de l'armée -->
+        <div class="sc navy" id="sF">
+          <div class="kw light" id="kF" style="left:0; top:760px; font-size:104px"><span class="bx"></span><span class="tx">Viré de l'armée</span></div>
+        </div>
+
+        <!-- G. l'échelle -->
+        <div class="sc white" id="sG">
+          <svg id="stairs" width="840" height="640" style="left:120px; top:520px"></svg>
+        </div>
+
+        <!-- H. 1993, PDG -->
+        <div class="sc navy" id="sH">
+          <div class="c big" id="hYear" style="top:620px; font-size:300px; color:#fff">1993</div>
+          <div class="kw light" id="kH" style="left:0; top:960px; font-size:96px"><span class="bx"></span><span class="tx">PDG</span></div>
+        </div>
+
+        <div id="caps"></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true });
+        function el(p, t, a, txt) { var n = document.createElementNS(NS, t); for (var k in a) n.setAttribute(k, a[k]); if (txt != null) n.textContent = txt; p.appendChild(n); return n; }
+        function cut(id, a, b) { tl.set(id, { opacity: 1 }, a); tl.set(id, { opacity: 0 }, b); }
+        function slide(id, t) { tl.fromTo(id, { opacity: 0, x: 140, filter: "blur(18px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, t); }
+        function rise(id, t) { tl.fromTo(id, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, t); }
+        function kw(id, t) { tl.fromTo(id + " .bx", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, t); tl.fromTo(id + " .tx", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + 0.08); }
+        function center(id) { var n = document.querySelector(id); n.style.left = (1080 - n.offsetWidth) / 2 + "px"; }
+        function push(id, a, b, from, to) { tl.fromTo(id, { scale: from }, { scale: to, duration: b - a, ease: "none" }, a); }
+
+        // A. 0 → 3,4 : la date
+        cut("#sA", 0, 3.4);
+        rise("#aDay", 0.3); slide("#aDate", 0.95); rise("#aCity", 2.6);
+        // B. 3,4 → 9,0 : la photo, « le plus détesté »
+        cut("#sB", 3.4, 9.0);
+        push("#phB", 3.4, 9.0, 1.0, 1.05);
+        kw("#kB", 6.3);
+        // C. 9,0 → 13,8 : Dick Fuld
+        cut("#sC", 9.0, 13.8);
+        tl.set("#phC", { scale: 1.18, transformOrigin: "55% 32%" }, 9.0);
+        push("#phC", 9.0, 13.8, 1.18, 1.24);
+        kw("#kC", 9.85);
+        // D. 13,8 → 15,0 : Lehman Brothers
+        cut("#sD", 13.8, 15.0);
+        rise("#dLogo", 13.85); rise("#dSub", 14.3);
+        // E. 15,0 → 18,6 : 1969, 23 ans
+        cut("#sE", 15.0, 18.6);
+        slide("#eYear", 16.15); rise("#eAge", 17.8);
+        // F. 18,6 → 21,3 : viré de l'armée
+        cut("#sF", 18.6, 21.3);
+        center("#kF"); kw("#kF", 18.68);
+        // G. 21,3 → 26,0 : courtier, puis l'échelle
+        cut("#sG", 21.3, 26.0);
+        (function () {
+          var s = document.getElementById("stairs"), n = 6, w = 840 / n, h = 560 / n, d = "M0 600";
+          for (var i = 0; i < n; i++) d += " L" + (i * w) + " " + (600 - (i + 1) * h) + " L" + ((i + 1) * w) + " " + (600 - (i + 1) * h);
+          var p = el(s, "path", { d: d, fill: "none", stroke: "#0a105e", "stroke-width": 10, "stroke-linejoin": "miter" });
+          var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L;
+          tl.set(p, { strokeDashoffset: L }, 21.3);
+          tl.to(p, { strokeDashoffset: L * (1 - 1 / n), duration: 0.5, ease: "power2.out" }, 21.7);
+          var st = el(s, "text", { x: 0, y: 660, "font-family": "Inter FD", "font-weight": 800, "font-size": 52, fill: "#000", "letter-spacing": "-2" }, "Courtier");
+          tl.fromTo(st, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 22.85);
+          tl.to(p, { strokeDashoffset: 0, duration: 1.4, ease: "power2.in" }, 24.6);
+          var dot = el(s, "rect", { x: 840 - 18, y: 600 - 6 * h - 18, width: 36, height: 36, fill: "#ff2e24", opacity: 0 });
+          tl.to(dot, { opacity: 1, duration: 0.15 }, 25.95);
+        })();
+        // H. 26,0 → 30,2 : 1993, PDG
+        cut("#sH", 26.0, 30.2);
+        slide("#hYear", 26.05); center("#kH"); kw("#kH", 27.95);
+
+        // sous-titres (3 mots max), calés sur la voix (STT ElevenLabs)
+        var C = [["On est le lundi", .14, 1.0], ["15 septembre 2008", 1.02, 2.6], ["à New York,", 2.62, 3.4], ["quand ce PDG", 3.42, 4.56], ["s'apprête à devenir", 4.58, 5.46], ["le patron", 5.48, 5.98], ["le plus détesté", 6.0, 7.0], ["d'Amérique.", 7.04, 7.66], ["Mais il ne", 7.7, 8.04], ["le sait pas", 8.06, 8.46], ["encore.", 8.48, 9.06], ["Lui, c'est", 9.1, 9.88], ["Dick Fuld,", 9.9, 10.68], ["le PDG", 10.7, 11.72], ["de l'une des", 11.74, 12.2], ["plus grosses banques", 12.22, 13.06], ["américaines,", 13.08, 13.9], ["Lehman Brothers.", 13.94, 15.0], ["Fuld avait rejoint", 15.08, 15.72], ["Lehman en 1969", 15.74, 17.76], ["à 23 ans.", 17.78, 18.7], ["Viré de l'armée", 18.72, 19.64], ["après une bagarre", 19.66, 20.34], ["avec son supérieur.", 20.36, 21.3], ["Il entre au", 21.34, 21.76], ["bas de l'échelle", 21.78, 22.68], ["comme courtier,", 22.7, 23.56], ["mais il est", 23.58, 23.94], ["acharné", 23.96, 24.6], ["et grimpe très", 24.62, 25.18], ["vite l'échelle.", 25.2, 26.0], ["En 1993,", 26.02, 27.58], ["il devient PDG", 27.6, 28.34], ["de la banque", 28.36, 28.8], ["quand plus personne", 28.82, 29.38], ["ne croit en elle.", 29.4, 30.2]];
+        var box = document.getElementById("caps");
+        C.forEach(function (c) {
+          var d = document.createElement("div"); d.className = "cl"; d.innerHTML = "<span>" + c[0] + "</span>"; box.appendChild(d);
+          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1 }, c[1] - 0.06);
+          tl.to(d, { opacity: 0, duration: 0.01 }, c[2] - 0.035);
+        });
+        window.__SFX = [];
+        tl.set({}, {}, 30.2);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
