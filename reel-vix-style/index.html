@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vix.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <style>
+      /* Style « financedata » mesuré sur les reels publiés (styles/financedata/STYLE.md) */
+      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-700-normal.woff2"); font-weight: 700; }
+      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-800-normal.woff2"); font-weight: 800; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter FD", sans-serif; }
+      .sc { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      /* fonds vignettés, comme les reels publiés */
+      .white { background: radial-gradient(ellipse 80% 62% at 50% 45%, #f4f2f5 0%, #edebee 45%, #a9a7aa 82%, #5d5b5e 100%); }
+      .navy { background: radial-gradient(ellipse 75% 60% at 50% 45%, #1a2275 0%, #14196d 40%, #0d1250 75%, #0a0e3b 100%); }
+      .black { background: radial-gradient(ellipse 70% 55% at 50% 45%, #1a1a1d 0%, #0b0b0d 70%, #000 100%); }
+      .wash { position: absolute; inset: 0; opacity: 0; mix-blend-mode: multiply; }
+      .t-amorce { position: absolute; font-weight: 800; font-size: 54px; letter-spacing: -.045em; line-height: 1; }
+      .t-big { position: absolute; font-weight: 800; letter-spacing: -.05em; line-height: .95; }
+      .kw { position: absolute; display: inline-block; font-weight: 800; letter-spacing: -.045em; line-height: 1; color: #fff; padding: 8px 18px 14px; white-space: nowrap; }
+      .kw .bx { position: absolute; inset: 0; background: #0a105e; transform-origin: 0 50%; }
+      .kw .tx { position: relative; }
+      .lbl { position: absolute; font-weight: 600; font-size: 30px; letter-spacing: -.02em; }
+      svg { position: absolute; overflow: visible; }
+      #caps { position: absolute; left: 0; right: 0; top: 1330px; z-index: 20; }
+      .cl { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cl span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; color: #fff; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="18.6" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="18.6" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="18.6" data-track-index="0" style="position:absolute; inset:0">
+
+        <!-- 1. hook : graphique historique + « la peur » encadré -->
+        <div class="sc white" id="s1">
+          <div class="lbl" style="left:120px; top:620px; color:#1b1b1f; font-size:26px">• Graphique historique du VIX</div>
+          <svg id="c1" width="840" height="420" style="left:120px; top:690px"></svg>
+          <div class="t-amorce" id="a1" style="left:120px; top:330px; color:#0a105e">L'indicateur de</div>
+          <div class="kw" id="k1" style="left:108px; top:396px; font-size:120px"><span class="bx"></span><span class="tx">la peur</span></div>
+        </div>
+
+        <!-- 2. le VIX aujourd'hui, sur bleu -->
+        <div class="sc navy" id="s2">
+          <div class="t-big" id="v2" style="left:0; right:0; text-align:center; top:620px; font-size:260px; color:#fff">VIX</div>
+          <div class="t-big" id="n2" style="left:0; right:0; text-align:center; top:900px; font-size:110px; color:#fff">16,87</div>
+          <div class="lbl" id="l2" style="left:0; right:0; text-align:center; top:1030px; color:#9fa8e6">aujourd'hui · 14 oct. 2026</div>
+        </div>
+
+        <!-- 3. les amateurs : le prix -->
+        <div class="sc navy" id="s3">
+          <div class="lbl" id="l3" style="left:0; right:0; text-align:center; top:520px; color:#9fa8e6; font-size:34px">Les amateurs regardent</div>
+          <div class="t-big" id="p3" style="left:0; right:0; text-align:center; top:610px; font-size:96px; color:#fff">S&amp;P 500</div>
+          <div class="t-big" id="q3" style="left:0; right:0; text-align:center; top:730px; font-size:72px; color:#fff">▲ 7 718,94 USD</div>
+        </div>
+
+        <!-- 4. les pros : la volatilité (écran partagé en diagonale) -->
+        <div class="sc white" id="s4">
+          <div id="diag" style="position:absolute; inset:0; background:radial-gradient(ellipse 75% 60% at 30% 20%, #1a2275 0%, #14196d 45%, #0a0e3b 100%); clip-path: polygon(0 0, 100% 0, 100% 22%, 0 46%)"></div>
+          <div class="t-amorce" id="a4" style="left:120px; top:330px; color:#fff">Les pros regardent</div>
+          <div class="kw" id="k4" style="left:108px; top:400px; font-size:108px"><span class="bx" style="background:#fff"></span><span class="tx" style="color:#0a105e">la volatilité</span></div>
+          <svg id="c4" width="840" height="380" style="left:120px; top:920px"></svg>
+        </div>
+
+        <!-- 5. les paliers : 30 (jaune), 40 (rouge) -->
+        <div class="sc white" id="s5">
+          <div class="wash" id="wy" style="background:#fff3a0"></div>
+          <div class="wash" id="wr" style="background:#f6a7a7"></div>
+          <div class="lbl" style="left:120px; top:560px; color:#1b1b1f; font-size:26px">• Graphique historique du VIX</div>
+          <svg id="c5" width="840" height="420" style="left:120px; top:640px"></svg>
+        </div>
+
+        <!-- 6. passé 80 : noir, crise mondiale -->
+        <div class="sc black" id="s6">
+          <svg id="c6" width="1080" height="440" style="left:0; top:660px"></svg>
+          <div class="t-big" id="n6" style="left:0; right:0; text-align:center; top:380px; font-size:240px; color:#ff2e24">80</div>
+          <div class="kw" id="k6" style="left:330px; top:1170px; font-size:96px"><span class="bx" style="background:#fff"></span><span class="tx" style="color:#0b0b0d">mars 2020</span></div>
+        </div>
+
+        <div id="caps"></div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), W = window.VO.words;
+        window.__SFX = [];
+        function el(p, t, a, txt) { var n = document.createElementNS(NS, t); for (var k in a) n.setAttribute(k, a[k]); if (txt != null) n.textContent = txt; p.appendChild(n); return n; }
+        function at(word, nth) { var c = 0; for (var i = 0; i < W.length; i++) if (W[i].w.replace(/[.,]$/, "") === word && c++ === (nth || 0)) return W[i].s; throw new Error("mot " + word); }
+        function cut(id, a, b) { tl.set(id, { opacity: 1 }, a); tl.set(id, { opacity: 0 }, b); }
+        function kw(id, t) { tl.fromTo(id + " .bx", { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, t); tl.fromTo(id + " .tx", { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + 0.08); }
+        function amorce(id, t) { tl.fromTo(id, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, t); }
+        function vix(svg, w, h, from, to, vmax, opt) {
+          var rows = window.VIX.filter(function (r) { return r[0] >= from && r[0] <= to; }), t0 = Date.parse(from), t1 = Date.parse(to);
+          var X = function (d) { return (Date.parse(d) - t0) / (t1 - t0) * w; }, Y = function (v) { return h - Math.min(v, vmax) / vmax * h; };
+          var d = rows.map(function (r, i) { return (i ? "L" : "M") + X(r[0]).toFixed(1) + " " + Y(r[2]).toFixed(1); }).join(" ");
+          var area = el(svg, "path", { d: d + " L" + w + " " + h + " L0 " + h + " Z", fill: opt.fill || "rgba(59,80,127,.12)", opacity: 0 });
+          var p = el(svg, "path", { d: d, fill: "none", stroke: opt.stroke || "#3b507f", "stroke-width": opt.sw || 3, "stroke-linejoin": "round" });
+          var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L;
+          tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: opt.dur || 1, ease: "power2.inOut", immediateRender: true }, opt.t);
+          tl.fromTo(area, { opacity: 0 }, { opacity: 1, duration: 0.4 }, opt.t + (opt.dur || 1) * 0.7);
+          return { X: X, Y: Y, rows: rows, path: p };
+        }
+        function seuil(svg, c, w, v, t, color, label) {
+          var l = el(svg, "line", { x1: 0, x2: w, y1: c.Y(v), y2: c.Y(v), stroke: color, "stroke-width": 3 });
+          var tx = el(svg, "text", { x: -10, y: c.Y(v) - 14, "font-family": "Inter FD", "font-weight": 800, "font-size": 56, fill: color, "letter-spacing": "-2" }, label);
+          tl.fromTo(l, { opacity: 0, attr: { x2: 0 } }, { opacity: 1, attr: { x2: w }, duration: 0.45, ease: "power2.out" }, t);
+          tl.fromTo(tx, { opacity: 0 }, { opacity: 1, duration: 0.25 }, t + 0.1);
+        }
+
+        // ---- 1. hook (0 → 2,9 s) ----
+        cut("#s1", 0, 2.9);
+        var c1 = vix(document.getElementById("c1"), 840, 420, "1990-01-01", "2026-10-14", 90, { t: 0.05, dur: 1.2 });
+        var spikes = c1.rows.filter(function (r) { return r[2] > 40; });
+        spikes.forEach(function (r) { var dot = el(document.getElementById("c1"), "rect", { x: c1.X(r[0]) - 2, y: c1.Y(r[2]), width: 4, height: 420 - c1.Y(r[2]), fill: "#ff2e24", opacity: 0 }); tl.to(dot, { opacity: 0.85, duration: 0.2 }, 1.25); });
+        amorce("#a1", at("indicateur") - 0.2);
+        kw("#k1", at("peur") - 0.1);
+
+        // ---- 2. le VIX aujourd'hui (2,9 → 5,1 s) ----
+        cut("#s2", 2.9, 5.1);
+        tl.fromTo("#v2", { opacity: 0, x: 120, filter: "blur(18px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, 2.9);
+        tl.fromTo("#n2", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3 }, at("actuellement"));
+        var o2 = { v: 0 }, n2 = document.getElementById("n2");
+        tl.fromTo(o2, { v: 10 }, { v: 16.87, duration: 0.6, ease: "power2.out", immediateRender: false, onUpdate: function () { n2.textContent = o2.v.toFixed(2).replace(".", ","); } }, at("actuellement"));
+        tl.fromTo("#l2", { opacity: 0 }, { opacity: 1, duration: 0.3 }, at("traders") - 0.1);
+
+        // ---- 3. les amateurs : le prix (5,1 → 7,3 s) ----
+        cut("#s3", 5.1, 7.3);
+        tl.fromTo("#l3", { opacity: 0 }, { opacity: 1, duration: 0.25 }, 5.1);
+        tl.fromTo("#p3", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, at("prix") - 0.25);
+        tl.fromTo("#q3", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, at("prix") - 0.05);
+
+        // ---- 4. les pros : la volatilité (7,3 → 10,8 s) ----
+        cut("#s4", 7.3, 10.8);
+        tl.fromTo("#diag", { clipPath: "polygon(0 0, 100% 0, 100% 0%, 0 0%)" }, { clipPath: "polygon(0 0, 100% 0, 100% 22%, 0 46%)", duration: 0.45, ease: "power3.out" }, 7.3);
+        amorce("#a4", at("pros") - 0.2);
+        kw("#k4", at("volatilité") - 0.1);
+        vix(document.getElementById("c4"), 840, 380, "2025-10-14", "2026-10-14", 35, { t: 8.0, dur: 1.4 });
+
+        // ---- 5. les paliers 30 puis 40 (10,8 → 15,4 s) ----
+        cut("#s5", 10.8, 15.4);
+        var s5 = document.getElementById("c5"), c5 = vix(s5, 840, 420, "1990-01-01", "2026-10-14", 60, { t: 10.8, dur: 0.01 });
+        seuil(s5, c5, 840, 30, at("30") - 0.3, "#1b1b1f", "30");
+        tl.to("#wy", { opacity: 0.55, duration: 0.3 }, at("30") - 0.2);
+        tl.to("#wy", { opacity: 0, duration: 0.3 }, at("Au-dessus") - 0.2);
+        seuil(s5, c5, 840, 40, at("40") - 0.35, "#ff2e24", "40");
+        tl.to("#wr", { opacity: 0.6, duration: 0.3 }, at("40") - 0.25);
+
+        // ---- 6. passé 80 : crise mondiale (15,4 → fin) ----
+        cut("#s6", 15.4, 18.6);
+        var s6 = document.getElementById("c6"), c6 = vix(s6, 1080, 440, "2019-10-01", "2020-06-30", 90, { t: 15.45, dur: 0.9, stroke: "#ff2e24", sw: 5, fill: "rgba(255,46,36,.18)" });
+        s6.style.filter = "drop-shadow(0 0 12px rgba(255,46,36,.6))";
+        tl.fromTo("#n6", { opacity: 0, x: 140, filter: "blur(18px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, at("80") - 0.15);
+        kw("#k6", at("mars") - 0.15);
+
+        // ---- sous-titres : 3 mots max, coupés sur la ponctuation ----
+        var box = document.getElementById("caps"), g = [];
+        W.forEach(function (w, i) {
+          g.push(w);
+          var end = /[.,]$/.test(w.w) || g.length === 3 || i === W.length - 1;
+          if (end) {
+            var d = document.createElement("div"); d.className = "cl"; d.innerHTML = "<span>" + g.map(function (x) { return x.w; }).join(" ") + "</span>"; box.appendChild(d);
+            var nxt = W[i + 1] ? W[i + 1].s : g[g.length - 1].e + 0.2;
+            tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1 }, g[0].s - 0.06);
+            tl.to(d, { opacity: 0, duration: 0.01 }, Math.min(nxt, g[g.length - 1].e + 0.4) - 0.035);
+            g = [];
+          }
+        });
+        window.__SFX = [{ name: "pop", t: +(at("peur") - 0.05).toFixed(2), gain: 0.18 }];
+        tl.set({}, {}, 18.6);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>

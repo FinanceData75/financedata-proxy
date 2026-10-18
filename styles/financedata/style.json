@@ -1,0 +1,26 @@
+{
+  "source": ["DTcbD6oDGr5", "DUDaUu8DLEE", "DXn4ckbDCVo", "DdmGUbitiZe", "DTHy74JDGgT"],
+  "mesure": "2026-10-18",
+  "rythme": { "secondesParEcran": 3.3, "plage": [2.6, 3.8], "coupe": "franche", "elementAnimeToutesLesSecondes": 1.0, "premiereCoupeAvant": 2.7 },
+  "fonds": {
+    "blanc": { "centre": "#EDEBEE", "bord": "#5D5B5E", "vignette": "forte" },
+    "bleu": { "centre": "#14196D", "bord": "#0A0E3B", "vignette": "forte" },
+    "lavis": { "vert": "#7CF07C", "rouge": "#F08080", "jaune": "#FFF3A0", "opacite": 0.35 },
+    "noir": "#0B0B0D"
+  },
+  "ecrans": ["photo-plein-ecran", "blanc-titre-encadre", "bleu-logo-cours", "graphique", "chiffre-geant", "equation", "lavis-couleur", "noir-dramatique", "split", "cta-iphone"],
+  "texte": {
+    "police": "Inter 800 (proche Helvetica Now Display Bold)", "interlettrage": "-0.045em",
+    "titre": { "position": "haut-gauche ou centre-haut", "tailles": ["amorce 44px", "mot-cle 96-130px"] },
+    "motCle": { "fond": "#0A105E", "couleur": "#FFFFFF", "dessin": "gauche-droite 0.4s" },
+    "couleursSens": { "bon": "#3CFF5A", "mauvais": "#FF2E24", "halo": true },
+    "chiffreGeant": { "couleur": "#000000", "entree": "glissement horizontal 0.35s + flou de mouvement" }
+  },
+  "images": { "arrivee": "sur le mot qui les nomme", "mouvement": "push lent <= 4%", "logos": "réels, blancs sur bleu, avec cours" },
+  "graphiques": { "trait": "#3B507F 4px sur blanc / blanc sur bleu", "titre": "petit haut-gauche", "selection": "rectangle 2px", "seuil": "ligne horizontale + valeur", "pourcentage": "vert lumineux géant" },
+  "sousTitres": { "regle": "Inter 600 blanc, fond gris rgba(30,34,42,.74), 3 mots max", "position": "y 1330" },
+  "son": { "voixLUFS": -17, "musique": { "parDefaut": "aucune", "nappeSujetAnxiogene": "-10 à -20 dB sous la voix" }, "sfx": "0 à 3 très discrets" },
+  "hook": { "duree": "1.4-2.7 s", "type": ["photo du personnage", "titre-question encadré", "graphique"] },
+  "cta": { "type": "iPhone profil/newsletter + S'abonner -> Abonné", "appel": "Commentez « mot »" },
+  "notes": ["angles droits", "rouge réservé à l'alerte", "pas de zoom caméra", "vidéo coupée sur la fin de la voix"]
+}
