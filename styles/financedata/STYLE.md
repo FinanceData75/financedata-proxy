@@ -61,6 +61,7 @@ C'est la DA FinanceData telle qu'elle est publiée : ce fichier fait référence
 ## Règles apprises (retours)
 - **jamais d'écran vide** : chaque écran montre un élément dès sa première image (démarrer l'animation ~0,2 s avant la coupe) ; vérification automatique sur le rendu (5 images/s, zone 250–1300 px : aucune image sans contenu)
 - minimaliste : pas de surtitre quand l'image suffit ; chaque élément dans sa zone, aucun chevauchement
+- alterner graphiques et **vraies photos** (≈ 1 écran sur 4 en photo plein écran, voile marine, titre blanc) pour éviter la monotonie ; jamais d'image générée par IA (vérifier filigranes, textes illisibles)
 - photos basse définition : en carte pleine largeur sur fond bleu plutôt qu'en plein écran flou
 - **pas d'encadrés** (retour du 19/10/2026 : « visuels plus premium, image clean ») : titres en typographie seule (Inter 800) + fin filet d'accent #3D5AFE (blanc 55 % sur bleu, rouge pour l'alerte) ; cartes sans bordure (blanc + ombre douce sur fond blanc, verre dépoli rgba(255,255,255,.06–.10) + filet 1 px sur bleu) ; étiquettes en petites capitales espacées (24 px, +0,14 em, gris)
 

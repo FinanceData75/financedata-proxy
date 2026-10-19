@@ -88,6 +88,15 @@
           var s = div(sc, "t small", text, "top:" + top + "px; color:" + color + (size ? "; font-size:" + size + "px; font-weight:800" : ""));
           return fade(s, t, { opacity: 0, y: 16 });
         }
+        // vraie photo plein écran (push lent ≤ 3,5 %, voile marine pour la lisibilité)
+        function photoScene(a, b, src, pos, dark) {
+          var sc = scene(a, b, "black");
+          var im = div(sc, "", '<img src="assets/img/' + src + '" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:' + (pos || "50% 50%") + '">');
+          tl.fromTo(im.firstChild, { scale: 1 }, { scale: 1.035, duration: b - a, ease: "none" }, a);
+          div(sc, "box", null, "inset:0; background: linear-gradient(180deg, rgba(5,8,40,.62) 0%, rgba(5,8,40,.22) 38%, rgba(5,8,40,.22) 62%, rgba(5,8,40,.66) 100%)");
+          if (dark) div(sc, "box", null, "inset:0; background: rgba(5,8,40," + dark + ")");
+          return sc;
+        }
         function scene(a, b, bg) {
           var sc = div(stage, "sc " + (bg || ""));
           tl.set(sc, { opacity: 1 }, a); tl.set(sc, { opacity: 0 }, b);
@@ -146,10 +155,9 @@
         small(s, "Encours mondial en milliards de $ · SIFMA, fin 2024", 0.4, 1250, "#6a6d78", 28);
 
         // 2. 2,6–4,8 « mais presque personne ne sait comment il fonctionne »
-        s = scene(2.62, 4.8, "navy");
-        big(s, "?", 2.45, 380, 520, "#ffffff");
-        kw(s, "presque personne", at("presque") - 0.05, 940, 88, "light");
-        small(s, "ne sait comment il fonctionne", at("sait"), 1080, "#c9cdf0");
+        s = photoScene(2.62, 4.8, "foule.jpg");
+        kw(s, "presque personne", 2.5, 300, 96, "light");
+        small(s, "ne sait comment il fonctionne", at("sait"), 440, "#ffffff", 48);
 
         // 3. 4,8–7,9 action : propriétaire
         s = scene(4.8, 7.92, "white");
@@ -170,7 +178,7 @@
         kw(s, "C'est vous la banque", at("c'est", 10.3) - 0.1, 1080, 84, "light");
 
         // 5. 11,3–18,0 la fiche d'une obligation (elle se remplit mot après mot)
-        s = scene(11.28, 18.0, "white");
+        s = scene(11.28, 16.8, "white");
         kw(s, "La fiche d'une obligation", 11.1, 290, 76);
         var fiche = div(s, "box", null, "left:110px; top:440px; width:860px; height:740px; background:#fff; box-shadow: 0 1px 0 rgba(10,16,94,.06), 0 30px 80px rgba(10,16,94,.14)");
         fade(fiche, 11.15);
@@ -184,13 +192,16 @@
           tl.fromTo(vl, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, r[2]);
         });
         tl.set(fiche.querySelectorAll(".small"), { opacity: 0.35 }, 0);
-        var cp = div(fiche, "kw", '<span class="bx" style="left:0; margin-left:0; transform-origin:0 50%"></span><span class="tx" style="color:#3d5afe">= le coupon</span>', "left:50px; top:630px; font-size:60px; text-align:left");
-        tl.fromTo(cp.querySelector(".bx"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, at("coupon") - 0.15);
-        tl.fromTo(cp.querySelector(".tx"), { opacity: 0 }, { opacity: 1, duration: 0.25 }, at("coupon") - 0.05);
 
-        // 6. 18,0–21,0 coupon 5 % → 50 € par an
-        s = scene(18.0, 21.02, "navy");
-        kw(s, "Le coupon", 17.85, 290, 90, "light");
+        // 5 bis. 16,8–18,7 « c'est ce qu'on appelle le coupon » : de vrais titres anciens
+        s = photoScene(16.8, 18.7, "titres-anciens.jpg", "50% 50%", 0.45);
+        small(s, "Autrefois, on découpait un coupon du titre", 16.7, 300, "#ffffff", 44);
+        small(s, "pour toucher ses intérêts", 16.9, 362, "#ffffff", 44);
+        kw(s, "le coupon", at("coupon") - 0.15, 800, 140, "light");
+
+        // 6. 18,7–21,0 coupon 5 % → 50 € par an
+        s = scene(18.7, 21.02, "navy");
+        kw(s, "Ce que rapporte le coupon", 18.55, 290, 72, "light");
         big(s, "5 %", at("cinq") - 0.1, 430, 200, "#ffffff");
         small(s, "× 1 000 €", at("cinq") + 0.25, 660, "#ffffff", 80);
         big(s, "= 50 €", at("cinquante") - 0.05, 820, 200, GLOW, "rgba(60,255,90,.45)");
@@ -237,8 +248,13 @@
           if (tLine) { var ln = path(c, "M260 650 L860 170", GREEN, 5); draw(ln, tLine, 0.7); }
           return { lD: lD, lF: lF };
         }
-        s = scene(26.8, 33.8, "white");
-        var rc = riskChart(s, 26.8, at("l'Allemagne") - 0.1, at("fragile") - 0.1);
+        // 9 a. 26,8–28,4 « un État solide comme l'Allemagne » : le Reichstag
+        s = photoScene(26.8, 28.4, "reichstag.jpg", "60% 50%");
+        kw(s, "Un État solide", 26.65, 300, 96, "light");
+        small(s, "comme l'Allemagne", at("l'Allemagne") - 0.1, 440, "#ffffff", 52);
+
+        s = scene(28.4, 33.8, "white");
+        var rc = riskChart(s, 28.4, at("l'Allemagne") - 0.1, at("fragile") - 0.1);
         small(s, "paie peu", at("paye"), 1080, NAVY, 46).style.cssText += "; left:310px; right:auto; text-align:left";
         small(s, "paie beaucoup plus", at("beaucoup"), 590, RED, 46).style.cssText += "; left:330px; right:auto; text-align:left";
 
@@ -254,15 +270,9 @@
         riskChart(s, 35.52, 35.4, 35.4, at("risque", 36));
 
         // 12. 37,5–40,5 la revente avant l'échéance… ça se complique
-        s = scene(37.5, 40.5, "navy");
-        kw(s, "Revente avant l'échéance", 37.35, 300, 76, "light");
-        var rb = cardBox(s, 80, 560, 420, 280, "Votre obligation", "1 000 €", "hi");
-        fade(rb, 37.4);
-        var buyer = div(s, "tl lab", "Acheteur", "left:700px; top:670px; color:#fff; font-size:56px");
-        g = svgIn(s, 1080, 200, 0, 600);
-        arrow(g, 520, 100, 680, 100, "#ffffff", at("revendre") - 0.1);
-        fade(buyer, at("revendre") + 0.2);
-        kw(s, "ça se complique", at("complique") - 0.15, 1000, 80);
+        s = photoScene(37.5, 40.5, "terminal-bloomberg.jpg", "50% 40%");
+        kw(s, "Revente avant l'échéance", 37.35, 250, 76, "light");
+        small(s, "sur le marché secondaire", at("revendre") - 0.1, 372, "#ffffff", 44);
 
         // 13. 40,5–42,0 taux en hausse, prix en baisse
         s = scene(40.5, 42.0, "white");

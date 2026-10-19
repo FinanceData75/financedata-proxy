@@ -8,6 +8,9 @@ vert = gain, rouge = alerte, police secondaire Schibsted Grotesk pour graphiques
 qui se remplit · coupon 5 % × 1 000 € = 50 €/an · flux sur 10 ans (+500 €) · nuage risque/rendement (Allemagne, entreprise fragile) ·
 « jamais remboursés ? » · revente avant l'échéance · courbes taux ↑ / prix ↓ · 4 % contre 6 % · prix de revente 1 000 € → 853 € (−15 %).
 
+Vraies photos (Pinterest, plein écran, voile marine, push lent ≤ 3,5 %) pour casser le rythme des graphiques :
+foule (« presque personne ne sait ») · titres anciens à coupons (« le coupon ») · Reichstag (« un État solide comme l'Allemagne ») · terminal Bloomberg (revente sur le marché secondaire).
+
 ## Fichiers
 - `index.html` : composition (sous-titres générés depuis `assets/vo-words.js`, timing ElevenLabs Scribe de la voix montée)
 - `audio/voix-off-obligataire.wav` : voix montée (mémo iPhone xHE-AAC décodé avec un FFmpeg récent, pauses ≤ 0,15 s, −16 LUFS, sans autre traitement)
