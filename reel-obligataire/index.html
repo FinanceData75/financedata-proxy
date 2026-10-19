@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <style>
+      /* Style « financedata » (styles/financedata/STYLE.md), version animée : une idée par écran,
+         coupes franches, chaque élément dans sa zone (250 → 1290 px), sous-titres à 1330 px. */
+      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-800-normal.woff2"); font-weight: 800; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter FD", sans-serif; }
+      .sc { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      .white { background: radial-gradient(ellipse 80% 62% at 50% 45%, #f4f2f5 0%, #edebee 45%, #a9a7aa 82%, #5d5b5e 100%); }
+      .navy { background: radial-gradient(ellipse 75% 60% at 50% 45%, #1a2275 0%, #14196d 40%, #0d1250 75%, #0a0e3b 100%); }
+      .black { background: radial-gradient(ellipse 70% 55% at 50% 45%, #1a1a1d 0%, #0b0b0d 70%, #000 100%); }
+      .t { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; }
+      .tl { position: absolute; white-space: nowrap; }
+      .big { font-weight: 800; letter-spacing: -.05em; word-spacing: .12em; line-height: .95; }
+      .small { font-weight: 600; font-size: 42px; letter-spacing: -.02em; }
+      .lab { font-weight: 800; font-size: 46px; letter-spacing: -.03em; }
+      .kw { position: absolute; display: inline-block; font-weight: 800; letter-spacing: -.045em; line-height: 1; padding: 10px 22px 16px; white-space: nowrap; z-index: 3; }
+      .kw .bx { position: absolute; inset: 0; transform-origin: 0 50%; }
+      .kw .tx { position: relative; }
+      .kw.dark .bx { background: #0a105e; } .kw.dark .tx { color: #fff; }
+      .kw.light .bx { background: #fff; } .kw.light .tx { color: #0a105e; }
+      .kw.red .bx { background: #ff2e24; } .kw.red .tx { color: #fff; }
+      .box { position: absolute; }
+      .bond { position: absolute; width: 420px; height: 250px; border: 4px solid #0a105e; background: #fff; box-shadow: 0 20px 40px rgba(10,16,94,.25); text-align: center; }
+      .bond .h { font-weight: 600; font-size: 34px; line-height: 1; color: #4a4e5c; margin-top: 36px; letter-spacing: -.02em; }
+      .bond .v { font-weight: 800; font-size: 120px; color: #0a105e; letter-spacing: -.05em; word-spacing: .12em; line-height: 1; margin-top: 22px; }
+      svg { position: absolute; overflow: visible; }
+      #caps { position: absolute; left: 0; right: 0; top: 1330px; z-index: 20; }
+      .cl { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cl span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; word-spacing: .06em; color: #fff; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="50.9" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="50.9" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="50.9" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), stage = document.getElementById("stage");
+        var W = window.VO.words, toCenter = [];
+        var NAVY = "#0a105e", GREEN = "#08923a", GLOW = "#3cff5a", RED = "#ff2e24", GREY = "#4a4e5c";
+        function at(word, after) { after = after || 0; for (var i = 0; i < W.length; i++) if (W[i].s >= after && W[i].w.replace(/[.,?]$/, "") === word) return W[i].s; throw new Error("mot introuvable : " + word + " après " + after); }
+        function div(parent, cls, html, style) { var d = document.createElement("div"); d.className = cls; if (html != null) d.innerHTML = html; if (style) d.setAttribute("style", style); parent.appendChild(d); return d; }
+        function svgIn(sc, w, h, left, top) { var s = document.createElementNS(NS, "svg"); s.setAttribute("width", w); s.setAttribute("height", h); s.style.left = left + "px"; s.style.top = top + "px"; sc.appendChild(s); return s; }
+        function el(svg, tag, attrs) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); svg.appendChild(e); return e; }
+        function path(svg, d, stroke, sw) { var p = el(svg, "path", { d: d, fill: "none", stroke: stroke, "stroke-width": sw, "stroke-linejoin": "round", "stroke-linecap": "round" }); var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; p.style.strokeDashoffset = L; return p; }
+        function draw(p, t, dur) { tl.to(p, { strokeDashoffset: 0, duration: dur || 0.5, ease: "power2.inOut" }, t); }
+        function fade(n, t, from) { tl.fromTo(n, from || { opacity: 0, y: 20 }, { opacity: 1, y: 0, x: 0, scale: 1, duration: 0.3, ease: "power3.out" }, t); return n; }
+
+        function kw(sc, text, t, top, size, tone) {
+          var k = div(sc, "kw " + (tone || "dark"), '<span class="bx"></span><span class="tx">' + text + "</span>", "top:" + top + "px; font-size:" + (size || 96) + "px");
+          toCenter.push(k);
+          tl.fromTo(k.querySelector(".bx"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, t);
+          tl.fromTo(k.querySelector(".tx"), { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + 0.08);
+          return k;
+        }
+        function big(sc, text, t, top, size, color, glow) {
+          var b = div(sc, "t big", text, "top:" + top + "px; font-size:" + size + "px; color:" + color + (glow ? "; text-shadow: 0 0 40px " + glow : ""));
+          tl.fromTo(b, { opacity: 0, x: 140, filter: "blur(18px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, t);
+          return b;
+        }
+        function small(sc, text, t, top, color, size) {
+          var s = div(sc, "t small", text, "top:" + top + "px; color:" + color + (size ? "; font-size:" + size + "px; font-weight:800" : ""));
+          return fade(s, t, { opacity: 0, y: 16 });
+        }
+        function scene(a, b, bg) {
+          var sc = div(stage, "sc " + (bg || ""));
+          tl.set(sc, { opacity: 1 }, a); tl.set(sc, { opacity: 0 }, b);
+          return sc;
+        }
+        // flèche dessinée (trait + pointe)
+        function arrow(svg, x1, y1, x2, y2, color, t, sw) {
+          var p = path(svg, "M" + x1 + " " + y1 + " L" + x2 + " " + y2, color, sw || 8);
+          var a = Math.atan2(y2 - y1, x2 - x1), s = 30;
+          var hd = el(svg, "path", { d: "M" + (x2 - s * Math.cos(a - 0.5)) + " " + (y2 - s * Math.sin(a - 0.5)) + " L" + x2 + " " + y2 + " L" + (x2 - s * Math.cos(a + 0.5)) + " " + (y2 - s * Math.sin(a + 0.5)), fill: "none", stroke: color, "stroke-width": sw || 8, "stroke-linejoin": "round", "stroke-linecap": "round", opacity: 0 });
+          draw(p, t, 0.45); tl.to(hd, { opacity: 1, duration: 0.1 }, t + 0.4);
+          return p;
+        }
+        // pièce « € »
+        function coin(sc, x, y, r, color) {
+          return div(sc, "box", "€", "left:" + (x - r) + "px; top:" + (y - r) + "px; width:" + 2 * r + "px; height:" + 2 * r + "px; border-radius:50%; background:" + (color || "#f2c230") + "; color:" + NAVY + "; font-weight:800; font-size:" + r + "px; line-height:" + 2 * r + "px; text-align:center; box-shadow: 0 8px 20px rgba(0,0,0,.25)");
+        }
+        // carré « bâtiment » simple (banque)
+        function bank(svg, cx, top, color, t) {
+          var parts = [
+            path(svg, "M" + (cx - 230) + " " + (top + 150) + " L" + cx + " " + top + " L" + (cx + 230) + " " + (top + 150) + " Z", color, 12),
+            path(svg, "M" + (cx - 250) + " " + (top + 440) + " L" + (cx + 250) + " " + (top + 440), color, 14)
+          ];
+          [-150, -50, 50, 150].forEach(function (dx) { parts.push(path(svg, "M" + (cx + dx) + " " + (top + 190) + " L" + (cx + dx) + " " + (top + 400), color, 26)); });
+          parts.forEach(function (p, i) { draw(p, t + i * 0.06, 0.4); });
+        }
+
+        // =================== MONTAGE ===================
+        var s, g;
+
+        // A. 0–2,6 « Le marché obligataire pèse plus lourd que le marché actions mondial » : la balance
+        s = scene(0, 2.62, "white");
+        g = svgIn(s, 1080, 900, 0, 330);
+        var beam = el(g, "g", {});
+        el(g, "path", { d: "M540 120 L540 640 M420 650 L660 650", stroke: NAVY, "stroke-width": 14, fill: "none", "stroke-linecap": "round" });
+        el(g, "circle", { cx: 540, cy: 120, r: 18, fill: NAVY });
+        el(beam, "path", { d: "M180 120 L900 120", stroke: NAVY, "stroke-width": 14, "stroke-linecap": "round" });
+        var panL = el(beam, "g", {}), panR = el(beam, "g", {});
+        el(panL, "path", { d: "M180 120 L90 330 M180 120 L270 330 M60 330 L300 330", stroke: NAVY, "stroke-width": 8, fill: "none", "stroke-linecap": "round" });
+        el(panR, "path", { d: "M900 120 L810 330 M900 120 L990 330 M780 330 L1020 330", stroke: NAVY, "stroke-width": 8, fill: "none", "stroke-linecap": "round" });
+        var bL = el(panL, "rect", { x: 85, y: 330, width: 190, height: 150, fill: NAVY });
+        var bR = el(panR, "rect", { x: 820, y: 330, width: 160, height: 125, fill: "#8b8fa3" });
+        // légendes sous les plateaux
+        var lo = el(panL, "text", { x: 180, y: 540, "text-anchor": "middle", "font-family": "Inter FD", "font-weight": 800, "font-size": 50, fill: NAVY, "letter-spacing": "-2" }); lo.textContent = "Obligations";
+        var lo2 = el(panL, "text", { x: 180, y: 600, "text-anchor": "middle", "font-family": "Inter FD", "font-weight": 600, "font-size": 40, fill: GREY }); lo2.textContent = "145 000 Md$";
+        var la = el(panR, "text", { x: 900, y: 515, "text-anchor": "middle", "font-family": "Inter FD", "font-weight": 800, "font-size": 50, fill: "#5b5f70", "letter-spacing": "-2" }); la.textContent = "Actions";
+        var la2 = el(panR, "text", { x: 900, y: 575, "text-anchor": "middle", "font-family": "Inter FD", "font-weight": 600, "font-size": 40, fill: GREY }); la2.textContent = "127 000 Md$";
+        // les plateaux se remplissent à leur mot, puis la balance penche
+        tl.set([bR, la, la2], { opacity: 0 }, 0);
+        tl.fromTo(bL, { y: -150 }, { y: 0, duration: 0.45, ease: "bounce.out" }, 0.05);
+        fade(lo, 0.3, { opacity: 0 }); fade(lo2, 0.5, { opacity: 0 });
+        tl.to([bR, la, la2], { opacity: 1, duration: 0.25 }, at("actions") - 0.1);
+        gsap.set(beam, { svgOrigin: "540 120" });
+        tl.fromTo(beam, { rotation: 0 }, { rotation: -9, duration: 0.6, ease: "power2.inOut" }, at("lourd"));
+        // les plateaux restent horizontaux
+        gsap.set(panL, { svgOrigin: "180 120" }); gsap.set(panR, { svgOrigin: "900 120" });
+        tl.fromTo([panL, panR], { rotation: 0 }, { rotation: 9, duration: 0.6, ease: "power2.inOut" }, at("lourd"));
+        small(s, "Encours mondial · SIFMA, fin 2024", 0.6, 1230, "#6a6d78", 30);
+
+        // B. 2,6–4,8 « mais presque personne ne sait comment il fonctionne »
+        s = scene(2.62, 4.8, "navy");
+        big(s, "?", 2.45, 380, 520, "#ffffff");
+        kw(s, "presque personne", at("presque") - 0.05, 940, 88, "light");
+        small(s, "ne sait comment il fonctionne", at("sait"), 1080, "#c9cdf0");
+
+        // C. 4,8–7,9 l'action : un morceau de l'entreprise
+        s = scene(4.8, 7.92, "white");
+        kw(s, "Action", 4.6, 300, 100);
+        var grid = div(s, "box", null, "left:330px; top:520px; width:420px; height:420px");
+        var tiles = [];
+        for (var i = 0; i < 16; i++) tiles.push(div(grid, "box", null, "left:" + (i % 4) * 106 + "px; top:" + Math.floor(i / 4) * 106 + "px; width:100px; height:100px; background:#8b8fa3"));
+        tl.fromTo(tiles, { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.25, stagger: 0.03, ease: "power2.out" }, 4.65);
+        small(s, "L'entreprise", 5.0, 960, GREY);
+        tl.to(tiles[10], { backgroundColor: NAVY, duration: 0.2 }, at("propriétaire"));
+        tl.to(tiles[10], { x: 330, y: 120, scale: 1.5, duration: 0.6, ease: "power3.inOut" }, at("propriétaire") + 0.15);
+        var you = div(s, "tl lab", "Vous", "left:820px; top:1000px; color:" + NAVY);
+        fade(you, at("propriétaire") + 0.5);
+        small(s, "propriétaire d'un morceau", at("morceau"), 1100, NAVY, 48);
+
+        // D. 7,9–10,0 l'obligation : vous prêtez de l'argent
+        s = scene(7.92, 10.0, "navy");
+        kw(s, "Obligation", 7.75, 300, 100, "light");
+        var v1 = div(s, "tl lab", "Vous", "left:110px; top:760px; color:#fff; font-size:60px");
+        var v2 = div(s, "tl lab", "Emprunteur", "left:640px; top:760px; color:#fff; font-size:60px");
+        fade(v1, 7.8); fade(v2, at("obligation", 8) + 0.1);
+        g = svgIn(s, 1080, 200, 0, 680);
+        arrow(g, 280, 120, 610, 120, "#ffffff", at("prêtez"));
+        var c1 = coin(s, 330, 720, 50);
+        tl.fromTo(c1, { opacity: 0, x: 0 }, { opacity: 1, duration: 0.15 }, at("prêtez"));
+        tl.to(c1, { x: 230, duration: 0.6, ease: "power2.inOut" }, at("prêtez") + 0.1);
+        small(s, "vous prêtez de l'argent", at("l'argent"), 960, "#c9cdf0");
+
+        // E. 10,0–11,3 c'est vous la banque
+        s = scene(10.0, 11.28, "white");
+        g = svgIn(s, 1080, 500, 0, 360);
+        bank(g, 540, 0, NAVY, 9.82);
+        kw(s, "C'est vous la banque", at("c'est", 10.3) - 0.05, 940, 84);
+
+        // F1. 11,3–14,3 l'exemple : 1 000 € prêtés à un État ou une entreprise
+        s = scene(11.28, 14.3, "navy");
+        kw(s, "Prenons un exemple", 11.1, 300, 84, "light");
+        big(s, "1 000 €", at("mille") - 0.1, 470, 190, "#ffffff");
+        g = svgIn(s, 1080, 260, 0, 680);
+        arrow(g, 540, 10, 540, 220, "#ffffff", at("mille") + 0.25);
+        kw(s, "un État", at("État") - 0.05, 960, 76, "light");
+        kw(s, "ou une entreprise", at("entreprise") - 0.1, 1090, 76, "light");
+
+        // F2. 14,3–16,8 pendant 10 ans, des intérêts chaque année
+        s = scene(14.3, 16.8, "white");
+        big(s, "10 ans", 14.15, 330, 160, NAVY);
+        g = svgIn(s, 1080, 400, 0, 640);
+        var axis = path(g, "M90 200 L990 200", NAVY, 8); draw(axis, 14.2, 0.5);
+        var cs = [];
+        for (i = 0; i < 10; i++) {
+          var x = 135 + i * 90;
+          el(g, "line", { x1: x, y1: 185, x2: x, y2: 215, stroke: NAVY, "stroke-width": 6 });
+          var tx = el(g, "text", { x: x, y: 270, "text-anchor": "middle", "font-family": "Inter FD", "font-weight": 600, "font-size": 32, fill: GREY }); tx.textContent = i + 1;
+          cs.push(coin(s, x, 760, 34));
+        }
+        tl.fromTo(cs, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.25, stagger: 0.07, ease: "back.out(2)" }, at("recevez") - 0.1);
+        small(s, "des intérêts chaque année", at("intérêts"), 1000, GREEN, 56);
+
+        // G. 16,8–18,0 c'est le coupon
+        s = scene(16.8, 18.0, "navy");
+        small(s, "Ces intérêts, c'est…", 16.65, 520, "#c9cdf0", 56);
+        kw(s, "le coupon", at("coupon") - 0.15, 640, 140, "light");
+
+        // H. 18,0–21,0 5 % de 1 000 € = 50 € par an
+        s = scene(18.0, 21.02, "white");
+        small(s, "Coupon", 17.85, 320, GREY, 52);
+        big(s, "5 %", at("cinq") - 0.1, 420, 200, NAVY);
+        small(s, "× 1 000 €", at("cinq") + 0.25, 650, NAVY, 80);
+        big(s, "= 50 €", at("cinquante") - 0.05, 820, 200, GREEN, "rgba(60,255,90,.4)");
+        small(s, "par an", at("par", 20.5), 1050, GREEN, 64);
+
+        // I. 21,0–24,7 au bout de 10 ans : 1 000 € rendus, +500 € au total
+        s = scene(21.02, 24.7, "navy");
+        g = svgIn(s, 1080, 760, 0, 330);
+        var base = path(g, "M90 620 L990 620", "#ffffff", 6); draw(base, 20.85, 0.35);
+        var bars = [];
+        for (i = 0; i < 10; i++) bars.push(el(g, "rect", { x: 112 + i * 88, y: 560, width: 60, height: 60, fill: GLOW }));
+        tl.fromTo(bars, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.2, stagger: 0.05, ease: "power2.out" }, 20.9);
+        var bigBar = el(g, "rect", { x: 904, y: 20, width: 60, height: 540, fill: "#ffffff" });
+        tl.fromTo(bigBar, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.45, ease: "power3.out" }, at("rend"));
+        var bbL = div(s, "tl lab", "1 000 € rendus", "left:430px; top:420px; color:#fff; font-size:54px");
+        fade(bbL, at("mille", 22) - 0.1, { opacity: 0, x: 30 });
+        small(s, "50 € × 10 ans", 21.1, 1010, "#c9cdf0");
+        big(s, "+500 €", at("cinq", 24) - 0.1, 1080, 150, GLOW, "rgba(60,255,90,.45)");
+
+        // J1. 24,7–26,8 tous les emprunteurs ne se valent pas
+        s = scene(24.7, 26.8, "white");
+        kw(s, "Tous les emprunteurs", 24.6, 560, 90);
+        kw(s, "ne se valent pas", at("valent") - 0.2, 700, 90, "light");
+        tl.set(s.lastChild.querySelector(".bx"), { boxShadow: "0 0 0 4px " + NAVY + " inset" }, 0);
+
+        // J2. 26,8–33,8 Allemagne (risque faible, paie peu) vs entreprise fragile (risque élevé, paie plus)
+        s = scene(26.8, 33.8, "white");
+        function row(top, flag, name, t, risk, pay, riskT, payT, color) {
+          var r = div(s, "box", null, "left:90px; top:" + top + "px; width:900px; height:380px");
+          var hd = div(r, "tl", flag + '<span class="lab" style="color:' + NAVY + '; margin-left:22px; vertical-align:middle">' + name + "</span>", "left:0; top:0");
+          fade(hd, t);
+          [["Risque", risk, riskT], ["Il paie", pay, payT]].forEach(function (m, k) {
+            var y = 110 + k * 120;
+            div(r, "tl small", m[0], "left:0; top:" + (y + 8) + "px; color:" + GREY);
+            div(r, "box", null, "left:230px; top:" + y + "px; width:640px; height:70px; background:rgba(10,16,94,.08)");
+            var f = div(r, "box", null, "left:230px; top:" + y + "px; width:" + 640 * m[1] + "px; height:70px; background:" + (k === 0 ? color : NAVY) + "; transform-origin:0 50%");
+            tl.fromTo(f, { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, m[2]);
+          });
+          tl.fromTo(r, { opacity: 0 }, { opacity: 1, duration: 0.25 }, t);
+        }
+        var de = '<span style="display:inline-block; vertical-align:middle; width:96px; height:60px; background:linear-gradient(#000 0 33.3%, #dd0000 33.3% 66.6%, #ffce00 66.6%)"></span>';
+        var co = '<span style="display:inline-block; vertical-align:middle; width:60px; height:60px; border:6px solid ' + NAVY + '; position:relative; top:-2px"></span>';
+        row(330, de, "Allemagne", 26.75, 0.14, 0.2, at("solide"), at("paye"), GREEN);
+        row(830, co, "Entreprise fragile", at("fragile") - 0.4, 0.88, 0.85, at("fragile"), at("beaucoup"), RED);
+
+        // K. 33,8–35,5 elle risque de ne jamais rembourser
+        s = scene(33.8, 35.52, "black");
+        big(s, "1 000 €", 33.65, 560, 200, "#ffffff");
+        g = svgIn(s, 1080, 200, 0, 560);
+        var strike = path(g, "M150 110 L930 80", RED, 16); draw(strike, at("jamais"), 0.35);
+        kw(s, "jamais remboursés ?", at("rembourser") - 0.1, 880, 84, "red");
+
+        // L. 35,5–37,5 plus le risque est élevé, plus vous êtes payé
+        s = scene(35.52, 37.5, "navy");
+        g = svgIn(s, 1080, 820, 0, 330);
+        draw(path(g, "M150 60 L150 700 L980 700", "#c9cdf0", 6), 35.4, 0.35);
+        var curve = path(g, "M170 660 C 420 620, 700 420, 950 100", GLOW, 12); draw(curve, at("risque", 36), 0.9);
+        var rx = div(s, "tl lab", "Risque →", "left:720px; top:1050px; color:#fff");
+        var ry = div(s, "tl lab", "↑ Rendement", "left:180px; top:320px; color:" + GLOW);
+        fade(rx, at("risque", 36)); fade(ry, at("plus", 36.7));
+
+        // M. 37,5–40,5 une obligation peut se revendre avant la fin… ça se complique
+        s = scene(37.5, 40.5, "white");
+        var bd = div(s, "bond", '<div class="h">Votre obligation</div><div class="v">4 %</div>', "left:330px; top:420px");
+        fade(bd, 37.4);
+        kw(s, "se revendre", at("revendre") - 0.05, 780, 90);
+        small(s, "avant la fin", at("avant"), 910, GREY, 56);
+        tl.to(bd, { x: 200, duration: 0.5, ease: "power2.inOut" }, at("revendre"));
+        kw(s, "ça se complique", at("complique") - 0.15, 1080, 72, "light");
+        tl.set(s.lastChild.querySelector(".bx"), { boxShadow: "0 0 0 4px " + NAVY + " inset" }, 0);
+
+        // N. 40,5–42,0 quand les taux montent, son prix baisse
+        s = scene(40.5, 42.0, "navy");
+        var tx1 = div(s, "box big", "Taux", "left:90px; width:330px; text-align:center; top:900px; font-size:110px; color:#fff");
+        var tx2 = div(s, "box big", "Prix", "left:660px; width:330px; text-align:center; top:900px; font-size:110px; color:#fff");
+        fade(tx1, 40.35); fade(tx2, at("prix", 41) - 0.1);
+        g = svgIn(s, 1080, 600, 0, 380);
+        arrow(g, 255, 460, 255, 20, GLOW, at("montent") - 0.1, 14);
+        arrow(g, 825, 20, 825, 460, RED, at("baisse") - 0.1, 14);
+
+        // O. 42,0–44,3 pourquoi ? votre obligation rapporte 4 %
+        s = scene(42.0, 44.3, "white");
+        kw(s, "Pourquoi ?", 41.85, 330, 110);
+        var b4 = div(s, "bond", '<div class="h">Votre obligation</div><div class="v">4 %</div>', "left:330px; top:640px");
+        fade(b4, at("votre", 42.5) - 0.1);
+        small(s, "par an", at("quatre") + 0.2, 930, GREY, 52);
+
+        // P. 44,3–46,6 les nouvelles obligations rapportent 6 %
+        s = scene(44.3, 46.62, "navy");
+        var o4 = div(s, "bond", '<div class="h">Votre obligation</div><div class="v">4 %</div>', "left:60px; top:560px; width:440px");
+        var o6 = div(s, "bond", '<div class="h">Les nouvelles</div><div class="v" style="color:' + GREEN + '">6 %</div>', "left:580px; top:560px; width:440px; border-color:" + GLOW + "; box-shadow: 0 0 50px rgba(60,255,90,.45)");
+        fade(o4, 44.15);
+        fade(o6, at("nouvelles") - 0.05, { opacity: 0, x: 60 });
+        tl.fromTo(o6.querySelector(".v"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, at("six") - 0.1);
+        tl.to(o4, { opacity: 0.55, duration: 0.3 }, at("six"));
+
+        // Q. 46,6–48,8 personne ne voudra acheter la vôtre au même prix
+        s = scene(46.62, 48.82, "white");
+        var q4 = div(s, "bond", '<div class="h">Votre obligation</div><div class="v">4 %</div>', "left:330px; top:360px");
+        fade(q4, 46.5);
+        big(s, "1 000 € ?", at("même") - 0.1, 740, 150, NAVY);
+        g = svgIn(s, 1080, 200, 0, 720);
+        draw(path(g, "M230 110 L850 70", RED, 14), at("prix", 48) - 0.05, 0.3);
+        kw(s, "personne n'en veut", at("personne", 46.8) - 0.05, 1000, 72);
+
+        // R. 48,8–fin pour la vendre, vous devez baisser son prix
+        s = scene(48.82, 50.9, "navy");
+        small(s, "Pour la vendre", 48.7, 380, "#c9cdf0", 56);
+        var price = div(s, "t big", "1 000 €", "top:520px; font-size:210px; color:#fff");
+        fade(price, 48.72, { opacity: 0, x: 140 });
+        var pr = { v: 1000 };
+        tl.to(pr, { v: 853, duration: 0.4, ease: "power2.out", onUpdate: function () { price.textContent = Math.round(pr.v).toLocaleString("fr-FR").replace(/ | /g, " ") + " €"; } }, at("baisser"));
+        tl.to(price, { color: RED, duration: 0.3 }, at("baisser"));
+        kw(s, "−15 %", at("baisser") + 0.35, 820, 110, "red");
+        small(s, "exemple : 10 ans restants, taux à 6 %", 49.9, 1010, "#9aa0d0", 32);
+
+        // =================== SOUS-TITRES (3 mots max) ===================
+        var NUM = [[12.62, 12.8, "1 000 €"], [14.56, 14.76, "10 ans"], [18.84, 19.22, "5 %,"], [20.2, 20.5, "50 €"], [21.44, 21.64, "10 ans,"], [22.4, 22.58, "1 000 €"], [24.16, 24.44, "500 €."], [43.86, 44.16, "4 %."], [46.1, 46.38, "6 %."]];
+        var T = [];
+        W.forEach(function (w) {
+          if (w.w === "?") { T[T.length - 1].w += " ?"; T[T.length - 1].e = w.e; return; }
+          var n = NUM.filter(function (r) { return w.s >= r[0] - 0.01 && w.s <= r[1]; })[0];
+          if (n) { if (!n.done) { n.done = 1; T.push({ w: n[2], s: w.s, e: w.e }); } else T[T.length - 1].e = w.e; }
+          else T.push({ w: w.w, s: w.s, e: w.e });
+        });
+        var box = div(stage, "", null); box.id = "caps";
+        var gr = [];
+        T.forEach(function (w, i) {
+          gr.push(w);
+          var len = gr.reduce(function (a, x) { return a + x.w.length + 1; }, 0);
+          if (/[.,?]$/.test(w.w) || gr.length === 3 || len > 20 || i === T.length - 1) {
+            var d = div(box, "cl", "<span>" + gr.map(function (x) { return x.w; }).join(" ") + "</span>");
+            var nxt = T[i + 1] ? T[i + 1].s : gr[gr.length - 1].e + 0.3;
+            tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1 }, gr[0].s - 0.06);
+            tl.to(d, { opacity: 0, duration: 0.01 }, Math.min(nxt - 0.08, gr[gr.length - 1].e + 0.45));
+            gr = [];
+          }
+        });
+
+        toCenter.forEach(function (n) { n.style.left = "540px"; gsap.set(n, { xPercent: -50 }); });
+        tl.set({}, {}, 50.9);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
