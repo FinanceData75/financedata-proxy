@@ -2,7 +2,7 @@
 
 50,9 s, 1080×1920. Déroulé et types d'animation de la v1 (`reel-obligations`, commit 8fadb49) refaits dans la DA FinanceData
 (`styles/financedata/STYLE.md`) : fonds blanc / bleu vignettés en alternance, Inter 800, titres en typographie seule avec filet d'accent (aucun encadré), cartes sans bordure (ombre douce / verre dépoli), chiffres géants,
-vert = gain, rouge = alerte, sous-titres Inter 600 sur fond gris (3 mots max).
+vert = gain, rouge = alerte, police secondaire Schibsted Grotesk pour graphiques et chiffres (traits fins, sans grille), sous-titres Inter 600 sur fond gris (3 mots max).
 
 Écrans : barres obligations vs actions · cartes action (propriétaire) / obligation (prêteur) · « C'est vous la banque » · fiche d'une obligation
 qui se remplit · coupon 5 % × 1 000 € = 50 €/an · flux sur 10 ans (+500 €) · nuage risque/rendement (Allemagne, entreprise fragile) ·

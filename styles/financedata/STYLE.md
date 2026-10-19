@@ -64,6 +64,12 @@ C'est la DA FinanceData telle qu'elle est publiée : ce fichier fait référence
 - photos basse définition : en carte pleine largeur sur fond bleu plutôt qu'en plein écran flou
 - **pas d'encadrés** (retour du 19/10/2026 : « visuels plus premium, image clean ») : titres en typographie seule (Inter 800) + fin filet d'accent #3D5AFE (blanc 55 % sur bleu, rouge pour l'alerte) ; cartes sans bordure (blanc + ombre douce sur fond blanc, verre dépoli rgba(255,255,255,.06–.10) + filet 1 px sur bleu) ; étiquettes en petites capitales espacées (24 px, +0,14 em, gris)
 
+## Police secondaire (graphiques, chiffres, illustrations)
+- **Schibsted Grotesk** (SIL OFL, 500/600/700) pour tout ce qui est donnée : valeurs, axes, étiquettes, cartes, gros chiffres de graphique ; chiffres tabulaires
+- Inter 800 reste pour les titres de scène et Inter 600 pour les sous-titres
+- graphiques minimalistes : pas de grille, axes en filet 2 px (navy 28 %), courbes 4–6 px, points 16 px, valeurs posées au bout des courbes et des barres, barres fines (34 px)
+- fichiers : `financedata-univers/polices-graphiques/fonts/schibsted-grotesk-latin-*.woff2` ; planche de choix : `financedata-univers/polices-graphiques/planche-2-D.png`
+
 ## Comment l'appliquer dans HyperFrames
 - `assets/reel-data.js` : une scène ≈ une phrase (3 à 4 s), coupe franche entre scènes
 - `index.html` : classes de fond `bg-white` (vignette), `bg-navy` (vignette), `bg-photo`, `wash-green|red|yellow`, `bg-black` ; composant `kw` (mot encadré bleu qui se dessine), `big-number` (glissement + flou), `chart` (titre, seuil, rectangle de sélection, % vert lumineux)

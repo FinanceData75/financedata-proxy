@@ -10,6 +10,9 @@
          coupes franches, chaque élément dans sa zone (250 → 1290 px), sous-titres à 1330 px. */
       @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-600-normal.woff2"); font-weight: 600; }
       @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-800-normal.woff2"); font-weight: 800; }
+      @font-face { font-family: "Grotesk"; src: url("assets/fonts/schibsted-grotesk-latin-500-normal.woff2"); font-weight: 500; }
+      @font-face { font-family: "Grotesk"; src: url("assets/fonts/schibsted-grotesk-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Grotesk"; src: url("assets/fonts/schibsted-grotesk-latin-700-normal.woff2"); font-weight: 700; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
       #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter FD", sans-serif; }
@@ -19,9 +22,10 @@
       .black { background: radial-gradient(ellipse 70% 55% at 50% 45%, #1a1a1d 0%, #0b0b0d 70%, #000 100%); }
       .t { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; }
       .tl { position: absolute; white-space: nowrap; }
-      .big { font-weight: 800; letter-spacing: -.05em; word-spacing: .12em; line-height: .95; }
-      .small { font-weight: 600; font-size: 42px; letter-spacing: -.02em; }
-      .lab { font-weight: 800; font-size: 46px; letter-spacing: -.03em; }
+      /* police secondaire (graphiques, chiffres, illustrations) : Schibsted Grotesk ; Inter 800 reste pour titres et sous-titres */
+      .big { font-family: "Grotesk", sans-serif; font-weight: 600; letter-spacing: -.035em; word-spacing: .04em; line-height: .95; font-feature-settings: "tnum" 1; }
+      .small { font-family: "Grotesk", sans-serif; font-weight: 500; font-size: 42px; letter-spacing: -.01em; }
+      .lab { font-family: "Grotesk", sans-serif; font-weight: 600; font-size: 46px; letter-spacing: -.02em; }
       /* titres : typographie seule + filet d'accent (aucun encadré) */
       .kw { position: absolute; display: inline-block; font-weight: 800; letter-spacing: -.04em; line-height: 1.05; padding: 0 0 26px; white-space: nowrap; z-index: 3; text-align: center; }
       .kw .bx { position: absolute; left: 50%; bottom: 0; width: 80px; height: 5px; margin-left: -40px; transform-origin: 50% 50%; background: #3d5afe; }
@@ -34,8 +38,8 @@
       .bond .v { font-weight: 800; font-size: 120px; color: #0a105e; letter-spacing: -.05em; word-spacing: .12em; line-height: 1; margin-top: 22px; }
       /* cartes : panneaux sans bordure (ombre douce sur blanc, verre dépoli sur bleu) */
       .card2 { position: absolute; background: #fff; box-shadow: 0 1px 0 rgba(10,16,94,.06), 0 30px 80px rgba(10,16,94,.14); padding: 40px 44px; }
-      .card2 .lb { font-weight: 600; font-size: 24px; letter-spacing: .14em; text-transform: uppercase; color: #7a7e8c; line-height: 1; }
-      .card2 .vl { font-weight: 800; font-size: 96px; letter-spacing: -.05em; word-spacing: .12em; color: #0a105e; line-height: 1; margin-top: 44px; white-space: nowrap; }
+      .card2 .lb { font-family: "Grotesk", sans-serif; font-weight: 500; font-size: 24px; letter-spacing: .14em; text-transform: uppercase; color: #7a7e8c; line-height: 1; }
+      .card2 .vl { font-family: "Grotesk", sans-serif; font-weight: 600; font-size: 96px; letter-spacing: -.035em; word-spacing: .04em; color: #0a105e; line-height: 1; margin-top: 44px; white-space: nowrap; }
       .card2.glass { background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14), 0 30px 80px rgba(0,0,0,.25); }
       .card2.glass .lb { color: rgba(255,255,255,.6); } .card2.glass .vl { color: #fff; }
       .card2.dim { opacity: .5; }
@@ -114,7 +118,7 @@
         // =================== MONTAGE ===================
         // Déroulé de la v1 (barres, fiche, flux, nuage risque/rendement, taux/prix, 4 % vs 6 %) en DA FinanceData.
         var s, g, i;
-        function txt(svg, x, y, str, size, fill, weight, anchor) { var t = el(svg, "text", { x: x, y: y, "font-family": "Inter FD", "font-weight": weight || 800, "font-size": size, fill: fill, "text-anchor": anchor || "middle" }); t.textContent = str; return t; }
+        function txt(svg, x, y, str, size, fill, weight, anchor) { var t = el(svg, "text", { x: x, y: y, "font-family": "Grotesk", "font-weight": weight === 800 ? 600 : weight || 600, "font-size": size, fill: fill, "text-anchor": anchor || "middle" }); t.textContent = str; return t; }
         function count(node, t, from, to, dur, suffix) {
           var o = { v: from };
           tl.fromTo(o, { v: from }, { v: to, duration: dur, ease: "power2.out", onUpdate: function () { node.textContent = Math.round(o.v).toLocaleString("fr-FR").replace(/ | /g, " ") + (suffix || ""); } }, t);
@@ -130,7 +134,7 @@
         s = scene(0, 2.62, "white");
         kw(s, "Obligations vs actions", 0.0, 280, 76);
         g = svgIn(s, 1080, 900, 0, 380);
-        el(g, "line", { x1: 120, x2: 960, y1: 760, y2: 760, stroke: NAVY, "stroke-width": 5 });
+        el(g, "line", { x1: 120, x2: 960, y1: 760, y2: 760, stroke: "rgba(10,16,94,.28)", "stroke-width": 2 });
         var bO = el(g, "rect", { x: 210, y: 160, width: 260, height: 600, fill: NAVY });
         var bA = el(g, "rect", { x: 610, y: 236, width: 260, height: 524, fill: "#8b8fa3" });
         tl.fromTo(bO, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.9, ease: "power3.out" }, 0.1);
@@ -196,17 +200,17 @@
         s = scene(21.02, 24.7, "white");
         kw(s, "Ce que vous recevez", 20.85, 290, 76);
         g = svgIn(s, 1080, 820, 0, 420);
-        el(g, "line", { x1: 90, x2: 990, y1: 640, y2: 640, stroke: NAVY, "stroke-width": 5 });
+        el(g, "line", { x1: 90, x2: 990, y1: 640, y2: 640, stroke: "rgba(10,16,94,.28)", "stroke-width": 2 });
         var bars = [];
-        for (i = 0; i < 10; i++) { bars.push(el(g, "rect", { x: 112 + i * 88, y: 590, width: 60, height: 50, fill: GREEN })); txt(g, 142 + i * 88, 690, String(i + 1), 30, GREY, 600); }
+        for (i = 0; i < 10; i++) { bars.push(el(g, "rect", { x: 125 + i * 88, y: 590, width: 34, height: 50, fill: GREEN })); txt(g, 142 + i * 88, 690, String(i + 1), 30, GREY, 600); }
         tl.fromTo(bars, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.2, stagger: 0.06, ease: "power2.out" }, 20.95);
-        var bigBar = el(g, "rect", { x: 904, y: 90, width: 60, height: 500, fill: NAVY });
+        var bigBar = el(g, "rect", { x: 917, y: 90, width: 34, height: 500, fill: NAVY });
         tl.fromTo(bigBar, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.45, ease: "power3.out" }, at("rend"));
         var bbL = txt(g, 880, 70, "1 000 € rendus", 46, NAVY, 800, "end");
         tl.fromTo(bbL, { opacity: 0 }, { opacity: 1, duration: 0.25 }, at("mille", 22) - 0.1);
         var lbl50 = txt(g, 135, 560, "50 € par an", 40, GREEN, 800, "start");
         tl.fromTo(lbl50, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 21.2);
-        var brace = path(g, "M112 500 L112 480 L852 480 L852 500", GREEN, 5); draw(brace, at("total") - 0.1, 0.4);
+        var brace = path(g, "M112 500 L112 480 L852 480 L852 500", GREEN, 3); draw(brace, at("total") - 0.1, 0.4);
         var p5 = txt(g, 480, 440, "+500 €", 130, GREEN, 800);
         tl.fromTo(p5, { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, at("cinq", 24) - 0.1);
 
@@ -220,17 +224,17 @@
         function riskChart(sc, a, tDE, tFR, tLine) {
           kw(sc, "Plus de risque, plus payé", a - 0.15, 290, 76);
           var c = svgIn(sc, 1080, 820, 0, 420);
-          el(c, "path", { d: "M150 40 L150 740 L980 740", stroke: NAVY, "stroke-width": 5, fill: "none" });
+          el(c, "path", { d: "M150 40 L150 740 L980 740", stroke: "rgba(10,16,94,.28)", "stroke-width": 2, fill: "none" });
           txt(c, 975, 790, "Risque →", 40, GREY, 800, "end");
           txt(c, 170, 30, "↑ Rendement", 40, GREY, 800, "start");
-          var pD = el(c, "circle", { cx: 260, cy: 650, r: 26, fill: NAVY });
-          var pF = el(c, "circle", { cx: 860, cy: 170, r: 26, fill: RED });
+          var pD = el(c, "circle", { cx: 260, cy: 650, r: 16, fill: NAVY });
+          var pF = el(c, "circle", { cx: 860, cy: 170, r: 16, fill: RED });
           tl.fromTo(pD, { opacity: 0, scale: 0, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, tDE);
           tl.fromTo(pF, { opacity: 0, scale: 0, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, tFR);
           var lD = div(sc, "tl lab", de + '<span style="margin-left:16px; vertical-align:middle">Allemagne</span>', "left:310px; top:1010px; color:" + NAVY);
           var lF = div(sc, "tl lab", "Entreprise fragile", "left:330px; top:520px; color:" + RED);
           fade(lD, tDE); fade(lF, tFR);
-          if (tLine) { var ln = path(c, "M260 650 L860 170", GREEN, 8); draw(ln, tLine, 0.7); }
+          if (tLine) { var ln = path(c, "M260 650 L860 170", GREEN, 5); draw(ln, tLine, 0.7); }
           return { lD: lD, lF: lF };
         }
         s = scene(26.8, 33.8, "white");
@@ -242,7 +246,7 @@
         s = scene(33.8, 35.52, "black");
         big(s, "1 000 €", 33.65, 560, 200, "#ffffff");
         g = svgIn(s, 1080, 200, 0, 560);
-        var strike = path(g, "M150 110 L930 80", RED, 16); draw(strike, at("jamais"), 0.35);
+        var strike = path(g, "M150 110 L930 80", RED, 8); draw(strike, at("jamais"), 0.35);
         kw(s, "jamais remboursés ?", at("rembourser") - 0.1, 880, 84, "red");
 
         // 11. 35,5–37,5 plus le risque est élevé, plus vous êtes payé
@@ -264,9 +268,9 @@
         s = scene(40.5, 42.0, "white");
         kw(s, "Taux ↑ · Prix ↓", 40.35, 290, 80);
         g = svgIn(s, 1080, 820, 0, 420);
-        el(g, "line", { x1: 100, x2: 980, y1: 740, y2: 740, stroke: NAVY, "stroke-width": 5 });
-        var lT = path(g, "M100 660 C 320 650, 460 470, 600 360 S 820 150, 960 120", NAVY, 12); draw(lT, 40.4, 0.7);
-        var lP = path(g, "M100 120 C 320 130, 460 310, 600 420 S 820 630, 960 660", RED, 12); draw(lP, at("prix", 41) - 0.1, 0.6);
+        el(g, "line", { x1: 100, x2: 980, y1: 740, y2: 740, stroke: "rgba(10,16,94,.28)", "stroke-width": 2 });
+        var lT = path(g, "M100 660 C 320 650, 460 470, 600 360 S 820 150, 960 120", NAVY, 6); draw(lT, 40.4, 0.7);
+        var lP = path(g, "M100 120 C 320 130, 460 310, 600 420 S 820 630, 960 660", RED, 6); draw(lP, at("prix", 41) - 0.1, 0.6);
         var tT2 = txt(g, 960, 90, "Taux", 50, NAVY, 800, "end"), tP2 = txt(g, 960, 720, "Prix", 50, RED, 800, "end");
         tl.fromTo(tT2, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 40.9); tl.fromTo(tP2, { opacity: 0 }, { opacity: 1, duration: 0.2 }, at("baisse") - 0.05);
 
@@ -289,7 +293,7 @@
         var old = div(s, "t big", "1 000 €", "top:740px; font-size:170px; color:" + NAVY);
         fade(old, 46.6, { opacity: 0, x: 120 });
         g = svgIn(s, 1080, 200, 0, 720);
-        draw(path(g, "M190 120 L890 80", RED, 14), at("même") - 0.05, 0.3);
+        draw(path(g, "M190 120 L890 80", RED, 7), at("même") - 0.05, 0.3);
         var nw = div(s, "t big", "1 000 €", "top:740px; font-size:170px; color:" + RED);
         tl.set(nw, { opacity: 0 }, 0);
         tl.to(old, { opacity: 0, duration: 0.2 }, at("baisser") - 0.15);
