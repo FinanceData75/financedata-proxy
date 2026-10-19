@@ -23,6 +23,8 @@
       .kw { position: absolute; display: inline-block; font-weight: 800; letter-spacing: -.045em; line-height: 1; padding: 12px 26px 18px; white-space: nowrap; }
       .kw .bx { position: absolute; inset: 0; transform-origin: 0 50%; background: #0a105e; }
       .kw .tx { position: relative; color: #fff; }
+      /* titre du hook : l'encadré s'ouvre depuis le centre ; marge gauche + 3 px pour compenser l'interlettrage négatif */
+      .kw.mid { padding: 12px 26px 18px 29px; } .kw.mid .bx { transform-origin: 50% 50%; }
       .kw.light .bx { background: #fff; } .kw.light .tx { color: #0a105e; }
       .logo { position: absolute; left: 540px; display: block; }
       .card { position: absolute; left: 0; width: 1080px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.35); }
@@ -40,11 +42,11 @@
       (function () {
         var tl = gsap.timeline({ paused: true }), stage = document.getElementById("stage"), toCenter = [];
         function div(parent, cls, html, style) { var d = document.createElement("div"); d.className = cls; if (html != null) d.innerHTML = html; if (style) d.setAttribute("style", style); parent.appendChild(d); return d; }
-        function kw(sc, text, t, top, size, tone) {
-          var k = div(sc, "kw " + (tone || ""), '<span class="bx"></span><span class="tx">' + text + "</span>", "top:" + top + "px; font-size:" + size + "px");
+        function kw(sc, text, t, top, size, tone, centre) {
+          var k = div(sc, "kw " + (tone || "") + (centre ? " mid" : ""), '<span class="bx"></span><span class="tx">' + text + "</span>", "top:" + top + "px; font-size:" + size + "px");
           toCenter.push(k);
           tl.fromTo(k.querySelector(".bx"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, t);
-          tl.fromTo(k.querySelector(".tx"), { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + 0.08);
+          tl.fromTo(k.querySelector(".tx"), centre ? { opacity: 0 } : { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + (centre ? 0.2 : 0.08));
           return k;
         }
         function scene(a, b, bg) {
@@ -56,9 +58,9 @@
         // =================== HOOK (vidéo tour Eiffel + titre encadré) ===================
         // « Voici les 5 actions françaises les plus performantes en 2026. » (0 → 4,06 s)
         var h = scene(0, 4.3);
-        kw(h, "Les 5 actions françaises", 0.0, 250, 82);
-        kw(h, "les plus performantes", 1.75, 370, 82);
-        kw(h, "en 2026", 3.15, 490, 82, "light");
+        kw(h, "Les 5 actions françaises", 0.0, 250, 76, "", true);
+        kw(h, "les plus performantes", 1.75, 362, 76, "", true);
+        kw(h, "en 2026", 3.15, 474, 76, "light", true);
 
         // =================== CLASSEMENT (5 → 1) ===================
         // [rang, logo (ou photo), largeur max, hauteur max, nom affiché sous le logo, perf]
