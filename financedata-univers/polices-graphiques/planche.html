@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Polices des graphiques</title>
+    <script src="spx-mensuel.js"></script>
+    <style>
+      /* Planche comparative : le même graphique (vraies données) en 4 directions de police secondaire. */
+      @font-face { font-family: "Plex Cond"; src: url("fonts/ibm-plex-sans-condensed-latin-400-normal.woff2"); font-weight: 400; }
+      @font-face { font-family: "Plex Cond"; src: url("fonts/ibm-plex-sans-condensed-latin-500-normal.woff2"); font-weight: 500; }
+      @font-face { font-family: "Plex Cond"; src: url("fonts/ibm-plex-sans-condensed-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Plex Cond"; src: url("fonts/ibm-plex-sans-condensed-latin-700-normal.woff2"); font-weight: 700; }
+      @font-face { font-family: "Plex Mono"; src: url("fonts/ibm-plex-mono-latin-400-normal.woff2"); font-weight: 400; }
+      @font-face { font-family: "Plex Mono"; src: url("fonts/ibm-plex-mono-latin-500-normal.woff2"); font-weight: 500; }
+      @font-face { font-family: "Plex Mono"; src: url("fonts/ibm-plex-mono-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Archivo N"; src: url("fonts/archivo-narrow-latin-400-normal.woff2"); font-weight: 400; }
+      @font-face { font-family: "Archivo N"; src: url("fonts/archivo-narrow-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Archivo N"; src: url("fonts/archivo-narrow-latin-700-normal.woff2"); font-weight: 700; }
+      @font-face { font-family: "Barlow SC"; src: url("fonts/barlow-semi-condensed-latin-400-normal.woff2"); font-weight: 400; }
+      @font-face { font-family: "Barlow SC"; src: url("fonts/barlow-semi-condensed-latin-500-normal.woff2"); font-weight: 500; }
+      @font-face { font-family: "Barlow SC"; src: url("fonts/barlow-semi-condensed-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Barlow SC"; src: url("fonts/barlow-semi-condensed-latin-700-normal.woff2"); font-weight: 700; }
+      @font-face { font-family: "Serif4"; src: url("fonts/source-serif-4-latin-400-normal.woff2"); font-weight: 400; }
+      @font-face { font-family: "Serif4"; src: url("fonts/source-serif-4-latin-400-italic.woff2"); font-weight: 400; font-style: italic; }
+      @font-face { font-family: "Serif4"; src: url("fonts/source-serif-4-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Franklin"; src: url("fonts/libre-franklin-latin-400-normal.woff2"); font-weight: 400; }
+      @font-face { font-family: "Franklin"; src: url("fonts/libre-franklin-latin-500-normal.woff2"); font-weight: 500; }
+      @font-face { font-family: "Franklin"; src: url("fonts/libre-franklin-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Inter FD"; src: url("fonts/inter-latin-800-normal.woff2"); font-weight: 800; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { background: #222; width: 4440px; display: flex; gap: 40px; padding: 0 0 0 0; }
+      .fr { position: relative; width: 1080px; height: 1920px; overflow: hidden; flex: none; }
+      .fr svg { position: absolute; left: 0; top: 0; }
+    </style>
+  </head>
+  <body>
+    <div class="fr" id="A"></div>
+    <div class="fr" id="B"></div>
+    <div class="fr" id="C"></div>
+    <div class="fr" id="D"></div>
+    <script>
+      var NS = "http://www.w3.org/2000/svg", D = window.SPXM;
+      function el(p, tag, a, txt) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; p.appendChild(e); return e; }
+      var REC = [["2001-03", "2001-11"], ["2007-12", "2009-06"], ["2020-02", "2020-04"]];
+      var t0 = 1990, t1 = 2026 + 10 / 12;
+      function tx(d) { return +d.slice(0, 4) + (+d.slice(5, 7) - 1) / 12; }
+      var last = D[D.length - 1][1], first = D[0][1];
+      var low09 = D.filter(function (r) { return r[0] >= "2008" && r[0] < "2010"; }).sort(function (a, b) { return a[1] - b[1]; })[0];
+      function fmt(v) { return Math.round(v).toLocaleString("fr-FR").replace(/ | /g, " "); }
+
+      // S : style  { bg, ink, mute, grid, line, line2, area, rec, accent, up, fonts:{title,sub,label,num,anno}, ... }
+      function frame(id, S) {
+        var f = document.getElementById(id); f.style.background = S.bg;
+        var g = el(f, "svg", { width: 1080, height: 1920, viewBox: "0 0 1080 1920" });
+        var L = 90, R = 990;
+        // en-tête
+        if (S.tag) S.tag(g, L);
+        el(g, "text", { x: L, y: S.titleY || 300, "font-family": S.f.title, "font-weight": S.titleW || 700, "font-size": S.titleS || 70, fill: S.ink, "letter-spacing": S.titleLS || 0 }, S.title || "Le S&P 500 depuis 1990");
+        el(g, "text", { x: L, y: (S.titleY || 300) + 62, "font-family": S.f.sub, "font-weight": 400, "font-size": 36, fill: S.mute }, S.sub || "Indice, clôture mensuelle, échelle logarithmique");
+        // panneau 1 : courbe
+        var top = 660, bot = 1180, cL = L, cR = S.axisRight ? R - 110 : R;
+        if (!S.axisRight) cL = L + 0;
+        if (S.frame) el(g, "rect", { x: L, y: top - 40, width: R - L, height: bot - top + 110, fill: "none", stroke: S.frame, "stroke-width": 2 });
+        var lmin = Math.log(250), lmax = Math.log(9000);
+        function X(t) { return cL + (t - t0) / (t1 - t0) * (cR - cL); }
+        function Y(v) { return bot - (Math.log(v) - lmin) / (lmax - lmin) * (bot - top); }
+        REC.forEach(function (r) {
+          var x1 = X(tx(r[0])), x2 = X(tx(r[1]) + 1 / 12);
+          el(g, "rect", { x: x1, y: top - (S.frame ? 30 : 10), width: Math.max(6, x2 - x1), height: bot - top + (S.frame ? 30 : 10), fill: S.rec });
+        });
+        [500, 1000, 2000, 4000, 8000].forEach(function (v) {
+          var y = Y(v);
+          el(g, "line", { x1: L, x2: R, y1: y, y2: y, stroke: S.grid, "stroke-width": S.gridW || 1.5, "stroke-dasharray": S.dash || "" });
+          if (S.axisRight) el(g, "text", { x: R, y: y + 11, "text-anchor": "end", "font-family": S.f.num, "font-size": 30, fill: S.mute }, fmt(v));
+          else el(g, "text", { x: L, y: y - 12, "font-family": S.f.num, "font-size": 30, fill: S.mute }, fmt(v));
+        });
+        el(g, "line", { x1: L, x2: R, y1: bot, y2: bot, stroke: S.ink, "stroke-width": 2.5 });
+        [1990, 2000, 2010, 2020].forEach(function (yr) {
+          el(g, "line", { x1: X(yr), x2: X(yr), y1: bot, y2: bot + 14, stroke: S.ink, "stroke-width": 2 });
+          el(g, "text", { x: X(yr), y: bot + 50, "text-anchor": yr === 1990 ? "start" : "middle", dx: yr === 1990 && S.frame ? 10 : 0, "font-family": S.f.num, "font-size": 30, fill: S.mute }, yr);
+        });
+        var d = D.map(function (r, i) { return (i ? "L" : "M") + X(tx(r[0])).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
+        if (S.area) el(g, "path", { d: d + " L" + X(t1) + " " + bot + " L" + X(t0) + " " + bot + " Z", fill: S.area });
+        el(g, "path", { d: d, fill: "none", stroke: S.line, "stroke-width": S.lineW || 5, "stroke-linejoin": "round" });
+        // dernier point
+        var lx = X(t1), ly = Y(last);
+        el(g, "circle", { cx: lx, cy: ly, r: 9, fill: S.line });
+        if (S.lastTag) S.lastTag(g, lx, ly, fmt(last));
+        // annotations
+        var ax = X(tx(low09[0])), ay = Y(low09[1]);
+        el(g, "line", { x1: ax, x2: ax, y1: ay + 14, y2: ay + 90, stroke: S.ink, "stroke-width": 1.5 });
+        el(g, "text", { x: ax - 8, y: ay + 128, "text-anchor": "middle", "font-family": S.f.anno, "font-style": S.annoItalic ? "italic" : "normal", "font-weight": S.annoW || 500, "font-size": 30, fill: S.ink }, "Février 2009 : " + fmt(low09[1]));
+        el(g, "text", { x: X(2001.6), y: top - (S.frame ? 8 : 22), "text-anchor": "middle", "font-family": S.f.label, "font-size": 24, fill: S.mute, "letter-spacing": S.capsLS || 0 }, S.recLabel || "Récessions");
+        // chiffre clé
+        el(g, "text", { x: L, y: 530, "font-family": S.f.big, "font-weight": S.bigW || 700, "font-size": 110, fill: S.up, "letter-spacing": S.bigLS || "-2" }, "+" + fmt((last / first - 1) * 100) + " %");
+        el(g, "text", { x: L, y: 580, "font-family": S.f.label, "font-weight": 500, "font-size": 30, fill: S.mute }, "depuis fin janvier 1990");
+        // panneau 2 : barres horizontales
+        var by = 1330;
+        if (S.panel2) S.panel2(g, L, by - 70);
+        el(g, "text", { x: L, y: by, "font-family": S.f.title, "font-weight": S.titleW2 || 600, "font-size": 42, fill: S.ink }, S.title2 || "Encours mondial, en milliers de milliards de $");
+        [["Obligations", 145.1, S.line], ["Actions", 126.7, S.line2]].forEach(function (b, k) {
+          var y = by + 50 + k * 120, w = (R - L - 300) * b[1] / 150;
+          el(g, "text", { x: L, y: y + 52, "font-family": S.f.label, "font-weight": 500, "font-size": 36, fill: S.ink }, b[0]);
+          el(g, "rect", { x: L + 230, y: y + 10, width: w, height: 64, fill: b[2] });
+          el(g, "text", { x: L + 230 + w + 18, y: y + 56, "font-family": S.f.num, "font-weight": 600, "font-size": 38, fill: S.ink }, b[1].toFixed(1).replace(".", ","));
+        });
+        // source + signature
+        el(g, "line", { x1: L, x2: R, y1: 1700, y2: 1700, stroke: S.grid, "stroke-width": 1.5 });
+        el(g, "text", { x: L, y: 1748, "font-family": S.f.label, "font-size": 26, fill: S.mute }, "Sources : Yahoo Finance, SIFMA (fin 2024). Zones grisées : récessions US (NBER).");
+        el(g, "text", { x: R, y: 1810, "text-anchor": "end", "font-family": "Inter FD", "font-weight": 800, "font-size": 34, fill: S.ink, "letter-spacing": "-1" }, "FinanceData");
+        // étiquette de la proposition
+        el(g, "text", { x: L, y: 1880, "font-family": S.f.label, "font-weight": 600, "font-size": 30, fill: S.mute }, S.name);
+      }
+
+      // A — esprit The Economist : IBM Plex Sans Condensed
+      frame("A", {
+        name: "A · IBM Plex Sans Condensed (+ Plex Mono) — esprit The Economist",
+        bg: "#ffffff", ink: "#0a105e", mute: "#5b5f70", grid: "#d9dbe3", line: "#0a105e", line2: "#8fa3d9", rec: "#eceef4", up: "#08923a",
+        f: { title: "Plex Cond", sub: "Plex Cond", label: "Plex Cond", num: "Plex Cond", anno: "Plex Cond", big: "Plex Cond" },
+        axisRight: true, lineW: 6,
+        tag: function (g, L) { el(g, "rect", { x: L, y: 150, width: 110, height: 18, fill: "#3d5afe" }); el(g, "line", { x1: L, x2: 990, y1: 150, y2: 150, stroke: "#0a105e", "stroke-width": 2 }); }
+      });
+      // B — esprit Financial Times : Source Serif 4 (titres) + Libre Franklin (étiquettes)
+      frame("B", {
+        name: "B · Source Serif 4 + Libre Franklin — esprit Financial Times",
+        bg: "#f7f4ee", ink: "#1b1d2e", mute: "#66656b", grid: "#dcd6cc", line: "#0a105e", line2: "#b9b2a6", rec: "#ebe5da", up: "#0b7a3b",
+        f: { title: "Serif4", sub: "Franklin", label: "Franklin", num: "Franklin", anno: "Serif4", big: "Serif4" },
+        titleW: 600, titleS: 76, titleW2: 600, annoItalic: true, annoW: 400, bigW: 600, bigLS: "-1",
+        tag: function (g, L) { el(g, "text", { x: L, y: 190, "font-family": "Franklin", "font-weight": 600, "font-size": 28, fill: "#3d5afe", "letter-spacing": "3" }, "MARCHÉS"); }
+      });
+      // C — esprit Bloomberg : Archivo Narrow + IBM Plex Mono, fond marine
+      frame("C", {
+        name: "C · Archivo Narrow + IBM Plex Mono — esprit Bloomberg",
+        bg: "linear-gradient(180deg,#0d1250,#0a0e3b)", ink: "#ffffff", mute: "#9aa3d6", grid: "rgba(255,255,255,.12)", line: "#ffffff", line2: "#5b74d6", rec: "rgba(255,255,255,.06)", up: "#3cff5a",
+        area: "rgba(61,90,254,.22)", axisRight: true, lineW: 4,
+        f: { title: "Archivo N", sub: "Archivo N", label: "Archivo N", num: "Plex Mono", anno: "Plex Mono", big: "Archivo N" },
+        titleS: 80, bigW: 700, bigLS: "-1", capsLS: 2, recLabel: "RÉCESSIONS",
+        tag: function (g, L) { el(g, "text", { x: L, y: 190, "font-family": "Plex Mono", "font-weight": 500, "font-size": 28, fill: "#7aa2ff", "letter-spacing": "2" }, "SPX INDEX · MENSUEL · LOG"); },
+        lastTag: function (g, x, y, v) { el(g, "rect", { x: x + 14, y: y - 22, width: 0, height: 0 }); el(g, "text", { x: 990, y: y + 46, "text-anchor": "end", "font-family": "Plex Mono", "font-weight": 600, "font-size": 30, fill: "#3cff5a" }, v); }
+      });
+      // D — esprit BCA Research : Barlow Semi Condensed, graphique cadré
+      frame("D", {
+        name: "D · Barlow Semi Condensed — esprit BCA Research",
+        bg: "#ffffff", ink: "#0a105e", mute: "#5b5f70", grid: "#e1e3ea", line: "#0a105e", line2: "#9aa0b5", rec: "#e6e7ee", up: "#0a105e",
+        f: { title: "Barlow SC", sub: "Barlow SC", label: "Barlow SC", num: "Barlow SC", anno: "Barlow SC", big: "Barlow SC" },
+        frame: "#0a105e", axisRight: true, titleW: 600, titleS: 64, lineW: 4, dash: "4 6", capsLS: 1, recLabel: "RÉCESSIONS",
+        tag: function (g, L) { el(g, "text", { x: L, y: 190, "font-family": "Barlow SC", "font-weight": 700, "font-size": 30, fill: "#3d5afe", "letter-spacing": "2" }, "GRAPHIQUE 1"); }
+      });
+      document.fonts.ready.then(function () { document.body.setAttribute("data-ready", "1"); });
+    </script>
+  </body>
+</html>
