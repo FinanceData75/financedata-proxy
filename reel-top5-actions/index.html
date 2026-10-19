@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Style « financedata » (styles/financedata/STYLE.md) : hook sur vidéo réelle + titre encadré,
+         puis un écran par action (rang, logo, performance), coupes franches, jamais d'écran vide. */
+      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-800-normal.woff2"); font-weight: 800; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter FD", sans-serif; }
+      #hook { position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      .sc { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      .white { background: radial-gradient(ellipse 80% 62% at 50% 45%, #f4f2f5 0%, #edebee 45%, #a9a7aa 82%, #5d5b5e 100%); }
+      .wash { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 55% at 50% 60%, rgba(124,240,124,.55) 0%, rgba(124,240,124,.2) 60%, rgba(124,240,124,0) 100%); }
+      .t { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; }
+      .pct { font-weight: 800; letter-spacing: -.05em; line-height: .95; font-size: 300px; color: #08923a; text-shadow: 0 0 40px rgba(60,255,90,.4); }
+      .small { font-weight: 600; font-size: 46px; letter-spacing: -.02em; color: #2a2d36; }
+      .name { font-weight: 800; font-size: 64px; letter-spacing: -.045em; color: #0a105e; }
+      .kw { position: absolute; display: inline-block; font-weight: 800; letter-spacing: -.045em; line-height: 1; padding: 12px 26px 18px; white-space: nowrap; }
+      .kw .bx { position: absolute; inset: 0; transform-origin: 0 50%; background: #0a105e; }
+      .kw .tx { position: relative; color: #fff; }
+      .kw.light .bx { background: #fff; } .kw.light .tx { color: #0a105e; }
+      .logo { position: absolute; left: 540px; display: block; }
+      .card { position: absolute; left: 0; width: 1080px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.35); }
+      .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="17.6" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix-hook.wav" data-start="0" data-duration="4.07" data-track-index="1"></audio>
+      <video id="hook" class="clip" src="assets/tour-eiffel.mp4" data-start="0" data-duration="4.3" data-track-index="2" muted playsinline></video>
+      <div id="stage" class="clip" data-start="0" data-duration="17.6" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+
+    <script>
+      (function () {
+        var tl = gsap.timeline({ paused: true }), stage = document.getElementById("stage"), toCenter = [];
+        function div(parent, cls, html, style) { var d = document.createElement("div"); d.className = cls; if (html != null) d.innerHTML = html; if (style) d.setAttribute("style", style); parent.appendChild(d); return d; }
+        function kw(sc, text, t, top, size, tone) {
+          var k = div(sc, "kw " + (tone || ""), '<span class="bx"></span><span class="tx">' + text + "</span>", "top:" + top + "px; font-size:" + size + "px");
+          toCenter.push(k);
+          tl.fromTo(k.querySelector(".bx"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, t);
+          tl.fromTo(k.querySelector(".tx"), { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + 0.08);
+          return k;
+        }
+        function scene(a, b, bg) {
+          var sc = div(stage, "sc " + (bg || ""));
+          tl.set(sc, { opacity: 1 }, a); tl.set(sc, { opacity: 0 }, b);
+          return sc;
+        }
+
+        // =================== HOOK (vidéo tour Eiffel + titre encadré) ===================
+        // « Voici les 5 actions françaises les plus performantes en 2026. » (0 → 4,06 s)
+        var h = scene(0, 4.3);
+        kw(h, "Les 5 actions françaises", 0.0, 250, 82);
+        kw(h, "les plus performantes", 1.75, 370, 82);
+        kw(h, "en 2026", 3.15, 490, 82, "light");
+
+        // =================== CLASSEMENT (5 → 1) ===================
+        // [rang, logo (ou photo), largeur max, hauteur max, nom affiché sous le logo, perf]
+        var L = [
+          [5, "airliquide.png", 860, 220, "", "+19 %"],
+          [4, "eurofins.png", 860, 220, "", "+24 %"],
+          [3, "photo:euronext-photo.jpg", 0, 0, "", "+33 %"],
+          [2, "total.png", 620, 470, "", "+45 %"],
+          [1, "st.png", 560, 340, "STMicroelectronics", "+83 %"]
+        ];
+        var t0 = 4.3, d = 2.6;
+        L.forEach(function (r, i) {
+          var a = t0 + i * d, b = i === L.length - 1 ? 17.6 : a + d, last = i === L.length - 1;
+          var sc = scene(a, b, "white");
+          if (last) { var w = div(sc, "wash"); tl.fromTo(w, { opacity: 0 }, { opacity: 1, duration: 0.4 }, a + 0.45); }
+          // rang : visible dès la coupe
+          kw(sc, "N°" + r[0], a - 0.2, 300, 110);
+          // logo (zone 560 → 1000)
+          var el;
+          if (r[1].indexOf("photo:") === 0) {
+            el = div(sc, "card", '<img src="assets/img/' + r[1].slice(6) + '" alt="" />', "top:540px; height:480px");
+          } else {
+            el = div(sc, "", null);
+            var img = document.createElement("img"); img.src = "assets/img/" + r[1]; img.className = "logo";
+            img.style.maxWidth = r[2] + "px"; img.style.maxHeight = r[3] + "px";
+            img.style.top = (r[4] ? 600 : 780 - r[3] / 2) + "px";
+            el.appendChild(img); gsap.set(img, { xPercent: -50 });
+            if (r[4]) div(el, "t name", r[4], "top:" + (600 + r[3] + 30) + "px");
+          }
+          tl.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, a - 0.1);
+          // performance depuis le 1er janvier
+          var p = div(sc, "t pct", r[5], "top:1110px; height:300px");
+          tl.fromTo(p, { opacity: 0, x: 160, filter: "blur(18px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, a + 0.45);
+          var s = div(sc, "t small", "depuis le 1<sup style='font-size:.6em'>er</sup> janvier", "top:1470px");
+          tl.fromTo(s, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, a + 0.85);
+        });
+
+        toCenter.forEach(function (n) { n.style.left = "540px"; gsap.set(n, { xPercent: -50 }); });
+        tl.set({}, {}, 17.6);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
