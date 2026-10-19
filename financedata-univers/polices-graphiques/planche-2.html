@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Polices graphiques v2</title>
+    <script src="spx-mensuel.js"></script>
+    <style>
+      /* Planche 2 : version minimaliste. Inter 800 = titre (police principale), la police testée = tout le graphique. */
+      @font-face { font-family: "Inter FD"; src: url("fonts/inter-latin-800-normal.woff2"); font-weight: 800; }
+      @font-face { font-family: "Fragment"; src: url("fonts/fragment-mono-latin-400-normal.woff2"); font-weight: 400; }
+      @font-face { font-family: "Instrument"; src: url("fonts/instrument-serif-latin-400-normal.woff2"); font-weight: 400; }
+      @font-face { font-family: "Instrument"; src: url("fonts/instrument-serif-latin-400-italic.woff2"); font-weight: 400; font-style: italic; }
+      @font-face { font-family: "DMMono"; src: url("fonts/dm-mono-latin-400-normal.woff2"); font-weight: 400; }
+      @font-face { font-family: "DMMono"; src: url("fonts/dm-mono-latin-500-normal.woff2"); font-weight: 500; }
+      @font-face { font-family: "Schibsted"; src: url("fonts/schibsted-grotesk-latin-500-normal.woff2"); font-weight: 500; }
+      @font-face { font-family: "Schibsted"; src: url("fonts/schibsted-grotesk-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Schibsted"; src: url("fonts/schibsted-grotesk-latin-700-normal.woff2"); font-weight: 700; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { background: #222; width: 4440px; display: flex; gap: 40px; }
+      .fr { position: relative; width: 1080px; height: 1920px; overflow: hidden; flex: none;
+            background: radial-gradient(ellipse 80% 62% at 50% 45%, #f4f2f5 0%, #edebee 45%, #a9a7aa 82%, #5d5b5e 100%); }
+      .fr svg { position: absolute; left: 0; top: 0; }
+    </style>
+  </head>
+  <body>
+    <div class="fr" id="A"></div>
+    <div class="fr" id="B"></div>
+    <div class="fr" id="C"></div>
+    <div class="fr" id="D"></div>
+    <script>
+      var NS = "http://www.w3.org/2000/svg", D = window.SPXM, NAVY = "#0a105e", MUTE = "#6a6d78";
+      function el(p, tag, a, txt) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; p.appendChild(e); return e; }
+      function fmt(v) { return Math.round(v).toLocaleString("fr-FR").replace(/ | /g, " "); }
+      function tx(d) { return +d.slice(0, 4) + (+d.slice(5, 7) - 1) / 12; }
+      var first = D[0][1], last = D[D.length - 1][1], t0 = tx(D[0][0]), t1 = tx(D[D.length - 1][0]);
+
+      function frame(id, F) {
+        var g = el(document.getElementById(id), "svg", { width: 1080, height: 1920 });
+        var L = 110, R = 970, top = 700, bot = 1220;
+        var lmin = Math.log(first * 0.9), lmax = Math.log(last * 1.05);
+        function X(t) { return L + (t - t0) / (t1 - t0) * (R - L); }
+        function Y(v) { return bot - (Math.log(v) - lmin) / (lmax - lmin) * (bot - top); }
+        // titre (police principale)
+        el(g, "text", { x: 540, y: 300, "text-anchor": "middle", "font-family": "Inter FD", "font-weight": 800, "font-size": 76, fill: NAVY, "letter-spacing": "-3" }, "Le S&P 500 depuis 1990");
+        // chiffre clé + légende (police testée)
+        var bigT = el(g, "text", { x: 540, y: 500, "text-anchor": "middle", "font-family": F.big, "font-weight": F.bigW || 400, "font-style": F.bigI ? "italic" : "normal", "font-size": F.bigS || 150, fill: NAVY, "letter-spacing": F.bigLS || "-2" });
+        // espaces resserrées (fines insécables) pour que les chiffres restent groupés, même en chasse fixe
+        ("+" + fmt((last / first - 1) * 100) + " %").split(" ").forEach(function (part, i) { el(bigT, "tspan", i ? (F.mono ? { dx: "-0.35em" } : {}) : {}, (i ? " " : "") + part); });
+        el(g, "text", { x: 540, y: 570, "text-anchor": "middle", "font-family": F.lab, "font-weight": F.labW || 400, "font-style": F.labI ? "italic" : "normal", "font-size": F.labS || 32, fill: MUTE, "letter-spacing": F.labLS || "0" }, F.caps ? "DEPUIS FIN JANVIER 1990" : "depuis fin janvier 1990");
+        // courbe seule : pas de grille
+        var d = D.map(function (r, i) { return (i ? "L" : "M") + X(tx(r[0])).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
+        el(g, "line", { x1: L, x2: R, y1: bot + 40, y2: bot + 40, stroke: "rgba(10,16,94,.18)", "stroke-width": 1.5 });
+        el(g, "path", { d: d, fill: "none", stroke: NAVY, "stroke-width": 4, "stroke-linejoin": "round" });
+        el(g, "circle", { cx: X(t1), cy: Y(last), r: 10, fill: NAVY });
+        // deux valeurs, deux dates
+        var lab = { "font-family": F.lab, "font-weight": F.labW || 400, "font-size": F.valS || 34, fill: NAVY };
+        el(g, "text", Object.assign({ x: X(t0), y: Y(first) - 70 }, lab), fmt(first));
+        el(g, "text", Object.assign({ x: X(t1) - 24, y: Y(last) + 8, "text-anchor": "end" }, lab), fmt(last));
+        var yr = { "font-family": F.lab, "font-size": 30, fill: MUTE };
+        el(g, "text", Object.assign({ x: L, y: bot + 90 }, yr), "1990");
+        el(g, "text", Object.assign({ x: R, y: bot + 90, "text-anchor": "end" }, yr), "2026");
+        // échantillon de chiffres
+        el(g, "text", { x: 540, y: 1520, "text-anchor": "middle", "font-family": F.lab, "font-size": F.mono ? 36 : 46, fill: NAVY, "letter-spacing": F.labLS || "0" }, "0 1 2 3 4 5 6 7 8 9 · 145,1 · −15 %");
+        el(g, "text", { x: 540, y: 1720, "text-anchor": "middle", "font-family": F.lab, "font-size": 24, fill: MUTE }, "Source : Yahoo Finance");
+        el(g, "text", { x: 540, y: 1860, "text-anchor": "middle", "font-family": "Inter FD", "font-weight": 800, "font-size": 30, fill: "rgba(255,255,255,.9)", "letter-spacing": "-1" }, F.name);
+      }
+      frame("A", { name: "1 · Fragment Mono", big: "Fragment", lab: "Fragment", bigS: 140, bigLS: "-6", labS: 28, caps: true, labLS: "2", mono: true });
+      frame("B", { name: "2 · Instrument Serif", big: "Instrument", lab: "Instrument", bigS: 190, bigLS: "-2", labS: 38, labI: true, valS: 40 });
+      frame("C", { name: "3 · DM Mono", big: "DMMono", lab: "DMMono", bigW: 500, bigS: 140, bigLS: "-8", labS: 28, caps: true, labLS: "2", mono: true });
+      frame("D", { name: "4 · Schibsted Grotesk", big: "Schibsted", lab: "Schibsted", bigW: 600, bigS: 160, bigLS: "-5", labW: 500, labS: 32 });
+      document.fonts.ready.then(function () { document.body.setAttribute("data-ready", "1"); });
+    </script>
+  </body>
+</html>
