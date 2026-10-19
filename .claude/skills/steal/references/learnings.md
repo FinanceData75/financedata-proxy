@@ -20,3 +20,4 @@ Deux sources : les leçons du skill d'origine (`learnings-origine.md`, Melvynx/v
 - **Fin** : la vidéo s'arrête quand la voix s'arrête ; CTA profil Instagram + bouton S'abonner → Abonné synchronisé sur la voix.
 - **Pas de zoom caméra ni de tremblement.**
 - **Jamais d'écran vide** : chaque écran a un élément visible dès sa première image ; vérifier le rendu image par image avant de livrer.
+- **Pas d'encadrés, image premium** : jamais de mot-clé dans un bloc de couleur ni de carte à bordure épaisse ; typographie seule + filet d'accent, panneaux sans bordure (ombre douce ou verre dépoli). Référence : `reel-obligataire`.

@@ -22,22 +22,26 @@
       .big { font-weight: 800; letter-spacing: -.05em; word-spacing: .12em; line-height: .95; }
       .small { font-weight: 600; font-size: 42px; letter-spacing: -.02em; }
       .lab { font-weight: 800; font-size: 46px; letter-spacing: -.03em; }
-      .kw { position: absolute; display: inline-block; font-weight: 800; letter-spacing: -.045em; line-height: 1; padding: 10px 22px 16px; white-space: nowrap; z-index: 3; }
-      .kw .bx { position: absolute; inset: 0; transform-origin: 0 50%; }
-      .kw .tx { position: relative; }
-      .kw.dark .bx { background: #0a105e; } .kw.dark .tx { color: #fff; }
-      .kw.light .bx { background: #fff; } .kw.light .tx { color: #0a105e; }
-      .kw.red .bx { background: #ff2e24; } .kw.red .tx { color: #fff; }
+      /* titres : typographie seule + filet d'accent (aucun encadré) */
+      .kw { position: absolute; display: inline-block; font-weight: 800; letter-spacing: -.04em; line-height: 1.05; padding: 0 0 26px; white-space: nowrap; z-index: 3; text-align: center; }
+      .kw .bx { position: absolute; left: 50%; bottom: 0; width: 80px; height: 5px; margin-left: -40px; transform-origin: 50% 50%; background: #3d5afe; }
+      .kw .tx { position: relative; color: #0a105e; }
+      .kw.ondark .tx { color: #fff; } .kw.ondark .bx { background: rgba(255,255,255,.55); }
+      .kw.red .tx { color: #ff2e24; } .kw.red .bx { background: #ff2e24; }
       .box { position: absolute; }
       .bond { position: absolute; width: 420px; height: 250px; border: 4px solid #0a105e; background: #fff; box-shadow: 0 20px 40px rgba(10,16,94,.25); text-align: center; }
       .bond .h { font-weight: 600; font-size: 34px; line-height: 1; color: #4a4e5c; margin-top: 36px; letter-spacing: -.02em; }
       .bond .v { font-weight: 800; font-size: 120px; color: #0a105e; letter-spacing: -.05em; word-spacing: .12em; line-height: 1; margin-top: 22px; }
-      .card2 { position: absolute; background: #fff; border: 4px solid #0a105e; box-shadow: 0 24px 50px rgba(10,16,94,.22); padding: 36px 40px; }
-      .card2 .lb { font-weight: 600; font-size: 36px; letter-spacing: -.02em; color: #4a4e5c; line-height: 1; }
-      .card2 .vl { font-weight: 800; font-size: 96px; letter-spacing: -.05em; word-spacing: .12em; color: #0a105e; line-height: 1; margin-top: 40px; white-space: nowrap; }
+      /* cartes : panneaux sans bordure (ombre douce sur blanc, verre dépoli sur bleu) */
+      .card2 { position: absolute; background: #fff; box-shadow: 0 1px 0 rgba(10,16,94,.06), 0 30px 80px rgba(10,16,94,.14); padding: 40px 44px; }
+      .card2 .lb { font-weight: 600; font-size: 24px; letter-spacing: .14em; text-transform: uppercase; color: #7a7e8c; line-height: 1; }
+      .card2 .vl { font-weight: 800; font-size: 96px; letter-spacing: -.05em; word-spacing: .12em; color: #0a105e; line-height: 1; margin-top: 44px; white-space: nowrap; }
+      .card2.glass { background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14), 0 30px 80px rgba(0,0,0,.25); }
+      .card2.glass .lb { color: rgba(255,255,255,.6); } .card2.glass .vl { color: #fff; }
       .card2.dim { opacity: .5; }
-      .card2.hi { border-color: #fff; box-shadow: 0 0 0 4px rgba(255,255,255,.25), 0 24px 50px rgba(0,0,0,.35); }
-      .card2.green { border-color: #3cff5a; box-shadow: 0 0 50px rgba(60,255,90,.45); } .card2.green .vl { color: #08923a; }
+      .card2.hi.glass { box-shadow: inset 0 0 0 1px rgba(255,255,255,.45), 0 30px 80px rgba(0,0,0,.3); }
+      .card2.green { box-shadow: inset 0 4px 0 #08923a, 0 30px 80px rgba(10,16,94,.14); } .card2.green .vl { color: #08923a; }
+      .card2.green.glass { box-shadow: inset 0 4px 0 #3cff5a, inset 0 0 0 1px rgba(60,255,90,.35), 0 0 60px rgba(60,255,90,.18); } .card2.green.glass .vl { color: #3cff5a; }
       svg { position: absolute; overflow: visible; }
       #caps { position: absolute; left: 0; right: 0; top: 1330px; z-index: 20; }
       .cl { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
@@ -64,10 +68,11 @@
         function fade(n, t, from) { tl.fromTo(n, from || { opacity: 0, y: 20 }, { opacity: 1, y: 0, x: 0, scale: 1, duration: 0.3, ease: "power3.out" }, t); return n; }
 
         function kw(sc, text, t, top, size, tone) {
-          var k = div(sc, "kw " + (tone || "dark"), '<span class="bx"></span><span class="tx">' + text + "</span>", "top:" + top + "px; font-size:" + (size || 96) + "px");
+          var dark = /navy|black/.test(sc.className);
+          var k = div(sc, "kw " + (tone === "red" ? "red" : dark ? "ondark" : ""), '<span class="bx"></span><span class="tx">' + text + "</span>", "top:" + top + "px; font-size:" + (size || 96) + "px");
           toCenter.push(k);
-          tl.fromTo(k.querySelector(".bx"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, t);
-          tl.fromTo(k.querySelector(".tx"), { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t + 0.08);
+          tl.fromTo(k.querySelector(".tx"), { opacity: 0, y: 18, clipPath: "inset(0 0 100% 0)" }, { opacity: 1, y: 0, clipPath: "inset(0 0 -20% 0)", duration: 0.4, ease: "power3.out" }, t);
+          tl.fromTo(k.querySelector(".bx"), { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, t + 0.12);
           return k;
         }
         function big(sc, text, t, top, size, color, glow) {
@@ -116,7 +121,7 @@
         }
         // carte (étiquette + valeur)
         function cardBox(sc, left, top, w, h, label, value, tone) {
-          var c = div(sc, "card2 " + (tone || ""), '<div class="lb">' + label + '</div><div class="vl">' + value + "</div>", "left:" + left + "px; top:" + top + "px; width:" + w + "px; height:" + h + "px");
+          var c = div(sc, "card2 " + (tone || "") + (/navy/.test(sc.className) ? " glass" : ""), '<div class="lb">' + label + '</div><div class="vl">' + value + "</div>", "left:" + left + "px; top:" + top + "px; width:" + w + "px; height:" + h + "px");
           if (value.length > 8) c.querySelector(".vl").style.fontSize = "70px";
           return c;
         }
@@ -163,19 +168,19 @@
         // 5. 11,3–18,0 la fiche d'une obligation (elle se remplit mot après mot)
         s = scene(11.28, 18.0, "white");
         kw(s, "La fiche d'une obligation", 11.1, 290, 76);
-        var fiche = div(s, "box", null, "left:110px; top:440px; width:860px; height:740px; background:#fff; border:4px solid " + NAVY + "; box-shadow: 0 30px 60px rgba(10,16,94,.18)");
+        var fiche = div(s, "box", null, "left:110px; top:440px; width:860px; height:740px; background:#fff; box-shadow: 0 1px 0 rgba(10,16,94,.06), 0 30px 80px rgba(10,16,94,.14)");
         fade(fiche, 11.15);
         var rows = [["Emprunteur", "État ou entreprise", at("État") - 0.1], ["Montant prêté", "1 000 €", at("mille") - 0.1], ["Durée", "10 ans", at("dix") - 0.1], ["Intérêts", "chaque année", at("intérêts") - 0.1]];
         rows.forEach(function (r, k) {
           var y = 36 + k * 150;
-          var lb = div(fiche, "tl small", r[0], "left:50px; top:" + y + "px; color:" + GREY + "; font-size:36px");
+          var lb = div(fiche, "tl small", r[0], "left:50px; top:" + (y + 6) + "px; color:#7a7e8c; font-size:24px; letter-spacing:.14em; text-transform:uppercase");
           var vl = div(fiche, "tl big", r[1], "left:50px; top:" + (y + 50) + "px; color:" + NAVY + "; font-size:76px");
-          if (k < 3) div(fiche, "box", null, "left:50px; right:50px; top:" + (y + 138) + "px; height:2px; background:rgba(10,16,94,.15)");
+          if (k < 3) div(fiche, "box", null, "left:50px; right:50px; top:" + (y + 138) + "px; height:2px; background:rgba(10,16,94,.08)");
           tl.fromTo(lb, { opacity: 0.35 }, { opacity: 1, duration: 0.2 }, r[2]);
           tl.fromTo(vl, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, r[2]);
         });
         tl.set(fiche.querySelectorAll(".small"), { opacity: 0.35 }, 0);
-        var cp = div(fiche, "kw dark", '<span class="bx"></span><span class="tx">= le coupon</span>', "left:50px; top:640px; font-size:60px");
+        var cp = div(fiche, "kw", '<span class="bx" style="left:0; margin-left:0; transform-origin:0 50%"></span><span class="tx" style="color:#3d5afe">= le coupon</span>', "left:50px; top:630px; font-size:60px; text-align:left");
         tl.fromTo(cp.querySelector(".bx"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power3.out" }, at("coupon") - 0.15);
         tl.fromTo(cp.querySelector(".tx"), { opacity: 0 }, { opacity: 1, duration: 0.25 }, at("coupon") - 0.05);
 
@@ -207,9 +212,8 @@
 
         // 8. 24,7–26,8 tous les emprunteurs ne se valent pas
         s = scene(24.7, 26.8, "navy");
-        kw(s, "Tous les emprunteurs", 24.55, 600, 90, "light");
+        kw(s, "Tous les emprunteurs", 24.55, 600, 90, "light").querySelector(".bx").style.display = "none";
         kw(s, "ne se valent pas", at("valent") - 0.2, 740, 90);
-        tl.set(s.lastChild.querySelector(".bx"), { boxShadow: "0 0 0 4px #fff inset" }, 0);
 
         // 9 & 11. le nuage risque / rendement
         var de = '<span style="display:inline-block; vertical-align:middle; width:66px; height:42px; background:linear-gradient(#000 0 33.3%, #dd0000 33.3% 66.6%, #ffce00 66.6%)"></span>';
@@ -255,7 +259,6 @@
         arrow(g, 520, 100, 680, 100, "#ffffff", at("revendre") - 0.1);
         fade(buyer, at("revendre") + 0.2);
         kw(s, "ça se complique", at("complique") - 0.15, 1000, 80);
-        tl.set(s.lastChild.querySelector(".bx"), { boxShadow: "0 0 0 4px #fff inset" }, 0);
 
         // 13. 40,5–42,0 taux en hausse, prix en baisse
         s = scene(40.5, 42.0, "white");
