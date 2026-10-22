@@ -2,23 +2,23 @@
 
 Format : leçon d'investissement sur l'actualité · structure « Héros en chute » · hook paradoxe · ~65 s · ~200 mots · 3 raisons · 2 chiffres (57 %, 30)
 
-## Voix off
+## Voix off (version à lire à l'oral)
 
-Hermès ne fait jamais de soldes. Pourtant, son action vient de perdre 57 %.
+Hermès, la marque qui ne fait jamais de soldes… Eh bien son action, elle, a perdu 57 %.
 
-Pendant des années, Hermès était l'exception du luxe. Quand les autres ralentissaient, elle accélérait. Le Birkin se méritait, les listes d'attente s'allongeaient, et la Bourse en redemandait.
+Pendant des années, Hermès, c'était l'exception. Tout le luxe ralentissait, sauf elle. Il fallait attendre des mois pour avoir un Birkin, et en Bourse, tout le monde en voulait.
 
-Puis la machine s'est enrayée. Pour trois raisons.
+Sauf que depuis, la machine s'est grippée. Et il y a trois raisons à ça.
 
-La première : la croissance ralentit. Hermès vend toujours plus, mais de moins en moins vite. Et ce jeudi encore, ses ventes ont déçu.
+D'abord, la croissance ralentit. Hermès vend toujours plus, oui, mais de moins en moins vite. Et ce jeudi, ses ventes ont encore déçu.
 
-La deuxième : le monde s'est assombri. La Chine tournait déjà au ralenti. La guerre au Moyen-Orient est venue s'y ajouter : moins de clients dans le Golfe, moins de touristes en Europe.
+Ensuite, le contexte. La Chine tournait déjà au ralenti, et la guerre au Moyen-Orient est venue s'ajouter par-dessus : moins de clients dans le Golfe, moins de touristes en Europe.
 
-La troisième, la plus importante : le prix. Hermès était valorisée comme une entreprise qui ne pouvait pas décevoir. Alors au premier faux pas, la chute a été brutale.
+Et enfin, la raison la plus importante : le prix. Hermès était tellement chère en Bourse qu'elle n'avait pas le droit à l'erreur. Donc au premier faux pas, ça a fait mal.
 
-Résultat : l'action est revenue aujourd'hui à une valorisation de moins de 30 fois ses bénéfices. Toujours exigeante, mais bien loin du prix du rêve.
+Résultat : aujourd'hui, l'action vaut moins de 30 fois ses bénéfices. Ça reste cher, mais on est loin du prix du rêve.
 
-La leçon : même la plus belle entreprise du monde peut décevoir en Bourse, quand on l'a payée pour être parfaite.
+Et c'est ça, la leçon : même la meilleure entreprise du monde peut vous faire perdre de l'argent, si vous l'achetez trop cher.
 
 Abonnez-vous pour comprendre ce qui fait vraiment bouger les marchés.
 
