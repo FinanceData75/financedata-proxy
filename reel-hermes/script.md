@@ -1,24 +1,24 @@
-# Reel — Hermès : pourquoi l'action s'effondre alors que les ventes montent
+# Reel — Hermès : la marque qui ne fait jamais de soldes, l'action à −57 %
 
-Format : leçon d'investissement sur l'actualité · structure « Héros en chute » · hook paradoxe · ~70 s · ~200 mots
+Format : leçon d'investissement sur l'actualité · structure « Héros en chute » · hook paradoxe · ~60 s · ~160 mots · peu de chiffres (57 %, 30)
 
 ## Voix off
 
-Hermès a vendu pour 4,1 milliards d'euros en trois mois. Et pourtant, ce matin, son action s'effondre.
+Hermès ne fait jamais de soldes. Pourtant, son action est à moins 57 %.
 
-Hermès, c'est le luxe qui ne baisse jamais. Une maison fondée en 1837 pour fabriquer des harnais. Le Birkin. Les listes d'attente.
+Pendant des années, Hermès, c'était l'intouchable du luxe. Le Birkin, les listes d'attente, des clients que rien ne semblait atteindre. En Bourse, on la payait comme si elle ne pouvait jamais ralentir.
 
-Ce jeudi, vers 9h30, le titre chute de 6,6 %, à 1 267,50 euros. Depuis janvier, il a perdu plus de 40 %.
+Puis la Chine a calé. L'économie se dégrade, et Pékin taxe davantage les fortunes que les ménages chinois placent à l'étranger. Une clientèle clé pour le luxe.
 
-Pourtant, les ventes progressent de 5,5 % sur un an. Le problème ? Les analystes attendaient 4,13 milliards. Il manque 30 millions. Moins de 1 %.
+Ce jeudi, Hermès a publié ses ventes. Toujours en hausse, mais moins qu'espéré. Et l'action a encore décroché.
 
-Et surtout, la croissance ralentit. Hors effets de change, elle passe de 6,7 % au deuxième trimestre à 4,3 % au troisième.
+Depuis son sommet, elle a perdu 57 %.
 
-En cause : la Chine. Une économie qui se dégrade, et un impôt plus lourd sur les fortunes que les ménages chinois placent à l'étranger.
+Résultat : Hermès repasse sous les 30 fois ses bénéfices. Autrement dit, vous payez moins de 30 euros pour chaque euro qu'elle gagne en un an.
 
-Car en Bourse, on ne paie pas Hermès pour ce qu'il vend aujourd'hui. On le paie pour une croissance parfaite, année après année. Et le moindre ralentissement se paie cash.
+Ce n'est pas donné. Mais c'est un tout autre prix que celui du rêve.
 
-La leçon : quand une action est valorisée comme parfaite, être simplement bon devient une mauvaise nouvelle.
+La leçon : une entreprise exceptionnelle peut rester un mauvais placement, si vous la payez trop cher.
 
 Abonnez-vous pour comprendre ce qui fait vraiment bouger les marchés.
 
@@ -26,20 +26,18 @@ Abonnez-vous pour comprendre ce qui fait vraiment bouger les marchés.
 
 | # | Étape | Voix off | Durée | Visuel |
 |---|---|---|---|---|
-| 1 | Hook (paradoxe) | « Hermès a vendu… s'effondre. » | ~5 s | vitrine / boutique Hermès · « 4,1 Md€ » vert puis flèche rouge |
-| 2 | Intro : la grandeur | « Hermès, c'est le luxe… listes d'attente. » | ~7 s | photos réelles : façade du 24 Faubourg, sac Birkin, « 1837 » |
-| 3 | Point d'inflexion | « Ce jeudi… plus de 40 %. » | ~9 s | cours Hermès depuis janvier · « −6,6 % » · « 1 267,50 € » · « −40 % » |
-| 4 | Descente | « Pourtant… Moins de 1 %. » | ~11 s | barres 4,13 Md€ attendus vs 4,10 Md€ publiés · « −30 M€ » |
-| 5 | Descente (suite) | « Et surtout… au troisième. » | ~8 s | deux barres 6,7 % → 4,3 % |
-| 6 | Cause | « En cause : la Chine… à l'étranger. » | ~9 s | photo réelle Shanghai / boutique en Chine |
-| 7 | Climax | « Car en Bourse… se paie cash. » | ~10 s | phrase-clé en grand |
-| 8 | Leçon | « La leçon… mauvaise nouvelle. » | ~6 s | phrase-leçon |
+| 1 | Hook (paradoxe) | « Hermès ne fait jamais de soldes… moins 57 %. » | ~4 s | vitrine Hermès (vraie photo) · étiquette « −57 % » qui tombe dessus |
+| 2 | Grandeur | « Pendant des années… jamais ralentir. » | ~10 s | photos réelles : façade du 24 Faubourg, Birkin · courbe qui monte |
+| 3 | Point d'inflexion | « Puis la Chine a calé… luxe. » | ~9 s | vraie photo de Shanghai (Nanjing Road) |
+| 4 | Descente | « Ce jeudi… encore décroché. » | ~7 s | la courbe qui casse |
+| 5 | Climax | « Depuis son sommet… 57 %. » | ~4 s | « −57 % » géant, rouge |
+| 6 | Bascule | « Résultat… en un an. » | ~10 s | jauge P/E qui redescend sous la ligne « 30× » · « 30 € → 1 € de bénéfice » |
+| 7 | Nuance | « Ce n'est pas donné… du rêve. » | ~5 s | sac Birkin, plan serré |
+| 8 | Leçon | « La leçon… trop cher. » | ~6 s | phrase-leçon |
 | 9 | CTA | « Abonnez-vous… » | ~3 s | bouton S'abonner → Abonné |
-| **Total** | | | **~68 s** | |
+| **Total** | | | **~58 s** | |
 
-## Faits (dépêche fournie, 22/10/2026)
-- Vers 9h30 : −6,6 % à 1 267,50 € ; plus de −40 % depuis le début de l'année
-- CA T3 : 4,10 Md€ (+5,5 % sur un an) ; consensus FactSet : 4,13 Md€ (écart 30 M€, soit −0,7 %)
-- Croissance organique : 6,7 % au T2, 4,3 % au T3
-- Causes citées par le directeur financier Eric du Halgouët : dégradation macroéconomique en Chine, hausse de la fiscalité sur le patrimoine offshore des ménages chinois
-- Hermès fondé en 1837 à Paris par Thierry Hermès, harnacheur-sellier
+## Faits
+- −57 % depuis le sommet et P/E repassé sous 30× : chiffres fournis par FinanceData (22/10/2026)
+- Publication du T3 le 22/10/2026 : ventes en hausse (+5,5 %) mais sous le consensus FactSet ; Chine : dégradation macro et hausse de la fiscalité sur le patrimoine offshore des ménages chinois (directeur financier Eric du Halgouët)
+- P/E (price/earnings) : cours de l'action ÷ bénéfice par action ; sous 30× = moins de 30 € payés pour 1 € de bénéfice annuel
