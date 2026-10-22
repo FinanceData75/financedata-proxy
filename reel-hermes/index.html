@@ -283,14 +283,19 @@
         });
         var box = div(stage, "", null); box.id = "caps";
         var gr = [];
+        var capFree = 0;
         T.forEach(function (w, i) {
           gr.push(w);
           var len = gr.reduce(function (a, x) { return a + x.w.length + 1; }, 0);
           if (/[.,?]$/.test(w.w) || gr.length === 3 || len > 20 || i === T.length - 1) {
             var d = div(box, "cl", "<span>" + gr.map(function (x) { return x.w; }).join(" ") + "</span>");
             var nxt = T[i + 1] ? T[i + 1].s : gr[gr.length - 1].e + 0.3;
-            tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.1 }, gr[0].s - 0.06);
-            tl.to(d, { opacity: 0, duration: 0.01 }, Math.min(nxt - 0.08, gr[gr.length - 1].e + 0.45));
+            // affichage minimum 0,22 s (sinon un groupe très court, comme « il y a », restait figé à l'écran) ;
+            // le groupe suivant attend la fin du précédent
+            var show = Math.max(gr[0].s - 0.06, capFree), hide = Math.max(show + 0.22, Math.min(nxt - 0.08, gr[gr.length - 1].e + 0.45));
+            tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.08 }, show);
+            tl.set(d, { opacity: 0 }, hide);
+            capFree = hide + 0.01;
             gr = [];
           }
         });
