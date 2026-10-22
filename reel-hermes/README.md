@@ -11,5 +11,5 @@
 
 ```
 npx -y hyperframes@0.8.137 render -o renders/raw.mp4 .
-ffmpeg -i renders/raw.mp4 -i audio/voix-off-hermes.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -af apad -t 48.45 renders/hermes.mp4
+ffmpeg -i renders/raw.mp4 -i audio/voix-off-hermes.wav -map 0:v -map 1:a -c:v copy -c:a aac -b:a 192k -af apad -t 48.2 renders/hermes.mp4
 ```

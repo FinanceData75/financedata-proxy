@@ -54,9 +54,9 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="48.45" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="48.45" data-track-index="1"></audio>
-      <div id="stage" class="clip" data-start="0" data-duration="48.45" data-track-index="0" style="position:absolute; inset:0"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="48.2" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="48.2" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="48.2" data-track-index="0" style="position:absolute; inset:0"></div>
     </div>
 
     <script>
@@ -252,17 +252,28 @@
         s = photoScene(40.3, 45.62, "hermes-george-v.jpg", "50% 50%");
         title(s, "Le prix compte", 40.2, "light");
 
-        // K. 45,6–fin abonnez-vous
-        s = scene(45.62, 48.45, "navy");
-        var wm = div(s, "t", "FinanceData", "top:620px; font-weight:800; font-size:110px; letter-spacing:-.045em; color:#fff");
-        fade(wm, 45.55);
-        var btn = div(s, "box", '<span class="bt" style="position:absolute; inset:0">S\'abonner</span><span class="bt2" style="position:absolute; inset:0; opacity:0">Abonné ✓</span>', "left:290px; top:820px; width:500px; height:120px; background:#3d5afe; color:#fff; font-family:Grotesk; font-weight:600; font-size:52px; text-align:center; line-height:120px");
-        fade(btn, 45.8);
-        tl.to(btn, { backgroundColor: "rgba(255,255,255,.14)", duration: 0.2 }, at("abonnez-vous") + 0.15);
-        tl.set(btn.querySelector(".bt"), { opacity: 0 }, at("abonnez-vous") + 0.2); tl.set(btn.querySelector(".bt2"), { opacity: 1 }, at("abonnez-vous") + 0.2);
+        // K. 45,6–fin : profil Instagram, bouton calé sur « abonnez-vous »
+        s = scene(45.62, 48.2, "navy");
+        var av = div(s, "box", '<svg viewBox="0 0 360 360" style="position:absolute; inset:0; width:100%; height:100%; overflow:visible"><defs><linearGradient id="gStory" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75"/><stop offset="0.3" stop-color="#fa7e1e"/><stop offset="0.6" stop-color="#d62976"/><stop offset="1" stop-color="#962fbf"/></linearGradient></defs></svg><div class="pic" style="position:absolute; left:22px; top:22px; width:316px; height:316px; border-radius:50%; overflow:hidden; border:8px solid #0d1250; box-shadow:0 20px 50px rgba(0,5,25,.5)"><img src="assets/img/logo-financedata.png" alt="" style="width:100%; height:100%; display:block"></div>', "left:360px; top:430px; width:360px; height:360px");
+        var ring = el(av.querySelector("svg"), "circle", { cx: 180, cy: 180, r: 170, fill: "none", stroke: "url(#gStory)", "stroke-width": 12, transform: "rotate(-90 180 180)" });
+        var RL = 2 * Math.PI * 170; ring.style.strokeDasharray = RL + " " + RL; ring.style.strokeDashoffset = RL;
+        tl.fromTo(av.querySelector(".pic"), { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, 45.5);
+        tl.to(ring, { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, 45.7);
+        var nm = div(s, "t", "FinanceData", "top:840px; font-weight:800; font-size:72px; letter-spacing:-.04em; color:#fff");
+        fade(nm, 45.9);
+        var tA = at("abonnez-vous");
+        var btn = div(s, "box", '<span class="t1" style="position:absolute; inset:0">S\'abonner</span><span class="t2" style="position:absolute; inset:0; opacity:0">Abonné ✓</span>', "left:340px; top:960px; width:400px; height:100px; border-radius:8px; background:#0095f6; color:#fff; font-family:Grotesk; font-weight:600; font-size:42px; text-align:center; line-height:100px; box-shadow:0 18px 40px rgba(0,60,140,.4)");
+        tl.fromTo(btn, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, tA - 1.0);
+        tl.to(btn, { scale: 0.94, duration: 0.1, ease: "power1.in" }, tA + 0.08);
+        tl.to(btn, { scale: 1, duration: 0.2, ease: "back.out(2)" }, tA + 0.18);
+        tl.to(btn, { backgroundColor: "#363a45", boxShadow: "0 18px 40px rgba(0,0,0,.35)", duration: 0.25 }, tA + 0.12);
+        tl.set(btn.querySelector(".t1"), { opacity: 0 }, tA + 0.18); tl.set(btn.querySelector(".t2"), { opacity: 1 }, tA + 0.18);
 
         // =================== SOUS-TITRES (3 mots max) ===================
-        var NUM = [[1.26, 1.44, "5 %"], [33.4, 33.84, "57 %"], [36.36, 36.36, "30"], [37.64, 37.64, "65"], [39.92, 39.92, "7"]];
+        var NUM = [[1.26, 1.58, "5 %"], [33.18, 33.76, "57 %"], [36.26, 36.26, "30"], [37.56, 37.56, "65"], [39.76, 39.76, "7"]];
+        // corrections de transcription : [mot, début min, début max, texte affiché]
+        var FIX = [["Hermès", 4.6, 4.8, "Hermès,"], ["était", 5.0, 5.2, "c'était"], ["ces", 18.5, 19.5, "ses"], ["cher", 28.0, 28.5, "chère"], ["bourse", 28.3, 28.9, "Bourse"], ["bourse", 44.9, 45.5, "Bourse."]];
+        W.forEach(function (w) { FIX.forEach(function (f) { if (w.w.replace(/[.,]$/, "") === f[0] && w.s >= f[1] && w.s <= f[2]) w.w = f[3]; }); });
         var T = [];
         W.forEach(function (w) {
           if (w.w === "?") { T[T.length - 1].w += " ?"; T[T.length - 1].e = w.e; return; }
@@ -285,7 +296,7 @@
         });
 
         toCenter.forEach(function (n) { n.style.left = "540px"; gsap.set(n, { xPercent: -50 }); });
-        tl.set({}, {}, 48.45);
+        tl.set({}, {}, 48.2);
         window.__timelines = window.__timelines || {};
         window.__timelines["main"] = tl;
         tl.seek(0);
