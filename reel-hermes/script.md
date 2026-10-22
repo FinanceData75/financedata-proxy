@@ -1,30 +1,24 @@
 # Reel — Hermès : la marque qui ne fait jamais de soldes, l'action à −57 %
 
-Format : leçon d'investissement sur l'actualité · structure « Héros en chute » · hook paradoxe · ~70 s · ~200 mots · peu de chiffres (57 %, 30)
+Format : leçon d'investissement sur l'actualité · structure « Héros en chute » · hook paradoxe · ~65 s · ~200 mots · 3 raisons · 2 chiffres (57 %, 30)
 
 ## Voix off
 
-Hermès ne fait jamais de soldes. Pourtant, son action est à moins 57 %.
+Hermès ne fait jamais de soldes. Pourtant, son action vient de perdre 57 %.
 
-Pendant des années, Hermès, c'était l'intouchable du luxe. Le Birkin, les listes d'attente, des clients que rien ne semblait atteindre. En Bourse, on la payait comme si elle ne pouvait jamais ralentir.
+Pendant des années, Hermès était l'exception du luxe. Quand les autres ralentissaient, elle accélérait. Le Birkin se méritait, les listes d'attente s'allongeaient, et la Bourse en redemandait.
 
-Puis tout s'est grippé en même temps.
+Puis la machine s'est enrayée. Pour trois raisons.
 
-D'abord la guerre au Moyen-Orient, qui a frappé ses ventes dans la région et fait fuir les touristes en Europe.
+La première : la croissance ralentit. Hermès vend toujours plus, mais de moins en moins vite. Et ce jeudi encore, ses ventes ont déçu.
 
-Ensuite la Chine : une économie qui se dégrade, et un impôt plus lourd sur les fortunes que les ménages chinois placent à l'étranger.
+La deuxième : le monde s'est assombri. La Chine tournait déjà au ralenti. La guerre au Moyen-Orient est venue s'y ajouter : moins de clients dans le Golfe, moins de touristes en Europe.
 
-Puis les devises : une fois converties en euros, ses ventes à l'étranger rapportent moins.
+La troisième, la plus importante : le prix. Hermès était valorisée comme une entreprise qui ne pouvait pas décevoir. Alors au premier faux pas, la chute a été brutale.
 
-Et ses marges commencent à fléchir.
+Résultat : l'action est revenue aujourd'hui à une valorisation de moins de 30 fois ses bénéfices. Toujours exigeante, mais bien loin du prix du rêve.
 
-Résultat : son rythme de croissance le plus faible depuis la pandémie. Et des investisseurs qui ne veulent plus payer le prix du rêve.
-
-Depuis son sommet, l'action a perdu 57 %. Elle repasse sous les 30 fois ses bénéfices : moins de 30 euros pour chaque euro gagné en un an.
-
-Ce n'est pas donné. Mais c'est un tout autre prix.
-
-La leçon : une entreprise exceptionnelle peut rester un mauvais placement, si vous la payez trop cher.
+La leçon : même la plus belle entreprise du monde peut décevoir en Bourse, quand on l'a payée pour être parfaite.
 
 Abonnez-vous pour comprendre ce qui fait vraiment bouger les marchés.
 
@@ -32,18 +26,16 @@ Abonnez-vous pour comprendre ce qui fait vraiment bouger les marchés.
 
 | # | Étape | Voix off | Durée | Visuel |
 |---|---|---|---|---|
-| 1 | Hook (paradoxe) | « Hermès ne fait jamais de soldes… moins 57 %. » | ~4 s | vitrine Hermès (vraie photo) · étiquette « −57 % » qui tombe dessus |
-| 2 | Grandeur | « Pendant des années… jamais ralentir. » | ~10 s | façade du 24 Faubourg, Birkin · courbe qui monte |
-| 3 | Point d'inflexion | « Puis tout s'est grippé en même temps. » | ~3 s | la courbe qui casse |
-| 4 | Raison 1 | Moyen-Orient + touristes | ~6 s | vraie photo : Dubaï / Golfe · « 1 » |
-| 5 | Raison 2 | Chine | ~7 s | vraie photo : Shanghai · « 2 » |
-| 6 | Raison 3 | Devises | ~5 s | € face à $ / ¥ · « 3 » |
-| 7 | Raison 4 | Marges | ~3 s | jauge de marge qui baisse · « 4 » |
-| 8 | Descente | « Résultat… prix du rêve. » | ~7 s | croissance qui ralentit |
-| 9 | Climax + valorisation | « Depuis son sommet… en un an. » | ~10 s | « −57 % » géant rouge · jauge P/E qui passe sous « 30× » |
-| 10 | Nuance + leçon | « Ce n'est pas donné… trop cher. » | ~9 s | Birkin en gros plan · phrase-leçon |
-| 11 | CTA | « Abonnez-vous… » | ~3 s | bouton S'abonner → Abonné |
-| **Total** | | | **~67 s** | |
+| 1 | Hook (paradoxe) | « Hermès ne fait jamais de soldes… 57 %. » | ~4 s | vitrine Hermès (vraie photo) · étiquette « −57 % » |
+| 2 | Grandeur | « Pendant des années… en redemandait. » | ~10 s | 24 Faubourg, Birkin · courbe qui monte |
+| 3 | Point d'inflexion | « Puis la machine s'est enrayée. Pour trois raisons. » | ~4 s | la courbe casse · « 3 raisons » |
+| 4 | Raison 1 — croissance | « La première… ont déçu. » | ~8 s | barres de croissance qui raccourcissent |
+| 5 | Raison 2 — Chine + Moyen-Orient | « La deuxième… en Europe. » | ~11 s | vraies photos : Shanghai puis Dubaï |
+| 6 | Raison 3 — valorisation (climax) | « La troisième… brutale. » | ~10 s | jauge de valorisation tout en haut, qui décroche |
+| 7 | Résultat | « Résultat… prix du rêve. » | ~8 s | jauge P/E qui passe sous « 30× » |
+| 8 | Leçon | « La leçon… parfaite. » | ~6 s | Birkin en gros plan · phrase-leçon |
+| 9 | CTA | « Abonnez-vous… » | ~3 s | bouton S'abonner → Abonné |
+| **Total** | | | **~64 s** | |
 
 ## Faits et sources
 - −57 % depuis le sommet et P/E repassé sous 30× : chiffres fournis par FinanceData (22/10/2026)
