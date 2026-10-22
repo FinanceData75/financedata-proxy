@@ -60,6 +60,7 @@ C'est la DA FinanceData telle qu'elle est publiée : ce fichier fait référence
 
 ## Règles apprises (retours)
 - **jamais d'écran vide** : chaque écran montre un élément dès sa première image (démarrer l'animation ~0,2 s avant la coupe) ; vérification automatique sur le rendu (5 images/s, zone 250–1300 px : aucune image sans contenu)
+- **grille fixe par écran** (retour Hermès 22/10/2026) : un seul titre, toujours au même endroit (y 300, centré, Inter 800 + filet), un seul visuel centré (y 480 → 1180), aucun texte secondaire ; les sous-titres portent la voix. Sur photo : titre seul. Garder le même graphique d'un écran à l'autre quand l'idée continue (le titre change, pas le décor) pour éviter les coupes brusques
 - minimaliste : pas de surtitre quand l'image suffit ; chaque élément dans sa zone, aucun chevauchement
 - alterner graphiques et **vraies photos** (≈ 1 écran sur 4 en photo plein écran, voile marine, titre blanc) pour éviter la monotonie ; jamais d'image générée par IA (vérifier filigranes, textes illisibles)
 - photos basse définition : en carte pleine largeur sur fond bleu plutôt qu'en plein écran flou
