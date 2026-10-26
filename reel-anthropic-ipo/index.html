@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <style>
+      /* Style « financedata » (styles/financedata/STYLE.md), reel Anthropic : une idée par écran,
+         coupes franches, chaque élément dans sa zone (250 → 1290 px), sous-titres à 1330 px. */
+      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-800-normal.woff2"); font-weight: 800; }
+      @font-face { font-family: "Grotesk"; src: url("assets/fonts/schibsted-grotesk-latin-500-normal.woff2"); font-weight: 500; }
+      @font-face { font-family: "Grotesk"; src: url("assets/fonts/schibsted-grotesk-latin-600-normal.woff2"); font-weight: 600; }
+      @font-face { font-family: "Grotesk"; src: url("assets/fonts/schibsted-grotesk-latin-700-normal.woff2"); font-weight: 700; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter FD", sans-serif; }
+      .sc { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      .white { background: radial-gradient(ellipse 80% 62% at 50% 45%, #f4f2f5 0%, #edebee 45%, #a9a7aa 82%, #5d5b5e 100%); }
+      .navy { background: radial-gradient(ellipse 75% 60% at 50% 45%, #1a2275 0%, #14196d 40%, #0d1250 75%, #0a0e3b 100%); }
+      .black { background: radial-gradient(ellipse 70% 55% at 50% 45%, #1a1a1d 0%, #0b0b0d 70%, #000 100%); }
+      .t { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; }
+      .tl { position: absolute; white-space: nowrap; }
+      /* police secondaire (graphiques, chiffres, illustrations) : Schibsted Grotesk ; Inter 800 reste pour titres et sous-titres */
+      .big { font-family: "Grotesk", sans-serif; font-weight: 600; letter-spacing: -.035em; word-spacing: .04em; line-height: .95; font-feature-settings: "tnum" 1; }
+      .small { font-family: "Grotesk", sans-serif; font-weight: 500; font-size: 42px; letter-spacing: -.01em; }
+      .lab { font-family: "Grotesk", sans-serif; font-weight: 600; font-size: 46px; letter-spacing: -.02em; }
+      /* titres : typographie seule + filet d'accent (aucun encadré) */
+      .kw { position: absolute; display: inline-block; font-weight: 800; letter-spacing: -.04em; line-height: 1.05; padding: 0 0 26px; white-space: nowrap; z-index: 3; text-align: center; }
+      .kw .bx { position: absolute; left: 50%; bottom: 0; width: 80px; height: 5px; margin-left: -40px; transform-origin: 50% 50%; background: #3d5afe; }
+      .kw .tx { position: relative; color: #0a105e; }
+      .kw.ondark .tx { color: #fff; } .kw.ondark .bx { background: rgba(255,255,255,.55); }
+      .kw.red .tx { color: #ff2e24; } .kw.red .bx { background: #ff2e24; }
+      .box { position: absolute; }
+      .bond { position: absolute; width: 420px; height: 250px; border: 4px solid #0a105e; background: #fff; box-shadow: 0 20px 40px rgba(10,16,94,.25); text-align: center; }
+      .bond .h { font-weight: 600; font-size: 34px; line-height: 1; color: #4a4e5c; margin-top: 36px; letter-spacing: -.02em; }
+      .bond .v { font-weight: 800; font-size: 120px; color: #0a105e; letter-spacing: -.05em; word-spacing: .12em; line-height: 1; margin-top: 22px; }
+      /* cartes : panneaux sans bordure (ombre douce sur blanc, verre dépoli sur bleu) */
+      .card2 { position: absolute; background: #fff; box-shadow: 0 1px 0 rgba(10,16,94,.06), 0 30px 80px rgba(10,16,94,.14); padding: 40px 44px; }
+      .card2 .lb { font-family: "Grotesk", sans-serif; font-weight: 500; font-size: 24px; letter-spacing: .14em; text-transform: uppercase; color: #7a7e8c; line-height: 1; }
+      .card2 .vl { font-family: "Grotesk", sans-serif; font-weight: 600; font-size: 96px; letter-spacing: -.035em; word-spacing: .04em; color: #0a105e; line-height: 1; margin-top: 44px; white-space: nowrap; }
+      .card2.glass { background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14), 0 30px 80px rgba(0,0,0,.25); }
+      .card2.glass .lb { color: rgba(255,255,255,.6); } .card2.glass .vl { color: #fff; }
+      .card2.dim { opacity: .5; }
+      .card2.hi.glass { box-shadow: inset 0 0 0 1px rgba(255,255,255,.45), 0 30px 80px rgba(0,0,0,.3); }
+      .card2.green { box-shadow: inset 0 4px 0 #08923a, 0 30px 80px rgba(10,16,94,.14); } .card2.green .vl { color: #08923a; }
+      .card2.green.glass { box-shadow: inset 0 4px 0 #3cff5a, inset 0 0 0 1px rgba(60,255,90,.35), 0 0 60px rgba(60,255,90,.18); } .card2.green.glass .vl { color: #3cff5a; }
+      svg { position: absolute; overflow: visible; }
+      #caps { position: absolute; left: 0; right: 0; top: 1330px; z-index: 20; }
+      .cl { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cl span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; word-spacing: .06em; color: #fff; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="60.42" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="60.42" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="60.42" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), stage = document.getElementById("stage");
+        var W = window.VO.words, toCenter = [];
+        var NAVY = "#0a105e", GREEN = "#08923a", GLOW = "#3cff5a", RED = "#ff2e24", GREY = "#4a4e5c";
+        function at(word, after) { after = after || 0; for (var i = 0; i < W.length; i++) if (W[i].s >= after && W[i].w.replace(/[.,?]$/, "") === word) return W[i].s; throw new Error("mot introuvable : " + word + " après " + after); }
+        function div(parent, cls, html, style) { var d = document.createElement("div"); d.className = cls; if (html != null) d.innerHTML = html; if (style) d.setAttribute("style", style); parent.appendChild(d); return d; }
+        function svgIn(sc, w, h, left, top) { var s = document.createElementNS(NS, "svg"); s.setAttribute("width", w); s.setAttribute("height", h); s.style.left = left + "px"; s.style.top = top + "px"; sc.appendChild(s); return s; }
+        function el(svg, tag, attrs) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); svg.appendChild(e); return e; }
+        function path(svg, d, stroke, sw) { var p = el(svg, "path", { d: d, fill: "none", stroke: stroke, "stroke-width": sw, "stroke-linejoin": "round", "stroke-linecap": "round" }); var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; p.style.strokeDashoffset = L; return p; }
+        function draw(p, t, dur) { tl.to(p, { strokeDashoffset: 0, duration: dur || 0.5, ease: "power2.inOut" }, t); }
+        function fade(n, t, from) { tl.fromTo(n, from || { opacity: 0, y: 20 }, { opacity: 1, y: 0, x: 0, scale: 1, duration: 0.3, ease: "power3.out" }, t); return n; }
+
+        function kw(sc, text, t, top, size, tone) {
+          var dark = /navy|black/.test(sc.className);
+          var k = div(sc, "kw " + (tone === "red" ? "red" : dark ? "ondark" : ""), '<span class="bx"></span><span class="tx">' + text + "</span>", "top:" + top + "px; font-size:" + (size || 96) + "px");
+          toCenter.push(k);
+          tl.fromTo(k.querySelector(".tx"), { opacity: 0, y: 18, clipPath: "inset(0 0 100% 0)" }, { opacity: 1, y: 0, clipPath: "inset(0 0 -20% 0)", duration: 0.4, ease: "power3.out" }, t);
+          tl.fromTo(k.querySelector(".bx"), { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, t + 0.12);
+          return k;
+        }
+        function big(sc, text, t, top, size, color, glow) {
+          var b = div(sc, "t big", text, "top:" + top + "px; font-size:" + size + "px; color:" + color + (glow ? "; text-shadow: 0 0 40px " + glow : ""));
+          tl.fromTo(b, { opacity: 0, x: 140, filter: "blur(18px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, t);
+          return b;
+        }
+        function small(sc, text, t, top, color, size) {
+          var s = div(sc, "t small", text, "top:" + top + "px; color:" + color + (size ? "; font-size:" + size + "px; font-weight:800" : ""));
+          return fade(s, t, { opacity: 0, y: 16 });
+        }
+        // vraie photo plein écran (push lent ≤ 3,5 %, voile marine pour la lisibilité)
+        function photoScene(a, b, src, pos, dark) {
+          var sc = scene(a, b, "black");
+          var im = div(sc, "", '<img src="assets/img/' + src + '" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:' + (pos || "50% 50%") + '">');
+          tl.fromTo(im.firstChild, { scale: 1 }, { scale: 1.035, duration: b - a, ease: "none" }, a);
+          div(sc, "box", null, "inset:0; background: linear-gradient(180deg, rgba(5,8,40,.62) 0%, rgba(5,8,40,.22) 38%, rgba(5,8,40,.22) 62%, rgba(5,8,40,.66) 100%)");
+          if (dark) div(sc, "box", null, "inset:0; background: rgba(5,8,40," + dark + ")");
+          return sc;
+        }
+        function scene(a, b, bg) {
+          var sc = div(stage, "sc " + (bg || ""));
+          tl.set(sc, { opacity: 1 }, a); tl.set(sc, { opacity: 0 }, b);
+          return sc;
+        }
+        // flèche dessinée (trait + pointe)
+        function arrow(svg, x1, y1, x2, y2, color, t, sw) {
+          var p = path(svg, "M" + x1 + " " + y1 + " L" + x2 + " " + y2, color, sw || 8);
+          var a = Math.atan2(y2 - y1, x2 - x1), s = 30;
+          var hd = el(svg, "path", { d: "M" + (x2 - s * Math.cos(a - 0.5)) + " " + (y2 - s * Math.sin(a - 0.5)) + " L" + x2 + " " + y2 + " L" + (x2 - s * Math.cos(a + 0.5)) + " " + (y2 - s * Math.sin(a + 0.5)), fill: "none", stroke: color, "stroke-width": sw || 8, "stroke-linejoin": "round", "stroke-linecap": "round", opacity: 0 });
+          draw(p, t, 0.45); tl.to(hd, { opacity: 1, duration: 0.1 }, t + 0.4);
+          return p;
+        }
+        // pièce « € »
+        function coin(sc, x, y, r, color) {
+          return div(sc, "box", "€", "left:" + (x - r) + "px; top:" + (y - r) + "px; width:" + 2 * r + "px; height:" + 2 * r + "px; border-radius:50%; background:" + (color || "#f2c230") + "; color:" + NAVY + "; font-weight:800; font-size:" + r + "px; line-height:" + 2 * r + "px; text-align:center; box-shadow: 0 8px 20px rgba(0,0,0,.25)");
+        }
+        // carré « bâtiment » simple (banque)
+        function bank(svg, cx, top, color, t) {
+          var parts = [
+            path(svg, "M" + (cx - 230) + " " + (top + 150) + " L" + cx + " " + top + " L" + (cx + 230) + " " + (top + 150) + " Z", color, 12),
+            path(svg, "M" + (cx - 250) + " " + (top + 440) + " L" + (cx + 250) + " " + (top + 440), color, 14)
+          ];
+          [-150, -50, 50, 150].forEach(function (dx) { parts.push(path(svg, "M" + (cx + dx) + " " + (top + 190) + " L" + (cx + dx) + " " + (top + 400), color, 26)); });
+          parts.forEach(function (p, i) { draw(p, t + i * 0.06, 0.4); });
+        }
+
+        // =================== MONTAGE ===================
+        // Déroulé de la v1 (barres, fiche, flux, nuage risque/rendement, taux/prix, 4 % vs 6 %) en DA FinanceData.
+        var s, g, i;
+        function txt(svg, x, y, str, size, fill, weight, anchor) { var t = el(svg, "text", { x: x, y: y, "font-family": "Grotesk", "font-weight": weight === 800 ? 600 : weight || 600, "font-size": size, fill: fill, "text-anchor": anchor || "middle" }); t.textContent = str; return t; }
+        function count(node, t, from, to, dur, suffix) {
+          var o = { v: from };
+          tl.fromTo(o, { v: from }, { v: to, duration: dur, ease: "power2.out", onUpdate: function () { node.textContent = Math.round(o.v).toLocaleString("fr-FR").replace(/ | /g, " ") + (suffix || ""); } }, t);
+        }
+        // carte (étiquette + valeur)
+        function cardBox(sc, left, top, w, h, label, value, tone) {
+          var c = div(sc, "card2 " + (tone || "") + (/navy/.test(sc.className) ? " glass" : ""), '<div class="lb">' + label + '</div><div class="vl">' + value + "</div>", "left:" + left + "px; top:" + top + "px; width:" + w + "px; height:" + h + "px");
+          if (value.length > 8) c.querySelector(".vl").style.fontSize = "70px";
+          return c;
+        }
+
+        // ---- grille fixe : un titre (y 300) + un visuel centré (y 480 → 1180) ----
+        function title(sc, text, t, tone) { return kw(sc, text, t, 300, 80, tone); }
+        function fmtMd(v, dec) { return v.toLocaleString("fr-FR", { minimumFractionDigits: dec || 0, maximumFractionDigits: dec || 0 }).replace(/ | /g, " "); }
+        function counter(node, t, from, to, dur, dec, suffix) {
+          var o = { v: from };
+          tl.fromTo(o, { v: from }, { v: to, duration: dur, ease: "power2.out", onUpdate: function () { node.textContent = fmtMd(o.v, dec) + (suffix || ""); } }, t);
+        }
+        var GREENX = "#08923a";
+
+        // A. 0–5,8 « … mi-novembre, elle pourrait devenir la 7e plus grande entreprise au monde »
+        s = scene(0, 5.78, "white");
+        var hv = div(s, "t big", "0 Md$", "top:710px; font-size:175px; color:" + NAVY);
+        fade(hv, 0.0, { opacity: 0, y: 20 });
+        counter(hv, 0.1, 0, 2000, 2.6, 0, " Md$");
+        title(s, "Valeur visée en Bourse", 2.6);
+        small(s, "la 7e entreprise du monde ?", at("septième") - 0.1, 990, GREY, 48);
+
+        // B. 5,8–8,8 Anthropic, la société qui a créé Claude
+        s = scene(5.78, 8.75, "navy");
+        title(s, "Anthropic", 5.68, "light");
+        var cB = div(s, "box", '<img src="assets/img/dario-amodei.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block">', "left:0; top:560px; width:1080px; height:720px; box-shadow:0 30px 70px rgba(0,0,0,.4)");
+        fade(cB, 5.7, { opacity: 0, y: 30 });
+        tl.fromTo(cB.firstChild, { scale: 1 }, { scale: 1.035, duration: 3, ease: "none" }, 5.78);
+
+        // C. 8,8–11,8 ce lundi, le dossier pour le Nasdaq
+        s = photoScene(8.75, 11.75, "nasdaq.jpg", "50% 40%");
+        title(s, "Direction le Nasdaq", 8.65, "light");
+
+        // D. 11,8–16,7 vaut-elle 2 000 milliards ?
+        s = scene(11.75, 16.72, "navy");
+        kw(s, "Vaut-elle 2 000 Md$ ?", 11.65, 820, 92, "light");
+
+        // E. 16,7–27,2 les revenus
+        s = scene(16.72, 27.2, "white");
+        title(s, "Les revenus", 16.6);
+        g = svgIn(s, 1080, 760, 0, 470);
+        el(g, "line", { x1: 120, x2: 960, y1: 640, y2: 640, stroke: "rgba(10,16,94,.22)", "stroke-width": 2 });
+        var K = 520 / 46;
+        var bars = [[4.6, "2025", "4,6", NAVY, at("quatre") - 0.1], [16.3, "S1 2026", "16,3", NAVY, at("seize") - 0.2], [46, "rythme annuel", "> 45", "#9aa0b5", at("quarante-cinq") - 0.15]];
+        bars.forEach(function (b, k) {
+          var x = 170 + k * 270, h = b[0] * K;
+          var r = el(g, "rect", { x: x, y: 640 - h, width: 200, height: h, fill: b[3] });
+          tl.fromTo(r, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.5, ease: "power3.out" }, b[4]);
+          var v = txt(g, x + 100, 640 - h - 26, b[2] + " Md$", 50, NAVY, 600), l = txt(g, x + 100, 690, b[1], 32, GREY, 500);
+          tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: 0.2 }, b[4] + 0.25);
+        });
+
+        // F. 27,2–34,9 les profits : perte comptable, mais rentable en opérationnel
+        s = scene(27.2, 34.9, "navy");
+        title(s, "Les profits", 27.1, "light");
+        big(s, "−80 Md$", at("quatre-vingt") - 0.15, 620, 190, "#ff6b5e");
+        var lp = small(s, "de perte comptable sur le semestre", at("quatre-vingt") + 0.25, 860, "#c9cdf0", 44);
+        tl.to(lp, { opacity: 0, duration: 0.15 }, at("rentabilité") - 0.35);
+        small(s, "mais rentable en opérationnel", at("rentabilité") - 0.2, 860, "#3cff5a", 48);
+
+        // G. 34,9–42,7 le prix : 965 Md$ en mai → 2 000 Md$ visés
+        s = scene(34.9, 42.68, "white");
+        title(s, "Le prix", 34.8);
+        g = svgIn(s, 1080, 600, 0, 540);
+        var W2 = 640 / 2000;
+        var pM = el(g, "rect", { x: 300, y: 80, width: 965 * W2, height: 110, fill: "#9aa0b5" });
+        var pI = el(g, "rect", { x: 300, y: 300, width: 2000 * W2, height: 110, fill: NAVY });
+        txt(g, 270, 150, "Mai 2026", 40, GREY, 500, "end"); var lI = txt(g, 270, 370, "En Bourse", 40, NAVY, 600, "end");
+        var tM = txt(g, 300 + 965 * W2 + 24, 152, "965 Md$", 50, "#5b5f70", 600, "start");
+        var tI = txt(g, 300 + 2000 * W2 - 24, 372, "2 000 Md$", 50, "#ffffff", 600, "end");
+        tl.fromTo(pM, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 34.95);
+        tl.fromTo(tM, { opacity: 0 }, { opacity: 1, duration: 0.2 }, at("neuf") - 0.1);
+        tl.fromTo([pI, lI], { opacity: 0 }, { opacity: 1, duration: 0.01 }, at("double") - 0.2);
+        tl.fromTo(pI, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, at("double") - 0.2);
+        tl.fromTo(tI, { opacity: 0 }, { opacity: 1, duration: 0.2 }, at("milliards", 41.5) - 0.1);
+
+        // H. 42,7–46,0 près de 100 Md$ levés, plus que le record de SpaceX
+        s = scene(42.68, 46.0, "navy");
+        title(s, "Le plus gros IPO ?", 42.58, "light");
+        g = svgIn(s, 1080, 600, 0, 540);
+        var W3 = 600 / 100;
+        var lS = el(g, "rect", { x: 300, y: 80, width: 75 * W3, height: 110, fill: "rgba(255,255,255,.22)" });
+        var lA = el(g, "rect", { x: 300, y: 300, width: 100 * W3, height: 110, fill: "#ffffff" });
+        txt(g, 270, 150, "SpaceX", 40, "#9aa3d6", 500, "end"); txt(g, 270, 370, "Anthropic", 40, "#ffffff", 600, "end");
+        txt(g, 300 + 75 * W3 - 24, 152, "75 Md$", 50, "#ffffff", 600, "end");
+        var tA2 = txt(g, 300 + 100 * W3 - 24, 372, "≈ 100 Md$", 50, NAVY, 600, "end");
+        tl.fromTo(lS, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 42.6);
+        tl.fromTo(lA, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, at("cent", 43) - 0.1);
+        tl.fromTo(tA2, { opacity: 0 }, { opacity: 1, duration: 0.2 }, at("cent", 43) + 0.3);
+
+        // I. 46,0–51,1 résultat : plus de 40 fois ses revenus
+        s = scene(46.0, 51.1, "white");
+        title(s, "Résultat", 45.9);
+        big(s, "> 40×", at("quarante") - 0.15, 620, 260, NAVY);
+        small(s, "ses revenus annuels", at("revenus", 48) - 0.1, 930, GREY, 48);
+        small(s, "pas ses bénéfices", at("bénéfices") - 0.15, 1010, RED, 44);
+
+        // J. 51,1–57,4 exceptionnelle ≠ bon investissement
+        s = scene(51.1, 57.4, "navy");
+        kw(s, "Exceptionnelle", 51.0, 700, 110, "light");
+        var neq = div(s, "t big", "≠ bon investissement", "top:880px; font-size:84px; color:#ffffff");
+        fade(neq, at("suffit") - 0.2, { opacity: 0, y: 16 });
+        small(s, "tout dépend du prix", at("Tout", 55.5) - 0.1, 1030, "#c9cdf0", 46);
+
+        // K. 57,4–fin : profil Instagram, bouton calé sur « abonnez-vous »
+        s = scene(57.4, 60.42, "navy");
+        var av = div(s, "box", '<svg viewBox="0 0 360 360" style="position:absolute; inset:0; width:100%; height:100%; overflow:visible"><defs><linearGradient id="gStory" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75"/><stop offset="0.3" stop-color="#fa7e1e"/><stop offset="0.6" stop-color="#d62976"/><stop offset="1" stop-color="#962fbf"/></linearGradient></defs></svg><div class="pic" style="position:absolute; left:22px; top:22px; width:316px; height:316px; border-radius:50%; overflow:hidden; border:8px solid #0d1250; box-shadow:0 20px 50px rgba(0,5,25,.5)"><img src="assets/img/logo-financedata.png" alt="" style="width:100%; height:100%; display:block"></div>', "left:360px; top:430px; width:360px; height:360px");
+        var ring = el(av.querySelector("svg"), "circle", { cx: 180, cy: 180, r: 170, fill: "none", stroke: "url(#gStory)", "stroke-width": 12, transform: "rotate(-90 180 180)" });
+        var RL = 2 * Math.PI * 170; ring.style.strokeDasharray = RL + " " + RL; ring.style.strokeDashoffset = RL;
+        tl.fromTo(av.querySelector(".pic"), { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, 57.1);
+        tl.to(ring, { strokeDashoffset: 0, duration: 0.8, ease: "power2.inOut" }, 57.4);
+        var nm = div(s, "t", "FinanceData", "top:840px; font-weight:800; font-size:72px; letter-spacing:-.04em; color:#fff");
+        fade(nm, 57.3);
+        var tA = at("abonnez-vous");
+        var btn = div(s, "box", '<span class="t1" style="position:absolute; inset:0">S\'abonner</span><span class="t2" style="position:absolute; inset:0; opacity:0">Abonné ✓</span>', "left:340px; top:960px; width:400px; height:100px; border-radius:8px; background:#0095f6; color:#fff; font-family:Grotesk; font-weight:600; font-size:42px; text-align:center; line-height:100px; box-shadow:0 18px 40px rgba(0,60,140,.4)");
+        tl.fromTo(btn, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, tA - 1.2);
+        tl.to(btn, { scale: 0.94, duration: 0.1, ease: "power1.in" }, tA + 0.08);
+        tl.to(btn, { scale: 1, duration: 0.2, ease: "back.out(2)" }, tA + 0.18);
+        tl.to(btn, { backgroundColor: "#363a45", boxShadow: "0 18px 40px rgba(0,0,0,.35)", duration: 0.25 }, tA + 0.12);
+        tl.set(btn.querySelector(".t1"), { opacity: 0 }, tA + 0.18); tl.set(btn.querySelector(".t2"), { opacity: 1 }, tA + 0.18);
+
+
+        // =================== SOUS-TITRES (3 mots max) ===================
+        var NUM = [[13.4, 13.7, "2 000 milliards"], [16.86, 17.08, "2025,"], [18.56, 19.2, "4,6 milliards"], [21.66, 21.84, "2026,"], [22.78, 22.78, "16."], [25.42, 25.42, "45"], [30.92, 30.92, "80"], [38.36, 39.32, "965 milliards."], [41.5, 41.82, "2 000 milliards"], [43.3, 43.46, "100 milliards"], [47.66, 47.66, "40"]];
+        // corrections de transcription : [mot, début min, début max, texte affiché]
+        var FIX = [["Liam", 7.9, 8.2, "l'IA"], ["Cloud", 8.3, 8.6, "Claude"], ["bourse", 11.2, 11.5, "Bourse."], ["bourse", 40.3, 40.6, "Bourse,"]];
+        W.forEach(function (w) { FIX.forEach(function (f) { if (w.w.replace(/[.,]$/, "") === f[0] && w.s >= f[1] && w.s <= f[2]) w.w = f[3]; }); });
+        var T = [];
+        W.forEach(function (w) {
+          if (w.w === "?") { T[T.length - 1].w += " ?"; T[T.length - 1].e = w.e; return; }
+          var n = NUM.filter(function (r) { return w.s >= r[0] - 0.01 && w.s <= r[1]; })[0];
+          if (n) { if (!n.done) { n.done = 1; T.push({ w: n[2], s: w.s, e: w.e }); } else T[T.length - 1].e = w.e; }
+          else T.push({ w: w.w, s: w.s, e: w.e });
+        });
+        var box = div(stage, "", null); box.id = "caps";
+        var gr = [];
+        var capFree = 0;
+        T.forEach(function (w, i) {
+          gr.push(w);
+          var len = gr.reduce(function (a, x) { return a + x.w.length + 1; }, 0);
+          if (/[.,?]$/.test(w.w) || gr.length === 3 || len > 20 || i === T.length - 1) {
+            var d = div(box, "cl", "<span>" + gr.map(function (x) { return x.w; }).join(" ") + "</span>");
+            var nxt = T[i + 1] ? T[i + 1].s : gr[gr.length - 1].e + 0.3;
+            // affichage minimum 0,22 s (sinon un groupe très court, comme « il y a », restait figé à l'écran) ;
+            // le groupe suivant attend la fin du précédent
+            var show = Math.max(gr[0].s - 0.06, capFree), hide = Math.max(show + 0.22, Math.min(nxt - 0.08, gr[gr.length - 1].e + 0.45));
+            tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.08 }, show);
+            tl.set(d, { opacity: 0 }, hide);
+            capFree = hide + 0.01;
+            gr = [];
+          }
+        });
+
+        toCenter.forEach(function (n) { n.style.left = "540px"; gsap.set(n, { xPercent: -50 }); });
+        tl.set({}, {}, 60.42);
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
