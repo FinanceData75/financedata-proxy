@@ -151,13 +151,13 @@
 
         // 4. 4,9–6,12 valeur visée : 2 000 Md$
         s = sc(4.9, 6.12, "white");
-        L(s, "Valeur visée", 4.9, 640);
-        var n4 = N(s, "0 Md$", 4.9, 730, 190);
+        L(s, "Valeur visée", 4.75, 640);
+        var n4 = N(s, "0 Md$", 4.75, 730, 190);
         counter(n4, 4.92, 0, 2000, 0.7, 0, "", " Md$");
 
         // 5. 6,12–8,1 la 7e entreprise du monde
         s = sc(6.12, 8.1, "white");
-        N(s, "7<span style='font-size:.5em; vertical-align:.8em; letter-spacing:0'>e</span>", at("septième") - 0.15, 520, 400);
+        N(s, "7<span style='font-size:.5em; vertical-align:.8em; letter-spacing:0'>e</span>", 6.0, 520, 400);
         L(s, "entreprise au monde", at("entreprise", 7) - 0.1, 1000, 64, NAVY);
 
         // 6. 8,1–10,94 vaut-elle ce prix ? (Dario Amodei)
@@ -166,13 +166,13 @@
 
         // 7. 10,94–12,62 trois choses
         s = sc(10.94, 12.62, "navy");
-        N(s, "3", 10.96, 470, 440, "#fff");
+        N(s, "3", 10.8, 470, 440, "#fff");
         L(s, "choses à regarder", at("regarder") - 0.1, 950, 64, "rgba(255,255,255,.75)");
 
         // 8. 12,62–16,72 ventes 2025 : 4,6 Md$ (le compteur suit la voix)
         s = sc(12.62, 16.72, "white");
-        L(s, "Ventes 2025", 12.62, 600);
-        var n8 = N(s, "0 Md$", 12.62, 690, 220);
+        L(s, "Ventes 2025", 12.47, 600);
+        var n8 = N(s, "0 Md$", 12.47, 690, 220);
         counter(n8, 12.7, 0, 4.6, at("milliards", 15.5) - 12.7, 1, "", " Md$", "power1.inOut");
 
         // 9. 16,72–20,1 aujourd'hui : plus de 45 Md$ par an
@@ -184,15 +184,15 @@
         txt(g, 320, BASE + 70, "2025", 48, SOFT, 500);
         var b2 = el(g, "rect", { x: 590, y: BASE - 46 * K, width: 340, height: 46 * K, rx: 6, fill: NAVY });
         var v2 = txt(g, 760, BASE - 46 * K - 36, "45 Md$", 84, NAVY, 700), l2 = txt(g, 760, BASE + 70, "Aujourd'hui", 48, NAVY, 600);
-        tl.fromTo(b1, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.4, ease: "power3.out" }, 16.72);
+        tl.fromTo(b1, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.4, ease: "power3.out" }, 16.57);
         tl.fromTo(b2, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.9, ease: "power3.out" }, at("plus", 18) - 0.1);
-        tl.fromTo(l2, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 16.9);
+        tl.fromTo(l2, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 16.6);
         tl.fromTo(v2, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3 }, at("quarante-cinq") - 0.05);
 
         // 10. 20,1–24,18 × 14 en un an
         s = sc(20.1, 24.18, "navy");
-        L(s, "Croissance en un an", 20.1, 560, 58, "rgba(255,255,255,.7)");
-        var n10 = N(s, "× 1", 20.3, 720, 330, "#fff");
+        L(s, "Croissance en un an", 19.95, 560, 58, "rgba(255,255,255,.7)");
+        var n10 = N(s, "× 1", 19.95, 720, 330, "#fff");
         counter(n10, at("multipliée") - 0.1, 1, 14, at("quatorze") - at("multipliée") + 0.3, 0, "× ");
         tl.to(n10, { color: "#34c759", duration: 0.3 }, at("énorme") - 0.1);
 
@@ -202,14 +202,14 @@
 
         // 12. 27,1–28,98 rentable sur son activité
         s = sc(27.1, 28.98, "white");
-        L(s, "Sur son activité", 27.1, 640);
-        N(s, "Rentable", at("rentable") - 0.2, 730, 190, GREENX);
+        L(s, "Sur son activité", 26.95, 640);
+        N(s, "Rentable", 26.98, 730, 190, GREENX);
 
         // 13. 28,98–32,22 sur le papier : −80 Md$
         s = sc(28.98, 32.22, "white");
-        L(s, "Sur le papier", 28.98, 640);
-        var n13 = N(s, "0 Md$", at("perte") - 0.1, 730, 200, RED2);
-        counter(n13, at("perte"), 0, 80, 0.8, 0, "−", " Md$");
+        L(s, "Sur le papier", 28.83, 640);
+        var n13 = N(s, "−0 Md$", 28.86, 730, 200, RED2);
+        counter(n13, 29.0, 0, 80, at("milliards", 31) - 29.0, 0, "−", " Md$", "power1.inOut");
 
         // 14. 32,22–34,66 le prix : 2 000 Md$
         s = photo(32.22, 34.66, "nasdaq-marketsite.jpg", .6);
@@ -225,17 +225,17 @@
         var c2 = el(g, "rect", { x: 590, y: BASE - 2000 * K2, width: 340, height: 2000 * K2, rx: 6, fill: NAVY });
         var cv1 = txt(g, 320, BASE - 965 * K2 - 30, "965 Md$", 64, SOFT, 600), cl1 = txt(g, 320, BASE + 70, "En mai", 48, SOFT, 500);
         var cv2 = txt(g, 760, BASE - 2000 * K2 - 36, "2 000 Md$", 80, NAVY, 700), cl2 = txt(g, 760, BASE + 70, "En Bourse", 48, NAVY, 600);
-        tl.fromTo(c1, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.35, ease: "power3.out" }, 34.66);
-        tl.fromTo([cv1, cl1], { opacity: 0 }, { opacity: 1, duration: 0.15 }, 34.8);
+        tl.fromTo(c1, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.35, ease: "power3.out" }, 34.5);
+        tl.fromTo([cv1, cl1], { opacity: 0 }, { opacity: 1, duration: 0.15 }, 34.6);
         tl.fromTo(c2, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.7, ease: "power3.out" }, at("fois", 34.9) - 0.1);
         tl.fromTo([cv2, cl2], { opacity: 0 }, { opacity: 1, duration: 0.2 }, at("fois", 34.9) + 0.35);
 
         // 16. 36,42–39,64 prix ÷ ventes : Microsoft, Apple, Alphabet, puis Anthropic
         s = sc(36.42, 39.64, "navy");
-        H(s, "Prix ÷ ventes", 36.42, 290, 92);
+        H(s, "Prix ÷ ventes", 36.27, 290, 92);
         g = svgIn(s, 1080, 800, 0, 470);
         var PS = 900 / 42;
-        [["Microsoft", 12, "12×", 36.55], ["Apple", 11, "11×", 36.8], ["Alphabet", 9, "9×", 37.05], ["Anthropic", 42, "40×+", at("quarante") - 0.15]].forEach(function (r, k) {
+        [["Microsoft", 12, "12×", 36.4], ["Apple", 11, "11×", 36.8], ["Alphabet", 9, "9×", 37.05], ["Anthropic", 42, "40×+", at("quarante") - 0.15]].forEach(function (r, k) {
           var y = k * 190, last = k === 3;
           var lb = txt(g, 90, y + 44, r[0], 46, last ? "#fff" : "rgba(255,255,255,.7)", last ? 700 : 500, "start");
           var bar = el(g, "rect", { x: 90, y: y + 66, width: r[1] * PS, height: 84, rx: 6, fill: last ? RED2 : "rgba(255,255,255,.3)" });
@@ -250,12 +250,12 @@
 
         // 18. 41,4–43,0 tout dépend du prix
         s = sc(41.4, 43.0, "white");
-        H(s, "Tout dépend", 41.4, 660, 132, NAVY);
+        H(s, "Tout dépend", 41.25, 660, 132, NAVY);
         H(s, "du prix", at("prix", 41.6) - 0.1, 810, 132, NAVY);
 
         // 19. 43,0–45,04 exceptionnelle mais trop chère
         s = sc(43.0, 45.04, "white");
-        H(s, "Exceptionnelle", 43.0, 660, 124, NAVY);
+        H(s, "Exceptionnelle", 42.85, 660, 124, NAVY);
         H(s, "mais trop chère", at("beaucoup") - 0.1, 810, 124, RED2);
 
         // 20. 45,04–47,72 prudence avec les IPO
