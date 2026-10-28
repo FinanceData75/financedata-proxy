@@ -18,7 +18,7 @@
   .st { position: absolute; left: 96px; right: 96px; font-size: 38px; color: #3b4166; letter-spacing: -.01em; }
   .ft { position: absolute; left: 96px; right: 96px; top: 1262px; display: flex; justify-content: space-between; align-items: baseline; font-size: 26px; color: #6b7290; }
   .ft b { font-weight: 800; font-size: 30px; letter-spacing: -.03em; color: #0a105e; }
-  .ph { position: absolute; object-fit: cover; }
+  .ph { position: absolute; object-fit: cover; filter: saturate(.88) url(#bleu); }
   .hl { background: linear-gradient(transparent 12%, rgba(61,90,254,.32) 12%, rgba(61,90,254,.32) 88%, transparent 88%); }
   .row { display: flex; justify-content: space-between; align-items: baseline; padding: 26px 0; border-bottom: 2px solid #d5dae5; font-size: 40px; }
   .row span:first-child { color: #6b7290; } .row span:last-child { font-weight: 700; }
@@ -32,12 +32,12 @@
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute"><filter id="bleu" color-interpolation-filters="sRGB"><feColorMatrix type="matrix" values=".86 0 0 0 0  0 .91 0 0 .01  0 0 .96 0 .07  0 0 0 1 0"/></filter></svg>
 
 <!-- 1 HOOK : grande photo naturelle, titre sur le fond -->
 <div class="f" id="y0"><div class="lbl">HOOK · PHOTO</div>
   <img class="ph" src="img/dario-hq.jpg" style="left:0; top:0; width:1080px; height:960px; object-position:30% 30%">
   <div class="ti" style="top:1010px; font-size:92px">Anthropic entre<br>en Bourse</div>
-  <div class="st" style="top:1215px">Le créateur de Claude vise 2 000 milliards $</div>
   <div class="cap"><span>c'est officiel.</span></div>
   <div class="anim">poussée lente de 3 % sur la photo, le titre monte ligne par ligne.</div>
 </div>
@@ -50,9 +50,7 @@
     <div class="row"><span>Siège</span><span>San Francisco</span></div>
     <div class="row"><span>Patron</span><span>Dario Amodei</span></div>
     <div class="row"><span>Produit phare</span><span style="color:#3d5afe">Claude</span></div>
-    <div class="row"><span>Bourse visée</span><span>Nasdaq</span></div>
   </div>
-  <div class="ft"><span>Sources : Anthropic ; presse</span><b>FinanceData</b></div>
   <div class="anim">le logo se dessine, puis les lignes de la fiche apparaissent une à une.</div>
 </div>
 
@@ -71,7 +69,6 @@
 <div class="f" id="y3"><div class="lbl">FRISE</div>
   <div class="ti" style="top:300px">En Bourse en cinq ans</div>
   <svg id="t3" width="1080" height="900" style="left:0; top:460px"></svg>
-  <div class="ft"><span>Sources : Anthropic ; presse</span><b>FinanceData</b></div>
   <div class="anim">la ligne se trace de haut en bas, chaque date s'allume sur la voix.</div>
 </div>
 
@@ -87,18 +84,16 @@
 <!-- 6 VIDÉO + bandeau -->
 <div class="f" id="y5"><div class="lbl">VIDÉO + BANDEAU</div>
   <img class="ph" src="img/video-wallstreet.jpg" style="left:0; top:0; width:1080px; height:1120px; object-position:50% 40%">
-  <div class="a" style="left:96px; top:1050px; background:#3d5afe; color:#fff; font-size:30px; font-weight:700; padding:12px 20px; letter-spacing:.02em">WALL STREET</div>
   <div class="ti" style="top:1150px; font-size:84px">Vaut-elle ce prix ?</div>
   <div class="cap"><span>une question se pose</span></div>
-  <div class="anim">la vidéo tourne en continu, le bandeau bleu glisse depuis la gauche.</div>
+  <div class="anim">la vidéo tourne en continu, le titre apparaît en fondu.</div>
 </div>
 
 <!-- 7 LOGOS : la concurrence -->
 <div class="f" id="y6"><div class="lbl">LOGOS · CONCURRENCE</div>
   <div class="ti" style="top:300px">Face aux géants de l'IA</div>
   <svg id="t6" width="1080" height="800" style="left:0; top:440px"></svg>
-  <div class="ft"><span>Logos : Simple Icons</span><b>FinanceData</b></div>
-  <div class="anim">les logos arrivent un par un, Anthropic en dernier et en couleur.</div>
+  <div class="anim">les logos arrivent un par un, Anthropic en dernier.</div>
 </div>
 
 <!-- 8 TEXTE SEUL : question / chapitre -->
@@ -126,17 +121,18 @@ function logo(g, name, x, y, size, color) {
 }
 // frise verticale
 (function () { var g = document.getElementById("t3");
-  var E = [["2021", "Création par d'anciens d'OpenAI"], ["Mars 2023", "Lancement de Claude"], ["Mai 2026", "Levée à 965 Md$ de valorisation"], ["Oct. 2026", "Dépôt du dossier d'introduction"], ["Nov. 2026", "Entrée en Bourse visée"]];
-  el(g, "line", { x1: 118, x2: 118, y1: 40, y2: 40 + 4 * 172, stroke: PALE, "stroke-width": 4 });
-  E.forEach(function (e, i) { var y = 40 + i * 172, hi = i === 4;
+  var E = [["2021", "Création par d'anciens d'OpenAI"], ["Mars 2023", "Lancement de Claude"], ["Mai 2026", "Levée à 965 Md$ de valorisation"], ["Nov. 2026", "Entrée en Bourse visée"]];
+  el(g, "line", { x1: 118, x2: 118, y1: 60, y2: 60 + 3 * 210, stroke: PALE, "stroke-width": 4 });
+  E.forEach(function (e, i) { var y = 60 + i * 210, hi = i === 3;
     el(g, "rect", { x: 104, y: y - 14, width: 28, height: 28, fill: hi ? FD : NAVY });
     T(g, 180, y - 8, e[0], 34, hi ? FD : G, 700); T(g, 180, y + 44, e[1], 40, NAVY, hi ? 700 : 500); });
 })();
-// logos de la concurrence
-(function () { var g = document.getElementById("t6");
-  [["openai", "OpenAI", "ChatGPT"], ["googlegemini", "Google", "Gemini"], ["meta", "Meta", "Llama"], ["anthropic", "Anthropic", "Claude"]].forEach(function (r, i) { var y = 30 + i * 190, hi = i === 3;
-    logo(g, r[0], 96, y, 110, hi ? FD : NAVY);
-    T(g, 260, y + 52, r[1], 52, hi ? FD : NAVY, 700); T(g, 260, y + 104, r[2], 38, G, 500); });
+// logos de la concurrence, couleurs officielles (Gemini en dégradé)
+(function () { var g = document.getElementById("t6"), d = el(g, "defs", {}), lg = el(d, "linearGradient", { id: "gem", x1: 0, y1: 1, x2: 1, y2: 0 });
+  el(lg, "stop", { offset: 0, "stop-color": "#4796e3" }); el(lg, "stop", { offset: .6, "stop-color": "#9177c7" }); el(lg, "stop", { offset: 1, "stop-color": "#d96570" });
+  [["openai", "OpenAI", "#000000"], ["googlegemini", "Gemini", "url(#gem)"], ["meta", "Meta", "#0081fb"], ["anthropic", "Anthropic", "#191919"]].forEach(function (r, i) { var y = 40 + i * 200;
+    logo(g, r[0], 96, y, 120, r[2]);
+    T(g, 270, y + 80, r[1], 60, NAVY, 700); });
 })();
 </script>
 </body>
