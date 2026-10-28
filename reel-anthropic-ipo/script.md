@@ -5,21 +5,27 @@ Format (v3) : actu expliquée simplement, hook « C'est officiel » · structure
 ## Hook (v3)
 C'est officiel : Anthropic, l'entreprise qui a créé l'IA Claude, va entrer en Bourse.
 
-## Voix off v4 (simple, compréhensible par tous, à lire à l'oral)
+## Voix off v5 — framework AIDA (Attention → Intérêt → Désir → Action)
 
-C'est officiel : Anthropic, l'entreprise qui a créé l'IA Claude, va entrer en Bourse. Et ça pourrait même être la plus grosse entrée en Bourse de l'histoire.
+[ATTENTION]
+C'est officiel : Anthropic, l'entreprise qui a créé l'IA Claude, va entrer en Bourse. Et elle viserait une valeur de 2 000 milliards de dollars, ce qui en ferait la plus grosse entrée en Bourse de l'histoire.
 
-D'abord, regardons ce qu'elle vend. L'an dernier, Anthropic a vendu pour 4,6 milliards de dollars. Mais aujourd'hui, à son rythme actuel, elle vend pour plus de 45 milliards par an. Autrement dit, son rythme de ventes a été multiplié par 14 en un an.
+[INTÉRÊT — le pont]
+Mais du coup, une question se pose : est-ce qu'elle vaut vraiment ce prix ? Pour y répondre, il faut regarder trois choses.
 
-Ensuite, est-ce qu'elle gagne de l'argent ? Eh bien, ça dépend comment on compte. Sur son activité, elle est déjà rentable. En revanche, sur le papier, elle affiche une perte de 80 milliards sur six mois. Pourquoi ? Parce que l'essentiel vient de calculs comptables, pas d'argent qui sort vraiment.
+[DÉSIR — les trois preuves]
+D'abord, ce qu'elle vend. L'an dernier, Anthropic a vendu pour 4,6 milliards de dollars. Aujourd'hui, à son rythme actuel, c'est plus de 45 milliards par an. Autrement dit, son rythme de ventes a été multiplié par 14 en un an.
 
-Et pourtant, on parle d'une valeur de 2 000 milliards de dollars. C'est deux fois plus qu'il y a cinq mois. Résultat : à ce prix-là, vous paieriez plus de 40 fois ce qu'elle vend aujourd'hui en un an.
+Ensuite, ce qu'elle gagne. Et là, tout dépend comment on compte. Sur son activité, elle est déjà rentable. En revanche, sur le papier, elle affiche une perte de 80 milliards sur six mois. Pourquoi ? Parce que l'essentiel vient de calculs comptables, pas d'argent qui sort vraiment.
 
-Donc, est-ce une bonne affaire ? Eh bien, tout dépend du prix. Parce qu'une entreprise peut être exceptionnelle, et son action, trop chère.
+Enfin, le prix. 2 000 milliards, c'est deux fois plus qu'il y a cinq mois. Résultat : à ce prix-là, vous paieriez plus de 40 fois ce qu'elle vend en un an.
 
-Abonnez-vous pour suivre cette entrée en Bourse avec nous.
+[ACTION — la leçon puis l'appel]
+Donc, est-ce une bonne affaire ? Tout dépend du prix. Parce qu'une entreprise peut être exceptionnelle, et son action, trop chère.
 
-## À vérifier (v4)
+Alors, abonnez-vous pour suivre cette entrée en Bourse avec nous.
+
+## À vérifier (v4–v5)
 - « Multiplié par 14 en un an » : chiffre FinanceData. Avec les ventes 2025 (4,6 Md$) on obtient ×10 ; le ×14 correspond à une comparaison de rythmes annualisés (≈ 3,2 Md$ il y a un an → > 45 Md$) — d'où « son rythme de ventes ».
 - « Sur son activité, elle est déjà rentable » : la presse parle d'un résultat opérationnel ajusté positif au T2 2026 (hors rémunérations en actions), non audité : [PYMNTS](https://www.pymnts.com/?p=3752527), [Tech Jack Solutions](https://techjacksolutions.com/ai-brief/anthropics-q2-revenue-trajectory-and-first-operating-profit/)
 
