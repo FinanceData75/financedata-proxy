@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FinanceData · Style A minimal</title>
+<script src="rms.js"></script>
+<style>
+  /* Style A minimal (presse éco) : le titre dit la conclusion, tout est gris sauf ce qu'il faut retenir.
+     Rouge = alerte, bleu = information clé. Un seul chiffre écrit en grand, dans la couleur du point fort.
+     Pas de quadrillage, pas d'axe gradué : une ligne de base et des étiquettes directes. */
+  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2a2a2e; display: flex; flex-wrap: wrap; gap: 60px; padding: 60px; width: 3540px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; flex: none; background: #fff; color: #121212; }
+  .tag { position: absolute; left: 0; top: 250px; width: 120px; height: 20px; background: #e3120b; }
+  .ti { position: absolute; left: 96px; right: 96px; top: 310px; font-weight: 700; font-size: 74px; letter-spacing: -.035em; line-height: 1.05; }
+  .st { position: absolute; left: 96px; top: 500px; font-size: 38px; font-weight: 500; color: #6b6b6b; letter-spacing: -.01em; }
+  .src { position: absolute; left: 96px; top: 1280px; font-size: 26px; color: #8a8a8a; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; letter-spacing: -.5px; }
+  .lbl { position: absolute; top: 18px; left: 22px; font-size: 28px; font-weight: 600; color: #fff; background: #000; padding: 6px 14px; z-index: 9; }
+</style>
+</head>
+<body>
+
+<div class="f" id="g0"><div class="lbl">BARRES</div><div class="tag"></div>
+  <div class="ti">Anthropic coûte quatre fois plus cher</div>
+  <div class="st">Prix ÷ chiffre d'affaires annuel</div>
+  <svg id="s0" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source : Companiesmarketcap, octobre 2026</div></div>
+
+<div class="f" id="g1"><div class="lbl">COURBE</div><div class="tag"></div>
+  <div class="ti">Hermès a perdu la moitié de sa valeur</div>
+  <div class="st">Cours de l'action, en euros</div>
+  <svg id="s1" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source : Yahoo Finance</div></div>
+
+<div class="f" id="g2"><div class="lbl">AVANT / APRÈS</div><div class="tag"></div>
+  <div class="ti">Le prix a doublé en cinq mois</div>
+  <div class="st">Valorisation d'Anthropic, en milliards de dollars</div>
+  <svg id="s2" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source : presse, mai et octobre 2026</div></div>
+
+<div class="f" id="g3"><div class="lbl">DÉCOMPOSITION</div><div class="tag"></div>
+  <div class="ti">Une perte surtout comptable</div>
+  <div class="st">Perte nette du 1er semestre 2026</div>
+  <svg id="s3" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source : prospectus S-1, octobre 2026</div></div>
+
+<div class="f" id="g4"><div class="lbl">PART</div><div class="tag"></div>
+  <div class="ti">Deux clients font un quart des ventes</div>
+  <div class="st">Part du chiffre d'affaires d'Anthropic</div>
+  <svg id="s4" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source : prospectus S-1, octobre 2026</div></div>
+
+<div class="f" id="g5"><div class="lbl">CROISSANCE</div><div class="tag"></div>
+  <div class="ti">Des ventes multipliées par 14 en un an</div>
+  <div class="st">Rythme de ventes annuel, en milliards de dollars</div>
+  <svg id="s5" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source : prospectus S-1, octobre 2026</div></div>
+
+<script>
+var NS = "http://www.w3.org/2000/svg", RED = "#e3120b", BLUE = "#006ba2", GREY = "#d3d7da", INK = "#121212", MUTE = "#6b6b6b";
+function el(svg, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; svg.appendChild(e); return e; }
+function T(svg, x, y, s, size, fill, w, anchor) { return el(svg, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start" }, s); }
+function fr(v) { return Math.round(v).toLocaleString("fr-FR").replace(/[  ]/g, " "); }
+function $(id) { return document.getElementById(id); }
+function base(g, x1, x2, y) { el(g, "line", { x1: x1, x2: x2, y1: y, y2: y, stroke: INK, "stroke-width": 3 }); }
+
+// barres : trois repères gris, le cas étudié en rouge avec son chiffre en grand
+(function () { var g = $("s0"), X = function (v) { return 96 + v / 43 * 760; };
+  [["Alphabet", 9], ["Apple", 11], ["Microsoft", 12]].forEach(function (r, i) { var y = 40 + i * 120;
+    T(g, 96, y, r[0], 34, MUTE, 500);
+    el(g, "rect", { x: 96, y: y + 18, width: X(r[1]) - 96, height: 56, fill: GREY });
+    T(g, X(r[1]) + 18, y + 60, r[1] + "×", 34, MUTE, 600); });
+  T(g, 96, 440, "Anthropic", 40, INK, 700);
+  el(g, "rect", { x: 96, y: 462, width: X(43) - 96, height: 96, fill: RED });
+  T(g, X(43) + 20, 545, "43×", 84, RED, 700);
+})();
+
+// courbe : grise jusqu'au sommet, rouge ensuite, la baisse écrite en grand
+(function () { var g = $("s1"), R = window.RMS, tt = function (d) { return +d.slice(0, 4) + (+d.slice(5, 7) - 1) / 12 + (+d.slice(8, 10)) / 365; };
+  var t0 = tt(R[0][0]), t1 = tt(R[R.length - 1][0]), pk = R.reduce(function (a, r) { return r[1] > a[1] ? r : a; }), ls = R[R.length - 1], ipk = R.indexOf(pk);
+  var X = function (v) { return 96 + (v - t0) / (t1 - t0) * 560; }, Y = function (v) { return 560 - v / 3000 * 480; };
+  var d = function (rows) { return rows.map(function (r, i) { return (i ? "L" : "M") + X(tt(r[0])).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" "); };
+  base(g, 96, 984, 560);
+  el(g, "path", { d: d(R.slice(0, ipk + 1)), fill: "none", stroke: "#aab1b6", "stroke-width": 5, "stroke-linejoin": "round" });
+  el(g, "path", { d: d(R.slice(ipk)), fill: "none", stroke: RED, "stroke-width": 7, "stroke-linejoin": "round" });
+  el(g, "circle", { cx: X(tt(pk[0])), cy: Y(pk[1]), r: 10, fill: INK });
+  T(g, X(tt(pk[0])) - 20, Y(pk[1]) + 8, fr(pk[1]) + " €", 32, INK, 600, "end");
+  el(g, "circle", { cx: X(tt(ls[0])), cy: Y(ls[1]), r: 12, fill: RED });
+  T(g, X(tt(ls[0])) + 26, Y(ls[1]) - 10, "−55 %", 84, RED, 700);
+  T(g, X(tt(ls[0])) + 30, Y(ls[1]) + 36, fr(ls[1]) + " €", 32, MUTE, 500);
+  T(g, 96, 610, "2018", 28, MUTE, 500); T(g, X(t1), 610, "2026", 28, MUTE, 500, "middle");
+})();
+
+// avant / après : mai en gris, octobre en bleu, le multiple en grand
+(function () { var g = $("s2"), Y = function (v) { return 560 - v / 2000 * 440; };
+  base(g, 96, 984, 560);
+  el(g, "rect", { x: 160, y: Y(965), width: 280, height: 560 - Y(965), fill: GREY });
+  T(g, 300, Y(965) - 22, "965", 44, MUTE, 600, "middle"); T(g, 300, 610, "Mai", 32, MUTE, 500, "middle");
+  el(g, "rect", { x: 560, y: Y(2000), width: 280, height: 560 - Y(2000), fill: BLUE });
+  T(g, 700, Y(2000) - 22, "2 000", 44, INK, 700, "middle"); T(g, 700, 610, "Octobre", 32, INK, 600, "middle");
+  T(g, 700, Y(2000) + 140, "×2", 120, "#fff", 700, "middle");
+})();
+
+// décomposition : une barre, la part à retenir en bleu et en pourcentage
+(function () { var g = $("s3"), K = 888 / 80.7;
+  T(g, 96, 170, "89 %", 150, BLUE, 700);
+  T(g, 96, 230, "de réévaluations, sans sortie d'argent", 38, INK, 600);
+  el(g, "rect", { x: 96, y: 290, width: 72 * K, height: 110, fill: BLUE });
+  el(g, "rect", { x: 96 + 72 * K + 4, y: 290, width: 8.7 * K - 4, height: 110, fill: GREY });
+  T(g, 96, 460, "72 Md$", 34, INK, 600); T(g, 984, 460, "9 Md$ réels", 34, MUTE, 500, "end");
+  T(g, 96, 540, "Total : 80,7 Md$", 32, MUTE, 500);
+})();
+
+// part : 100 points, 25 en rouge
+(function () { var g = $("s4"), r = 30, gap = 18;
+  for (var i = 0; i < 100; i++) { var c = i % 10, l = Math.floor(i / 10);
+    el(g, "circle", { cx: 96 + r + c * (2 * r + gap), cy: 20 + r + l * (2 * r + gap) * .62, r: r * .62, fill: i < 25 ? RED : GREY }); }
+  T(g, 96, 650, "25 %", 110, RED, 700);
+  T(g, 380, 630, "pour deux clients seulement", 38, INK, 600);
+})();
+
+// croissance : il y a un an en gris, aujourd'hui en bleu, le multiple en grand
+(function () { var g = $("s5"), X = function (v) { return 96 + v / 46 * 888; };
+  T(g, 96, 170, "×14", 150, BLUE, 700);
+  T(g, 96, 270, "Il y a un an", 34, MUTE, 500);
+  el(g, "rect", { x: 96, y: 292, width: X(3.2) - 96, height: 90, fill: GREY });
+  T(g, X(3.2) + 18, 352, "3,2", 40, MUTE, 600);
+  T(g, 96, 460, "Aujourd'hui", 38, INK, 700);
+  el(g, "rect", { x: 96, y: 482, width: X(45) - 96, height: 110, fill: BLUE });
+  T(g, X(45) - 24, 556, "45", 52, "#fff", 700, "end");
+})();
+</script>
+</body>
+</html>
