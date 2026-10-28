@@ -6,57 +6,34 @@
     <script src="assets/gsap.min.js"></script>
     <script src="assets/vo-words.js"></script>
     <style>
-      /* Style « financedata » (styles/financedata/STYLE.md), reel Anthropic : une idée par écran,
-         coupes franches, chaque élément dans sa zone (250 → 1290 px), sous-titres à 1330 px. */
+      /* Reel Anthropic v4 : minimaliste. Une idée par écran (≈ 2,4 s), photos plein cadre,
+         police d'écran façon SF Pro (Inter Display), sans filet ni encadré. Sous-titres en Inter 600. */
       @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-600-normal.woff2"); font-weight: 600; }
-      @font-face { font-family: "Inter FD"; src: url("assets/fonts/inter-latin-800-normal.woff2"); font-weight: 800; }
-      @font-face { font-family: "Grotesk"; src: url("assets/fonts/schibsted-grotesk-latin-500-normal.woff2"); font-weight: 500; }
-      @font-face { font-family: "Grotesk"; src: url("assets/fonts/schibsted-grotesk-latin-600-normal.woff2"); font-weight: 600; }
-      @font-face { font-family: "Grotesk"; src: url("assets/fonts/schibsted-grotesk-latin-700-normal.woff2"); font-weight: 700; }
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
-      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter FD", sans-serif; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Display", sans-serif; }
       .sc { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
-      .white { background: radial-gradient(ellipse 80% 62% at 50% 45%, #f4f2f5 0%, #edebee 45%, #a9a7aa 82%, #5d5b5e 100%); }
-      .navy { background: radial-gradient(ellipse 75% 60% at 50% 45%, #1a2275 0%, #14196d 40%, #0d1250 75%, #0a0e3b 100%); }
-      .black { background: radial-gradient(ellipse 70% 55% at 50% 45%, #1a1a1d 0%, #0b0b0d 70%, #000 100%); }
-      .t { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; }
-      .tl { position: absolute; white-space: nowrap; }
-      /* police secondaire (graphiques, chiffres, illustrations) : Schibsted Grotesk ; Inter 800 reste pour titres et sous-titres */
-      .big { font-family: "Grotesk", sans-serif; font-weight: 600; letter-spacing: -.035em; word-spacing: .04em; line-height: .95; font-feature-settings: "tnum" 1; }
-      .small { font-family: "Grotesk", sans-serif; font-weight: 500; font-size: 42px; letter-spacing: -.01em; }
-      .lab { font-family: "Grotesk", sans-serif; font-weight: 600; font-size: 46px; letter-spacing: -.02em; }
-      /* titres : typographie seule + filet d'accent (aucun encadré) */
-      .kw { position: absolute; display: inline-block; font-weight: 800; letter-spacing: -.04em; line-height: 1.05; padding: 0 0 26px; white-space: nowrap; z-index: 3; text-align: center; }
-      .kw .bx { position: absolute; left: 50%; bottom: 0; width: 80px; height: 5px; margin-left: -40px; transform-origin: 50% 50%; background: #3d5afe; }
-      .kw .tx { position: relative; color: #0a105e; }
-      .kw.ondark .tx { color: #fff; } .kw.ondark .bx { background: rgba(255,255,255,.55); }
-      .kw.red .tx { color: #ff2e24; } .kw.red .bx { background: #ff2e24; }
+      .white { background: #f5f5f7; }
+      .navy { background: radial-gradient(ellipse 90% 70% at 50% 42%, #18206e 0%, #0d1250 70%, #0a0e3b 100%); }
+      .black { background: #000; }
+      .t { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; }
+      .hd { font-weight: 700; letter-spacing: -.035em; line-height: 1.02; }
+      .lb { font-weight: 500; letter-spacing: -.015em; }
+      .nm { font-weight: 700; letter-spacing: -.045em; line-height: .95; font-feature-settings: "tnum" 1; }
       .box { position: absolute; }
-      .bond { position: absolute; width: 420px; height: 250px; border: 4px solid #0a105e; background: #fff; box-shadow: 0 20px 40px rgba(10,16,94,.25); text-align: center; }
-      .bond .h { font-weight: 600; font-size: 34px; line-height: 1; color: #4a4e5c; margin-top: 36px; letter-spacing: -.02em; }
-      .bond .v { font-weight: 800; font-size: 120px; color: #0a105e; letter-spacing: -.05em; word-spacing: .12em; line-height: 1; margin-top: 22px; }
-      /* cartes : panneaux sans bordure (ombre douce sur blanc, verre dépoli sur bleu) */
-      .card2 { position: absolute; background: #fff; box-shadow: 0 1px 0 rgba(10,16,94,.06), 0 30px 80px rgba(10,16,94,.14); padding: 40px 44px; }
-      .card2 .lb { font-family: "Grotesk", sans-serif; font-weight: 500; font-size: 24px; letter-spacing: .14em; text-transform: uppercase; color: #7a7e8c; line-height: 1; }
-      .card2 .vl { font-family: "Grotesk", sans-serif; font-weight: 600; font-size: 96px; letter-spacing: -.035em; word-spacing: .04em; color: #0a105e; line-height: 1; margin-top: 44px; white-space: nowrap; }
-      .card2.glass { background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.14), 0 30px 80px rgba(0,0,0,.25); }
-      .card2.glass .lb { color: rgba(255,255,255,.6); } .card2.glass .vl { color: #fff; }
-      .card2.dim { opacity: .5; }
-      .card2.hi.glass { box-shadow: inset 0 0 0 1px rgba(255,255,255,.45), 0 30px 80px rgba(0,0,0,.3); }
-      .card2.green { box-shadow: inset 0 4px 0 #08923a, 0 30px 80px rgba(10,16,94,.14); } .card2.green .vl { color: #08923a; }
-      .card2.green.glass { box-shadow: inset 0 4px 0 #3cff5a, inset 0 0 0 1px rgba(60,255,90,.35), 0 0 60px rgba(60,255,90,.18); } .card2.green.glass .vl { color: #3cff5a; }
       svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; }
       #caps { position: absolute; left: 0; right: 0; top: 1330px; z-index: 20; }
       .cl { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
-      .cl span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.045em; word-spacing: .06em; color: #fff; white-space: nowrap; }
+      .cl span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-family: "Inter FD", sans-serif; font-weight: 600; font-size: 54px; letter-spacing: -.045em; word-spacing: .06em; color: #fff; white-space: nowrap; }
+      /* sur fond clair, le fond gris translucide disparaissait : version plus dense */
+      .cl.solid span { background: rgba(22,24,30,.92); }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="49.62" data-width="1080" data-height="1920">
       <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="49.62" data-track-index="1"></audio>
-      <video id="v-wallst" class="clip" src="assets/video/wall-street.mp4" data-start="8.0" data-duration="4.55" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-serveurs" class="clip" src="assets/video/serveurs.mp4" data-start="23.98" data-duration="8.12" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
       <div id="stage" class="clip" data-start="0" data-duration="49.62" data-track-index="0" style="position:absolute; inset:0"></div>
     </div>
 
@@ -127,135 +104,182 @@
         }
 
         // =================== MONTAGE ===================
-        // Déroulé de la v1 (barres, fiche, flux, nuage risque/rendement, taux/prix, 4 % vs 6 %) en DA FinanceData.
-        var s, g, i;
-        function txt(svg, x, y, str, size, fill, weight, anchor) { var t = el(svg, "text", { x: x, y: y, "font-family": "Grotesk", "font-weight": weight === 800 ? 600 : weight || 600, "font-size": size, fill: fill, "text-anchor": anchor || "middle" }); t.textContent = str; return t; }
-        function count(node, t, from, to, dur, suffix) {
+        // v4 : 21 écrans (≈ 2,4 s chacun), un seul message par écran, 2 lignes max, aucun filet ni encadré.
+        var s, g, WHITE = [];
+        var GREENX = "#08923a", RED2 = "#ff3b30", SOFT = "#6e6e73";
+        function txt(svg, x, y, str, size, fill, weight, anchor) { var t = el(svg, "text", { x: x, y: y, "font-weight": weight || 700, "font-size": size, fill: fill, "text-anchor": anchor || "middle", "letter-spacing": "-1" }); t.textContent = str; return t; }
+        function fr(v, dec) { return v.toLocaleString("fr-FR", { minimumFractionDigits: dec || 0, maximumFractionDigits: dec || 0 }).replace(/[\u202f\u00a0]/g, " "); }
+        function counter(node, t, from, to, dur, dec, pre, suf, ease) {
           var o = { v: from };
-          tl.fromTo(o, { v: from }, { v: to, duration: dur, ease: "power2.out", onUpdate: function () { node.textContent = Math.round(o.v).toLocaleString("fr-FR").replace(/ | /g, " ") + (suffix || ""); } }, t);
+          tl.fromTo(o, { v: from }, { v: to, duration: dur, ease: ease || "power2.out", onUpdate: function () { node.textContent = (pre || "") + fr(o.v, dec) + (suf || ""); } }, t);
         }
-        // carte (étiquette + valeur)
-        function cardBox(sc, left, top, w, h, label, value, tone) {
-          var c = div(sc, "card2 " + (tone || "") + (/navy/.test(sc.className) ? " glass" : ""), '<div class="lb">' + label + '</div><div class="vl">' + value + "</div>", "left:" + left + "px; top:" + top + "px; width:" + w + "px; height:" + h + "px");
-          if (value.length > 8) c.querySelector(".vl").style.fontSize = "70px";
-          return c;
+        function sc(a, b, bg) { var x = scene(a, b, bg); if (bg === "white") WHITE.push([a, b]); return x; }
+        // photo plein cadre (recadrée 9:16), push lent ≤ 3,5 %, voile haut/bas pour le texte
+        function photo(a, b, src, veil) {
+          var x = scene(a, b, "black");
+          var im = div(x, "", '<img src="assets/img/' + src + '" alt="" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover">');
+          tl.fromTo(im.firstChild, { scale: 1 }, { scale: 1.035, duration: b - a, ease: "none" }, a);
+          div(x, "box", null, "inset:0; background: linear-gradient(180deg, rgba(0,0,0," + (veil || .55) + ") 0%, rgba(0,0,0,.08) 34%, rgba(0,0,0,.1) 58%, rgba(0,0,0,.6) 100%)");
+          return x;
         }
-
-        // ---- grille fixe : un titre (y 300) + un visuel centré, 2 lignes de texte maximum ----
-        function title(sc, text, t, tone) { return kw(sc, text, t, 300, 80, tone); }
-        var GREENX = "#08923a";
-        function fmtMd(v) { return Math.round(v).toLocaleString("fr-FR").replace(/ | /g, " "); }
-        function videoScene(a, b) {
-          var sc = scene(a, b, "black-x"); // « black-x » : texte clair, sans fond (la vidéo passe dessous)
-          div(sc, "box", null, "inset:0; background: linear-gradient(180deg, rgba(5,8,40,.68) 0%, rgba(5,8,40,.25) 40%, rgba(5,8,40,.3) 65%, rgba(5,8,40,.7) 100%)");
-          return sc;
+        // texte : apparition douce (montée + net), « now » = déjà visible sur la 1re image
+        function T(parent, cls, text, t, top, size, color, now) {
+          var d = div(parent, "t " + cls, text, "top:" + top + "px; font-size:" + size + "px; color:" + color);
+          if (now) tl.fromTo(d, { y: 14 }, { y: 0, duration: 0.5, ease: "power3.out" }, t);
+          else tl.fromTo(d, { opacity: 0, y: 26, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.38, ease: "power3.out" }, t);
+          return d;
         }
-        // un gros texte qui en remplace un autre au même endroit
-        function bigSeq(sc, items, top) {
-          var prev = null;
-          items.forEach(function (it) {
-            var d = div(sc, "t big", it[0], "top:" + (top + (190 - it[2]) / 2) + "px; font-size:" + it[2] + "px; color:" + it[3] + "; text-shadow:0 4px 24px rgba(0,0,0,.55)");
-            if (prev) tl.to(prev, { opacity: 0, duration: 0.15 }, it[1] - 0.15);
-            fade(d, it[1], { opacity: 0, y: 16 });
-            prev = d;
-          });
-        }
+        function H(p, text, t, top, size, color, now) { return T(p, "hd", text, t, top, size || 104, color || "#fff", now); }
+        function L(p, text, t, top, size, color) { return T(p, "lb", text, t, top, size || 54, color || SOFT); }
+        function N(p, text, t, top, size, color) { return T(p, "nm", text, t, top, size || 200, color || NAVY); }
+        var SH = "; text-shadow: 0 4px 30px rgba(0,0,0,.45)";
+        function onPhoto(d) { d.setAttribute("style", d.getAttribute("style") + SH); return d; }
 
-        // A1. 0–4,0 « Ça y est, c'est officiel : Anthropic… va entrer en Bourse »
-        s = scene(0, 3.95, "white");
-        title(s, "C'est officiel", 0.0);
-        var ph = div(s, "box", '<img src="assets/img/claude-telephone.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block">', "left:0; top:560px; width:1080px; height:716px; box-shadow:0 30px 70px rgba(10,16,94,.2)");
-        fade(ph, 0.0, { opacity: 0, y: 30 });
-        tl.fromTo(ph.firstChild, { scale: 1 }, { scale: 1.04, duration: 3.95, ease: "none" }, 0);
+        // 1. 0–1,0 « C'est officiel » : la cloche du Nasdaq, confettis
+        s = photo(0, 1.0, "ipo-confettis.jpg", .35);
+        onPhoto(H(s, "C'est officiel", 0, 820, 128, "#fff", true));
 
-        // A2. 4,0–8,0 « une valeur de 2 000 milliards… »
-        s = photoScene(3.95, 8.0, "nasdaq.jpg", "50% 40%");
-        title(s, "Valeur visée", 3.85, "light");
-        var hv = div(s, "t big", "0 Md$", "top:760px; font-size:170px; color:#ffffff; text-shadow:0 4px 30px rgba(0,0,0,.5)");
-        fade(hv, 3.9, { opacity: 0, y: 16 });
-        var o = { v: 0 };
-        tl.fromTo(o, { v: 0 }, { v: 2000, duration: 1.6, ease: "power2.out", onUpdate: function () { hv.textContent = fmtMd(o.v) + " Md$"; } }, 4.0);
+        // 2. 1,0–3,06 Anthropic, le créateur de Claude
+        s = photo(1.0, 3.06, "anthropic-scene.jpg", .2);
+        div(s, "box", null, "left:0; right:0; top:800px; height:1120px; background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.55) 30%, rgba(0,0,0,.7))");
+        onPhoto(H(s, "Anthropic", 1.0, 960, 128));
+        onPhoto(L(s, "le créateur de Claude", at("créé") - 0.1, 1110, 60, "rgba(255,255,255,.9)"));
 
-        // B. 8,0–12,6 vidéo Wall Street : vaut-elle ce prix ? 3 choses
-        s = videoScene(8.0, 12.55);
-        title(s, "Vaut-elle ce prix ?", 7.9, "light");
-        big(s, "3 choses", at("trois") - 0.15, 760, 170, "#ffffff");
+        // 3. 3,06–4,9 entre en Bourse
+        s = photo(3.06, 4.9, "nasdaq-tour.jpg", .5);
+        onPhoto(H(s, "Entre en Bourse", 3.06, 300, 112));
 
-        // C. 12,6–24,0 1. ce qu'elle vend
-        s = scene(12.55, 23.98, "white");
-        title(s, "1. Ce qu'elle vend", 12.45);
-        g = svgIn(s, 1080, 760, 0, 470);
-        el(g, "line", { x1: 180, x2: 900, y1: 640, y2: 640, stroke: "rgba(10,16,94,.22)", "stroke-width": 2 });
-        var K = 520 / 46;
-        [[4.6, "2025", "4,6 Md$", "#9aa0b5", at("quatre") - 0.1], [46, "rythme actuel", "> 45 Md$", NAVY, at("quarante-cinq") - 0.15]].forEach(function (b, k) {
-          var x = 250 + k * 360, h = b[0] * K;
-          var r = el(g, "rect", { x: x, y: 640 - h, width: 220, height: h, fill: b[3] });
-          tl.fromTo(r, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.6, ease: "power3.out" }, b[4]);
-          var v = txt(g, x + 110, 640 - h - 26, b[2], 52, NAVY, 600), l = txt(g, x + 110, 690, b[1], 32, GREY, 500);
-          tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: 0.2 }, b[4] + 0.3);
+        // 4. 4,9–6,12 valeur visée : 2 000 Md$
+        s = sc(4.9, 6.12, "white");
+        L(s, "Valeur visée", 4.9, 640);
+        var n4 = N(s, "0 Md$", 4.9, 730, 190);
+        counter(n4, 4.92, 0, 2000, 0.7, 0, "", " Md$");
+
+        // 5. 6,12–8,1 la 7e entreprise du monde
+        s = sc(6.12, 8.1, "white");
+        N(s, "7<span style='font-size:.5em; vertical-align:.8em; letter-spacing:0'>e</span>", at("septième") - 0.15, 520, 400);
+        L(s, "entreprise au monde", at("entreprise", 7) - 0.1, 1000, 64, NAVY);
+
+        // 6. 8,1–10,94 vaut-elle ce prix ? (Dario Amodei)
+        s = photo(8.1, 10.94, "dario-portrait.jpg", .55);
+        onPhoto(H(s, "Vaut-elle ce prix ?", at("question") - 0.1, 300, 100));
+
+        // 7. 10,94–12,62 trois choses
+        s = sc(10.94, 12.62, "navy");
+        N(s, "3", 10.96, 470, 440, "#fff");
+        L(s, "choses à regarder", at("regarder") - 0.1, 950, 64, "rgba(255,255,255,.75)");
+
+        // 8. 12,62–16,72 ventes 2025 : 4,6 Md$ (le compteur suit la voix)
+        s = sc(12.62, 16.72, "white");
+        L(s, "Ventes 2025", 12.62, 600);
+        var n8 = N(s, "0 Md$", 12.62, 690, 220);
+        counter(n8, 12.7, 0, 4.6, at("milliards", 15.5) - 12.7, 1, "", " Md$", "power1.inOut");
+
+        // 9. 16,72–20,1 aujourd'hui : plus de 45 Md$ par an
+        s = sc(16.72, 20.1, "white");
+        g = svgIn(s, 1080, 1000, 0, 260);
+        var K = 700 / 46, BASE = 920;
+        var b1 = el(g, "rect", { x: 150, y: BASE - 4.6 * K, width: 340, height: 4.6 * K, rx: 6, fill: "#c7c7cc" });
+        txt(g, 320, BASE - 4.6 * K - 30, "4,6 Md$", 60, SOFT, 600);
+        txt(g, 320, BASE + 70, "2025", 48, SOFT, 500);
+        var b2 = el(g, "rect", { x: 590, y: BASE - 46 * K, width: 340, height: 46 * K, rx: 6, fill: NAVY });
+        var v2 = txt(g, 760, BASE - 46 * K - 36, "45 Md$", 84, NAVY, 700), l2 = txt(g, 760, BASE + 70, "Aujourd'hui", 48, NAVY, 600);
+        tl.fromTo(b1, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.4, ease: "power3.out" }, 16.72);
+        tl.fromTo(b2, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.9, ease: "power3.out" }, at("plus", 18) - 0.1);
+        tl.fromTo(l2, { opacity: 0 }, { opacity: 1, duration: 0.2 }, 16.9);
+        tl.fromTo(v2, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3 }, at("quarante-cinq") - 0.05);
+
+        // 10. 20,1–24,18 × 14 en un an
+        s = sc(20.1, 24.18, "navy");
+        L(s, "Croissance en un an", 20.1, 560, 58, "rgba(255,255,255,.7)");
+        var n10 = N(s, "× 1", 20.3, 720, 330, "#fff");
+        counter(n10, at("multipliée") - 0.1, 1, 14, at("quatorze") - at("multipliée") + 0.3, 0, "× ");
+        tl.to(n10, { color: "#34c759", duration: 0.3 }, at("énorme") - 0.1);
+
+        // 11. 24,18–27,1 et ses profits ?
+        s = photo(24.18, 27.1, "dario-mains.jpg", .55);
+        onPhoto(H(s, "Et ses profits ?", 24.2, 300, 104));
+
+        // 12. 27,1–28,98 rentable sur son activité
+        s = sc(27.1, 28.98, "white");
+        L(s, "Sur son activité", 27.1, 640);
+        N(s, "Rentable", at("rentable") - 0.2, 730, 190, GREENX);
+
+        // 13. 28,98–32,22 sur le papier : −80 Md$
+        s = sc(28.98, 32.22, "white");
+        L(s, "Sur le papier", 28.98, 640);
+        var n13 = N(s, "0 Md$", at("perte") - 0.1, 730, 200, RED2);
+        counter(n13, at("perte"), 0, 80, 0.8, 0, "−", " Md$");
+
+        // 14. 32,22–34,66 le prix : 2 000 Md$
+        s = photo(32.22, 34.66, "nasdaq-marketsite.jpg", .6);
+        div(s, "box", null, "inset:0; background: rgba(0,0,0,.3)");
+        onPhoto(H(s, "Le prix", 32.25, 300, 112));
+        onPhoto(N(s, "2 000 Md$", at("Deux", 33) - 0.1, 820, 170, "#fff"));
+
+        // 15. 34,66–36,42 deux fois plus qu'il y a cinq mois (965 d'abord, puis 2 000)
+        s = sc(34.66, 36.42, "white");
+        g = svgIn(s, 1080, 1000, 0, 260);
+        var K2 = 700 / 2000;
+        var c1 = el(g, "rect", { x: 150, y: BASE - 965 * K2, width: 340, height: 965 * K2, rx: 6, fill: "#c7c7cc" });
+        var c2 = el(g, "rect", { x: 590, y: BASE - 2000 * K2, width: 340, height: 2000 * K2, rx: 6, fill: NAVY });
+        var cv1 = txt(g, 320, BASE - 965 * K2 - 30, "965 Md$", 64, SOFT, 600), cl1 = txt(g, 320, BASE + 70, "En mai", 48, SOFT, 500);
+        var cv2 = txt(g, 760, BASE - 2000 * K2 - 36, "2 000 Md$", 80, NAVY, 700), cl2 = txt(g, 760, BASE + 70, "En Bourse", 48, NAVY, 600);
+        tl.fromTo(c1, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.35, ease: "power3.out" }, 34.66);
+        tl.fromTo([cv1, cl1], { opacity: 0 }, { opacity: 1, duration: 0.15 }, 34.8);
+        tl.fromTo(c2, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 0.7, ease: "power3.out" }, at("fois", 34.9) - 0.1);
+        tl.fromTo([cv2, cl2], { opacity: 0 }, { opacity: 1, duration: 0.2 }, at("fois", 34.9) + 0.35);
+
+        // 16. 36,42–39,64 prix ÷ ventes : Microsoft, Apple, Alphabet, puis Anthropic
+        s = sc(36.42, 39.64, "navy");
+        H(s, "Prix ÷ ventes", 36.42, 290, 92);
+        g = svgIn(s, 1080, 800, 0, 470);
+        var PS = 900 / 42;
+        [["Microsoft", 12, "12×", 36.55], ["Apple", 11, "11×", 36.8], ["Alphabet", 9, "9×", 37.05], ["Anthropic", 42, "40×+", at("quarante") - 0.15]].forEach(function (r, k) {
+          var y = k * 190, last = k === 3;
+          var lb = txt(g, 90, y + 44, r[0], 46, last ? "#fff" : "rgba(255,255,255,.7)", last ? 700 : 500, "start");
+          var bar = el(g, "rect", { x: 90, y: y + 66, width: r[1] * PS, height: 84, rx: 6, fill: last ? RED2 : "rgba(255,255,255,.3)" });
+          var vl = txt(g, last ? 90 + r[1] * PS - 26 : 90 + r[1] * PS + 24, y + 126, r[2], 56, "#fff", 700, last ? "end" : "start");
+          tl.fromTo(bar, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: last ? 0.8 : 0.4, ease: "power3.out" }, r[3]);
+          tl.fromTo([lb, vl], { opacity: 0 }, { opacity: 1, duration: 0.2 }, r[3] + (last ? 0.45 : 0.1));
         });
-        var x14 = txt(g, 360, 300, "× 14", 110, GREENX, 600);
-        tl.fromTo(x14, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3 }, at("quatorze") - 0.15);
 
-        // D. 24,0–32,2 vidéo serveurs : 2. ce qu'elle gagne
-        s = videoScene(23.98, 32.18);
-        div(s, "box", null, "inset:0; background: rgba(5,8,40,.38)"); // serveurs très lumineux : voile renforcé
-        title(s, "2. Ce qu'elle gagne", 23.88, "light");
-        bigSeq(s, [["rentable sur l'activité", at("rentable") - 0.2, 76, "#3cff5a"], ["−80 Md$ sur le papier", at("perte") - 0.1, 84, "#ff6b5e"]], 760);
+        // 17. 39,64–41,4 intéressant ?
+        s = photo(39.64, 41.4, "dario-regard.jpg", .55);
+        onPhoto(H(s, "Intéressant ?", 39.66, 300, 112));
 
-        // E. 32,2–36,3 3. le prix : 2 000 Md$, deux fois plus qu'il y a cinq mois
-        s = scene(32.18, 36.32, "white");
-        title(s, "3. Le prix", 32.08);
-        g = svgIn(s, 1080, 600, 0, 540);
-        var W2 = 640 / 2000;
-        var pI = el(g, "rect", { x: 300, y: 80, width: 2000 * W2, height: 110, fill: NAVY });
-        var pM = el(g, "rect", { x: 300, y: 300, width: 965 * W2, height: 110, fill: "#9aa0b5" });
-        txt(g, 270, 150, "Visé", 40, NAVY, 600, "end"); var lM = txt(g, 270, 370, "Il y a 5 mois", 40, GREY, 600, "end");
-        var tI = txt(g, 300 + 2000 * W2 - 24, 152, "2 000 Md$", 50, "#ffffff", 600, "end");
-        var tM = txt(g, 300 + 965 * W2 + 24, 372, "965 Md$", 50, "#5b5f70", 600, "start");
-        tl.fromTo(pI, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, at("Deux", 33) - 0.15);
-        tl.fromTo(tI, { opacity: 0 }, { opacity: 1, duration: 0.2 }, at("Deux", 33) + 0.3);
-        tl.fromTo([pM, lM], { opacity: 0 }, { opacity: 1, duration: 0.01 }, at("cinq", 35) - 0.3);
-        tl.fromTo(pM, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, at("cinq", 35) - 0.3);
-        tl.fromTo(tM, { opacity: 0 }, { opacity: 1, duration: 0.2 }, at("cinq", 35));
+        // 18. 41,4–43,0 tout dépend du prix
+        s = sc(41.4, 43.0, "white");
+        H(s, "Tout dépend", 41.4, 660, 132, NAVY);
+        H(s, "du prix", at("prix", 41.6) - 0.1, 810, 132, NAVY);
 
-        // F. 36,3–41,4 prix ÷ ventes : Anthropic face à Microsoft, Apple, Alphabet (P/S ~ oct. 2026)
-        s = scene(36.32, 41.36, "navy");
-        title(s, "Prix ÷ ventes", 36.22, "light");
-        g = svgIn(s, 1080, 760, 0, 470);
-        var PS = 560 / 42;
-        [["Microsoft", 12, "≈ 12×", 36.35], ["Apple", 11, "≈ 11×", 36.5], ["Alphabet", 9, "≈ 9×", 36.65], ["Anthropic", 42, "> 40×", at("quarante") - 0.15]].forEach(function (r, k) {
-          var y = 40 + k * 150, last = k === 3;
-          var lb = txt(g, 270, y + 62, r[0], 40, last ? "#ffffff" : "#9aa3d6", last ? 600 : 500, "end");
-          var bar = el(g, "rect", { x: 300, y: y, width: r[1] * PS, height: 90, fill: last ? "#ff6b5e" : "rgba(255,255,255,.28)" });
-          var vl = txt(g, last ? 300 + r[1] * PS - 24 : 300 + r[1] * PS + 22, y + 63, r[2], 48, "#ffffff", 600, last ? "end" : "start");
-          tl.fromTo(bar, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: last ? 0.7 : 0.4, ease: "power3.out" }, r[3]);
-          tl.fromTo([lb, vl], { opacity: 0 }, { opacity: 1, duration: 0.2 }, r[3] + (last ? 0.4 : 0.15));
-        });
+        // 19. 43,0–45,04 exceptionnelle mais trop chère
+        s = sc(43.0, 45.04, "white");
+        H(s, "Exceptionnelle", 43.0, 660, 124, NAVY);
+        H(s, "mais trop chère", at("beaucoup") - 0.1, 810, 124, RED2);
 
-        // G. 41,4–47,7 la leçon
-        s = scene(41.36, 47.72, "white");
-        kw(s, "Exceptionnelle", 41.26, 700, 110);
-        var neq = div(s, "t big", "≠ bon placement", "top:880px; font-size:88px; color:" + RED);
-        fade(neq, at("action") - 0.2, { opacity: 0, y: 16 });
+        // 20. 45,04–47,72 prudence avec les IPO
+        s = photo(45.04, 47.72, "ipo-foule.jpg", .6);
+        div(s, "box", null, "inset:0; background: rgba(0,0,0,.3)");
+        onPhoto(H(s, "Prudence", 45.06, 280, 112));
+        onPhoto(H(s, "avec les IPO", at("IPO") - 0.15, 410, 112));
 
-        // H. 47,7–fin : profil Instagram, bouton calé sur « abonnez-vous »
+        // 21. 47,72–fin : profil Instagram, bouton calé sur « abonnez-vous »
         s = scene(47.72, 49.62, "navy");
         var av = div(s, "box", '<svg viewBox="0 0 360 360" style="position:absolute; inset:0; width:100%; height:100%; overflow:visible"><defs><linearGradient id="gStory" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#feda75"/><stop offset="0.3" stop-color="#fa7e1e"/><stop offset="0.6" stop-color="#d62976"/><stop offset="1" stop-color="#962fbf"/></linearGradient></defs></svg><div class="pic" style="position:absolute; left:22px; top:22px; width:316px; height:316px; border-radius:50%; overflow:hidden; border:8px solid #0d1250; box-shadow:0 20px 50px rgba(0,5,25,.5)"><img src="assets/img/logo-financedata.png" alt="" style="width:100%; height:100%; display:block"></div>', "left:360px; top:430px; width:360px; height:360px");
         var ring = el(av.querySelector("svg"), "circle", { cx: 180, cy: 180, r: 170, fill: "none", stroke: "url(#gStory)", "stroke-width": 12, transform: "rotate(-90 180 180)" });
         var RL = 2 * Math.PI * 170; ring.style.strokeDasharray = RL + " " + RL; ring.style.strokeDashoffset = RL;
-        tl.fromTo(av.querySelector(".pic"), { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, 47.5);
-        tl.to(ring, { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 47.72);
-        var nm = div(s, "t", "FinanceData", "top:840px; font-weight:800; font-size:72px; letter-spacing:-.04em; color:#fff");
-        fade(nm, 47.65);
+        tl.fromTo(av.querySelector(".pic"), { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: "power3.out" }, 47.72);
+        tl.to(ring, { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 47.8);
+        var nm = div(s, "t hd", "FinanceData", "top:840px; font-size:76px; color:#fff");
+        fade(nm, 47.75);
         var tA = at("abonnez-vous");
-        var btn = div(s, "box", '<span class="t1" style="position:absolute; inset:0">S\'abonner</span><span class="t2" style="position:absolute; inset:0; opacity:0">Abonné ✓</span>', "left:340px; top:960px; width:400px; height:100px; border-radius:8px; background:#0095f6; color:#fff; font-family:Grotesk; font-weight:600; font-size:42px; text-align:center; line-height:100px; box-shadow:0 18px 40px rgba(0,60,140,.4)");
-        tl.fromTo(btn, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 47.8);
+        var btn = div(s, "box", '<span class="t1" style="position:absolute; inset:0">S\'abonner</span><span class="t2" style="position:absolute; inset:0; opacity:0">Abonné ✓</span>', "left:340px; top:960px; width:400px; height:100px; border-radius:12px; background:#0095f6; color:#fff; font-family:Display; font-weight:600; font-size:44px; text-align:center; line-height:100px; box-shadow:0 18px 40px rgba(0,60,140,.4)");
+        tl.fromTo(btn, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 47.85);
         tl.to(btn, { scale: 0.94, duration: 0.1, ease: "power1.in" }, tA + 0.08);
         tl.to(btn, { scale: 1, duration: 0.2, ease: "back.out(2)" }, tA + 0.18);
         tl.to(btn, { backgroundColor: "#363a45", boxShadow: "0 18px 40px rgba(0,0,0,.35)", duration: 0.25 }, tA + 0.12);
         tl.set(btn.querySelector(".t1"), { opacity: 0 }, tA + 0.18); tl.set(btn.querySelector(".t2"), { opacity: 1 }, tA + 0.18);
-
 
         // =================== SOUS-TITRES (3 mots max) ===================
         var NUM = [[4.94, 5.26, "2 000 milliards"], [15.18, 15.88, "4,6 milliards"], [18.62, 18.62, "45"], [22.08, 22.08, "14"], [30.84, 30.84, "80"], [33.4, 33.7, "2 000 milliards"], [38.04, 38.04, "40"]];
@@ -281,6 +305,7 @@
             // affichage minimum 0,22 s (sinon un groupe très court, comme « il y a », restait figé à l'écran) ;
             // le groupe suivant attend la fin du précédent
             var show = Math.max(gr[0].s - 0.06, capFree), hide = Math.max(show + 0.22, Math.min(nxt - 0.08, gr[gr.length - 1].e + 0.45));
+            if (WHITE.some(function (w) { return show >= w[0] - 0.05 && show < w[1]; })) d.className += " solid";
             tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.08 }, show);
             tl.set(d, { opacity: 0 }, hide);
             capFree = hide + 0.01;
