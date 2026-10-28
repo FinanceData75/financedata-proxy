@@ -5,21 +5,23 @@ Format (v3) : actu expliquée simplement, hook « C'est officiel » · structure
 ## Hook (v3)
 C'est officiel : Anthropic, l'entreprise qui a créé l'IA Claude, va entrer en Bourse.
 
-## Voix off v3 (simple, compréhensible par tous, à lire à l'oral)
+## Voix off v4 (simple, compréhensible par tous, à lire à l'oral)
 
 C'est officiel : Anthropic, l'entreprise qui a créé l'IA Claude, va entrer en Bourse. Et ça pourrait même être la plus grosse entrée en Bourse de l'histoire.
 
-Concrètement, entrer en Bourse, ça veut dire que n'importe qui pourra bientôt acheter un petit morceau de l'entreprise. Du coup, une seule question compte : combien elle vaut vraiment ?
+D'abord, regardons ce qu'elle vend. L'an dernier, Anthropic a vendu pour 4,6 milliards de dollars. Mais aujourd'hui, à son rythme actuel, elle vend pour plus de 45 milliards par an. Autrement dit, son rythme de ventes a été multiplié par 14 en un an.
 
-D'abord, regardons ce qu'elle vend. L'an dernier, Anthropic a vendu pour 4,6 milliards de dollars. Mais cette année, rien que sur les six premiers mois, elle a déjà dépassé les 16 milliards. Autrement dit, ses ventes ont explosé.
-
-En revanche, elle perd encore beaucoup d'argent. Sur ces six mois, la perte affichée atteint 80 milliards de dollars. Alors attention, l'essentiel vient de calculs comptables. Mais elle dépense quand même des milliards dans ses serveurs.
+Ensuite, est-ce qu'elle gagne de l'argent ? Eh bien, ça dépend comment on compte. Sur son activité, elle est déjà rentable. En revanche, sur le papier, elle affiche une perte de 80 milliards sur six mois. Pourquoi ? Parce que l'essentiel vient de calculs comptables, pas d'argent qui sort vraiment.
 
 Et pourtant, on parle d'une valeur de 2 000 milliards de dollars. C'est deux fois plus qu'il y a cinq mois. Résultat : à ce prix-là, vous paieriez plus de 40 fois ce qu'elle vend aujourd'hui en un an.
 
 Donc, est-ce une bonne affaire ? Eh bien, tout dépend du prix. Parce qu'une entreprise peut être exceptionnelle, et son action, trop chère.
 
 Abonnez-vous pour suivre cette entrée en Bourse avec nous.
+
+## À vérifier (v4)
+- « Multiplié par 14 en un an » : chiffre FinanceData. Avec les ventes 2025 (4,6 Md$) on obtient ×10 ; le ×14 correspond à une comparaison de rythmes annualisés (≈ 3,2 Md$ il y a un an → > 45 Md$) — d'où « son rythme de ventes ».
+- « Sur son activité, elle est déjà rentable » : la presse parle d'un résultat opérationnel ajusté positif au T2 2026 (hors rémunérations en actions), non audité : [PYMNTS](https://www.pymnts.com/?p=3752527), [Tech Jack Solutions](https://techjacksolutions.com/ai-brief/anthropics-q2-revenue-trajectory-and-first-operating-profit/)
 
 ## Découpage (un titre + un visuel par écran)
 
