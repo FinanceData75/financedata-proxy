@@ -36,7 +36,7 @@
   <svg id="s1" width="1080" height="700" style="left:0; top:520px"></svg>
   <div class="src">Source · prospectus S-1</div></div>
 
-<div class="f" id="k2"><div class="lbl">BLOCS · PROPORTION</div><div class="rub"><i></i>Perte S1 2026</div>
+<div class="f" id="k2"><div class="lbl">CASH VS COMPTA</div><div class="rub"><i></i>Perte S1 2026 · Md$</div>
   <div class="ti">Une perte surtout comptable</div>
   <svg id="s2" width="1080" height="700" style="left:0; top:520px"></svg>
   <div class="src">Source · prospectus S-1</div></div>
@@ -85,7 +85,15 @@ function blocks(g, parts, big, bigCol, sub) {
 })();
 
 blocks($("s1"), [[25, FD]], "25 %", FD, "2 clients");
-blocks($("s2"), [[89, FD], [11, GREY]], "89 %", FD, "comptable");
+// perte : colonnes comptable vs cash, seule la part comptable en couleur
+(function () { var g = $("s2"), Y = function (v) { return 620 - v / 80 * 540; };
+  [0, 40, 80].forEach(function (v) { el(g, "line", { x1: 96, x2: 984, y1: Y(v), y2: Y(v), stroke: v ? GRID : NAVY, "stroke-width": v ? 2 : 3 }); T(g, 984, Y(v) - 12, String(v), 26, AX, 400, "end", 1); });
+  el(g, "rect", { x: 170, y: Y(72), width: 300, height: 620 - Y(72), fill: FD });
+  el(g, "rect", { x: 540, y: Y(9), width: 300, height: 620 - Y(9), fill: GREY });
+  T(g, 320, Y(72) + 100, "72", 96, "#fff", 700, "middle");
+  T(g, 690, Y(9) - 24, "9", 48, AX, 600, "middle");
+  T(g, 320, 670, "COMPTABLE", 26, NAVY, 400, "middle", 1); T(g, 690, 670, "CASH", 26, AX, 400, "middle", 1);
+})();
 
 // courbe : bleu FinanceData jusqu'au sommet, rouge ensuite
 (function () { var g = $("s3"), R = window.RMS, tt = function (d) { return +d.slice(0, 4) + (+d.slice(5, 7) - 1) / 12 + (+d.slice(8, 10)) / 365; };
