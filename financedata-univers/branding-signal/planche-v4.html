@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FinanceData · Système v4</title>
+<script src="logos.js"></script>
+<style>
+  /* Système v4 : base « fond bleu nuit + couleurs vives » (cyan = info, vert = gain, rouge = alerte),
+     en alternance avec des écrans sur fond blanc (bleu FinanceData = info, mêmes vert et rouge, assombris).
+     Uniquement des visuels réels : logos officiels, photos HD sous licence libre, captures d'écran. CTA réduit au logo, au nom et au bouton. */
+  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2a2a2e; display: grid; grid-template-columns: repeat(3, 1080px); gap: 60px; padding: 60px; width: 3420px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #fff; --dim: rgba(255,255,255,.66); --ft: rgba(255,255,255,.55); }
+  .f.blanc { background: #fff; color: #000b22; --dim: #4b5470; --ft: #7a8199; }
+  .a { position: absolute; }
+  .ti { position: absolute; left: 96px; right: 96px; font-weight: 700; letter-spacing: -.035em; line-height: 1.04; }
+  .st { position: absolute; left: 96px; right: 96px; font-size: 40px; color: var(--dim); letter-spacing: -.01em; }
+  .leg { position: absolute; left: 96px; font-size: 34px; color: var(--dim); }
+  .ft { position: absolute; left: 96px; right: 96px; top: 1262px; display: flex; justify-content: space-between; align-items: baseline; font-size: 30px; color: var(--ft); }
+  .ft b { font-weight: 800; font-size: 34px; letter-spacing: -.03em; color: inherit; }
+  .f .ft b { color: #fff; } .f.blanc .ft b { color: #000b22; }
+  .duo { position: absolute; inset: 0; background: #00a8ff; }
+  .duo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.15) brightness(1.08); mix-blend-mode: multiply; }
+  .duo::after { content: ""; position: absolute; inset: 0; background: #000b22; mix-blend-mode: lighten; }
+  .foc { position: absolute; inset: 0; }
+  .foc img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .foc .bl { filter: blur(24px) brightness(.65); transform: scale(1.08); }
+  .foc .sh { -webkit-mask-image: radial-gradient(ellipse 44% 26% at var(--cx, 50%) var(--cy, 40%), #000 55%, transparent 100%); mask-image: radial-gradient(ellipse 44% 26% at var(--cx, 50%) var(--cy, 40%), #000 55%, transparent 100%); }
+  .foc::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,11,34,0) 45%, rgba(0,11,34,.85) 68%, #000b22 82%); }
+  .tint { position: absolute; inset: 0; background: #00a8ff; mix-blend-mode: color; opacity: .5; }
+  .cap { position: absolute; left: 0; right: 0; top: 1330px; text-align: center; }
+  .cap span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.04em; color: #fff; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
+  .lbl { position: absolute; top: 18px; left: 22px; font-size: 28px; font-weight: 600; color: #000; background: #ffd84d; padding: 6px 14px; z-index: 9; }
+</style>
+</head>
+<body>
+
+<!-- 1 HOOK : photo HD plein écran, filtre bleuté -->
+<div class="f" id="x0"><div class="lbl">PLEIN ÉCRAN · FILTRE BLEUTÉ</div>
+  <div class="duo"><img src="img/nasdaq-hq.jpg" style="object-position:46% 50%"></div>
+  <div class="a" style="inset:0; background:linear-gradient(180deg, rgba(0,11,34,0) 40%, rgba(0,11,34,.8) 62%, #000b22 78%)"></div>
+  <div class="ti" style="top:960px; font-size:112px">Anthropic entre<br>en Bourse</div>
+  <div class="cap"><span>c'est officiel.</span></div>
+</div>
+
+<!-- 2 CAPTURE D'ÉCRAN sur fond blanc -->
+<div class="f blanc" id="x1"><div class="lbl">CAPTURE D'ÉCRAN · FOND BLANC</div>
+  <div class="ti" style="top:300px; font-size:84px">Le créateur de Claude</div>
+  <img class="a" src="img/capture-anthropic.jpg" style="left:96px; top:440px; width:888px; height:744px; box-shadow:0 2px 0 rgba(0,11,34,.06), 0 30px 70px rgba(0,11,34,.18)">
+  <div class="leg" style="top:1215px">anthropic.com</div>
+  <div class="cap"><span>l'entreprise qui a créé Claude</span></div>
+</div>
+
+<!-- 3 CHIFFRE sur fond blanc -->
+<div class="f blanc" id="x2"><div class="lbl">CHIFFRE · FOND BLANC</div>
+  <div class="st" style="top:560px; font-size:44px">Valorisation visée</div>
+  <div class="a" style="left:84px; top:620px; font-weight:700; font-size:290px; letter-spacing:-.06em; line-height:1; color:#1f3bff">2 000</div>
+  <div class="a" style="left:96px; top:920px; font-weight:600; font-size:60px; letter-spacing:-.03em">milliards de dollars</div>
+  <div class="ft"><span>Source : presse, octobre 2026</span><b>FinanceData</b></div>
+</div>
+
+<!-- 4 BARRES avec vrais logos -->
+<div class="f" id="x3"><div class="lbl">BARRES · VRAIS LOGOS</div>
+  <div class="ti" style="top:316px; font-size:76px">Anthropic coûte quatre fois plus cher que les géants</div>
+  <div class="st" style="top:490px">Prix ÷ chiffre d'affaires annuel, octobre 2026</div>
+  <svg id="g3" width="1080" height="700" style="left:0; top:560px"></svg>
+  <div class="ft"><span>Source : Companiesmarketcap</span><b>FinanceData</b></div>
+</div>
+
+<!-- 5 PHOTO CENTRÉE + légende -->
+<div class="f" id="x4"><div class="lbl">PHOTO CENTRÉE · HD</div>
+  <div class="ti" style="top:300px; font-size:84px">Le patron d'Anthropic</div>
+  <img class="a" src="img/dario-hq.jpg" style="left:96px; top:440px; width:888px; height:744px; object-fit:cover; object-position:32% 30%">
+  <div class="leg" style="top:1215px">Dario Amodei · Photo TechCrunch, CC BY 2.0</div>
+</div>
+
+<!-- 6 BLOCS sur fond blanc -->
+<div class="f blanc" id="x5"><div class="lbl">BLOCS · FOND BLANC</div>
+  <div class="ti" style="top:316px; font-size:76px">Deux clients font un quart des ventes</div>
+  <div class="st" style="top:490px">Part du chiffre d'affaires, 1er semestre 2026</div>
+  <svg id="g5" width="1080" height="700" style="left:0; top:560px"></svg>
+  <div class="ft"><span>Source : prospectus S-1</span><b>FinanceData</b></div>
+</div>
+
+<!-- 7 POSITIF / NÉGATIF -->
+<div class="f" id="x6"><div class="lbl">POSITIF / NÉGATIF</div>
+  <div class="ti" style="top:316px; font-size:76px">Rentable sur l'activité, en perte sur le papier</div>
+  <div class="st" style="top:490px">Résultats d'Anthropic, en milliards de dollars</div>
+  <svg id="g6" width="1080" height="700" style="left:0; top:560px"></svg>
+  <div class="ft"><span>Sources : S-1 ; presse (activité T2, estimée)</span><b>FinanceData</b></div>
+</div>
+
+<!-- 8 PLEIN ÉCRAN · FOCAL + BLEUTÉ -->
+<div class="f" id="x7"><div class="lbl">PLEIN ÉCRAN · FOCAL + BLEUTÉ</div>
+  <div class="foc" style="--cx:60%; --cy:34%"><img class="bl" src="img/dario-hq.jpg" style="object-position:30% 30%"><img class="sh" src="img/dario-hq.jpg" style="object-position:30% 30%"></div>
+  <div class="tint"></div>
+  <div class="ti" style="top:1080px; font-size:104px">Et ses profits ?</div>
+  <div class="cap"><span>ce qu'elle gagne</span></div>
+</div>
+
+<!-- 9 CTA : logo, nom, bouton -->
+<div class="f" id="x8"><div class="lbl">CTA</div>
+  <img class="a" src="img/logo-financedata.png" style="left:390px; top:560px; width:300px; height:300px; border-radius:50%">
+  <div class="a" style="left:0; right:0; top:920px; text-align:center; font-weight:800; font-size:96px; letter-spacing:-.04em">FinanceData</div>
+  <div class="a" style="left:330px; top:1070px; width:420px; height:110px; background:#00d1ff; color:#000b22; font-weight:700; font-size:46px; text-align:center; line-height:110px">S'abonner</div>
+</div>
+
+<script>
+var NS = "http://www.w3.org/2000/svg", L = window.LOGOS;
+function el(svg, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; svg.appendChild(e); return e; }
+function T(svg, x, y, s, size, fill, w, anchor) { return el(svg, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start", "letter-spacing": -size * .012 }, s); }
+// logo officiel en 24×24 (tracé Simple Icons), ou Microsoft en 4 carrés
+function logo(g, name, x, y, size, color) {
+  if (name === "microsoft") { var s = size * 11 / 24, gp = size * 2 / 24; [[0, 0], [1, 0], [0, 1], [1, 1]].forEach(function (p) { el(g, "rect", { x: x + p[0] * (s + gp), y: y + p[1] * (s + gp), width: s, height: s, fill: color }); }); return; }
+  var gr = el(g, "g", { transform: "translate(" + x + " " + y + ") scale(" + size / 24 + ")" }); el(gr, "path", { d: L[name], fill: color });
+}
+
+// barres : logo + nom à gauche, Anthropic en rouge
+(function () { var g = document.getElementById("g3"), X = function (v) { return 380 + v / 45 * 520; }, W = "#fff", DIM = "rgba(255,255,255,.28)", AX = "rgba(255,255,255,.62)";
+  [["google", "Alphabet", 9], ["apple", "Apple", 11], ["microsoft", "Microsoft", 12], ["anthropic", "Anthropic", 43]].forEach(function (r, i) { var y = 40 + i * 150, hi = i === 3;
+    logo(g, r[0], 96, y + 12, 60, hi ? W : AX);
+    T(g, 180, y + 56, r[1], 38, hi ? W : AX, hi ? 700 : 500);
+    el(g, "rect", { x: 380, y: y, width: X(r[2]) - 380, height: 84, fill: hi ? "#ff3b4e" : DIM });
+    T(g, hi ? X(r[2]) - 20 : X(r[2]) + 16, y + 58, r[2] + "×", 40, hi ? W : AX, 700, hi ? "end" : "start"); });
+})();
+// blocs sur blanc : bleu FinanceData
+(function () { var g = document.getElementById("g5"), s = 52, gap = 8;
+  for (var i = 0; i < 100; i++) { var c = i % 10, l = Math.floor(i / 10);
+    el(g, "rect", { x: 96 + c * (s + gap), y: 60 + l * (s + gap), width: s, height: s, fill: i < 25 ? "#1f3bff" : "#e4e7ef" }); }
+  T(g, 984, 170, "25 %", 110, "#1f3bff", 700, "end"); T(g, 984, 225, "2 clients", 36, "#000b22", 600, "end");
+})();
+// positif / négatif
+(function () { var g = document.getElementById("g6"), Z = 170, K = 440 / 80.7, W = "#fff", GRID = "rgba(255,255,255,.14)", AX = "rgba(255,255,255,.6)";
+  [0, -40, -80].forEach(function (v, i) { el(g, "line", { x1: 96, x2: 984, y1: Z - v * K, y2: Z - v * K, stroke: i ? GRID : W, "stroke-width": i ? 2 : 3 }); T(g, 984, Z - v * K - 12, v ? "−" + -v : "0", 30, AX, 400, "end"); });
+  el(g, "rect", { x: 180, y: Z - 10, width: 280, height: 10, fill: "#00e28a" });
+  T(g, 320, Z - 36, "▲ +0,6", 60, "#00e28a", 700, "middle"); T(g, 320, Z - 104, "Activité, T2", 36, W, 600, "middle");
+  el(g, "rect", { x: 560, y: Z, width: 280, height: 80.7 * K, fill: "#ff3b4e" });
+  T(g, 700, Z + 110, "▼ −80,7", 60, W, 700, "middle"); T(g, 700, Z - 36, "Comptable, S1", 36, W, 600, "middle");
+})();
+</script>
+</body>
+</html>
