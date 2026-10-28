@@ -219,14 +219,23 @@
         tl.fromTo(pM, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, at("cinq", 35) - 0.3);
         tl.fromTo(tM, { opacity: 0 }, { opacity: 1, duration: 0.2 }, at("cinq", 35));
 
-        // F. 36,3–39,6 plus de 40 fois son chiffre d'affaires
-        s = scene(36.32, 39.58, "navy");
+        // F. 36,3–41,4 prix ÷ ventes : Anthropic face à Microsoft, Apple, Alphabet (P/S ~ oct. 2026)
+        s = scene(36.32, 41.36, "navy");
         title(s, "Prix ÷ ventes", 36.22, "light");
-        big(s, "> 40×", at("quarante") - 0.15, 640, 280, "#ffffff");
+        g = svgIn(s, 1080, 760, 0, 470);
+        var PS = 560 / 42;
+        [["Microsoft", 12, "≈ 12×", 36.35], ["Apple", 11, "≈ 11×", 36.5], ["Alphabet", 9, "≈ 9×", 36.65], ["Anthropic", 42, "> 40×", at("quarante") - 0.15]].forEach(function (r, k) {
+          var y = 40 + k * 150, last = k === 3;
+          var lb = txt(g, 270, y + 62, r[0], 40, last ? "#ffffff" : "#9aa3d6", last ? 600 : 500, "end");
+          var bar = el(g, "rect", { x: 300, y: y, width: r[1] * PS, height: 90, fill: last ? "#ff6b5e" : "rgba(255,255,255,.28)" });
+          var vl = txt(g, last ? 300 + r[1] * PS - 24 : 300 + r[1] * PS + 22, y + 63, r[2], 48, "#ffffff", 600, last ? "end" : "start");
+          tl.fromTo(bar, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: last ? 0.7 : 0.4, ease: "power3.out" }, r[3]);
+          tl.fromTo([lb, vl], { opacity: 0 }, { opacity: 1, duration: 0.2 }, r[3] + (last ? 0.4 : 0.15));
+        });
 
-        // G. 39,6–47,7 la leçon
-        s = scene(39.58, 47.72, "white");
-        kw(s, "Exceptionnelle", 39.5, 700, 110);
+        // G. 41,4–47,7 la leçon
+        s = scene(41.36, 47.72, "white");
+        kw(s, "Exceptionnelle", 41.26, 700, 110);
         var neq = div(s, "t big", "≠ bon placement", "top:880px; font-size:88px; color:" + RED);
         fade(neq, at("action") - 0.2, { opacity: 0, y: 16 });
 
