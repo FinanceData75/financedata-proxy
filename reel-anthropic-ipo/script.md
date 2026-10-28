@@ -1,31 +1,25 @@
 # Reel — L'introduction en Bourse d'Anthropic (dépôt public du 26/10/2026)
 
-Format : actu + leçon d'investissement · structure « Du doute à la victoire », puis « 3 choses à savoir » · ~80 s · ~250 mots · version chiffrée (revenus, pertes, valorisation)
+Format (v3) : actu expliquée simplement, hook « C'est officiel » · structure « La percée » (problème → chiffres → leçon) ; v1/v2 : actu + leçon d'investissement · structure « Du doute à la victoire », puis « 3 choses à savoir » · ~80 s · ~250 mots · version chiffrée (revenus, pertes, valorisation)
 
-## Hooks proposés
-1. **(recommandé)** Il y a cinq ans, cette entreprise n'existait pas. Mi-novembre, elle pourrait valoir 2 000 milliards de dollars en Bourse.
-2. La plus grosse introduction en Bourse de l'histoire arrive. Et c'est l'entreprise qui a créé Claude.
-3. Anthropic perd des milliards. Et pourtant, elle pourrait réussir la plus grosse entrée en Bourse de l'histoire.
+## Hook (v3)
+C'est officiel : Anthropic, l'entreprise qui a créé l'IA Claude, va entrer en Bourse.
 
-## Voix off (à lire à l'oral, version chiffrée, enchaînements logiques)
+## Voix off v3 (simple, compréhensible par tous, à lire à l'oral)
 
-Il y a cinq ans, cette entreprise n'existait pas. Et pourtant, mi-novembre, elle pourrait valoir 2 000 milliards de dollars en Bourse.
+C'est officiel : Anthropic, l'entreprise qui a créé l'IA Claude, va entrer en Bourse. Et ça pourrait même être la plus grosse entrée en Bourse de l'histoire.
 
-Elle s'appelle Anthropic, c'est la société qui a créé Claude. Et justement, ce lundi, elle a officiellement déposé son dossier pour entrer au Nasdaq.
+Concrètement, entrer en Bourse, ça veut dire que n'importe qui pourra bientôt acheter un petit morceau de l'entreprise. Du coup, une seule question compte : combien elle vaut vraiment ?
 
-Alors, est-ce que ça vaut vraiment ce prix ? Pour le savoir, commençons par les revenus.
+D'abord, regardons ce qu'elle vend. L'an dernier, Anthropic a vendu pour 4,6 milliards de dollars. Mais cette année, rien que sur les six premiers mois, elle a déjà dépassé les 16 milliards. Autrement dit, ses ventes ont explosé.
 
-En 2025, Anthropic a fait 4,6 milliards de dollars de chiffre d'affaires. Puis, rien qu'au premier semestre 2026, elle en a fait 16. Et surtout, au deuxième trimestre, elle a encaissé 11,5 milliards en trois mois. Autrement dit, à ce rythme, c'est plus de 45 milliards par an.
+En revanche, elle perd encore beaucoup d'argent. Sur ces six mois, la perte affichée atteint 80 milliards de dollars. Alors attention, l'essentiel vient de calculs comptables. Mais elle dépense quand même des milliards dans ses serveurs.
 
-En revanche, côté profits, c'est une autre histoire. Sur le semestre, la perte atteint 80 milliards de dollars. Cela dit, plus de 70 milliards viennent d'écritures comptables, et pas d'argent qui sort réellement. Mais il reste quand même près de 9 milliards dépensés dans les serveurs et le calcul.
+Et pourtant, on parle d'une valeur de 2 000 milliards de dollars. C'est deux fois plus qu'il y a cinq mois. Résultat : à ce prix-là, vous paieriez plus de 40 fois ce qu'elle vend aujourd'hui en un an.
 
-Enfin, il y a le prix. En mai, les investisseurs privés la valorisaient 965 milliards. Or, pour l'entrée en Bourse, on parle du double : 2 000 milliards, avec près de 100 milliards levés. C'est-à-dire plus que SpaceX, le record actuel.
+Donc, est-ce une bonne affaire ? Eh bien, tout dépend du prix. Parce qu'une entreprise peut être exceptionnelle, et son action, trop chère.
 
-Résultat : à ce prix-là, vous payez plus de 40 fois ses revenus annuels. Et attention, pas ses bénéfices, ses revenus.
-
-Donc Anthropic, c'est peut-être une entreprise exceptionnelle. Mais comme on l'a vu avec Hermès, au final, tout dépend du prix que vous payez.
-
-Alors abonnez-vous pour suivre cette introduction en Bourse.
+Abonnez-vous pour suivre cette entrée en Bourse avec nous.
 
 ## Découpage (un titre + un visuel par écran)
 
