@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FinanceData · 3 concepts de marque</title>
+<style>
+  /* Trois concepts, chacun avec un signe distinctif qu'on retrouve dans chaque scène :
+     1 DUOTONE : toutes les images passent en bichromie bleu FinanceData, les données sont posées sur l'image.
+     2 VISEUR  : un viseur (quatre coins) cadre l'élément à retenir, avec ses coordonnées en mono.
+     3 PLAN    : fond bleu quadrillé façon plan d'ingénieur, cotes et mesures pour expliquer les chiffres. */
+  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Mono"; src: url("fonts/fragment-mono-latin-400-normal.woff2"); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2a2a2e; display: grid; grid-template-columns: repeat(3, 1080px); gap: 60px; padding: 60px; width: 3420px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+  .a { position: absolute; }
+  .mono { font-family: "Mono"; letter-spacing: .08em; text-transform: uppercase; }
+  .ti { position: absolute; left: 96px; right: 96px; font-weight: 700; letter-spacing: -.04em; line-height: 1.02; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
+  svg text.m { font-family: "Mono"; letter-spacing: 2px; }
+  .lbl { position: absolute; top: 18px; left: 22px; font-size: 28px; font-weight: 600; color: #fff; background: #000; padding: 6px 14px; z-index: 9; }
+
+  /* 1 DUOTONE */
+  .duo { background: #3d5afe; }
+  .duo .img { position: absolute; inset: 0; background: #3d5afe; }
+  .duo .img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.25) brightness(1.05); mix-blend-mode: multiply; }
+  .duo .img::after { content: ""; position: absolute; inset: 0; background: #0a105e; mix-blend-mode: lighten; }
+  .duo .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,16,94,.0) 40%, rgba(10,16,94,.75) 75%, #0a105e 95%); }
+
+  /* 2 VISEUR */
+  .vis { background: #f2f3f7; color: #0a105e; }
+  .rt { position: absolute; }
+  .rt b { position: absolute; width: 56px; height: 56px; border-color: #3d5afe; border-style: solid; border-width: 0; }
+  .rt b:nth-child(1) { left: 0; top: 0; border-left-width: 8px; border-top-width: 8px; }
+  .rt b:nth-child(2) { right: 0; top: 0; border-right-width: 8px; border-top-width: 8px; }
+  .rt b:nth-child(3) { left: 0; bottom: 0; border-left-width: 8px; border-bottom-width: 8px; }
+  .rt b:nth-child(4) { right: 0; bottom: 0; border-right-width: 8px; border-bottom-width: 8px; }
+  .rt .tg { position: absolute; left: 0; top: -54px; background: #3d5afe; color: #fff; font-family: "Mono"; font-size: 26px; letter-spacing: .08em; padding: 6px 14px; white-space: nowrap; text-transform: uppercase; }
+
+  /* 3 PLAN */
+  .plan { background-color: #3d5afe; color: #fff;
+    background-image: linear-gradient(rgba(255,255,255,.12) 2px, transparent 2px), linear-gradient(90deg, rgba(255,255,255,.12) 2px, transparent 2px),
+                      linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 216px 216px, 216px 216px, 54px 54px, 54px 54px; background-position: -2px -2px; }
+</style>
+</head>
+<body>
+
+<!-- ============ 1 DUOTONE ============ -->
+<div class="f duo" id="c0"><div class="lbl">1 DUOTONE · PHOTO</div>
+  <div class="img"><img src="img/ipo-confettis.jpg"></div><div class="shade"></div>
+  <div class="a mono" style="left:96px; top:960px; font-size:28px; color:#fff">IPO · Nasdaq · Nov. 2026</div>
+  <div class="ti" style="top:1020px; font-size:118px; color:#fff">Anthropic<br>entre en Bourse</div>
+</div>
+
+<div class="f duo" id="c1"><div class="lbl">1 DUOTONE · DONNÉES</div>
+  <div class="img"><img src="img/dario-portrait.jpg" style="object-position:50% 20%"></div>
+  <div class="a" style="inset:0; background:linear-gradient(180deg, rgba(10,16,94,0) 30%, rgba(10,16,94,.8) 55%, #0a105e 75%)"></div>
+  <div class="a mono" style="left:96px; top:740px; font-size:28px; color:rgba(255,255,255,.8)">Prix ÷ ventes</div>
+  <svg id="d1" width="1080" height="520" style="left:0; top:790px"></svg>
+</div>
+
+<div class="f duo" id="c2"><div class="lbl">1 DUOTONE · TEXTE</div>
+  <div class="img" style="inset:auto; left:0; top:0; width:1080px; height:760px"><img src="img/nasdaq-tour.jpg"></div>
+  <div class="a" style="left:0; right:0; top:760px; bottom:0; background:#0a105e"></div>
+  <div class="ti" style="top:860px; font-size:150px; color:#fff">Vaut-elle<br>ce prix ?</div>
+  <div class="a mono" style="left:96px; top:1200px; font-size:28px; color:#8f9cff">3 critères pour décider</div>
+</div>
+
+<!-- ============ 2 VISEUR ============ -->
+<div class="f vis" id="c3"><div class="lbl">2 VISEUR · PHOTO</div>
+  <img class="a" src="img/dario-portrait.jpg" style="left:0; top:0; width:1080px; height:1100px; object-fit:cover; object-position:50% 25%">
+  <div class="rt" style="left:250px; top:170px; width:600px; height:640px"><b></b><b></b><b></b><b></b><div class="tg">Dario Amodei · PDG</div></div>
+  <div class="ti" style="top:1160px; font-size:96px">Le patron qui vise<br>2 000 Md$</div>
+</div>
+
+<div class="f vis" id="c4"><div class="lbl">2 VISEUR · DONNÉES</div>
+  <div class="ti" style="top:300px; font-size:96px">Quatre fois<br>plus cher</div>
+  <svg id="v1" width="1080" height="700" style="left:0; top:560px"></svg>
+  <div class="rt" style="left:70px; top:1070px; width:940px; height:200px"><b></b><b></b><b></b><b></b><div class="tg">ANT · 43× les ventes</div></div>
+</div>
+
+<div class="f vis" id="c5"><div class="lbl">2 VISEUR · TEXTE</div>
+  <div class="rt" style="left:60px; top:560px; width:960px; height:420px"><b></b><b></b><b></b><b></b><div class="tg">Valorisation visée · Md$</div></div>
+  <div class="a" style="left:110px; top:610px; font-weight:700; font-size:300px; letter-spacing:-.06em; line-height:1">2 000</div>
+  <div class="a mono" style="left:96px; top:1050px; font-size:30px; color:#5b6075">× 2,1 en cinq mois</div>
+</div>
+
+<!-- ============ 3 PLAN ============ -->
+<div class="f plan" id="c6"><div class="lbl">3 PLAN · PHOTO</div>
+  <img class="a" src="img/nasdaq-tour.jpg" style="left:108px; top:432px; width:864px; height:648px; object-fit:cover; filter:grayscale(1) contrast(1.1)">
+  <svg id="p0" width="1080" height="1920" style="left:0; top:0"></svg>
+  <div class="ti" style="top:1150px; font-size:104px">Anthropic<br>entre en Bourse</div>
+</div>
+
+<div class="f plan" id="c7"><div class="lbl">3 PLAN · DONNÉES</div>
+  <div class="ti" style="top:300px; font-size:104px">Ventes × 14</div>
+  <svg id="p1" width="1080" height="1920" style="left:0; top:0"></svg>
+</div>
+
+<div class="f plan" id="c8"><div class="lbl">3 PLAN · TEXTE</div>
+  <svg id="p2" width="1080" height="1920" style="left:0; top:0"></svg>
+  <div class="ti" style="top:700px; font-size:150px">Vaut-elle<br>ce prix ?</div>
+</div>
+
+<script>
+var NS = "http://www.w3.org/2000/svg";
+function el(svg, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; svg.appendChild(e); return e; }
+function T(svg, x, y, s, size, fill, w, anchor, mono) { return el(svg, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start", class: mono ? "m" : "" }, s); }
+function $(id) { return document.getElementById(id); }
+var PS = [["Alphabet", 9], ["Apple", 11], ["Microsoft", 12], ["Anthropic", 43]];
+
+// 1 duotone : barres blanches posées sur l'image, la marque en plein
+(function () { var g = $("d1"), K = 700 / 43;
+  PS.forEach(function (r, i) { var y = i * 120, hi = i === 3;
+    T(g, 96, y + 40, r[0], 34, hi ? "#fff" : "rgba(255,255,255,.6)", hi ? 700 : 500);
+    el(g, "rect", { x: 96, y: y + 56, width: r[1] * K, height: hi ? 54 : 30, fill: hi ? "#fff" : "rgba(255,255,255,.35)" });
+    T(g, 96 + r[1] * K + 20, y + (hi ? 98 : 82), r[1] + "×", hi ? 64 : 34, "#fff", 700); });
+})();
+
+// 2 viseur : barres grises, Anthropic en bleu sous le viseur
+(function () { var g = $("v1"), X = function (v) { return 300 + v / 45 * 684; };
+  PS.forEach(function (r, i) { var y = 40 + i * 135, hi = i === 3;
+    var yy = hi ? 560 : y;
+    el(g, "rect", { x: 300, y: yy, width: X(r[1]) - 300, height: 90, fill: hi ? "#3d5afe" : "#c3c7d2" });
+    T(g, 270, yy + 60, r[0], 40, hi ? "#0a105e" : "#8a8fa3", hi ? 700 : 500, "end");
+    T(g, hi ? X(r[1]) - 20 : X(r[1]) + 16, yy + 62, r[1] + "×", 44, hi ? "#fff" : "#8a8fa3", 700, hi ? "end" : "start"); });
+})();
+
+// 3 plan : cotes autour de la photo
+(function () { var g = $("p0"), W = "#fff";
+  function cote(x1, y1, x2, y2, label, lx, ly, anchor) {
+    el(g, "line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: W, "stroke-width": 2 });
+    [[x1, y1], [x2, y2]].forEach(function (p) { el(g, "rect", { x: p[0] - 6, y: p[1] - 6, width: 12, height: 12, fill: W }); });
+    T(g, lx, ly, label, 26, W, 400, anchor || "middle", 1);
+  }
+  cote(108, 380, 972, 380, "NASDAQ · TIMES SQUARE", 540, 360);
+  cote(1010, 432, 1010, 1080, "N 40.75°", 1000, 760, "end");
+  T(g, 108, 270, "FIG. 01", 28, W, 400, "start", 1); T(g, 972, 270, "26.10.2026", 28, W, 400, "end", 1);
+})();
+
+// 3 plan : deux colonnes, la cote mesure l'écart
+(function () { var g = $("p1"), W = "#fff", Y = function (v) { return 1240 - v / 45 * 640; };
+  el(g, "rect", { x: 216, y: Y(3.2), width: 216, height: 1240 - Y(3.2), fill: "rgba(255,255,255,.4)" });
+  el(g, "rect", { x: 648, y: Y(45), width: 216, height: 1240 - Y(45), fill: W });
+  el(g, "line", { x1: 108, x2: 972, y1: 1240, y2: 1240, stroke: W, "stroke-width": 3 });
+  T(g, 324, Y(3.2) - 24, "3,2", 48, W, 700, "middle"); T(g, 756, Y(45) + 80, "45", 64, "#3d5afe", 700, "middle");
+  T(g, 324, 1290, "2025", 26, W, 400, "middle", 1); T(g, 756, 1290, "2026", 26, W, 400, "middle", 1);
+  // cote verticale : de 3,2 à 45
+  el(g, "line", { x1: 540, x2: 540, y1: Y(3.2), y2: Y(45), stroke: W, "stroke-width": 2, "stroke-dasharray": "10 8" });
+  el(g, "line", { x1: 432, x2: 648, y1: Y(3.2), y2: Y(3.2), stroke: W, "stroke-width": 2, "stroke-dasharray": "10 8" });
+  el(g, "line", { x1: 540, x2: 648, y1: Y(45), y2: Y(45), stroke: W, "stroke-width": 2, "stroke-dasharray": "10 8" });
+  el(g, "rect", { x: 450, y: Y(24) - 50, width: 180, height: 90, fill: "#0a105e" });
+  T(g, 540, Y(24) + 14, "×14", 52, W, 700, "middle");
+  T(g, 108, 540, "VENTES ANNUELLES · MD$", 26, W, 400, "start", 1);
+})();
+
+// 3 plan : coordonnées de la grille autour du texte
+(function () { var g = $("p2"), W = "rgba(255,255,255,.7)";
+  ["A", "B", "C", "D", "E"].forEach(function (c, i) { T(g, 108 + i * 216, 236, c, 24, W, 400, "middle", 1); });
+  [1, 2, 3, 4, 5, 6, 7, 8].forEach(function (n, i) { T(g, 40, 330 + i * 216, String(n), 24, W, 400, "start", 1); });
+  el(g, "rect", { x: 96, y: 1100, width: 22, height: 22, fill: "#fff" });
+  T(g, 140, 1120, "LA QUESTION DU JOUR", 28, "#fff", 400, "start", 1);
+})();
+</script>
+</body>
+</html>
