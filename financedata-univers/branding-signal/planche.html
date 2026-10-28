@@ -3,45 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>FinanceData · Signal</title>
-<style>
-  /* Système « Signal » : un chiffre, un sens. Grille éditoriale alignée à gauche (marge 96 px),
-     Inter Display pour l'information, Instrument Serif italique pour le mot qui porte l'émotion,
-     Fragment Mono pour les repères (source, rubrique). Signature : le point Signal (carré bleu). */
-  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
-  @font-face { font-family: "Serif"; src: url("fonts/instrument-serif-latin-400-italic.woff2"); font-style: italic; }
-  @font-face { font-family: "Serif"; src: url("fonts/instrument-serif-latin-400-normal.woff2"); font-style: normal; }
-  @font-face { font-family: "Mono"; src: url("fonts/fragment-mono-latin-400-normal.woff2"); }
-  :root { --papier: #f2efe8; --encre: #070b2a; --signal: #2f4bff; --gris: #8a8679; --alerte: #ff3b2f; --gain: #0f9d58; }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #1b1b1f; display: flex; flex-wrap: wrap; gap: 60px; padding: 60px; width: 4620px; font-family: "Display"; font-variation-settings: "opsz" 32; }
-  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; flex: none; }
-  .papier { background: var(--papier); color: var(--encre); }
-  .encre { background: var(--encre); color: #fff; }
-  .signal { background: var(--signal); color: #fff; }
-  .abs { position: absolute; }
-  .ph { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,11,42,.15) 0%, rgba(7,11,42,0) 30%, rgba(7,11,42,.55) 58%, rgba(7,11,42,.95) 100%); }
-  /* repère : point Signal + rubrique en mono */
-  .tag { position: absolute; left: 96px; font-family: "Mono"; font-size: 34px; letter-spacing: .08em; text-transform: uppercase; display: flex; align-items: center; gap: 22px; }
-  .tag i { width: 26px; height: 26px; background: var(--signal); display: block; }
-  .signal .tag i { background: #fff; }
-  .h { position: absolute; left: 96px; right: 96px; font-weight: 700; letter-spacing: -.045em; line-height: .98; }
-  .h em { font-family: "Serif"; font-style: italic; font-weight: 400; letter-spacing: -.02em; }
-  .num { position: absolute; left: 84px; font-weight: 700; letter-spacing: -.06em; line-height: .85; font-feature-settings: "tnum" 1; }
-  .unit { position: absolute; left: 96px; font-family: "Serif"; font-style: italic; letter-spacing: -.01em; }
-  .src { position: absolute; left: 96px; font-family: "Mono"; font-size: 26px; letter-spacing: .06em; text-transform: uppercase; opacity: .55; }
-  .cap { position: absolute; left: 0; right: 0; top: 1330px; text-align: center; }
-  .cap span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-family: "Display"; font-variation-settings: "opsz" 14; font-weight: 600; font-size: 54px; letter-spacing: -.04em; color: #fff; }
-  .lbl { position: absolute; top: 18px; left: 22px; font-family: "Mono"; font-size: 30px; color: #fff; background: #000; padding: 6px 14px; z-index: 9; letter-spacing: .04em; }
-</style>
+<link rel="stylesheet" href="signal.css">
 </head>
 <body>
 
 <!-- 0. Carte d'identité -->
 <div class="f encre" id="f0">
   <div class="tag" style="top:200px"><i></i>FinanceData · Système Signal</div>
-  <div class="h" style="top:300px; font-size:150px">Un chiffre,<br><em>un sens.</em></div>
-  <div class="src" style="top:680px; opacity:.7; font-size:30px; line-height:1.6">Une idée par écran · Aligné à gauche<br>Le point Signal marque l'info clé<br>Un mot en italique porte l'émotion</div>
+  <div class="h" style="top:300px; font-size:150px">Un chiffre,<br><span style="color:var(--signal)">un sens.</span></div>
+  <div class="src" style="top:680px; opacity:.7; font-size:30px; line-height:1.6">Une idée par écran · Aligné à gauche<br>Le point Signal marque l'info clé<br>Une phrase = une seule police</div>
   <div class="abs" style="top:960px; left:96px; display:flex; gap:28px">
     <div style="width:150px;height:150px;border-radius:50%;background:#f2efe8"></div>
     <div style="width:150px;height:150px;border-radius:50%;background:#070b2a;box-shadow:inset 0 0 0 3px rgba(255,255,255,.25)"></div>
@@ -51,7 +21,7 @@
   </div>
   <div class="src" style="top:1140px; opacity:.7; word-spacing:58px">Papier Encre Signal Alerte Gain</div>
   <div class="abs" style="top:1300px; left:96px; font-weight:700; font-size:120px; letter-spacing:-.05em">Aa 2 000</div>
-  <div class="abs" style="top:1440px; left:96px; font-family:Serif; font-style:italic; font-size:130px">Aa <span style="font-size:.8em">l'émotion</span></div>
+  <div class="abs" style="top:1440px; left:96px; font-family:Serif; font-style:italic; font-size:130px">Aa <span style="font-size:.8em">une question ?</span></div>
   <div class="abs" style="top:1620px; left:96px; font-family:Mono; font-size:50px; letter-spacing:.06em">AA SOURCE · S-1</div>
   <div class="src" style="top:1720px; opacity:.5">Inter Display 700 · Instrument Serif italique · Fragment Mono</div>
 </div>
@@ -60,7 +30,7 @@
 <div class="f encre" id="f1"><div class="lbl">01 OUVERTURE</div>
   <img class="ph" src="img/ipo-confettis.jpg"><div class="veil"></div>
   <div class="tag" style="top:900px; color:#fff"><i></i>IPO · Nasdaq</div>
-  <div class="h" style="top:980px; font-size:124px; color:#fff">Anthropic entre<br>en <em>Bourse.</em></div>
+  <div class="h" style="top:980px; font-size:124px; color:#fff">Anthropic entre<br>en Bourse.</div>
   <div class="cap"><span>c'est officiel.</span></div>
 </div>
 
@@ -68,7 +38,7 @@
 <div class="f papier" id="f2"><div class="lbl">02 CHIFFRE</div>
   <div class="tag" style="top:340px"><i></i>Valeur visée</div>
   <div class="num" style="top:470px; font-size:330px">2 000</div>
-  <div class="unit" style="top:820px; font-size:120px; color:var(--signal)">milliards de dollars</div>
+  <div class="unit" style="top:820px; font-size:104px; color:var(--signal)">milliards de dollars</div>
   <div class="src" style="top:1200px">Source · presse, oct. 2026</div>
   <div class="cap"><span>2 000 milliards</span></div>
 </div>
@@ -80,7 +50,7 @@
   <div class="abs" style="left:96px; top:1060px; font-weight:700; font-size:84px; letter-spacing:-.05em; color:var(--gris)">4,6</div>
   <div class="abs" style="left:564px; top:420px; width:420px; height:820px; background:var(--signal)"></div>
   <div class="abs" style="left:600px; top:450px; font-weight:700; font-size:170px; letter-spacing:-.06em; color:#fff; line-height:1">45</div>
-  <div class="abs" style="left:604px; top:630px; font-family:Serif; font-style:italic; font-size:60px; color:#fff">milliards $</div>
+  <div class="abs" style="left:604px; top:630px; font-weight:600; font-size:56px; letter-spacing:-.03em; color:#fff">milliards $</div>
   <div class="src" style="top:1260px; opacity:.7">2025</div>
   <div class="src" style="top:1260px; left:564px; opacity:.7">Aujourd'hui</div>
   <div class="cap" style="top:1360px"><span>plus de 45 milliards</span></div>
@@ -116,8 +86,8 @@
 <!-- 7. VERDICT : deux affirmations, la seconde en alerte -->
 <div class="f papier" id="f7"><div class="lbl">07 VERDICT</div>
   <div class="tag" style="top:520px"><i></i>À retenir</div>
-  <div class="h" style="top:620px; font-size:136px">Entreprise<br><em>exceptionnelle.</em></div>
-  <div class="h" style="top:930px; font-size:136px; color:var(--alerte)">Action<br><em>trop chère.</em></div>
+  <div class="h" style="top:620px; font-size:136px">Entreprise<br>exceptionnelle.</div>
+  <div class="h" style="top:930px; font-size:136px; color:var(--alerte)">Action<br>trop chère.</div>
   <div class="cap" style="top:1360px"><span>beaucoup trop chère,</span></div>
 </div>
 
@@ -125,7 +95,7 @@
 <div class="f signal" id="f8"><div class="lbl">08 SIGNATURE</div>
   <div class="abs" style="left:96px; top:520px; width:260px; height:260px; border-radius:50%; padding:12px; background:conic-gradient(from 200deg, #feda75, #fa7e1e, #d62976, #962fbf, #feda75)"><div style="width:100%;height:100%;border-radius:50%;overflow:hidden;border:8px solid #2f4bff"><img src="img/logo-financedata.png" style="width:100%;height:100%;display:block"></div></div>
   <div class="h" style="top:850px; font-size:120px">FinanceData</div>
-  <div class="unit" style="top:990px; font-size:76px; color:#fff">comprendre les marchés,<br>un chiffre à la fois.</div>
+  <div class="unit" style="top:990px; font-size:76px; color:#fff; font-family:Serif; font-style:italic; font-weight:400; letter-spacing:-.01em">comprendre les marchés,<br>un chiffre à la fois.</div>
   <div class="abs" style="left:96px; top:1250px; width:400px; height:104px; border-radius:14px; background:#fff; color:var(--signal); font-weight:700; font-size:46px; letter-spacing:-.02em; text-align:center; line-height:104px">S'abonner</div>
 </div>
 
