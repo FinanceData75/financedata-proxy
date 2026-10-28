@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FinanceData · Système Signal v3</title>
+<style>
+  /* Système Signal v3 : fond bleu nuit, trois couleurs vives à sens fixe, une signature (« le signal », la flèche du logo),
+     des chiffres héros en Barlow Semi Condensed, un seul étalonnage pour toutes les images (gradient map nuit → bleu → cyan),
+     composition dans la bande centrale (420 → 1250 px), aucun texte sous 36 px, sous-titres sans boîte avec le mot actif en cyan. */
+  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Chiffre"; src: url("fonts/barlow-semi-condensed-latin-600-normal.woff2"); font-weight: 600; }
+  @font-face { font-family: "Chiffre"; src: url("fonts/barlow-semi-condensed-latin-700-normal.woff2"); font-weight: 700; }
+  :root { --nuit: #000b22; --cyan: #00d1ff; --vert: #00e28a; --rouge: #ff3b4e; --dim: rgba(255,255,255,.62); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2a2a2e; display: grid; grid-template-columns: repeat(3, 1080px); gap: 60px; padding: 60px; width: 3420px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--nuit); color: #fff; }
+  .a { position: absolute; }
+  .ti { position: absolute; left: 96px; right: 96px; font-weight: 700; letter-spacing: -.035em; line-height: 1.04; }
+  .st { position: absolute; left: 96px; right: 96px; font-size: 40px; color: var(--dim); letter-spacing: -.01em; }
+  .num { position: absolute; font-family: "Chiffre"; font-weight: 700; letter-spacing: -.01em; line-height: .86; font-feature-settings: "tnum" 1; }
+  .ft { position: absolute; left: 96px; right: 96px; top: 1262px; display: flex; justify-content: space-between; align-items: center; font-size: 36px; color: rgba(255,255,255,.55); }
+  .ft b { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 36px; letter-spacing: -.03em; color: #fff; }
+  .graded { filter: url(#grade); }
+  .cap { position: absolute; left: 0; right: 0; top: 1340px; text-align: center; font-weight: 700; font-size: 60px; letter-spacing: -.035em; color: #fff; text-shadow: 0 2px 18px rgba(0,0,0,.55); }
+  .cap em { font-style: normal; color: var(--cyan); }
+  .anim { position: absolute; left: 96px; right: 96px; top: 1500px; font-size: 30px; color: #ffd84d; line-height: 1.35; }
+  .anim::before { content: "ANIMATION · "; font-weight: 700; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "Display"; font-variation-settings: "opsz" 32; }
+  svg text.n { font-family: "Chiffre"; font-weight: 700; }
+  .lbl { position: absolute; top: 18px; left: 22px; font-size: 28px; font-weight: 600; color: #000; background: #ffd84d; padding: 6px 14px; z-index: 9; }
+</style>
+</head>
+<body>
+
+<!-- filtre d'étalonnage commun à toutes les images : niveaux de gris → nuit / bleu / cyan / blanc bleuté -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="grade" color-interpolation-filters="sRGB">
+      <feColorMatrix type="matrix" values=".33 .33 .33 0 0  .33 .33 .33 0 0  .33 .33 .33 0 0  0 0 0 1 0"/>
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues="0 .02 .12 .55 .92"/>
+        <feFuncG type="table" tableValues=".04 .12 .38 .80 .98"/>
+        <feFuncB type="table" tableValues=".13 .36 .78 .98 1"/>
+      </feComponentTransfer>
+    </filter>
+    <symbol id="signal" viewBox="0 0 100 100"><path d="M20 78 C29 58 35 40 42 40 C49 40 49 64 55 64 C61 64 66 46 72 33" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M63 31 L79 21 L78 40 Z" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<!-- 0. LE SYSTÈME -->
+<div class="f" id="w0"><div class="lbl">00 · LE SYSTÈME</div>
+  <svg width="200" height="200" style="left:80px; top:300px; color:#00d1ff"><use href="#signal" width="200" height="200"/></svg>
+  <div class="ti" style="top:520px; font-size:96px">Le signal</div>
+  <div class="st" style="top:630px">La flèche du logo pointe ce qu'il faut retenir.</div>
+  <div class="a" style="left:96px; top:760px; right:96px; font-size:40px; line-height:1.9">
+    <div><span style="display:inline-block; width:34px; height:34px; background:#00d1ff; vertical-align:-4px; margin-right:22px"></span>Cyan · le fait à retenir</div>
+    <div><span style="display:inline-block; width:34px; height:34px; background:#00e28a; vertical-align:-4px; margin-right:22px"></span>Vert ▲ · bonne nouvelle</div>
+    <div><span style="display:inline-block; width:34px; height:34px; background:#ff3b4e; vertical-align:-4px; margin-right:22px"></span>Rouge ▼ · risque pour l'investisseur</div>
+    <div style="color:rgba(255,255,255,.55)">Une seule couleur vive par écran</div>
+  </div>
+  <div class="num" style="left:90px; top:1120px; font-size:150px">2 000</div>
+  <div class="st" style="top:1260px">Chiffres en Barlow Semi Condensed · textes en Inter Display</div>
+</div>
+
+<!-- 1. HOOK : photo plein cadre étalonnée -->
+<div class="f" id="w1"><div class="lbl">01 · HOOK PHOTO ÉTALONNÉE</div>
+  <img class="a graded" src="img/nasdaq-hq.jpg" style="inset:0; width:100%; height:100%; object-fit:cover; object-position:48% 50%">
+  <div class="a" style="inset:0; background:linear-gradient(180deg, rgba(0,11,34,.15) 30%, rgba(0,11,34,.85) 58%, #000b22 72%)"></div>
+  <div class="ti" style="top:880px; font-size:112px">Anthropic entre<br>en Bourse</div>
+  <svg width="130" height="130" style="left:820px; top:1100px; color:#00d1ff"><use href="#signal" width="130" height="130"/></svg>
+  <div class="st" style="top:1130px">Introduction au Nasdaq, mi-novembre</div>
+  <div class="cap">c'est <em>officiel.</em></div>
+  <div class="anim">la flèche se trace de gauche à droite pendant que le titre monte.</div>
+</div>
+
+<!-- 2. CAPTURE D'ÉCRAN -->
+<div class="f" id="w2"><div class="lbl">02 · CAPTURE D'ÉCRAN</div>
+  <div class="ti" style="top:300px; font-size:84px">Ce que promet<br>Anthropic</div>
+  <img class="a" src="img/capture-anthropic.jpg" style="left:96px; top:500px; width:888px; height:744px; box-shadow:0 30px 80px rgba(0,0,0,.55)">
+  <svg width="120" height="120" style="left:900px; top:400px; color:#00d1ff"><use href="#signal" width="120" height="120"/></svg>
+  <div class="st" style="top:1262px; font-size:36px">anthropic.com, page d'accueil</div>
+  <div class="cap">l'entreprise qui a créé <em>Claude</em></div>
+  <div class="anim">la capture glisse depuis le bas, zoom lent de 3 % ; la flèche pointe la phrase clé.</div>
+</div>
+
+<!-- 3. LOGOS -->
+<div class="f" id="w3"><div class="lbl">03 · LOGOS</div>
+  <svg width="300" height="300" viewBox="0 0 24 24" style="left:150px; top:560px; fill:#fff"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></svg>
+  <img class="a" src="img/claude.svg" style="left:630px; top:560px; width:300px; height:300px; filter:invert(68%) sepia(98%) saturate(2400%) hue-rotate(160deg) brightness(105%)">
+  <div class="a" style="left:96px; right:96px; top:920px; display:flex; justify-content:space-around; font-size:48px; font-weight:700; letter-spacing:-.03em"><span>Anthropic</span><span style="color:#00d1ff">Claude</span></div>
+  <div class="st" style="top:1010px; text-align:center">L'entreprise et son produit</div>
+  <div class="anim">les deux logos apparaissent l'un après l'autre, calés sur les mots.</div>
+</div>
+
+<!-- 4. CHIFFRE HÉROS -->
+<div class="f" id="w4"><div class="lbl">04 · CHIFFRE HÉROS</div>
+  <div class="st" style="top:560px; font-size:48px; color:#fff; font-weight:600">Valorisation visée</div>
+  <div class="num" style="left:86px; top:640px; font-size:400px; color:#00d1ff">2 000</div>
+  <div class="a" style="left:96px; top:1000px; font-size:56px; font-weight:600; letter-spacing:-.03em">milliards de dollars</div>
+  <svg width="150" height="150" style="left:860px; top:470px; color:#00d1ff"><use href="#signal" width="150" height="150"/></svg>
+  <div class="ft"><span>Source : presse</span><b>FinanceData</b></div>
+  <div class="cap">une valeur de <em>2 000 milliards</em></div>
+  <div class="anim">compteur 0 → 2 000 sur la voix, la flèche se pose quand il s'arrête.</div>
+</div>
+
+<!-- 5. BARRES -->
+<div class="f" id="w5"><div class="lbl">05 · COMPARAISON</div>
+  <div class="ti" style="top:420px; font-size:80px">4 fois plus cher<br>que les géants</div>
+  <div class="st" style="top:610px">Prix ÷ chiffre d'affaires annuel</div>
+  <svg id="g5" width="1080" height="600" style="left:0; top:720px"></svg>
+  <div class="ft"><span>Source : Companiesmarketcap</span><b>FinanceData</b></div>
+  <div class="anim">barres grises d'abord, puis Anthropic s'étire en rouge et la flèche se pose sur 43×.</div>
+</div>
+
+<!-- 6. DEUX CHIFFRES OPPOSÉS -->
+<div class="f" id="w6"><div class="lbl">06 · OPPOSITION</div>
+  <div class="ti" style="top:420px; font-size:80px">Rentable, mais<br>en perte</div>
+  <div class="a" style="left:96px; top:680px; font-size:40px; font-weight:600">Sur l'activité</div>
+  <div class="num" style="left:90px; top:740px; font-size:220px; color:#00e28a"><span style="font-size:.5em; vertical-align:.35em">▲</span> +0,6</div>
+  <div class="a" style="left:96px; top:960px; font-size:40px; font-weight:600">Sur le papier</div>
+  <div class="num" style="left:90px; top:1020px; font-size:220px; color:#ff3b4e"><span style="font-size:.5em; vertical-align:.35em">▼</span> −80,7</div>
+  <div class="a" style="left:760px; top:1130px; font-size:40px; color:rgba(255,255,255,.55)">Md$</div>
+  <div class="ft" style="top:1262px"><span>Sources : S-1 ; presse</span><b>FinanceData</b></div>
+  <div class="anim">le +0,6 apparaît, puis le −80,7 compte vers le bas.</div>
+</div>
+
+<!-- 7. PHOTO CENTRÉE + LÉGENDE -->
+<div class="f" id="w7"><div class="lbl">07 · PHOTO CENTRÉE</div>
+  <div class="ti" style="top:420px; font-size:80px">Le patron</div>
+  <img class="a graded" src="img/dario-hq.jpg" style="left:96px; top:560px; width:888px; height:640px; object-fit:cover; object-position:30% 30%">
+  <div class="a" style="left:96px; top:1220px; font-size:36px; color:rgba(255,255,255,.7)">Dario Amodei, cofondateur et PDG · TechCrunch, CC BY</div>
+  <div class="cap">Dario <em>Amodei</em></div>
+  <div class="anim">poussée lente de 3 %, la légende arrive après la photo.</div>
+</div>
+
+<!-- 8. CTA -->
+<div class="f" id="w8"><div class="lbl">08 · CTA</div>
+  <div class="a" style="left:96px; top:520px; width:260px; height:260px; border-radius:50%; border:10px solid #00d1ff; padding:10px"><img src="img/logo-financedata.png" style="width:100%; height:100%; border-radius:50%; display:block"></div>
+  <div class="ti" style="top:840px; font-size:104px">FinanceData</div>
+  <div class="st" style="top:960px">Les marchés, expliqués par les données</div>
+  <div class="a" style="left:96px; top:1070px; width:420px; height:110px; background:#00d1ff; color:#000b22; font-weight:700; font-size:46px; text-align:center; line-height:110px">S'abonner</div>
+  <div class="cap"><em>abonnez-vous.</em></div>
+  <div class="anim">l'anneau cyan se trace, le bouton passe à « Abonné ✓ » sur le mot.</div>
+</div>
+
+<script>
+var NS = "http://www.w3.org/2000/svg";
+function el(svg, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; svg.appendChild(e); return e; }
+function T(svg, x, y, s, size, fill, w, anchor, n) { return el(svg, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start", class: n ? "n" : "" }, s); }
+(function () { var g = document.getElementById("g5"), X = function (v) { return 96 + v / 46 * 800; };
+  [["Alphabet", 9], ["Apple", 11], ["Microsoft", 12], ["Anthropic", 43]].forEach(function (r, i) { var y = 30 + i * 122, hi = i === 3;
+    T(g, 96, y, r[0], 40, hi ? "#fff" : "rgba(255,255,255,.62)", hi ? 700 : 500);
+    el(g, "rect", { x: 96, y: y + 20, width: X(r[1]) - 96, height: hi ? 74 : 50, fill: hi ? "#ff3b4e" : "rgba(255,255,255,.24)" });
+    T(g, X(r[1]) + 18, y + (hi ? 80 : 62), r[1] + "×", hi ? 80 : 48, hi ? "#ff3b4e" : "rgba(255,255,255,.62)", 700, "start", 1); });
+})();
+</script>
+</body>
+</html>
