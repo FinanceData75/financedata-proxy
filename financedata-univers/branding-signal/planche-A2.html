@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FinanceData · Style éditorial finance/tech</title>
+<script src="rms.js"></script>
+<style>
+  /* Style éditorial finance/tech : structure de la presse éco (quadrillage fin, axe gradué, titre-conclusion),
+     tout en angles droits, bleu FinanceData pour la série, marine pour le point fort, rouge pour l'alerte.
+     Inter Display pour les titres et étiquettes, Fragment Mono pour les axes, la rubrique et la source. */
+  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Mono"; src: url("fonts/fragment-mono-latin-400-normal.woff2"); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2a2a2e; display: flex; flex-wrap: wrap; gap: 60px; padding: 60px; width: 3540px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; flex: none; background: #fff; color: #0a105e; }
+  .rub { position: absolute; left: 96px; top: 250px; display: flex; align-items: center; gap: 16px; font-family: "Mono"; font-size: 28px; letter-spacing: .1em; text-transform: uppercase; color: #0a105e; }
+  .rub i { width: 22px; height: 22px; background: #3d5afe; display: block; }
+  .ti { position: absolute; left: 96px; right: 96px; top: 310px; font-weight: 700; font-size: 74px; letter-spacing: -.035em; line-height: 1.04; }
+  .st { position: absolute; left: 96px; top: 500px; font-size: 38px; font-weight: 500; color: #5b6075; letter-spacing: -.01em; }
+  .src { position: absolute; left: 96px; top: 1270px; font-family: "Mono"; font-size: 24px; letter-spacing: .06em; text-transform: uppercase; color: #8a8fa3; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
+  svg text.m { font-family: "Mono"; letter-spacing: 1px; }
+  .lbl { position: absolute; top: 18px; left: 22px; font-size: 28px; font-weight: 600; color: #fff; background: #000; padding: 6px 14px; z-index: 9; }
+</style>
+</head>
+<body>
+
+<div class="f" id="h0"><div class="lbl">BARRES</div><div class="rub"><i></i>Valorisation</div>
+  <div class="ti">Anthropic coûte quatre fois plus cher</div>
+  <div class="st">Prix ÷ chiffre d'affaires annuel, en fois</div>
+  <svg id="s0" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source · Companiesmarketcap, oct. 2026</div></div>
+
+<div class="f" id="h1"><div class="lbl">COURBE</div><div class="rub"><i></i>Hermès · RMS</div>
+  <div class="ti">Hermès a perdu la moitié de sa valeur</div>
+  <div class="st">Cours de l'action, en euros</div>
+  <svg id="s1" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source · Yahoo Finance</div></div>
+
+<div class="f" id="h2"><div class="lbl">AVANT / APRÈS</div><div class="rub"><i></i>Valorisation</div>
+  <div class="ti">Le prix a doublé en cinq mois</div>
+  <div class="st">Valorisation d'Anthropic, en milliards de dollars</div>
+  <svg id="s2" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source · presse, mai et oct. 2026</div></div>
+
+<div class="f" id="h3"><div class="lbl">DÉCOMPOSITION</div><div class="rub"><i></i>Résultats</div>
+  <div class="ti">Une perte surtout comptable</div>
+  <div class="st">Perte nette du 1er semestre 2026, en milliards $</div>
+  <svg id="s3" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source · prospectus S-1, oct. 2026</div></div>
+
+<div class="f" id="h4"><div class="lbl">PART</div><div class="rub"><i></i>Clients</div>
+  <div class="ti">Deux clients font un quart des ventes</div>
+  <div class="st">Part du chiffre d'affaires, en %</div>
+  <svg id="s4" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source · prospectus S-1, oct. 2026</div></div>
+
+<div class="f" id="h5"><div class="lbl">CROISSANCE</div><div class="rub"><i></i>Ventes</div>
+  <div class="ti">Des ventes multipliées par 14 en un an</div>
+  <div class="st">Rythme de ventes annuel, en milliards de dollars</div>
+  <svg id="s5" width="1080" height="660" style="left:0; top:580px"></svg>
+  <div class="src">Source · prospectus S-1, oct. 2026</div></div>
+
+<script>
+var NS = "http://www.w3.org/2000/svg";
+var FD = "#3d5afe", NAVY = "#0a105e", RED = "#ff2e24", GRID = "#e3e5ec", AX = "#8a8fa3", PALE = "#c9cff5";
+function el(svg, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; svg.appendChild(e); return e; }
+function T(svg, x, y, s, size, fill, w, anchor, mono) { return el(svg, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start", class: mono ? "m" : "", "letter-spacing": mono ? 1 : -size * .015 }, s); }
+function fr(v) { return Math.round(v).toLocaleString("fr-FR").replace(/[  ]/g, " "); }
+function $(id) { return document.getElementById(id); }
+function hgrid(g, vals, Y, fmt) { vals.forEach(function (v) { el(g, "line", { x1: 96, x2: 984, y1: Y(v), y2: Y(v), stroke: v ? GRID : NAVY, "stroke-width": v ? 2 : 3 }); T(g, 984, Y(v) - 12, fmt ? fmt(v) : String(v), 26, AX, 400, "end", 1); }); }
+
+// barres horizontales, quadrillage vertical, Anthropic en rouge
+(function () { var g = $("s0"), X = function (v) { return 300 + v / 45 * 684; };
+  [0, 10, 20, 30, 40].forEach(function (v) { el(g, "line", { x1: X(v), x2: X(v), y1: 40, y2: 600, stroke: GRID, "stroke-width": 2 }); T(g, X(v), 24, String(v), 26, AX, 400, "middle", 1); });
+  [["Alphabet", 9], ["Apple", 11], ["Microsoft", 12], ["Anthropic", 43]].forEach(function (r, i) { var y = 70 + i * 130, hi = i === 3;
+    el(g, "rect", { x: 300, y: y, width: X(r[1]) - 300, height: 84, fill: hi ? RED : FD });
+    T(g, 270, y + 56, r[0], 38, NAVY, hi ? 700 : 500, "end");
+    T(g, hi ? X(r[1]) - 18 : X(r[1]) + 16, y + 58, r[1] + "×", 40, hi ? "#fff" : NAVY, 700, hi ? "end" : "start"); });
+  el(g, "line", { x1: 300, x2: 300, y1: 40, y2: 600, stroke: NAVY, "stroke-width": 3 });
+})();
+
+// courbe : bleu FinanceData jusqu'au sommet, rouge ensuite, marqueurs carrés
+(function () { var g = $("s1"), R = window.RMS, tt = function (d) { return +d.slice(0, 4) + (+d.slice(5, 7) - 1) / 12 + (+d.slice(8, 10)) / 365; };
+  var t0 = tt(R[0][0]), t1 = tt(R[R.length - 1][0]), pk = R.reduce(function (a, r) { return r[1] > a[1] ? r : a; }), ls = R[R.length - 1], ipk = R.indexOf(pk);
+  var X = function (v) { return 96 + (v - t0) / (t1 - t0) * 790; }, Y = function (v) { return 560 - v / 3000 * 500; };
+  var d = function (rows) { return rows.map(function (r, i) { return (i ? "L" : "M") + X(tt(r[0])).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" "); };
+  hgrid(g, [0, 1000, 2000, 3000], Y, fr);
+  el(g, "path", { d: d(R.slice(0, ipk + 1)), fill: "none", stroke: FD, "stroke-width": 6, "stroke-linejoin": "miter" });
+  el(g, "path", { d: d(R.slice(ipk)), fill: "none", stroke: RED, "stroke-width": 6, "stroke-linejoin": "miter" });
+  el(g, "rect", { x: X(tt(pk[0])) - 10, y: Y(pk[1]) - 10, width: 20, height: 20, fill: NAVY });
+  T(g, X(tt(pk[0])) - 24, Y(pk[1]) + 12, fr(pk[1]) + " €", 36, NAVY, 700, "end");
+  el(g, "rect", { x: X(tt(ls[0])) - 11, y: Y(ls[1]) - 11, width: 22, height: 22, fill: RED });
+  T(g, X(tt(ls[0])) - 26, Y(ls[1]) + 64, fr(ls[1]) + " €  −55 %", 38, RED, 700, "end");
+  [2018, 2020, 2022, 2024, 2026].forEach(function (y) { T(g, y === 2026 ? X(t1) : X(y), 606, String(y), 26, AX, 400, y === 2026 ? "end" : "start", 1); });
+})();
+
+// avant / après : colonnes, mai en bleu pâle, octobre en bleu FinanceData
+(function () { var g = $("s2"), Y = function (v) { return 560 - v / 2000 * 470; };
+  hgrid(g, [0, 500, 1000, 1500, 2000], Y, fr);
+  el(g, "rect", { x: 170, y: Y(965), width: 280, height: 560 - Y(965), fill: PALE });
+  el(g, "rect", { x: 540, y: Y(2000), width: 280, height: 560 - Y(2000), fill: FD });
+  T(g, 310, Y(965) - 22, "965", 44, NAVY, 600, "middle"); T(g, 680, Y(2000) + 70, "2 000", 48, "#fff", 700, "middle");
+  T(g, 310, 606, "MAI", 26, AX, 400, "middle", 1); T(g, 680, 606, "OCTOBRE", 26, NAVY, 400, "middle", 1);
+  T(g, 680, Y(2000) + 150, "×2", 84, "#fff", 700, "middle");
+})();
+
+// décomposition : barre empilée pleine largeur avec axe
+(function () { var g = $("s3"), X = function (v) { return 96 + v / 81 * 888; };
+  [0, 20, 40, 60, 80].forEach(function (v) { el(g, "line", { x1: X(v), x2: X(v), y1: 100, y2: 440, stroke: GRID, "stroke-width": 2 }); T(g, X(v), 80, String(v), 26, AX, 400, v === 80 ? "end" : v ? "middle" : "start", 1); });
+  el(g, "rect", { x: 96, y: 180, width: X(72) - 96, height: 160, fill: FD });
+  el(g, "rect", { x: X(72), y: 180, width: X(80.7) - X(72), height: 160, fill: RED });
+  T(g, 126, 280, "72", 64, "#fff", 700); T(g, X(80.7) - 14, 280, "9", 48, "#fff", 700, "end");
+  T(g, 96, 410, "Réévaluations · pas de cash", 34, NAVY, 600);
+  T(g, 984, 410, "Calcul · cash", 34, RED, 600, "end");
+  T(g, 96, 540, "89 % de la perte n'est pas sortie des caisses.", 38, NAVY, 700);
+})();
+
+// part : grille de 100 carrés
+(function () { var g = $("s4"), s = 46, gap = 8;
+  for (var i = 0; i < 100; i++) { var c = i % 10, l = Math.floor(i / 10);
+    el(g, "rect", { x: 96 + c * (s + gap), y: 30 + l * (s + gap), width: s, height: s, fill: i < 25 ? FD : "#e8eaf2" }); }
+  T(g, 700, 110, "25 %", 96, FD, 700); T(g, 700, 160, "2 clients", 36, NAVY, 600);
+  T(g, 700, 420, "75 %", 96, "#b7bccc", 700); T(g, 700, 470, "tous les autres", 36, AX, 500);
+})();
+
+// croissance : colonnes, il y a un an en pâle, aujourd'hui en bleu FinanceData
+(function () { var g = $("s5"), Y = function (v) { return 560 - v / 50 * 500; };
+  hgrid(g, [0, 10, 20, 30, 40, 50], Y);
+  el(g, "rect", { x: 170, y: Y(3.2), width: 280, height: 560 - Y(3.2), fill: PALE });
+  el(g, "rect", { x: 540, y: Y(45), width: 280, height: 560 - Y(45), fill: FD });
+  T(g, 310, Y(3.2) - 20, "3,2", 44, NAVY, 600, "middle"); T(g, 680, Y(45) + 70, "45", 52, "#fff", 700, "middle");
+  T(g, 680, Y(45) + 170, "×14", 96, "#fff", 700, "middle");
+  T(g, 310, 606, "IL Y A UN AN", 26, AX, 400, "middle", 1); T(g, 680, 606, "AUJOURD'HUI", 26, NAVY, 400, "middle", 1);
+})();
+</script>
+</body>
+</html>
