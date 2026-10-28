@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FinanceData · 4 styles de graphiques</title>
+<script src="rms.js"></script>
+<style>
+  /* Quatre directions de visualisation, mêmes données (prix ÷ ventes, cours d'Hermès) :
+     A presse éco (The Economist), B presse saumon (Financial Times), C keynote (Apple), D proportions (Visual Capitalist). */
+  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Serif"; src: url("fonts/instrument-serif-latin-400-normal.woff2"); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2a2a2e; display: flex; flex-wrap: wrap; gap: 60px; padding: 60px; width: 4740px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; flex: none; }
+  .a { position: absolute; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
+  .lbl { position: absolute; top: 18px; left: 22px; font-size: 28px; font-weight: 600; color: #fff; background: #000; padding: 6px 14px; z-index: 9; }
+  /* A */
+  .A { background: #fff; color: #121212; }
+  .A .bar { position: absolute; left: 0; top: 250px; width: 130px; height: 22px; background: #e3120b; }
+  .A .ti { position: absolute; left: 96px; right: 96px; top: 320px; font-weight: 700; font-size: 72px; letter-spacing: -.03em; line-height: 1.05; }
+  .A .st { position: absolute; left: 96px; top: 500px; font-size: 40px; color: #595959; }
+  .A .src { position: absolute; left: 96px; top: 1240px; font-size: 28px; color: #758d99; }
+  /* B */
+  .B { background: #fff1e5; color: #33302e; }
+  .B .ti { position: absolute; left: 96px; right: 96px; top: 300px; font-family: "Serif"; font-size: 96px; line-height: 1; letter-spacing: -.01em; }
+  .B .st { position: absolute; left: 96px; top: 500px; font-size: 40px; color: #66605c; }
+  .B .src { position: absolute; left: 96px; top: 1240px; font-size: 28px; color: #807973; }
+  /* C */
+  .C { background: #000; color: #f5f5f7; }
+  .C .ti { position: absolute; left: 0; right: 0; top: 300px; text-align: center; font-weight: 600; font-size: 72px; letter-spacing: -.035em; line-height: 1.05; }
+  .C .src { position: absolute; left: 0; right: 0; text-align: center; top: 1240px; font-size: 26px; color: #6e6e73; }
+  /* D */
+  .D { background: #0e1116; color: #fff; }
+  .D .ti { position: absolute; left: 96px; right: 96px; top: 300px; font-weight: 800; font-size: 80px; letter-spacing: -.04em; line-height: 1; text-transform: uppercase; }
+  .D .st { position: absolute; left: 96px; top: 480px; font-size: 38px; color: #9aa3b2; }
+  .D .src { position: absolute; left: 96px; top: 1275px; font-size: 26px; color: #6b7380; }
+</style>
+</head>
+<body>
+
+<div class="f A" id="e0"><div class="lbl">A · PRESSE ÉCO</div><div class="bar"></div>
+  <div class="ti">Anthropic coûte quatre fois plus cher</div>
+  <div class="st">Prix ÷ chiffre d'affaires annuel, octobre 2026</div>
+  <svg id="a1" width="1080" height="640" style="left:0; top:580px"></svg>
+  <div class="src">Source : Companiesmarketcap ; FinanceData</div></div>
+
+<div class="f A" id="e1"><div class="lbl">A · PRESSE ÉCO</div><div class="bar"></div>
+  <div class="ti">Hermès a perdu la moitié de sa valeur</div>
+  <div class="st">Cours de l'action, en euros</div>
+  <svg id="a2" width="1080" height="640" style="left:0; top:580px"></svg>
+  <div class="src">Source : Yahoo Finance</div></div>
+
+<div class="f B" id="e2"><div class="lbl">B · PRESSE SAUMON</div>
+  <div class="ti">Le prix de l'IA</div>
+  <div class="st">Prix ÷ chiffre d'affaires annuel (×)</div>
+  <svg id="b1" width="1080" height="640" style="left:0; top:580px"></svg>
+  <div class="src">Source : Companiesmarketcap · FT style</div></div>
+
+<div class="f B" id="e3"><div class="lbl">B · PRESSE SAUMON</div>
+  <div class="ti">Hermès décroche</div>
+  <div class="st">Cours de l'action (€)</div>
+  <svg id="b2" width="1080" height="640" style="left:0; top:580px"></svg>
+  <div class="src">Source : Yahoo Finance</div></div>
+
+<div class="f C" id="e4"><div class="lbl">C · KEYNOTE</div>
+  <div class="ti">Prix payé pour 1 $ de ventes</div>
+  <svg id="c1" width="1080" height="760" style="left:0; top:470px"></svg>
+  <div class="src">Companiesmarketcap, octobre 2026</div></div>
+
+<div class="f C" id="e5"><div class="lbl">C · KEYNOTE</div>
+  <div class="ti">Hermès</div>
+  <svg id="c2" width="1080" height="760" style="left:0; top:440px"></svg>
+  <div class="src">Yahoo Finance, 2018 → 2026</div></div>
+
+<div class="f D" id="e6"><div class="lbl">D · PROPORTIONS</div>
+  <div class="ti">Ce que vous payez</div>
+  <div class="st">Prix ÷ ventes · surface proportionnelle</div>
+  <svg id="d1" width="1080" height="700" style="left:0; top:560px"></svg>
+  <div class="src">Source : Companiesmarketcap</div></div>
+
+<div class="f D" id="e7"><div class="lbl">D · PROPORTIONS</div>
+  <div class="ti">Hermès : −55 %</div>
+  <div class="st">Valeur d'une action · surface proportionnelle</div>
+  <svg id="d2" width="1080" height="700" style="left:0; top:560px"></svg>
+  <div class="src">Source : Yahoo Finance</div></div>
+
+<script>
+var NS = "http://www.w3.org/2000/svg";
+function el(svg, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; svg.appendChild(e); return e; }
+function T(svg, x, y, s, size, fill, w, anchor, fam) { var t = el(svg, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start" }, s); if (fam) t.style.fontFamily = fam; return t; }
+function fr(v) { return Math.round(v).toLocaleString("fr-FR").replace(/[  ]/g, " "); }
+function $(id) { return document.getElementById(id); }
+var PS = [["Alphabet", 9], ["Apple", 11], ["Microsoft", 12], ["Anthropic", 43]];
+var R = window.RMS, tt = function (d) { return +d.slice(0, 4) + (+d.slice(5, 7) - 1) / 12 + (+d.slice(8, 10)) / 365; };
+var t0 = tt(R[0][0]), t1 = tt(R[R.length - 1][0]), pk = R.reduce(function (a, r) { return r[1] > a[1] ? r : a; }), ls = R[R.length - 1], ipk = R.indexOf(pk);
+function line(X, Y, rows) { return rows.map(function (r, i) { return (i ? "L" : "M") + X(tt(r[0])).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" "); }
+
+// A1 barres horizontales, quadrillage vertical fin, étiquettes à gauche
+(function () { var g = $("a1"), X = function (v) { return 300 + v / 45 * 680; };
+  [0, 10, 20, 30, 40].forEach(function (v) { el(g, "line", { x1: X(v), x2: X(v), y1: 40, y2: 600, stroke: "#d9d9d9", "stroke-width": 2 }); T(g, X(v), 24, String(v), 30, "#595959", 400, "middle"); });
+  PS.forEach(function (r, i) { var y = 80 + i * 130, hi = i === 3;
+    el(g, "rect", { x: 300, y: y, width: X(r[1]) - 300, height: 80, fill: hi ? "#e3120b" : "#006ba2" });
+    T(g, 270, y + 54, r[0], 38, "#121212", hi ? 700 : 400, "end"); });
+  el(g, "line", { x1: 300, x2: 300, y1: 40, y2: 600, stroke: "#121212", "stroke-width": 3 });
+})();
+// A2 ligne, quadrillage horizontal, axe à droite
+(function () { var g = $("a2"), X = function (v) { return 96 + (v - t0) / (t1 - t0) * 800; }, Y = function (v) { return 560 - v / 3000 * 520; };
+  [0, 1000, 2000, 3000].forEach(function (v) { el(g, "line", { x1: 96, x2: 984, y1: Y(v), y2: Y(v), stroke: v ? "#d9d9d9" : "#121212", "stroke-width": v ? 2 : 3 }); T(g, 984, Y(v) - 12, fr(v), 30, "#595959", 400, "end"); });
+  el(g, "path", { d: line(X, Y, R), fill: "none", stroke: "#006ba2", "stroke-width": 6, "stroke-linejoin": "round" });
+  el(g, "circle", { cx: X(tt(ls[0])), cy: Y(ls[1]), r: 10, fill: "#e3120b" });
+  T(g, X(tt(ls[0])) - 20, Y(ls[1]) + 60, fr(ls[1]) + " €", 36, "#e3120b", 700, "end");
+  T(g, X(tt(pk[0])) - 20, Y(pk[1]) + 10, fr(pk[1]) + " €", 36, "#121212", 700, "end");
+  [2018, 2020, 2022, 2024, 2026].forEach(function (y) { T(g, y === 2026 ? X(t1) : X(y), 610, String(y), 30, "#595959", 400, y === 2026 ? "end" : "start"); });
+})();
+// B1 colonnes, palette FT, quadrillage pointillé
+(function () { var g = $("b1"), Y = function (v) { return 560 - v / 45 * 500; };
+  [0, 15, 30, 45].forEach(function (v) { el(g, "line", { x1: 96, x2: 984, y1: Y(v), y2: Y(v), stroke: v ? "#cec6b9" : "#33302e", "stroke-width": 2, "stroke-dasharray": v ? "4 8" : "" }); T(g, 96, Y(v) - 12, String(v), 30, "#66605c", 400); });
+  PS.forEach(function (r, i) { var x = 170 + i * 210, hi = i === 3;
+    el(g, "rect", { x: x, y: Y(r[1]), width: 150, height: 560 - Y(r[1]), fill: hi ? "#990f3d" : "#0f5499" });
+    T(g, x + 75, Y(r[1]) - 18, r[1] + "×", 40, hi ? "#990f3d" : "#33302e", 600, "middle");
+    T(g, x + 75, 610, r[0], 30, "#33302e", 500, "middle"); });
+})();
+// B2 ligne claret + aire, annotation en serif
+(function () { var g = $("b2"), X = function (v) { return 96 + (v - t0) / (t1 - t0) * 860; }, Y = function (v) { return 560 - v / 3000 * 520; };
+  [0, 1000, 2000, 3000].forEach(function (v) { el(g, "line", { x1: 96, x2: 984, y1: Y(v), y2: Y(v), stroke: v ? "#cec6b9" : "#33302e", "stroke-width": 2, "stroke-dasharray": v ? "4 8" : "" }); T(g, 96, Y(v) - 12, fr(v), 30, "#66605c", 400); });
+  el(g, "path", { d: line(X, Y, R) + " L" + X(t1) + " " + Y(0) + " L" + X(t0) + " " + Y(0) + " Z", fill: "#0f5499", opacity: .12 });
+  el(g, "path", { d: line(X, Y, R), fill: "none", stroke: "#0f5499", "stroke-width": 5 });
+  el(g, "path", { d: line(X, Y, R.slice(ipk)), fill: "none", stroke: "#990f3d", "stroke-width": 6 });
+  T(g, X(tt(pk[0])) - 30, Y(pk[1]) - 10, "Sommet, févr. 2025", 44, "#33302e", 400, "end", "Serif");
+})();
+// C1 colonnes arrondies en dégradé, gros chiffres fins
+(function () { var g = $("c1"), d = el(g, "defs", {});
+  var a = el(d, "linearGradient", { id: "gc", x1: 0, y1: 0, x2: 0, y2: 1 }); el(a, "stop", { offset: 0, "stop-color": "#7d8bff" }); el(a, "stop", { offset: 1, "stop-color": "#2b2fbd" });
+  var b = el(d, "linearGradient", { id: "gr", x1: 0, y1: 0, x2: 0, y2: 1 }); el(b, "stop", { offset: 0, "stop-color": "#ff8a5c" }); el(b, "stop", { offset: 1, "stop-color": "#e0245e" });
+  var Y = function (v) { return 600 - v / 43 * 460; };
+  PS.forEach(function (r, i) { var x = 120 + i * 220, hi = i === 3;
+    el(g, "rect", { x: x, y: Y(r[1]), width: 180, height: 600 - Y(r[1]), rx: 36, fill: hi ? "url(#gr)" : "url(#gc)", opacity: hi ? 1 : .55 });
+    T(g, x + 90, Y(r[1]) - 30, r[1] + "×", hi ? 96 : 60, "#f5f5f7", 300, "middle");
+    T(g, x + 90, 660, r[0], 30, "#86868b", 500, "middle"); });
+})();
+// C2 grand chiffre + courbe lumineuse
+(function () { var g = $("c2"), d = el(g, "defs", {});
+  var f = el(d, "filter", { id: "gl", x: "-20%", y: "-20%", width: "140%", height: "140%" }); el(f, "feGaussianBlur", { stdDeviation: 10 });
+  var a = el(d, "linearGradient", { id: "gl2", x1: 0, y1: 0, x2: 1, y2: 0 }); el(a, "stop", { offset: 0, "stop-color": "#5b7cff" }); el(a, "stop", { offset: .82, "stop-color": "#a06bff" }); el(a, "stop", { offset: 1, "stop-color": "#ff4f6d" });
+  T(g, 540, 170, "−55 %", 190, "#f5f5f7", 200, "middle");
+  T(g, 540, 240, "depuis le sommet de 2025", 36, "#86868b", 500, "middle");
+  var X = function (v) { return 96 + (v - t0) / (t1 - t0) * 888; }, Y = function (v) { return 720 - v / 3000 * 400; };
+  el(g, "path", { d: line(X, Y, R), fill: "none", stroke: "url(#gl2)", "stroke-width": 10, opacity: .6, filter: "url(#gl)" });
+  el(g, "path", { d: line(X, Y, R), fill: "none", stroke: "url(#gl2)", "stroke-width": 5, "stroke-linejoin": "round" });
+})();
+// D1 cercles proportionnels (surface) : le cas étudié en haut, les repères en ligne dessous
+(function () { var g = $("d1"), k = 200 / Math.sqrt(43);
+  var pos = [[303, 540], [545, 540], [787, 540], [540, 210]];
+  PS.forEach(function (r, i) { var rad = k * Math.sqrt(r[1]), hi = i === 3, p = pos[i];
+    el(g, "circle", { cx: p[0], cy: p[1], r: rad, fill: hi ? "#ff4d4d" : "#3b4bff" });
+    T(g, p[0], p[1] + (hi ? 30 : 16), r[1] + "×", hi ? 110 : 46, "#fff", 800, "middle");
+    T(g, p[0], hi ? p[1] + 80 : p[1] + rad + 44, r[0].toUpperCase(), hi ? 30 : 26, hi ? "#fff" : "#9aa3b2", 700, "middle"); });
+})();
+// D2 deux cercles : sommet vs aujourd'hui
+(function () { var g = $("d2"), k = 290 / Math.sqrt(pk[1]);
+  var r1 = k * Math.sqrt(pk[1]), r2 = k * Math.sqrt(ls[1]);
+  el(g, "circle", { cx: 400, cy: 340, r: r1, fill: "none", stroke: "#3b4bff", "stroke-width": 6, "stroke-dasharray": "14 12" });
+  el(g, "circle", { cx: 400 + r1 - r2, cy: 340 + r1 - r2, r: r2, fill: "#ff4d4d" });
+  T(g, 400, 340 - r1 + 80, fr(pk[1]) + " €", 52, "#fff", 800, "middle"); T(g, 400, 340 - r1 + 120, "SOMMET 2025", 26, "#9aa3b2", 700, "middle");
+  T(g, 400 + r1 - r2, 340 + r1 - r2 + 14, fr(ls[1]) + " €", 52, "#fff", 800, "middle"); T(g, 400 + r1 - r2, 340 + r1 - r2 + 54, "AUJOURD'HUI", 26, "#fff", 700, "middle");
+})();
+</script>
+</body>
+</html>
