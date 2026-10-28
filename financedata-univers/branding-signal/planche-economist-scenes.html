@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FinanceData · Scènes, style Data</title>
+<style>
+  /* Scènes sans graphique du style « Data » : même anatomie que les graphiques.
+     Fond bleu nuit #000B22, titre blanc = l'idée, sous-titre d'une ligne en blanc atténué,
+     pied de page « source à gauche · FinanceData à droite ». Seul le mot ou le chiffre à retenir est en bleu FinanceData
+     (rouge si alerte). Photos et vidéos plein cadre qui se fondent dans le bleu nuit par un dégradé. */
+  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2a2a2e; display: grid; grid-template-columns: repeat(3, 1080px); gap: 60px; padding: 60px; width: 3420px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #fff; }
+  .a { position: absolute; }
+  .ph { position: absolute; object-fit: cover; }
+  .ti { position: absolute; left: 96px; right: 96px; font-weight: 700; letter-spacing: -.035em; line-height: 1.04; }
+  .st { position: absolute; left: 96px; right: 96px; font-size: 38px; font-weight: 400; color: rgba(255,255,255,.66); letter-spacing: -.01em; }
+  .ft { position: absolute; left: 96px; right: 96px; top: 1262px; display: flex; justify-content: space-between; align-items: baseline; font-size: 26px; color: rgba(255,255,255,.5); }
+  .ft b { font-weight: 800; font-size: 30px; letter-spacing: -.03em; color: #fff; }
+  .hl { color: #4d6bff; } .al { color: #ff5a5f; }
+  .fade { position: absolute; left: 0; right: 0; }
+  .cap { position: absolute; left: 0; right: 0; top: 1330px; text-align: center; }
+  .cap span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; letter-spacing: -.04em; color: #fff; }
+  .lbl { position: absolute; top: 18px; left: 22px; font-size: 28px; font-weight: 600; color: #fff; background: #000; padding: 6px 14px; z-index: 9; }
+</style>
+</head>
+<body>
+
+<!-- 1 PHOTO PLEINE (hook) -->
+<div class="f" id="s0"><div class="lbl">PHOTO PLEINE · HOOK</div>
+  <img class="ph" src="img/ipo-confettis.jpg" style="inset:0; width:100%; height:100%">
+  <div class="fade" style="top:0; bottom:0; background:linear-gradient(180deg, rgba(0,11,34,.1) 30%, rgba(0,11,34,.85) 62%, #000b22 80%)"></div>
+  <div class="ti" style="top:1000px; font-size:104px">Anthropic entre<br>en <span class="hl">Bourse</span></div>
+  <div class="st" style="top:1225px">Introduction au Nasdaq, mi-novembre</div>
+  <div class="cap"><span>c'est officiel.</span></div>
+</div>
+
+<!-- 2 PHOTO CADRÉE -->
+<div class="f" id="s1"><div class="lbl">PHOTO CADRÉE</div>
+  <img class="ph" src="img/nasdaq-tour.jpg" style="left:0; top:0; width:1080px; height:900px; object-position:50% 40%">
+  <div class="fade" style="top:600px; height:300px; background:linear-gradient(180deg, rgba(0,11,34,0), #000b22)"></div>
+  <div class="ti" style="top:960px; font-size:88px">Direction le <span class="hl">Nasdaq</span></div>
+  <div class="st" style="top:1070px">La place des valeurs tech, à New York</div>
+  <div class="ft"><span>Photo : Times Square, New York</span><b>FinanceData</b></div>
+</div>
+
+<!-- 3 VIDÉO -->
+<div class="f" id="s2"><div class="lbl">VIDÉO</div>
+  <img class="ph" src="img/video-wallstreet.jpg" style="inset:0; width:100%; height:100%">
+  <div class="fade" style="top:0; bottom:0; background:linear-gradient(180deg, rgba(0,11,34,.6) 0%, rgba(0,11,34,0) 20%, rgba(0,11,34,0) 45%, rgba(0,11,34,.85) 68%, #000b22 82%)"></div>
+  <div class="a" style="left:96px; top:270px; font-size:30px; font-weight:600; color:rgba(255,255,255,.85)">New York, 26 octobre 2026</div>
+  <div class="ti" style="top:1060px; font-size:96px">Vaut-elle <span class="hl">ce prix</span> ?</div>
+  <div class="cap"><span>une question se pose</span></div>
+</div>
+
+<!-- 4 PORTRAIT -->
+<div class="f" id="s3"><div class="lbl">PORTRAIT</div>
+  <img class="ph" src="img/dario-portrait.jpg" style="left:0; top:0; width:1080px; height:1060px; object-position:50% 25%">
+  <div class="fade" style="top:700px; height:360px; background:linear-gradient(180deg, rgba(0,11,34,0), #000b22)"></div>
+  <div class="ti" style="top:1060px; font-size:92px">Dario Amodei</div>
+  <div class="st" style="top:1170px">Cofondateur et patron d'Anthropic</div>
+</div>
+
+<!-- 5 CHAPITRE -->
+<div class="f" id="s4"><div class="lbl">TEXTE · CHAPITRE</div>
+  <div class="a" style="left:96px; top:560px; font-size:44px; font-weight:600; color:rgba(255,255,255,.5)">1 sur 3</div>
+  <div class="ti" style="top:630px; font-size:136px">Ce qu'elle<br><span class="hl">vend</span></div>
+</div>
+
+<!-- 6 CHIFFRE -->
+<div class="f" id="s5"><div class="lbl">TEXTE · CHIFFRE</div>
+  <div class="st" style="top:560px; font-size:44px">Valorisation visée</div>
+  <div class="a" style="left:84px; top:620px; font-weight:700; font-size:290px; letter-spacing:-.06em; line-height:1; color:#4d6bff">2 000</div>
+  <div class="a" style="left:96px; top:920px; font-weight:600; font-size:60px; letter-spacing:-.03em">milliards de dollars</div>
+  <div class="ft"><span>Source : presse, octobre 2026</span><b>FinanceData</b></div>
+</div>
+
+<!-- 7 CITATION -->
+<div class="f" id="s6"><div class="lbl">TEXTE · CITATION</div>
+  <div class="ti" style="top:600px; font-size:80px; line-height:1.1">« Une entreprise exceptionnelle n'est pas forcément un <span class="hl">bon placement</span>. »</div>
+  <div class="st" style="top:1060px">La règle d'or de l'investisseur</div>
+</div>
+
+<!-- 8 ALERTE / QUESTION -->
+<div class="f" id="s7"><div class="lbl">TEXTE · ALERTE</div>
+  <div class="ti" style="top:640px; font-size:124px">Mais l'action<br>est <span class="al">trop chère</span></div>
+  <div class="st" style="top:940px">43 fois son chiffre d'affaires</div>
+  <div class="cap"><span>beaucoup trop chère,</span></div>
+</div>
+
+<!-- 9 CTA -->
+<div class="f" id="s8"><div class="lbl">CTA</div>
+  <div class="a" style="left:96px; top:560px; width:240px; height:240px; border-radius:50%; padding:10px; background:conic-gradient(from 200deg, #feda75, #fa7e1e, #d62976, #962fbf, #feda75)"><div style="width:100%;height:100%;border-radius:50%;overflow:hidden;border:8px solid #000b22"><img src="img/logo-financedata.png" style="width:100%;height:100%;display:block"></div></div>
+  <div class="ti" style="top:860px; font-size:100px">FinanceData</div>
+  <div class="st" style="top:975px">Les marchés, expliqués par les données</div>
+  <div class="a" style="left:96px; top:1080px; width:400px; height:100px; background:#4d6bff; color:#fff; font-weight:600; font-size:42px; text-align:center; line-height:100px">S'abonner</div>
+</div>
+
+</body>
+</html>

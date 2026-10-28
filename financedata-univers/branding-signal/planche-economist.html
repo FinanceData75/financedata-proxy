@@ -6,14 +6,14 @@
 <script src="lux.js"></script>
 <style>
   /* « FinanceData Data » : la grammaire des graphiques de presse éco (The Economist) aux couleurs FinanceData.
-     Anatomie fixe : fond bleu nuit #00194B, titre = conclusion, sous-titre = ce qui est mesuré
+     Anatomie fixe : fond bleu nuit #000B22, titre = conclusion, sous-titre = ce qui est mesuré
      et l'unité, quadrillage horizontal léger, valeurs d'axe à droite au-dessus des lignes, ligne de base marine,
      séries étiquetées directement (pas de légende), source en bas à gauche, signature FinanceData en bas à droite.
      Couleur : seule la série à retenir est vive (bleu FinanceData, rouge si alerte, vert si gain), le reste en gris bleuté. */
   @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #2a2a2e; display: grid; grid-template-columns: repeat(3, 1080px); gap: 60px; padding: 60px; width: 3420px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
-  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #00194b; color: #fff; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #fff; }
   .ti { position: absolute; left: 96px; right: 96px; top: 316px; font-weight: 700; font-size: 72px; letter-spacing: -.035em; line-height: 1.04; }
   .st { position: absolute; left: 96px; right: 96px; font-size: 38px; font-weight: 400; color: rgba(255,255,255,.66); letter-spacing: -.01em; line-height: 1.2; }
   .ft { position: absolute; left: 96px; right: 96px; top: 1262px; display: flex; justify-content: space-between; align-items: baseline; font-size: 26px; color: rgba(255,255,255,.5); }
