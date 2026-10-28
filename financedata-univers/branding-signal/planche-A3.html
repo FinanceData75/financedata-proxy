@@ -36,10 +36,10 @@
   <svg id="s1" width="1080" height="700" style="left:0; top:520px"></svg>
   <div class="src">Source · prospectus S-1</div></div>
 
-<div class="f" id="k2"><div class="lbl">CASH VS COMPTA</div><div class="rub"><i></i>Perte S1 2026 · Md$</div>
-  <div class="ti">Une perte surtout comptable</div>
+<div class="f" id="k2"><div class="lbl">POSITIF / NÉGATIF</div><div class="rub"><i></i>Résultat · Md$</div>
+  <div class="ti">Rentable, mais en perte</div>
   <svg id="s2" width="1080" height="700" style="left:0; top:520px"></svg>
-  <div class="src">Source · prospectus S-1</div></div>
+  <div class="src">Activité T2 estimée · Comptable S1 · S-1</div></div>
 
 <div class="f" id="k3"><div class="lbl">COURBE</div><div class="rub"><i></i>Hermès · €</div>
   <div class="ti">−55 % depuis le sommet</div>
@@ -85,14 +85,17 @@ function blocks(g, parts, big, bigCol, sub) {
 })();
 
 blocks($("s1"), [[25, FD]], "25 %", FD, "2 clients");
-// perte : colonnes comptable vs cash, seule la part comptable en couleur
-(function () { var g = $("s2"), Y = function (v) { return 620 - v / 80 * 540; };
-  [0, 40, 80].forEach(function (v) { el(g, "line", { x1: 96, x2: 984, y1: Y(v), y2: Y(v), stroke: v ? GRID : NAVY, "stroke-width": v ? 2 : 3 }); T(g, 984, Y(v) - 12, String(v), 26, AX, 400, "end", 1); });
-  el(g, "rect", { x: 170, y: Y(72), width: 300, height: 620 - Y(72), fill: FD });
-  el(g, "rect", { x: 540, y: Y(9), width: 300, height: 620 - Y(9), fill: GREY });
-  T(g, 320, Y(72) + 100, "72", 96, "#fff", 700, "middle");
-  T(g, 690, Y(9) - 24, "9", 48, AX, 600, "middle");
-  T(g, 320, 670, "COMPTABLE", 26, NAVY, 400, "middle", 1); T(g, 690, 670, "CASH", 26, AX, 400, "middle", 1);
+// résultat : barre positive en vert (activité) vs barre négative en rouge (comptable), zéro en haut
+(function () { var g = $("s2"), Z = 150, K = 470 / 80.7, GREEN = "#0f9d58";
+  el(g, "line", { x1: 96, x2: 984, y1: Z, y2: Z, stroke: NAVY, "stroke-width": 3 });
+  T(g, 984, Z - 14, "0", 26, AX, 400, "end", 1);
+  [-40, -80].forEach(function (v) { el(g, "line", { x1: 96, x2: 984, y1: Z - v * K, y2: Z - v * K, stroke: GRID, "stroke-width": 2 }); T(g, 984, Z - v * K - 12, String(v), 26, AX, 400, "end", 1); });
+  el(g, "rect", { x: 170, y: Z - 10, width: 300, height: 10, fill: GREEN });
+  T(g, 320, Z - 34, "+0,6", 56, GREEN, 700, "middle");
+  T(g, 320, Z - 90, "ACTIVITÉ", 26, NAVY, 400, "middle", 1);
+  el(g, "rect", { x: 540, y: Z, width: 300, height: 80.7 * K, fill: RED });
+  T(g, 690, Z + 120, "−80,7", 64, "#fff", 700, "middle");
+  T(g, 690, Z - 34, "COMPTABLE", 26, NAVY, 400, "middle", 1);
 })();
 
 // courbe : bleu FinanceData jusqu'au sommet, rouge ensuite

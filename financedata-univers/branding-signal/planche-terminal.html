@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FinanceData · Style terminal</title>
+<script src="rms.js"></script>
+<style>
+  /* Style « terminal » (inspiré des écrans de marché type Bloomberg, sans reprendre leur marque) :
+     fond noir, ambre pour l'info, vert/rouge pour hausse/baisse, mono pour toutes les données,
+     sans-serif grasse pour le titre. Angles droits, bandeau de cotation en haut. */
+  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Mono"; src: url("fonts/fragment-mono-latin-400-normal.woff2"); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2a2a2e; display: flex; gap: 60px; padding: 60px; width: 3540px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; flex: none; background: #000; color: #fff; }
+  .bar { position: absolute; left: 0; right: 0; top: 230px; height: 56px; background: #ff9f1c; color: #000; font-family: "Mono"; font-size: 28px; letter-spacing: .06em; line-height: 56px; padding: 0 96px; display: flex; justify-content: space-between; }
+  .ti { position: absolute; left: 96px; right: 96px; top: 330px; font-weight: 800; font-size: 84px; letter-spacing: -.04em; line-height: 1.02; }
+  .mono { font-family: "Mono"; }
+  .src { position: absolute; left: 96px; top: 1270px; font-family: "Mono"; font-size: 24px; letter-spacing: .06em; color: #7a7a7a; text-transform: uppercase; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "Mono"; }
+  .lbl { position: absolute; top: 18px; left: 22px; font-size: 28px; font-weight: 600; color: #000; background: #fff; padding: 6px 14px; z-index: 9; }
+</style>
+</head>
+<body>
+
+<!-- cotation -->
+<div class="f" id="b0"><div class="lbl">COTATION</div>
+  <div class="bar"><span>RMS FP · HERMÈS</span><span>EUR</span></div>
+  <div class="ti">Hermès, la chute du luxe</div>
+  <div class="a mono" style="position:absolute; left:96px; top:530px; font-size:150px; letter-spacing:-.02em">1 264,00</div>
+  <div class="a mono" style="position:absolute; left:100px; top:710px; font-size:52px; color:#ff3b30">▼ −55,5 % depuis le sommet</div>
+  <svg id="t0" width="1080" height="420" style="left:0; top:820px"></svg>
+  <div class="src">Clôtures hebdo · Yahoo Finance</div>
+</div>
+
+<!-- comparaison -->
+<div class="f" id="b1"><div class="lbl">COMPARAISON</div>
+  <div class="bar"><span>PRIX ÷ VENTES</span><span>OCT. 2026</span></div>
+  <div class="ti">Anthropic, 4× plus cher</div>
+  <svg id="t1" width="1080" height="760" style="left:0; top:520px"></svg>
+  <div class="src">Companiesmarketcap · FinanceData</div>
+</div>
+
+<!-- résultat -->
+<div class="f" id="b2"><div class="lbl">RÉSULTAT</div>
+  <div class="bar"><span>ANTHROPIC · RÉSULTATS</span><span>MD$</span></div>
+  <div class="ti">Rentable, mais en perte</div>
+  <svg id="t2" width="1080" height="760" style="left:0; top:520px"></svg>
+  <div class="src">Activité T2 estimée · Comptable S1 · S-1</div>
+</div>
+
+<script>
+var NS = "http://www.w3.org/2000/svg", AMB = "#ff9f1c", UP = "#34c759", DN = "#ff3b30", DIM = "#7a7a7a", LINE = "#262626";
+function el(svg, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; svg.appendChild(e); return e; }
+function T(svg, x, y, s, size, fill, anchor) { return el(svg, "text", { x: x, y: y, "font-size": size, fill: fill, "text-anchor": anchor || "start" }, s); }
+function fr(v) { return Math.round(v).toLocaleString("fr-FR").replace(/[  ]/g, " "); }
+
+// cotation : courbe ambre, aire sombre, axe à droite
+(function () { var g = document.getElementById("t0"), R = window.RMS, tt = function (d) { return +d.slice(0, 4) + (+d.slice(5, 7) - 1) / 12 + (+d.slice(8, 10)) / 365; };
+  var t0 = tt(R[0][0]), t1 = tt(R[R.length - 1][0]), ls = R[R.length - 1];
+  var X = function (v) { return 96 + (v - t0) / (t1 - t0) * 760; }, Y = function (v) { return 380 - v / 3000 * 360; };
+  [0, 1000, 2000, 3000].forEach(function (v) { el(g, "line", { x1: 96, x2: 900, y1: Y(v), y2: Y(v), stroke: LINE, "stroke-width": 2 }); T(g, 984, Y(v) + 9, fr(v), 26, DIM, "end"); });
+  var d = R.map(function (r, i) { return (i ? "L" : "M") + X(tt(r[0])).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
+  el(g, "path", { d: d + " L" + X(t1) + " " + Y(0) + " L" + X(t0) + " " + Y(0) + " Z", fill: AMB, opacity: .12 });
+  el(g, "path", { d: d, fill: "none", stroke: AMB, "stroke-width": 4 });
+  el(g, "rect", { x: 904, y: Y(ls[1]) - 20, width: 100, height: 40, fill: AMB });
+  T(g, 954, Y(ls[1]) + 9, fr(ls[1]), 26, "#000", "middle");
+  T(g, 96, 420, "2018", 24, DIM); T(g, 856, 420, "2026", 24, DIM, "end");
+})();
+
+// comparaison : tableau-barres, Anthropic en ambre
+(function () { var g = document.getElementById("t1"), K = 480 / 43;
+  T(g, 96, 30, "SOCIÉTÉ", 24, DIM); T(g, 984, 30, "P/S", 24, DIM, "end");
+  el(g, "line", { x1: 96, x2: 984, y1: 50, y2: 50, stroke: LINE, "stroke-width": 2 });
+  [["MSFT", "Microsoft", 12], ["AAPL", "Apple", 11], ["GOOGL", "Alphabet", 9], ["ANT", "Anthropic", 43]].forEach(function (r, i) {
+    var y = 90 + i * 150, hi = i === 3;
+    T(g, 96, y + 40, r[0], 36, hi ? AMB : "#fff"); T(g, 96, y + 80, r[1], 26, DIM);
+    el(g, "rect", { x: 300, y: y + 10, width: r[2] * K, height: 60, fill: hi ? AMB : "#3a3a3a" });
+    T(g, 984, y + 52, r[2] + ",0×", 40, hi ? AMB : "#fff", "end");
+    el(g, "line", { x1: 96, x2: 984, y1: y + 116, y2: y + 116, stroke: LINE, "stroke-width": 2 });
+  });
+})();
+
+// résultat : barre verte vers le haut, barre rouge vers le bas
+(function () { var g = document.getElementById("t2"), Z = 160, K = 500 / 80.7;
+  el(g, "line", { x1: 96, x2: 984, y1: Z, y2: Z, stroke: "#fff", "stroke-width": 2 });
+  el(g, "rect", { x: 170, y: Z - 10, width: 300, height: 10, fill: UP });
+  T(g, 320, Z - 40, "▲ +0,6", 52, UP, "middle"); T(g, 320, Z - 100, "ACTIVITÉ", 26, DIM, "middle");
+  el(g, "rect", { x: 540, y: Z, width: 300, height: 80.7 * K, fill: DN });
+  T(g, 690, Z - 40, "▼ −80,7", 52, DN, "middle"); T(g, 690, Z - 100, "COMPTABLE", 26, DIM, "middle");
+})();
+</script>
+</body>
+</html>
