@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FinanceData · Signal v2</title>
+<script src="rms.js"></script>
+<style>
+  /* Signal v2 : sobriété de terminal financier.
+     Une seule famille pour le contenu (Inter Display), le mono réservé à la rubrique et à la source.
+     Chiffres héros en graisse légère, tracés fins, couleurs désaturées, beaucoup de vide. */
+  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Mono"; src: url("fonts/fragment-mono-latin-400-normal.woff2"); }
+  :root {
+    --nuit: #0b0e17; --papier: #f4f2ee;
+    --txt: #f4f2ee; --mute: rgba(244,242,238,.52); --faint: rgba(244,242,238,.09);
+    --bleu: #5b7cff; --alerte: #ff5a4e; --gain: #3ecf8e; --veille: #f5b53d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2a2a2e; display: flex; flex-wrap: wrap; gap: 60px; padding: 60px; width: 5820px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; flex: none; background: var(--nuit); color: var(--txt); }
+  .f.clair { background: var(--papier); color: var(--nuit); --txt: #0b0e17; --mute: rgba(11,14,23,.5); --faint: rgba(11,14,23,.08); }
+  .a { position: absolute; }
+  .rub { position: absolute; left: 96px; top: 300px; font-family: "Mono"; font-size: 28px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); display: flex; align-items: center; gap: 18px; }
+  .rub i { width: 14px; height: 14px; background: var(--bleu); display: block; }
+  .ti { position: absolute; left: 96px; right: 96px; top: 360px; font-weight: 600; font-size: 76px; letter-spacing: -.035em; line-height: 1.04; }
+  .src { position: absolute; left: 96px; top: 1240px; font-family: "Mono"; font-size: 22px; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); opacity: .8; }
+  .ph { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .cap { position: absolute; left: 0; right: 0; top: 1330px; text-align: center; }
+  .cap span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-family: "Display"; font-variation-settings: "opsz" 14; font-weight: 600; font-size: 54px; letter-spacing: -.04em; color: #fff; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
+  .lbl { position: absolute; top: 18px; left: 22px; font-family: "Mono"; font-size: 26px; color: #fff; background: #000; padding: 6px 14px; z-index: 9; letter-spacing: .06em; }
+</style>
+</head>
+<body>
+
+<!-- 00 Identité -->
+<div class="f" id="v0">
+  <div class="rub"><i></i>FinanceData · Signal</div>
+  <div class="ti" style="font-size:104px">Le décodeur de<br>l'investisseur.</div>
+  <svg id="s0" width="1080" height="900" style="left:0; top:700px"></svg>
+</div>
+
+<!-- 01 Ouverture -->
+<div class="f" id="v1"><div class="lbl">01 OUVERTURE</div>
+  <img class="ph" src="img/ipo-confettis.jpg">
+  <div class="a" style="inset:0; background:linear-gradient(180deg, rgba(11,14,23,.2) 0%, rgba(11,14,23,0) 30%, rgba(11,14,23,.75) 62%, #0b0e17 88%)"></div>
+  <div class="rub" style="top:930px; color:rgba(255,255,255,.7)"><i></i>IPO · Nasdaq</div>
+  <div class="ti" style="top:990px; font-size:96px; color:#fff">Anthropic entre<br>en Bourse.</div>
+  <div class="cap"><span>c'est officiel.</span></div>
+</div>
+
+<!-- 02 Chiffre -->
+<div class="f clair" id="v2"><div class="lbl">02 CHIFFRE</div>
+  <div class="rub"><i></i>Valorisation visée</div>
+  <div class="a" style="left:80px; top:520px; font-weight:300; font-size:300px; letter-spacing:-.06em; line-height:1; font-feature-settings:'tnum' 1">2 000</div>
+  <div class="a" style="left:96px; top:850px; font-weight:500; font-size:48px; letter-spacing:-.02em; color:var(--mute)">milliards de dollars</div>
+  <div class="a" style="left:96px; top:960px; font-weight:600; font-size:44px; letter-spacing:-.02em; color:var(--bleu)">× 2,1 en cinq mois</div>
+  <div class="src">Source · presse, oct. 2026</div>
+  <div class="cap"><span>2 000 milliards</span></div>
+</div>
+
+<!-- 03 Courbe -->
+<div class="f" id="v3"><div class="lbl">03 COURBE</div>
+  <div class="rub"><i></i>Hermès · cours en €</div>
+  <div class="ti">−57 % depuis<br>son sommet</div>
+  <svg id="s3" width="1080" height="640" style="left:0; top:560px"></svg>
+  <div class="src">Source · Yahoo Finance</div>
+</div>
+
+<!-- 04 Comparaison -->
+<div class="f" id="v4"><div class="lbl">04 COMPARAISON</div>
+  <div class="rub"><i></i>Prix ÷ chiffre d'affaires</div>
+  <div class="ti">Quatre fois plus<br>cher que les géants</div>
+  <svg id="s4" width="1080" height="620" style="left:0; top:600px"></svg>
+  <div class="src">Source · Companiesmarketcap, oct. 2026</div>
+</div>
+
+<!-- 05 Repère -->
+<div class="f" id="v5"><div class="lbl">05 REPÈRE</div>
+  <div class="rub"><i></i>Grille de valorisation</div>
+  <div class="ti">Hors de la zone<br>habituelle</div>
+  <svg id="s5" width="1080" height="560" style="left:0; top:620px"></svg>
+  <div class="src">Repères FinanceData · prix ÷ ventes</div>
+</div>
+
+<!-- 06 Décomposition -->
+<div class="f" id="v6"><div class="lbl">06 DÉCOMPOSITION</div>
+  <div class="rub"><i></i>Perte nette · S1 2026</div>
+  <div class="ti">Une perte surtout<br>comptable</div>
+  <svg id="s6" width="1080" height="600" style="left:0; top:600px"></svg>
+  <div class="src">Source · prospectus S-1</div>
+</div>
+
+<!-- 07 Verdict -->
+<div class="f" id="v7"><div class="lbl">07 VERDICT</div>
+  <div class="rub"><i></i>La grille FinanceData</div>
+  <div class="ti">Anthropic</div>
+  <svg id="s7" width="1080" height="700" style="left:0; top:540px"></svg>
+  <div class="src">Lecture FinanceData · pas un conseil</div>
+</div>
+
+<!-- 08 Signature -->
+<div class="f" id="v8"><div class="lbl">08 SIGNATURE</div>
+  <div class="a" style="left:96px; top:600px; width:220px; height:220px; border-radius:50%; padding:9px; background:conic-gradient(from 200deg, #feda75, #fa7e1e, #d62976, #962fbf, #feda75)"><div style="width:100%;height:100%;border-radius:50%;overflow:hidden;border:7px solid #0b0e17"><img src="img/logo-financedata.png" style="width:100%;height:100%;display:block"></div></div>
+  <div class="ti" style="top:880px; font-size:96px">FinanceData</div>
+  <div class="a" style="left:96px; top:1000px; font-weight:500; font-size:44px; letter-spacing:-.02em; color:var(--mute)">Le décodeur de l'investisseur</div>
+  <div class="a" style="left:96px; top:1110px; padding:0 48px; height:96px; border-radius:48px; background:#fff; color:#0b0e17; font-weight:600; font-size:40px; letter-spacing:-.02em; line-height:96px">S'abonner</div>
+</div>
+
+<script>
+var NS = "http://www.w3.org/2000/svg";
+var BLEU = "#5b7cff", ALERTE = "#ff5a4e", GAIN = "#3ecf8e", VEILLE = "#f5b53d", TXT = "#f4f2ee", MUTE = "rgba(244,242,238,.52)", FAINT = "rgba(244,242,238,.09)";
+function el(svg, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; svg.appendChild(e); return e; }
+function T(svg, x, y, s, size, fill, w, anchor) { return el(svg, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start", "letter-spacing": -size * 0.02 }, s); }
+function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }).replace(/[  ]/g, " "); }
+function $(id) { return document.getElementById(id); }
+
+// 00 identité : palette et typographie, en lignes (aucune pastille)
+(function () {
+  var g = $("s0");
+  [["Nuit", "#0b0e17"], ["Papier", "#f4f2ee"], ["Bleu", BLEU], ["Alerte", ALERTE], ["Gain", GAIN]].forEach(function (c, i) {
+    var y = i * 92;
+    el(g, "rect", { x: 96, y: y, width: 56, height: 56, rx: 28, fill: c[1], stroke: i === 0 ? "rgba(244,242,238,.25)" : "none", "stroke-width": 2 });
+    T(g, 186, y + 40, c[0], 36, TXT, 500);
+    T(g, 984, y + 40, c[1].toUpperCase(), 28, MUTE, 400, "end");
+  });
+  T(g, 96, 640, "2 000", 150, TXT, 300);
+  T(g, 96, 730, "Inter Display · 300 / 600", 32, MUTE, 500);
+})();
+
+// 03 courbe : Hermès, aire dégradée, quadrillage très léger, deux annotations
+(function () {
+  var g = $("s3"), R = window.RMS;
+  var tt = function (d) { return +d.slice(0, 4) + (+d.slice(5, 7) - 1) / 12 + (+d.slice(8, 10)) / 365; };
+  var t0 = tt(R[0][0]), t1 = tt(R[R.length - 1][0]);
+  var X = function (v) { return 96 + (v - t0) / (t1 - t0) * 790; }, Y = function (v) { return 520 - v / 3000 * 460; };
+  [0, 1000, 2000, 3000].forEach(function (v) {
+    el(g, "line", { x1: 96, x2: 984, y1: Y(v), y2: Y(v), stroke: FAINT, "stroke-width": 2 });
+    T(g, 984, Y(v) - 12, fr(v), 26, MUTE, 400, "end");
+  });
+  var defs = el(g, "defs", {}), lg = el(defs, "linearGradient", { id: "ar", x1: 0, y1: 0, x2: 0, y2: 1 });
+  el(lg, "stop", { offset: 0, "stop-color": BLEU, "stop-opacity": .28 }); el(lg, "stop", { offset: 1, "stop-color": BLEU, "stop-opacity": 0 });
+  var pk = R.reduce(function (a, r) { return r[1] > a[1] ? r : a; }), ls = R[R.length - 1], ipk = R.indexOf(pk);
+  var pts = function (rows) { return rows.map(function (r, i) { return (i ? "L" : "M") + X(tt(r[0])).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" "); };
+  el(g, "path", { d: pts(R) + " L" + X(t1) + " " + Y(0) + " L" + X(t0) + " " + Y(0) + " Z", fill: "url(#ar)" });
+  el(g, "path", { d: pts(R.slice(0, ipk + 1)), fill: "none", stroke: BLEU, "stroke-width": 4, "stroke-linejoin": "round" });
+  el(g, "path", { d: pts(R.slice(ipk)), fill: "none", stroke: ALERTE, "stroke-width": 4, "stroke-linejoin": "round" });
+  el(g, "circle", { cx: X(tt(pk[0])), cy: Y(pk[1]), r: 8, fill: TXT });
+  T(g, X(tt(pk[0])) - 22, Y(pk[1]) + 8, fr(pk[1]) + " €", 34, TXT, 600, "end");
+  el(g, "circle", { cx: X(tt(ls[0])), cy: Y(ls[1]), r: 22, fill: ALERTE, opacity: .22 });
+  el(g, "circle", { cx: X(tt(ls[0])), cy: Y(ls[1]), r: 8, fill: ALERTE });
+  T(g, X(tt(ls[0])) - 34, Y(ls[1]) + 64, fr(ls[1]) + " €", 40, ALERTE, 600, "end");
+  [2018, 2022, 2026].forEach(function (y, i) { T(g, i === 2 ? X(t1) : X(y), 580, String(y), 26, MUTE, 400, i === 2 ? "end" : "start"); });
+})();
+
+// 04 comparaison : barres fines, valeurs alignées à droite
+(function () {
+  var g = $("s4"), K = 888 / 43;
+  [["Alphabet", 9], ["Apple", 11], ["Microsoft", 12], ["Anthropic", 43]].forEach(function (r, i) {
+    var y = i * 150, hi = i === 3, col = hi ? ALERTE : TXT;
+    T(g, 96, y + 40, r[0], 40, hi ? TXT : MUTE, hi ? 600 : 500);
+    T(g, 984, y + 40, r[1] + "×", 40, col, 600, "end");
+    el(g, "rect", { x: 96, y: y + 68, width: 888, height: 12, rx: 6, fill: FAINT });
+    el(g, "rect", { x: 96, y: y + 68, width: r[1] * K, height: 12, rx: 6, fill: hi ? ALERTE : "rgba(244,242,238,.55)" });
+  });
+})();
+
+// 05 repère : piste fine, trois zones teintées, points étiquetés
+(function () {
+  var g = $("s5"), X = function (v) { return 96 + v / 45 * 888; }, Y0 = 250;
+  [[0, 5, GAIN, "Bas"], [5, 15, TXT, "Normal"], [15, 45, ALERTE, "Cher"]].forEach(function (z) {
+    el(g, "rect", { x: X(z[0]) + 2, y: Y0 - 4, width: X(z[1]) - X(z[0]) - 4, height: 8, rx: 4, fill: z[2], opacity: .35 });
+    T(g, (X(z[0]) + X(z[1])) / 2, Y0 + 70, z[3], 28, MUTE, 500, "middle");
+  });
+  [["9×", 9, -40], ["11×", 11, -90], ["12×", 12, -40]].forEach(function (m) {
+    el(g, "circle", { cx: X(m[1]), cy: Y0, r: 10, fill: TXT });
+  });
+  T(g, X(10.6), Y0 - 110, "Géants de la tech", 32, MUTE, 500, "middle");
+  T(g, X(10.6), Y0 - 50, "9 à 12×", 40, TXT, 600, "middle");
+  el(g, "circle", { cx: X(43), cy: Y0, r: 26, fill: ALERTE, opacity: .22 });
+  el(g, "circle", { cx: X(43), cy: Y0, r: 12, fill: ALERTE });
+  T(g, X(43) + 12, Y0 - 110, "Anthropic", 32, MUTE, 500, "end");
+  T(g, X(43) + 12, Y0 - 50, "43×", 40, ALERTE, 600, "end");
+})();
+
+// 06 décomposition : barre empilée fine, deux annotations
+(function () {
+  var g = $("s6"), K = 888 / 81;
+  T(g, 96, 40, "Total", 32, MUTE, 500); T(g, 984, 40, "80,7 Md$", 32, TXT, 600, "end");
+  el(g, "rect", { x: 96, y: 80, width: 888, height: 28, rx: 4, fill: "rgba(244,242,238,.22)" });
+  el(g, "rect", { x: 96 + 72 * K + 4, y: 80, width: 9 * K - 4, height: 28, rx: 4, fill: ALERTE });
+  T(g, 96, 250, "72", 150, TXT, 300); T(g, 96, 310, "Md$ de réévaluations", 36, MUTE, 500); T(g, 96, 356, "sans sortie d'argent", 36, MUTE, 500);
+  T(g, 984, 250, "9", 150, ALERTE, 300, "end"); T(g, 984, 310, "Md$ de calcul", 36, MUTE, 500, "end"); T(g, 984, 356, "et de serveurs", 36, MUTE, 500, "end");
+})();
+
+// 07 verdict : trois critères, jauge en trois segments
+(function () {
+  var g = $("s7");
+  [["Croissance", "Très forte", 3, GAIN], ["Rentabilité", "Fragile", 1, VEILLE], ["Prix", "Très élevé", 3, ALERTE]].forEach(function (r, i) {
+    var y = 60 + i * 200;
+    T(g, 96, y, r[0], 52, TXT, 600);
+    T(g, 96, y + 58, r[1], 36, r[3], 500);
+    for (var k = 0; k < 3; k++) el(g, "rect", { x: 744 + k * 84, y: y - 22, width: 72, height: 10, rx: 5, fill: k < r[2] ? r[3] : FAINT });
+  });
+})();
+</script>
+</body>
+</html>
