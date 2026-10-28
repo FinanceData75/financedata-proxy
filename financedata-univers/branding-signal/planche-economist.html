@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FinanceData · Data, version presse éco</title>
+<script src="lux.js"></script>
+<style>
+  /* « FinanceData Data » : la grammaire des graphiques de presse éco (The Economist) aux couleurs FinanceData.
+     Anatomie fixe : filet bleu en haut + rectangle bleu à gauche, titre = conclusion, sous-titre = ce qui est mesuré
+     et l'unité, quadrillage horizontal léger, valeurs d'axe à droite au-dessus des lignes, ligne de base marine,
+     séries étiquetées directement (pas de légende), source en bas à gauche, signature FinanceData en bas à droite.
+     Couleur : seule la série à retenir est vive (bleu FinanceData, rouge si alerte, vert si gain), le reste en gris bleuté. */
+  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2a2a2e; display: grid; grid-template-columns: repeat(3, 1080px); gap: 60px; padding: 60px; width: 3420px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; color: #0a105e; }
+  .rule { position: absolute; left: 96px; right: 96px; top: 250px; height: 4px; background: #3d5afe; }
+  .rule::after { content: ""; position: absolute; left: 0; top: 4px; width: 84px; height: 26px; background: #3d5afe; }
+  .ti { position: absolute; left: 96px; right: 96px; top: 316px; font-weight: 700; font-size: 72px; letter-spacing: -.035em; line-height: 1.04; }
+  .st { position: absolute; left: 96px; right: 96px; font-size: 38px; font-weight: 400; color: #3b4166; letter-spacing: -.01em; line-height: 1.2; }
+  .ft { position: absolute; left: 96px; right: 96px; top: 1262px; display: flex; justify-content: space-between; align-items: baseline; font-size: 26px; color: #6b7290; }
+  .ft b { font-weight: 800; font-size: 30px; letter-spacing: -.03em; color: #0a105e; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
+  .lbl { position: absolute; top: 18px; left: 22px; font-size: 28px; font-weight: 600; color: #fff; background: #000; padding: 6px 14px; z-index: 9; }
+</style>
+</head>
+<body>
+
+<div class="f" id="e0"><div class="lbl">LIGNES</div><div class="rule"></div>
+  <div class="ti">Kering a perdu la moitié de sa valeur</div>
+  <div class="st" style="top:480px">Cours de Bourse, base 100 en janvier 2018</div>
+  <svg id="s0" width="1080" height="700" style="left:0; top:540px"></svg>
+  <div class="ft"><span>Source : Yahoo Finance</span><b>FinanceData</b></div></div>
+
+<div class="f" id="e1"><div class="lbl">BARRES</div><div class="rule"></div>
+  <div class="ti">Anthropic coûte quatre fois plus cher que les géants</div>
+  <div class="st" style="top:480px">Prix ÷ chiffre d'affaires annuel, octobre 2026</div>
+  <svg id="s1" width="1080" height="700" style="left:0; top:540px"></svg>
+  <div class="ft"><span>Source : Companiesmarketcap</span><b>FinanceData</b></div></div>
+
+<div class="f" id="e2"><div class="lbl">CLASSEMENT</div><div class="rule"></div>
+  <div class="ti">La plus grosse introduction en Bourse de l'histoire ?</div>
+  <div class="st" style="top:480px">Montant levé lors de l'IPO, en milliards de dollars</div>
+  <svg id="s2" width="1080" height="700" style="left:0; top:540px"></svg>
+  <div class="ft"><span>Sources : presse ; *estimation</span><b>FinanceData</b></div></div>
+
+<div class="f" id="e3"><div class="lbl">BLOCS</div><div class="rule"></div>
+  <div class="ti">Deux clients font un quart des ventes</div>
+  <div class="st" style="top:480px">Part du chiffre d'affaires, 1er semestre 2026</div>
+  <svg id="s3" width="1080" height="700" style="left:0; top:540px"></svg>
+  <div class="ft"><span>Source : prospectus S-1</span><b>FinanceData</b></div></div>
+
+<div class="f" id="e4"><div class="lbl">POSITIF / NÉGATIF</div><div class="rule"></div>
+  <div class="ti">Rentable sur l'activité, en perte sur le papier</div>
+  <div class="st" style="top:480px">Résultats d'Anthropic, en milliards de dollars</div>
+  <svg id="s4" width="1080" height="700" style="left:0; top:540px"></svg>
+  <div class="ft"><span>Sources : S-1 ; presse (activité T2, estimée)</span><b>FinanceData</b></div></div>
+
+<div class="f" id="e5"><div class="lbl">COLONNES</div><div class="rule"></div>
+  <div class="ti">Des ventes multipliées par 14 en un an</div>
+  <div class="st" style="top:480px">Ventes par trimestre, en milliards de dollars</div>
+  <svg id="s5" width="1080" height="700" style="left:0; top:540px"></svg>
+  <div class="ft"><span>Sources : S-1 ; presse (T2 2025 déduit du ×14)</span><b>FinanceData</b></div></div>
+
+<script>
+var NS = "http://www.w3.org/2000/svg";
+var FD = "#3d5afe", NAVY = "#0a105e", RED = "#e5484d", GREEN = "#1f9d6b", G1 = "#9aa3c7", G2 = "#c5cad9", GRID = "#d5dae5", AX = "#6b7290";
+function el(svg, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; svg.appendChild(e); return e; }
+function T(svg, x, y, s, size, fill, w, anchor) { return el(svg, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start", "letter-spacing": -size * .012 }, s); }
+function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }).replace(/[  ]/g, " "); }
+function $(id) { return document.getElementById(id); }
+// quadrillage horizontal façon presse éco : valeurs à droite, posées au-dessus des lignes
+function grid(g, vals, Y, x1, x2, fmt) {
+  vals.forEach(function (v, i) { el(g, "line", { x1: x1, x2: x2, y1: Y(v), y2: Y(v), stroke: i === 0 ? NAVY : GRID, "stroke-width": i === 0 ? 3 : 2 }); T(g, x2, Y(v) - 12, fmt ? fmt(v) : String(v), 28, AX, 400, "end"); });
+}
+
+// lignes : trois séries, Kering en rouge, les autres en gris bleuté, étiquettes en bout de courbe
+(function () { var g = $("s0"), L = window.LUX, tt = function (d) { return +d.slice(0, 4) + (+d.slice(5, 7) - 1) / 12 + (+d.slice(8, 10)) / 365; };
+  var t0 = 2018, t1 = 2026.82, X = function (v) { return 96 + (v - t0) / (t1 - t0) * 610; }, Y = function (v) { return 620 - v / 700 * 560; };
+  grid(g, [0, 100, 300, 500, 700], Y, 96, 984);
+  [["lvmh", "LVMH", G1, 4], ["rms", "Hermès", NAVY, 4], ["kering", "Kering", RED, 7]].forEach(function (s) {
+    var rows = L[s[0]], d = rows.map(function (r, i) { return (i ? "L" : "M") + X(tt(r[0])).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
+    el(g, "path", { d: d, fill: "none", stroke: s[2], "stroke-width": s[3], "stroke-linejoin": "round" });
+    var ls = rows[rows.length - 1];
+    T(g, X(tt(ls[0])) + 16, Y(ls[1]) + 12, s[1] + " " + Math.round(ls[1]), s[0] === "kering" ? 34 : 30, s[2], s[0] === "kering" ? 700 : 600);
+  });
+  [2018, 2020, 2022, 2024, 2026].forEach(function (y) { T(g, X(y), 668, String(y), 28, AX, 400, "middle"); });
+})();
+
+// barres horizontales
+(function () { var g = $("s1"), X = function (v) { return 300 + v / 45 * 684; };
+  [0, 10, 20, 30, 40].forEach(function (v, i) { el(g, "line", { x1: X(v), x2: X(v), y1: 60, y2: 640, stroke: i ? GRID : NAVY, "stroke-width": i ? 2 : 3 }); T(g, X(v), 40, String(v), 28, AX, 400, "middle"); });
+  [["Alphabet", 9], ["Apple", 11], ["Microsoft", 12], ["Anthropic", 43]].forEach(function (r, i) { var y = 90 + i * 140, hi = i === 3;
+    el(g, "rect", { x: 300, y: y, width: X(r[1]) - 300, height: 84, fill: hi ? FD : G2 });
+    T(g, 270, y + 56, r[0], 38, NAVY, hi ? 700 : 400, "end");
+    T(g, hi ? X(r[1]) - 20 : X(r[1]) + 16, y + 58, r[1] + "×", 38, hi ? "#fff" : AX, hi ? 700 : 500, hi ? "end" : "start"); });
+})();
+
+// classement des IPO : Anthropic en estimation (fourchette hachurée)
+(function () { var g = $("s2"), X = function (v) { return 330 + v / 120 * 654; };
+  var d = el(g, "defs", {}), p = el(d, "pattern", { id: "hatch", width: 16, height: 16, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" });
+  el(p, "rect", { width: 16, height: 16, fill: "#dfe4ff" }); el(p, "rect", { width: 7, height: 16, fill: FD });
+  [0, 25, 50, 75, 100, 120].forEach(function (v, i) { if (v === 120) return; el(g, "line", { x1: X(v), x2: X(v), y1: 50, y2: 650, stroke: i ? GRID : NAVY, "stroke-width": i ? 2 : 3 }); T(g, X(v), 32, String(v), 28, AX, 400, "middle"); });
+  [["Anthropic* 2026", 75, 100], ["SpaceX 2026", 75], ["Saudi Aramco 2019", 29.4], ["Alibaba 2014", 25], ["SoftBank 2018", 23.5], ["Visa 2008", 19.7], ["Facebook 2012", 16]].forEach(function (r, i) {
+    var y = 70 + i * 84, hi = i === 0;
+    if (hi) { el(g, "rect", { x: 330, y: y, width: X(75) - 330, height: 60, fill: FD }); el(g, "rect", { x: X(75), y: y, width: X(100) - X(75), height: 60, fill: "url(#hatch)" }); }
+    else el(g, "rect", { x: 330, y: y, width: X(r[1]) - 330, height: 60, fill: G2 });
+    T(g, 300, y + 42, r[0], 32, NAVY, hi ? 700 : 400, "end");
+    T(g, hi ? X(100) + 14 : X(r[1]) + 14, y + 43, hi ? "75–100" : fr(r[1], r[1] % 1 ? 1 : 0), 32, hi ? FD : AX, hi ? 700 : 500, "start");
+  });
+})();
+
+// blocs : 100 carrés, 25 en bleu
+(function () { var g = $("s3"), s = 52, gap = 8;
+  for (var i = 0; i < 100; i++) { var c = i % 10, l = Math.floor(i / 10);
+    el(g, "rect", { x: 96 + c * (s + gap), y: 60 + l * (s + gap), width: s, height: s, fill: i < 25 ? FD : G2 }); }
+  T(g, 984, 170, "25 %", 110, FD, 700, "end"); T(g, 984, 225, "2 clients", 36, NAVY, 600, "end");
+  T(g, 984, 560, "75 %", 64, G1, 700, "end"); T(g, 984, 605, "les autres", 32, AX, 500, "end");
+})();
+
+// positif / négatif : vert au-dessus de zéro, rouge en dessous
+(function () { var g = $("s4"), Z = 170, K = 440 / 80.7;
+  [0, -40, -80].forEach(function (v, i) { el(g, "line", { x1: 96, x2: 984, y1: Z - v * K, y2: Z - v * K, stroke: i ? GRID : NAVY, "stroke-width": i ? 2 : 3 }); T(g, 984, Z - v * K - 12, v ? "−" + -v : "0", 28, AX, 400, "end"); });
+  el(g, "rect", { x: 180, y: Z - 10, width: 280, height: 10, fill: GREEN });
+  T(g, 320, Z - 36, "+0,6", 60, GREEN, 700, "middle"); T(g, 320, Z - 96, "Activité, T2", 32, NAVY, 600, "middle");
+  el(g, "rect", { x: 560, y: Z, width: 280, height: 80.7 * K, fill: RED });
+  T(g, 700, Z + 110, "−80,7", 64, "#fff", 700, "middle"); T(g, 700, Z - 36, "Comptable, S1", 32, NAVY, 600, "middle");
+})();
+
+// colonnes : T2 2025 → T2 2026, la dernière en bleu
+(function () { var g = $("s5"), Y = function (v) { return 620 - v / 12 * 540; };
+  grid(g, [0, 3, 6, 9, 12], Y, 96, 984);
+  [["T2\n2025", 0.8], ["T1\n2026", 4.7], ["T2\n2026", 11.5]].forEach(function (r, i) { var x = 150 + i * 260, hi = i === 2;
+    el(g, "rect", { x: x, y: Y(r[1]), width: 200, height: 620 - Y(r[1]), fill: hi ? FD : G2 });
+    T(g, x + 100, Y(r[1]) - 20, (i ? "" : "≈ ") + fr(r[1], 1), 40, hi ? FD : AX, 700, "middle");
+    var parts = r[0].split("\n"); T(g, x + 100, 666, parts[0], 28, NAVY, 600, "middle"); T(g, x + 100, 700, parts[1], 26, AX, 400, "middle"); });
+  T(g, 770, Y(11.5) + 100, "×14", 72, "#fff", 700, "middle");
+})();
+</script>
+</body>
+</html>
