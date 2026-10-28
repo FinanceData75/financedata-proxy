@@ -6,20 +6,18 @@
 <script src="lux.js"></script>
 <style>
   /* « FinanceData Data » : la grammaire des graphiques de presse éco (The Economist) aux couleurs FinanceData.
-     Anatomie fixe : filet bleu en haut + rectangle bleu à gauche, titre = conclusion, sous-titre = ce qui est mesuré
+     Anatomie fixe : fond bleu nuit #00194B, titre = conclusion, sous-titre = ce qui est mesuré
      et l'unité, quadrillage horizontal léger, valeurs d'axe à droite au-dessus des lignes, ligne de base marine,
      séries étiquetées directement (pas de légende), source en bas à gauche, signature FinanceData en bas à droite.
      Couleur : seule la série à retenir est vive (bleu FinanceData, rouge si alerte, vert si gain), le reste en gris bleuté. */
   @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #2a2a2e; display: grid; grid-template-columns: repeat(3, 1080px); gap: 60px; padding: 60px; width: 3420px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
-  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; color: #0a105e; }
-  .rule { position: absolute; left: 96px; right: 96px; top: 250px; height: 4px; background: #3d5afe; }
-  .rule::after { content: ""; position: absolute; left: 0; top: 4px; width: 84px; height: 26px; background: #3d5afe; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #00194b; color: #fff; }
   .ti { position: absolute; left: 96px; right: 96px; top: 316px; font-weight: 700; font-size: 72px; letter-spacing: -.035em; line-height: 1.04; }
-  .st { position: absolute; left: 96px; right: 96px; font-size: 38px; font-weight: 400; color: #3b4166; letter-spacing: -.01em; line-height: 1.2; }
-  .ft { position: absolute; left: 96px; right: 96px; top: 1262px; display: flex; justify-content: space-between; align-items: baseline; font-size: 26px; color: #6b7290; }
-  .ft b { font-weight: 800; font-size: 30px; letter-spacing: -.03em; color: #0a105e; }
+  .st { position: absolute; left: 96px; right: 96px; font-size: 38px; font-weight: 400; color: rgba(255,255,255,.66); letter-spacing: -.01em; line-height: 1.2; }
+  .ft { position: absolute; left: 96px; right: 96px; top: 1262px; display: flex; justify-content: space-between; align-items: baseline; font-size: 26px; color: rgba(255,255,255,.5); }
+  .ft b { font-weight: 800; font-size: 30px; letter-spacing: -.03em; color: #fff; }
   svg { position: absolute; overflow: visible; }
   svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
   .lbl { position: absolute; top: 18px; left: 22px; font-size: 28px; font-weight: 600; color: #fff; background: #000; padding: 6px 14px; z-index: 9; }
@@ -27,37 +25,37 @@
 </head>
 <body>
 
-<div class="f" id="e0"><div class="lbl">LIGNES</div><div class="rule"></div>
+<div class="f" id="e0"><div class="lbl">LIGNES</div>
   <div class="ti">Kering a perdu la moitié de sa valeur</div>
   <div class="st" style="top:480px">Cours de Bourse, base 100 en janvier 2018</div>
   <svg id="s0" width="1080" height="700" style="left:0; top:540px"></svg>
   <div class="ft"><span>Source : Yahoo Finance</span><b>FinanceData</b></div></div>
 
-<div class="f" id="e1"><div class="lbl">BARRES</div><div class="rule"></div>
+<div class="f" id="e1"><div class="lbl">BARRES</div>
   <div class="ti">Anthropic coûte quatre fois plus cher que les géants</div>
   <div class="st" style="top:480px">Prix ÷ chiffre d'affaires annuel, octobre 2026</div>
   <svg id="s1" width="1080" height="700" style="left:0; top:540px"></svg>
   <div class="ft"><span>Source : Companiesmarketcap</span><b>FinanceData</b></div></div>
 
-<div class="f" id="e2"><div class="lbl">CLASSEMENT</div><div class="rule"></div>
+<div class="f" id="e2"><div class="lbl">CLASSEMENT</div>
   <div class="ti">La plus grosse introduction en Bourse de l'histoire ?</div>
   <div class="st" style="top:480px">Montant levé lors de l'IPO, en milliards de dollars</div>
   <svg id="s2" width="1080" height="700" style="left:0; top:540px"></svg>
   <div class="ft"><span>Sources : presse ; *estimation</span><b>FinanceData</b></div></div>
 
-<div class="f" id="e3"><div class="lbl">BLOCS</div><div class="rule"></div>
+<div class="f" id="e3"><div class="lbl">BLOCS</div>
   <div class="ti">Deux clients font un quart des ventes</div>
   <div class="st" style="top:480px">Part du chiffre d'affaires, 1er semestre 2026</div>
   <svg id="s3" width="1080" height="700" style="left:0; top:540px"></svg>
   <div class="ft"><span>Source : prospectus S-1</span><b>FinanceData</b></div></div>
 
-<div class="f" id="e4"><div class="lbl">POSITIF / NÉGATIF</div><div class="rule"></div>
+<div class="f" id="e4"><div class="lbl">POSITIF / NÉGATIF</div>
   <div class="ti">Rentable sur l'activité, en perte sur le papier</div>
   <div class="st" style="top:480px">Résultats d'Anthropic, en milliards de dollars</div>
   <svg id="s4" width="1080" height="700" style="left:0; top:540px"></svg>
   <div class="ft"><span>Sources : S-1 ; presse (activité T2, estimée)</span><b>FinanceData</b></div></div>
 
-<div class="f" id="e5"><div class="lbl">COLONNES</div><div class="rule"></div>
+<div class="f" id="e5"><div class="lbl">COLONNES</div>
   <div class="ti">Des ventes multipliées par 14 en un an</div>
   <div class="st" style="top:480px">Ventes par trimestre, en milliards de dollars</div>
   <svg id="s5" width="1080" height="700" style="left:0; top:540px"></svg>
@@ -65,7 +63,7 @@
 
 <script>
 var NS = "http://www.w3.org/2000/svg";
-var FD = "#3d5afe", NAVY = "#0a105e", RED = "#e5484d", GREEN = "#1f9d6b", G1 = "#9aa3c7", G2 = "#c5cad9", GRID = "#d5dae5", AX = "#6b7290";
+var FD = "#4d6bff", NAVY = "#ffffff", RED = "#ff5a5f", GREEN = "#2ecc8f", G1 = "#8d9bc4", G2 = "#33497e", GRID = "rgba(255,255,255,.12)", AX = "rgba(255,255,255,.5)";
 function el(svg, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; svg.appendChild(e); return e; }
 function T(svg, x, y, s, size, fill, w, anchor) { return el(svg, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start", "letter-spacing": -size * .012 }, s); }
 function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }).replace(/[  ]/g, " "); }
@@ -79,7 +77,7 @@ function grid(g, vals, Y, x1, x2, fmt) {
 (function () { var g = $("s0"), L = window.LUX, tt = function (d) { return +d.slice(0, 4) + (+d.slice(5, 7) - 1) / 12 + (+d.slice(8, 10)) / 365; };
   var t0 = 2018, t1 = 2026.82, X = function (v) { return 96 + (v - t0) / (t1 - t0) * 610; }, Y = function (v) { return 620 - v / 700 * 560; };
   grid(g, [0, 100, 300, 500, 700], Y, 96, 984);
-  [["lvmh", "LVMH", G1, 4], ["rms", "Hermès", NAVY, 4], ["kering", "Kering", RED, 7]].forEach(function (s) {
+  [["lvmh", "LVMH", "#5d6f9e", 4], ["rms", "Hermès", G1, 4], ["kering", "Kering", RED, 7]].forEach(function (s) {
     var rows = L[s[0]], d = rows.map(function (r, i) { return (i ? "L" : "M") + X(tt(r[0])).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
     el(g, "path", { d: d, fill: "none", stroke: s[2], "stroke-width": s[3], "stroke-linejoin": "round" });
     var ls = rows[rows.length - 1];
@@ -100,7 +98,7 @@ function grid(g, vals, Y, x1, x2, fmt) {
 // classement des IPO : Anthropic en estimation (fourchette hachurée)
 (function () { var g = $("s2"), X = function (v) { return 330 + v / 120 * 654; };
   var d = el(g, "defs", {}), p = el(d, "pattern", { id: "hatch", width: 16, height: 16, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" });
-  el(p, "rect", { width: 16, height: 16, fill: "#dfe4ff" }); el(p, "rect", { width: 7, height: 16, fill: FD });
+  el(p, "rect", { width: 16, height: 16, fill: "#1c3570" }); el(p, "rect", { width: 7, height: 16, fill: FD });
   [0, 25, 50, 75, 100, 120].forEach(function (v, i) { if (v === 120) return; el(g, "line", { x1: X(v), x2: X(v), y1: 50, y2: 650, stroke: i ? GRID : NAVY, "stroke-width": i ? 2 : 3 }); T(g, X(v), 32, String(v), 28, AX, 400, "middle"); });
   [["Anthropic* 2026", 75, 100], ["SpaceX 2026", 75], ["Saudi Aramco 2019", 29.4], ["Alibaba 2014", 25], ["SoftBank 2018", 23.5], ["Visa 2008", 19.7], ["Facebook 2012", 16]].forEach(function (r, i) {
     var y = 70 + i * 84, hi = i === 0;
