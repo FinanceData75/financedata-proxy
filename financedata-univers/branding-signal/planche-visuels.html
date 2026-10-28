@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>FinanceData · Visuels, style presse éco</title>
+<script src="logos.js"></script>
+<style>
+  /* Visuels hors graphiques, même anatomie que les graphiques (planche-data.html) :
+     fond gris bleuté #EEF1F5, titre marine = l'idée, sous-titre gris d'une ligne, pied de page « crédit · FinanceData ».
+     Uniquement du réel : photos sous licence libre en couleurs naturelles, logos officiels, captures d'écran.
+     Le bleu FinanceData sert seulement à surligner ce qu'il faut retenir. Chaque écran a une animation simple, décrite en jaune. */
+  @font-face { font-family: "Display"; src: url("fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #2a2a2e; display: grid; grid-template-columns: repeat(3, 1080px); gap: 60px; padding: 60px; width: 3420px; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+  .f { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; color: #0a105e; }
+  .a { position: absolute; }
+  .ti { position: absolute; left: 96px; right: 96px; font-weight: 700; font-size: 76px; letter-spacing: -.035em; line-height: 1.04; }
+  .st { position: absolute; left: 96px; right: 96px; font-size: 38px; color: #3b4166; letter-spacing: -.01em; }
+  .ft { position: absolute; left: 96px; right: 96px; top: 1262px; display: flex; justify-content: space-between; align-items: baseline; font-size: 26px; color: #6b7290; }
+  .ft b { font-weight: 800; font-size: 30px; letter-spacing: -.03em; color: #0a105e; }
+  .ph { position: absolute; object-fit: cover; }
+  .hl { background: linear-gradient(transparent 12%, rgba(61,90,254,.32) 12%, rgba(61,90,254,.32) 88%, transparent 88%); }
+  .row { display: flex; justify-content: space-between; align-items: baseline; padding: 26px 0; border-bottom: 2px solid #d5dae5; font-size: 40px; }
+  .row span:first-child { color: #6b7290; } .row span:last-child { font-weight: 700; }
+  .cap { position: absolute; left: 0; right: 0; top: 1330px; text-align: center; }
+  .cap span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.8); font-weight: 600; font-size: 54px; letter-spacing: -.04em; color: #fff; }
+  .anim { position: absolute; left: 96px; right: 96px; top: 1480px; font-size: 30px; color: #8a6a00; line-height: 1.35; }
+  .anim::before { content: "ANIMATION · "; font-weight: 700; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "Display"; font-variation-settings: "opsz" 32; }
+  .lbl { position: absolute; top: 18px; left: 22px; font-size: 28px; font-weight: 600; color: #fff; background: #000; padding: 6px 14px; z-index: 9; }
+</style>
+</head>
+<body>
+
+<!-- 1 HOOK : grande photo naturelle, titre sur le fond -->
+<div class="f" id="y0"><div class="lbl">HOOK · PHOTO</div>
+  <img class="ph" src="img/dario-hq.jpg" style="left:0; top:0; width:1080px; height:960px; object-position:30% 30%">
+  <div class="ti" style="top:1010px; font-size:92px">Anthropic entre<br>en Bourse</div>
+  <div class="st" style="top:1215px">Le créateur de Claude vise 2 000 milliards $</div>
+  <div class="cap"><span>c'est officiel.</span></div>
+  <div class="anim">poussée lente de 3 % sur la photo, le titre monte ligne par ligne.</div>
+</div>
+
+<!-- 2 FICHE D'IDENTITÉ avec le logo officiel -->
+<div class="f" id="y1"><div class="lbl">FICHE · LOGO OFFICIEL</div>
+  <img class="a" src="img/anthropic-wordmark.svg" style="left:96px; top:420px; width:888px">
+  <div class="a" style="left:96px; right:96px; top:620px">
+    <div class="row"><span>Création</span><span>2021</span></div>
+    <div class="row"><span>Siège</span><span>San Francisco</span></div>
+    <div class="row"><span>Patron</span><span>Dario Amodei</span></div>
+    <div class="row"><span>Produit phare</span><span style="color:#3d5afe">Claude</span></div>
+    <div class="row"><span>Bourse visée</span><span>Nasdaq</span></div>
+  </div>
+  <div class="ft"><span>Sources : Anthropic ; presse</span><b>FinanceData</b></div>
+  <div class="anim">le logo se dessine, puis les lignes de la fiche apparaissent une à une.</div>
+</div>
+
+<!-- 3 CAPTURE D'ÉCRAN + SURLIGNAGE -->
+<div class="f" id="y2"><div class="lbl">CAPTURE + SURLIGNAGE</div>
+  <div class="ti" style="top:300px">Sa promesse</div>
+  <div class="a" style="left:96px; top:420px; width:888px; height:744px; overflow:hidden; box-shadow:0 2px 0 rgba(10,16,94,.06), 0 30px 70px rgba(10,16,94,.16)">
+    <img src="img/capture-anthropic.jpg" style="width:888px; height:744px; display:block">
+    <div class="a" style="left:52px; top:226px; width:790px; height:132px; background:rgba(61,90,254,.28); mix-blend-mode:multiply"></div>
+  </div>
+  <div class="ft"><span>Capture : anthropic.com</span><b>FinanceData</b></div>
+  <div class="anim">la capture glisse depuis le bas, puis le surligneur bleu balaie la phrase clé.</div>
+</div>
+
+<!-- 4 FRISE -->
+<div class="f" id="y3"><div class="lbl">FRISE</div>
+  <div class="ti" style="top:300px">En Bourse en cinq ans</div>
+  <svg id="t3" width="1080" height="900" style="left:0; top:460px"></svg>
+  <div class="ft"><span>Sources : Anthropic ; presse</span><b>FinanceData</b></div>
+  <div class="anim">la ligne se trace de haut en bas, chaque date s'allume sur la voix.</div>
+</div>
+
+<!-- 5 PHOTO DE LIEU, cadrée + légende -->
+<div class="f" id="y4"><div class="lbl">PHOTO · LIEU</div>
+  <div class="ti" style="top:300px">Direction le Nasdaq</div>
+  <img class="ph" src="img/nasdaq-2026.jpg" style="left:96px; top:420px; width:888px; height:780px; object-position:50% 72%">
+  <div class="ft"><span>Times Square, New York · Wikimedia Commons</span><b>FinanceData</b></div>
+  <div class="cap"><span>va entrer en bourse</span></div>
+  <div class="anim">poussée lente vers le logo Nasdaq.</div>
+</div>
+
+<!-- 6 VIDÉO + bandeau -->
+<div class="f" id="y5"><div class="lbl">VIDÉO + BANDEAU</div>
+  <img class="ph" src="img/video-wallstreet.jpg" style="left:0; top:0; width:1080px; height:1120px; object-position:50% 40%">
+  <div class="a" style="left:96px; top:1050px; background:#3d5afe; color:#fff; font-size:30px; font-weight:700; padding:12px 20px; letter-spacing:.02em">WALL STREET</div>
+  <div class="ti" style="top:1150px; font-size:84px">Vaut-elle ce prix ?</div>
+  <div class="cap"><span>une question se pose</span></div>
+  <div class="anim">la vidéo tourne en continu, le bandeau bleu glisse depuis la gauche.</div>
+</div>
+
+<!-- 7 LOGOS : la concurrence -->
+<div class="f" id="y6"><div class="lbl">LOGOS · CONCURRENCE</div>
+  <div class="ti" style="top:300px">Face aux géants de l'IA</div>
+  <svg id="t6" width="1080" height="800" style="left:0; top:440px"></svg>
+  <div class="ft"><span>Logos : Simple Icons</span><b>FinanceData</b></div>
+  <div class="anim">les logos arrivent un par un, Anthropic en dernier et en couleur.</div>
+</div>
+
+<!-- 8 TEXTE SEUL : question / chapitre -->
+<div class="f" id="y7"><div class="lbl">TEXTE · CHAPITRE</div>
+  <div class="a" style="left:96px; top:620px; font-size:40px; font-weight:600; color:#6b7290">2 sur 3</div>
+  <div class="ti" style="top:690px; font-size:132px">Ce qu'elle<br><span style="color:#3d5afe">gagne</span></div>
+  <div class="anim">le chiffre « 2 sur 3 » puis le titre, en coupe franche sur la voix.</div>
+</div>
+
+<!-- 9 CTA -->
+<div class="f" id="y8"><div class="lbl">CTA</div>
+  <img class="a" src="img/logo-financedata.png" style="left:390px; top:560px; width:300px; height:300px; border-radius:50%">
+  <div class="a" style="left:0; right:0; top:920px; text-align:center; font-weight:800; font-size:96px; letter-spacing:-.04em">FinanceData</div>
+  <div class="a" style="left:330px; top:1070px; width:420px; height:110px; background:#3d5afe; color:#fff; font-weight:700; font-size:46px; text-align:center; line-height:110px">S'abonner</div>
+  <div class="anim">le bouton passe à « Abonné ✓ » sur « abonnez-vous ».</div>
+</div>
+
+<script>
+var NS = "http://www.w3.org/2000/svg", L = window.LOGOS, NAVY = "#0a105e", FD = "#3d5afe", G = "#6b7290", PALE = "#c5cad9";
+function el(svg, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; svg.appendChild(e); return e; }
+function T(svg, x, y, s, size, fill, w, anchor) { return el(svg, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start", "letter-spacing": -size * .012 }, s); }
+function logo(g, name, x, y, size, color) {
+  if (name === "microsoft") { var s = size * 11 / 24, gp = size * 2 / 24; [[0, 0], [1, 0], [0, 1], [1, 1]].forEach(function (p) { el(g, "rect", { x: x + p[0] * (s + gp), y: y + p[1] * (s + gp), width: s, height: s, fill: color }); }); return; }
+  var gr = el(g, "g", { transform: "translate(" + x + " " + y + ") scale(" + size / 24 + ")" }); el(gr, "path", { d: L[name], fill: color });
+}
+// frise verticale
+(function () { var g = document.getElementById("t3");
+  var E = [["2021", "Création par d'anciens d'OpenAI"], ["Mars 2023", "Lancement de Claude"], ["Mai 2026", "Levée à 965 Md$ de valorisation"], ["Oct. 2026", "Dépôt du dossier d'introduction"], ["Nov. 2026", "Entrée en Bourse visée"]];
+  el(g, "line", { x1: 118, x2: 118, y1: 40, y2: 40 + 4 * 172, stroke: PALE, "stroke-width": 4 });
+  E.forEach(function (e, i) { var y = 40 + i * 172, hi = i === 4;
+    el(g, "rect", { x: 104, y: y - 14, width: 28, height: 28, fill: hi ? FD : NAVY });
+    T(g, 180, y - 8, e[0], 34, hi ? FD : G, 700); T(g, 180, y + 44, e[1], 40, NAVY, hi ? 700 : 500); });
+})();
+// logos de la concurrence
+(function () { var g = document.getElementById("t6");
+  [["openai", "OpenAI", "ChatGPT"], ["googlegemini", "Google", "Gemini"], ["meta", "Meta", "Llama"], ["anthropic", "Anthropic", "Claude"]].forEach(function (r, i) { var y = 30 + i * 190, hi = i === 3;
+    logo(g, r[0], 96, y, 110, hi ? FD : NAVY);
+    T(g, 260, y + 52, r[1], 52, hi ? FD : NAVY, 700); T(g, 260, y + 104, r[2], 38, G, 500); });
+})();
+</script>
+</body>
+</html>
