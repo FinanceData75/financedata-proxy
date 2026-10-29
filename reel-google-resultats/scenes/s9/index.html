@@ -6,8 +6,7 @@
     <script src="assets/gsap.min.js"></script>
     <style>
       /* Scène 9 (37,26 → 41,22 s) « Du coup, pour continuer, elle va devoir trouver de l'argent ailleurs. Et deux solutions se présentent à elle ».
-         Vraie vidéo du siège de Google (lente poussée), carte blanche à angles droits dans le ciel, comme la scène 1 :
-         logo, « Trésorerie · T3 2026 » et le trou −9,1 Md$, seule couleur de la scène. */
+         Vraie vidéo du siège de Google (lente poussée), sous-titres seuls : le chiffre a déjà été montré à la scène 8. */
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
@@ -25,23 +24,12 @@
     </div>
     <script>
       (function () {
-        var tl = gsap.timeline({ paused: true }), st = document.getElementById("stage"), RED = "#d9161e";
+        var tl = gsap.timeline({ paused: true }), st = document.getElementById("stage");
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
-        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
 
         // vidéo : lente poussée, voile bleu nuit en bas pour les sous-titres
         tl.fromTo("#v-gp", { scale: 1 }, { scale: 1.07, transformOrigin: "50% 70%", duration: 3.96, ease: "none" }, 0);
         div(st, "", "inset:0; background:linear-gradient(180deg, rgba(0,11,34,0) 55%, rgba(0,11,34,.55) 100%)");
-
-        // carte blanche dans le ciel : le trou de trésorerie
-        var card = div(st, "<img src='assets/img/google-g.svg' style='position:absolute; left:48px; top:48px; width:80px; height:80px'>" +
-          "<div style='position:absolute; left:156px; top:44px; font-size:52px; font-weight:700; letter-spacing:-.055em; line-height:1'>Alphabet</div>" +
-          "<div style='position:absolute; left:156px; top:104px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Trésorerie · T3 2026</div>" +
-          "<div class='n' style='position:absolute; left:44px; top:178px; font-size:136px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + RED + "; font-feature-settings:\"tnum\" 1'>−0,0 Md$</div>",
-          "left:60px; top:300px; width:700px; height:370px; background:#fff; border-radius:4px; box-shadow:0 18px 50px rgba(0,11,34,.28)");
-        tl.fromTo(card, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, .2);
-        var n = card.querySelector(".n"), o = { v: 0 };
-        tl.fromTo(o, { v: 0 }, { v: 9.1, duration: 1.1, ease: "power3.out", onUpdate: function () { n.textContent = "−" + fr(o.v, 1) + " Md$"; } }, .45);
 
         // sous-titres (3 mots max)
         [["Du coup,", 0, .26], ["pour continuer,", .26, .84], ["elle va devoir", .84, 1.38], ["trouver de l'argent", 1.38, 2.00], ["ailleurs.", 2.00, 2.42], ["Et deux solutions", 2.42, 3.14], ["se présentent", 3.14, 3.54], ["à elle.", 3.54, 3.96]].forEach(function (c) {
