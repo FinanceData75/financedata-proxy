@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/gemini.js"></script>
+    <style>
+      /* Scène 6 (18,68 → 22,86 s) « Ensuite, ce sont surtout les investissements liés à l'intelligence artificielle qui ont inquiété ».
+         Vidéo data center plein écran (ralentie, léger filtre bleu, lente poussée), carte blanche à angles droits
+         (vrai logo Gemini) sur « investissements », filet rouge sur « inquiété ». */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.45); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="4.18" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="4.18" data-track-index="1"></audio>
+      <video id="v-dc" class="clip" src="assets/video/datacenter-lent.mp4" data-start="0" data-duration="4.18" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="stage" class="clip" data-start="0" data-duration="4.18" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var tl = gsap.timeline({ paused: true }), st = document.getElementById("stage");
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
+
+        // vidéo : lente poussée, filtre bleu léger, voile bleu nuit en bas pour la carte et les sous-titres
+        tl.fromTo("#v-dc", { scale: 1 }, { scale: 1.08, duration: 4.18, ease: "none" }, 0);
+        div(st, "", "inset:0; background:rgba(61,90,254,.16); mix-blend-mode:multiply");
+        div(st, "", "inset:0; background:linear-gradient(180deg, rgba(0,11,34,.1) 0%, rgba(0,11,34,.15) 40%, rgba(0,11,34,.7) 100%)");
+
+        // carte blanche : logo Gemini + « Investissements IA »
+        var gem = "<svg width='84' height='84' viewBox='0 0 24 24'><defs><linearGradient id='gem' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#4796e3'/><stop offset='.6' stop-color='#9177c7'/><stop offset='1' stop-color='#d96570'/></linearGradient></defs><path d='" + window.GEMINI + "' fill='url(#gem)'/></svg>";
+        var card = div(st, "<div style='position:absolute; left:48px; top:48px'>" + gem + "</div><div style='position:absolute; left:162px; top:40px; font-size:34px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Alphabet</div><div style='position:absolute; left:162px; top:80px; font-size:62px; font-weight:700; letter-spacing:-.055em; line-height:1'>Investissements IA</div>", "left:96px; top:1040px; width:888px; height:180px; background:#fff; border-radius:4px; box-shadow:0 18px 50px rgba(0,11,34,.35)");
+        var bar = div(card, "", "left:0; top:0; width:10px; height:180px; background:#e5484d");
+        tl.fromTo(card, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, 1.38);
+        tl.fromTo(bar, { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: .3, ease: "power2.out" }, 3.6);
+
+        // sous-titres (3 mots max)
+        [["Ensuite,", 0, .30], ["ce sont surtout", .30, 1.22], ["les investissements", 1.22, 2.12], ["liés à", 2.12, 2.52], ["l'intelligence artificielle", 2.52, 3.50], ["qui ont inquiété.", 3.50, 4.18]].forEach(function (c) {
+          var d = div(st, "<span>" + c[0] + "</span>", "top:1335px", "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
+        });
+        tl.set({}, {}, 4.18);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
