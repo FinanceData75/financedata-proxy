@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Scène 9 (37,26 → 41,22 s) « Du coup, pour continuer, elle va devoir trouver de l'argent ailleurs. Et deux solutions se présentent à elle ».
+         Fond bleu nuit. Le trou de la scène 8 (−9,1 Md$, seule couleur) au centre, qui remonte en titre en haut à gauche,
+         puis deux tuiles à angles droits (comme la scène 3) encore vides, remplies à la scène 10. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #fff; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.45); }
+      .tile { position: absolute; left: 96px; width: 888px; height: 300px; border-radius: 4px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="3.96" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="3.96" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="3.96" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var tl = gsap.timeline({ paused: true }), st = document.getElementById("stage"), RED = "#e5484d";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
+
+        // le trou : d'abord en grand au centre, puis il remonte en titre en haut à gauche sur « trouver de l'argent »
+        var gap = div(st, "−9,1 Md$", "left:96px; top:300px; font-weight:700; font-size:76px; letter-spacing:-.055em; line-height:1; color:" + RED + "; font-feature-settings:'tnum' 1; white-space:nowrap");
+        var S = 2.4, w = gap.offsetWidth, h = gap.offsetHeight;
+        var big = { x: (1080 - w * S) / 2 - 96, y: 760 - h * S / 2 - 300, scale: S, transformOrigin: "0% 0%" };
+        tl.fromTo(gap, { opacity: 0, x: big.x, y: big.y + 20, scale: S, transformOrigin: "0% 0%" }, { opacity: 1, y: big.y, duration: .35, ease: "power3.out" }, 0);
+        tl.to(gap, { x: 0, y: 0, scale: 1, duration: .6, ease: "power3.inOut" }, 1.38);
+        var sub = div(st, "à trouver ailleurs", "left:96px; top:392px; font-size:38px; font-weight:500; color:rgba(255,255,255,.6); letter-spacing:-.03em");
+        tl.fromTo(sub, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" }, 1.9);
+
+        // deux solutions : tuiles encore vides, sur « deux solutions »
+        [["Solution 1", 520, 2.6], ["Solution 2", 860, 2.78]].forEach(function (t) {
+          var d = div(st, "<div style='position:absolute; left:48px; top:48px; font-size:34px; font-weight:700; color:rgba(255,255,255,.5); letter-spacing:-.02em'>" + t[0] + "</div><div style='position:absolute; left:48px; top:110px; font-size:76px; font-weight:700; letter-spacing:-.055em; color:rgba(255,255,255,.4)'>?</div>", "top:" + t[1] + "px", "tile");
+          tl.fromTo(d, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, t[2]);
+        });
+
+        // sous-titres (3 mots max)
+        [["Du coup,", 0, .26], ["pour continuer,", .26, .84], ["elle va devoir", .84, 1.38], ["trouver de l'argent", 1.38, 2.00], ["ailleurs.", 2.00, 2.42], ["Et deux solutions", 2.42, 3.14], ["se présentent", 3.14, 3.54], ["à elle.", 3.54, 3.96]].forEach(function (c) {
+          var d = div(st, "<span>" + c[0] + "</span>", "top:1335px", "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
+        });
+        tl.set({}, {}, 3.96);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
