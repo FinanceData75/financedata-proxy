@@ -7,7 +7,7 @@
     <script src="assets/logos.js"></script>
     <style>
       /* Scène 3 (4,32 → 9,06 s) « Mais alors pourquoi les investisseurs s'inquiètent ? … deux raisons, la deuxième est la plus importante ».
-         1) vidéo Wall Street la nuit, voile bleu nuit ; 2) fond bleu nuit, deux tuiles à angles droits (vrais logos Google Ads et Gemini),
+         1) vidéo Wall Street la nuit, voile bleu nuit ; 2) fond bleu nuit, deux tuiles à angles droits dont le nom reste caché (« ? », révélé ensuite par la voix),
          la deuxième s'allume en bleu FinanceData sur « la plus importante ». */
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,9 +38,9 @@
         // 2) 1,84 → fin : fond bleu nuit, deux raisons
         var bg = div(st, "", "inset:0; background:#000b22; opacity:0");
         tl.set(bg, { opacity: 1 }, 1.84);
-        var t1 = div(st, "<div style='position:absolute; left:48px; top:48px; font-size:34px; font-weight:700; color:rgba(255,255,255,.5); letter-spacing:-.02em'>Raison 1</div><div style='position:absolute; left:48px; top:110px; font-size:76px; font-weight:700; letter-spacing:-.055em'>La publicité</div><div style='position:absolute; right:48px; top:96px'>" + logo("googleads", "#4285f4", 108) + "</div>", "top:520px");
+        var t1 = div(st, "<div style='position:absolute; left:48px; top:48px; font-size:34px; font-weight:700; color:rgba(255,255,255,.5); letter-spacing:-.02em'>Raison 1</div><div style='position:absolute; left:48px; top:110px; font-size:76px; font-weight:700; letter-spacing:-.055em'>?</div>", "top:520px");
         t1.className = "tile";
-        var t2 = div(st, "<div class='lbl' style='position:absolute; left:48px; top:48px; font-size:34px; font-weight:700; color:rgba(255,255,255,.5); letter-spacing:-.02em'>Raison 2</div><div style='position:absolute; left:48px; top:110px; font-size:76px; font-weight:700; letter-spacing:-.055em'>L'IA</div><div style='position:absolute; right:48px; top:96px'>" + logo("googlegemini", "url(#gem)", 108) + "</div><div class='hi' style='position:absolute; left:48px; top:214px; font-size:34px; font-weight:700; color:#6f8bff; letter-spacing:-.02em; opacity:0'>La plus importante</div>", "top:860px");
+        var t2 = div(st, "<div class='lbl' style='position:absolute; left:48px; top:48px; font-size:34px; font-weight:700; color:rgba(255,255,255,.5); letter-spacing:-.02em'>Raison 2</div><div style='position:absolute; left:48px; top:110px; font-size:76px; font-weight:700; letter-spacing:-.055em'>?</div><div class='hi' style='position:absolute; left:48px; top:214px; font-size:34px; font-weight:700; color:#6f8bff; letter-spacing:-.02em; opacity:0'>La plus importante</div>", "top:860px");
         t2.className = "tile";
         tl.fromTo(t1, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, 2.6);
         tl.fromTo(t2, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, 2.78);
