@@ -2,9 +2,9 @@
 
 Format : actu décryptée · Structure : Du doute à la victoire, puis leçon · ~65 s · « vous »
 
-## Voix off
+## Voix off (version validée)
 
-Cette action a perdu près de 70 %, parce que Wall Street pensait que l'IA allait la tuer. Et pourtant, sa PDG vient de miser 3 millions de dollars dessus.
+Cette action a perdu près de 70 %, parce que Wall Street pensait que l'IA allait tuer l'entreprise. Et pourtant, sa PDG vient de miser 3 millions de dollars dessus.
 
 Le plus intéressant, ce n'est pas le montant. C'est le moment.
 
@@ -20,9 +20,9 @@ Ce n'est pas le geste de quelqu'un qui cherche une bonne affaire. C'est celui de
 
 Attention, ça ne garantit rien : l'action peut encore baisser. Mais quand un dirigeant passe de vendeur à acheteur, ça mérite votre attention.
 
-Pour comprendre les marchés simplement, abonnez-vous.
+Et pour recevoir notre outil de suivi des achats d'initiés, commentez « PDG » et on vous l'enverra.
 
-(≈ 215 mots)
+(≈ 220 mots)
 
 ## Découpage (trame FinanceData)
 
@@ -37,7 +37,7 @@ Pour comprendre les marchés simplement, abonnez-vous.
 | 7 | Le timing | « Pendant un an… après la remontée » | ~8 s | frise : ventes (gris) puis achat (bleu), au même endroit que la carte de la scène 3 |
 | 8 | La leçon | « Ce n'est pas le geste… pas finie » | ~6 s | portrait de Julie Sweet en noir et blanc |
 | 9 | Prudence | « Attention… votre attention » | ~6 s | carte « Vendeur → Acheteur » |
-| 10 | CTA | « Pour comprendre les marchés… » | ~3 s | logo rond, nom, bouton S'abonner |
+| 10 | CTA | « Et pour recevoir notre outil… commentez « PDG »… » | ~5 s | logo rond (anneau story) + bulle de commentaire Instagram où « PDG » s'écrit, puis aperçu de l'outil de suivi |
 
 ## Sources
 - Achat de Julie Sweet, 12 200 actions pour environ 3,0 M$ le 26/10/2026 (Form 4 déposé le 28/10) : [SEC](https://www.sec.gov/Archives/edgar/data/0001467373/000148763026000022/wk-form4_1793184338.xml), [Benzinga](https://www.benzinga.com/news/26/10/62660461/bullish-move-julie-spellman-sweet-shows-confidence-acquires-3-00m-accenture-stock)
