@@ -18,7 +18,7 @@
       svg { position: absolute; overflow: visible; }
       svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
       .cap { position: absolute; left: 0; right: 0; top: 1480px; text-align: center; opacity: 0; }
-      .cap span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.8); font-family: "Cap"; font-weight: 600; font-size: 56px; letter-spacing: -.04em; color: #fff; }
+      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.45); }
     </style>
   </head>
   <body>
@@ -40,22 +40,22 @@
         tl.fromTo(ph.firstChild, { scale: 1.06 }, { scale: 1.0, duration: 2.3, ease: "power1.out" }, 0);
 
         // carte boursière : logo, ticker, prix, variation, cours du 28 au 29 octobre
-        var card = div(st, "", "left:96px; top:1060px; width:888px; height:360px; border-radius:4px; background:#fff; box-shadow:0 30px 80px rgba(0,11,34,.35)");
+        var card = div(st, "", "left:60px; top:990px; width:960px; height:450px; border-radius:4px; background:#fff; box-shadow:0 30px 80px rgba(0,11,34,.35)");
         tl.fromTo(card, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, .05);
-        div(card, "<img src='assets/img/google-g.svg' style='width:100%; height:100%; display:block'>", "left:44px; top:42px; width:72px; height:72px");
-        div(card, "<div style='font-size:40px; font-weight:700; color:#0a105e; letter-spacing:-.02em'>Alphabet</div><div style='margin-top:4px; font-size:26px; font-weight:600; color:#6b7290; letter-spacing:.04em'>GOOGL · NASDAQ</div>", "left:140px; top:40px");
-        var px = div(card, "324,89 $", "right:44px; top:36px; text-align:right; font-size:48px; font-weight:700; color:#0a105e; letter-spacing:-.02em; font-feature-settings:'tnum' 1");
-        var pc = div(card, "0,0 %", "right:44px; top:96px; text-align:right; font-size:34px; font-weight:700; color:" + RED + "; font-feature-settings:'tnum' 1");
+        div(card, "<img src='assets/img/google-g.svg' style='width:100%; height:100%; display:block'>", "left:48px; top:46px; width:92px; height:92px");
+        div(card, "<div style='font-size:54px; font-weight:700; color:#0a105e; letter-spacing:-.05em; line-height:1'>Alphabet</div><div style='margin-top:10px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>NASDAQ: GOOGL</div>", "left:164px; top:48px");
+        var px = div(card, "324,89 $", "right:48px; top:40px; text-align:right; font-size:62px; font-weight:700; color:#0a105e; letter-spacing:-.05em; font-feature-settings:'tnum' 1");
+        var pc = div(card, "0,0 %", "right:48px; top:112px; text-align:right; font-size:42px; font-weight:700; letter-spacing:-.04em; color:" + RED + "; font-feature-settings:'tnum' 1");
         var o = { v: 324.89 }; tl.fromTo(o, { v: 324.89 }, { v: 291.64, duration: .7, ease: "power3.out", onUpdate: function () { px.textContent = fr(o.v, 2) + " $"; pc.textContent = "▼ " + fr((324.89 - o.v) / 324.89 * 100, 1) + " %"; } }, .95);
-        var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 800); g.setAttribute("height", 170); g.style.left = "44px"; g.style.top = "160px"; card.appendChild(g);
+        var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 864); g.setAttribute("height", 220); g.style.left = "48px"; g.style.top = "200px"; card.appendChild(g);
         var I = G.intra, n = I.length, iClose = I.findIndex(function (r) { return r[0] >= "2026-10-28 20:00"; }) - 1;
-        var X = function (k) { return k / (n - 1) * 800; }, Y = function (v) { return 150 - (v - 288) / 40 * 140; };
+        var X = function (k) { return k / (n - 1) * 864; }, Y = function (v) { return 200 - (v - 288) / 40 * 185; };
         var dA = I.map(function (r, k) { return (k ? "L" : "M") + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
         var defs = el(g, "defs", {}), lg = el(defs, "linearGradient", { id: "ar", x1: 0, y1: 0, x2: 0, y2: 1 });
         el(lg, "stop", { offset: 0, "stop-color": RED, "stop-opacity": .45 }); el(lg, "stop", { offset: 1, "stop-color": RED, "stop-opacity": .04 });
-        var area = el(g, "path", { d: "M0 170 " + I.map(function (r, k) { return "L" + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ") + " L800 170 Z", fill: "url(#ar)" });
+        var area = el(g, "path", { d: "M0 220 " + I.map(function (r, k) { return "L" + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ") + " L864 220 Z", fill: "url(#ar)" });
         tl.fromTo(area, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.25, ease: "power2.inOut" }, .3);
-        el(g, "line", { x1: 0, x2: 800, y1: Y(324.89), y2: Y(324.89), stroke: "#c5cad9", "stroke-width": 2, "stroke-dasharray": "4 8" });
+        el(g, "line", { x1: 0, x2: 864, y1: Y(324.89), y2: Y(324.89), stroke: "#c5cad9", "stroke-width": 2, "stroke-dasharray": "4 8" });
         var d1 = I.slice(0, iClose + 1).map(function (r, k) { return (k ? "L" : "M") + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
         var d2 = I.slice(iClose).map(function (r, k) { return (k ? "L" : "M") + X(k + iClose).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
         var p1 = el(g, "path", { d: d1, fill: "none", stroke: RED, "stroke-width": 4, "stroke-linejoin": "round" });
@@ -66,7 +66,7 @@
 
         // sous-titres (3 mots max)
         [["Hier soir,", 0.0, .44], ["Google a chuté", .44, 1.02], ["de plus", 1.02, 1.26], ["de 10 %", 1.26, 1.94]].forEach(function (c) {
-          var d = div(st, "<span>" + c[0] + "</span>", "left:0; right:0; top:1480px; text-align:center; opacity:0"); d.className = "cap";
+          var d = div(st, "<span>" + c[0] + "</span>", "left:0; right:0; top:1500px; text-align:center; opacity:0"); d.className = "cap";
           tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
         });
         tl.set({}, {}, 2.3);
