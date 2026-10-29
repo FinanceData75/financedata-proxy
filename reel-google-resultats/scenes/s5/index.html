@@ -4,19 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1080, height=1920" />
     <script src="assets/gsap.min.js"></script>
+    <script src="assets/logos.js"></script>
     <style>
       /* Scène 5 (16,18 → 18,68 s) « et cette fois-ci, les résultats étaient inférieurs aux attentes ».
-         Graphique en points façon presse éco : attendu (gris) contre publié (rouge), l'écart écrit sur la ligne.
-         Deux lignes : publicité totale et YouTube, chacune sur sa propre échelle. */
+         Version minimaliste : deux lignes (vrais logos Google Ads et YouTube), le chiffre publié en rouge, l'attendu en gris dessous. */
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; }
       #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
       .a { position: absolute; }
-      svg { position: absolute; overflow: visible; }
-      svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
       .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
       .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
+      .num { font-weight: 700; letter-spacing: -.055em; line-height: 1; font-feature-settings: "tnum" 1; }
     </style>
   </head>
   <body>
@@ -26,43 +25,25 @@
     </div>
     <script>
       (function () {
-        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), st = document.getElementById("stage");
-        var NAVY = "#0a105e", RED = "#e5484d", GREY = "#9aa1b8", GRID = "#d5dae5", AX = "#6b7290";
+        var tl = gsap.timeline({ paused: true }), st = document.getElementById("stage"), L = window.LOGOS, RED = "#e5484d";
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
-        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
-        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
         function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+        function logo(name, fill, size) { return "<svg width='" + size + "' height='" + size + "' viewBox='0 0 24 24'><path d='" + L[name] + "' fill='" + fill + "'/></svg>"; }
 
         // titre en haut à gauche
-        var lg = div(st, "<img src='assets/img/google-g.svg' style='width:100%; height:100%; display:block'>", "left:96px; top:292px; width:64px; height:64px");
-        var ti = div(st, "Sous les attentes", "left:180px; top:286px; font-weight:700; font-size:72px; letter-spacing:-.055em; line-height:1");
-        var sub = div(st, "Revenus publicitaires, T3 2026, en milliards $", "left:96px; top:390px; font-size:38px; font-weight:500; color:#3b4166; letter-spacing:-.03em");
-        tl.fromTo([lg, ti, sub], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out", stagger: .05 }, 0);
+        var ti = div(st, "Sous les attentes", "left:96px; top:300px; font-weight:700; font-size:76px; letter-spacing:-.055em; line-height:1");
+        var sub = div(st, "Revenus publicitaires, T3 2026", "left:96px; top:396px; font-size:38px; font-weight:500; color:#3b4166; letter-spacing:-.03em");
+        tl.fromTo([ti, sub], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out", stagger: .05 }, 0);
 
-        // légende directe (points) en haut du graphique
-        var leg = div(st, "<span style='display:inline-block; width:22px; height:22px; background:" + GREY + "; vertical-align:-3px'></span>&nbsp; Attendu &nbsp;&nbsp;&nbsp; <span style='display:inline-block; width:22px; height:22px; background:" + RED + "; vertical-align:-3px'></span>&nbsp; Publié", "left:96px; top:480px; font-size:34px; font-weight:600; color:#3b4166; letter-spacing:-.02em");
-        tl.fromTo(leg, { opacity: 0 }, { opacity: 1, duration: .3 }, .15);
-
-        var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 1080); g.setAttribute("height", 700); g.style.left = "0px"; g.style.top = "560px"; st.appendChild(g);
-        // une ligne par indicateur : [nom, attendu, publié, min, max, pas, y]
-        [["Publicité Google", 83.52, 82.01, 80, 85, 1, 60], ["dont YouTube", 11.34, 11.21, 11.0, 11.5, .1, 380]].forEach(function (r, k) {
-          var X = function (v) { return 96 + (v - r[3]) / (r[4] - r[3]) * 888; }, y = r[6] + 110;
-          T(g, 96, r[6], r[0], 42, NAVY, 700);
-          for (var v = r[3]; v <= r[4] + 1e-9; v += r[5]) {
-            el(g, "line", { x1: X(v), x2: X(v), y1: r[6] + 40, y2: y + 60, stroke: GRID, "stroke-width": 2 });
-            T(g, X(v), y + 100, fr(v, r[5] < 1 ? 1 : 0), 28, AX, 500, "middle");
-          }
-          el(g, "line", { x1: 96, x2: 984, y1: y + 60, y2: y + 60, stroke: NAVY, "stroke-width": 3 });
-          var link = el(g, "line", { x1: X(r[1]), x2: X(r[1]), y1: y, y2: y, stroke: RED, "stroke-width": 8, "stroke-linecap": "round" });
-          var dA = el(g, "rect", { x: X(r[1]) - 20, y: y - 20, width: 40, height: 40, fill: GREY });
-          var dP = el(g, "rect", { x: X(r[1]) - 22, y: y - 22, width: 44, height: 44, fill: RED });
-          var t0 = .3 + k * .15, t1 = 1.45 + k * .12;
-          tl.fromTo(dA, { opacity: 0, scale: 0, transformOrigin: X(r[1]) + "px " + y + "px" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, t0);
-          tl.fromTo(dP, { opacity: 0 }, { opacity: 1, duration: .01 }, t1);
-          tl.to(dP, { attr: { x: X(r[2]) - 22 }, duration: .45, ease: "power3.inOut" }, t1);
-          tl.to(link, { attr: { x2: X(r[2]) }, duration: .45, ease: "power3.inOut" }, t1);
-          var va = T(g, X(r[1]), y - 40, fr(r[1], 2), 32, AX, 600, "middle"), vp = T(g, X(r[2]), y - 40, fr(r[2], 2), 36, RED, 700, "middle");
-          tl.fromTo(va, { opacity: 0 }, { opacity: 1, duration: .2 }, t0 + .2); tl.fromTo(vp, { opacity: 0 }, { opacity: 1, duration: .2 }, t1 + .45);
+        // une ligne par activité : logo, nom, chiffre publié (rouge), attendu (gris)
+        [["googleads", "#4285f4", "Google Ads", 82.01, 83.52, 540, .25], ["youtube", "#ff0000", "YouTube", 11.21, 11.34, 900, .45]].forEach(function (r) {
+          var row = div(st, "<div style='position:absolute; left:0; top:6px'>" + logo(r[0], r[1], 96) + "</div><div style='position:absolute; left:130px; top:20px; font-size:50px; font-weight:700; letter-spacing:-.05em'>" + r[2] + "</div>", "left:96px; top:" + r[5] + "px; width:888px; height:330px");
+          var n = div(row, fr(r[4], 1) + " Md$", "left:0; top:126px; font-size:112px; color:#9aa1b8", "a num");
+          tl.to(n, { color: RED, duration: .3 }, 1.45);
+          var exp = div(row, "attendu : " + fr(r[4], 1) + " Md$", "left:4px; top:256px; font-size:40px; font-weight:600; color:#6b7290; letter-spacing:-.03em");
+          tl.fromTo(row, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out" }, r[6]);
+          var o = { v: r[4] }; tl.fromTo(o, { v: r[4] }, { v: r[3], duration: .6, ease: "power3.out", onUpdate: function () { n.textContent = "▼ " + fr(o.v, 1) + " Md$"; } }, 1.45);
+          tl.fromTo(exp, { opacity: 0 }, { opacity: 1, duration: .3 }, 1.9);
         });
         div(st, "<div style='display:flex; justify-content:space-between; width:888px; font-size:26px; color:#6b7290'><span>Sources : Alphabet ; consensus Zacks</span><b style='font-size:30px; font-weight:800; letter-spacing:-.04em; color:#0a105e'>FinanceData</b></div>", "left:96px; top:1262px");
 
