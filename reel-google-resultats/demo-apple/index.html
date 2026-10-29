@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/goog.js"></script>
+    <style>
+      /* Démo « style keynote » : noir profond ou blanc Apple, typographie géante, dégradés lumineux,
+         courbes qui se dessinent avec un halo, illustrations en verre dépoli. Données réelles (Yahoo Finance, résultats Alphabet). */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .sc { position: absolute; inset: 0; opacity: 0; overflow: hidden; background: #000; color: #f5f5f7; }
+      .sc.blanc { background: #f5f5f7; color: #1d1d1f; }
+      .t { position: absolute; left: 0; right: 0; text-align: center; white-space: nowrap; }
+      .eye { font-size: 40px; font-weight: 600; color: #86868b; letter-spacing: -.01em; }
+      .hd { font-weight: 700; letter-spacing: -.045em; line-height: 1.02; }
+      .big { font-weight: 700; letter-spacing: -.06em; line-height: .9; font-feature-settings: "tnum" 1; }
+      .grad-red { background: linear-gradient(100deg, #ff375f 10%, #ff9f0a 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .grad-green { background: linear-gradient(100deg, #30d158 10%, #64d2ff 90%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .grad-blue { background: linear-gradient(100deg, #2997ff 0%, #a259ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .glass { position: absolute; border-radius: 44px; background: rgba(255,255,255,.72); box-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 40px 90px rgba(0,0,0,.12); backdrop-filter: blur(20px); }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="18.6" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="18.6" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), stage = document.getElementById("stage"), G = window.GOOG;
+        function div(p, cls, html, style) { var d = document.createElement("div"); d.className = cls; if (html != null) d.innerHTML = html; if (style) d.setAttribute("style", style); p.appendChild(d); return d; }
+        function svg(p, w, h, l, t) { var s = document.createElementNS(NS, "svg"); s.setAttribute("width", w); s.setAttribute("height", h); s.style.left = l + "px"; s.style.top = t + "px"; p.appendChild(s); return s; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function scene(a, b, cls) { var s = div(stage, "sc " + (cls || "")); tl.set(s, { opacity: 1 }, a); tl.set(s, { opacity: 0 }, b); return s; }
+        // apparition keynote : montée + net, très douce
+        function rise(n, t, d) { tl.fromTo(n, { opacity: 0, y: 40, filter: "blur(12px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: d || .7, ease: "expo.out" }, t); return n; }
+        function draw(p, t, d) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: "power2.inOut" }, t); }
+        function count(n, t, a, b, d, fmt) { var o = { v: a }; tl.fromTo(o, { v: a }, { v: b, duration: d, ease: "expo.out", onUpdate: function () { n.textContent = fmt(o.v); } }, t); }
+        function grad(s, id, stops, x2, y2) { var g = el(el(s, "defs", {}), "linearGradient", { id: id, x1: 0, y1: 0, x2: x2 == null ? 1 : x2, y2: y2 || 0 }); stops.forEach(function (st) { el(g, "stop", { offset: st[0], "stop-color": st[1], "stop-opacity": st[2] == null ? 1 : st[2] }); }); }
+        function glow(s, id, sd) { var f = el(el(s, "defs", {}), "filter", { id: id, x: "-30%", y: "-30%", width: "160%", height: "160%" }); el(f, "feGaussianBlur", { stdDeviation: sd }); }
+        var s, g;
+
+        // 1. 0–2,4 hook : −10 % et la chute après la clôture
+        s = scene(0, 2.4);
+        rise(div(s, "t eye", "Alphabet · GOOGL", "top:470px"), 0, .6);
+        var h1 = rise(div(s, "t big grad-red", "0 %", "top:560px; font-size:330px"), .1, .6);
+        count(h1, .15, 0, -10.2, 1.3, function (v) { return (v < -0.05 ? "−" : "") + Math.abs(v).toFixed(0) + " %"; });
+        g = svg(s, 1080, 520, 0, 980); grad(g, "lr", [[0, "#ff9f0a"], [1, "#ff375f"]]); glow(g, "gw", 14);
+        var I = G.intra, X = function (k) { return 96 + k / (I.length - 1) * 888; }, Y = function (v) { return 40 + (330 - v) / 42 * 420; };
+        var dI = I.map(function (r, k) { return (k ? "L" : "M") + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
+        var g1 = el(g, "path", { d: dI, fill: "none", stroke: "url(#lr)", "stroke-width": 16, opacity: .55, filter: "url(#gw)" });
+        var g2 = el(g, "path", { d: dI, fill: "none", stroke: "url(#lr)", "stroke-width": 7, "stroke-linejoin": "round", "stroke-linecap": "round" });
+        draw(g1, .2, 1.6); draw(g2, .2, 1.6);
+        var lt = el(g, "text", { x: 984, y: Y(I[I.length - 1][1]) + 80, "font-size": 40, "font-weight": 600, fill: "#86868b", "text-anchor": "end" }, "291,64 $ avant-bourse");
+        tl.fromTo(lt, { opacity: 0 }, { opacity: 1, duration: .4 }, 1.6);
+
+        // 2. 2,4–4,8 le paradoxe
+        s = scene(2.4, 4.8);
+        rise(div(s, "t eye", "Ventes du trimestre", "top:500px"), 2.45);
+        rise(div(s, "t big grad-green", "+25 %", "top:570px; font-size:240px"), 2.5);
+        rise(div(s, "t eye", "Action, après les résultats", "top:960px"), 3.2);
+        rise(div(s, "t big grad-red", "−10 %", "top:1030px; font-size:240px"), 3.3);
+
+        // 3. 4,8–7,4 deux ans d'action, dessinés avec un halo
+        s = scene(4.8, 7.4);
+        rise(div(s, "t hd", "Deux ans de hausse.<br><span class='grad-red'>Une nuit de chute.</span>", "top:330px; font-size:92px; white-space:normal"), 4.85, .8);
+        g = svg(s, 1080, 760, 0, 640); grad(g, "lb", [[0, "#2997ff"], [.86, "#a259ff"], [.93, "#ff375f"], [1, "#ff375f"]]); glow(g, "gb", 16);
+        grad(g, "ab", [[0, "#2997ff", .35], [1, "#2997ff", 0]], 0, 1);
+        var Dd = G.daily.concat([["2026-10-29", 291.64]]), X2 = function (k) { return 96 + k / (Dd.length - 1) * 888; }, Y2 = function (v) { return 40 + (420 - v) / 280 * 600; };
+        var dD = Dd.map(function (r, k) { return (k ? "L" : "M") + X2(k).toFixed(1) + " " + Y2(r[1]).toFixed(1); }).join(" ");
+        var area = el(g, "path", { d: dD + " L" + X2(Dd.length - 1) + " 660 L96 660 Z", fill: "url(#ab)", opacity: 0 });
+        var l1 = el(g, "path", { d: dD, fill: "none", stroke: "url(#lb)", "stroke-width": 18, opacity: .5, filter: "url(#gb)" });
+        var l2 = el(g, "path", { d: dD, fill: "none", stroke: "url(#lb)", "stroke-width": 6, "stroke-linejoin": "round" });
+        draw(l1, 5.1, 1.7); draw(l2, 5.1, 1.7); tl.to(area, { opacity: 1, duration: .8 }, 6.2);
+        var pk = Dd.reduce(function (a, r) { return r[1] > a[1] ? r : a; }), ipk = Dd.indexOf(pk);
+        var pkd = el(g, "circle", { cx: X2(ipk), cy: Y2(pk[1]), r: 12, fill: "#fff" }), pkt = el(g, "text", { x: X2(ipk), y: Y2(pk[1]) - 34, "font-size": 40, "font-weight": 600, fill: "#f5f5f7", "text-anchor": "middle" }, "402 $");
+        tl.fromTo([pkd, pkt], { opacity: 0 }, { opacity: 1, duration: .3 }, 6.0);
+        var en = el(g, "circle", { cx: X2(Dd.length - 1), cy: Y2(291.64), r: 12, fill: "#ff375f" });
+        tl.fromTo(en, { opacity: 0, scale: 0, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(3)" }, 6.75);
+
+        // 4. 7,4–9,6 la publicité : barre de recherche en verre, résultat « Sponsorisé »
+        s = scene(7.4, 9.6, "blanc");
+        rise(div(s, "t hd", "La pub,<br>le cœur de Google.", "top:330px; font-size:96px; white-space:normal"), 7.45);
+        var bar = div(s, "glass", "", "left:96px; top:680px; width:888px; height:150px; border-radius:75px");
+        rise(bar, 7.6);
+        g = svg(bar, 90, 90, 50, 30); var gl = el(g, "g", { transform: "scale(3.75)" }); el(gl, "path", { d: G.logo, fill: "#1d1d1f" });
+        var q = div(bar, "", "", "position:absolute; left:170px; top:44px; font-size:52px; font-weight:500; color:#1d1d1f; letter-spacing:-.02em");
+        var Q = "billet avion Paris New York", o4 = { n: 0 };
+        tl.fromTo(o4, { n: 0 }, { n: Q.length, duration: 1.1, ease: "none", onUpdate: function () { q.textContent = Q.slice(0, Math.round(o4.n)) + "|"; } }, 7.9);
+        var card = div(s, "glass", "<div style='font-size:30px; font-weight:700; color:#1d1d1f; letter-spacing:.02em'>SPONSORISÉ</div><div style='margin-top:14px; font-size:48px; font-weight:600; color:#0a5bd8; letter-spacing:-.02em'>Vols Paris – New York dès 389 €</div><div style='margin-top:10px; font-size:34px; color:#6e6e73'>www.compagnie-exemple.com</div>", "left:96px; top:900px; width:888px; height:270px; padding:46px 56px; border-radius:36px");
+        rise(card, 8.9, .6);
+
+        // 5. 9,6–12 les investissements IA : colonnes lumineuses
+        s = scene(9.6, 12);
+        rise(div(s, "t hd", "51 milliards $<br><span class='grad-blue'>en trois mois.</span>", "top:330px; font-size:100px; white-space:normal"), 9.65);
+        g = svg(s, 1080, 720, 0, 620); grad(g, "cb", [[0, "#a259ff"], [1, "#2997ff"]], 0, 1); glow(g, "gc", 30);
+        [["T3 2025", 24, "#3a3a3c"], ["T3 2026", 51.4, "url(#cb)"]].forEach(function (r, k) {
+          var x = 220 + k * 360, h = r[1] / 51.4 * 520, y = 600 - h;
+          if (k) { var hal = el(g, "rect", { x: x, y: y, width: 280, height: h, rx: 28, fill: "url(#cb)", opacity: .45, filter: "url(#gc)" }); tl.fromTo(hal, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 1, ease: "expo.out" }, 10.5); }
+          var col = el(g, "rect", { x: x, y: y, width: 280, height: h, rx: 28, fill: r[2] });
+          tl.fromTo(col, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: 1, ease: "expo.out" }, k ? 10.5 : 9.9);
+          var v = el(g, "text", { x: x + 140, y: y - 30, "font-size": 64, "font-weight": 700, fill: "#f5f5f7", "text-anchor": "middle" }, String(r[1]).replace(".", ","));
+          var l = el(g, "text", { x: x + 140, y: 660, "font-size": 36, "font-weight": 600, fill: "#86868b", "text-anchor": "middle" }, r[0]);
+          tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .4 }, k ? 11.1 : 10.3);
+        });
+
+        // 6. 12–14,2 le trou de trésorerie
+        s = scene(12, 14.2);
+        rise(div(s, "t eye", "Argent manquant ce trimestre", "top:620px"), 12.05);
+        var h6 = rise(div(s, "t big grad-red", "0 Md$", "top:720px; font-size:230px"), 12.1);
+        count(h6, 12.15, 0, -9.1, 1.2, function (v) { return (v < -0.05 ? "−" : "") + Math.abs(v).toFixed(1).replace(".", ",") + " Md$"; });
+        rise(div(s, "t eye", "Les dépenses dépassent l'argent généré.", "top:1040px; color:#f5f5f7"), 12.9);
+
+        // 7. 14,2–16,6 la dilution : la part de l'actionnaire rétrécit
+        s = scene(14.2, 16.6, "blanc");
+        rise(div(s, "t hd", "Plus d'actions,<br>une part plus petite.", "top:330px; font-size:92px; white-space:normal"), 14.25);
+        g = svg(s, 1080, 760, 0, 600);
+        var C = 540, CY = 340, R = 280;
+        function slice(a0, a1, fill) { var p = el(g, "path", { fill: fill }); return p; }
+        function arc(p, a0, a1) { var x0 = C + R * Math.sin(a0), y0 = CY - R * Math.cos(a0), x1 = C + R * Math.sin(a1), y1 = CY - R * Math.cos(a1); p.setAttribute("d", "M" + C + " " + CY + " L" + x0 + " " + y0 + " A" + R + " " + R + " 0 " + (a1 - a0 > Math.PI ? 1 : 0) + " 1 " + x1 + " " + y1 + " Z"); }
+        el(g, "circle", { cx: C, cy: CY, r: R, fill: "#e8e8ed" });
+        var me = slice(0, 0, "#0071e3"), nw = slice(0, 0, "#86868b");
+        var o7 = { p: .25, n: 0 };
+        function upd() { arc(me, 0, Math.PI * 2 * o7.p); if (o7.n > .001) arc(nw, Math.PI * 2 * (1 - o7.n), Math.PI * 2 - .0001); else nw.setAttribute("d", ""); }
+        upd();
+        tl.fromTo(o7, { p: .25, n: 0 }, { p: .19, n: .24, duration: 1.2, ease: "power2.inOut", onUpdate: upd }, 15.0);
+        var pct = el(g, "text", { x: C, y: CY + R + 110, "font-size": 56, "font-weight": 700, fill: "#1d1d1f", "text-anchor": "middle" }, "Votre part : 25 %");
+        var nl = el(g, "text", { x: C - R - 30, y: CY - 40, "font-size": 34, "font-weight": 600, fill: "#6e6e73", "text-anchor": "end" }, "");
+        var o7b = { v: 25 }; tl.fromTo(o7b, { v: 25 }, { v: 19, duration: 1.2, ease: "power2.inOut", onUpdate: function () { pct.textContent = "Votre part : " + Math.round(o7b.v) + " %"; } }, 15.0);
+        var nla = el(g, "text", { x: C - R + 40, y: CY - R + 30, "font-size": 34, "font-weight": 700, fill: "#6e6e73", "text-anchor": "end" }, "Nouvelles actions");
+        tl.fromTo(nla, { opacity: 0 }, { opacity: 1, duration: .4 }, 15.6);
+        tl.fromTo(g, { opacity: 0, scale: .94, transformOrigin: "50% 40%" }, { opacity: 1, scale: 1, duration: .7, ease: "expo.out" }, 14.4);
+
+        // 8. 16,6–18,6 CTA : logo, nom, bouton
+        s = scene(16.6, 18.6);
+        rise(div(s, "", "<img src='assets/logo-financedata.png' style='width:100%; height:100%; display:block; border-radius:50%'>", "position:absolute; left:400px; top:600px; width:280px; height:280px"), 16.65);
+        rise(div(s, "t hd", "FinanceData", "top:940px; font-size:96px"), 16.8);
+        var btn = rise(div(s, "", "<span class='b1' style='position:absolute; inset:0'>S'abonner</span><span class='b2' style='position:absolute; inset:0; opacity:0'>Abonné ✓</span>", "position:absolute; left:340px; top:1090px; width:400px; height:108px; border-radius:54px; background:#0071e3; color:#fff; font-size:44px; font-weight:600; text-align:center; line-height:108px"), 17.0);
+        tl.to(btn, { scale: .94, duration: .1 }, 17.9); tl.to(btn, { scale: 1, duration: .25, ease: "back.out(2)" }, 18.0);
+        tl.to(btn, { backgroundColor: "#3a3a3c", duration: .2 }, 18.0); tl.set(btn.querySelector(".b1"), { opacity: 0 }, 18.02); tl.set(btn.querySelector(".b2"), { opacity: 1 }, 18.02);
+
+        tl.set({}, {}, 18.6);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
