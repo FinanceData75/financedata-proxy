@@ -35,11 +35,10 @@
 
         // carte blanche : Gemini, puis la question sur « ces milliards »
         var gem = "<svg width='80' height='80' viewBox='0 0 24 24'><defs><linearGradient id='gem' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#4796e3'/><stop offset='.6' stop-color='#9177c7'/><stop offset='1' stop-color='#d96570'/></linearGradient></defs><path d='" + window.GEMINI + "' fill='url(#gem)'/></svg>";
-        var card = div(st, "<div style='position:absolute; left:48px; top:44px'>" + gem + "</div>" +
-          "<div style='position:absolute; left:156px; top:40px; font-size:52px; font-weight:700; letter-spacing:-.055em; line-height:1'>Gemini</div>" +
-          "<div style='position:absolute; left:156px; top:100px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>L'IA de Google</div>" +
-          "<div class='q' style='position:absolute; left:44px; top:168px; font-size:100px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + BLUE + "; opacity:0'>Rentable ?</div>",
-          "left:60px; top:990px; width:620px; height:300px; background:#fff; border-radius:4px; box-shadow:0 18px 50px rgba(0,11,34,.3)");
+        var card = div(st, "<div style='position:absolute; left:0; right:0; top:44px; display:flex; justify-content:center; align-items:center; gap:24px'>" + gem +
+          "<div><div style='font-size:52px; font-weight:700; letter-spacing:-.055em; line-height:1'>Gemini</div><div style='margin-top:10px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>L'IA de Google</div></div></div>" +
+          "<div class='q' style='position:absolute; left:0; right:0; top:168px; text-align:center; font-size:100px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + BLUE + "; opacity:0'>Rentable ?</div>",
+          "left:230px; top:990px; width:620px; height:300px; background:#fff; border-radius:4px; box-shadow:0 18px 50px rgba(0,11,34,.3)");
         tl.fromTo(card, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, .3);
         tl.fromTo(card.querySelector(".q"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out" }, 2.4);
 
