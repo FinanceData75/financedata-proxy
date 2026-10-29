@@ -6,8 +6,8 @@
     <script src="assets/gsap.min.js"></script>
     <style>
       /* Scène 8 (30,56 → 37,26 s) « Le problème, c'est que Google ne génère pas assez d'argent pour payer tout ça… il lui a manqué 9 milliards ».
-         Barres horizontales façon presse éco : argent généré (vert) contre investissements (bleu, comme la scène 7),
-         puis le trou en rouge au bout de la barre verte (−9,1). Période, unité et source sous le graphique. */
+         Barres horizontales façon presse éco, neutres en gris : argent généré contre investissements ;
+         seul le trou est en couleur, rouge, au bout de la barre de l'argent généré (−9,1). Période, unité et source sous le graphique. */
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; }
@@ -16,7 +16,7 @@
       .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
       .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
       .lbl { position: absolute; left: 116px; font-size: 40px; font-weight: 700; letter-spacing: -.045em; }
-      .val { position: absolute; top: 26px; right: 24px; font-size: 54px; font-weight: 700; letter-spacing: -.045em; color: #fff; font-feature-settings: "tnum" 1; }
+      .val { position: absolute; top: 26px; right: 24px; font-size: 54px; font-weight: 700; letter-spacing: -.045em; color: #0a105e; font-feature-settings: "tnum" 1; }
     </style>
   </head>
   <body>
@@ -27,7 +27,7 @@
     <script>
       (function () {
         var tl = gsap.timeline({ paused: true }), st = document.getElementById("stage");
-        var GREEN = "#1f9d55", BLUE = "#3d5afe", RED = "#e5484d", GRID = "#d5dae5", AX = "#6b7290";
+        var PALE = "#c5cad9", MID = "#7a819b", RED = "#e5484d", GRID = "#d5dae5", AX = "#6b7290";
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
         function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
         var X0 = 96, PX = 888 / 64, x = function (v) { return X0 + v * PX; };
@@ -47,14 +47,14 @@
 
         // barre 1 : argent généré par l'activité (42,3), sur « Google ne génère »
         var l1 = div(st, "Argent généré", "top:520px", "lbl");
-        var b1 = div(st, "<div class='val'>42,3</div>", "left:" + X0 + "px; top:582px; width:" + (42.3 * PX) + "px; height:116px; background:" + GREEN);
+        var b1 = div(st, "<div class='val'>42,3</div>", "left:" + X0 + "px; top:582px; width:" + (42.3 * PX) + "px; height:116px; background:" + PALE);
         tl.fromTo(l1, { opacity: 0 }, { opacity: 1, duration: .25 }, .6);
         tl.fromTo(b1, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .7, ease: "power3.out" }, .64);
         tl.fromTo(b1.firstChild, { opacity: 0 }, { opacity: 1, duration: .2 }, 1.2);
 
         // barre 2 : investissements (51,4), sur « pour payer tout ça »
         var l2 = div(st, "Investissements", "top:760px", "lbl");
-        var b2 = div(st, "<div class='val'>51,4</div>", "left:" + X0 + "px; top:822px; width:" + (51.4 * PX) + "px; height:116px; background:" + BLUE);
+        var b2 = div(st, "<div class='val' style='color:#fff'>51,4</div>", "left:" + X0 + "px; top:822px; width:" + (51.4 * PX) + "px; height:116px; background:" + MID);
         tl.fromTo(l2, { opacity: 0 }, { opacity: 1, duration: .25 }, 1.9);
         tl.fromTo(b2, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .7, ease: "power3.out" }, 1.98);
         tl.fromTo(b2.firstChild, { opacity: 0 }, { opacity: 1, duration: .2 }, 2.55);
