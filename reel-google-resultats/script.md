@@ -4,7 +4,7 @@ Format : leçon / actu décryptée · Structure : La Percée (problème → méc
 
 ## Voix off
 
-Hier soir, l'action Google a chuté de plus de 10 %. Et pourtant, ses ventes ont bondi de 25 %.
+L'action Google a chuté de plus de 10 %. (« Hier soir » coupé au montage, pour que le reel reste valable quel que soit le jour de publication.) Et pourtant, ses ventes ont bondi de 25 %.
 
 Alors, pourquoi les investisseurs s'inquiètent ? Pour deux raisons.
 
