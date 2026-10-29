@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Scène 2 (1,94 → 4,32 s) « et pourtant ses ventes ont bondi de plus de 25 % ».
+         Graphique façon presse éco, version FinanceData : fond #EEF1F5, titre en haut à gauche, quadrillage léger,
+         axe à droite, colonnes à angles droits, seule la colonne à retenir en couleur (vert = hausse). */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
+      .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="2.38" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="2.38" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="2.38" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), st = document.getElementById("stage");
+        var NAVY = "#0a105e", GREEN = "#1f9d55", PALE = "#c5cad9", GRID = "#d5dae5", AX = "#6b7290";
+        function div(p, html, style) { var d = document.createElement("div"); d.className = "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+
+        // titre en haut à gauche (logo officiel + nom), sous-titre d'une ligne
+        div(st, "<img src='assets/img/google-g.svg' style='width:100%; height:100%; display:block'>", "left:96px; top:292px; width:64px; height:64px");
+        var ti = div(st, "Chiffre d'affaires", "left:180px; top:286px; font-weight:700; font-size:72px; letter-spacing:-.055em; line-height:1");
+        var sub = div(st, "Alphabet, par trimestre, en milliards de dollars", "left:96px; top:390px; font-size:38px; font-weight:500; color:#3b4166; letter-spacing:-.03em");
+        tl.fromTo([st.children[0], ti, sub], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out", stagger: .05 }, 0);
+
+        // graphique : quadrillage, axe à droite, deux colonnes
+        var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 1080); g.setAttribute("height", 820); g.style.left = "0px"; g.style.top = "470px"; st.appendChild(g);
+        var Y = function (v) { return 700 - v / 150 * 640; };
+        [0, 50, 100, 150].forEach(function (v) { el(g, "line", { x1: 96, x2: 984, y1: Y(v), y2: Y(v), stroke: v ? GRID : NAVY, "stroke-width": v ? 2 : 3 }); T(g, 984, Y(v) - 12, String(v), 28, AX, 500, "end"); });
+        var cols = [["T3 2025", 102.3, PALE, AX, .1], ["T3 2026", 127.6, GREEN, NAVY, .9]];
+        cols.forEach(function (c, k) {
+          var x = 190 + k * 360, y = Y(c[1]);
+          var r = el(g, "rect", { x: x, y: y, width: 260, height: 700 - y, fill: c[2] });
+          tl.fromTo(r, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .55, ease: "power3.out" }, c[4]);
+          var v = T(g, x + 130, y - 24, fr(c[1], 1), 50, c[3], 700, "middle");
+          var l = T(g, x + 130, 752, c[0], 32, c[3], 600, "middle");
+          tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .2 }, c[4] + .3);
+        });
+        // annotation : la hausse, écrite dans la colonne verte
+        var up = T(g, 190 + 360 + 130, Y(127.6) + 96, "+25 %", 70, "#fff", 700, "middle");
+        tl.fromTo(up, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" }, 1.5);
+        div(st, "<div style='display:flex; justify-content:space-between; width:888px; font-size:26px; color:#6b7290'><span>Source : Alphabet</span><b style='font-size:30px; font-weight:800; letter-spacing:-.04em; color:#0a105e'>FinanceData</b></div>", "left:96px; top:1262px");
+
+        // sous-titres (3 mots max)
+        [["et pourtant", 0, .40], ["ses ventes", .40, .78], ["ont bondi", .78, 1.28], ["de plus", 1.28, 1.50], ["de 25 %.", 1.50, 2.38]].forEach(function (c) {
+          var d = div(st, "<span>" + c[0] + "</span>", "top:1360px"); d.className = "cap";
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
+        });
+        tl.set({}, {}, 2.38);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
