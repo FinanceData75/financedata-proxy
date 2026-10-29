@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Scène 10 (41,22 → 45,86 s) « Soit elle s'endette, ce qui est risqué pour l'entreprise si ça va mal, soit elle émet de nouvelles actions ».
+         Vraie vidéo de billets (lente poussée, voile bleu nuit), les deux cartes de la scène 9 au même endroit :
+         le « ? » de la 1 devient « Dette » (« Risqué » en rouge, seule couleur), puis celui de la 2 devient « Nouvelles actions ». */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.45); }
+      .q, .ans { position: absolute; left: 36px; top: 96px; font-weight: 700; letter-spacing: -.06em; line-height: 1; }
+      .q { font-size: 130px; }
+      .ans { left: 40px; font-size: 64px; letter-spacing: -.055em; line-height: 1.02; opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="4.64" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="4.64" data-track-index="1"></audio>
+      <video id="v-b" class="clip" src="assets/video/billets.mp4" data-start="0" data-duration="4.64" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="stage" class="clip" data-start="0" data-duration="4.64" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var tl = gsap.timeline({ paused: true }), st = document.getElementById("stage"), RED = "#d9161e";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
+
+        // vidéo : lente poussée, léger filtre bleu, voile bleu nuit
+        tl.fromTo("#v-b", { scale: 1.04 }, { scale: 1.1, duration: 4.64, ease: "none" }, 0);
+        div(st, "", "inset:0; background:rgba(61,90,254,.12); mix-blend-mode:multiply");
+        div(st, "", "inset:0; background:linear-gradient(180deg, rgba(0,11,34,.35) 0%, rgba(0,11,34,.2) 45%, rgba(0,11,34,.6) 100%)");
+
+        // les deux cartes, à la même place qu'à la scène 9
+        var cards = [["Solution 1", 60, "Dette", .46], ["Solution 2", 570, "Nouvelles<br>actions", 3.52]].map(function (t) {
+          var c = div(st, "<div style='position:absolute; left:40px; top:36px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>" + t[0] + "</div><div class='q'>?</div><div class='ans'>" + t[2] + "</div>", "left:" + t[1] + "px; top:420px; width:450px; height:280px; background:#fff; border-radius:4px; box-shadow:0 18px 50px rgba(0,11,34,.28)");
+          tl.to(c.querySelector(".q"), { opacity: 0, y: -16, duration: .18, ease: "power2.in" }, t[3]);
+          tl.fromTo(c.querySelector(".ans"), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" }, t[3] + .14);
+          return c;
+        });
+        // « risqué » : étiquette rouge dans la carte 1
+        var risk = div(cards[0], "▲ Risqué", "left:40px; top:196px; font-size:36px; font-weight:700; letter-spacing:-.03em; color:" + RED);
+        tl.fromTo(risk, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .25, ease: "power3.out" }, 1.24);
+        // « soit elle émet » : la carte 1 passe au second plan
+        tl.to(cards[0], { opacity: .55, duration: .3 }, 2.96);
+
+        // sous-titres (3 mots max)
+        [["Soit elle", 0, .46], ["s'endette,", .46, .98], ["ce qui est", .98, 1.24], ["risqué", 1.24, 1.56], ["pour l'entreprise", 1.56, 2.08], ["si ça", 2.08, 2.34], ["va mal,", 2.34, 2.96], ["soit elle émet", 2.96, 3.74], ["de nouvelles actions.", 3.74, 4.64]].forEach(function (c) {
+          var d = div(st, "<span>" + c[0] + "</span>", "top:1335px", "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
+        });
+        tl.set({}, {}, 4.64);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>

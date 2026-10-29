@@ -6,7 +6,7 @@
     <script src="assets/gsap.min.js"></script>
     <style>
       /* Scène 9 (37,26 → 41,22 s) « Du coup, pour continuer, elle va devoir trouver de l'argent ailleurs. Et deux solutions se présentent à elle ».
-         Vraie vidéo du siège de Google (lente poussée), sous-titres seuls : le chiffre a déjà été montré à la scène 8. */
+         Vraie vidéo du siège de Google (lente poussée), deux cartes « Solution 1 / 2 » avec un point d'interrogation sur « deux solutions », remplies à la scène 10. */
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
@@ -19,7 +19,7 @@
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="3.96" data-width="1080" data-height="1920">
       <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="3.96" data-track-index="1"></audio>
-      <video id="v-gp" class="clip" src="assets/video/googleplex.mp4" data-start="0" data-duration="3.96" data-track-index="2" muted playsinline style="position:absolute; left:0; top:-380px; width:1080px; height:2300px; object-fit:cover"></video>
+      <video id="v-gp" class="clip" src="assets/video/googleplex.mp4" data-start="0" data-duration="3.96" data-track-index="2" muted playsinline style="position:absolute; left:0; top:-90px; width:1080px; height:2300px; object-fit:cover"></video>
       <div id="stage" class="clip" data-start="0" data-duration="3.96" data-track-index="0" style="position:absolute; inset:0"></div>
     </div>
     <script>
@@ -31,9 +31,15 @@
         tl.fromTo("#v-gp", { scale: 1 }, { scale: 1.07, transformOrigin: "50% 70%", duration: 3.96, ease: "none" }, 0);
         div(st, "", "inset:0; background:linear-gradient(180deg, rgba(0,11,34,0) 55%, rgba(0,11,34,.55) 100%)");
 
+        // deux solutions : deux cartes blanches dans le ciel, encore inconnues, sur « deux solutions » (remplies à la scène 10)
+        [["Solution 1", 60, 2.6], ["Solution 2", 570, 2.78]].forEach(function (t) {
+          var c = div(st, "<div style='position:absolute; left:40px; top:36px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>" + t[0] + "</div><div style='position:absolute; left:36px; top:96px; font-size:130px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#0a105e'>?</div>", "left:" + t[1] + "px; top:420px; width:450px; height:280px; background:#fff; border-radius:4px; box-shadow:0 18px 50px rgba(0,11,34,.28)");
+          tl.fromTo(c, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, t[2]);
+        });
+
         // sous-titres (3 mots max)
         [["Du coup,", 0, .26], ["pour continuer,", .26, .84], ["elle va devoir", .84, 1.38], ["trouver de l'argent", 1.38, 2.00], ["ailleurs.", 2.00, 2.42], ["Et deux solutions", 2.42, 3.14], ["se présentent", 3.14, 3.54], ["à elle.", 3.54, 3.96]].forEach(function (c) {
-          var d = div(st, "<span>" + c[0] + "</span>", "top:1430px", "cap");
+          var d = div(st, "<span>" + c[0] + "</span>", "top:1335px", "cap");
           tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
         });
         tl.set({}, {}, 3.96);
