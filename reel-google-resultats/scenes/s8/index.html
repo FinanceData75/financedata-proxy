@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Scène 8 (30,56 → 37,26 s) « Le problème, c'est que Google ne génère pas assez d'argent pour payer tout ça… il lui a manqué 9 milliards ».
+         Barres horizontales façon presse éco : argent généré (vert) contre investissements (bleu, comme la scène 7),
+         puis le trou en rouge au bout de la barre verte (−9,1). Période, unité et source sous le graphique. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
+      .lbl { position: absolute; left: 116px; font-size: 40px; font-weight: 700; letter-spacing: -.045em; }
+      .val { position: absolute; top: 26px; right: 24px; font-size: 54px; font-weight: 700; letter-spacing: -.045em; color: #fff; font-feature-settings: "tnum" 1; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="6.7" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="6.7" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="6.7" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var tl = gsap.timeline({ paused: true }), st = document.getElementById("stage");
+        var GREEN = "#1f9d55", BLUE = "#3d5afe", RED = "#e5484d", GRID = "#d5dae5", AX = "#6b7290";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+        var X0 = 96, PX = 888 / 64, x = function (v) { return X0 + v * PX; };
+
+        // titre en haut à gauche (logo officiel + titre)
+        var lg = div(st, "<img src='assets/img/google-g.svg' style='width:100%; height:100%; display:block'>", "left:96px; top:292px; width:64px; height:64px");
+        var ti = div(st, "Flux de trésorerie", "left:180px; top:286px; font-weight:700; font-size:72px; letter-spacing:-.055em; line-height:1");
+        tl.fromTo([lg, ti], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out", stagger: .05 }, 0);
+
+        // quadrillage vertical 0–60, graduations en bas
+        var grid = [];
+        [0, 20, 40, 60].forEach(function (v) {
+          grid.push(div(st, "", "left:" + (x(v) - (v ? 1 : 1.5)) + "px; top:500px; width:" + (v ? 2 : 3) + "px; height:450px; background:" + (v ? GRID : "#0a105e")));
+          grid.push(div(st, String(v), "left:" + (x(v) - 40) + "px; top:964px; width:80px; text-align:center; font-size:28px; font-weight:500; color:" + AX));
+        });
+        tl.fromTo(grid, { opacity: 0 }, { opacity: 1, duration: .3 }, .1);
+
+        // barre 1 : argent généré par l'activité (42,3), sur « Google ne génère »
+        var l1 = div(st, "Argent généré", "top:520px", "lbl");
+        var b1 = div(st, "<div class='val'>42,3</div>", "left:" + X0 + "px; top:582px; width:" + (42.3 * PX) + "px; height:116px; background:" + GREEN);
+        tl.fromTo(l1, { opacity: 0 }, { opacity: 1, duration: .25 }, .6);
+        tl.fromTo(b1, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .7, ease: "power3.out" }, .64);
+        tl.fromTo(b1.firstChild, { opacity: 0 }, { opacity: 1, duration: .2 }, 1.2);
+
+        // barre 2 : investissements (51,4), sur « pour payer tout ça »
+        var l2 = div(st, "Investissements", "top:760px", "lbl");
+        var b2 = div(st, "<div class='val'>51,4</div>", "left:" + X0 + "px; top:822px; width:" + (51.4 * PX) + "px; height:116px; background:" + BLUE);
+        tl.fromTo(l2, { opacity: 0 }, { opacity: 1, duration: .25 }, 1.9);
+        tl.fromTo(b2, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .7, ease: "power3.out" }, 1.98);
+        tl.fromTo(b2.firstChild, { opacity: 0 }, { opacity: 1, duration: .2 }, 2.55);
+
+        // le trou : repère pointillé au bout des investissements, segment rouge au bout de l'argent généré, sur « manqué »
+        var guide = div(st, "", "left:" + (x(51.4) - 2) + "px; top:582px; width:0; height:356px; border-left:4px dashed " + RED);
+        tl.fromTo(guide, { opacity: 0 }, { opacity: 1, duration: .25 }, 3.6);
+        var gap = div(st, "", "left:" + x(42.3) + "px; top:582px; width:" + (9.1 * PX) + "px; height:116px; background:repeating-linear-gradient(135deg, rgba(229,72,77,.9) 0 10px, rgba(229,72,77,.35) 10px 20px)");
+        tl.fromTo(gap, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .45, ease: "power2.out" }, 4.2);
+        var gv = div(st, "−9,1", "left:" + (x(51.4) + 22) + "px; top:600px; font-size:64px; font-weight:700; letter-spacing:-.05em; color:" + RED + "; font-feature-settings:'tnum' 1");
+        tl.fromTo(gv, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: .3, ease: "power3.out" }, 4.42);
+        var o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: 9.1, duration: .5, ease: "power3.out", onUpdate: function () { gv.textContent = "−" + fr(o.v, 1); } }, 4.42);
+
+        var src = div(st, "T3 2026, en milliards de dollars · Source : Alphabet", "left:96px; top:1040px; font-size:28px; font-weight:500; color:#6b7290; letter-spacing:-.02em");
+        tl.fromTo(src, { opacity: 0 }, { opacity: 1, duration: .3 }, .5);
+
+        // sous-titres (3 mots max)
+        [["Le problème,", 0, .40], ["c'est que Google", .40, .98], ["ne génère pas", .98, 1.50], ["assez d'argent", 1.50, 1.98], ["pour payer", 1.98, 2.32], ["tout ça.", 2.32, 2.90], ["Par exemple,", 2.90, 3.32], ["sur ce trimestre,", 3.32, 3.96], ["il lui a", 3.96, 4.20], ["manqué", 4.20, 4.42], ["9 milliards", 4.42, 4.94], ["de dollars", 4.94, 5.42], ["pour financer", 5.42, 6.00], ["ses dépenses.", 6.00, 6.7]].forEach(function (c) {
+          var d = div(st, "<span>" + c[0] + "</span>", "top:1360px", "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
+        });
+        tl.set({}, {}, 6.7);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
