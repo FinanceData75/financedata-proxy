@@ -32,19 +32,23 @@
 
         // titre en haut à gauche
         var ti = div(st, "Sous les attentes", "left:96px; top:300px; font-weight:700; font-size:76px; letter-spacing:-.055em; line-height:1");
-        var sub = div(st, "Revenus publicitaires, T3 2026", "left:96px; top:396px; font-size:38px; font-weight:500; color:#3b4166; letter-spacing:-.03em");
+        var sub = div(st, "Revenus publicitaires de Google, T3 2026", "left:96px; top:396px; font-size:38px; font-weight:500; color:#3b4166; letter-spacing:-.03em");
         tl.fromTo([ti, sub], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out", stagger: .05 }, 0);
 
-        // une ligne par activité : logo, nom, chiffre publié (rouge), attendu (gris)
-        [["googleads", "#4285f4", "Google Ads", 82.01, 83.52, 540, .25], ["youtube", "#ff0000", "YouTube", 11.21, 11.34, 900, .45]].forEach(function (r) {
-          var row = div(st, "<div style='position:absolute; left:0; top:6px'>" + logo(r[0], r[1], 96) + "</div><div style='position:absolute; left:130px; top:20px; font-size:50px; font-weight:700; letter-spacing:-.05em'>" + r[2] + "</div>", "left:96px; top:" + r[5] + "px; width:888px; height:330px");
-          var n = div(row, fr(r[4], 1) + " Md$", "left:0; top:126px; font-size:112px; color:#9aa1b8", "a num");
+        // petit tableau sans bordure : en-têtes gris, chiffres alignés à droite, le publié en rouge
+        var C1 = 680, C2 = 984;   // bords droits des colonnes « Attendu » et « Publié »
+        var hd = div(st, "<div style='position:absolute; right:" + (1080 - 96 - C1) + "px; top:0; font-size:34px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Attendu</div><div style='position:absolute; right:" + (1080 - 96 - C2) + "px; top:0; font-size:34px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Publié</div>", "left:96px; top:560px; width:888px; height:50px");
+        tl.fromTo(hd, { opacity: 0 }, { opacity: 1, duration: .3 }, .2);
+        [["<img src='assets/img/google-g.svg' style='width:64px; height:64px; display:block'>", "Publicité", 83.52, 82.01, 660, .3], [logo("youtube", "#ff0000", 70), "YouTube", 11.34, 11.21, 840, .45]].forEach(function (r) {
+          var row = div(st, "<div style='position:absolute; left:0; top:22px'>" + r[0] + "</div><div style='position:absolute; left:96px; top:24px; font-size:52px; font-weight:700; letter-spacing:-.05em'>" + r[1] + "</div>", "left:96px; top:" + r[4] + "px; width:888px; height:120px");
+          div(row, fr(r[2], 1), "right:" + (888 - (C1 - 96)) + "px; top:14px; font-size:76px; color:#7d849c; text-align:right", "a num");
+          var n = div(row, fr(r[2], 1), "right:0; top:14px; font-size:76px; color:#9aa1b8; text-align:right", "a num");
+          tl.fromTo(row, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out" }, r[5]);
           tl.to(n, { color: RED, duration: .3 }, 1.45);
-          var exp = div(row, "attendu : " + fr(r[4], 1) + " Md$", "left:4px; top:256px; font-size:40px; font-weight:600; color:#6b7290; letter-spacing:-.03em");
-          tl.fromTo(row, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out" }, r[6]);
-          var o = { v: r[4] }; tl.fromTo(o, { v: r[4] }, { v: r[3], duration: .6, ease: "power3.out", onUpdate: function () { n.textContent = "▼ " + fr(o.v, 1) + " Md$"; } }, 1.45);
-          tl.fromTo(exp, { opacity: 0 }, { opacity: 1, duration: .3 }, 1.9);
+          var o = { v: r[2] }; tl.fromTo(o, { v: r[2] }, { v: r[3], duration: .6, ease: "power3.out", onUpdate: function () { n.textContent = fr(o.v, 1); } }, 1.45);
         });
+        var unit = div(st, "en milliards de dollars", "left:96px; top:1000px; font-size:30px; font-weight:500; color:#6b7290; letter-spacing:-.02em");
+        tl.fromTo(unit, { opacity: 0 }, { opacity: 1, duration: .3 }, .5);
         div(st, "<div style='display:flex; justify-content:space-between; width:888px; font-size:26px; color:#6b7290'><span>Sources : Alphabet ; consensus Zacks</span><b style='font-size:30px; font-weight:800; letter-spacing:-.04em; color:#0a105e'>FinanceData</b></div>", "left:96px; top:1262px");
 
         // sous-titres (3 mots max)
