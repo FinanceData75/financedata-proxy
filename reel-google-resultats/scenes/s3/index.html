@@ -44,6 +44,9 @@
         t2.className = "tile";
         tl.fromTo(t1, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, 2.6);
         tl.fromTo(t2, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, 2.78);
+        // les « ? » arrivent en grand puis se posent
+        tl.fromTo(t1.children[1], { scale: 1.8, opacity: 0, transformOrigin: "0% 50%" }, { scale: 1, opacity: 1, duration: .4, ease: "back.out(2)" }, 2.72);
+        tl.fromTo(t2.children[1], { scale: 1.8, opacity: 0, transformOrigin: "0% 50%" }, { scale: 1, opacity: 1, duration: .4, ease: "back.out(2)" }, 2.9);
         // la deuxième s'allume : contour bleu FinanceData, la première s'efface un peu
         tl.to(t2, { boxShadow: "inset 0 0 0 4px #3d5afe", backgroundColor: "rgba(61,90,254,.14)", duration: .35 }, 3.42);
         tl.to(t1, { opacity: .45, duration: .35 }, 3.42);
@@ -55,6 +58,13 @@
           tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
         });
         tl.set({}, {}, 4.74);
+        // zone sûre Instagram / TikTok : fonds plein cadre à part, tout le reste réduit (×0,82) vers le centre utile
+        (function () {
+          var root = document.getElementById("root"), bgl = document.createElement("div");
+          bgl.style.cssText = "position:absolute; inset:0"; root.insertBefore(bgl, st);
+          [].slice.call(st.children).forEach(function (c) { if (/^\s*inset:\s*0/.test(c.getAttribute("style") || "")) bgl.appendChild(c); });
+          st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
+        })();
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
     </script>

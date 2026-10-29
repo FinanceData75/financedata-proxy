@@ -18,7 +18,7 @@ Chaque écran montre **une seule idée**, avec **une seule couleur** pour le poi
 
 | # | Rôle | Ce qu'on voit | Exemple Google |
 |---|---|---|---|
-| 1 | **Hook** (≤ 2,5 s) | Photo premium du dirigeant en plein écran + carte blanche avec logo, ticker et cours qui chute (graphique en aire rouge) | Pichai + GOOGL −10,2 % |
+| 1 | **Hook** (≤ 2,5 s) | Fond blanc avec un foyer de lumière, **juste le graphique** : logo + ticker, cours géant qui descend, variation en rouge, aire rouge | GOOGL 324,89 → 291,64 $, −10,2 % |
 | 2 | **Contraste** | Graphique clair : le chiffre qui semble contredire le hook | Chiffre d'affaires +25 % |
 | 3 | **Question + annonce** | Vidéo réelle sur la question, puis tuiles « Raison 1 / Raison 2 » dont le nom est **masqué** (« ? ») ; la plus importante s'allume | « deux raisons, la 2e est la plus importante » |
 | 4 | **Raison 1, le mécanisme** | Vidéo réelle, puis reconstitution simple du produit (page Google, recherche tapée, lien payé encadré) | La publicité |
@@ -38,6 +38,15 @@ Principes de la trame :
 - **suspense par masquage** : on annonce (« deux raisons », « deux solutions ») avec des « ? », puis on révèle sur le mot ; les cartes gardent la même place d'une scène à l'autre pour que l'œil suive ;
 - **ne jamais répéter** un chiffre déjà montré à l'écran précédent (pas de carte « −9,1 » juste après le graphique du −9,1) ;
 - scènes de 2 à 8 s, un nouvel élément qui bouge environ chaque 0,5 à 1 s, **toujours sur le mot qui le nomme**.
+
+## Zone sûre Instagram / TikTok
+- tout ce qui n'est pas un fond plein cadre (titres, graphiques, cartes, sous-titres) est **réduit à 82 %** vers le point (540, 880) : marges ≈ 150 px à gauche et à droite, titres vers y ≈ 390, sous-titres vers y ≈ 1270 ;
+- photos, vidéos, voiles et fonds restent plein cadre ;
+- rien d'important à droite au-delà de x ≈ 930 (boutons TikTok) ni sous y ≈ 1450 (description).
+
+## Les 10 premières secondes
+- le hook et le contraste sur le **même fond blanc à foyer** (dégradé radial blanc → gris bleuté sur les bords), puis rupture nette vers le bleu nuit ;
+- chaque chiffre arrive avec un mouvement franc (compteur, « +25 % » qui tombe et rebondit, « ? » qui arrivent en grand puis se posent).
 
 ## Les trois familles d'écrans
 

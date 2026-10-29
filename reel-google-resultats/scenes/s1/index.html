@@ -6,9 +6,8 @@
     <script src="assets/gsap.min.js"></script>
     <script src="assets/goog.js"></script>
     <style>
-      /* Scène 1 (hook, 0 → 1,94 s) : portrait de Sundar Pichai + graphique façon presse éco du cours d'hier.
-         Fond #EEF1F5, titre marine = la conclusion, sous-titre gris, quadrillage horizontal, axe à droite,
-         séance en bleu FinanceData, chute après la clôture en rouge, source en bas. */
+      /* Scène 1 (hook, 0 → 1,94 s) : fond blanc avec un foyer de lumière, juste le graphique de Google.
+         Logo + ticker, cours géant qui descend de 324,89 à 291,64 $, « ▼ 10,2 % » en rouge, aire rouge de la chute d'hier soir. */
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       @font-face { font-family: "Cap"; src: url("assets/fonts/inter-latin-600-normal.woff2"); font-weight: 600; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -18,7 +17,7 @@
       svg { position: absolute; overflow: visible; }
       svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
       .cap { position: absolute; left: 0; right: 0; top: 1480px; text-align: center; opacity: 0; }
-      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.45); }
+      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
     </style>
   </head>
   <body>
@@ -29,48 +28,58 @@
     <script>
       (function () {
         var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), st = document.getElementById("stage"), G = window.GOOG;
-        var FD = "#3d5afe", NAVY = "#0a105e", RED = "#e5484d", GRID = "#d5dae5", AX = "#6b7290";
+        var FD = "#3d5afe", NAVY = "#0a105e", RED = "#d9161e", GRID = "#d5dae5", AX = "#6b7290";
         function div(p, html, style) { var d = document.createElement("div"); d.className = "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
         function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
         function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start" }, str); }
         function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
 
-        // photo plein écran, poussée lente, léger voile en bas pour la carte
-        var ph = div(st, "<img src='assets/img/pichai-plein.jpg' style='width:100%; height:100%; object-fit:cover; display:block'><div style='position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,11,34,0) 45%, rgba(0,11,34,.35) 100%)'></div>", "left:0; top:0; width:1080px; height:1920px; overflow:hidden");
-        tl.fromTo(ph.firstChild, { scale: 1.06 }, { scale: 1.0, duration: 2.3, ease: "power1.out" }, 0);
+        // fond blanc avec un foyer de lumière au centre (vignette douce sur les bords)
+        div(st, "", "inset:0; background:radial-gradient(ellipse 75% 55% at 50% 44%, #ffffff 0%, #f2f3f7 50%, #c3c7d2 100%)");
 
-        // carte boursière : logo, ticker, prix, variation, cours du 28 au 29 octobre
-        var card = div(st, "", "left:60px; top:880px; width:960px; height:450px; border-radius:4px; background:#fff; box-shadow:0 30px 80px rgba(0,11,34,.35)");
-        gsap.set(card, { scale: .9, transformOrigin: "50% 0%" });
-        tl.fromTo(card, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, .05);
-        div(card, "<img src='assets/img/google-g.svg' style='width:100%; height:100%; display:block'>", "left:48px; top:46px; width:92px; height:92px");
-        div(card, "<div style='font-size:54px; font-weight:700; color:#0a105e; letter-spacing:-.05em; line-height:1'>Alphabet</div><div style='margin-top:10px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>NASDAQ: GOOGL</div>", "left:164px; top:48px");
-        var px = div(card, "324,89 $", "right:48px; top:40px; text-align:right; font-size:62px; font-weight:700; color:#0a105e; letter-spacing:-.05em; font-feature-settings:'tnum' 1");
-        var pc = div(card, "0,0 %", "right:48px; top:112px; text-align:right; font-size:42px; font-weight:700; letter-spacing:-.04em; color:" + RED + "; font-feature-settings:'tnum' 1");
-        var o = { v: 324.89 }; tl.fromTo(o, { v: 324.89 }, { v: 291.64, duration: .7, ease: "power3.out", onUpdate: function () { px.textContent = fr(o.v, 2) + " $"; pc.textContent = "▼ " + fr((324.89 - o.v) / 324.89 * 100, 1) + " %"; } }, .95);
-        var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 864); g.setAttribute("height", 220); g.style.left = "48px"; g.style.top = "200px"; card.appendChild(g);
+        // en-tête : logo officiel, nom, ticker
+        var hd = div(st, "<img src='assets/img/google-g.svg' style='position:absolute; left:0; top:0; width:96px; height:96px'><div style='position:absolute; left:124px; top:2px; font-size:58px; font-weight:700; letter-spacing:-.05em; line-height:1'>Alphabet</div><div style='position:absolute; left:124px; top:66px; font-size:34px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>NASDAQ: GOOGL</div>", "left:96px; top:330px; width:888px; height:100px");
+        tl.fromTo(hd, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out" }, 0);
+
+        // le cours en très grand, puis la variation en rouge
+        var px = div(st, "324,89 $", "left:96px; top:480px; font-size:176px; font-weight:700; letter-spacing:-.06em; line-height:1; font-feature-settings:'tnum' 1");
+        var pc = div(st, "▼ 0,0 %", "left:100px; top:680px; font-size:104px; font-weight:700; letter-spacing:-.05em; line-height:1; color:" + RED + "; font-feature-settings:'tnum' 1");
+        tl.fromTo(px, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out" }, .06);
+        tl.fromTo(pc, { opacity: 0 }, { opacity: 1, duration: .15 }, .76);
+        var o = { v: 324.89 }; tl.fromTo(o, { v: 324.89 }, { v: 291.64, duration: .65, ease: "power3.out", onUpdate: function () { px.textContent = fr(o.v, 2) + " $"; pc.textContent = "▼ " + fr((324.89 - o.v) / 324.89 * 100, 1) + " %"; } }, .76);
+        tl.fromTo(pc, { scale: 1.12, transformOrigin: "0% 50%" }, { scale: 1, duration: .35, ease: "power3.out" }, 1.34);
+
+        // le graphique du cours : séance d'hier puis chute après la clôture, en aire rouge
+        var CW = 888, CH = 400;
+        var g = document.createElementNS(NS, "svg"); g.setAttribute("width", CW); g.setAttribute("height", CH); g.style.left = "96px"; g.style.top = "860px"; st.appendChild(g);
         var I = G.intra, n = I.length, iClose = I.findIndex(function (r) { return r[0] >= "2026-10-28 20:00"; }) - 1;
-        var X = function (k) { return k / (n - 1) * 864; }, Y = function (v) { return 200 - (v - 288) / 40 * 185; };
-        var dA = I.map(function (r, k) { return (k ? "L" : "M") + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
+        var X = function (k) { return k / (n - 1) * CW; }, Y = function (v) { return CH - 20 - (v - 288) / 40 * (CH - 50); };
         var defs = el(g, "defs", {}), lg = el(defs, "linearGradient", { id: "ar", x1: 0, y1: 0, x2: 0, y2: 1 });
-        el(lg, "stop", { offset: 0, "stop-color": RED, "stop-opacity": .45 }); el(lg, "stop", { offset: 1, "stop-color": RED, "stop-opacity": .04 });
-        var area = el(g, "path", { d: "M0 220 " + I.map(function (r, k) { return "L" + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ") + " L864 220 Z", fill: "url(#ar)" });
-        tl.fromTo(area, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.25, ease: "power2.inOut" }, .3);
-        el(g, "line", { x1: 0, x2: 864, y1: Y(324.89), y2: Y(324.89), stroke: "#c5cad9", "stroke-width": 2, "stroke-dasharray": "4 8" });
+        el(lg, "stop", { offset: 0, "stop-color": RED, "stop-opacity": .4 }); el(lg, "stop", { offset: 1, "stop-color": RED, "stop-opacity": 0 });
+        var area = el(g, "path", { d: "M0 " + CH + " " + I.map(function (r, k) { return "L" + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ") + " L" + CW + " " + CH + " Z", fill: "url(#ar)" });
+        tl.fromTo(area, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.3, ease: "power2.inOut" }, .1);
+        el(g, "line", { x1: 0, x2: CW, y1: Y(324.89), y2: Y(324.89), stroke: "#a9aebd", "stroke-width": 2, "stroke-dasharray": "4 8" });
         var d1 = I.slice(0, iClose + 1).map(function (r, k) { return (k ? "L" : "M") + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
         var d2 = I.slice(iClose).map(function (r, k) { return (k ? "L" : "M") + X(k + iClose).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
-        var p1 = el(g, "path", { d: d1, fill: "none", stroke: RED, "stroke-width": 4, "stroke-linejoin": "round" });
-        var p2 = el(g, "path", { d: d2, fill: "none", stroke: RED, "stroke-width": 5, "stroke-linejoin": "round", "stroke-linecap": "round" });
+        var p1 = el(g, "path", { d: d1, fill: "none", stroke: RED, "stroke-width": 5, "stroke-linejoin": "round" });
+        var p2 = el(g, "path", { d: d2, fill: "none", stroke: RED, "stroke-width": 6, "stroke-linejoin": "round", "stroke-linecap": "round" });
         function draw(p, t, d) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: "power2.inOut" }, t); }
-        draw(p1, .3, .65); draw(p2, .95, .6);
-        var dot = el(g, "circle", { cx: X(n - 1), cy: Y(I[n - 1][1]), r: 8, fill: RED }); tl.fromTo(dot, { opacity: 0 }, { opacity: 1, duration: .15 }, 1.5);
+        draw(p1, .1, .65); draw(p2, .75, .65);
+        var dot = el(g, "circle", { cx: X(n - 1), cy: Y(I[n - 1][1]), r: 10, fill: RED }); tl.fromTo(dot, { opacity: 0 }, { opacity: 1, duration: .15 }, 1.4);
 
         // sous-titres (3 mots max)
         [["Hier soir,", 0.0, .44], ["Google a chuté", .44, 1.02], ["de plus", 1.02, 1.26], ["de 10 %", 1.26, 1.94]].forEach(function (c) {
-          var d = div(st, "<span>" + c[0] + "</span>", "left:0; right:0; top:1335px; text-align:center; opacity:0"); d.className = "cap";
+          var d = div(st, "<span>" + c[0] + "</span>", "left:0; right:0; top:1360px; text-align:center; opacity:0"); d.className = "cap";
           tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
         });
         tl.set({}, {}, 2.3);
+        // zone sûre Instagram / TikTok : fonds plein cadre à part, tout le reste réduit (×0,82) vers le centre utile
+        (function () {
+          var root = document.getElementById("root"), bgl = document.createElement("div");
+          bgl.style.cssText = "position:absolute; inset:0"; root.insertBefore(bgl, st);
+          [].slice.call(st.children).forEach(function (c) { if (/^\s*inset:\s*0/.test(c.getAttribute("style") || "")) bgl.appendChild(c); });
+          st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
+        })();
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
     </script>

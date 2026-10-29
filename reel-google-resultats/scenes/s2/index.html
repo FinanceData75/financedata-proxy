@@ -6,7 +6,7 @@
     <script src="assets/gsap.min.js"></script>
     <style>
       /* Scène 2 (1,94 → 4,32 s) « et pourtant ses ventes ont bondi de plus de 25 % ».
-         Graphique façon presse éco, version FinanceData : fond #EEF1F5, titre en haut à gauche, quadrillage léger,
+         Graphique façon presse éco, version FinanceData : fond blanc à foyer (comme le hook), titre en haut à gauche, quadrillage léger,
          axe à droite, colonnes à angles droits, seule la colonne à retenir en couleur (vert = hausse). */
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,11 +33,13 @@
         function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
         function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
 
+        // fond blanc avec un foyer de lumière, dans la continuité du hook
+        div(st, "", "inset:0; background:radial-gradient(ellipse 75% 55% at 50% 44%, #ffffff 0%, #f2f3f7 50%, #c3c7d2 100%)");
+
         // titre en haut à gauche (logo officiel + nom), sous-titre d'une ligne
         div(st, "<img src='assets/img/google-g.svg' style='width:100%; height:100%; display:block'>", "left:96px; top:292px; width:64px; height:64px");
         var ti = div(st, "Chiffre d'affaires", "left:180px; top:286px; font-weight:700; font-size:72px; letter-spacing:-.055em; line-height:1");
-        var sub = div(st, "Alphabet, par trimestre, en milliards de dollars", "left:96px; top:390px; font-size:38px; font-weight:500; color:#3b4166; letter-spacing:-.03em");
-        tl.fromTo([st.children[0], ti, sub], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out", stagger: .05 }, 0);
+        tl.fromTo([st.children[1], ti], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out", stagger: .05 }, 0);
 
         // graphique : quadrillage, axe à droite, deux colonnes
         var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 1080); g.setAttribute("height", 820); g.style.left = "0px"; g.style.top = "470px"; st.appendChild(g);
@@ -54,8 +56,9 @@
         });
         // annotation : la hausse, écrite dans la colonne verte
         var up = T(g, 190 + 360 + 130, Y(127.6) + 96, "+25 %", 70, "#fff", 700, "middle");
-        tl.fromTo(up, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" }, 1.5);
-        div(st, "<div style='display:flex; justify-content:space-between; width:888px; font-size:26px; color:#6b7290'><span>Source : Alphabet</span><b style='font-size:30px; font-weight:800; letter-spacing:-.04em; color:#0a105e'>FinanceData</b></div>", "left:96px; top:1262px");
+        tl.fromTo(up, { opacity: 0, scale: 1.4, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2.2)" }, 1.5);
+        var src = div(st, "Par trimestre, en milliards de dollars · Source : Alphabet", "left:96px; top:1262px; font-size:28px; font-weight:500; color:#6b7290; letter-spacing:-.02em");
+        tl.fromTo(src, { opacity: 0 }, { opacity: 1, duration: .3 }, .3);
 
         // sous-titres (3 mots max)
         [["et pourtant", 0, .40], ["ses ventes", .40, .78], ["ont bondi", .78, 1.28], ["de plus", 1.28, 1.50], ["de 25 %.", 1.50, 2.38]].forEach(function (c) {
@@ -63,6 +66,13 @@
           tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
         });
         tl.set({}, {}, 2.38);
+        // zone sûre Instagram / TikTok : fonds plein cadre à part, tout le reste réduit (×0,82) vers le centre utile
+        (function () {
+          var root = document.getElementById("root"), bgl = document.createElement("div");
+          bgl.style.cssText = "position:absolute; inset:0"; root.insertBefore(bgl, st);
+          [].slice.call(st.children).forEach(function (c) { if (/^\s*inset:\s*0/.test(c.getAttribute("style") || "")) bgl.appendChild(c); });
+          st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
+        })();
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
     </script>

@@ -70,6 +70,13 @@
           tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
         });
         tl.set({}, {}, 4.5);
+        // zone sûre Instagram / TikTok : fonds plein cadre à part, tout le reste réduit (×0,82) vers le centre utile
+        (function () {
+          var root = document.getElementById("root"), bgl = document.createElement("div");
+          bgl.style.cssText = "position:absolute; inset:0"; root.insertBefore(bgl, st);
+          [].slice.call(st.children).forEach(function (c) { if (/^\s*inset:\s*0/.test(c.getAttribute("style") || "")) bgl.appendChild(c); });
+          st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
+        })();
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
     </script>
