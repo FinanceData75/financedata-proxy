@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <script src="assets/goog.js"></script>
+    <script src="assets/gemini.js"></script>
+    <style>
+      /* Reel Google : minimalisme des pages produit Apple + identité FinanceData.
+         Fonds blanc, bleu nuit #000B22 ou vidéo plein écran (voile bleuté). Seul texte à l'écran hors sous-titres :
+         le titre des graphiques, en haut à gauche. Couleurs de Google pour les accents (vert = hausse, rouge = baisse, bleu = clé).
+         Vrais logos (Google, Gemini), vrai ticker et vrai cours (Yahoo Finance). Sous-titres : 3 mots maximum. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      @font-face { font-family: "Cap"; src: url("assets/fonts/inter-latin-600-normal.woff2"); font-weight: 600; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .sc { position: absolute; inset: 0; opacity: 0; overflow: hidden; background: #fff; color: #1d1d1f; }
+      .sc.nuit { background: #000b22; color: #fff; }
+      .sc.vid { background: transparent; color: #fff; }
+      .veil { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,18,70,.28), rgba(0,11,34,.38)); }
+      .ct { position: absolute; left: 96px; top: 300px; font-size: 44px; font-weight: 600; letter-spacing: -.02em; color: #86868b; }
+      .ct b { color: #1d1d1f; font-weight: 600; } .nuit .ct b { color: #fff; }
+      .big { position: absolute; font-weight: 600; letter-spacing: -.045em; line-height: .95; font-feature-settings: "tnum" 1; }
+      .tile { position: absolute; border-radius: 40px; background: #f5f5f7; }
+      .nuit .tile { background: rgba(255,255,255,.07); }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
+      #caps { position: absolute; left: 0; right: 0; top: 1400px; z-index: 20; }
+      .cl { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cl span { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.78); font-family: "Cap", sans-serif; font-weight: 600; font-size: 56px; letter-spacing: -.04em; word-spacing: .06em; color: #fff; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="60.66" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="60.66" data-track-index="1"></audio>
+      <video id="v-ws" class="clip" src="assets/video/wall-street-nuit.mp4" data-start="0" data-duration="1.94" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-g" class="clip" src="assets/video/google-ecran.mp4" data-start="9.06" data-duration="3.2" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-dc" class="clip" src="assets/video/datacenter.mp4" data-start="18.68" data-duration="2.8" data-track-index="4" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-ws2" class="clip" src="assets/video/wall-street-nuit.mp4" data-start="37.26" data-duration="3.96" data-media-start="1.9" data-track-index="5" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-tel" class="clip" src="assets/video/recherche-telephone.mp4" data-start="49.56" data-duration="4.5" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="stage" class="clip" data-start="0" data-duration="60.66" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), stage = document.getElementById("stage"), G = window.GOOG, W = window.VO.words;
+        var GB = "#4285f4", GR = "#34a853", RD = "#ea4335", GY = "#fbbc05", GREY = "#86868b", INK = "#1d1d1f";
+        function at(word, after) { after = after || 0; for (var i = 0; i < W.length; i++) if (W[i].s >= after && W[i].w.replace(/[.,?]$/, "") === word) return W[i].s; throw new Error("mot introuvable : " + word); }
+        function div(p, cls, html, style) { var d = document.createElement("div"); d.className = cls; if (html != null) d.innerHTML = html; if (style) d.setAttribute("style", style); p.appendChild(d); return d; }
+        function svg(p, w, h, l, t) { var s = document.createElementNS(NS, "svg"); s.setAttribute("width", w); s.setAttribute("height", h); s.style.left = l + "px"; s.style.top = t + "px"; p.appendChild(s); return s; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function scene(a, b, cls) { var s = div(stage, "sc " + (cls || "")); tl.set(s, { opacity: 1 }, a); tl.set(s, { opacity: 0 }, b); if (cls === "vid") div(s, "veil", ""); return s; }
+        function fade(n, t, d) { tl.fromTo(n, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: d || .6, ease: "power3.out" }, t); return n; }
+        function draw(p, t, d) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: "power2.inOut" }, t); }
+        function count(n, t, a, b, d, fmt) { var o = { v: a }; tl.fromTo(o, { v: a }, { v: b, duration: d, ease: "power3.out", onUpdate: function () { n.textContent = fmt(o.v); } }, t); }
+        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
+        function grow(r, t, d, origin) { tl.fromTo(r, { scaleY: 0, transformOrigin: origin || "50% 100%" }, { scaleY: 1, duration: d || .8, ease: "power3.out" }, t); }
+        function growX(r, t, d) { tl.fromTo(r, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: d || .8, ease: "power3.out" }, t); }
+        function ctitle(s, html, t) { return fade(div(s, "ct", html), t, .5); }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }).replace(/[  ]/g, " "); }
+        var GLOGO = "<img src='assets/img/google-g.svg' style='width:100%; height:100%; display:block'>";
+        var s, g;
+
+        // A. 0–1,94 hook : vidéo Wall Street + fiche de cotation GOOGL
+        s = scene(0, 1.94, "vid");
+        var card = div(s, "tile", "", "left:120px; top:640px; width:840px; height:560px; background:rgba(255,255,255,.94); box-shadow:0 40px 100px rgba(0,0,0,.35)");
+        div(card, "", GLOGO, "position:absolute; left:60px; top:60px; width:96px; height:96px");
+        div(card, "", "<div style='font-size:46px; font-weight:600; color:#1d1d1f; letter-spacing:-.02em'>Alphabet</div><div style='margin-top:6px; font-size:32px; font-weight:600; color:#86868b; letter-spacing:.02em'>GOOGL · NASDAQ</div>", "position:absolute; left:186px; top:62px");
+        var px = div(card, "big", "324,89 $", "left:60px; top:230px; font-size:150px; color:#1d1d1f");
+        var pc = div(card, "big", "0,0 %", "left:64px; top:400px; font-size:84px; color:" + RD);
+        tl.fromTo(card, { opacity: 0, y: 40, scale: .97 }, { opacity: 1, y: 0, scale: 1, duration: .45, ease: "power3.out" }, 0);
+        count(px, .25, 324.89, 291.64, 1.3, function (v) { return fr(v, 2) + " $"; });
+        count(pc, .25, 0, -10.2, 1.3, function (v) { return "▼ " + fr(Math.abs(v), 1) + " %"; });
+
+        // B. 1,94–4,32 ventes +25 % : deux colonnes
+        s = scene(1.94, 4.32);
+        ctitle(s, "<b>Chiffre d'affaires</b> · par trimestre", 1.94);
+        g = svg(s, 1080, 900, 0, 420);
+        var Yb = function (v) { return 820 - v / 130 * 700; };
+        el(g, "line", { x1: 96, x2: 984, y1: 820, y2: 820, stroke: "#d2d2d7", "stroke-width": 2 });
+        [["T3 2025", 102.3, "#d2d2d7", 2.0], ["T3 2026", 127.6, GR, at("bondi") - .1]].forEach(function (r, k) {
+          var x = 170 + k * 400, y = Yb(r[1]); var b = el(g, "rect", { x: x, y: y, width: 300, height: 820 - y, rx: 24, fill: r[2] }); grow(b, r[3], .7);
+          var v = T(g, x + 150, y - 30, fr(r[1], 1) + " Md$", 52, k ? INK : GREY, 600, "middle"), l = T(g, x + 150, 880, r[0], 36, GREY, 600, "middle");
+          tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .3 }, r[3] + .3);
+        });
+        var b25 = T(g, 720, Yb(127.6) + 110, "+25 %", 80, "#fff", 700, "middle"); tl.fromTo(b25, { opacity: 0 }, { opacity: 1, duration: .3 }, at("vingt-cinq"));
+
+        // C. 4,32–9,06 deux ans de cours, sur bleu nuit
+        s = scene(4.32, 9.06, "nuit");
+        ctitle(s, "<b>GOOGL</b> · cours sur 2 ans", 4.32);
+        g = svg(s, 1080, 820, 0, 440);
+        var Dd = G.daily.concat([["2026-10-29", 291.64]]), X2 = function (k) { return 96 + k / (Dd.length - 1) * 888; }, Y2 = function (v) { return 40 + (420 - v) / 280 * 640; };
+        var pk = Dd.reduce(function (a, r) { return r[1] > a[1] ? r : a; }), ipk = Dd.indexOf(pk);
+        var dUp = Dd.slice(0, Dd.length - 1).map(function (r, k) { return (k ? "L" : "M") + X2(k).toFixed(1) + " " + Y2(r[1]).toFixed(1); }).join(" ");
+        var pUp = el(g, "path", { d: dUp, fill: "none", stroke: GB, "stroke-width": 5, "stroke-linejoin": "round" }); draw(pUp, 4.22, 1.6);
+        var pDn = el(g, "path", { d: "M" + X2(Dd.length - 2) + " " + Y2(Dd[Dd.length - 2][1]) + " L" + X2(Dd.length - 1) + " " + Y2(291.64), fill: "none", stroke: RD, "stroke-width": 7, "stroke-linecap": "round" }); draw(pDn, 6.7, .3);
+        var dot = el(g, "circle", { cx: X2(Dd.length - 1), cy: Y2(291.64), r: 11, fill: RD }), lb = T(g, X2(Dd.length - 1), Y2(291.64) + 76, "291 $", 44, RD, 600, "end");
+        var pkt = T(g, X2(ipk), Y2(pk[1]) - 32, "402 $", 40, "rgba(255,255,255,.6)", 600, "middle");
+        tl.fromTo(pkt, { opacity: 0 }, { opacity: 1, duration: .3 }, 5.5); tl.fromTo([dot, lb], { opacity: 0 }, { opacity: 1, duration: .3 }, 7.0);
+        T(g, 96, 780, "Oct. 2024", 32, "rgba(255,255,255,.45)", 500); T(g, 984, 780, "Oct. 2026", 32, "rgba(255,255,255,.45)", 500, "end");
+
+        // D. 9,06–12,3 vidéo : l'écran de Google
+        s = scene(9.06, 12.26, "vid");
+
+        // E. 12,26–16,96 la recherche et le lien sponsorisé (vrai logo Google)
+        s = scene(12.26, 16.96);
+        fade(div(s, "", "<img src='assets/img/google-wordmark.svg' style='width:100%; display:block'>", "position:absolute; left:300px; top:470px; width:480px"), 12.3);
+        var bar = fade(div(s, "tile", "", "left:96px; top:680px; width:888px; height:140px; border-radius:70px; background:#fff; box-shadow:0 1px 0 rgba(0,0,0,.04), 0 18px 50px rgba(0,0,0,.12)"), 12.5);
+        div(bar, "", GLOGO, "position:absolute; left:50px; top:40px; width:60px; height:60px");
+        var q = div(bar, "", "", "position:absolute; left:140px; top:42px; font-size:48px; font-weight:500; color:#1d1d1f; letter-spacing:-.015em");
+        var Q = "billet avion Paris New York", o4 = { n: 0 };
+        tl.fromTo(o4, { n: 0 }, { n: Q.length, duration: 1.3, ease: "none", onUpdate: function () { q.textContent = Q.slice(0, Math.round(o4.n)); } }, at("Quand"));
+        fade(div(s, "", "<div style='font-size:30px; font-weight:700; color:#1d1d1f'>Sponsorisé</div><div style='margin-top:12px; font-size:48px; font-weight:600; color:#1a0dab; letter-spacing:-.015em'>Vols Paris – New York</div><div style='margin-top:8px; font-size:32px; color:#86868b'>Exemple d'annonce</div>", "position:absolute; left:150px; top:900px"), at("marques") - .1);
+
+        // F. 16,96–18,68 la croissance de la pub, à la traîne
+        s = scene(16.96, 18.68);
+        ctitle(s, "<b>Croissance</b> · sur un an", 16.96);
+        g = svg(s, 1080, 760, 0, 420);
+        [["Google Cloud", 103, "#d2d2d7", GREY], ["Recherche", 12, RD, INK], ["YouTube", 9, RD, INK]].forEach(function (r, k) {
+          var y = 60 + k * 190, w = r[1] / 103 * 700;
+          T(g, 96, y, r[0], 40, r[3], 600);
+          var b = el(g, "rect", { x: 96, y: y + 26, width: w, height: 70, rx: 16, fill: r[2] }); growX(b, 17.05 + k * .12, .6);
+          T(g, 96 + w + 22, y + 78, "+" + r[1] + " %", 44, r[3], 600);
+        });
+
+        // G. 18,68–21,48 vidéo : un data center
+        s = scene(18.68, 21.48, "vid");
+
+        // H. 21,48–28,1 les investissements IA : 24 → 51,4 Md$ en un an
+        s = scene(21.48, 28.1, "nuit");
+        ctitle(s, "<b>Investissements</b> · par trimestre", 21.5);
+        g = svg(s, 1080, 900, 0, 420);
+        var Yc = function (v) { return 820 - v / 56 * 700; };
+        el(g, "line", { x1: 96, x2: 984, y1: 820, y2: 820, stroke: "rgba(255,255,255,.2)", "stroke-width": 2 });
+        [["T3 2025", 24, "rgba(255,255,255,.22)", 21.38], ["T3 2026", 51.4, GB, at("Plus", 25) - .1]].forEach(function (r, k) {
+          var x = 170 + k * 400, y = Yc(r[1]); var b = el(g, "rect", { x: x, y: y, width: 300, height: 820 - y, rx: 24, fill: r[2] }); grow(b, r[3], .8);
+          var v = T(g, x + 150, y - 30, fr(r[1], 1) + " Md$", 52, k ? "#fff" : "rgba(255,255,255,.6)", 600, "middle"), l = T(g, x + 150, 880, r[0], 36, "rgba(255,255,255,.5)", 600, "middle");
+          tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .3 }, r[3] + .3);
+        });
+        var x2 = T(g, 720, Yc(51.4) + 110, "×2", 90, "#fff", 700, "middle"); tl.fromTo(x2, { opacity: 0 }, { opacity: 1, duration: .3 }, at("trois", 27) - .1);
+
+        // I. 28,1–30,56 l'an prochain : encore plus
+        s = scene(28.1, 30.56);
+        ctitle(s, "<b>Investissements</b> · par an", 28.1);
+        g = svg(s, 1080, 900, 0, 420);
+        var d9 = el(el(g, "defs", {}), "pattern", { id: "hx", width: 18, height: 18, patternUnits: "userSpaceOnUse", patternTransform: "rotate(45)" });
+        el(d9, "rect", { width: 18, height: 18, fill: "#dbe7fd" }); el(d9, "rect", { width: 8, height: 18, fill: GB });
+        el(g, "line", { x1: 96, x2: 984, y1: 820, y2: 820, stroke: "#d2d2d7", "stroke-width": 2 });
+        var b26 = el(g, "rect", { x: 170, y: 820 - 500, width: 300, height: 500, rx: 24, fill: "#d2d2d7" }); grow(b26, 28.2, .7);
+        var b27 = el(g, "rect", { x: 570, y: 820 - 680, width: 300, height: 680, rx: 24, fill: "url(#hx)" }); grow(b27, at("prochain") - .1, .8);
+        var t26 = T(g, 320, 820 - 530, "≈ 200 Md$", 52, GREY, 600, "middle"), t27 = T(g, 720, 820 - 710, "Encore plus", 52, GB, 700, "middle");
+        tl.fromTo(t26, { opacity: 0 }, { opacity: 1, duration: .3 }, 28.5); tl.fromTo(t27, { opacity: 0 }, { opacity: 1, duration: .3 }, at("plus", 30) - .1);
+        T(g, 320, 880, "2026", 36, GREY, 600, "middle"); T(g, 720, 880, "2027", 36, GREY, 600, "middle");
+
+        // J. 30,56–37,26 généré vs dépensé, puis le trou de 9 Md$
+        s = scene(30.56, 37.26, "nuit");
+        ctitle(s, "<b>Trésorerie</b> · T3 2026", 30.56);
+        g = svg(s, 1080, 900, 0, 420);
+        var Yj = function (v) { return 820 - v / 56 * 700; };
+        el(g, "line", { x1: 96, x2: 984, y1: 820, y2: 820, stroke: "rgba(255,255,255,.2)", "stroke-width": 2 });
+        [["Argent généré", 42.3, GR, 30.46], ["Investissements", 51.4, RD, at("payer") - .1]].forEach(function (r, k) {
+          var x = 170 + k * 400, y = Yj(r[1]); var b = el(g, "rect", { x: x, y: y, width: 300, height: 820 - y, rx: 24, fill: r[2] }); grow(b, r[3], .8);
+          var v = T(g, x + 150, y - 30, fr(r[1], 1) + " Md$", 52, "#fff", 600, "middle"), l = T(g, x + 150, 880, r[0], 36, "rgba(255,255,255,.55)", 600, "middle");
+          tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .3 }, r[3] + .3);
+        });
+        var gap = el(g, "rect", { x: 570, y: Yj(51.4), width: 300, height: Yj(42.3) - Yj(51.4), rx: 0, fill: "none", stroke: "#fff", "stroke-width": 4, "stroke-dasharray": "12 10" });
+        var gt = T(g, 720, Yj(46.8) + 22, "−9,1 Md$", 60, "#fff", 700, "middle");
+        tl.fromTo([gap, gt], { opacity: 0 }, { opacity: 1, duration: .4 }, at("manqué") - .1);
+
+        // K. 37,26–41,22 vidéo : trouver de l'argent ailleurs
+        s = scene(37.26, 41.22, "vid");
+
+        // L. 41,22–45,86 deux options : la dette, les nouvelles actions
+        s = scene(41.22, 45.86);
+        var t1 = fade(div(s, "tile", "<svg width='90' height='90' viewBox='0 0 24 24' style='position:absolute; left:60px; top:70px'><path d='M12 2 2 7v2h20V7L12 2Zm-7 9v7h2v-7H5Zm4 0v7h2v-7H9Zm4 0v7h2v-7h-2Zm4 0v7h2v-7h-2ZM2 20v2h20v-2H2Z' fill='#1d1d1f'/></svg><div class='big' style='left:190px; top:80px; font-size:72px'>Dette</div><div style='position:absolute; left:190px; top:170px; font-size:36px; font-weight:600; color:#86868b'>125 Md$ déjà empruntés</div>", "left:96px; top:520px; width:888px; height:300px"), 41.25);
+        var t2 = fade(div(s, "tile", "<svg width='90' height='90' viewBox='0 0 24 24' style='position:absolute; left:60px; top:70px'><path d='M4 4h16v4H4V4Zm0 6h16v4H4v-4Zm0 6h10v4H4v-4Zm13 0h2v-2h2v2h2v2h-2v2h-2v-2h-2v-2Z' fill='#4285f4'/></svg><div class='big' style='left:190px; top:80px; font-size:72px'>Nouvelles actions</div><div style='position:absolute; left:190px; top:170px; font-size:36px; font-weight:600; color:#86868b'>Plus de parts en circulation</div>", "left:96px; top:860px; width:888px; height:300px"), at("soit", 44) - .1);
+
+        // M. 45,86–49,56 la dilution : la part de l'actionnaire rétrécit
+        s = scene(45.86, 49.56);
+        ctitle(s, "<b>Votre part</b> · exemple", 45.86);
+        g = svg(s, 1080, 820, 0, 440);
+        var C = 540, CY = 360, R = 270, CIRC = 2 * Math.PI * R;
+        el(g, "circle", { cx: C, cy: CY, r: R, fill: "none", stroke: "#f5f5f7", "stroke-width": 56 });
+        var ring = el(g, "circle", { cx: C, cy: CY, r: R, fill: "none", stroke: GB, "stroke-width": 56, transform: "rotate(-90 " + C + " " + CY + ")" });
+        var pct = T(g, C, CY + 36, "25 %", 110, INK, 600, "middle");
+        var o7 = { p: .25 }; function upd() { ring.setAttribute("stroke-dasharray", (CIRC * o7.p) + " " + CIRC); pct.textContent = Math.round(o7.p * 100) + " %"; } upd();
+        tl.fromTo(o7, { p: .25 }, { p: .19, duration: 1.4, ease: "power2.inOut", onUpdate: upd }, at("part") - .2);
+
+        // N. 49,56–54,06 vidéo : la machine à cash (la recherche au quotidien)
+        s = scene(49.56, 54.06, "vid");
+
+        // O. 54,06–58,5 l'IA rapportera-t-elle assez ? Logo Gemini
+        s = scene(54.06, 58.5, "nuit");
+        g = svg(s, 1080, 600, 0, 560);
+        var gd = el(el(g, "defs", {}), "linearGradient", { id: "gem", x1: 0, y1: 1, x2: 1, y2: 0 });
+        el(gd, "stop", { offset: 0, "stop-color": "#4796e3" }); el(gd, "stop", { offset: .6, "stop-color": "#9177c7" }); el(gd, "stop", { offset: 1, "stop-color": "#d96570" });
+        var gw = div(s, "", "", "position:absolute; left:340px; top:640px; width:400px; height:400px");
+        var gs = svg(gw, 400, 400, 0, 0); gs.setAttribute("viewBox", "0 0 24 24");
+        var gd2 = el(el(gs, "defs", {}), "linearGradient", { id: "gem2", x1: 0, y1: 1, x2: 1, y2: 0 });
+        el(gd2, "stop", { offset: 0, "stop-color": "#4796e3" }); el(gd2, "stop", { offset: .6, "stop-color": "#9177c7" }); el(gd2, "stop", { offset: 1, "stop-color": "#d96570" });
+        el(gs, "path", { d: window.GEMINI, fill: "url(#gem2)" });
+        tl.fromTo(gw, { opacity: 0, scale: .85 }, { opacity: 1, scale: 1, duration: .8, ease: "power3.out" }, 54.1);
+        tl.fromTo(gw, { rotation: 0 }, { rotation: 45, duration: 4.4, ease: "none" }, 54.1);
+
+        // P. 58,5–fin : logo, nom, bouton
+        s = scene(58.5, 60.66);
+        fade(div(s, "", "<img src='assets/img/logo-financedata.png' style='width:100%; height:100%; display:block; border-radius:50%'>", "position:absolute; left:420px; top:600px; width:240px; height:240px"), 58.45);
+        fade(div(s, "big", "FinanceData", "left:0; right:0; text-align:center; top:900px; font-size:88px"), 58.55);
+        var tA = at("abonnez-vous");
+        var btn = fade(div(s, "", "<span class='b1' style='position:absolute; inset:0'>S'abonner</span><span class='b2' style='position:absolute; inset:0; opacity:0'>Abonné ✓</span>", "position:absolute; left:370px; top:1040px; width:340px; height:96px; border-radius:48px; background:#0071e3; color:#fff; font-size:40px; font-weight:500; text-align:center; line-height:96px"), 58.7);
+        tl.to(btn, { scale: .95, duration: .1 }, tA + .1); tl.to(btn, { scale: 1, duration: .25, ease: "power2.out" }, tA + .2);
+        tl.to(btn, { backgroundColor: "#e8e8ed", color: "#1d1d1f", duration: .2 }, tA + .2); tl.set(btn.querySelector(".b1"), { opacity: 0 }, tA + .22); tl.set(btn.querySelector(".b2"), { opacity: 1 }, tA + .22);
+
+        // =================== SOUS-TITRES (3 mots max) ===================
+        var NUM = [["dix", "pour", "cent", "10 %"], ["vingt-cinq", "pour", "cent.", "25 %."], ["cinquante", "50"], ["neuf", "9"]];
+        var Tk = [];
+        for (var i = 0; i < W.length; i++) {
+          var w = W[i], done = false;
+          NUM.forEach(function (n) { if (done) return; var L = n.length - 1, ok = true; for (var j = 0; j < L; j++) if (!W[i + j] || W[i + j].w !== n[j]) ok = false; if (ok) { Tk.push({ w: n[L], s: w.s, e: W[i + L - 1].e }); i += L - 1; done = true; } });
+          if (!done) Tk.push({ w: w.w, s: w.s, e: w.e });
+        }
+        var box = div(stage, "", null); box.id = "caps";
+        var gr = [], capFree = 0;
+        Tk.forEach(function (w, k) {
+          gr.push(w);
+          var len = gr.reduce(function (a, x) { return a + x.w.length + 1; }, 0);
+          if (/[.,?]$/.test(w.w) || gr.length === 3 || len > 18 || k === Tk.length - 1) {
+            var d = div(box, "cl", "<span>" + gr.map(function (x) { return x.w; }).join(" ") + "</span>");
+            var nxt = Tk[k + 1] ? Tk[k + 1].s : gr[gr.length - 1].e + .3;
+            var show = Math.max(gr[0].s - .06, capFree), hide = Math.max(show + .22, Math.min(nxt - .08, gr[gr.length - 1].e + .4));
+            tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .08 }, show); tl.set(d, { opacity: 0 }, hide);
+            capFree = hide + .01; gr = [];
+          }
+        });
+
+        tl.set({}, {}, 60.66);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
