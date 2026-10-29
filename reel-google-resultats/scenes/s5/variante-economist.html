@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Scène 5 · variante presse éco</title>
+<script src="assets/logos.js"></script>
+<style>
+  /* Variante « tableau presse éco » de la scène 5 : titre-conclusion, sous-titre, en-têtes gris, filets très fins entre les lignes,
+     colonne « Écart » qui porte le message (rouge), colonne « Publié » légèrement teintée, source et signature en bas. */
+  @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1920px; background: #eef1f5; color: #0a105e; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; position: relative; overflow: hidden; }
+  .a { position: absolute; }
+  table { position: absolute; left: 96px; top: 560px; width: 888px; border-collapse: collapse; font-feature-settings: "tnum" 1; }
+  th { font-size: 30px; font-weight: 600; color: #6b7290; text-align: right; padding: 0 0 22px; letter-spacing: -.01em; border-bottom: 3px solid #0a105e; }
+  th:first-child { text-align: left; }
+  td { padding: 34px 0; font-size: 58px; font-weight: 700; letter-spacing: -.045em; text-align: right; border-bottom: 2px solid #d5dae5; }
+  td:first-child { text-align: left; font-size: 46px; }
+  td.pub { background: rgba(61,90,254,.07); padding-right: 18px; }
+  th.pub { padding-right: 18px; }
+  td.exp { color: #6b7290; font-weight: 600; }
+  td.gap { color: #e5484d; }
+  .lg { display: inline-flex; align-items: center; gap: 22px; }
+</style>
+</head>
+<body>
+  <div class="a" style="left:96px; top:300px; font-weight:700; font-size:76px; letter-spacing:-.055em; line-height:1">Sous les attentes</div>
+  <div class="a" style="left:96px; top:396px; font-size:38px; font-weight:500; color:#3b4166; letter-spacing:-.03em">Revenus publicitaires de Google, T3 2026, en Md$</div>
+  <table>
+    <tr><th>Activité</th><th>Attendu</th><th class="pub">Publié</th><th>Écart</th></tr>
+    <tr><td><span class="lg"><img src="assets/img/google-g.svg" style="width:56px; height:56px">Publicité</span></td><td class="exp">83,5</td><td class="pub">82,0</td><td class="gap">−1,8 %</td></tr>
+    <tr><td><span class="lg" id="yt">YouTube</span></td><td class="exp">11,3</td><td class="pub">11,2</td><td class="gap">−1,1 %</td></tr>
+  </table>
+  <div class="a" style="left:96px; top:1040px; width:888px; display:flex; justify-content:space-between; font-size:26px; color:#6b7290"><span>Sources : Alphabet ; consensus Zacks</span><b style="font-size:30px; font-weight:800; letter-spacing:-.04em; color:#0a105e">FinanceData</b></div>
+  <script>
+    document.getElementById("yt").insertAdjacentHTML("afterbegin", "<svg width='60' height='60' viewBox='0 0 24 24'><path d='" + window.LOGOS.youtube + "' fill='#ff0000'/></svg>");
+  </script>
+</body>
+</html>
