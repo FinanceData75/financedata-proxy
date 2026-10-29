@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Scène 11 (45,86 → 49,56 s) « Mais ça non plus, ça ne plaît pas aux actionnaires existants, car leur part du gâteau rétrécirait ».
+         Fond #EEF1F5, titre en haut à gauche, un camembert (le gâteau) en gris : la part de l'actionnaire en marine,
+         puis une nouvelle part s'ajoute et la sienne rétrécit (25 % → 20 %), en rouge, seule couleur. Exemple chiffré sous le graphique. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
+      .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="3.7" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="3.7" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="3.7" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), st = document.getElementById("stage");
+        var NAVY = "#0a105e", RED = "#d9161e", PALE = "#c5cad9", NEW = "#dfe3ec", AX = "#6b7290";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+
+        var ti = div(st, "Part d'un actionnaire", "left:96px; top:300px; font-weight:700; font-size:76px; letter-spacing:-.055em; line-height:1");
+        tl.fromTo(ti, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out" }, 0);
+
+        // le gâteau : 4 parts égales, la 1re (à partir de midi) est celle de l'actionnaire ; k = taille de la nouvelle part (0 → 1)
+        var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 1080); g.setAttribute("height", 900); g.style.left = "0px"; g.style.top = "420px"; st.appendChild(g);
+        var CX = 540, CY = 430, R = 330;
+        var pie = el(g, "g", {});
+        var slices = [NAVY, PALE, PALE, PALE, NEW].map(function (f) { return el(pie, "path", { fill: f, stroke: "#eef1f5", "stroke-width": 8, "stroke-linejoin": "miter" }); });
+        var pct = el(g, "text", { "font-size": 64, fill: "#fff", "font-weight": 700, "text-anchor": "middle" }, "25 %");
+        var lblNew = el(g, "text", { "font-size": 32, fill: AX, "font-weight": 600, "text-anchor": "end", opacity: 0 }, "Nouvelles actions");
+        function pt(a, r) { return [CX + r * Math.cos(a), CY + r * Math.sin(a)]; }
+        function arc(a0, a1) {
+          if (a1 - a0 < 1e-4) return "";
+          var p0 = pt(a0, R), p1 = pt(a1, R);
+          return "M" + CX + " " + CY + "L" + p0[0] + " " + p0[1] + "A" + R + " " + R + " 0 " + (a1 - a0 > Math.PI ? 1 : 0) + " 1 " + p1[0] + " " + p1[1] + "Z";
+        }
+        var s = { k: 0 };
+        function draw() {
+          var tot = 4 + s.k, a = -Math.PI / 2, u = 2 * Math.PI / tot;
+          [1, 1, 1, 1, s.k].forEach(function (w, i) { slices[i].setAttribute("d", arc(a, a + w * u)); if (i === 0) { var m = pt(a + u / 2, R * .6); pct.setAttribute("x", m[0]); pct.setAttribute("y", m[1] + 22); } if (i === 4) { var q = pt(a + w * u / 2, R + 30); lblNew.setAttribute("x", q[0]); lblNew.setAttribute("y", q[1]); } a += w * u; });
+          pct.textContent = fr(100 / tot, 0) + " %";
+        }
+        draw();
+        tl.fromTo(pie, { scale: .85, opacity: 0, transformOrigin: CX + "px " + CY + "px" }, { scale: 1, opacity: 1, duration: .5, ease: "power3.out" }, .2);
+        tl.fromTo(pct, { opacity: 0 }, { opacity: 1, duration: .25 }, .6);
+        // « car leur part du gâteau rétrécirait » : une nouvelle part s'ajoute, celle de l'actionnaire rétrécit et passe en rouge
+        tl.fromTo(s, { k: 0 }, { k: 1, duration: .9, ease: "power2.inOut", onUpdate: draw }, 2.2);
+        tl.to(slices[0], { attr: { fill: RED }, duration: .3 }, 2.6);
+        tl.fromTo(lblNew, { opacity: 0 }, { opacity: 1, duration: .25 }, 2.7);
+
+        var src = div(st, "Exemple : 4 actions, puis 1 nouvelle action émise", "left:96px; top:1262px; font-size:28px; font-weight:500; color:#6b7290; letter-spacing:-.02em");
+        tl.fromTo(src, { opacity: 0 }, { opacity: 1, duration: .3 }, .5);
+
+        // sous-titres (3 mots max)
+        [["Mais ça", 0, .32], ["non plus,", .32, .60], ["ça ne plaît", .60, .96], ["pas aux actionnaires", .96, 1.56], ["existants,", 1.56, 2.00], ["car leur part", 2.00, 2.52], ["du gâteau", 2.52, 2.96], ["rétrécirait.", 2.96, 3.7]].forEach(function (c) {
+          var d = div(st, "<span>" + c[0] + "</span>", "top:1360px", "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
+        });
+        tl.set({}, {}, 3.7);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
