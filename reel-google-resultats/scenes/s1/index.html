@@ -40,7 +40,7 @@
         tl.fromTo(ph.firstChild, { scale: 1.06 }, { scale: 1.0, duration: 2.3, ease: "power1.out" }, 0);
 
         // carte boursière : logo, ticker, prix, variation, cours du 28 au 29 octobre
-        var card = div(st, "", "left:96px; top:1060px; width:888px; height:360px; border-radius:32px; background:#fff; box-shadow:0 30px 80px rgba(0,11,34,.35)");
+        var card = div(st, "", "left:96px; top:1060px; width:888px; height:360px; border-radius:4px; background:#fff; box-shadow:0 30px 80px rgba(0,11,34,.35)");
         tl.fromTo(card, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, .05);
         div(card, "<img src='assets/img/google-g.svg' style='width:100%; height:100%; display:block'>", "left:44px; top:42px; width:72px; height:72px");
         div(card, "<div style='font-size:40px; font-weight:700; color:#0a105e; letter-spacing:-.02em'>Alphabet</div><div style='margin-top:4px; font-size:26px; font-weight:600; color:#6b7290; letter-spacing:.04em'>GOOGL · NASDAQ</div>", "left:140px; top:40px");
@@ -52,15 +52,16 @@
         var X = function (k) { return k / (n - 1) * 800; }, Y = function (v) { return 150 - (v - 288) / 40 * 140; };
         var dA = I.map(function (r, k) { return (k ? "L" : "M") + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
         var defs = el(g, "defs", {}), lg = el(defs, "linearGradient", { id: "ar", x1: 0, y1: 0, x2: 0, y2: 1 });
-        el(lg, "stop", { offset: 0, "stop-color": RED, "stop-opacity": .18 }); el(lg, "stop", { offset: 1, "stop-color": RED, "stop-opacity": 0 });
-        var area = el(g, "path", { d: "M" + X(iClose) + " 170 " + I.slice(iClose).map(function (r, k) { return "L" + X(k + iClose).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ") + " L800 170 Z", fill: "url(#ar)", opacity: 0 });
+        el(lg, "stop", { offset: 0, "stop-color": RED, "stop-opacity": .45 }); el(lg, "stop", { offset: 1, "stop-color": RED, "stop-opacity": .04 });
+        var area = el(g, "path", { d: "M0 170 " + I.map(function (r, k) { return "L" + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ") + " L800 170 Z", fill: "url(#ar)" });
+        tl.fromTo(area, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.25, ease: "power2.inOut" }, .3);
         el(g, "line", { x1: 0, x2: 800, y1: Y(324.89), y2: Y(324.89), stroke: "#c5cad9", "stroke-width": 2, "stroke-dasharray": "4 8" });
         var d1 = I.slice(0, iClose + 1).map(function (r, k) { return (k ? "L" : "M") + X(k).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
         var d2 = I.slice(iClose).map(function (r, k) { return (k ? "L" : "M") + X(k + iClose).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
-        var p1 = el(g, "path", { d: d1, fill: "none", stroke: "#0a105e", "stroke-width": 4, "stroke-linejoin": "round" });
+        var p1 = el(g, "path", { d: d1, fill: "none", stroke: RED, "stroke-width": 4, "stroke-linejoin": "round" });
         var p2 = el(g, "path", { d: d2, fill: "none", stroke: RED, "stroke-width": 5, "stroke-linejoin": "round", "stroke-linecap": "round" });
         function draw(p, t, d) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: "power2.inOut" }, t); }
-        draw(p1, .3, .65); draw(p2, .95, .6); tl.to(area, { opacity: 1, duration: .4 }, 1.3);
+        draw(p1, .3, .65); draw(p2, .95, .6);
         var dot = el(g, "circle", { cx: X(n - 1), cy: Y(I[n - 1][1]), r: 8, fill: RED }); tl.fromTo(dot, { opacity: 0 }, { opacity: 1, duration: .15 }, 1.5);
 
         // sous-titres (3 mots max)
