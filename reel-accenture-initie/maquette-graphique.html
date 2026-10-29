@@ -8,7 +8,7 @@
   /* Maquette du nouveau graphique boursier « The Economist version FinanceData » (scène du 26 octobre).
      Zone de tracé à part de la gouttière des valeurs : la courbe ne touche jamais les chiffres de l'axe.
      Valeurs posées au-dessus des lignes de grille à droite, mois en bas avec petites graduations, ligne du bas en marine.
-     Une seule couleur (bleu FinanceData) pour l'annotation clé ; le reste en marine et gris. Annotations courtes, avec filet de rappel. */
+     Une seule couleur (bleu FinanceData) pour l'annotation clé ; le reste en marine et gris. 1 écran = 1 info : juste la courbe annotée, rien en dessous. */
   @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { width: 1080px; height: 1920px; background: #eef1f5; color: #0a105e; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; position: relative; overflow: hidden; }
@@ -34,7 +34,7 @@
 
   // repère : zone de tracé (x 0 → PW) séparée de la gouttière des valeurs (PW → W)
   var S = window.ACN.filter(function (r) { return r[0] >= "2026-06-01" && r[0] <= "2026-10-28"; }), n = S.length;
-  var W = 888, PW = 760, H = 470, TOP = 440, g = document.createElementNS(NS, "svg");
+  var W = 888, PW = 760, H = 720, TOP = 440, g = document.createElementNS(NS, "svg");
   g.setAttribute("width", W); g.setAttribute("height", H + 90); g.style.left = "96px"; g.style.top = TOP + "px"; st.appendChild(g);
   var X = function (i) { return i / (n - 1) * PW; }, Y = function (v) { return H - (v - 75) / 215 * H; };
   [100, 150, 200, 250].forEach(function (v) {
@@ -66,14 +66,8 @@
   el(g, "text", { x: xb - 30, y: Y(274), "font-size": 32, fill: BLUE, "font-weight": 700, "text-anchor": "end" }, "Achat de la PDG · ×2 depuis juin");
   el(g, "text", { x: xb, y: H + 50, "font-size": 30, fill: BLUE, "font-weight": 700, "text-anchor": "middle" }, "26");
 
-  // cartes : qui a acheté
-  div("<div style='position:absolute; left:36px; top:30px; font-size:44px; font-weight:700; letter-spacing:-.05em'>Julie Sweet</div><div style='position:absolute; left:36px; top:84px; font-size:28px; font-weight:600; color:#6b7290'>PDG</div><div style='position:absolute; left:34px; top:128px; font-size:64px; font-weight:700; letter-spacing:-.055em; color:" + BLUE + "; font-feature-settings:\"tnum\" 1'>12 200</div><div style='position:absolute; left:36px; top:200px; font-size:28px; font-weight:600; color:#6b7290'>actions achetées</div>", "left:96px; top:1040px; width:430px; height:250px");
-  st.lastChild.className = "card";
-  div("<div style='position:absolute; left:36px; top:30px; font-size:44px; font-weight:700; letter-spacing:-.05em'>Paula Price</div><div style='position:absolute; left:36px; top:84px; font-size:28px; font-weight:600; color:#6b7290'>administratrice</div><div style='position:absolute; left:34px; top:128px; font-size:64px; font-weight:700; letter-spacing:-.055em'>Achète</div><div style='position:absolute; left:36px; top:200px; font-size:28px; font-weight:600; color:#6b7290'>le même jour</div>", "left:554px; top:1040px; width:430px; height:250px");
-  st.lastChild.className = "card";
-
-  div("Cours de clôture, 2026 · Sources : Yahoo Finance, SEC (Form 4)", "left:96px; top:1320px; font-size:28px; font-weight:500; color:#6b7290; letter-spacing:-.02em");
-  div("<span style='font-weight:700; font-size:66px; letter-spacing:-.055em; color:#0a105e'>achète plus de</span>", "left:0; right:0; top:1420px; text-align:center");
+  div("Cours de clôture, 2026 · Sources : Yahoo Finance, SEC (Form 4)", "left:96px; top:1262px; font-size:28px; font-weight:500; color:#6b7290; letter-spacing:-.02em");
+  div("<span style='font-weight:700; font-size:66px; letter-spacing:-.055em; color:#0a105e'>achète plus de</span>", "left:0; right:0; top:1360px; text-align:center");
 </script>
 </body>
 </html>

@@ -48,6 +48,12 @@ Principes de la trame :
 - le hook et le contraste sur le **même fond blanc à foyer** (dégradé radial blanc → gris bleuté sur les bords), puis rupture nette vers le bleu nuit ;
 - chaque chiffre arrive avec un mouvement franc (compteur, « +25 % » qui tombe et rebondit, « ? » qui arrivent en grand puis se posent).
 
+## Graphiques boursiers (validé sur Accenture)
+- **1 écran = 1 info** : juste la courbe et ses annotations, aucune carte ni cadre en dessous ; la courbe prend toute la hauteur libre ;
+- courbe marine épaisse, sans aire ni dégradé ; zone de tracé séparée de la gouttière des valeurs à droite : la courbe ne touche jamais les chiffres ;
+- valeurs avec unité (« 250 $ ») posées au-dessus de leur ligne de grille, ligne de base marine avec petites graduations, mois en dessous ;
+- au plus deux annotations courtes, chacune dans une zone vide (jamais sur la courbe ni sur une ligne de grille) : une neutre en marine (« Plus bas : 124 $ »), une clé dans la seule couleur de l'écran, avec la date repérée sous l'axe.
+
 ## Les trois familles d'écrans
 
 ### 1. Graphique « The Economist version FinanceData »
