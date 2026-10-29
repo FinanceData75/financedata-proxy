@@ -8,7 +8,7 @@
     <style>
       /* Scène 13 (54,06 → 58,50 s) « Alors l'IA rapportera-t-elle assez pour justifier ces milliards ? C'est justement là toute la question ».
          Portrait noir et blanc de Sundar Pichai (lente poussée), carte blanche à angles droits comme la scène 1 :
-         vrai logo Gemini, les investissements prévus pour 2026, puis « Rentable ? » en bleu FinanceData, seule couleur. */
+         vrai logo Gemini, puis la question « Rentable ? » en bleu FinanceData, seule couleur. */
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
@@ -33,17 +33,15 @@
         tl.fromTo(ph, { scale: 1 }, { scale: 1.06, transformOrigin: "40% 30%", duration: 4.44, ease: "none" }, 0);
         div(st, "", "inset:0; background:linear-gradient(180deg, rgba(0,11,34,0) 45%, rgba(0,11,34,.6) 100%)");
 
-        // carte blanche : Gemini, les investissements 2026, la question
+        // carte blanche : Gemini, puis la question sur « ces milliards »
         var gem = "<svg width='80' height='80' viewBox='0 0 24 24'><defs><linearGradient id='gem' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#4796e3'/><stop offset='.6' stop-color='#9177c7'/><stop offset='1' stop-color='#d96570'/></linearGradient></defs><path d='" + window.GEMINI + "' fill='url(#gem)'/></svg>";
         var card = div(st, "<div style='position:absolute; left:48px; top:44px'>" + gem + "</div>" +
           "<div style='position:absolute; left:156px; top:40px; font-size:52px; font-weight:700; letter-spacing:-.055em; line-height:1'>Gemini</div>" +
           "<div style='position:absolute; left:156px; top:100px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>L'IA de Google</div>" +
-          "<div class='inv' style='position:absolute; left:48px; top:172px; opacity:0'><div style='font-size:30px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Investissements prévus en 2026</div><div style='margin-top:8px; font-size:76px; font-weight:700; letter-spacing:-.055em; line-height:1; font-feature-settings:\"tnum\" 1'>195 à 205 Md$</div></div>" +
-          "<div class='q' style='position:absolute; right:48px; top:44px; padding:12px 22px; background:" + BLUE + "; color:#fff; font-size:40px; font-weight:700; letter-spacing:-.03em; border-radius:2px; opacity:0'>Rentable ?</div>",
-          "left:60px; top:960px; width:960px; height:320px; background:#fff; border-radius:4px; box-shadow:0 18px 50px rgba(0,11,34,.3)");
+          "<div class='q' style='position:absolute; left:44px; top:168px; font-size:100px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + BLUE + "; opacity:0'>Rentable ?</div>",
+          "left:60px; top:990px; width:620px; height:300px; background:#fff; border-radius:4px; box-shadow:0 18px 50px rgba(0,11,34,.3)");
         tl.fromTo(card, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, .3);
-        tl.fromTo(card.querySelector(".inv"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out" }, 2.0);
-        tl.fromTo(card.querySelector(".q"), { opacity: 0, scale: .9 }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, 3.14);
+        tl.fromTo(card.querySelector(".q"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out" }, 2.4);
 
         // sous-titres (3 mots max)
         [["Alors l'IA", 0, .68], ["rapportera-t-elle assez", .68, 1.84], ["pour justifier", 1.84, 2.40], ["ces milliards ?", 2.40, 3.02], ["C'est justement là", 3.02, 3.68], ["toute la question.", 3.68, 4.44]].forEach(function (c) {
