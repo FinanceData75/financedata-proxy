@@ -7,7 +7,8 @@
     <script src="assets/logos.js"></script>
     <style>
       /* Scène 5 (16,18 → 18,68 s) « et cette fois-ci, les résultats étaient inférieurs aux attentes ».
-         Version minimaliste : deux lignes (vrais logos Google Ads et YouTube), le chiffre publié en rouge, l'attendu en gris dessous. */
+         Tableau façon presse éco : titre en haut à gauche, en-têtes gris, filet marine sous les en-têtes, filets fins entre les lignes,
+         colonne « Publié » teintée, colonne « Écart » en rouge (le message). Période, unité et sources sous le tableau. */
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; }
@@ -15,7 +16,8 @@
       .a { position: absolute; }
       .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
       .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
-      .num { font-weight: 700; letter-spacing: -.055em; line-height: 1; font-feature-settings: "tnum" 1; }
+      .h { position: absolute; top: 0; font-size: 30px; font-weight: 600; color: #6b7290; letter-spacing: -.01em; }
+      .c { position: absolute; top: 34px; font-size: 58px; font-weight: 700; letter-spacing: -.045em; font-feature-settings: "tnum" 1; text-align: right; }
     </style>
   </head>
   <body>
@@ -28,28 +30,38 @@
         var tl = gsap.timeline({ paused: true }), st = document.getElementById("stage"), L = window.LOGOS, RED = "#e5484d";
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
         function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
-        function logo(name, fill, size) { return "<svg width='" + size + "' height='" + size + "' viewBox='0 0 24 24'><path d='" + L[name] + "' fill='" + fill + "'/></svg>"; }
+        // bords droits des colonnes (repère : bord gauche du tableau = 96 px, largeur 888 px)
+        var R_ATT = 476, R_PUB = 676, PUB_L = 516;
 
-        // titre en haut à gauche
-        var ti = div(st, "Sous les attentes", "left:96px; top:300px; font-weight:700; font-size:76px; letter-spacing:-.055em; line-height:1");
-        var sub = div(st, "Revenus publicitaires de Google, T3 2026", "left:96px; top:396px; font-size:38px; font-weight:500; color:#3b4166; letter-spacing:-.03em");
-        tl.fromTo([ti, sub], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out", stagger: .05 }, 0);
+        var ti = div(st, "Revenus publicitaires", "left:96px; top:300px; font-weight:700; font-size:76px; letter-spacing:-.055em; line-height:1");
+        tl.fromTo(ti, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out" }, 0);
 
-        // petit tableau sans bordure : en-têtes gris, chiffres alignés à droite, le publié en rouge
-        var C1 = 680, C2 = 984;   // bords droits des colonnes « Attendu » et « Publié »
-        var hd = div(st, "<div style='position:absolute; right:" + (1080 - 96 - C1) + "px; top:0; font-size:34px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Attendu</div><div style='position:absolute; right:" + (1080 - 96 - C2) + "px; top:0; font-size:34px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Publié</div>", "left:96px; top:560px; width:888px; height:50px");
-        tl.fromTo(hd, { opacity: 0 }, { opacity: 1, duration: .3 }, .2);
-        [["<img src='assets/img/google-g.svg' style='width:64px; height:64px; display:block'>", "Publicité", 83.52, 82.01, 660, .3], [logo("youtube", "#ff0000", 70), "YouTube", 11.34, 11.21, 840, .45]].forEach(function (r) {
-          var row = div(st, "<div style='position:absolute; left:0; top:22px'>" + r[0] + "</div><div style='position:absolute; left:96px; top:24px; font-size:52px; font-weight:700; letter-spacing:-.05em'>" + r[1] + "</div>", "left:96px; top:" + r[4] + "px; width:888px; height:120px");
-          div(row, fr(r[2], 1), "right:" + (888 - (C1 - 96)) + "px; top:14px; font-size:76px; color:#7d849c; text-align:right", "a num");
-          var n = div(row, fr(r[2], 1), "right:0; top:14px; font-size:76px; color:#9aa1b8; text-align:right", "a num");
-          tl.fromTo(row, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out" }, r[5]);
-          tl.to(n, { color: RED, duration: .3 }, 1.45);
-          var o = { v: r[2] }; tl.fromTo(o, { v: r[2] }, { v: r[3], duration: .6, ease: "power3.out", onUpdate: function () { n.textContent = fr(o.v, 1); } }, 1.45);
+        var tb = div(st, "", "left:96px; top:470px; width:888px; height:420px");
+        var band = div(tb, "", "left:" + PUB_L + "px; top:62px; width:" + (R_PUB - PUB_L + 18) + "px; height:280px; background:rgba(61,90,254,.07)");
+        div(tb, "Activité", "left:0", "h");
+        div(tb, "Attendu", "right:" + (888 - R_ATT) + "px", "h");
+        div(tb, "Publié", "right:" + (888 - R_PUB) + "px", "h");
+        div(tb, "Écart", "right:0", "h");
+        var rule = div(tb, "", "left:0; top:56px; width:888px; height:3px; background:#0a105e");
+        tl.fromTo(tb.querySelectorAll(".h"), { opacity: 0 }, { opacity: 1, duration: .3 }, .1);
+        tl.fromTo(rule, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .4, ease: "power2.out" }, .1);
+        tl.fromTo(band, { opacity: 0 }, { opacity: 1, duration: .3 }, .3);
+
+        // lignes : le publié part de l'attendu et descend, l'écart se calcule en direct
+        var yt = "<svg width='60' height='60' viewBox='0 0 24 24'><path d='" + L.youtube + "' fill='#ff0000'/></svg>";
+        [["<img src='assets/img/google-g.svg' style='width:56px; height:56px; display:block'>", "Publicité", 83.52, 82.01, .3], [yt, "YouTube", 11.34, 11.21, .45]].forEach(function (r, k) {
+          var row = div(tb, "<div style='position:absolute; left:0; top:40px; display:flex; align-items:center; gap:22px; font-size:46px; font-weight:700; letter-spacing:-.045em'>" + r[0] + r[1] + "</div>", "left:0; top:" + (62 + k * 140) + "px; width:888px; height:140px");
+          div(row, fr(r[2], 1), "right:" + (888 - R_ATT) + "px; color:#6b7290; font-weight:600", "c");
+          var pub = div(row, fr(r[2], 1), "right:" + (888 - R_PUB) + "px", "c");
+          var gap = div(row, "−0,0 %", "right:0; color:" + RED, "c");
+          div(row, "", "left:0; bottom:0; width:888px; height:2px; background:#d5dae5");
+          tl.fromTo(row, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out" }, r[4]);
+          tl.fromTo(gap, { opacity: 0 }, { opacity: 1, duration: .2 }, 1.45);
+          var o = { v: r[2] };
+          tl.fromTo(o, { v: r[2] }, { v: r[3], duration: .6, ease: "power3.out", onUpdate: function () { pub.textContent = fr(o.v, 1); gap.textContent = "−" + fr((r[2] - o.v) / r[2] * 100, 1) + " %"; } }, 1.45);
         });
-        var unit = div(st, "en milliards de dollars", "left:96px; top:1000px; font-size:30px; font-weight:500; color:#6b7290; letter-spacing:-.02em");
-        tl.fromTo(unit, { opacity: 0 }, { opacity: 1, duration: .3 }, .5);
-        div(st, "<div style='display:flex; justify-content:space-between; width:888px; font-size:26px; color:#6b7290'><span>Sources : Alphabet ; consensus Zacks</span><b style='font-size:30px; font-weight:800; letter-spacing:-.04em; color:#0a105e'>FinanceData</b></div>", "left:96px; top:1262px");
+        var src = div(st, "T3 2026, en milliards de dollars · Sources : Alphabet, Zacks", "left:96px; top:850px; font-size:28px; font-weight:500; color:#6b7290; letter-spacing:-.02em");
+        tl.fromTo(src, { opacity: 0 }, { opacity: 1, duration: .3 }, .5);
 
         // sous-titres (3 mots max)
         [["et cette fois-ci,", 0, .78], ["les résultats", .78, 1.22], ["étaient inférieurs", 1.22, 1.90], ["aux attentes.", 1.90, 2.5]].forEach(function (c) {
