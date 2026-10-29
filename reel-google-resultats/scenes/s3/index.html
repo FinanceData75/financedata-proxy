@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/logos.js"></script>
+    <style>
+      /* Scène 3 (4,32 → 9,06 s) « Mais alors pourquoi les investisseurs s'inquiètent ? … deux raisons, la deuxième est la plus importante ».
+         1) vidéo Wall Street la nuit, voile bleu nuit ; 2) fond bleu nuit, deux tuiles à angles droits (vrais logos Google Ads et Gemini),
+         la deuxième s'allume en bleu FinanceData sur « la plus importante ». */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #fff; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.45); }
+      .tile { position: absolute; left: 96px; width: 888px; height: 300px; border-radius: 4px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="4.74" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="4.74" data-track-index="1"></audio>
+      <video id="v-ws" class="clip" src="assets/video/wall-street-nuit.mp4" data-start="0" data-duration="1.84" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="stage" class="clip" data-start="0" data-duration="4.74" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), st = document.getElementById("stage"), L = window.LOGOS;
+        function div(p, html, style) { var d = document.createElement("div"); d.className = "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
+        function logo(name, fill, size) { return "<svg width='" + size + "' height='" + size + "' viewBox='0 0 24 24'>" + (fill.indexOf("url") === 0 ? "<defs><linearGradient id='gem' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#4796e3'/><stop offset='.6' stop-color='#9177c7'/><stop offset='1' stop-color='#d96570'/></linearGradient></defs>" : "") + "<path d='" + L[name] + "' fill='" + fill + "'/></svg>"; }
+
+        // 1) 0 → 1,84 : la question, sur la vidéo (voile bleu nuit)
+        var veil = div(st, "", "inset:0; background:linear-gradient(180deg, rgba(0,11,34,.35), rgba(0,11,34,.55))");
+        tl.set(veil, { opacity: 1 }, 0); tl.set(veil, { opacity: 0 }, 1.84);
+
+        // 2) 1,84 → fin : fond bleu nuit, deux raisons
+        var bg = div(st, "", "inset:0; background:#000b22; opacity:0");
+        tl.set(bg, { opacity: 1 }, 1.84);
+        var t1 = div(st, "<div style='position:absolute; left:48px; top:48px; font-size:34px; font-weight:700; color:rgba(255,255,255,.5); letter-spacing:-.02em'>Raison 1</div><div style='position:absolute; left:48px; top:110px; font-size:76px; font-weight:700; letter-spacing:-.055em'>La publicité</div><div style='position:absolute; right:48px; top:96px'>" + logo("googleads", "#4285f4", 108) + "</div>", "top:520px");
+        t1.className = "tile";
+        var t2 = div(st, "<div class='lbl' style='position:absolute; left:48px; top:48px; font-size:34px; font-weight:700; color:rgba(255,255,255,.5); letter-spacing:-.02em'>Raison 2</div><div style='position:absolute; left:48px; top:110px; font-size:76px; font-weight:700; letter-spacing:-.055em'>L'IA</div><div style='position:absolute; right:48px; top:96px'>" + logo("googlegemini", "url(#gem)", 108) + "</div><div class='hi' style='position:absolute; left:48px; top:214px; font-size:34px; font-weight:700; color:#6f8bff; letter-spacing:-.02em; opacity:0'>La plus importante</div>", "top:860px");
+        t2.className = "tile";
+        tl.fromTo(t1, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, 2.6);
+        tl.fromTo(t2, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, 2.78);
+        // la deuxième s'allume : contour bleu FinanceData, la première s'efface un peu
+        tl.to(t2, { boxShadow: "inset 0 0 0 4px #3d5afe", backgroundColor: "rgba(61,90,254,.14)", duration: .35 }, 3.42);
+        tl.to(t1, { opacity: .45, duration: .35 }, 3.42);
+        tl.to(t2.querySelector(".hi"), { opacity: 1, duration: .3 }, 3.96);
+
+        // sous-titres (3 mots max)
+        [["Mais alors", 0, .32], ["pourquoi", .32, .58], ["les investisseurs", .58, 1.26], ["s'inquiètent ?", 1.26, 1.84], ["Pour ça,", 1.84, 2.04], ["il faut connaître", 2.04, 2.50], ["les deux raisons", 2.50, 3.24], ["et la deuxième", 3.24, 3.76], ["est la plus", 3.76, 4.12], ["importante.", 4.12, 4.74]].forEach(function (c) {
+          var d = div(st, "<span>" + c[0] + "</span>", "top:1335px"); d.className = "cap";
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
+        });
+        tl.set({}, {}, 4.74);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
