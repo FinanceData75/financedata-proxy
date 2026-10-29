@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/acn.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <style>
+      /* Reel « La PDG d'Accenture achète après la remontée » (69,8 s), trame FinanceData (styles/financedata/TRAME.md).
+         Une seule couleur par écran pour le point clé, vraies images, cartes blanches à angles droits,
+         contenu réduit à 82 % pour la zone sûre Instagram / TikTok, sous-titres 3 mots max calés sur la voix. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
+      .cap { position: absolute; left: 0; right: 0; top: 1360px; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
+      .cap.w span { color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.45); }
+      .ttl { position: absolute; left: 96px; top: 286px; font-weight: 700; font-size: 72px; letter-spacing: -.055em; line-height: 1; }
+      .src { position: absolute; left: 96px; font-size: 28px; font-weight: 500; color: #6b7290; letter-spacing: -.02em; }
+      .card { position: absolute; background: #fff; border-radius: 4px; box-shadow: 0 18px 50px rgba(0,11,34,.28); }
+      .tile { position: absolute; left: 96px; width: 888px; height: 300px; border-radius: 4px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); color: #fff; }
+      .lbl { position: absolute; left: 48px; top: 48px; font-size: 34px; font-weight: 700; color: rgba(255,255,255,.55); letter-spacing: -.02em; }
+      .big { position: absolute; left: 48px; top: 110px; font-size: 96px; font-weight: 700; letter-spacing: -.055em; line-height: 1; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="69.83" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="69.83" data-track-index="1"></audio>
+      <video id="v-reu" class="clip" src="assets/video/reunion.mp4" data-start="11.85" data-duration="3.01" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-ia" class="clip" src="assets/video/ia-bureau.mp4" data-start="19.24" data-duration="2.84" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="bgl" class="clip" data-start="0" data-duration="69.83" data-track-index="4" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="69.83" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true });
+        var st = document.getElementById("stage"), bgl = document.getElementById("bgl");
+        var NAVY = "#0a105e", BLUE = "#3d5afe", RED = "#d9161e", GREEN = "#1f9d55", GRID = "#d5dae5", AX = "#6b7290", PALE = "#c5cad9", PURPLE = "#a100ff";
+        var ACN_MARK = "m.66 16.95 13.242-4.926L.66 6.852V0l22.68 9.132v5.682L.66 24Z"; // Simple Icons (CC0)
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+        function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
+        function mark(size, fill) { return "<svg width='" + size + "' height='" + size + "' viewBox='0 0 24 24' style='display:block; position:static; flex:none'><path d='" + ACN_MARK + "' fill='" + fill + "'/></svg>"; }
+        function header(p, top) { return div(p, "<div style='position:absolute; left:0; top:4px'>" + mark(84, PURPLE) + "</div><div style='position:absolute; left:112px; top:0; font-size:58px; font-weight:700; letter-spacing:-.05em; line-height:1'>Accenture</div><div style='position:absolute; left:112px; top:64px; font-size:34px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>NYSE: ACN</div>", "left:96px; top:" + top + "px; width:888px; height:100px"); }
+        function titled(p, text) { div(p, mark(58, PURPLE) + "<span>" + text + "</span>", "display:flex; align-items:center; gap:22px", "ttl"); }
+        var D = window.ACN;
+        function range(a, b) { return D.filter(function (r) { return r[0] >= a && r[0] <= b; }); }
+        function idx(S, date) { for (var i = 0; i < S.length; i++) if (S[i][0] >= date) return i; return S.length - 1; }
+        function pathOf(S, X, Y, i0, i1) { var s = ""; for (var i = i0; i <= i1; i++) s += (i > i0 ? "L" : "M") + X(i).toFixed(1) + " " + Y(S[i][1]).toFixed(1); return s; }
+        function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power2.inOut" }, t); }
+        function fadeIn(e, t, d, y) { tl.fromTo(e, { opacity: 0, y: y == null ? 16 : y }, { opacity: 1, y: 0, duration: d || .35, ease: "power3.out" }, t); return e; }
+
+        // scènes : chacune visible sur son créneau ; fond plein cadre à part (non réduit)
+        function scene(t0, t1, bg) {
+          var s = div(st, "", "", "sc"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1);
+          if (bg) { var b = div(bgl, "", "background:" + bg, "full"); tl.set(b, { opacity: 1 }, t0); tl.set(b, { opacity: 0 }, t1); b.sc = s; s.bg = b; }
+          return s;
+        }
+        var FOCAL = "radial-gradient(ellipse 75% 55% at 50% 44%, #ffffff 0%, #f2f3f7 50%, #c3c7d2 100%)", LIGHT = "#eef1f5", NIGHT = "#000b22";
+
+        // ===== 1. Hook (0 → 5,56) : fond blanc à foyer, juste le graphique, −70 % =====
+        (function () {
+          var s = scene(0, 5.56, FOCAL);
+          var hd = fadeIn(header(s, 330), 0, .3);
+          var S = range("2021-07-01", "2026-06-30"), n = S.length, iMax = 0;
+          S.forEach(function (r, i) { if (r[1] > S[iMax][1]) iMax = i; });
+          var pc = div(s, "−0 %", "left:96px; top:470px; font-size:200px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + RED + "; font-feature-settings:'tnum' 1");
+          var W = 888, H = 440, g = svg(s, 96, 760, W, H);
+          var X = function (i) { return i / (n - 1) * W; }, Y = function (v) { return H - 10 - (v - 100) / 330 * (H - 30); };
+          var defs = el(g, "defs", {}), lg = el(defs, "linearGradient", { id: "a1", x1: 0, y1: 0, x2: 0, y2: 1 });
+          el(lg, "stop", { offset: 0, "stop-color": RED, "stop-opacity": .35 }); el(lg, "stop", { offset: 1, "stop-color": RED, "stop-opacity": 0 });
+          var area = el(g, "path", { d: "M0 " + H + " " + pathOf(S, X, Y, 0, n - 1).replace(/^M/, "L") + " L" + W + " " + H + " Z", fill: "url(#a1)" });
+          var line = el(g, "path", { d: pathOf(S, X, Y, 0, n - 1), fill: "none", stroke: RED, "stroke-width": 6, "stroke-linejoin": "round", "stroke-linecap": "round" });
+          var o = { p: 0 };
+          tl.fromTo(o, { p: 0 }, { p: 1, duration: 2.1, ease: "power2.inOut", onUpdate: function () {
+            var k = Math.round(o.p * (n - 1)), v = S[k][1], top = S[iMax][1];
+            pc.textContent = "−" + fr(Math.max(0, (k >= iMax ? (top - v) / top : 0)) * 100, 0) + " %";
+          } }, .1);
+          tl.fromTo(area, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 2.1, ease: "power2.inOut" }, .1);
+          draw(line, .1, 2.1);
+          tl.fromTo(pc, { opacity: 0 }, { opacity: 1, duration: .2 }, .1);
+          tl.fromTo(pc, { scale: 1.12, transformOrigin: "0% 50%" }, { scale: 1, duration: .4, ease: "back.out(2)" }, 2.2);
+          var pk = T(g, X(iMax), Y(S[iMax][1]) - 26, fr(S[iMax][1], 0) + " $", 34, AX, 700, "middle");
+          var lo = el(g, "circle", { cx: X(n - 1), cy: Y(S[n - 1][1]), r: 11, fill: RED }), lt = T(g, X(n - 1), Y(S[n - 1][1]) + 56, fr(S[n - 1][1], 0) + " $", 34, RED, 700, "end");
+          tl.fromTo(pk, { opacity: 0 }, { opacity: 1, duration: .2 }, .9); tl.fromTo([lo, lt], { opacity: 0 }, { opacity: 1, duration: .2 }, 2.2);
+          // « l'IA » : étiquette sur le creux
+          var tag = div(s, "Peur de l'IA", "left:96px; top:1110px; padding:12px 22px; background:" + NAVY + "; color:#fff; font-size:36px; font-weight:700; letter-spacing:-.03em; border-radius:2px");
+          fadeIn(tag, 3.76, .3, 12);
+          var src = div(s, "Cours de clôture, juillet 2021 – juin 2026, en dollars · Source : Yahoo Finance", "top:1250px", "src"); fadeIn(src, .4, .3, 0);
+          tl.fromTo([hd, pc, g], { scale: 1.04, transformOrigin: "540px 880px" }, { scale: 1, duration: 5.4, ease: "none" }, 0);
+        })();
+
+        // ===== 2. La PDG mise 3 M$ (5,56 → 9,05) : vraie photo + carte =====
+        (function () {
+          var s = scene(5.56, 9.05, null);
+          var ph = div(bgl, "<img src='assets/img/sweet-couleur.jpg' style='width:100%; height:100%; display:block; object-fit:cover'><div style='position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,11,34,0) 50%, rgba(0,11,34,.55) 100%)'></div>", "", "full");
+          tl.set(ph, { opacity: 1 }, 5.56); tl.set(ph, { opacity: 0 }, 9.05);
+          tl.fromTo(ph.firstChild, { scale: 1.08 }, { scale: 1, duration: 3.5, ease: "power1.out" }, 5.56);
+          var card = div(s, "<div style='position:absolute; left:44px; top:40px; font-size:52px; font-weight:700; letter-spacing:-.055em; line-height:1'>Julie Sweet</div><div style='position:absolute; left:44px; top:102px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>PDG d'Accenture</div><div class='n' style='position:absolute; left:40px; top:168px; font-size:120px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + BLUE + "; font-feature-settings:\"tnum\" 1'>+0 M$</div>", "left:250px; top:960px; width:580px; height:320px", "card");
+          fadeIn(card, 6.25, .45, 30);
+          var n = card.querySelector(".n"), o = { v: 0 };
+          tl.fromTo(o, { v: 0 }, { v: 3, duration: .7, ease: "power3.out", onUpdate: function () { n.textContent = "+" + fr(o.v, 0) + " M$"; } }, 7.57);
+        })();
+
+        // ===== 3. Le montant / le moment (9,05 → 11,85) : bleu nuit, le moment masqué =====
+        (function () {
+          var s = scene(9.05, 11.85, NIGHT);
+          var t1 = div(s, "<div class='lbl'>Le montant</div><div class='big'>3 M$</div>", "top:520px", "tile");
+          var t2 = div(s, "<div class='lbl'>Le moment</div><div class='big'>?</div>", "top:860px", "tile");
+          fadeIn(t1, 9.1, .4, 40); fadeIn(t2, 9.25, .4, 40);
+          tl.to(t1, { opacity: .35, duration: .3 }, 10.64);
+          tl.to(t2, { boxShadow: "inset 0 0 0 4px #3d5afe", backgroundColor: "rgba(61,90,254,.14)", duration: .3 }, 11.08);
+          tl.fromTo(t2.querySelector(".big"), { scale: 1 }, { scale: 1.25, transformOrigin: "0% 50%", duration: .25, yoyo: true, repeat: 1, ease: "power2.out" }, 11.44);
+        })();
+
+        // ===== 4. Juin : −18 % en une journée (11,85 → 19,24) =====
+        (function () {
+          var s = scene(14.86, 19.24, LIGHT);
+          var veil = div(bgl, "", "background:linear-gradient(180deg, rgba(0,11,34,.15), rgba(0,11,34,.55))", "full");
+          tl.set(veil, { opacity: 1 }, 11.85); tl.set(veil, { opacity: 0 }, 14.86);
+          tl.fromTo("#v-reu", { scale: 1.02 }, { scale: 1.1, duration: 3.01, ease: "none" }, 11.85);
+          titled(s, "Cours de l'action");
+          var S = range("2026-04-15", "2026-06-30"), n = S.length, k = idx(S, "2026-06-18");
+          var W = 888, H = 560, g = svg(s, 96, 440, W, H);
+          var X = function (i) { return i / (n - 1) * W; }, Y = function (v) { return H - 20 - (v - 110) / 80 * (H - 60); };
+          [120, 140, 160, 180].forEach(function (v) { el(g, "line", { x1: 0, x2: W, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 }); T(g, W, Y(v) - 10, String(v), 28, AX, 500, "end"); });
+          var p1 = el(g, "path", { d: pathOf(S, X, Y, 0, k - 1), fill: "none", stroke: "#7a819b", "stroke-width": 5, "stroke-linejoin": "round" });
+          var p2 = el(g, "path", { d: pathOf(S, X, Y, k - 1, k), fill: "none", stroke: RED, "stroke-width": 9, "stroke-linecap": "round" });
+          var p3 = el(g, "path", { d: pathOf(S, X, Y, k, n - 1), fill: "none", stroke: "#7a819b", "stroke-width": 5, "stroke-linejoin": "round" });
+          draw(p1, 14.9, .7); draw(p2, 15.56, .3, "power1.in"); draw(p3, 15.9, .5);
+          var lab = div(s, "<div style='font-size:96px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + RED + "'>−18 %</div><div style='margin-top:8px; font-size:34px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>le 18 juin, en une séance</div>", "left:126px; top:" + (440 + Y(122) - 190) + "px");
+          fadeIn(lab, 15.83, .35, 12);
+          var worst = div(s, "Pire séance de son histoire", "left:96px; top:1080px; padding:12px 22px; background:" + NAVY + "; color:#fff; font-size:36px; font-weight:700; letter-spacing:-.03em; border-radius:2px");
+          fadeIn(worst, 17.96, .3, 12);
+          var src = div(s, "Cours de clôture, en dollars · Source : Yahoo Finance", "top:1262px", "src"); fadeIn(src, 15, .3, 0);
+        })();
+
+        // ===== 5. Peur de l'IA, plus bas depuis 2017 (19,24 → 24,77) =====
+        (function () {
+          var veil = div(bgl, "", "background:linear-gradient(180deg, rgba(0,11,34,.15), rgba(0,11,34,.55))", "full");
+          tl.set(veil, { opacity: 1 }, 19.24); tl.set(veil, { opacity: 0 }, 22.08);
+          tl.fromTo("#v-ia", { scale: 1.0 }, { scale: 1.08, duration: 2.84, ease: "none" }, 19.24);
+          var s = scene(22.08, 24.77, LIGHT);
+          titled(s, "Cours de l'action");
+          var S = range("2016-11-01", "2026-06-30"), n = S.length;
+          var W = 888, H = 560, g = svg(s, 96, 440, W, H);
+          var X = function (i) { return i / (n - 1) * W; }, Y = function (v) { return H - 20 - (v - 80) / 360 * (H - 60); };
+          [200, 300, 400].forEach(function (v) { el(g, "line", { x1: 0, x2: W, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 }); T(g, W, Y(v) - 10, String(v), 28, AX, 500, "end"); });
+          var line = el(g, "path", { d: pathOf(S, X, Y, 0, n - 1), fill: "none", stroke: "#7a819b", "stroke-width": 4, "stroke-linejoin": "round" });
+          draw(line, 22.1, 1.1);
+          var low = S[n - 1][1], lvl = el(g, "line", { x1: 0, x2: W, y1: Y(low), y2: Y(low), stroke: RED, "stroke-width": 4, "stroke-dasharray": "14 10" });
+          tl.fromTo(lvl, { opacity: 0 }, { opacity: 1, duration: .3 }, 23.32);
+          var i17 = idx(S, "2017-07-11");
+          var d17 = el(g, "circle", { cx: X(i17), cy: Y(S[i17][1]), r: 10, fill: RED }), d26 = el(g, "circle", { cx: X(n - 1), cy: Y(low), r: 12, fill: RED });
+          var t17 = T(g, X(i17), Y(S[i17][1]) + 56, "2017", 36, RED, 700, "middle"), t26 = T(g, X(n - 1), Y(low) + 56, "juin 2026", 36, RED, 700, "end");
+          tl.fromTo([d26, t26], { opacity: 0 }, { opacity: 1, duration: .2 }, 23.2); tl.fromTo([d17, t17], { opacity: 0 }, { opacity: 1, duration: .2 }, 23.88);
+          var src = div(s, "Cours de clôture, novembre 2016 – juin 2026, en dollars · Source : Yahoo Finance", "top:1262px", "src"); fadeIn(src, 22.2, .3, 0);
+        })();
+
+        // ===== 6. Tout bascule : commandes record, meilleure séance (24,77 → 34,36) =====
+        (function () {
+          var s = scene(24.77, 32.04, FOCAL);
+          var hd = fadeIn(header(s, 330), 24.8, .3);
+          var date = div(s, "1er octobre 2026", "left:96px; top:520px; font-size:52px; font-weight:700; letter-spacing:-.045em; color:#6b7290");
+          fadeIn(date, 25.22, .3, 12);
+          var lab = div(s, "Commandes sur l'année", "left:96px; top:660px; font-size:40px; font-weight:700; letter-spacing:-.04em");
+          var num = div(s, "0,0 Md$", "left:92px; top:720px; font-size:190px; font-weight:700; letter-spacing:-.06em; line-height:1; font-feature-settings:'tnum' 1");
+          var rec = div(s, "Record", "left:100px; top:950px; padding:12px 24px; background:" + BLUE + "; color:#fff; font-size:44px; font-weight:700; letter-spacing:-.03em; border-radius:2px");
+          fadeIn(lab, 27.79, .3, 12); fadeIn(num, 27.9, .3, 12);
+          var o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: 84.5, duration: 1.2, ease: "power3.out", onUpdate: function () { num.textContent = fr(o.v, 1) + " Md$"; } }, 28.92);
+          tl.fromTo(rec, { opacity: 0, scale: 1.4, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2.2)" }, 28.31);
+          var src = div(s, "Exercice clos fin août 2026 · Source : Accenture", "top:1262px", "src"); fadeIn(src, 28, .3, 0);
+
+          var s2 = scene(32.04, 34.36, LIGHT);
+          titled(s2, "Cours de l'action");
+          var S = range("2026-09-01", "2026-10-15"), n = S.length, k = idx(S, "2026-10-01");
+          var W = 888, H = 560, g = svg(s2, 96, 440, W, H);
+          var X = function (i) { return i / (n - 1) * W; }, Y = function (v) { return H - 20 - (v - 150) / 80 * (H - 60); };
+          [160, 180, 200, 220].forEach(function (v) { el(g, "line", { x1: 0, x2: W, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 }); T(g, W, Y(v) - 10, String(v), 28, AX, 500, "end"); });
+          var p1 = el(g, "path", { d: pathOf(S, X, Y, 0, k - 1), fill: "none", stroke: "#7a819b", "stroke-width": 5, "stroke-linejoin": "round" });
+          var p2 = el(g, "path", { d: pathOf(S, X, Y, k - 1, k), fill: "none", stroke: GREEN, "stroke-width": 9, "stroke-linecap": "round" });
+          var p3 = el(g, "path", { d: pathOf(S, X, Y, k, n - 1), fill: "none", stroke: "#7a819b", "stroke-width": 5, "stroke-linejoin": "round" });
+          draw(p1, 32.05, .45); draw(p2, 32.5, .25, "power1.in"); draw(p3, 32.75, .4);
+          var up = div(s2, "<div style='font-size:96px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + GREEN + "'>+16 %</div><div style='margin-top:8px; font-size:34px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>meilleure séance de son histoire</div>", "left:96px; top:470px");
+          fadeIn(up, 32.68, .35, 12);
+          var src2 = div(s2, "Cours de clôture, en dollars · Source : Yahoo Finance", "top:1262px", "src"); fadeIn(src2, 32.1, .3, 0);
+        })();
+
+        // ===== 7. Le 26 octobre : ×2 puis l'achat (34,36 → 45,69) =====
+        (function () {
+          var s = scene(34.36, 45.69, LIGHT);
+          titled(s, "Cours de l'action");
+          var S = range("2026-06-01", "2026-10-28"), n = S.length, iLow = 0, iBuy = idx(S, "2026-10-26");
+          S.forEach(function (r, i) { if (r[1] < S[iLow][1]) iLow = i; });
+          var W = 888, H = 480, g = svg(s, 96, 420, W, H);
+          var X = function (i) { return i / (n - 1) * W; }, Y = function (v) { return H - 20 - (v - 110) / 150 * (H - 60); };
+          [150, 200].forEach(function (v) { el(g, "line", { x1: 0, x2: W, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 }); T(g, W, Y(v) - 10, String(v), 28, AX, 500, "end"); });
+          var line = el(g, "path", { d: pathOf(S, X, Y, 0, n - 1), fill: "none", stroke: "#7a819b", "stroke-width": 5, "stroke-linejoin": "round" });
+          draw(line, 34.4, 1.3);
+          var xb = X(iBuy), yb = Y(S[iBuy][1]), xl = X(iLow), yl = Y(S[iLow][1]);
+          var br = el(g, "path", { d: "M" + (xl + 10) + " " + yl + " H" + (xb - 40) + " V" + (yb + 20), fill: "none", stroke: BLUE, "stroke-width": 3, "stroke-dasharray": "10 8" });
+          var x2 = T(g, (xl + xb) / 2, yl + 78, "×2", 72, BLUE, 700, "middle");
+          tl.fromTo([br, x2], { opacity: 0 }, { opacity: 1, duration: .3 }, 36.74);
+          var dot = el(g, "circle", { cx: xb, cy: yb, r: 14, fill: BLUE }), dl = T(g, xb, yb - 34, "Achat de la PDG", 32, BLUE, 700, "end");
+          tl.fromTo([dot, dl], { opacity: 0 }, { opacity: 1, duration: .25 }, 37.81);
+          tl.fromTo(dot, { attr: { r: 26 } }, { attr: { r: 14 }, duration: .4, ease: "power2.out" }, 37.81);
+          var c1 = div(s, "<div style='position:absolute; left:36px; top:30px; font-size:44px; font-weight:700; letter-spacing:-.05em'>Julie Sweet</div><div style='position:absolute; left:36px; top:84px; font-size:28px; font-weight:600; color:#6b7290'>PDG</div><div class='n' style='position:absolute; left:34px; top:132px; font-size:64px; font-weight:700; letter-spacing:-.055em; color:" + BLUE + "; font-feature-settings:\"tnum\" 1'>+0</div><div style='position:absolute; left:36px; top:206px; font-size:28px; font-weight:600; color:#6b7290'>actions</div><div class='tg' style='position:absolute; right:30px; top:200px; padding:8px 14px; background:#eef1f5; color:#0a105e; font-size:26px; font-weight:700; border-radius:2px; opacity:0'>Son argent</div>", "left:96px; top:960px; width:430px; height:260px", "card");
+          var c2 = div(s, "<div style='position:absolute; left:36px; top:30px; font-size:44px; font-weight:700; letter-spacing:-.05em'>Paula Price</div><div style='position:absolute; left:36px; top:84px; font-size:28px; font-weight:600; color:#6b7290'>administratrice</div><div style='position:absolute; left:34px; top:132px; font-size:64px; font-weight:700; letter-spacing:-.055em'>Achète</div><div style='position:absolute; left:36px; top:206px; font-size:28px; font-weight:600; color:#6b7290'>le même jour</div>", "left:554px; top:960px; width:430px; height:260px", "card");
+          fadeIn(c1, 38.45, .4, 24); fadeIn(c2, 42.99, .4, 24);
+          var n1 = c1.querySelector(".n"), o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: 12200, duration: .8, ease: "power3.out", onUpdate: function () { n1.textContent = "+" + fr(Math.round(o.v / 100) * 100, 0); } }, 40.09);
+          fadeIn(c1.querySelector(".tg"), 41.25, .3, 8);
+          var src = div(s, "Cours de clôture, juin – octobre 2026 · Sources : Yahoo Finance, SEC (Form 4)", "top:1262px", "src"); fadeIn(src, 34.5, .3, 0);
+        })();
+
+        // ===== 8. Vendeuse pendant un an, acheteuse après la remontée (45,69 → 52,61) =====
+        (function () {
+          var s = scene(45.69, 52.61, LIGHT);
+          titled(s, "Les transactions de la PDG");
+          var S = range("2025-09-01", "2026-10-28"), n = S.length, iLow = 0;
+          S.forEach(function (r, i) { if (r[1] < S[iLow][1]) iLow = i; });
+          var W = 888, H = 560, g = svg(s, 96, 440, W, H);
+          var X = function (i) { return i / (n - 1) * W; }, Y = function (v) { return H - 20 - (v - 110) / 160 * (H - 60); };
+          [150, 200].forEach(function (v) { el(g, "line", { x1: 0, x2: W, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 }); T(g, W, Y(v) - 10, String(v), 28, AX, 500, "end"); });
+          var line = el(g, "path", { d: pathOf(S, X, Y, 0, n - 1), fill: "none", stroke: PALE, "stroke-width": 5, "stroke-linejoin": "round" });
+          draw(line, 45.7, .8);
+          [["2025-10-22", 47.94], ["2026-02-10", 48.3]].forEach(function (v) {
+            var i = idx(S, v[0]), x = X(i), y = Y(S[i][1]);
+            var c = el(g, "circle", { cx: x, cy: y, r: 13, fill: "#7a819b" }), t = T(g, x, y - 32, "▼ Vente", 32, "#7a819b", 700, "middle");
+            tl.fromTo([c, t], { opacity: 0 }, { opacity: 1, duration: .25 }, v[1]);
+          });
+          var ib = idx(S, "2026-10-26"), xb = X(ib), yb = Y(S[ib][1]);
+          var cb = el(g, "circle", { cx: xb, cy: yb, r: 15, fill: BLUE }), tb = T(g, xb, yb - 34, "▲ Achat", 34, BLUE, 700, "end");
+          tl.fromTo([cb, tb], { opacity: 0 }, { opacity: 1, duration: .25 }, 49.98);
+          tl.fromTo(cb, { attr: { r: 28 } }, { attr: { r: 15 }, duration: .4, ease: "power2.out" }, 49.98);
+          var xl = X(iLow), yl = Y(S[iLow][1]);
+          var lowT = T(g, xl, yl + 56, "plus bas", 30, AX, 600, "middle"), lowC = el(g, "circle", { cx: xl, cy: yl, r: 9, fill: AX });
+          var arr = el(g, "path", { d: "M" + (xl + 20) + " " + (yl - 10) + " Q" + ((xl + xb) / 2) + " " + (yl - 40) + " " + (xb - 24) + " " + (yb + 18), fill: "none", stroke: BLUE, "stroke-width": 3, "stroke-dasharray": "10 8" });
+          tl.fromTo([lowT, lowC], { opacity: 0 }, { opacity: 1, duration: .25 }, 51.13);
+          tl.fromTo(arr, { opacity: 0 }, { opacity: 1, duration: .3 }, 51.78);
+          var src = div(s, "Cours de clôture, sept. 2025 – oct. 2026 · Sources : Yahoo Finance, SEC (Form 4)", "top:1262px", "src"); fadeIn(src, 45.8, .3, 0);
+        })();
+
+        // ===== 9. Portrait noir et blanc (52,61 → 58,15) =====
+        (function () {
+          scene(52.61, 58.15, null);
+          var ph = div(bgl, "<img src='assets/img/sweet-nb.jpg' style='width:100%; height:100%; display:block; object-fit:cover'><div style='position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,11,34,0) 50%, rgba(0,11,34,.55) 100%)'></div>", "", "full");
+          tl.set(ph, { opacity: 1 }, 52.61); tl.set(ph, { opacity: 0 }, 58.15);
+          tl.fromTo(ph.firstChild, { scale: 1 }, { scale: 1.07, transformOrigin: "50% 35%", duration: 5.54, ease: "none" }, 52.61);
+        })();
+
+        // ===== 10. Vendeur → acheteur (58,15 → 65,04) : bleu nuit =====
+        (function () {
+          var s = scene(58.15, 65.04, NIGHT);
+          var warn = div(s, "Aucune garantie", "left:96px; top:420px; padding:12px 22px; box-shadow:inset 0 0 0 2px rgba(255,255,255,.35); color:rgba(255,255,255,.75); font-size:36px; font-weight:700; letter-spacing:-.03em; border-radius:2px");
+          fadeIn(warn, 58.95, .3, 12);
+          var t1 = div(s, "<div class='lbl'>Avant</div><div class='big' style='color:rgba(255,255,255,.55)'>Vendeur</div>", "top:560px", "tile");
+          var t2 = div(s, "<div class='lbl'>Maintenant</div><div class='big'>Acheteur</div>", "top:900px", "tile");
+          fadeIn(t1, 62.33, .35, 30); fadeIn(t2, 62.97, .35, 30);
+          tl.to(t2, { boxShadow: "inset 0 0 0 4px #3d5afe", backgroundColor: "rgba(61,90,254,.14)", duration: .3 }, 63.13);
+          tl.to(t1, { opacity: .45, duration: .3 }, 63.13);
+        })();
+
+        // ===== 11. CTA : commentez « PDG » (65,04 → 69,83) =====
+        (function () {
+          var s = scene(65.04, 69.83, LIGHT);
+          var logo = div(s, "<div class='ring' style='position:absolute; inset:0; border-radius:50%; background:conic-gradient(from 210deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75)'></div><div style='position:absolute; inset:8px; border-radius:50%; background:#eef1f5'></div><img src='assets/img/logo-financedata.png' style='position:absolute; inset:15px; width:calc(100% - 30px); height:calc(100% - 30px); display:block; border-radius:50%'>", "left:430px; top:420px; width:220px; height:220px");
+          var name = div(s, "FinanceData", "left:0; right:0; top:680px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.055em; line-height:1");
+          var tool = div(s, "Outil de suivi des achats d'initiés", "left:0; right:0; top:800px; text-align:center; font-size:40px; font-weight:600; color:#6b7290; letter-spacing:-.03em");
+          fadeIn(logo, 65.04, .4, 16); tl.fromTo(logo.querySelector(".ring"), { rotation: -90 }, { rotation: 0, duration: 1.2, ease: "power3.out" }, 65.04);
+          fadeIn(name, 65.16, .35, 16); fadeIn(tool, 65.84, .35, 12);
+          var box = div(s, "<div class='ph' style='position:absolute; left:40px; top:0; line-height:120px; font-size:40px; font-weight:500; color:#9aa1b8'>Ajouter un commentaire…</div><div class='tx' style='position:absolute; left:40px; top:0; line-height:120px; font-size:48px; font-weight:700; letter-spacing:-.03em; color:#0a105e'></div><div class='cr' style='position:absolute; top:34px; width:3px; height:52px; background:" + BLUE + "; opacity:0'></div><div class='go' style='position:absolute; right:30px; top:30px; padding:12px 22px; background:#d5dae5; color:#fff; font-size:34px; font-weight:700; border-radius:2px'>Publier</div>", "left:96px; top:960px; width:888px; height:120px", "card");
+          fadeIn(box, 67.6, .35, 20);
+          var tx = box.querySelector(".tx"), ph = box.querySelector(".ph"), cr = box.querySelector(".cr"), go = box.querySelector(".go"), q = { n: 0 };
+          function typed() { tx.textContent = "PDG".slice(0, Math.round(q.n)); cr.style.left = (42 + tx.offsetWidth) + "px"; ph.style.opacity = q.n > 0 ? 0 : 1; }
+          typed();
+          tl.set(cr, { opacity: 1 }, 68.0);
+          tl.fromTo(q, { n: 0 }, { n: 3, duration: .45, ease: "none", onUpdate: typed }, 68.57);
+          tl.to(go, { backgroundColor: BLUE, duration: .15 }, 69.05);
+          tl.to(go, { scale: .92, duration: .1 }, 69.4); tl.to(go, { scale: 1, duration: .2 }, 69.5);
+        })();
+
+        // ===== sous-titres : 3 mots max, chiffres en chiffres, blancs sur image / nuit, marine sur clair =====
+        var W = window.VO.words.slice(), NUM = [
+          [["soixante-dix", "pour", "cent,"], "70 %,"], [["trois", "millions"], "3 millions"], [["moins", "dix-huit", "pour", "cent"], "−18 %"],
+          [["deux", "mille", "dix-sept."], "2017."], [["premier", "octobre,"], "1er octobre,"], [["quatre-vingt-quatre", "virgule", "cinq", "milliards"], "84,5 milliards"],
+          [["vingt-six", "octobre,"], "26 octobre,"], [["douze", "mille", "actions."], "12 000 actions."]];
+        var Tk = [];
+        for (var i = 0; i < W.length; i++) {
+          var done = false;
+          NUM.forEach(function (m) { if (done) return; var ok = m[0].every(function (w, j) { return W[i + j] && W[i + j].w.toLowerCase() === w; }); if (ok) { Tk.push({ w: m[1], s: W[i].s, e: W[i + m[0].length - 1].e, num: true }); i += m[0].length - 1; done = true; } });
+          if (!done) Tk.push({ w: W[i].w.replace(/^PDG$/, "PDG"), s: W[i].s, e: W[i].e });
+        }
+        var groups = [], cur = [];
+        Tk.forEach(function (t, k) {
+          cur.push(t);
+          var nwords = cur.reduce(function (a, b) { return a + b.w.split(" ").length; }, 0);
+          var punct = /[,.?:!]$/.test(t.w), next = Tk[k + 1];
+          var nextLen = next ? next.w.split(" ").length : 0;
+          if (punct || nwords >= 3 || nwords + nextLen > 3 || !next) { groups.push(cur); cur = []; }
+        });
+        var DARK = [[5.56, 11.85], [11.85, 14.86], [19.24, 22.08], [52.61, 65.04]];
+        groups.forEach(function (gp, k) {
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 69.83;
+          var dark = DARK.some(function (r) { return t0 >= r[0] - .01 && t0 < r[1] - .01; });
+          var txt = gp.map(function (t) { return t.w; }).join(" ").replace(/\s+([?:!])/g, " $1");
+          var d = div(st, "<span>" + txt + "</span>", "", dark ? "cap w" : "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, Math.max(0, t0 - .02)); tl.set(d, { opacity: 0 }, t1 - .03);
+        });
+
+        // zone sûre Instagram / TikTok : contenu réduit à 82 % vers le centre utile (les fonds de #bgl restent plein cadre)
+        st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
+        tl.set({}, {}, 69.83);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
