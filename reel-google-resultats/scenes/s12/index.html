@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Scène 12 (49,56 → 54,06 s) « Résultat, Google reste une machine à cash, mais une machine qui dépense désormais plus qu'elle ne rapporte ».
+         Même graphique que les scènes 2 et 7 : flux de trésorerie disponible, T3 2025 positif en gris (la machine à cash),
+         T3 2026 qui passe sous zéro en rouge, seule couleur. Période, unité et source sous le graphique. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #eef1f5; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
+      .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="4.5" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="4.5" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="4.5" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), st = document.getElementById("stage");
+        var NAVY = "#0a105e", RED = "#d9161e", PALE = "#c5cad9", GRID = "#d5dae5", AX = "#6b7290";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+
+        var lg = div(st, "<img src='assets/img/google-g.svg' style='width:100%; height:100%; display:block'>", "left:96px; top:292px; width:64px; height:64px");
+        var ti = div(st, "Trésorerie disponible", "left:180px; top:286px; font-weight:700; font-size:72px; letter-spacing:-.055em; line-height:1");
+        tl.fromTo([lg, ti], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out", stagger: .05 }, 0);
+
+        // graphique : −10 à 30, zéro marqué en marine, axe à droite
+        var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 1080); g.setAttribute("height", 860); g.style.left = "0px"; g.style.top = "420px"; st.appendChild(g);
+        var Y = function (v) { return 60 + (30 - v) / 40 * 640; }, Z = Y(0);
+        var grid = [];
+        [-10, 0, 10, 20, 30].forEach(function (v) { grid.push(el(g, "line", { x1: 96, x2: 984, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 })); grid.push(T(g, 984, Y(v) - 12, String(v).replace("-", "−"), 28, AX, 500, "end")); });
+        tl.fromTo(grid, { opacity: 0 }, { opacity: 1, duration: .3 }, .1);
+        var W = 260, X = [190, 550];
+
+        // T3 2025 : +24,5 (gris), « Google reste une machine à cash »
+        var r1 = el(g, "rect", { x: X[0], y: Y(24.5), width: W, height: Z - Y(24.5), fill: PALE });
+        tl.fromTo(r1, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .55, ease: "power3.out" }, .62);
+        var v1 = T(g, X[0] + W / 2, Y(24.5) - 24, "+24,5", 50, AX, 700, "middle"), l1 = T(g, X[0] + W / 2, 800, "T3 2025", 32, AX, 600, "middle");
+        tl.fromTo([v1, l1], { opacity: 0 }, { opacity: 1, duration: .2 }, .95);
+
+        // T3 2026 : −9,1 (rouge), passe sous zéro sur « dépense »
+        var r2 = el(g, "rect", { x: X[1], y: Z, width: W, height: Y(-9.1) - Z, fill: RED });
+        tl.fromTo(r2, { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, 2.58);
+        var v2 = T(g, X[1] + W / 2, Y(-9.1) + 60, "0,0", 50, RED, 700, "middle"), l2 = T(g, X[1] + W / 2, 800, "T3 2026", 32, NAVY, 600, "middle");
+        tl.fromTo([v2, l2], { opacity: 0 }, { opacity: 1, duration: .2 }, 2.58);
+        var o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: 9.1, duration: .6, ease: "power3.out", onUpdate: function () { v2.textContent = "−" + fr(o.v, 1); } }, 2.58);
+        // ligne du zéro par-dessus les colonnes
+        var zero = el(g, "line", { x1: 96, x2: 984, y1: Z, y2: Z, stroke: NAVY, "stroke-width": 3 });
+        tl.fromTo(zero, { opacity: 0 }, { opacity: 1, duration: .3 }, .1);
+
+        var src = div(st, "Par trimestre, en milliards de dollars · Source : Alphabet", "left:96px; top:1262px; font-size:28px; font-weight:500; color:#6b7290; letter-spacing:-.02em");
+        tl.fromTo(src, { opacity: 0 }, { opacity: 1, duration: .3 }, .5);
+
+        // sous-titres (3 mots max)
+        [["Résultat,", 0, .38], ["Google reste", .38, .86], ["une machine", .86, 1.32], ["à cash,", 1.32, 1.96], ["mais une machine", 1.96, 2.46], ["qui dépense", 2.46, 2.90], ["désormais plus", 2.90, 3.58], ["qu'elle ne rapporte.", 3.58, 4.5]].forEach(function (c) {
+          var d = div(st, "<span>" + c[0] + "</span>", "top:1360px", "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
+        });
+        tl.set({}, {}, 4.5);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
