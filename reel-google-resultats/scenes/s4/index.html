@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Scène 4 (9,06 → 16,18 s) « D'abord, les revenus de la publicité… Quand vous faites une recherche, des marques payent pour être montrées ».
+         1) vidéo de l'écran Google ; 2) page de résultats Google reconstituée (vrai logo), requête tapée lettre par lettre,
+         lien sponsorisé qui apparaît puis s'encadre en bleu FinanceData sur « payent ». Angles droits (6 px max). */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fff; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #fff; color: #202124; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .cap { position: absolute; left: 0; right: 0; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-family: "Display"; font-variation-settings: "opsz" 32; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
+      .cap.w span { color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.45); }
+      .sk { position: absolute; height: 22px; background: #eceef1; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="7.12" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="7.12" data-track-index="1"></audio>
+      <video id="v-g" class="clip" src="assets/video/google-ecran.mp4" data-start="0" data-duration="3.2" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="stage" class="clip" data-start="0" data-duration="7.12" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var tl = gsap.timeline({ paused: true }), st = document.getElementById("stage");
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+
+        // 1) 0 → 3,2 : vidéo, voile léger pour les sous-titres
+        var veil = div(st, "", "inset:0; background:linear-gradient(180deg, rgba(0,11,34,0) 50%, rgba(0,11,34,.45) 100%)");
+        tl.set(veil, { opacity: 1 }, 0); tl.set(veil, { opacity: 0 }, 3.2);
+
+        // 2) 3,2 → fin : la page de résultats
+        var page = div(st, "", "inset:0; background:#fff; opacity:0");
+        tl.set(page, { opacity: 1 }, 3.2);
+        var wm = div(page, "<img src='assets/img/google-wordmark.svg' style='width:100%; display:block'>", "left:330px; top:330px; width:420px");
+        var bar = div(page, "<svg width='44' height='44' viewBox='0 0 24 24' style='position:absolute; left:40px; top:41px'><path d='M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z' fill='#9aa0a6'/></svg><div class='q' style='position:absolute; left:110px; top:36px; font-size:46px; font-weight:500; letter-spacing:-.02em; color:#202124'></div><div class='car' style='position:absolute; top:38px; width:3px; height:52px; background:#4285f4'></div>", "left:96px; top:520px; width:888px; height:126px; border-radius:6px; background:#fff; box-shadow:0 0 0 2px #dfe1e5, 0 8px 28px rgba(32,33,36,.12)");
+        tl.fromTo([wm, bar], { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", stagger: .08 }, 3.2);
+        var q = bar.querySelector(".q"), car = bar.querySelector(".car"), Q = "billet avion Paris New York", o = { n: 0 };
+        function typed() { q.textContent = Q.slice(0, Math.round(o.n)); car.style.left = (112 + q.getBoundingClientRect().width) + "px"; }
+        typed();
+        tl.fromTo(o, { n: 0 }, { n: Q.length, duration: 1.0, ease: "none", onUpdate: typed }, 4.8);
+        tl.to(car, { opacity: 0, duration: .01 }, 5.75);
+
+        // résultat sponsorisé, puis résultats naturels esquissés
+        var ad = div(page, "<div style='font-size:30px; font-weight:700; color:#202124'>Sponsorisé</div><div style='display:flex; align-items:center; gap:18px; margin-top:20px'><div style='width:52px; height:52px; border-radius:4px; background:#e8f0fe; display:flex; align-items:center; justify-content:center; font-size:30px'>✈</div><div><div style='font-size:30px; font-weight:600; color:#202124'>Compagnie aérienne</div><div style='font-size:26px; color:#5f6368'>www.exemple-vols.fr</div></div></div><div style='margin-top:20px; font-size:48px; font-weight:600; color:#1a0dab; letter-spacing:-.025em'>Vols Paris – New York dès 389 €</div><div style='margin-top:12px; font-size:32px; color:#4d5156; line-height:1.35'>Réservez en quelques clics. Bagage cabine inclus.</div>", "left:96px; top:720px; width:888px; padding:36px 40px; border-radius:4px");
+        tl.fromTo(ad, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, 5.72);
+        [[1150, 520], [1190, 760], [1230, 640], [1290, 480], [1330, 800]].forEach(function (r, k) {
+          var b = div(page, "", "left:136px; top:" + r[0] + "px; width:" + r[1] + "px", "sk");
+          tl.fromTo(b, { opacity: 0 }, { opacity: 1, duration: .3 }, 5.9 + k * .05);
+        });
+        // « des marques payent » : le lien s'encadre, étiquette « Lien payé »
+        tl.to(ad, { boxShadow: "inset 0 0 0 4px #3d5afe", backgroundColor: "rgba(61,90,254,.05)", duration: .3 }, 6.1);
+        var tag = div(page, "Lien payé", "left:704px; top:700px; padding:10px 20px; background:#3d5afe; color:#fff; font-size:30px; font-weight:700; letter-spacing:-.02em; border-radius:2px; opacity:0");
+        tl.fromTo(tag, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" }, 6.2);
+
+        // sous-titres (3 mots max) : blancs sur la vidéo, marine sur la page
+        [["D'abord,", 0, .46], ["il y a", .46, .62], ["les revenus", .62, 1.04], ["de la publicité", 1.04, 1.80], ["qui ont déçu", 1.80, 2.40], ["les investisseurs.", 2.40, 3.34], ["C'est le cœur", 3.34, 3.72], ["du business", 3.72, 4.16], ["de Google.", 4.16, 4.80], ["Quand vous faites", 4.80, 5.22], ["une recherche,", 5.22, 5.72], ["des marques", 5.72, 6.12], ["payent pour", 6.12, 6.50], ["être montrées", 6.50, 7.12]].forEach(function (c) {
+          var d = div(st, "<span>" + c[0] + "</span>", "top:1430px", c[1] < 3.2 ? "cap w" : "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, c[1]); tl.set(d, { opacity: 0 }, c[2] - .02);
+        });
+        tl.set({}, {}, 7.12);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
