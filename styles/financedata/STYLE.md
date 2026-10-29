@@ -4,6 +4,8 @@ Mesuré le 18/10/2026 sur 5 reels du compte @financedatafr :
 [FCF](https://www.instagram.com/reel/DTcbD6oDGr5/) · [Dette US / Trump](https://www.instagram.com/reel/DUDaUu8DLEE/) · [SanDisk](https://www.instagram.com/reel/DXn4ckbDCVo/) · [Théorie de Dow](https://www.instagram.com/reel/DdmGUbitiZe/) · [VIX](https://www.instagram.com/reel/DTHy74JDGgT/).
 C'est la DA FinanceData telle qu'elle est publiée : ce fichier fait référence pour tous les nouveaux reels. Images clés dans `stills/`.
 
+**Depuis le 29/10/2026, la trame de montage [`TRAME.md`](TRAME.md) prime sur ce fichier en cas de conflit** (sous-titres sans boîte, une seule couleur par graphique, structure narrative, cartes, CTA).
+
 ## Rythme
 - coupe franche toutes les **3,3 s en moyenne** (FCF 3,5 s · Dette 3,4 · SanDisk 2,6 · Dow 3,8 ; 17 à 28 coupes par reel) ; pas de fondu
 - le reel « liste » (VIX) coupe moins (7,9 s/plan) mais **chaque plan s'anime en continu** : un nouvel élément environ chaque seconde (texte, valeur, surlignage, ligne qui se trace)
