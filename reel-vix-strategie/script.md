@@ -48,4 +48,4 @@ Pour comprendre les marchés simplement, abonnez-vous.
 - Investisseur 1 : 100 $ investis le premier jour de bourse de chaque mois → **524 143 $** aujourd'hui (44 200 $ versés)
 - Investisseur 2 : 100 $ mis de côté chaque mois (cash à 0 %), tout investi dès que le VIX clôture au-dessus de 40 → **359 433 $** (dont 1 800 $ encore en cash), soit **≈ 165 000 $ de moins**
 - Variantes : garder seulement 10 %, 20 % ou 30 % en réserve pour les paniques donne 507 672 $, 491 201 $ et 474 730 $ : toujours moins que d'investir tout, tous les mois. Sans les dividendes (indice prix), l'écart reste du même ordre : 319 489 $ contre 245 169 $
-- Limites : le cash en attente ne rapporte rien dans le test (un livret réduirait un peu l'écart), pas de frais ni d'impôts, en dollars
+- Limites : pas de frais ni d'impôts, en dollars. Le cash en attente ne rapporte rien dans le test principal ; rémunéré à 2 % ou 3 % par an, l'investisseur 2 finit à 380 196 $ ou 391 186 $ : l'écart se réduit (≈ 133 000 à 144 000 $) mais reste net. Pour rester exact avec un cash rémunéré, dire « plus de 130 000 dollars » dans le hook
