@@ -4,9 +4,9 @@ Format : actu décryptée · Structure : La Percée (choc → paradoxe → expli
 
 ## Voix off
 
-Amazon chute. Google chute. Netflix chute.
+Amazon chute. Google chute. Netflix chute. Plus de 2 000 milliards de dollars envolés en Bourse.
 
-Et pourtant, le S&P 500, lui, est à deux doigts de ses records. Comment c'est possible ?
+Et pourtant, Wall Street est à deux doigts de ses records. Comment c'est possible ?
 
 Parce que Wall Street ne vend pas toute la tech. Elle fait le tri.
 
@@ -30,7 +30,7 @@ Pour comprendre les marchés simplement, abonnez-vous.
 
 | # | Rôle | Texte | Durée | Visuel |
 |---|---|---|---|---|
-| 1 | Hook | « Amazon chute. Google chute. Netflix chute. » | ~3 s | fond blanc à foyer, trois coups rapides : logo + courbe qui plonge en rouge, un par mot |
+| 1 | Hook | « Amazon chute. Google chute. Netflix chute. Plus de 2 000 milliards… » | ~5 s | fond blanc à foyer, trois coups rapides (logo + courbe qui plonge en rouge, un par mot), puis compteur géant « −2 000 Md$ » en rouge |
 | 2 | Paradoxe | « Et pourtant, le S&P 500… Comment c'est possible ? » | ~5 s | courbe du S&P 500 près de son record (repère « record » en pointillés), seule couleur bleue |
 | 3 | Le tri | « Wall Street ne vend pas toute la tech. Elle fait le tri. » | ~4 s | vraie vidéo (salle de marché) + sous-titres |
 | 4 | Google | « Google a perdu près de 30 %… » | ~8 s | courbe GOOGL depuis le sommet, « −30 % » en rouge, une annotation |
@@ -50,5 +50,6 @@ Pour comprendre les marchés simplement, abonnez-vous.
 - Amazon, plus faible multiple de bénéfices depuis des années (≈ 20) : [Yahoo Finance](https://finance.yahoo.com/markets/stocks/article/amazon-stock-is-trading-at-its-lowest-trailing-pe-ratio-in-years-despite-ai-boom-000819389.html)
 
 ## À vérifier avant de tourner
+- « plus de 2 000 milliards » : calcul des pertes de capitalisation depuis chaque sommet (Alphabet ≈ 118,8 $ × 12,1 Md d'actions ≈ 1 440 Md$ ; Amazon ≈ 40,2 $ × 10,7 Md ≈ 430 Md$ ; Netflix ≈ 71,9 $ × 4,25 Md ≈ 305 Md$ ; total ≈ 2 170 Md$), à recouper avec les capitalisations publiées le jour du tournage
 - « jamais été aussi peu chères » n'est pas démontrable : le script dit « pas aussi bon marché depuis des années » (Netflix : plus bas depuis 10 ans ; Google : le moins cher des 7 géants ; Amazon : plus bas multiple depuis des années)
 - les multiples de valorisation viennent de sources et de dates différentes (début à mi-octobre) ; avec la baisse de fin octobre, ils sont sans doute encore plus bas : à recalculer le jour du tournage
