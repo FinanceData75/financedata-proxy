@@ -18,13 +18,13 @@ Netflix, elle, a perdu plus de la moitié de sa valeur. Ses prévisions déçoiv
 
 Pendant ce temps, l'argent ne quitte pas la Bourse. Il change simplement d'actions. Voilà pourquoi l'indice tient bon.
 
-Mais cette chute a un effet secondaire. Ces géants n'ont pas été aussi bon marché depuis des années. Google est devenu le moins cher des sept géants de la tech. Et Netflix se paye à son prix le plus bas depuis dix ans.
+Résultat : ces géants n'ont presque jamais été aussi bon marché. À environ 14 fois ses bénéfices, Google se paye à une valorisation historiquement basse. Et c'est la même chose pour Netflix et pour Amazon.
 
-Ça ne veut pas dire qu'elles vont remonter. Mais quand des entreprises aussi solides deviennent bon marché, ça mérite votre attention.
+Bref, cette correction est historique. Et elle mérite toute notre attention.
 
 Pour comprendre les marchés simplement, abonnez-vous.
 
-(≈ 215 mots)
+(≈ 195 mots)
 
 ## Découpage (trame FinanceData)
 
@@ -37,8 +37,8 @@ Pour comprendre les marchés simplement, abonnez-vous.
 | 5 | Amazon | « 77 milliards… » | ~8 s | colonnes : investissements attendus 58,7 vs publiés 77,3 Md$ |
 | 6 | Netflix | « Plus de la moitié de sa valeur… » | ~6 s | courbe NFLX depuis le sommet de 2025, « −54 % » |
 | 7 | L'indice | « L'argent change d'actions… » | ~5 s | bleu nuit : flèche de rotation entre deux tuiles |
-| 8 | Retournement | « Ces géants n'ont pas été aussi bon marché… » | ~10 s | tableau presse éco : multiple de bénéfices attendus, Google 17,7 · Netflix ≈ 17 (moyenne 5 ans 33), seule couleur |
-| 9 | Leçon | « Ça ne veut pas dire… » | ~5 s | carte « Pas une garantie » |
+| 8 | Retournement | « À environ 14 fois ses bénéfices… Netflix et Amazon » | ~8 s | graphique du multiple de Google sur 10 ans, le point actuel au plus bas (seule couleur), puis tableau : Google, Netflix, Amazon, multiple actuel vs moyenne |
+| 9 | Conclusion | « Bref, cette correction est historique… » | ~4 s | bleu nuit, une phrase : « Une correction historique » |
 | 10 | CTA | « Pour comprendre les marchés simplement, abonnez-vous. » | ~3 s | logo rond (anneau story), nom, bouton S'abonner |
 
 ## Chiffres et sources
@@ -50,6 +50,8 @@ Pour comprendre les marchés simplement, abonnez-vous.
 - Amazon, plus faible multiple de bénéfices depuis des années (≈ 20) : [Yahoo Finance](https://finance.yahoo.com/markets/stocks/article/amazon-stock-is-trading-at-its-lowest-trailing-pe-ratio-in-years-despite-ai-boom-000819389.html)
 
 ## À vérifier avant de tourner
+- « environ 14 fois ses bénéfices » pour Google : ≈ 17,7 fois les bénéfices attendus début octobre, ramené au cours du 29/10 (−17 % sur le mois) ≈ 14,5 ; mais les prévisions de bénéfices risquent d'être revues en baisse après le T3 (BPA 2,12 $ contre 3,02 $ attendus), ce qui remonterait le multiple : à recalculer le jour du tournage
+- « historiquement basse » pour Google, Netflix et Amazon : Netflix au plus bas depuis 10 ans et Amazon au plus bas multiple depuis des années sont sourcés ; pour Google, comparer au plus bas de la décennie (fin 2022) avant de l'affirmer
 - « plus de 2 000 milliards » : calcul des pertes de capitalisation depuis chaque sommet (Alphabet ≈ 118,8 $ × 12,1 Md d'actions ≈ 1 440 Md$ ; Amazon ≈ 40,2 $ × 10,7 Md ≈ 430 Md$ ; Netflix ≈ 71,9 $ × 4,25 Md ≈ 305 Md$ ; total ≈ 2 170 Md$), à recouper avec les capitalisations publiées le jour du tournage
 - « jamais été aussi peu chères » n'est pas démontrable : le script dit « pas aussi bon marché depuis des années » (Netflix : plus bas depuis 10 ans ; Google : le moins cher des 7 géants ; Amazon : plus bas multiple depuis des années)
 - les multiples de valorisation viennent de sources et de dates différentes (début à mi-octobre) ; avec la baisse de fin octobre, ils sont sans doute encore plus bas : à recalculer le jour du tournage
