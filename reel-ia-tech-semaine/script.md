@@ -4,11 +4,11 @@ Format : actu décryptée · Structure : La Percée (choc → paradoxe → expli
 
 ## Voix off
 
-Amazon chute. Google chute. Netflix chute. Plus de 2 000 milliards de dollars envolés en Bourse.
+C'est l'hécatombe. Amazon chute. Google chute. Netflix chute. Plus de 2 000 milliards de dollars envolés en Bourse.
 
-Et pourtant, Wall Street est à deux doigts de ses records. Comment c'est possible ?
+Et pourtant, le S&P 500 est à deux doigts de ses records. Comment c'est possible ?
 
-Parce que Wall Street ne vend pas toute la tech. Elle fait le tri.
+Parce que les investisseurs ne vendent pas toute la tech. Ils font le tri.
 
 Google a perdu près de 30 % depuis son sommet. Le marché lui reproche de dépenser tellement dans l'IA qu'il brûle désormais plus d'argent qu'il n'en génère.
 
@@ -30,9 +30,9 @@ Pour comprendre les marchés simplement, abonnez-vous.
 
 | # | Rôle | Texte | Durée | Visuel |
 |---|---|---|---|---|
-| 1 | Hook | « Amazon chute. Google chute. Netflix chute. Plus de 2 000 milliards… » | ~5 s | fond blanc à foyer, trois coups rapides (logo + courbe qui plonge en rouge, un par mot), puis compteur géant « −2 000 Md$ » en rouge |
+| 1 | Hook | « C'est l'hécatombe. Amazon chute. Google chute. Netflix chute. Plus de 2 000 milliards… » | ~5 s | fond blanc à foyer, trois coups rapides (logo + courbe qui plonge en rouge, un par mot), puis compteur géant « −2 000 Md$ » en rouge |
 | 2 | Paradoxe | « Et pourtant, le S&P 500… Comment c'est possible ? » | ~5 s | courbe du S&P 500 près de son record (repère « record » en pointillés), seule couleur bleue |
-| 3 | Le tri | « Wall Street ne vend pas toute la tech. Elle fait le tri. » | ~4 s | vraie vidéo (salle de marché) + sous-titres |
+| 3 | Le tri | « Les investisseurs ne vendent pas toute la tech. Ils font le tri. » | ~4 s | vraie vidéo (salle de marché) + sous-titres |
 | 4 | Google | « Google a perdu près de 30 %… » | ~8 s | courbe GOOGL depuis le sommet, « −30 % » en rouge, une annotation |
 | 5 | Amazon | « 77 milliards… » | ~8 s | colonnes : investissements attendus 58,7 vs publiés 77,3 Md$ |
 | 6 | Netflix | « Plus de la moitié de sa valeur… » | ~6 s | courbe NFLX depuis le sommet de 2025, « −54 % » |
