@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Carrousel Amer Sports</title>
+<script src="assets/as.js"></script>
+<style>
+  /* Carrousel Instagram Amer Sports (6 pages, 1080 × 1350), DA FinanceData (styles/financedata/TRAME.md) :
+     1 page = 1 idée, une seule couleur pour le point clé, graphiques façon The Economist, vrais logos, angles droits.
+     Chaque page s'affiche avec ?p=1 … ?p=6 (capture par slides/capture.cjs). */
+  @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1350px; overflow: hidden; color: #0a105e; font-family: "Display"; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; position: relative; background: #eef1f5; }
+  .a { position: absolute; }
+  .pg { position: absolute; inset: 0; display: none; }
+  .focal { background: radial-gradient(ellipse 80% 60% at 50% 42%, #ffffff 0%, #f2f3f7 52%, #c9cdd7 100%); }
+  .light { background: #eef1f5; }
+  .night { background: #000b22; color: #fff; }
+  .kick { position: absolute; left: 84px; top: 84px; font-size: 30px; font-weight: 700; letter-spacing: -.01em; color: #6b7290; text-transform: uppercase; }
+  .night .kick { color: rgba(255,255,255,.55); }
+  .ttl { position: absolute; left: 84px; top: 136px; width: 912px; font-size: 76px; font-weight: 700; letter-spacing: -.055em; line-height: 1.02; }
+  .src { position: absolute; left: 84px; bottom: 76px; width: 600px; font-size: 24px; font-weight: 500; color: #6b7290; letter-spacing: -.01em; line-height: 1.3; }
+  .night .src { color: rgba(255,255,255,.5); }
+  .foot { position: absolute; right: 84px; bottom: 70px; display: flex; align-items: center; gap: 14px; font-size: 26px; font-weight: 700; letter-spacing: -.03em; }
+  .foot img { width: 44px; height: 44px; border-radius: 50%; }
+  .num { color: #6b7290; font-weight: 600; margin-left: 6px; }
+  .night .num { color: rgba(255,255,255,.55); }
+  .card { position: absolute; background: #fff; border-radius: 4px; box-shadow: 0 16px 44px rgba(0,11,34,.12); display: flex; align-items: center; justify-content: center; }
+  .card img { display: block; }
+  .pill { display: inline-block; padding: 10px 22px; border-radius: 3px; color: #fff; font-weight: 700; letter-spacing: -.03em; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; }
+  .tn { font-feature-settings: "tnum" 1; }
+</style>
+</head>
+<body>
+
+<!-- 1. Couverture -->
+<section class="pg focal" id="p1">
+  <div class="a" style="left:84px; top:96px; display:flex; align-items:center; gap:20px"><img src="assets/img/amer.png" style="height:64px"><span style="font-size:30px; font-weight:700; color:#6b7290">NYSE: AS</span></div>
+  <div class="ttl" style="top:250px; font-size:104px; line-height:.98">Le géant caché derrière Salomon et Arc'teryx</div>
+  <div class="card" style="left:84px; top:690px; width:288px; height:220px"><img src="assets/img/arcteryx.png" style="width:190px; mix-blend-mode:multiply"></div>
+  <div class="card" style="left:396px; top:690px; width:288px; height:220px"><img src="assets/img/salomon.png" style="width:150px; mix-blend-mode:multiply"></div>
+  <div class="card" style="left:708px; top:690px; width:288px; height:220px"><img src="assets/img/wilson.svg" style="width:150px"></div>
+  <div class="a" style="left:84px; top:990px; font-size:56px; font-weight:700; letter-spacing:-.05em; line-height:1.15">Ventes <span style="color:#1f9d55">+32 %</span>. Action <span style="color:#d9161e">−30 %</span>.<br><span style="color:#6b7290">Cherchez l'erreur.</span></div>
+  <div class="foot"><img src="assets/img/logo-financedata.png">FinanceData<span class="num">1/6</span></div>
+</section>
+
+<!-- 2. Les trois marques accélèrent -->
+<section class="pg light" id="p2">
+  <div class="kick">Les faits</div>
+  <div class="ttl">Ses trois marques accélèrent</div>
+  <div id="bars" class="a" style="left:84px; top:380px; width:912px"></div>
+  <div class="a" style="left:84px; top:1010px; width:912px; font-size:40px; font-weight:700; letter-spacing:-.04em; line-height:1.2">Objectif relevé : <span style="color:#1f9d55">≈ +24 %</span> de chiffre d'affaires sur l'année</div>
+  <div class="src">Croissance des ventes au deuxième trimestre, sur un an · Source : Amer Sports</div>
+  <div class="foot"><img src="assets/img/logo-financedata.png">FinanceData<span class="num">2/6</span></div>
+</section>
+
+<!-- 3. Et pourtant, l'action a chuté -->
+<section class="pg light" id="p3">
+  <div class="kick">Le paradoxe</div>
+  <div class="ttl">Et pourtant, l'action a perdu près d'un tiers</div>
+  <div id="chart" class="a" style="left:84px; top:420px; width:912px; height:700px"></div>
+  <div class="src">Cours de clôture sur un an, en dollars · Source : Yahoo Finance, au 30/10/2026</div>
+  <div class="foot"><img src="assets/img/logo-financedata.png">FinanceData<span class="num">3/6</span></div>
+</section>
+
+<!-- 4. Un bilan nettoyé, une action redevenue raisonnable -->
+<section class="pg light" id="p4">
+  <div class="kick">Les faits</div>
+  <div class="ttl">Un bilan nettoyé, une action redevenue raisonnable</div>
+  <div id="cash" class="a" style="left:84px; top:420px; width:912px; height:430px"></div>
+  <div class="a" style="left:84px; top:900px; width:912px">
+    <div style="display:flex; gap:40px">
+      <div style="flex:1; border-top:3px solid #0a105e; padding-top:22px"><div class="tn" style="font-size:72px; font-weight:700; letter-spacing:-.055em; line-height:1">800 M$</div><div style="margin-top:12px; font-size:30px; font-weight:600; color:#6b7290; line-height:1.25">d'obligations remboursées cette année</div></div>
+      <div style="flex:1; border-top:3px solid #0a105e; padding-top:22px"><div class="tn" style="font-size:72px; font-weight:700; letter-spacing:-.055em; line-height:1">&lt; 20×</div><div style="margin-top:12px; font-size:30px; font-weight:600; color:#6b7290; line-height:1.25">les bénéfices attendus, alors qu'ils ont plus que doublé sur 12 mois</div></div>
+    </div>
+  </div>
+  <div class="src">En millions de dollars · Source : Amer Sports (deuxième trimestre)</div>
+  <div class="foot"><img src="assets/img/logo-financedata.png">FinanceData<span class="num">4/6</span></div>
+</section>
+
+<!-- 5. Les deux points de vigilance -->
+<section class="pg light" id="p5">
+  <div class="kick">Les risques</div>
+  <div class="ttl">La Chine ralentit</div>
+  <div id="china" class="a" style="left:84px; top:330px; width:912px; height:520px"></div>
+  <div class="a" style="left:84px; top:900px; width:912px">
+    <div style="display:flex; gap:40px">
+      <div style="flex:1; border-top:3px solid #0a105e; padding-top:22px"><div class="tn" style="font-size:64px; font-weight:700; letter-spacing:-.055em; line-height:1">64 M$</div><div style="margin-top:12px; font-size:30px; font-weight:600; color:#6b7290; line-height:1.25">de droits de douane remboursés ont gonflé la marge, une seule fois</div></div>
+      <div style="flex:1; border-top:3px solid #0a105e; padding-top:22px"><div class="tn" style="font-size:64px; font-weight:700; letter-spacing:-.055em; line-height:1">+20 à 22 %</div><div style="margin-top:12px; font-size:30px; font-weight:600; color:#6b7290; line-height:1.25">de croissance attendue au troisième trimestre, plus lente</div></div>
+    </div>
+  </div>
+  <div class="src">Croissance des ventes en Chine (Grande Chine), sur un an · Source : Amer Sports</div>
+  <div class="foot"><img src="assets/img/logo-financedata.png">FinanceData<span class="num">5/6</span></div>
+</section>
+
+<!-- 6. Ce qu'il faut retenir -->
+<section class="pg night" id="p6">
+  <div class="kick">Ce qu'il faut retenir</div>
+  <div class="ttl" style="font-size:72px">À court terme, la Chine pèse.<br><span style="color:rgba(255,255,255,.55)">À moyen terme, les chiffres parlent.</span></div>
+  <div class="a" style="left:84px; top:470px; width:912px; font-size:36px; font-weight:600; line-height:1.4; color:rgba(255,255,255,.85)">
+    <div style="padding:22px 0; border-top:2px solid rgba(255,255,255,.15)">Trois marques à plus de 20 % de croissance</div>
+    <div style="padding:22px 0; border-top:2px solid rgba(255,255,255,.15)">Plus de trésorerie que de dettes</div>
+    <div style="padding:22px 0; border-top:2px solid rgba(255,255,255,.15); border-bottom:2px solid rgba(255,255,255,.15)">Moins de 20 fois les bénéfices attendus</div>
+  </div>
+  <div class="a" style="left:84px; top:860px; width:912px">
+    <span class="pill" style="background:#3d5afe; font-size:40px">Rendez-vous le 17 novembre</span>
+    <div style="margin-top:22px; font-size:34px; font-weight:600; line-height:1.35; color:rgba(255,255,255,.85)">L'Amérique (+26 %) et l'Europe (+20 %) pourront-elles prendre le relais de la Chine ?</div>
+  </div>
+  <div class="src" style="bottom:118px">À surveiller : Arc'teryx et Salomon sont des marques à la mode, portées par l'engouement pour l'outdoor. Une tendance peut s'essouffler.</div>
+  <div class="src" style="bottom:70px">Ceci n'est pas un conseil en investissement.</div>
+  <div class="foot" style="color:#fff"><img src="assets/img/logo-financedata.png">FinanceData<span class="num">6/6</span></div>
+</section>
+
+<script>
+  var NS = "http://www.w3.org/2000/svg", NAVY = "#0a105e", BLUE = "#3d5afe", RED = "#d9161e", GREEN = "#1f9d55", GRID = "#d5dae5", AX = "#6b7290", PALE = "#c5cad9";
+  function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+  function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
+  function svgIn(id, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = "0"; g.style.top = "0"; document.getElementById(id).appendChild(g); return g; }
+  function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+
+  // page 2 : barres horizontales, la plus forte croissance en vert, les autres en vert plus clair
+  (function () {
+    var rows = [["salomon.png", "Salomon", 37, 150], ["arcteryx.png", "Arc'teryx", 32, 170], ["wilson.svg", "Wilson", 24, 100]], box = document.getElementById("bars");
+    rows.forEach(function (r, k) {
+      var y = k * 200, w = r[2] / 40 * 440;
+      box.insertAdjacentHTML("beforeend", "<div class='card' style='left:0; top:" + y + "px; width:220px; height:150px'><img src='assets/img/" + r[0] + "' style='width:" + r[3] + "px; mix-blend-mode:multiply'></div>" +
+        "<div class='a' style='left:250px; top:" + (y + 30) + "px; width:" + w + "px; height:90px; background:" + GREEN + "'></div>" +
+        "<div class='a tn' style='left:" + (250 + w + 22) + "px; top:" + (y + 34) + "px; font-size:72px; font-weight:700; letter-spacing:-.055em; line-height:1; white-space:nowrap; color:" + GREEN + "'>+" + r[2] + " %</div>");
+    });
+  })();
+
+  // page 3 : cours sur un an, aire rouge, sommet et cours actuel annotés
+  (function () {
+    var S = window.AS, n = S.length, W = 912, PW = 780, H = 600, g = svgIn("chart", W, H + 70);
+    var ymin = 15, ymax = 48, X = function (i) { return i / (n - 1) * PW; }, Y = function (v) { return H - (v - ymin) / (ymax - ymin) * H; };
+    [20, 30, 40].forEach(function (v) { el(g, "line", { x1: 0, x2: W, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 }); T(g, W, Y(v) - 12, v + " $", 30, AX, 500, "end"); });
+    el(g, "line", { x1: 0, x2: W, y1: H, y2: H, stroke: NAVY, "stroke-width": 3 });
+    var M = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+    [["2026-01-02", "2026"], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]].forEach(function (m) { var i = S.findIndex(function (r) { return r[0] >= m[0]; }), x = X(i); el(g, "line", { x1: x, x2: x, y1: H, y2: H + 14, stroke: NAVY, "stroke-width": 3 }); T(g, x + 8, H + 50, m[1], 30, AX, 500); });
+    var d = S.map(function (r, i) { return (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join(" ");
+    var defs = el(g, "defs", {}), lg = el(defs, "linearGradient", { id: "ar", x1: 0, y1: 0, x2: 0, y2: 1 });
+    el(lg, "stop", { offset: 0, "stop-color": RED, "stop-opacity": .32 }); el(lg, "stop", { offset: 1, "stop-color": RED, "stop-opacity": 0 });
+    el(g, "path", { d: "M0 " + H + " " + d.replace(/^M/, "L") + " L" + X(n - 1) + " " + H + " Z", fill: "url(#ar)" });
+    el(g, "path", { d: d, fill: "none", stroke: RED, "stroke-width": 5, "stroke-linejoin": "round", "stroke-linecap": "round" });
+    var ip = 0; S.forEach(function (r, i) { if (r[1] > S[ip][1]) ip = i; });
+    var pk = S[ip], last = S[n - 1], dd = pk[0].split("-");
+    el(g, "circle", { cx: X(ip), cy: Y(pk[1]), r: 10, fill: "#eef1f5", stroke: NAVY, "stroke-width": 4 });
+    T(g, X(ip) + 20, Y(pk[1]) - 16, "Sommet : " + fr(pk[1], 0) + " $ (" + M[+dd[1] - 1] + " " + dd[0] + ")", 30, NAVY, 700, "start");
+    el(g, "circle", { cx: X(n - 1), cy: Y(last[1]), r: 12, fill: RED, stroke: "#fff", "stroke-width": 4 });
+    T(g, 20, Y(19), "−" + fr((pk[1] - last[1]) / pk[1] * 100, 0) + " % depuis le sommet", 44, RED, 700, "start");
+    T(g, 20, Y(19) + 46, "alors que les ventes ont bondi de 32 %", 32, AX, 600, "start");
+  })();
+
+  // page 4 : trésorerie (bleu, le point clé) contre emprunts (gris)
+  (function () {
+    var g = svgIn("cash", 912, 430), Y = function (v) { return 360 - v / 800 * 320; };
+    el(g, "line", { x1: 0, x2: 912, y1: 360, y2: 360, stroke: NAVY, "stroke-width": 3 });
+    [[60, 720, BLUE, "Trésorerie", NAVY], [500, 147, PALE, "Emprunts", AX]].forEach(function (b) {
+      el(g, "rect", { x: b[0], y: Y(b[1]), width: 300, height: 360 - Y(b[1]), fill: b[2] });
+      T(g, b[0] + 150, Y(b[1]) - 22, fr(b[1], 0) + " M$", 56, b[2] === BLUE ? BLUE : AX, 700, "middle");
+      T(g, b[0] + 150, 405, b[3], 32, b[4], 700, "middle");
+    });
+  })();
+
+  // page 5 : croissance en Chine, de 47 % à 35 % en trois trimestres (rouge, l'alerte)
+  (function () {
+    var g = svgIn("china", 912, 520), B = 460, Y = function (v) { return B - v / 50 * 300; };
+    el(g, "line", { x1: 0, x2: 912, y1: B, y2: B, stroke: NAVY, "stroke-width": 3 });
+    [[120, 47, PALE, "Il y a 3 trimestres", AX], [520, 35, RED, "Deuxième trimestre", NAVY]].forEach(function (b) {
+      el(g, "rect", { x: b[0], y: Y(b[1]), width: 280, height: B - Y(b[1]), fill: b[2] });
+      T(g, b[0] + 140, Y(b[1]) - 22, "+" + b[1] + " %", 60, b[2] === RED ? RED : AX, 700, "middle");
+      T(g, b[0] + 140, B + 46, b[3], 30, b[4], 700, "middle");
+    });
+    var a = T(g, 0, 30, "Un tiers des ventes · « la fin de l'hypercroissance » d'Arc'teryx en Chine", 30, AX, 600, "start");
+  })();
+
+  var p = +(new URLSearchParams(location.search).get("p") || 1);
+  document.getElementById("p" + p).style.display = "block";
+</script>
+</body>
+</html>
