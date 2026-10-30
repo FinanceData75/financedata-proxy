@@ -50,7 +50,7 @@ Principes de la trame :
 
 ## Graphiques boursiers (validé sur Accenture)
 - **1 écran = 1 info** : juste la courbe et ses annotations, aucune carte ni cadre en dessous ; la courbe prend toute la hauteur libre ;
-- courbe marine épaisse, sans aire ni dégradé ; zone de tracé séparée de la gouttière des valeurs à droite : la courbe ne touche jamais les chiffres ;
+- évolution d'une action : **aire colorée sous la courbe**, rouge pour une baisse, vert pour une hausse (courbe de la même couleur, dégradé qui s'efface vers le bas) ; courbe marine seulement quand le graphique sert de décor à une annotation (achat, vente) ; zone de tracé séparée de la gouttière des valeurs à droite : la courbe ne touche jamais les chiffres ;
 - valeurs avec unité (« 250 $ ») posées au-dessus de leur ligne de grille, ligne de base marine avec petites graduations, mois en dessous ;
 - au plus deux annotations courtes, chacune dans une zone vide (jamais sur la courbe ni sur une ligne de grille) : une neutre en marine (« Plus bas : 124 $ »), une clé dans la seule couleur de l'écran, avec la date repérée sous l'axe.
 

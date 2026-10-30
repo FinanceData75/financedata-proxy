@@ -71,15 +71,23 @@
           axis.push(el(g, "line", { x1: 0, x2: W, y1: H, y2: H, stroke: NAVY, "stroke-width": 3 }));
           o.xt.forEach(function (m) { var x = X(idx(S, m[0])); axis.push(el(g, "line", { x1: x, x2: x, y1: H, y2: H + 14, stroke: NAVY, "stroke-width": 3 })); axis.push(T(g, x + 8, H + 50, m[1], 30, AX, 500)); });
           tl.fromTo(axis, { opacity: 0 }, { opacity: 1, duration: .3 }, o.t);
-          var segs = o.segs || [[0, n - 1, NAVY]], lines = [];
+          // aire colorée sous la courbe : rouge pour une baisse, vert pour une hausse (même couleur que la courbe)
+          if (o.area) {
+            var gid = "ar" + (++chart.k), defs = el(g, "defs", {}), lg = el(defs, "linearGradient", { id: gid, x1: 0, y1: 0, x2: 0, y2: 1 });
+            el(lg, "stop", { offset: 0, "stop-color": o.area, "stop-opacity": .32 }); el(lg, "stop", { offset: 1, "stop-color": o.area, "stop-opacity": 0 });
+            var ar = el(g, "path", { d: "M0 " + H + " " + pathOf(S, X, Y, 0, n - 1).replace(/^M/, "L") + " L" + X(n - 1) + " " + H + " Z", fill: "url(#" + gid + ")" });
+            tl.fromTo(ar, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: o.dur, ease: "none" }, o.t + .05);
+          }
+          var segs = o.segs || [[0, n - 1, o.area || NAVY]], lines = [];
           segs.forEach(function (sg, k) {
             var a = typeof sg[0] === "string" ? idx(S, sg[0]) : sg[0], b = typeof sg[1] === "string" ? idx(S, sg[1]) : sg[1];
-            var pth = el(g, "path", { d: pathOf(S, X, Y, a, b), fill: "none", stroke: sg[2], "stroke-width": sg[2] === NAVY ? 5 : 8, "stroke-linejoin": "round", "stroke-linecap": "round" });
+            var pth = el(g, "path", { d: pathOf(S, X, Y, a, b), fill: "none", stroke: sg[2], "stroke-width": sg[2] === NAVY || o.area ? 5 : 8, "stroke-linejoin": "round", "stroke-linecap": "round" });
             lines.push([pth, (b - a) / (n - 1)]);
           });
           var t = o.t + .05; lines.forEach(function (l) { var d = Math.max(.2, o.dur * l[1]); draw(l[0], t, d, "none"); t += d; });
           return { g: g, S: S, X: X, Y: Y, H: H, PW: PW, i: function (dt) { return idx(S, dt); } };
         }
+        chart.k = 0;
         function note(c, x, y, str, color, anchor, size, w) { return T(c.g, x, y, str, size || 34, color || NAVY, w || 700, anchor || "start"); }
         // l'achat : point vif avec halo, étiquette pleine en bleu FinanceData, jour repéré sous l'axe
         function buy(c, dt, label, t, side, noDay) {
@@ -117,7 +125,7 @@
           // 1 écran = 1 action : logo, chute depuis le sommet en très grand, courbe du sommet à aujourd'hui
           var s = scene(t0, t1, FOCAL), pk = peakOf(sym, from, LAST);
           fadeIn(header(s, sym, 330), t0, .25, 12);
-          var c = chart(s, { sym: sym, from: from, to: LAST, top: 730, H: 420, ymin: ymin, ymax: ymax, ticks: ticks, xt: xt, t: t0, dur: .8, segs: [[0, pk[0], NAVY], [pk[0], LAST, RED]] });
+          var c = chart(s, { sym: sym, from: from, to: LAST, top: 730, H: 420, ymin: ymin, ymax: ymax, ticks: ticks, xt: xt, t: t0, dur: .8, area: RED });
           var last = c.S[c.S.length - 1][1], drop = (pk[1] - last) / pk[1] * 100;
           var pc = div(s, "−0 %", "left:92px; top:470px; font-size:200px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + RED + "; font-feature-settings:'tnum' 1");
           var o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: drop, duration: .7, ease: "power2.out", onUpdate: function () { pc.textContent = "−" + fr(o.v, 0) + " %"; } }, t0 + .1);
@@ -164,11 +172,11 @@
         (function () {
           var s = scene(8.09, 11.31, LIGHT);
           titled(s, null, "S&P 500");
-          var c = chart(s, { sym: "SPX", from: "2025-10-29", to: LAST, top: 440, H: 700, ymin: 5500, ymax: 8200, ticks: [6000, 6500, 7000, 7500, 8000], xt: [["2026-01-02", "2026"], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]], t: 8.1, dur: 1.0 });
+          var c = chart(s, { sym: "SPX", from: "2025-10-29", to: LAST, top: 440, H: 700, ymin: 5500, ymax: 8200, ticks: [6000, 6500, 7000, 7500, 8000], xt: [["2026-01-02", "2026"], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]], t: 8.1, dur: 1.0, area: GREEN });
           var pk = peakOf("SPX", "2025-10-29", LAST), ip = c.i(pk[0]);
-          var lvl = el(c.g, "line", { x1: 0, x2: c.PW, y1: c.Y(pk[1]), y2: c.Y(pk[1]), stroke: BLUE, "stroke-width": 3, "stroke-dasharray": "10 8" });
-          var rec = note(c, c.X(ip) - 20, c.Y(pk[1]) - 22, "Record · à −1 % aujourd'hui", BLUE, "end", 34);
-          var dot = el(c.g, "circle", { cx: c.X(c.S.length - 1), cy: c.Y(c.S[c.S.length - 1][1]), r: 13, fill: BLUE, stroke: "#fff", "stroke-width": 4 });
+          var lvl = el(c.g, "line", { x1: 0, x2: c.PW, y1: c.Y(pk[1]), y2: c.Y(pk[1]), stroke: GREEN, "stroke-width": 3, "stroke-dasharray": "10 8" });
+          var rec = note(c, c.X(ip) - 20, c.Y(pk[1]) - 22, "Record · à −1 % aujourd'hui", GREEN, "end", 34);
+          var dot = el(c.g, "circle", { cx: c.X(c.S.length - 1), cy: c.Y(c.S[c.S.length - 1][1]), r: 13, fill: GREEN, stroke: "#fff", "stroke-width": 4 });
           tl.fromTo([lvl, rec, dot], { opacity: 0 }, { opacity: 1, duration: .3 }, 10.17);
           fadeIn(div(s, "Clôtures, en points · Source : Yahoo Finance", "top:1262px", "src"), 8.2, .3, 0);
           c.g.querySelectorAll("text").forEach(function (t) { if (/ \$$/.test(t.textContent)) t.textContent = t.textContent.replace(" $", ""); });
@@ -190,7 +198,7 @@
           var s = scene(15.87, 18.67, LIGHT);
           titled(s, "GOOGL", "Cours de l'action");
           var pk = peakOf("GOOGL", "2025-10-29", LAST);
-          var c = chart(s, { sym: "GOOGL", from: "2025-10-29", to: LAST, top: 440, H: 700, ymin: 200, ymax: 430, ticks: [250, 300, 350, 400], xt: [["2026-01-02", "2026"], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]], t: 15.9, dur: 1.0 });
+          var c = chart(s, { sym: "GOOGL", from: "2025-10-29", to: LAST, top: 440, H: 700, ymin: 200, ymax: 430, ticks: [250, 300, 350, 400], xt: [["2026-01-02", "2026"], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]], t: 15.9, dur: 1.0, area: RED });
           var ip = c.i(pk[0]), n = c.S.length, last = c.S[n - 1][1];
           var br = el(c.g, "path", { d: "M" + c.X(ip) + " " + c.Y(pk[1]) + " H" + (c.PW + 20) + " V" + c.Y(last), fill: "none", stroke: RED, "stroke-width": 3, "stroke-dasharray": "10 8" });
           var a = note(c, 20, c.Y(215), "−" + fr((pk[1] - last) / pk[1] * 100, 0) + " % depuis le sommet", RED, "start", 40);
@@ -243,7 +251,7 @@
           var s = scene(32.64, 38.81, LIGHT);
           titled(s, "NFLX", "Cours de l'action");
           var pk = peakOf("NFLX", "2025-01-02", LAST);
-          var c = chart(s, { sym: "NFLX", from: "2025-01-02", to: LAST, top: 440, H: 700, ymin: 40, ymax: 150, ticks: [50, 75, 100, 125], xt: [["2025-01-02", "2025"], ["2025-07-01", "juil."], ["2026-01-02", "2026"], ["2026-07-01", "juil."]], t: 32.7, dur: 1.1 });
+          var c = chart(s, { sym: "NFLX", from: "2025-01-02", to: LAST, top: 440, H: 700, ymin: 40, ymax: 150, ticks: [50, 75, 100, 125], xt: [["2025-01-02", "2025"], ["2025-07-01", "juil."], ["2026-01-02", "2026"], ["2026-07-01", "juil."]], t: 32.7, dur: 1.1, area: RED });
           var ip = c.i(pk[0]), n = c.S.length, last = c.S[n - 1][1];
           var br = el(c.g, "path", { d: "M" + c.X(ip) + " " + c.Y(pk[1]) + " H" + (c.PW + 20) + " V" + c.Y(last), fill: "none", stroke: RED, "stroke-width": 3, "stroke-dasharray": "10 8" });
           var a = note(c, 20, c.Y(58), "−" + fr((pk[1] - last) / pk[1] * 100, 0) + " % depuis le sommet", RED, "start", 40);
