@@ -18,7 +18,7 @@
   .txt { position: absolute; left: 104px; top: 150px; width: 880px; font-size: 46px; line-height: 1.2; letter-spacing: -.012em; font-weight: 400; }
   .txt p + p { margin-top: 46px; }
   .txt b { font-weight: 700; }
-  .ph { position: absolute; left: 0; bottom: 0; width: 1080px; height: 560px; object-fit: cover; display: block; }
+  .ph { position: absolute; left: 0; width: 1080px; object-fit: cover; display: block; }
   .card { position: absolute; left: 104px; width: 872px; border-radius: 18px; overflow: hidden; }
   .src { position: absolute; left: 104px; width: 872px; font-size: 22px; color: #7a8299; letter-spacing: 0; }
   svg { position: absolute; overflow: visible; }
@@ -42,8 +42,7 @@
     <p>Vous connaissez sûrement ses marques sans connaître son nom : <b>Arc'teryx, Salomon et Wilson appartiennent à Amer Sports.</b></p>
     <p>Et les trois accélèrent. <b>Au deuxième trimestre, ses ventes ont bondi de 32 %.</b></p>
   </div>
-  <div id="bars" style="position:absolute; left:104px; top:760px; width:872px; height:480px"></div>
-  <div class="src" style="top:1262px">Croissance des ventes au 2e trimestre, sur un an · Source : Amer Sports</div>
+  <div class="card vis" id="bars" style="height:620px; background:#fff; box-shadow:inset 0 0 0 2px #e3e6ee"></div>
 </section>
 
 <!-- 3. L'action -->
@@ -52,7 +51,7 @@
     <p><b>Et pourtant</b>, l'action a perdu près d'un tiers de sa valeur depuis son plus haut sur un an.</p>
     <p>Le marché doute. Mais les chiffres racontent une autre histoire…</p>
   </div>
-  <div class="card" id="stock" style="top:640px; height:620px; background:#1c1c1e"></div>
+  <div class="card vis" id="stock" style="height:640px; background:#1c1c1e"></div>
 </section>
 
 <!-- 4. Le bilan -->
@@ -61,7 +60,7 @@
     <p><b>Un bilan nettoyé.</b> Amer Sports a remboursé 800 millions de dollars d'obligations cette année. Sa trésorerie (720 M$) dépasse largement ses emprunts (147 M$).</p>
     <p><b>Et une action redevenue raisonnable :</b> moins de 20 fois les bénéfices attendus, alors que ses bénéfices ont plus que doublé en un an.</p>
   </div>
-  <img class="ph" src="assets/photos/boutique.jpg" style="height:480px">
+  <img class="ph vis" src="assets/photos/boutique.jpg">
 </section>
 
 <!-- 5. Les risques -->
@@ -70,7 +69,7 @@
     <p><b>Mais la Chine ralentit.</b> Elle pèse un tiers des ventes, et sa croissance est passée de 47 % à 35 % en trois trimestres.</p>
     <p>Et la marge du trimestre a profité d'un remboursement exceptionnel de droits de douane (64 M$). Au 3e trimestre, la croissance attendue ralentit à 20-22 %.</p>
   </div>
-  <img class="ph" src="assets/photos/chine.jpg" style="height:470px">
+  <img class="ph vis" src="assets/photos/chine.jpg">
 </section>
 
 <!-- 6. Ce qu'il faut retenir -->
@@ -80,7 +79,7 @@
     <p>Mais trois marques à plus de 20 % de croissance, un bilan assaini et moins de 20 fois les bénéfices attendus, ça mérite notre attention.</p>
     <p><b>Rendez-vous le 17 novembre</b> pour les prochains résultats.</p>
   </div>
-  <img class="ph" src="assets/photos/rando.jpg" style="height:400px">
+  <img class="ph vis" src="assets/photos/rando.jpg">
 </section>
 
 <script>
@@ -89,16 +88,21 @@
   function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start" }, str); }
   function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
 
-  // page 2 : les trois marques, vrais logos et barres vertes (croissance au 2e trimestre)
+  // page 2 : carte titrée, barres horizontales sur une échelle 0-40 %, vrais logos, valeurs en vert, source en pied
   (function () {
-    var box = document.getElementById("bars");
-    [["arcteryx.png", 32, 170], ["salomon.png", 37, 130], ["wilson.svg", 24, 92]].forEach(function (r, k) {
-      var y = k * 160, w = r[1] / 40 * 470;
-      box.insertAdjacentHTML("beforeend",
-        "<div style='position:absolute; left:0; top:" + y + "px; width:200px; height:120px; display:flex; align-items:center; justify-content:center'><img src='assets/img/" + r[0] + "' style='width:" + r[2] + "px; mix-blend-mode:multiply'></div>" +
-        "<div style='position:absolute; left:230px; top:" + (y + 22) + "px; width:" + w + "px; height:76px; background:" + GREEN + "; border-radius:6px'></div>" +
-        "<div style='position:absolute; left:" + (230 + w + 20) + "px; top:" + (y + 26) + "px; font-size:60px; font-weight:700; letter-spacing:-.03em; color:" + GREEN + "; white-space:nowrap'>+" + r[1] + " %</div>");
+    var box = document.getElementById("bars"), L = 230, W = 560, sc = function (v) { return L + v / 40 * W; };
+    box.insertAdjacentHTML("beforeend",
+      "<div style='position:absolute; left:40px; top:34px; font-size:36px; font-weight:700; letter-spacing:-.02em'>Croissance des ventes par marque</div>" +
+      "<div style='position:absolute; left:40px; top:84px; font-size:24px; font-weight:500; color:#7a8299'>Deuxième trimestre, sur un an</div>");
+    var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 872); g.setAttribute("height", 620); g.style.left = "0"; g.style.top = "0"; box.appendChild(g);
+    [0, 10, 20, 30, 40].forEach(function (v) { el(g, "line", { x1: sc(v), x2: sc(v), y1: 150, y2: 520, stroke: v ? "#e3e6ee" : "#14234b", "stroke-width": v ? 2 : 3 }); T(g, sc(v), 552, v + " %", 22, "#7a8299", 500, "middle"); });
+    [["arcteryx.png", 32, 150], ["salomon.png", 37, 116], ["wilson.svg", 24, 80]].forEach(function (r, k) {
+      var y = 170 + k * 120;
+      box.insertAdjacentHTML("beforeend", "<div style='position:absolute; left:30px; top:" + y + "px; width:180px; height:96px; display:flex; align-items:center; justify-content:center'><img src='assets/img/" + r[0] + "' style='width:" + r[2] + "px; mix-blend-mode:multiply'></div>");
+      el(g, "rect", { x: sc(0) + 2, y: y + 18, width: sc(r[1]) - sc(0) - 2, height: 60, fill: GREEN });
+      T(g, sc(r[1]) + 14, y + 61, "+" + r[1] + " %", 36, GREEN, 700, "start");
     });
+    box.insertAdjacentHTML("beforeend", "<div style='position:absolute; left:40px; bottom:26px; font-size:20px; color:#7a8299'>Source : Amer Sports</div>");
   })();
 
   // page 3 : carte sombre façon appli Bourse, cours sur un an en aire rouge
@@ -107,7 +111,7 @@
     var last = S[n - 1][1], ip = 0; S.forEach(function (r, i) { if (r[1] > S[ip][1]) ip = i; }); var pk = S[ip][1], ch = (last - pk) / pk * 100;
     card.insertAdjacentHTML("beforeend",
       "<div style='position:absolute; left:34px; top:28px; display:flex; align-items:baseline; gap:18px'><span style='font-size:52px; font-weight:800; color:#fff; letter-spacing:-.02em'>AS</span><span style='font-size:30px; font-weight:500; color:#a1a1a6'>Amer Sports</span></div>" +
-      "<div style='position:absolute; left:34px; top:96px; font-size:22px; color:#a1a1a6'>NYSE · USD</div>" +
+      "<div style='position:absolute; left:34px; top:96px; font-size:22px; color:#a1a1a6'>Cours de l'action sur un an · NYSE · USD</div>" +
       "<div style='position:absolute; right:34px; top:34px; text-align:right'><div style='font-size:30px; font-weight:700; color:#fff'>" + fr(last, 2) + "</div><div style='font-size:24px; font-weight:700; color:" + RED + "'>" + fr(ch, 1).replace("-", "−") + " % depuis le plus haut</div></div>");
     var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 872); g.setAttribute("height", 620); g.style.left = "0"; g.style.top = "0"; card.appendChild(g);
     var x0 = 34, PW = 700, top = 160, H = 360, ymin = 20, ymax = 45;
@@ -127,8 +131,12 @@
     rows.forEach(function (r, k) { var x = x0 + k * 280; T(g, x, 590, r[0], 22, "#a1a1a6", 500); T(g, x + 160, 590, r[1], 22, "#fff", 700); });
   })();
 
-  var p = +(new URLSearchParams(location.search).get("p") || 1);
-  document.getElementById("p" + p).style.display = "block";
+  var p = +(new URLSearchParams(location.search).get("p") || 1), pg = document.getElementById("p" + p);
+  pg.style.display = "block";
+  var tx = pg.querySelector(".txt"), v = pg.querySelector(".vis");
+  // placement une fois les polices chargées (sinon la hauteur du texte est mesurée avec la police de secours)
+  function place() { if (tx && v) { var vt = tx.offsetTop + tx.offsetHeight + 70; v.style.top = vt + "px"; if (v.classList.contains("ph")) v.style.height = (1350 - vt) + "px"; } }
+  place(); document.fonts.ready.then(place);
 </script>
 </body>
 </html>
