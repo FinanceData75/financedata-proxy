@@ -117,14 +117,32 @@
           fadeIn(div(s, "Clôtures hebdomadaires et moyenne mobile 30 semaines · Source : Yahoo Finance", "top:1262px", "src"), 7.5, .3, 0);
         })();
 
-        // ===== 5. Stan Weinstein (10,45 → 14,6) : la couverture du livre =====
+        // ===== 5. Stan Weinstein (10,45 → 14,6) : on garde la ligne à l'écran (zoom lent vers le dernier sommet),
+        //        le livre arrive en carte sur « Stan Weinstein », puis les 4 phases s'allument une à une sur « quatre phases »
         (function () {
-          var s = scene(10.45, 14.6, NIGHT);
-          var book = div(s, "<img src='assets/img/livre-weinstein.jpg' style='width:100%; height:100%; display:block'>", "left:300px; top:380px; width:480px; height:720px; box-shadow:0 30px 80px rgba(0,0,0,.5); border-radius:2px");
-          tl.fromTo(book, { opacity: 0, y: 40, rotation: -2 }, { opacity: 1, y: 0, rotation: 0, duration: .5, ease: "power3.out" }, 10.5);
-          tl.fromTo(book, { scale: 1 }, { scale: 1.04, duration: 4, ease: "none", immediateRender: false }, 10.6);
-          var lab = div(s, "1988", "left:0; right:0; top:1150px; text-align:center; font-size:52px; font-weight:700; letter-spacing:-.04em; color:rgba(255,255,255,.7)");
-          fadeIn(lab, 12.61, .3, 10);
+          var s = scene(10.45, 14.6, LIGHT);
+          titled(s, NLOGO(58) + "<span>Cours de l'action</span>");
+          var c = nchart(s, { from: "2021-06-01", to: "2026-10-29", top: 440, H: 700, ymin: 0, ymax: 150, ticks: [50, 100, 150], xt: [["2022-01-01", "2022"], ["2023-01-01", "2023"], ["2024-01-01", "2024"], ["2025-01-01", "2025"], ["2026-01-01", "2026"]], t: 10.45, dur: .01, color: PALE, thin: true, ma: 10.45, maDur: .01 });
+          tl.fromTo(c.g, { scale: 1, transformOrigin: "75% 40%" }, { scale: 1.12, duration: 4.1, ease: "none" }, 10.45);
+          // le livre : carte blanche qui glisse depuis la droite, avec nom et année
+          var book = div(s, "<img src='assets/img/livre-weinstein.jpg' style='position:absolute; left:24px; top:24px; width:180px; height:270px; display:block'>" +
+            "<div style='position:absolute; left:232px; top:56px; font-size:52px; font-weight:700; letter-spacing:-.05em; line-height:1'>Stan Weinstein</div>" +
+            "<div style='position:absolute; left:232px; top:122px; width:330px; font-size:28px; font-weight:600; color:#6b7290; line-height:1.25'>Analyste américain, auteur de la méthode en 1988</div>",
+            "left:380px; top:820px; width:600px; height:318px; background:#fff; border-radius:4px; box-shadow:0 24px 60px rgba(0,11,34,.25)");
+          tl.fromTo(book, { opacity: 0, x: 260 }, { opacity: 1, x: 0, duration: .45, ease: "power3.out" }, 11.4);
+          tl.fromTo(book.firstChild, { rotation: -6 }, { rotation: 0, duration: .6, ease: "back.out(2)" }, 11.5);
+          tl.to(book, { opacity: 0, x: 120, duration: .25, ease: "power2.in" }, 13.6);
+          // « chaque action passe par quatre phases » : les zones s'allument en rafale, avec leur numéro
+          var Z = [["2021-11-01", "2022-09-15", 4, RED], ["2022-09-15", "2023-01-06", 1, NAVY], ["2023-01-06", "2025-07-18", 2, GREEN], ["2025-07-18", "2025-11-21", 3, AMBER], ["2025-11-21", "2026-10-29", 4, RED]];
+          Z.forEach(function (z, k) {
+            var x0 = c.X(c.i(z[0])), x1 = c.X(c.i(z[1]));
+            var r = el(c.g, "rect", { x: x0, y: 0, width: Math.max(2, x1 - x0), height: c.H, fill: z[3], opacity: 0 });
+            c.g.insertBefore(r, c.g.firstChild.nextSibling);
+            var t = T(c.g, (x0 + x1) / 2, 50, String(z[2]), 52, DARKER[z[3]] || z[3], 700, "middle");
+            var tk = 13.82 + k * .14;
+            tl.to(r, { opacity: .16, duration: .12 }, tk); tl.fromTo(t, { opacity: 0, scale: 1.8, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .25, ease: "back.out(2)" }, tk);
+          });
+          fadeIn(div(s, "Clôtures hebdomadaires et moyenne mobile 30 semaines · Source : Yahoo Finance", "top:1262px", "src"), 10.5, .2, 0);
         })();
 
         // ===== 6-10. Les quatre phases, sur une courbe schématique (14,6 → 44,23) =====
@@ -242,7 +260,7 @@
           var nextLen = next ? next.w.split(" ").length : 0;
           if (punct || nwords >= 3 || nwords + nextLen > 3 || !next || next.s - t.e > .3) { groups.push(cur); cur = []; }
         });
-        var DARK = [[10.45, 14.6], [52.13, 56.14]];
+        var DARK = [[52.13, 56.14]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 58.38;
           var dark = DARK.some(function (r) { return t0 >= r[0] - .01 && t0 < r[1] - .01; });
