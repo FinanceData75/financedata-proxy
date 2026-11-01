@@ -134,15 +134,26 @@
           tl.fromTo(o, { v: 0 }, { v: 3, duration: .7, ease: "power3.out", onUpdate: function () { n.textContent = "+" + fr(o.v, 0) + " M$"; } }, 7.57);
         })();
 
-        // ===== 3. Le montant / le moment (9,05 → 11,85) : bleu nuit, le moment masqué =====
+        // ===== 3. Pas le montant, le moment (9,05 → 11,85) : le « 3 M$ » arrive en grand puis se fait barrer,
+        //        et la courbe file jusqu'au jour de l'achat, qui clignote en bleu vif
         (function () {
-          var s = scene(9.05, 11.85, NIGHT);
-          var t1 = div(s, "<div class='lbl'>Le montant</div><div class='big'>3 M$</div>", "top:520px", "tile");
-          var t2 = div(s, "<div class='lbl'>Le moment</div><div class='big'>?</div>", "top:860px", "tile");
-          fadeIn(t1, 9.1, .4, 40); fadeIn(t2, 9.25, .4, 40);
-          tl.to(t1, { opacity: .35, duration: .3 }, 10.64);
-          tl.to(t2, { boxShadow: "inset 0 0 0 4px #3d5afe", backgroundColor: "rgba(61,90,254,.14)", duration: .3 }, 11.08);
-          tl.fromTo(t2.querySelector(".big"), { scale: 1 }, { scale: 1.25, transformOrigin: "0% 50%", duration: .25, yoyo: true, repeat: 1, ease: "power2.out" }, 11.44);
+          var s = scene(9.05, 10.98, FOCAL);
+          var amt = div(s, "+3 M$", "left:0; right:0; top:560px; text-align:center; font-size:280px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + BLUE + "; font-feature-settings:'tnum' 1");
+          tl.fromTo(amt, { opacity: 0, scale: .6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(1.8)" }, 9.06);
+          tl.to(amt, { scale: 1.06, duration: 1.4, ease: "none" }, 9.41);
+          // « ce n'est pas le montant » : trait rouge qui barre, le chiffre passe au gris
+          var bar = div(s, "", "left:150px; top:690px; width:780px; height:16px; background:" + RED + "; border-radius:2px");
+          tl.fromTo(bar, { scaleX: 0, transformOrigin: "0% 50%", rotation: -6 }, { scaleX: 1, duration: .2, ease: "power2.out" }, 10.64);
+          tl.to(amt, { color: "#c5cad9", duration: .15 }, 10.7);
+
+          var s2 = scene(10.98, 11.85, LIGHT);
+          titled(s2, "Cours de l'action");
+          var c = chart(s2, { from: "2026-01-02", to: "2026-10-26", top: 440, H: 700, ymin: 100, ymax: 300, ticks: [150, 200, 250], xt: [["2026-01-02", "janv."], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]], t: 10.99, dur: .45 });
+          var i = c.S.length - 1, x = c.X(i), y = c.Y(c.S[i][1]);
+          var halo = el(c.g, "circle", { cx: x, cy: y, r: 20, fill: BLUE, opacity: .25 }), dot = el(c.g, "circle", { cx: x, cy: y, r: 15, fill: BLUE, stroke: "#fff", "stroke-width": 4 });
+          var q = T(c.g, x - 56, y + 22, "?", 72, BLUE, 800, "end");
+          tl.fromTo([halo, dot, q], { opacity: 0 }, { opacity: 1, duration: .1 }, 11.44);
+          tl.fromTo(halo, { attr: { r: 15 } }, { attr: { r: 48 }, duration: .4, ease: "power2.out", immediateRender: false }, 11.44);
         })();
 
         // ===== 4. Juin : −18 % en une journée (11,85 → 19,24) =====
@@ -303,7 +314,7 @@
           var nextLen = next ? next.w.split(" ").length : 0;
           if (punct || nwords >= 3 || nwords + nextLen > 3 || !next) { groups.push(cur); cur = []; }
         });
-        var DARK = [[5.56, 11.85], [11.85, 14.86], [19.24, 22.08], [40.09, 45.69], [52.61, 65.04]];
+        var DARK = [[5.56, 9.05], [11.85, 14.86], [19.24, 22.08], [40.09, 45.69], [52.61, 65.04]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 69.83;
           var dark = DARK.some(function (r) { return t0 >= r[0] - .01 && t0 < r[1] - .01; });
