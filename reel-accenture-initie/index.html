@@ -31,12 +31,12 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="69.83" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="69.83" data-track-index="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="66.96" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="66.96" data-track-index="1"></audio>
       <video id="v-reu" class="clip" src="assets/video/reunion.mp4" data-start="11.85" data-duration="3.01" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
       <video id="v-ia" class="clip" src="assets/video/ia-bureau.mp4" data-start="19.24" data-duration="2.84" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <div id="bgl" class="clip" data-start="0" data-duration="69.83" data-track-index="4" style="position:absolute; inset:0"></div>
-      <div id="stage" class="clip" data-start="0" data-duration="69.83" data-track-index="0" style="position:absolute; inset:0"></div>
+      <div id="bgl" class="clip" data-start="0" data-duration="66.96" data-track-index="4" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="66.96" data-track-index="0" style="position:absolute; inset:0"></div>
     </div>
     <script>
       (function () {
@@ -256,43 +256,69 @@
           fadeIn(div(s, "Cours de clôture, sept. 2025 – oct. 2026 · Sources : Yahoo Finance, SEC (Form 4)", "top:1262px", "src"), 45.8, .3, 0);
         })();
 
-        // ===== 9. Portrait noir et blanc (52,61 → 58,15) =====
+        // ===== 9. Portrait noir et blanc (52,61 → 55,02), puis « l'histoire n'est pas finie » sur la courbe (55,02 → 58,22) =====
         (function () {
-          scene(52.61, 58.15, null);
+          scene(52.61, 55.02, null);
           var ph = div(bgl, "<img src='assets/img/sweet-nb.jpg' style='width:100%; height:100%; display:block; object-fit:cover'><div style='position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,11,34,0) 50%, rgba(0,11,34,.55) 100%)'></div>", "", "full");
-          tl.set(ph, { opacity: 1 }, 52.61); tl.set(ph, { opacity: 0 }, 58.15);
-          tl.fromTo(ph.firstChild, { scale: 1 }, { scale: 1.07, transformOrigin: "50% 35%", duration: 5.54, ease: "none" }, 52.61);
+          tl.set(ph, { opacity: 1 }, 52.61); tl.set(ph, { opacity: 0 }, 55.02);
+          tl.fromTo(ph.firstChild, { scale: 1 }, { scale: 1.1, transformOrigin: "50% 35%", duration: 2.41, ease: "none" }, 52.61);
+
+          var s = scene(55.02, 58.22, LIGHT);
+          titled(s, "Cours de l'action");
+          var c = chart(s, { from: "2026-06-01", to: "2026-10-26", top: 440, H: 680, ymin: 75, ymax: 400, ticks: [100, 200, 300], xt: [["2026-06-01", "juin"], ["2026-07-01", "juil."], ["2026-08-03", "août"], ["2026-09-01", "sept."], ["2026-10-01", "oct."]], t: 55.03, dur: .9 });
+          var i = c.S.length - 1, x = c.X(i), y = c.Y(c.S[i][1]);
+          var dot = el(c.g, "circle", { cx: x, cy: y, r: 14, fill: BLUE, stroke: "#fff", "stroke-width": 4 });
+          tl.fromTo(dot, { opacity: 0 }, { opacity: 1, duration: .15 }, 55.9);
+          // « l'histoire n'est pas finie » : la courbe ne s'arrête pas, une flèche pointillée part du jour de l'achat vers un « ? »
+          var ar = el(c.g, "path", { d: "M" + x + " " + (y - 24) + " L" + x + " " + (y - 150), fill: "none", stroke: BLUE, "stroke-width": 5, "stroke-dasharray": "12 10", "stroke-linecap": "round" });
+          var q = T(c.g, x, y - 170, "?", 90, BLUE, 800, "middle");
+          tl.fromTo(ar, { opacity: 0 }, { opacity: 1, duration: .25 }, 56.82); tl.fromTo(q, { opacity: 0, scale: 1.8, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, 57.34);
+          var pill = div(s, "Achat de la PDG", "left:96px; top:1250px; padding:10px 22px; background:" + BLUE + "; color:#fff; font-size:40px; font-weight:700; border-radius:3px");
+          tl.fromTo(pill, { opacity: 0, scale: 1.3, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, 55.9);
         })();
 
-        // ===== 10. Vendeur → acheteur (58,15 → 65,04) : bleu nuit =====
+        // ===== 10. Vendeur → acheteur (58,22 → 62,17) : un interrupteur qui bascule =====
         (function () {
-          var s = scene(58.15, 65.04, NIGHT);
-          var warn = div(s, "Aucune garantie", "left:96px; top:420px; padding:12px 22px; box-shadow:inset 0 0 0 2px rgba(255,255,255,.35); color:rgba(255,255,255,.75); font-size:36px; font-weight:700; letter-spacing:-.03em; border-radius:2px");
-          fadeIn(warn, 58.95, .3, 12);
-          var t1 = div(s, "<div class='lbl'>Avant</div><div class='big' style='color:rgba(255,255,255,.55)'>Vendeur</div>", "top:560px", "tile");
-          var t2 = div(s, "<div class='lbl'>Maintenant</div><div class='big'>Acheteur</div>", "top:900px", "tile");
-          fadeIn(t1, 62.33, .35, 30); fadeIn(t2, 62.97, .35, 30);
-          tl.to(t2, { boxShadow: "inset 0 0 0 4px #3d5afe", backgroundColor: "rgba(61,90,254,.14)", duration: .3 }, 63.13);
-          tl.to(t1, { opacity: .45, duration: .3 }, 63.13);
+          var s = scene(58.22, 62.17, NIGHT);
+          var lab = div(s, "Un dirigeant qui passe de…", "left:96px; top:420px; font-size:44px; font-weight:700; letter-spacing:-.04em; color:rgba(255,255,255,.6)");
+          fadeIn(lab, 58.22, .25, 12);
+          var v = div(s, "Vendeur", "left:96px; top:560px; font-size:150px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff");
+          fadeIn(v, 58.4, .3, 20);
+          var strike = div(s, "", "left:90px; top:640px; width:610px; height:14px; background:" + RED);
+          tl.fromTo(strike, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .25, ease: "power2.out" }, 59.6);
+          tl.to(v, { color: "rgba(255,255,255,.35)", duration: .2 }, 59.7);
+          // l'interrupteur : la pastille glisse de gauche à droite et le rail passe au bleu
+          var sw = div(s, "<div class='k' style='position:absolute; left:10px; top:10px; width:100px; height:100px; border-radius:50%; background:#fff'></div>", "left:96px; top:780px; width:240px; height:120px; border-radius:60px; background:rgba(255,255,255,.2)");
+          fadeIn(sw, 58.6, .3, 10);
+          tl.to(sw.firstChild, { x: 120, duration: .3, ease: "power3.inOut" }, 60.1);
+          tl.to(sw, { backgroundColor: BLUE, duration: .3 }, 60.1);
+          var ac = div(s, "Acheteur", "left:380px; top:775px; font-size:150px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + BLUE);
+          tl.fromTo(ac, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: .3, ease: "power3.out" }, 60.26);
+          tl.fromTo(ac, { scale: 1 }, { scale: 1.06, transformOrigin: "0% 50%", duration: .25, yoyo: true, repeat: 1, ease: "power2.out", immediateRender: false }, 61.61);
+          var att = div(s, "À surveiller", "left:96px; top:1000px; padding:12px 24px; background:#fff; color:#0a105e; font-size:44px; font-weight:700; letter-spacing:-.03em; border-radius:3px");
+          tl.fromTo(att, { opacity: 0, scale: 1.3, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, 61.5);
+          var warn = div(s, "Aucune garantie : l'action peut encore baisser.", "left:96px; top:1240px; font-size:30px; font-weight:600; color:rgba(255,255,255,.55)");
+          fadeIn(warn, 58.6, .3, 0);
         })();
 
-        // ===== 11. CTA : commentez « PDG » (65,04 → 69,83) =====
+        // ===== 11. CTA : commentez « PDG » (62,17 → 66,96) : tout arrive vite, la zone de commentaire est là dès le début =====
         (function () {
-          var s = scene(65.04, 69.83, LIGHT);
+          var s = scene(62.17, 66.96, LIGHT);
           var logo = div(s, "<div class='ring' style='position:absolute; inset:0; border-radius:50%; background:conic-gradient(from 210deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75)'></div><div style='position:absolute; inset:8px; border-radius:50%; background:#eef1f5'></div><img src='assets/img/logo-financedata.png' style='position:absolute; inset:15px; width:calc(100% - 30px); height:calc(100% - 30px); display:block; border-radius:50%'>", "left:430px; top:420px; width:220px; height:220px");
           var name = div(s, "FinanceData", "left:0; right:0; top:680px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.055em; line-height:1");
-          var tool = div(s, "Outil de suivi des achats d'initiés", "left:0; right:0; top:800px; text-align:center; font-size:40px; font-weight:600; color:#6b7290; letter-spacing:-.03em");
-          fadeIn(logo, 65.04, .4, 16); tl.fromTo(logo.querySelector(".ring"), { rotation: -90 }, { rotation: 0, duration: 1.2, ease: "power3.out" }, 65.04);
-          fadeIn(name, 65.16, .35, 16); fadeIn(tool, 65.84, .35, 12);
-          var box = div(s, "<div class='ph' style='position:absolute; left:40px; top:0; line-height:120px; font-size:40px; font-weight:500; color:#9aa1b8'>Ajouter un commentaire…</div><div class='tx' style='position:absolute; left:40px; top:0; line-height:120px; font-size:48px; font-weight:700; letter-spacing:-.03em; color:#0a105e'></div><div class='cr' style='position:absolute; top:34px; width:3px; height:52px; background:" + BLUE + "; opacity:0'></div><div class='go' style='position:absolute; right:30px; top:30px; padding:12px 22px; background:#d5dae5; color:#fff; font-size:34px; font-weight:700; border-radius:2px'>Publier</div>", "left:96px; top:960px; width:888px; height:120px", "card");
-          fadeIn(box, 67.6, .35, 20);
+          var tool = div(s, "Outil de suivi des achats d'initiés", "left:0; right:0; top:800px; text-align:center; padding:0 60px; font-size:44px; font-weight:700; color:" + BLUE + "; letter-spacing:-.03em");
+          fadeIn(logo, 62.17, .3, 16); tl.fromTo(logo.querySelector(".ring"), { rotation: -90 }, { rotation: 270, duration: 4.5, ease: "none" }, 62.17);
+          fadeIn(name, 62.25, .3, 16);
+          tl.fromTo(tool, { opacity: 0, scale: 1.2, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, 63.13);
+          var box = div(s, "<div class='ph' style='position:absolute; left:40px; top:0; line-height:120px; font-size:40px; font-weight:500; color:#6b7290'>Ajouter un commentaire…</div><div class='tx' style='position:absolute; left:40px; top:0; line-height:120px; font-size:48px; font-weight:700; letter-spacing:-.03em; color:#0a105e'></div><div class='cr' style='position:absolute; top:34px; width:3px; height:52px; background:" + BLUE + "; opacity:0'></div><div class='go' style='position:absolute; right:30px; top:30px; padding:12px 22px; background:#e3e6ee; color:#6b7290; font-size:34px; font-weight:700; border-radius:2px'>Publier</div>", "left:96px; top:960px; width:888px; height:120px", "card");
+          fadeIn(box, 62.4, .3, 20);
           var tx = box.querySelector(".tx"), ph = box.querySelector(".ph"), cr = box.querySelector(".cr"), go = box.querySelector(".go"), q = { n: 0 };
           function typed() { tx.textContent = "PDG".slice(0, Math.round(q.n)); cr.style.left = (42 + tx.offsetWidth) + "px"; ph.style.opacity = q.n > 0 ? 0 : 1; }
           typed();
-          tl.set(cr, { opacity: 1 }, 68.0);
-          tl.fromTo(q, { n: 0 }, { n: 3, duration: .45, ease: "none", onUpdate: typed }, 68.57);
-          tl.to(go, { backgroundColor: BLUE, duration: .15 }, 69.05);
-          tl.to(go, { scale: .92, duration: .1 }, 69.4); tl.to(go, { scale: 1, duration: .2 }, 69.5);
+          tl.set(cr, { opacity: 1 }, 64.6); tl.to(cr, { opacity: 0, duration: .01, repeat: 3, yoyo: true, repeatDelay: .25 }, 64.7);
+          tl.fromTo(q, { n: 0 }, { n: 3, duration: .4, ease: "none", onUpdate: typed }, 65.7);
+          tl.to(go, { backgroundColor: BLUE, color: "#fff", duration: .15 }, 66.1);
+          tl.to(go, { scale: .92, duration: .1 }, 66.4); tl.to(go, { scale: 1, duration: .2 }, 66.5);
         })();
 
         // ===== sous-titres : 3 mots max, chiffres en chiffres, blancs sur image / nuit, marine sur clair =====
@@ -314,9 +340,9 @@
           var nextLen = next ? next.w.split(" ").length : 0;
           if (punct || nwords >= 3 || nwords + nextLen > 3 || !next) { groups.push(cur); cur = []; }
         });
-        var DARK = [[5.56, 9.05], [11.85, 14.86], [19.24, 22.08], [40.09, 45.69], [52.61, 65.04]];
+        var DARK = [[5.56, 9.05], [11.85, 14.86], [19.24, 22.08], [40.09, 45.69], [52.61, 55.02], [58.22, 62.17]];
         groups.forEach(function (gp, k) {
-          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 69.83;
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 66.96;
           var dark = DARK.some(function (r) { return t0 >= r[0] - .01 && t0 < r[1] - .01; });
           var txt = gp.map(function (t) { return t.w; }).join(" ").replace(/\s+([?:!])/g, " $1");
           var d = div(st, "<span>" + txt + "</span>", "", dark ? "cap w" : "cap");
@@ -325,7 +351,7 @@
 
         // zone sûre Instagram / TikTok : contenu réduit à 82 % vers le centre utile (les fonds de #bgl restent plein cadre)
         st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
-        tl.set({}, {}, 69.83);
+        tl.set({}, {}, 66.96);
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
     </script>

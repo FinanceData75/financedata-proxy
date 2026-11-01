@@ -18,7 +18,7 @@ Pourquoi c'est important ? Pendant un an, Julie Sweet vendait ses actions. Aujou
 
 Ce n'est pas le geste de quelqu'un qui cherche une bonne affaire. C'est celui de quelqu'un qui pense que l'histoire n'est pas finie.
 
-Attention, ça ne garantit rien : l'action peut encore baisser. Mais quand un dirigeant passe de vendeur à acheteur, ça mérite votre attention.
+Quand un dirigeant passe de vendeur à acheteur, ça mérite votre attention. (« Attention, ça ne garantit rien : l'action peut encore baisser. Mais » coupé au montage, la mise en garde reste écrite à l'écran.)
 
 Et pour recevoir notre outil de suivi des achats d'initiés, commentez « PDG » et on vous l'enverra.
 
