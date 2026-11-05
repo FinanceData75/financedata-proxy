@@ -6,10 +6,10 @@ Framework : **PAS** (Problème → Agitation → Solution) avec une **boucle ouv
 ## Voix off
 
 **[Hook — Problème]**
-En une seule séance, les fabricants de puces ont perdu plus de 9 %. Et le Nasdaq vient officiellement d'entrer en correction.
+Vous avez un PEA, une assurance vie ou un plan épargne retraite ? Alors votre argent est probablement touché, même si vous n'avez jamais acheté une seule action américaine.
 
 **[Agitation]**
-Plus de 10 % de baisse depuis son record d'octobre. Le S&P 500 recule lui aussi, et l'indice de la peur, le VIX, s'envole.
+La Bourse américaine chute. Le Nasdaq a perdu plus de 10 % depuis son record d'octobre, et vient d'entrer en correction. En une seule séance, les fabricants de puces ont perdu plus de 9 %. Et l'indice de la peur, le VIX, s'envole.
 
 Alors, que se passe-t-il ? Il y a trois raisons. Et la dernière est la plus inquiétante.
 
@@ -29,13 +29,13 @@ Une correction n'est pas un krach. C'est souvent le moment où les meilleures en
 
 Pour comprendre les marchés simplement, abonnez-vous.
 
-(≈ 205 mots)
+(≈ 225 mots)
 
 ## Découpage (trame FinanceData)
 
 | # | Rôle | Texte | Durée | Visuel |
 |---|---|---|---|---|
-| 1 | Hook | « En une seule séance… correction » | ~5 s | fond blanc à foyer : logos Nvidia, AMD, Qualcomm, Arm qui tombent, « −9 % » géant en rouge, puis le Nasdaq qui plonge en aire rouge |
+| 1 | Hook | « Vous avez un PEA, une assurance vie… » | ~5 s | fond blanc à foyer : logos Nvidia, AMD, Qualcomm, Arm qui tombent, « −9 % » géant en rouge, puis le Nasdaq qui plonge en aire rouge |
 | 2 | Agitation | « Plus de 10 %… le VIX s'envole » | ~6 s | courbe du Nasdaq depuis le record d'octobre (aire rouge, « −10 % » annoté), puis le VIX qui bondit |
 | 3 | Boucle ouverte | « Trois raisons… la plus inquiétante » | ~4 s | trois cartes « 1 · 2 · ? », la 3e masquée (révélée plus tard) |
 | 4 | Raison 1 | « L'IA coûte de plus en plus cher… » | ~9 s | vraie vidéo de data center + logos Google, Amazon, Meta, chiffre des investissements |
@@ -49,6 +49,10 @@ Pour comprendre les marchés simplement, abonnez-vous.
 - Clôtures Yahoo Finance (au 05/11/2026, séance peut-être encore en cours lors du relevé) : Nasdaq Composite 25 736 → 24 625 (−4,3 % sur la séance, −10,8 % depuis son record du 06/10/2026) ; Nasdaq-100 −13,4 % depuis son record ; S&P 500 −3,2 % sur la séance, −4,8 % depuis son record ; indice des semi-conducteurs (SOX) −9,2 % sur la séance ; VIX 16,6 → 23,0
 - Causes : doutes sur la rentabilité des dépenses dans l'IA et les data centers ; victoire des démocrates aux élections de mi-mandat, avec des appels à encadrer l'IA et une opposition locale aux data centers ; résultats décevants de Qualcomm et d'Arm : [Reuters via Investing.com](https://www.investing.com/news/stock-market-news/nasdaq-falls-at-open-after-midtermsfueled-surge-as-chip-data-center-stocks-fall-5004890), [Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/nasdaq-falls-open-midterms-fueled-143711697.html), [Seeking Alpha](https://seekingalpha.com/news/4666706-ai-and-chip-stocks-slide-with-qualcomm-facing-worst-day-since-2020), [Investing.com](https://www.investing.com/news/stock-market-news/us-stock-index-futures-steady-after-midterms-rally-5001919), [BusinessDay](https://www.businessday.co.za/markets/2026-11-05-us-stocks-fall-sharply-as-nasdaq-heads-for-correction/)
 - « 13 fois depuis 1990 » : calcul FinanceData sur les clôtures du S&P 500 (Yahoo Finance), nombre de fois où l'indice est passé à plus de 10 % sous son dernier record ; chaque épisode s'est terminé par un nouveau record (1990, 1990, 1997, 1998, 1999, 2000, 2007, 2015, 2018, 2018, 2020, 2022, 2025)
+
+## Pourquoi cette intro
+- elle parle à tous les épargnants, pas seulement aux investisseurs en actions : la plupart des fonds actions et des ETF « Monde » vendus en France sont majoritairement investis en actions américaines (≈ 70 % pour un ETF MSCI World), y compris dans une assurance vie en unités de compte ou un plan épargne retraite ;
+- « probablement » reste vrai : un fonds en euros d'assurance vie, lui, n'est pas touché par la chute des actions.
 
 ## À vérifier avant de tourner
 - les variations de la séance du 5 novembre : relevées en cours de journée, à remplacer par les clôtures définitives (les articles donnent de −4 % à −5 % pour le Nasdaq et de −7 % à −11 % pour les semi-conducteurs selon l'heure)
