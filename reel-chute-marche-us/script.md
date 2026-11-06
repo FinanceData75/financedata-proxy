@@ -20,7 +20,7 @@ D'abord, l'intelligence artificielle coûte de plus en plus cher. Google, Amazon
 Ensuite, la politique. Les démocrates viennent de remporter le Congrès, et certains veulent encadrer l'IA et freiner la construction de data centers. Une mauvaise nouvelle pour tous ceux qui vendent des puces.
 
 **[Raison 3 — la boucle se referme]**
-Enfin, le plus inquiétant : les premières fissures dans les résultats. Qualcomm et Arm ont déçu, et ont perdu plus de 10 % chacun. Tant que les bénéfices montaient, le marché pardonnait tout. Plus maintenant.
+Enfin, le plus inquiétant : les premières fissures dans les résultats. Qualcomm et Arm ont déçu, et Arm a perdu 13 % en une séance. Tant que les bénéfices montaient, le marché pardonnait tout. Plus maintenant.
 
 **[Solution — le retournement]**
 Faut-il paniquer pour autant ? Depuis 1990, le S&P 500 a chuté de plus de 10 % sous son record treize fois. Et à chaque fois, il a fini par en battre un nouveau.
