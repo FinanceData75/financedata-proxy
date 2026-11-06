@@ -6,7 +6,7 @@ Framework : **PAS** (Problème → Agitation → Solution) avec une **boucle ouv
 ## Voix off
 
 **[Hook — Problème]**
-C'est historique : Wall Street vient de connaître la plus grosse perte en dollars de son histoire en une seule journée. Et si vous ne savez pas pourquoi, voici ce que vous devez retenir en 60 secondes.
+C'est historique : Wall Street vient de connaître la plus grosse chute de son histoire. Et si vous ne savez pas pourquoi, voici ce que vous devez retenir en 60 secondes.
 
 **[Agitation]**
 Le Nasdaq a perdu plus de 5 % en une séance, et plus de 10 % depuis son record d'octobre. Les fabricants de puces ont plongé de 12 %, leur pire jour depuis le krach du Covid. Et l'indice de la peur, le VIX, s'envole.
@@ -35,7 +35,7 @@ Pour comprendre les marchés simplement, abonnez-vous.
 
 | # | Rôle | Texte | Durée | Visuel |
 |---|---|---|---|---|
-| 1 | Hook | « C'est historique : Wall Street vient de connaître la plus grosse perte en dollars… 60 secondes » | ~6 s | fond blanc à foyer : tampon « Historique », la courbe du S&P 500 de jeudi qui plonge en aire rouge, compteur rouge « −2 900 Md$ » avec repère « Record », puis un chrono « 60 s » |
+| 1 | Hook | « C'est historique : Wall Street vient de connaître la plus grosse chute de son histoire… 60 secondes » | ~6 s | fond blanc à foyer : tampon « Historique », la courbe du S&P 500 de jeudi qui plonge en aire rouge, compteur rouge « −2 900 Md$ » avec repère « Record en dollars », puis un chrono « 60 s » |
 | 2 | Agitation | « Plus de 10 %… le VIX s'envole » | ~6 s | courbe du Nasdaq depuis le record d'octobre (aire rouge, « −10 % » annoté), puis le VIX qui bondit |
 | 3 | Boucle ouverte | « Trois raisons… la plus inquiétante » | ~4 s | trois cartes « 1 · 2 · ? », la 3e masquée (révélée plus tard) |
 | 4 | Raison 1 | « L'IA coûte de plus en plus cher… » | ~9 s | vraie vidéo de data center + logos Google, Amazon, Meta, chiffre des investissements |
@@ -55,7 +55,7 @@ Pour comprendre les marchés simplement, abonnez-vous.
 - « probablement » reste vrai : un fonds en euros d'assurance vie, lui, n'est pas touché par la chute des actions.
 
 ## À vérifier avant de tourner
-- « la plus grosse perte en dollars de son histoire » : record selon Dow Jones Market Data (repris par le WSJ et MarketWatch) : environ 2 900 milliards de dollars perdus par les sociétés du S&P 500 le 05/11/2026, contre environ 2 690 milliards le 16/03/2020. D'autres estimations vont de 2 300 à 3 200 milliards selon la mesure : garder « en dollars » et ne pas dire « pire journée de l'histoire » (en %, le 19/10/1987 a fait environ −20 % contre −4,36 %).
+- « la plus grosse perte en dollars de son histoire » : record selon Dow Jones Market Data (repris par le WSJ et MarketWatch) : environ 2 900 milliards de dollars perdus par les sociétés du S&P 500 le 05/11/2026, contre environ 2 690 milliards le 16/03/2020. D'autres estimations vont de 2 300 à 3 200 milliards selon la mesure : à l'oral « la plus grosse chute de son histoire » (choix validé) : l'écran précise « −2 900 Md$ · Record en dollars » pour que la phrase reste exacte ; ne pas dire « pire journée de l'histoire » en % (en %, le 19/10/1987 a fait environ −20 % contre −4,36 %).
 - « l'une de ses pires journées depuis des années » : vrai pour le Nasdaq et le S&P 500 (pires séances depuis avril 2025) ; **ce n'est pas le pire jour de l'histoire** (19 octobre 1987 : environ −20 % pour le S&P 500)
 - Qualcomm et Arm « plus de 10 % » : les sources donnent ≈ −9 % à −12 % pour Qualcomm et ≈ −11 % pour Arm, à confirmer à la clôture
 - « Google, Amazon, Meta… des centaines de milliards » : cohérent avec les prévisions publiées (Alphabet 195 à 205 Md$ en 2026), à garder au pluriel global
