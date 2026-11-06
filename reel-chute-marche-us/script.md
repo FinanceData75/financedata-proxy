@@ -6,10 +6,10 @@ Framework : **PAS** (Problème → Agitation → Solution) avec une **boucle ouv
 ## Voix off
 
 **[Hook — Problème]**
-Jeudi, votre épargne a peut-être pris une claque sans que vous le sachiez. La Bourse américaine a vécu l'une de ses pires journées depuis des années. Et vous saurez tout en 60 secondes.
+Plus de 2 000 milliards de dollars. Évaporés en une seule journée. Et votre épargne est sûrement dedans. Vous saurez tout en 60 secondes.
 
 **[Agitation]**
-Le Nasdaq a perdu plus de 5 % en une séance, et plus de 10 % depuis son record d'octobre. Les fabricants de puces ont plongé de 12 %, leur pire jour depuis le krach du Covid. Et l'indice de la peur, le VIX, s'envole.
+Jeudi, le Nasdaq a perdu plus de 5 % en une séance, et plus de 10 % depuis son record d'octobre. Les fabricants de puces ont plongé de 12 %, leur pire jour depuis le krach du Covid. Et l'indice de la peur, le VIX, s'envole.
 
 Alors, que se passe-t-il ? Il y a trois raisons. Et la dernière est la plus inquiétante.
 
@@ -35,7 +35,7 @@ Pour comprendre les marchés simplement, abonnez-vous.
 
 | # | Rôle | Texte | Durée | Visuel |
 |---|---|---|---|---|
-| 1 | Hook | « Jeudi, votre épargne a peut-être pris une claque… 60 secondes » | ~5 s | fond blanc à foyer : logos Nvidia, AMD, Qualcomm, Arm qui tombent, « −9 % » géant en rouge, puis le Nasdaq qui plonge en aire rouge |
+| 1 | Hook | « Plus de 2 000 milliards… 60 secondes » | ~5 s | fond blanc à foyer : compteur rouge géant « −2 000 Md$ » qui défile, la courbe du S&P 500 de jeudi qui plonge en aire rouge, puis un chrono « 60 s » |
 | 2 | Agitation | « Plus de 10 %… le VIX s'envole » | ~6 s | courbe du Nasdaq depuis le record d'octobre (aire rouge, « −10 % » annoté), puis le VIX qui bondit |
 | 3 | Boucle ouverte | « Trois raisons… la plus inquiétante » | ~4 s | trois cartes « 1 · 2 · ? », la 3e masquée (révélée plus tard) |
 | 4 | Raison 1 | « L'IA coûte de plus en plus cher… » | ~9 s | vraie vidéo de data center + logos Google, Amazon, Meta, chiffre des investissements |
@@ -55,6 +55,7 @@ Pour comprendre les marchés simplement, abonnez-vous.
 - « probablement » reste vrai : un fonds en euros d'assurance vie, lui, n'est pas touché par la chute des actions.
 
 ## À vérifier avant de tourner
+- « plus de 2 000 milliards en une seule journée » : estimation (S&P 500 −4,4 % le 05/11/2026, sur une capitalisation de l'ordre de 60 000 milliards de dollars ≈ 2 600 milliards) ; à recouper avec un chiffre publié (capitalisation du S&P 500 ou de l'ensemble du marché américain) avant de tourner
 - « l'une de ses pires journées depuis des années » : vrai pour le Nasdaq et le S&P 500 (pires séances depuis avril 2025) ; **ce n'est pas le pire jour de l'histoire** (19 octobre 1987 : environ −20 % pour le S&P 500)
 - Qualcomm et Arm « plus de 10 % » : les sources donnent ≈ −9 % à −12 % pour Qualcomm et ≈ −11 % pour Arm, à confirmer à la clôture
 - « Google, Amazon, Meta… des centaines de milliards » : cohérent avec les prévisions publiées (Alphabet 195 à 205 Md$ en 2026), à garder au pluriel global
