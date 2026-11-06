@@ -9,7 +9,7 @@ Framework : **PAS** (Problème → Agitation → Solution) avec une **boucle ouv
 C'est historique : Wall Street vient de connaître la plus grosse chute de son histoire. Et si vous ne savez pas pourquoi, voici ce que vous devez retenir en 60 secondes.
 
 **[Agitation]**
-Le Nasdaq a perdu plus de 5 % en une séance, et plus de 10 % depuis son record d'octobre. Les fabricants de puces ont plongé de 12 %, leur pire jour depuis le krach du Covid. Et l'indice de la peur, le VIX, s'envole.
+Le Nasdaq a perdu plus de 5 % en une séance, et plus de 10 % depuis son record d'octobre. Les fabricants de puces ont plongé de 12 %, leur pire jour depuis le krach du Covid. Et la peur commence à gagner tous les investisseurs.
 
 Alors, que se passe-t-il ? Il y a trois raisons. Et la dernière est la plus inquiétante.
 
@@ -36,7 +36,7 @@ Pour comprendre les marchés simplement, abonnez-vous.
 | # | Rôle | Texte | Durée | Visuel |
 |---|---|---|---|---|
 | 1 | Hook | « C'est historique : Wall Street vient de connaître la plus grosse chute de son histoire… 60 secondes » | ~6 s | fond blanc à foyer : tampon « Historique », la courbe du S&P 500 de jeudi qui plonge en aire rouge, compteur rouge « −2 900 Md$ » avec repère « Record en dollars », puis un chrono « 60 s » |
-| 2 | Agitation | « Plus de 10 %… le VIX s'envole » | ~6 s | courbe du Nasdaq depuis le record d'octobre (aire rouge, « −10 % » annoté), puis le VIX qui bondit |
+| 2 | Agitation | « Plus de 10 %… la peur commence à gagner tous les investisseurs » | ~6 s | courbe du Nasdaq depuis le record d'octobre (aire rouge, « −10 % » annoté), puis vraie vidéo de traders inquiets à la Bourse de New York |
 | 3 | Boucle ouverte | « Trois raisons… la plus inquiétante » | ~4 s | trois cartes « 1 · 2 · ? », la 3e masquée (révélée plus tard) |
 | 4 | Raison 1 | « L'IA coûte de plus en plus cher… » | ~9 s | vraie vidéo de data center + logos Google, Amazon, Meta, chiffre des investissements |
 | 5 | Raison 2 | « La politique… » | ~9 s | vraie image du Capitole + carte « Démocrates : Congrès », mots-clés « encadrer l'IA », « data centers » |
