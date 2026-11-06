@@ -6,10 +6,10 @@ Framework : **PAS** (Problème → Agitation → Solution) avec une **boucle ouv
 ## Voix off
 
 **[Hook — Problème]**
-Vous avez un PEA, une assurance vie ou un plan épargne retraite ? Alors votre argent est probablement touché, même si vous n'avez jamais acheté une seule action américaine.
+Jeudi, votre épargne a peut-être pris une claque sans que vous le sachiez. La Bourse américaine a vécu l'une de ses pires journées depuis des années. Et vous saurez tout en 60 secondes.
 
 **[Agitation]**
-La Bourse américaine chute. Le Nasdaq a perdu plus de 10 % depuis son record d'octobre, et vient d'entrer en correction. En une seule séance, les fabricants de puces ont perdu plus de 9 %. Et l'indice de la peur, le VIX, s'envole.
+Le Nasdaq a perdu plus de 5 % en une séance, et plus de 10 % depuis son record d'octobre. Les fabricants de puces ont plongé de 12 %, leur pire jour depuis le krach du Covid. Et l'indice de la peur, le VIX, s'envole.
 
 Alors, que se passe-t-il ? Il y a trois raisons. Et la dernière est la plus inquiétante.
 
@@ -35,7 +35,7 @@ Pour comprendre les marchés simplement, abonnez-vous.
 
 | # | Rôle | Texte | Durée | Visuel |
 |---|---|---|---|---|
-| 1 | Hook | « Vous avez un PEA, une assurance vie… » | ~5 s | fond blanc à foyer : logos Nvidia, AMD, Qualcomm, Arm qui tombent, « −9 % » géant en rouge, puis le Nasdaq qui plonge en aire rouge |
+| 1 | Hook | « Jeudi, votre épargne a peut-être pris une claque… 60 secondes » | ~5 s | fond blanc à foyer : logos Nvidia, AMD, Qualcomm, Arm qui tombent, « −9 % » géant en rouge, puis le Nasdaq qui plonge en aire rouge |
 | 2 | Agitation | « Plus de 10 %… le VIX s'envole » | ~6 s | courbe du Nasdaq depuis le record d'octobre (aire rouge, « −10 % » annoté), puis le VIX qui bondit |
 | 3 | Boucle ouverte | « Trois raisons… la plus inquiétante » | ~4 s | trois cartes « 1 · 2 · ? », la 3e masquée (révélée plus tard) |
 | 4 | Raison 1 | « L'IA coûte de plus en plus cher… » | ~9 s | vraie vidéo de data center + logos Google, Amazon, Meta, chiffre des investissements |
@@ -46,7 +46,7 @@ Pour comprendre les marchés simplement, abonnez-vous.
 | 9 | CTA | « Pour comprendre les marchés simplement, abonnez-vous. » | ~3 s | logo rond (anneau story), nom, bouton S'abonner |
 
 ## Chiffres et sources
-- Clôtures Yahoo Finance (au 05/11/2026, séance peut-être encore en cours lors du relevé) : Nasdaq Composite 25 736 → 24 625 (−4,3 % sur la séance, −10,8 % depuis son record du 06/10/2026) ; Nasdaq-100 −13,4 % depuis son record ; S&P 500 −3,2 % sur la séance, −4,8 % depuis son record ; indice des semi-conducteurs (SOX) −9,2 % sur la séance ; VIX 16,6 → 23,0
+- Clôtures définitives Yahoo Finance du jeudi 05/11/2026 : Nasdaq Composite −5,5 % (pire séance depuis le 04/04/2025), −11,9 % depuis son record du 06/10/2026 ; S&P 500 −4,4 % (pire séance depuis le 04/04/2025) ; semi-conducteurs (SOX) −12,3 %, pire séance depuis le 16/03/2020 (krach du Covid) ; VIX 16,6 → 23,0
 - Causes : doutes sur la rentabilité des dépenses dans l'IA et les data centers ; victoire des démocrates aux élections de mi-mandat, avec des appels à encadrer l'IA et une opposition locale aux data centers ; résultats décevants de Qualcomm et d'Arm : [Reuters via Investing.com](https://www.investing.com/news/stock-market-news/nasdaq-falls-at-open-after-midtermsfueled-surge-as-chip-data-center-stocks-fall-5004890), [Yahoo Finance](https://finance.yahoo.com/markets/stocks/articles/nasdaq-falls-open-midterms-fueled-143711697.html), [Seeking Alpha](https://seekingalpha.com/news/4666706-ai-and-chip-stocks-slide-with-qualcomm-facing-worst-day-since-2020), [Investing.com](https://www.investing.com/news/stock-market-news/us-stock-index-futures-steady-after-midterms-rally-5001919), [BusinessDay](https://www.businessday.co.za/markets/2026-11-05-us-stocks-fall-sharply-as-nasdaq-heads-for-correction/)
 - « 13 fois depuis 1990 » : calcul FinanceData sur les clôtures du S&P 500 (Yahoo Finance), nombre de fois où l'indice est passé à plus de 10 % sous son dernier record ; chaque épisode s'est terminé par un nouveau record (1990, 1990, 1997, 1998, 1999, 2000, 2007, 2015, 2018, 2018, 2020, 2022, 2025)
 
@@ -55,6 +55,6 @@ Pour comprendre les marchés simplement, abonnez-vous.
 - « probablement » reste vrai : un fonds en euros d'assurance vie, lui, n'est pas touché par la chute des actions.
 
 ## À vérifier avant de tourner
-- les variations de la séance du 5 novembre : relevées en cours de journée, à remplacer par les clôtures définitives (les articles donnent de −4 % à −5 % pour le Nasdaq et de −7 % à −11 % pour les semi-conducteurs selon l'heure)
+- « l'une de ses pires journées depuis des années » : vrai pour le Nasdaq et le S&P 500 (pires séances depuis avril 2025) ; **ce n'est pas le pire jour de l'histoire** (19 octobre 1987 : environ −20 % pour le S&P 500)
 - Qualcomm et Arm « plus de 10 % » : les sources donnent ≈ −9 % à −12 % pour Qualcomm et ≈ −11 % pour Arm, à confirmer à la clôture
 - « Google, Amazon, Meta… des centaines de milliards » : cohérent avec les prévisions publiées (Alphabet 195 à 205 Md$ en 2026), à garder au pluriel global
