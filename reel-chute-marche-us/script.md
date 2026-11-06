@@ -17,7 +17,7 @@ Alors, que se passe-t-il ? Il y a trois raisons. Et la dernière est la plus inq
 D'abord, l'intelligence artificielle coûte de plus en plus cher. Google, Amazon, Meta dépensent des centaines de milliards dans les data centers. Et les investisseurs commencent à douter que ça rapporte assez.
 
 **[Raison 2]**
-Ensuite, la politique. Les démocrates viennent de remporter le Congrès, et certains veulent encadrer l'IA et freiner la construction de data centers. Une mauvaise nouvelle pour tous ceux qui vendent des puces.
+Ensuite, la politique. Les démocrates viennent de remporter le Congrès, et certains veulent encadrer l'IA et freiner la construction de data centers.
 
 **[Raison 3 — la boucle se referme]**
 Enfin, le plus inquiétant : les premières fissures dans les résultats. Qualcomm et Arm ont déçu, et Arm a perdu 13 % en une séance. Tant que les bénéfices montaient, le marché pardonnait tout. Plus maintenant.
