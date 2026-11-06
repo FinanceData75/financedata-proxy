@@ -6,10 +6,10 @@ Framework : **PAS** (Problème → Agitation → Solution) avec une **boucle ouv
 ## Voix off
 
 **[Hook — Problème]**
-Plus de 2 000 milliards de dollars. Évaporés en une seule journée. Et votre épargne est sûrement dedans. Vous saurez tout en 60 secondes.
+Jeudi, la Bourse américaine a perdu plus de 2 000 milliards de dollars en une seule journée. Et il y a de fortes chances que votre épargne soit touchée. On vous explique tout en 60 secondes.
 
 **[Agitation]**
-Jeudi, le Nasdaq a perdu plus de 5 % en une séance, et plus de 10 % depuis son record d'octobre. Les fabricants de puces ont plongé de 12 %, leur pire jour depuis le krach du Covid. Et l'indice de la peur, le VIX, s'envole.
+Le Nasdaq a perdu plus de 5 % en une séance, et plus de 10 % depuis son record d'octobre. Les fabricants de puces ont plongé de 12 %, leur pire jour depuis le krach du Covid. Et l'indice de la peur, le VIX, s'envole.
 
 Alors, que se passe-t-il ? Il y a trois raisons. Et la dernière est la plus inquiétante.
 
@@ -35,7 +35,7 @@ Pour comprendre les marchés simplement, abonnez-vous.
 
 | # | Rôle | Texte | Durée | Visuel |
 |---|---|---|---|---|
-| 1 | Hook | « Plus de 2 000 milliards… 60 secondes » | ~5 s | fond blanc à foyer : compteur rouge géant « −2 000 Md$ » qui défile, la courbe du S&P 500 de jeudi qui plonge en aire rouge, puis un chrono « 60 s » |
+| 1 | Hook | « Jeudi, la Bourse américaine a perdu plus de 2 000 milliards… 60 secondes » | ~5 s | fond blanc à foyer : compteur rouge géant « −2 000 Md$ » qui défile, la courbe du S&P 500 de jeudi qui plonge en aire rouge, puis un chrono « 60 s » |
 | 2 | Agitation | « Plus de 10 %… le VIX s'envole » | ~6 s | courbe du Nasdaq depuis le record d'octobre (aire rouge, « −10 % » annoté), puis le VIX qui bondit |
 | 3 | Boucle ouverte | « Trois raisons… la plus inquiétante » | ~4 s | trois cartes « 1 · 2 · ? », la 3e masquée (révélée plus tard) |
 | 4 | Raison 1 | « L'IA coûte de plus en plus cher… » | ~9 s | vraie vidéo de data center + logos Google, Amazon, Meta, chiffre des investissements |
