@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/cours.js"></script>
+    <script src="assets/logos.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <style>
+      /* Reel « La plus grosse chute de l'histoire de Wall Street : pourquoi ? » (71,25 s), trame FinanceData (styles/financedata/TRAME.md).
+         Une seule couleur par écran pour le point clé, vraies vidéos, cartes blanches à angles droits,
+         contenu réduit à 82 % pour la zone sûre Instagram / TikTok, sous-titres 3 mots max calés sur la voix. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
+      .cap { position: absolute; left: 0; right: 0; top: 1360px; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
+      .cap.w span { color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.45); }
+      .ttl { position: absolute; left: 96px; top: 286px; font-weight: 700; font-size: 72px; letter-spacing: -.055em; line-height: 1; }
+      .src { position: absolute; left: 96px; font-size: 28px; font-weight: 500; color: #6b7290; letter-spacing: -.02em; }
+      .card { position: absolute; background: #fff; border-radius: 4px; box-shadow: 0 18px 50px rgba(0,11,34,.3); }
+      .tile { position: absolute; left: 96px; width: 888px; height: 210px; border-radius: 4px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); color: #fff; }
+      .lbl { position: absolute; left: 44px; top: 40px; font-size: 34px; font-weight: 700; color: rgba(255,255,255,.55); letter-spacing: -.02em; }
+      .big { position: absolute; left: 44px; top: 92px; font-size: 80px; font-weight: 700; letter-spacing: -.055em; line-height: 1; }
+      .pill { position: absolute; padding: 12px 24px; color: #fff; font-size: 44px; font-weight: 700; letter-spacing: -.03em; border-radius: 3px; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="71.25" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="71.25" data-track-index="1"></audio>
+      <video id="v-nyse" class="clip" src="assets/video/nyse.mp4" data-start="4.28" data-duration="3.86" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-tr" class="clip" src="assets/video/trader.mp4" data-start="18.45" data-duration="2.67" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-dc" class="clip" src="assets/video/datacenter.mp4" data-start="25.40" data-duration="3.62" data-track-index="5" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-cap" class="clip" src="assets/video/capitole.mp4" data-start="36.08" data-duration="7.27" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="bgl" class="clip" data-start="0" data-duration="71.25" data-track-index="4" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="71.25" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true });
+        var st = document.getElementById("stage"), bgl = document.getElementById("bgl"), END = 71.25;
+        var NAVY = "#0a105e", BLUE = "#3d5afe", RED = "#d9161e", GREEN = "#1f9d55", GRID = "#d5dae5", AX = "#6b7290", PALE = "#c5cad9";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+        function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
+        function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power2.inOut" }, t); }
+        function fadeIn(e, t, d, y) { tl.fromTo(e, { opacity: 0, y: y == null ? 16 : y }, { opacity: 1, y: 0, duration: d || .35, ease: "power3.out" }, t); return e; }
+        function pop(e, t) { tl.fromTo(e, { opacity: 0, scale: 1.3, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, t); return e; }
+        function count(e, t, d, v0, v1, f) { var o = { v: v0 }; tl.fromTo(o, { v: v0 }, { v: v1, duration: d, ease: "power3.out", onUpdate: function () { e.textContent = f(o.v); } }, t); }
+        var FOCAL = "radial-gradient(ellipse 75% 55% at 50% 44%, #ffffff 0%, #f2f3f7 50%, #c3c7d2 100%)", LIGHT = "#eef1f5", NIGHT = "#000b22";
+        function scene(t0, t1, bg) {
+          var s = div(st, "", "", "sc"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1);
+          if (bg) { var b = div(bgl, "", "background:" + bg, "full"); tl.set(b, { opacity: 1 }, t0); tl.set(b, { opacity: 0 }, t1); }
+          return s;
+        }
+        // vraie vidéo plein cadre : lente poussée, voile bleu nuit en bas pour les sous-titres
+        function vscene(id, t0, t1, veil) {
+          var s = scene(t0, t1, null);
+          var v = div(bgl, "", "background:" + (veil || "linear-gradient(180deg, rgba(0,11,34,.15) 0%, rgba(0,11,34,.2) 45%, rgba(0,11,34,.72) 100%)"), "full");
+          tl.set(v, { opacity: 1 }, t0); tl.set(v, { opacity: 0 }, t1);
+          tl.fromTo(id, { scale: 1 }, { scale: 1.08, duration: t1 - t0, ease: "none" }, t0);
+          return s;
+        }
+        function logo(k, size) {
+          if (k === "google") return "<img src='assets/img/google-g.svg' style='width:" + size + "px; height:" + size + "px; display:block; flex:none'>";
+          var c = { amazon: "#ff9900", meta: "#0467df", qualcomm: "#3253dc", arm: "#0091bd" }[k];
+          return "<svg width='" + size + "' height='" + size + "' viewBox='0 0 24 24' style='display:block; position:static; flex:none'><path d='" + window.LOGOS[k] + "' fill='" + c + "'/></svg>";
+        }
+
+        // ---- graphique « The Economist version FinanceData » : zone de tracé séparée de la gouttière des valeurs, aire rouge pour une baisse, verte pour une hausse ----
+        function chart(p, o) {
+          var S = o.S, n = S.length, W = 888, PW = 760, H = o.H, unit = o.unit == null ? "" : o.unit;
+          var g = svg(p, 96, o.top, W, H + 70);
+          var tr = o.log ? Math.log : function (v) { return v; };
+          var X = function (i) { return i / (n - 1) * PW; }, Y = function (v) { return H - (tr(v) - tr(o.ymin)) / (tr(o.ymax) - tr(o.ymin)) * H; };
+          var axis = [];
+          o.ticks.forEach(function (v) { axis.push(el(g, "line", { x1: 0, x2: W, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 })); axis.push(T(g, W, Y(v) - 12, fr(v, 0) + unit, 30, AX, 500, "end")); });
+          axis.push(el(g, "line", { x1: 0, x2: W, y1: H, y2: H, stroke: NAVY, "stroke-width": 3 }));
+          o.xt.forEach(function (m) { var x = X(o.ix(m[0])); axis.push(el(g, "line", { x1: x, x2: x, y1: H, y2: H + 14, stroke: NAVY, "stroke-width": 3 })); axis.push(T(g, x + 8, H + 50, m[1], 30, AX, 500)); });
+          tl.fromTo(axis, { opacity: 0 }, { opacity: 1, duration: .3 }, o.t);
+          var pth = ""; for (var i = 0; i < n; i++) pth += (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(S[i][1]).toFixed(1);
+          var gid = "ar" + (++chart.k), defs = el(g, "defs", {}), lg = el(defs, "linearGradient", { id: gid, x1: 0, y1: 0, x2: 0, y2: 1 });
+          el(lg, "stop", { offset: 0, "stop-color": o.area, "stop-opacity": .32 }); el(lg, "stop", { offset: 1, "stop-color": o.area, "stop-opacity": 0 });
+          var ar = el(g, "path", { d: "M0 " + H + " " + pth.replace(/^M/, "L") + " L" + X(n - 1) + " " + H + " Z", fill: "url(#" + gid + ")" });
+          tl.fromTo(ar, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: o.dur, ease: o.ease || "none" }, o.t + .05);
+          var line = el(g, "path", { d: pth, fill: "none", stroke: o.area, "stroke-width": 5, "stroke-linejoin": "round", "stroke-linecap": "round" });
+          draw(line, o.t + .05, o.dur, o.ease || "none");
+          return { g: g, S: S, X: X, Y: Y, H: H, PW: PW, i: o.ix };
+        }
+        chart.k = 0;
+        function byDate(S) { return function (d) { for (var i = 0; i < S.length; i++) if (S[i][0] >= d) return i; return S.length - 1; }; }
+        function note(c, x, y, str, color, anchor, size, w) { return T(c.g, x, y, str, size || 36, color || NAVY, w || 700, anchor || "start"); }
+        function dot(c, i, color, r) { return el(c.g, "circle", { cx: c.X(i), cy: c.Y(c.S[i][1]), r: r || 12, fill: color, stroke: "#fff", "stroke-width": 4 }); }
+        var MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+
+        // ===== 1. Hook (0 → 2,35) : fond blanc à foyer, juste le graphique du S&P 500 jeudi, « Historique » =====
+        (function () {
+          var s = scene(0, 2.35, FOCAL), S = window.COURS.SPXI;
+          div(s, "S&P 500", "", "ttl");
+          div(s, "Jeudi 5 novembre 2026", "left:96px; top:376px; font-size:38px; font-weight:600; color:#6b7290; letter-spacing:-.02em");
+          var c = chart(s, { S: S, ix: function (h) { for (var i = 0; i < S.length; i++) if (S[i][0] >= h) return i; return S.length - 1; }, top: 560, H: 600, ymin: 7300, ymax: 7750, ticks: [7400, 7500, 7600, 7700], xt: [["09:30", "9 h 30"], ["12:00", "12 h"], ["14:30", "14 h 30"]], t: 0, dur: 1.7, area: RED, ease: "power1.in" });
+          var ld = dot(c, S.length - 1, RED); tl.fromTo(ld, { opacity: 0 }, { opacity: 1, duration: .15 }, 1.75);
+          var pc = note(c, c.PW - 10, c.Y(7700), "−4,4 %", RED, "end", 72); tl.fromTo(pc, { opacity: 0 }, { opacity: 1, duration: .2 }, 1.75);
+          pop(div(s, "Historique", "left:96px; top:448px; background:" + RED, "pill"), .44);
+          fadeIn(div(s, "Cours toutes les 5 minutes, en points · Source : Yahoo Finance", "top:1262px", "src"), .1, .2, 0);
+        })();
+
+        // ===== 2. La plus grosse chute de son histoire, en dollars (2,35 → 4,28) =====
+        (function () {
+          var s = scene(2.35, 4.28, FOCAL);
+          div(s, "S&P 500 · valeur en Bourse perdue en une séance", "left:96px; top:420px; font-size:40px; font-weight:700; letter-spacing:-.04em; color:#6b7290");
+          var n = div(s, "−0 Md$", "left:88px; top:500px; font-size:190px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + RED + "; font-feature-settings:'tnum' 1");
+          tl.fromTo(n, { opacity: 0, scale: 1.15, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "power3.out" }, 2.4);
+          count(n, 2.4, 1.0, 0, 2900, function (v) { return "−" + fr(Math.round(v / 10) * 10, 0) + " Md$"; });
+          pop(div(s, "Record en dollars", "left:96px; top:740px; background:" + RED, "pill"), 3.15);
+          fadeIn(div(s, "Ancien record : −2 690 Md$, le 16 mars 2020", "left:96px; top:860px; font-size:40px; font-weight:600; letter-spacing:-.03em; color:#0a105e"), 3.55, .3, 10);
+          fadeIn(div(s, "5 novembre 2026, en milliards de dollars · Source : Dow Jones Market Data", "top:1262px", "src"), 2.45, .2, 0);
+        })();
+
+        // ===== 3. « Voici ce que vous devez retenir en 60 secondes » (4,28 → 8,14) : vraie vidéo de la Bourse de New York =====
+        (function () {
+          var s = vscene("#v-nyse", 4.28, 8.14);
+          var card = div(s, "<svg width='150' height='150' viewBox='0 0 150 150' style='position:absolute; left:40px; top:40px'><circle cx='75' cy='75' r='62' fill='none' stroke='#d5dae5' stroke-width='12'/><circle class='rg' cx='75' cy='75' r='62' fill='none' stroke='" + BLUE + "' stroke-width='12' stroke-linecap='butt' transform='rotate(-90 75 75)'/></svg><div style='position:absolute; left:220px; top:44px; font-size:34px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Tout comprendre en</div><div style='position:absolute; left:216px; top:88px; font-size:96px; font-weight:700; letter-spacing:-.06em; line-height:1'>60 s</div>", "left:200px; top:560px; width:680px; height:230px", "card");
+          fadeIn(card, 6.6, .4, 30);
+          var rg = card.querySelector(".rg"), L = 2 * Math.PI * 62; rg.style.strokeDasharray = L + " " + L;
+          tl.fromTo(rg, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" }, 7.0);
+        })();
+
+        // ===== 4. Le Nasdaq : −5,5 % en une séance, −11,9 % depuis son record (8,14 → 13,82) =====
+        (function () {
+          var s = scene(8.14, 13.82, LIGHT), S = window.COURS.IXIC, ix = byDate(S);
+          div(s, "Nasdaq", "", "ttl");
+          var c = chart(s, { S: S, ix: ix, top: 440, H: 700, ymin: 19000, ymax: 28500, ticks: [20000, 22000, 24000, 26000, 28000], xt: [["2026-06-01", "juin"], ["2026-07-01", "juil."], ["2026-08-01", "août"], ["2026-09-01", "sept."], ["2026-10-01", "oct."], ["2026-11-02", "nov."]], t: 8.15, dur: 1.2, area: RED });
+          var n = S.length, last = S[n - 1][1], prev = S[n - 2][1];
+          var ld = dot(c, n - 1, RED); tl.fromTo(ld, { opacity: 0 }, { opacity: 1, duration: .15 }, 9.3);
+          var a1 = note(c, c.X(n - 1) - 24, c.Y(last) + 64, "−" + fr((prev - last) / prev * 100, 1) + " % en une séance", RED, "end", 40);
+          tl.fromTo(a1, { opacity: 0 }, { opacity: 1, duration: .2 }, 9.58); tl.to(a1, { opacity: 0, duration: .15 }, 11.6);
+          var ip = 0; S.forEach(function (r, k) { if (r[1] > S[ip][1]) ip = k; });
+          var pd = el(c.g, "circle", { cx: c.X(ip), cy: c.Y(S[ip][1]), r: 10, fill: LIGHT, stroke: NAVY, "stroke-width": 4 });
+          var pt = note(c, c.X(ip) - 18, c.Y(S[ip][1]) - 24, "Record : 6 oct.", NAVY, "end", 32);
+          var br = el(c.g, "path", { d: "M" + c.X(ip) + " " + c.Y(S[ip][1]) + " H" + (c.PW + 20) + " V" + c.Y(last), fill: "none", stroke: RED, "stroke-width": 3, "stroke-dasharray": "10 8" });
+          var a2 = note(c, 20, c.Y(20200), "−" + fr((S[ip][1] - last) / S[ip][1] * 100, 1) + " % depuis le record", RED, "start", 44);
+          tl.fromTo([pd, pt], { opacity: 0 }, { opacity: 1, duration: .2 }, 11.62); tl.fromTo([br, a2], { opacity: 0 }, { opacity: 1, duration: .25 }, 11.86);
+          fadeIn(div(s, "Nasdaq Composite, clôtures en points · Source : Yahoo Finance", "top:1262px", "src"), 8.2, .3, 0);
+        })();
+
+        // ===== 5. Les puces : −12,3 %, pire jour depuis le krach du Covid (13,82 → 18,45) =====
+        (function () {
+          var s = scene(13.82, 18.45, LIGHT), S = window.COURS.SOXR, n = S.length, W = 888, PW = 760, H = 700, ymin = -17, ymax = 12;
+          div(s, "Semi-conducteurs", "", "ttl");
+          var g = svg(s, 96, 440, W, H + 70), X = function (i) { return i / (n - 1) * PW; }, Y = function (v) { return (ymax - v) / (ymax - ymin) * H; };
+          var axis = [];
+          [-15, -10, -5, 5, 10].forEach(function (v) { axis.push(el(g, "line", { x1: 0, x2: W, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 })); axis.push(T(g, W, Y(v) - 12, (v > 0 ? "+" : "−") + Math.abs(v) + " %", 30, AX, 500, "end")); });
+          axis.push(el(g, "line", { x1: 0, x2: W, y1: Y(0), y2: Y(0), stroke: NAVY, "stroke-width": 3 }));
+          var ix = byDate(S);
+          [["2020-01-02", "2020"], ["2022-01-03", "2022"], ["2024-01-02", "2024"], ["2026-01-02", "2026"]].forEach(function (m) { var x = X(ix(m[0])); axis.push(el(g, "line", { x1: x, x2: x, y1: H, y2: H + 14, stroke: NAVY, "stroke-width": 3 })); axis.push(T(g, x + 8, H + 50, m[1], 30, AX, 500)); });
+          axis.push(el(g, "line", { x1: 0, x2: W, y1: H, y2: H, stroke: GRID, "stroke-width": 2 }));
+          tl.fromTo(axis, { opacity: 0 }, { opacity: 1, duration: .3 }, 13.85);
+          var d = ""; for (var i = 0; i < n; i++) d += "M" + X(i).toFixed(2) + " " + Y(0).toFixed(1) + "V" + Y(Math.max(ymin, Math.min(ymax - .5, S[i][1]))).toFixed(1);
+          var bars = el(g, "path", { d: d, stroke: PALE, "stroke-width": 1.2, fill: "none" });
+          tl.fromTo(bars, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.2, ease: "none" }, 13.9);
+          var i5 = ix("2026-11-05"), i0 = ix("2020-03-16");
+          var lvl = el(g, "line", { x1: 0, x2: X(i5), y1: Y(S[i5][1]), y2: Y(S[i5][1]), stroke: RED, "stroke-width": 3, "stroke-dasharray": "10 8" });
+          var rb = el(g, "rect", { x: X(i5) - 4, y: Y(0), width: 8, height: Y(S[i5][1]) - Y(0), fill: RED });
+          var rl = T(g, X(i5) - 22, Y(S[i5][1]) - 16, "5 nov. : −" + fr(-S[i5][1], 1) + " %", 40, RED, 700, "end");
+          tl.fromTo(rb, { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: .4, ease: "power3.out" }, 15.46);
+          tl.fromTo(rl, { opacity: 0 }, { opacity: 1, duration: .2 }, 15.6);
+          var cb = el(g, "rect", { x: X(i0) - 3, y: Y(0), width: 6, height: Y(S[i0][1]) - Y(0), fill: NAVY });
+          var cl = T(g, X(i0) + 18, Y(S[i0][1]) + 12, "Krach du Covid : −" + fr(-S[i0][1], 1) + " %", 34, NAVY, 700, "start");
+          tl.fromTo([lvl, cb, cl], { opacity: 0 }, { opacity: 1, duration: .3 }, 17.42);
+          fadeIn(div(s, "Indice SOX, variation de chaque séance depuis 2020 · Source : Yahoo Finance", "top:1262px", "src"), 13.9, .3, 0);
+        })();
+
+        // ===== 6. « Et la peur commence à gagner tous les investisseurs » (18,45 → 21,12) : vraie vidéo =====
+        vscene("#v-tr", 18.45, 21.12);
+
+        // ===== 7. Trois raisons, la dernière masquée (21,12 → 25,40) : bleu nuit =====
+        function tiles(s, t0, names, lit, tReveal) {
+          var T3 = [];
+          [0, 1, 2].forEach(function (k) {
+            var t = div(s, "<div class='lbl'>Raison " + (k + 1) + "</div><div class='big'>" + (names[k] || "?") + "</div>", "top:" + (470 + k * 250) + "px", "tile");
+            T3.push(t);
+          });
+          return T3;
+        }
+        (function () {
+          var s = scene(21.12, 25.40, NIGHT), T3 = tiles(s, 21.12, []);
+          T3.forEach(function (t, k) { fadeIn(t, 22.77 + k * .14, .35, 30); });
+          tl.to(T3[2], { backgroundColor: "rgba(61,90,254,.28)", boxShadow: "inset 0 0 0 3px " + BLUE, duration: .3 }, 23.61);
+          tl.fromTo(T3[2].lastChild, { scale: 1 }, { scale: 1.12, transformOrigin: "0% 50%", duration: .25, yoyo: true, repeat: 1 }, 24.69);
+        })();
+
+        // ===== 8. Raison 1 : l'IA coûte de plus en plus cher (25,40 → 29,02) : vraie vidéo de data center =====
+        (function () {
+          var s = vscene("#v-dc", 25.40, 29.02);
+          var b = div(bgl, "", "background:rgba(61,90,254,.16); mix-blend-mode:multiply", "full"); tl.set(b, { opacity: 1 }, 25.40); tl.set(b, { opacity: 0 }, 29.02);
+          var card = div(s, "<div style='position:absolute; left:44px; top:36px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Raison 1</div><div style='position:absolute; left:44px; top:80px; font-size:64px; font-weight:700; letter-spacing:-.055em; line-height:1'>Le coût de l'IA</div>", "left:96px; top:1010px; width:620px; height:180px", "card");
+          var bar = div(card, "", "left:0; top:0; width:10px; height:180px; background:" + RED);
+          fadeIn(card, 25.5, .4, 30); tl.fromTo(bar, { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: .3 }, 28.48);
+        })();
+
+        // ===== 9. Google, Amazon, Meta : les investissements prévus en 2026 (29,02 → 36,08) =====
+        (function () {
+          var s = scene(29.02, 36.08, LIGHT);
+          div(s, "Investissements en 2026", "", "ttl");
+          var X0 = 96, PX = 760 / 250, rows = [["amazon", "Amazon", 220, 29.42], ["google", "Alphabet", 200, 29.02], ["meta", "Meta", 140, 30.06]];
+          var grid = [];
+          [0, 100, 200].forEach(function (v) { grid.push(div(s, "", "left:" + (X0 + v * PX - (v ? 1 : 1.5)) + "px; top:460px; width:" + (v ? 2 : 3) + "px; height:590px; background:" + (v ? GRID : NAVY))); grid.push(div(s, String(v), "left:" + (X0 + v * PX - 40) + "px; top:1062px; width:80px; text-align:center; font-size:28px; font-weight:500; color:" + AX)); });
+          tl.fromTo(grid, { opacity: 0 }, { opacity: 1, duration: .3 }, 29.05);
+          rows.forEach(function (r, k) {
+            var top = 480 + k * 190;
+            var l = div(s, logo(r[0], 46) + "<span>" + r[1] + "</span>", "left:" + (X0 + 20) + "px; top:" + top + "px; display:flex; align-items:center; gap:16px; font-size:40px; font-weight:700; letter-spacing:-.045em");
+            var b = div(s, "", "left:" + X0 + "px; top:" + (top + 64) + "px; width:" + (r[2] * PX) + "px; height:96px; background:" + PALE);
+            var v = div(s, "≈ " + r[2], "left:" + (X0 + r[2] * PX + 20) + "px; top:" + (top + 82) + "px; font-size:52px; font-weight:700; letter-spacing:-.045em; font-feature-settings:'tnum' 1");
+            fadeIn(l, r[3], .25, 8);
+            tl.fromTo(b, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .6, ease: "power3.out" }, r[3] + .05);
+            tl.fromTo(v, { opacity: 0 }, { opacity: 1, duration: .2 }, r[3] + .45);
+          });
+          var tot = div(s, "≈ 560 Md$ à eux trois", "left:96px; top:1130px; font-size:56px; font-weight:700; letter-spacing:-.05em");
+          fadeIn(tot, 31.18, .3, 12);
+          pop(div(s, "Rentable ?", "left:690px; top:1124px; background:" + BLUE, "pill"), 34.74);
+          fadeIn(div(s, "Milieu des fourchettes annoncées, en milliards de dollars · Sources : Amazon, Alphabet, Meta", "top:1222px; width:888px", "src"), 29.1, .3, 0);
+        })();
+
+        // ===== 10. Raison 2 : la politique (36,08 → 43,35) : vraie vidéo du Capitole =====
+        (function () {
+          var s = vscene("#v-cap", 36.08, 43.35);
+          var c1 = div(s, "<div style='position:absolute; left:44px; top:36px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Raison 2</div><div style='position:absolute; left:44px; top:80px; font-size:64px; font-weight:700; letter-spacing:-.055em; line-height:1'>La politique</div>", "left:96px; top:330px; width:520px; height:180px", "card");
+          fadeIn(c1, 36.15, .4, 30);
+          var c2 = div(s, "<div style='position:absolute; left:44px; top:32px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Congrès américain</div><div style='position:absolute; left:44px; top:76px; font-size:56px; font-weight:700; letter-spacing:-.05em; line-height:1'>Victoire des démocrates</div>", "left:96px; top:540px; width:720px; height:164px", "card");
+          fadeIn(c2, 37.6, .4, 30);
+          var k1 = div(s, "Encadrer l'IA", "left:96px; top:1020px; background:#fff; color:" + NAVY + "; box-shadow:0 18px 50px rgba(0,11,34,.3)", "pill");
+          var k2 = div(s, "Freiner les data centers", "left:96px; top:1120px; background:" + RED + "; box-shadow:0 18px 50px rgba(0,11,34,.3)", "pill");
+          pop(k1, 40.37); pop(k2, 41.41);
+        })();
+
+        // ===== 11. Enfin, la raison 3 se révèle : les résultats (43,35 → 46,89) =====
+        (function () {
+          var s = scene(43.35, 46.89, NIGHT), T3 = tiles(s, 43.35, ["Le coût de l'IA", "La politique", "?"]);
+          tl.set([T3[0], T3[1]], { opacity: .45 }, 43.35);
+          tl.set(T3[2], { backgroundColor: "rgba(61,90,254,.28)", boxShadow: "inset 0 0 0 3px " + BLUE }, 43.35);
+          tl.fromTo(T3[2], { scale: .96 }, { scale: 1, duration: .35, ease: "back.out(2)" }, 43.4);
+          var q = T3[2].lastChild, r = div(T3[2], "Les résultats", "opacity:0", "big");
+          tl.to(q, { opacity: 0, y: -20, duration: .15 }, 45.5);
+          tl.fromTo(r, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .25, ease: "power3.out" }, 45.63);
+        })();
+
+        // ===== 12. Qualcomm et Arm ont déçu (46,89 → 48,57) =====
+        (function () {
+          var s = scene(46.89, 48.57, FOCAL);
+          [["qualcomm", "Qualcomm", 46.89], ["arm", "Arm", 47.49]].forEach(function (r, k) {
+            var d = div(s, "<div style='display:flex; justify-content:center'>" + logo(r[0], 200) + "</div><div style='margin-top:24px; text-align:center; font-size:56px; font-weight:700; letter-spacing:-.05em'>" + r[1] + "</div>", "left:" + (96 + k * 464) + "px; top:560px; width:424px");
+            tl.fromTo(d, { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: .3, ease: "back.out(2)" }, r[2]);
+          });
+          pop(div(s, "Résultats décevants", "left:300px; top:940px; background:" + RED, "pill"), 48.09);
+        })();
+
+        // ===== 13. Arm : −13 % en une séance (48,57 → 51,32) =====
+        (function () {
+          var s = scene(48.57, 51.32, LIGHT), S = window.COURS.ARM, ix = byDate(S), n = S.length;
+          div(s, logo("arm", 72) + "<span>Cours de l'action</span>", "display:flex; align-items:center; gap:22px", "ttl");
+          var c = chart(s, { S: S, ix: ix, top: 440, H: 700, ymin: 120, ymax: 350, ticks: [150, 200, 250, 300], unit: " $", xt: [["2026-08-03", "août"], ["2026-09-01", "sept."], ["2026-10-01", "oct."], ["2026-11-02", "nov."]], t: 48.6, dur: .9, area: RED });
+          var ld = dot(c, n - 1, RED); tl.fromTo(ld, { opacity: 0 }, { opacity: 1, duration: .15 }, 49.5);
+          var a = note(c, c.X(n - 1) - 24, c.Y(S[n - 1][1]) + 66, "−" + fr((S[n - 2][1] - S[n - 1][1]) / S[n - 2][1] * 100, 0) + " % en une séance", RED, "end", 44);
+          tl.fromTo(a, { opacity: 0 }, { opacity: 1, duration: .2 }, 49.53);
+          fadeIn(div(s, "Clôtures, en dollars · Source : Yahoo Finance", "top:1262px", "src"), 48.65, .3, 0);
+        })();
+
+        // ===== 14. « Le marché pardonnait tout. Plus maintenant. » (51,32 → 54,45) : bleu nuit =====
+        (function () {
+          var s = scene(51.32, 54.45, NIGHT);
+          fadeIn(div(s, "Le marché", "left:96px; top:600px; font-size:110px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff"), 52.69, .3, 20);
+          fadeIn(div(s, "pardonnait tout.", "left:96px; top:730px; font-size:110px; font-weight:700; letter-spacing:-.06em; line-height:1; color:rgba(255,255,255,.55)"), 53.21, .3, 20);
+          var b = div(s, "Plus maintenant.", "left:96px; top:900px; padding:10px 26px; background:" + RED + "; color:#fff; font-size:96px; font-weight:700; letter-spacing:-.06em; line-height:1; border-radius:3px");
+          pop(b, 53.87);
+          fadeIn(div(s, "Les bénéfices montaient…", "left:96px; top:470px; font-size:48px; font-weight:700; letter-spacing:-.04em; color:rgba(255,255,255,.55)"), 51.5, .3, 12);
+        })();
+
+        // ===== 15. Faut-il paniquer ? Le S&P 500 depuis 1990, treize corrections, toujours un nouveau record (54,45 → 63,93) =====
+        (function () {
+          var s = scene(54.45, 63.93, LIGHT), S = window.COURS.SPXW, ix = byDate(S), n = S.length;
+          div(s, "S&P 500 depuis 1990", "", "ttl");
+          var c = chart(s, { S: S, ix: ix, log: true, top: 440, H: 700, ymin: 250, ymax: 9500, ticks: [500, 1000, 2000, 4000, 8000], xt: [["1990-01-02", "1990"], ["2000-01-03", "2000"], ["2010-01-04", "2010"], ["2020-01-02", "2020"]], t: 54.5, dur: 1.6, area: GREEN, ease: "power1.inOut" });
+          var EP = [["1990-01-30", 322.98], ["1990-10-11", 295.46], ["1997-10-27", 876.99], ["1998-08-31", 957.28], ["1999-10-15", 1247.41], ["2002-10-09", 776.76], ["2009-03-09", 676.53], ["2016-02-11", 1829.08], ["2018-02-08", 2581.0], ["2018-12-24", 2351.1], ["2020-03-23", 2237.4], ["2022-10-12", 3577.03], ["2025-04-08", 4982.77]];
+          var cnt = note(c, 20, c.Y(5200), "0 correction de plus de 10 %", RED, "start", 40);
+          tl.fromTo(cnt, { opacity: 0 }, { opacity: 1, duration: .2 }, 58.56);
+          EP.forEach(function (e, k) {
+            var i = ix(e[0]), m = el(c.g, "circle", { cx: c.X(i), cy: c.Y(e[1]), r: 11, fill: RED, stroke: "#fff", "stroke-width": 3 });
+            var t = 58.56 + k * .17;
+            tl.fromTo(m, { opacity: 0, attr: { r: 2 } }, { opacity: 1, attr: { r: 11 }, duration: .2, ease: "back.out(3)" }, t);
+            tl.call(function () { var v = Math.min(13, Math.max(0, Math.round((tl.time() - 58.56) / .17) + 1)); cnt.textContent = v + (v > 1 ? " corrections" : " correction") + " de plus de 10 %"; }, null, t + .01);
+          });
+          tl.call(function () { cnt.textContent = tl.time() >= 60.6 ? "13 corrections de plus de 10 %" : cnt.textContent; }, null, 60.6);
+          var rec = note(c, 20, c.Y(5200) + 52, "Après chacune, un nouveau record", NAVY, "start", 40);
+          tl.fromTo(rec, { opacity: 0 }, { opacity: 1, duration: .25 }, 61.8);
+          var ld = dot(c, n - 1, GREEN); tl.fromTo(ld, { opacity: 0 }, { opacity: 1, duration: .15 }, 56.1);
+          fadeIn(div(s, "Clôtures hebdomadaires, échelle logarithmique · Calcul FinanceData d'après Yahoo Finance", "top:1262px; width:888px", "src"), 54.6, .3, 0);
+        })();
+
+        // ===== 16. Une correction n'est pas un krach (63,93 → 69,00) : bleu nuit =====
+        (function () {
+          var s = scene(63.93, 69.0, NIGHT);
+          fadeIn(div(s, "Une correction", "left:96px; top:520px; font-size:110px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff"), 64.0, .3, 20);
+          fadeIn(div(s, "n'est pas un krach.", "left:96px; top:650px; font-size:110px; font-weight:700; letter-spacing:-.06em; line-height:1; color:rgba(255,255,255,.55)"), 64.73, .3, 20);
+          fadeIn(div(s, "Les meilleures entreprises redeviennent", "left:96px; top:880px; font-size:52px; font-weight:700; letter-spacing:-.045em; color:#fff"), 66.83, .3, 14);
+          var b = div(s, "abordables", "left:96px; top:970px; padding:10px 26px; background:" + BLUE + "; color:#fff; font-size:96px; font-weight:700; letter-spacing:-.06em; line-height:1; border-radius:3px");
+          pop(b, 68.35);
+        })();
+
+        // ===== 17. CTA (69,00 → 71,25) =====
+        (function () {
+          var s = scene(69.0, END, LIGHT);
+          var lg = div(s, "<div class='ring' style='position:absolute; inset:0; border-radius:50%; background:conic-gradient(from 210deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75)'></div><div style='position:absolute; inset:9px; border-radius:50%; background:#eef1f5'></div><img src='assets/img/logo-financedata.png' style='position:absolute; inset:17px; width:calc(100% - 34px); height:calc(100% - 34px); display:block; border-radius:50%'>", "left:405px; top:610px; width:270px; height:270px");
+          var name = div(s, "FinanceData", "left:0; right:0; top:930px; text-align:center; font-size:96px; font-weight:700; letter-spacing:-.055em; line-height:1");
+          var btn = div(s, "<span class='b1' style='position:absolute; inset:0'>S'abonner</span><span class='b2' style='position:absolute; inset:0; opacity:0'>Abonné ✓</span>", "left:340px; top:1090px; width:400px; height:110px; border-radius:4px; background:" + BLUE + "; color:#fff; font-size:46px; font-weight:700; letter-spacing:-.03em; text-align:center; line-height:110px");
+          fadeIn(lg, 69.0, .4, 16); tl.fromTo(lg.querySelector(".ring"), { rotation: -90 }, { rotation: 0, duration: 1.2, ease: "power3.out" }, 69.0);
+          fadeIn(name, 69.12, .35, 16); fadeIn(btn, 69.26, .35, 16);
+          var tA = 70.76;
+          tl.to(btn, { scale: .95, duration: .1 }, tA); tl.to(btn, { scale: 1, duration: .25, ease: "power2.out" }, tA + .1);
+          tl.to(btn, { backgroundColor: "#d5dae5", color: "#0a105e", duration: .15 }, tA + .1);
+          tl.set(btn.querySelector(".b1"), { opacity: 0 }, tA + .12); tl.set(btn.querySelector(".b2"), { opacity: 1 }, tA + .12);
+        })();
+
+        // ===== sous-titres : 3 mots max, chiffres en chiffres, blancs sur image / nuit, marine sur clair, aucun sur le CTA =====
+        var W = window.VO.words.filter(function (w) { return w.s < 69.0; }), NUM = [
+          [["s", "and", "p", "cinq", "cents"], "S&P 500"], [["mille", "neuf", "cent", "quatre-vingt-dix"], "1990"],
+          [["soixante", "secondes"], "60 secondes"], [["cinq", "pour", "cent"], "5 %"], [["dix", "pour", "cent"], "10 %"],
+          [["douze", "pour", "cent"], "12 %"], [["treize", "pour", "cent"], "13 %"], [["treize", "fois"], "13 fois"]];
+        function norm(w) { return w.toLowerCase().replace(/[,.?:!]+$/, ""); }
+        var Tk = [];
+        for (var i = 0; i < W.length; i++) {
+          var done = false;
+          NUM.forEach(function (m) { if (done) return; var ok = m[0].every(function (w, j) { return W[i + j] && norm(W[i + j].w) === w; }); if (ok) { var lastW = W[i + m[0].length - 1].w, p = (lastW.match(/[,.?:!]+$/) || [""])[0]; Tk.push({ w: m[1] + p, s: W[i].s, e: W[i + m[0].length - 1].e }); i += m[0].length - 1; done = true; } });
+          if (!done) Tk.push({ w: W[i].w, s: W[i].s, e: W[i].e });
+        }
+        Tk.forEach(function (t) { if (/^(passe-t-il|autant)$/.test(t.w)) t.w += " ?"; });
+        var groups = [], cur = [];
+        Tk.forEach(function (t, k) {
+          cur.push(t);
+          var nwords = cur.reduce(function (a, b) { return a + b.w.split(" ").length; }, 0);
+          var punct = /[,.?:!]$/.test(t.w), next = Tk[k + 1];
+          var nextLen = next ? next.w.split(" ").length : 0;
+          if (punct || nwords >= 3 || nwords + nextLen > 3 || !next) { groups.push(cur); cur = []; }
+        });
+        var DARK = [[4.28, 8.14], [18.45, 29.02], [36.08, 46.89], [51.32, 54.45], [63.93, 69.0]];
+        groups.forEach(function (gp, k) {
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 69.0;
+          if (t1 - t0 > 1.6) t1 = Math.min(t1, gp[gp.length - 1].e + .5 || t1);
+          var dark = DARK.some(function (r) { return t0 >= r[0] - .01 && t0 < r[1] - .01; });
+          var txt = gp.map(function (t) { return t.w; }).join(" ").replace(/\s+([?:!])/g, " $1");
+          var d = div(st, "<span>" + txt + "</span>", "", dark ? "cap w" : "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, Math.max(0, t0 - .02)); tl.set(d, { opacity: 0 }, t1 - .03);
+        });
+
+        // zone sûre Instagram / TikTok : contenu réduit à 82 % vers le centre utile (les fonds de #bgl restent plein cadre)
+        st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
+        tl.set({}, {}, END);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
