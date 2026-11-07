@@ -88,8 +88,9 @@ Principes de la trame :
 Les logos restent dans leurs couleurs officielles (Google G multicolore, YouTube rouge, Gemini en dégradé).
 
 ## Sous-titres
-- Inter Display 700, 66 px, interlettrage −.055em, centrés, **sans boîte** ;
-- **blancs avec ombre** sur image ou bleu nuit, **marine** sur fond clair ;
+- Inter Display 700, 62 px, interlettrage −.05em, centrés ;
+- **toujours en blanc**, dans un **encadré noir transparent** (rgba(8,10,20,.72), coins 6 px, marge 8 × 26 px), sur tous les fonds (règle du 07/11/2026) ;
+- pas de sous-titre quand la même phrase est déjà écrite à l'écran (étiquette) ;
 - **3 mots max**, chiffres en chiffres (« 10 % », « 50 milliards »), calés mot à mot sur la voix ;
 - hauteur ≈ 1335–1360 px ; on bouge l'image (pas les sous-titres trop bas) pour qu'ils ne cachent pas le sujet (logo filmé, visage) ;
 - aucun sous-titre sur le CTA.
@@ -98,6 +99,11 @@ Les logos restent dans leurs couleurs officielles (Google G multicolore, YouTube
 - **toujours du réel** : photos et vidéos trouvées (Pinterest, banques d'images), logos officiels (Simple Icons, Wikimedia) ;
 - recadrer le texte incrusté et les filigranes ; un plan trop court se ralentit (×1,5) puis se fige sur la dernière image pendant que la poussée continue ;
 - vérifier les droits avant publication (photos de presse, vidéos Pinterest).
+
+## Minimalisme (retour du 07/11/2026)
+- le moins de texte possible à l'écran : un titre, la visualisation, au plus une ou deux étiquettes courtes ; pas de phrase complète qui répète la voix ;
+- préférer une vraie visualisation (barres comparées, toutes les séances, points d'événements) à un chiffre écrit seul ;
+- combler les vides avec de belles photos réelles plein cadre (lente poussée, voile bleu nuit) plutôt qu'avec un fond uni.
 
 ## Ce qu'on évite (retours déjà donnés)
 - l'aspect « fait par IA » : tuiles vides brillantes, gros chiffre flottant au centre d'un fond sombre, effets de lueur ;

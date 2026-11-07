@@ -21,9 +21,8 @@
       svg { position: absolute; overflow: visible; }
       svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
       .cap { position: absolute; left: 0; right: 0; top: 1360px; text-align: center; opacity: 0; }
-      .cap span { display: inline-block; font-weight: 700; font-size: 66px; letter-spacing: -.055em; word-spacing: .02em; color: #0a105e; }
-      .cap.w span { color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,.35), 0 6px 24px rgba(0,0,0,.45); }
-      .ttl { position: absolute; left: 96px; top: 286px; font-weight: 700; font-size: 72px; letter-spacing: -.055em; line-height: 1; }
+      .cap span { display: inline-block; font-weight: 700; font-size: 62px; letter-spacing: -.05em; word-spacing: .02em; color: #fff; background: rgba(8,10,20,.72); padding: 8px 26px 14px; border-radius: 6px; line-height: 1.1; }
+            .ttl { position: absolute; left: 96px; top: 286px; font-weight: 700; font-size: 72px; letter-spacing: -.055em; line-height: 1; }
       .src { position: absolute; left: 96px; font-size: 28px; font-weight: 500; color: #6b7290; letter-spacing: -.02em; }
       .card { position: absolute; background: #fff; border-radius: 4px; box-shadow: 0 18px 50px rgba(0,11,34,.3); }
       .tile { position: absolute; left: 96px; width: 888px; height: 210px; border-radius: 4px; background: rgba(255,255,255,.05); box-shadow: inset 0 0 0 2px rgba(255,255,255,.12); color: #fff; }
@@ -70,6 +69,12 @@
           tl.fromTo(id, { scale: 1 }, { scale: 1.08, duration: t1 - t0, ease: "none" }, t0);
           return s;
         }
+        function iscene(img, t0, t1, veil) {
+          var s = scene(t0, t1, null), im = div(bgl, "", "background:url(assets/img/" + img + ") center/cover", "full"), v = div(bgl, "", "background:" + veil, "full");
+          tl.set([im, v], { opacity: 1 }, t0); tl.set([im, v], { opacity: 0 }, t1);
+          tl.fromTo(im, { scale: 1 }, { scale: 1.07, duration: t1 - t0, ease: "none" }, t0);
+          return s;
+        }
         function logo(k, size) {
           if (k === "google") return "<img src='assets/img/google-g.svg' style='width:" + size + "px; height:" + size + "px; display:block; flex:none'>";
           var c = { amazon: "#ff9900", meta: "#0467df", qualcomm: "#3253dc", arm: "#0091bd" }[k];
@@ -106,8 +111,7 @@
         (function () {
           var s = scene(0, 2.35, FOCAL), S = window.COURS.SPXI;
           div(s, "S&P 500", "", "ttl");
-          div(s, "Jeudi 5 novembre 2026", "left:96px; top:376px; font-size:38px; font-weight:600; color:#6b7290; letter-spacing:-.02em");
-          var c = chart(s, { S: S, ix: function (h) { for (var i = 0; i < S.length; i++) if (S[i][0] >= h) return i; return S.length - 1; }, top: 560, H: 600, ymin: 7300, ymax: 7750, ticks: [7400, 7500, 7600, 7700], xt: [["09:30", "9 h 30"], ["12:00", "12 h"], ["14:30", "14 h 30"]], t: 0, dur: 1.7, area: RED, ease: "power1.in" });
+                    var c = chart(s, { S: S, ix: function (h) { for (var i = 0; i < S.length; i++) if (S[i][0] >= h) return i; return S.length - 1; }, top: 560, H: 600, ymin: 7300, ymax: 7750, ticks: [7400, 7500, 7600, 7700], xt: [["09:30", "9 h 30"], ["12:00", "12 h"], ["14:30", "14 h 30"]], t: 0, dur: 1.7, area: RED, ease: "power1.in" });
           var ld = dot(c, S.length - 1, RED); tl.fromTo(ld, { opacity: 0 }, { opacity: 1, duration: .15 }, 1.75);
           var pc = note(c, c.PW - 10, c.Y(7700), "−4,4 %", RED, "end", 72); tl.fromTo(pc, { opacity: 0 }, { opacity: 1, duration: .2 }, 1.75);
           pop(div(s, "Historique", "left:96px; top:448px; background:" + RED, "pill"), .44);
@@ -117,19 +121,26 @@
         // ===== 2. La plus grosse chute de son histoire, en dollars (2,35 → 4,28) =====
         (function () {
           var s = scene(2.35, 4.28, FOCAL);
-          div(s, "S&P 500 · valeur en Bourse perdue en une séance", "left:96px; top:420px; font-size:40px; font-weight:700; letter-spacing:-.04em; color:#6b7290");
-          var n = div(s, "−0 Md$", "left:88px; top:500px; font-size:190px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + RED + "; font-feature-settings:'tnum' 1");
-          tl.fromTo(n, { opacity: 0, scale: 1.15, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "power3.out" }, 2.4);
-          count(n, 2.4, 1.0, 0, 2900, function (v) { return "−" + fr(Math.round(v / 10) * 10, 0) + " Md$"; });
-          pop(div(s, "Record en dollars", "left:96px; top:740px; background:" + RED, "pill"), 3.15);
-          fadeIn(div(s, "Ancien record : −2 690 Md$, le 16 mars 2020", "left:96px; top:860px; font-size:40px; font-weight:600; letter-spacing:-.03em; color:#0a105e"), 3.55, .3, 10);
-          fadeIn(div(s, "5 novembre 2026, en milliards de dollars · Source : Dow Jones Market Data", "top:1262px", "src"), 2.45, .2, 0);
+          div(s, "Valeur perdue en une séance", "", "ttl");
+          var X0 = 96, PX = 700 / 3000;
+          [["16 mars 2020", 2690, PALE, 2.45], ["5 nov. 2026", 2900, RED, 2.75]].forEach(function (r, k) {
+            var top = 520 + k * 260, red = r[2] === RED;
+            var l = div(s, r[0], "left:96px; top:" + top + "px; font-size:40px; font-weight:700; letter-spacing:-.04em; color:" + (red ? NAVY : AX));
+            var bar = div(s, "", "left:" + X0 + "px; top:" + (top + 62) + "px; width:" + (r[1] * PX) + "px; height:120px; background:" + r[2]);
+            var v = div(s, "0", "left:" + (X0 + r[1] * PX + 22) + "px; top:" + (top + 86) + "px; font-size:" + (red ? 72 : 56) + "px; font-weight:700; letter-spacing:-.05em; line-height:1; color:" + (red ? RED : AX) + "; font-feature-settings:'tnum' 1");
+            fadeIn(l, r[3], .2, 8);
+            tl.fromTo(bar, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .55, ease: "power3.out" }, r[3]);
+            tl.fromTo(v, { opacity: 0 }, { opacity: 1, duration: .1 }, r[3]);
+            count(v, r[3], .55, 0, r[1], function (x) { return fr(Math.round(x / 10) * 10, 0); });
+          });
+          pop(div(s, "Record", "left:96px; top:1060px; background:" + RED, "pill"), 3.15);
+          fadeIn(div(s, "S&P 500, en milliards de dollars · Source : Dow Jones Market Data", "top:1262px", "src"), 2.45, .2, 0);
         })();
 
         // ===== 3. « Voici ce que vous devez retenir en 60 secondes » (4,28 → 8,14) : vraie vidéo de la Bourse de New York =====
         (function () {
           var s = vscene("#v-nyse", 4.28, 8.14);
-          var card = div(s, "<svg width='150' height='150' viewBox='0 0 150 150' style='position:absolute; left:40px; top:40px'><circle cx='75' cy='75' r='62' fill='none' stroke='#d5dae5' stroke-width='12'/><circle class='rg' cx='75' cy='75' r='62' fill='none' stroke='" + BLUE + "' stroke-width='12' stroke-linecap='butt' transform='rotate(-90 75 75)'/></svg><div style='position:absolute; left:220px; top:44px; font-size:34px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Tout comprendre en</div><div style='position:absolute; left:216px; top:88px; font-size:96px; font-weight:700; letter-spacing:-.06em; line-height:1'>60 s</div>", "left:200px; top:560px; width:680px; height:230px", "card");
+          var card = div(s, "<svg width='150' height='150' viewBox='0 0 150 150' style='position:absolute; left:40px; top:40px'><circle cx='75' cy='75' r='62' fill='none' stroke='#d5dae5' stroke-width='12'/><circle class='rg' cx='75' cy='75' r='62' fill='none' stroke='" + BLUE + "' stroke-width='12' stroke-linecap='butt' transform='rotate(-90 75 75)'/></svg><div style='position:absolute; left:220px; top:66px; font-size:110px; font-weight:700; letter-spacing:-.06em; line-height:1'>60 s</div>", "left:300px; top:560px; width:480px; height:230px", "card");
           fadeIn(card, 6.6, .4, 30);
           var rg = card.querySelector(".rg"), L = 2 * Math.PI * 62; rg.style.strokeDasharray = L + " " + L;
           tl.fromTo(rg, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 1.1, ease: "power2.inOut" }, 7.0);
@@ -146,7 +157,7 @@
           tl.fromTo(a1, { opacity: 0 }, { opacity: 1, duration: .2 }, 9.58); tl.to(a1, { opacity: 0, duration: .15 }, 11.6);
           var ip = 0; S.forEach(function (r, k) { if (r[1] > S[ip][1]) ip = k; });
           var pd = el(c.g, "circle", { cx: c.X(ip), cy: c.Y(S[ip][1]), r: 10, fill: LIGHT, stroke: NAVY, "stroke-width": 4 });
-          var pt = note(c, c.X(ip) - 18, c.Y(S[ip][1]) - 24, "Record : 6 oct.", NAVY, "end", 32);
+          var pt = pd;
           var br = el(c.g, "path", { d: "M" + c.X(ip) + " " + c.Y(S[ip][1]) + " H" + (c.PW + 20) + " V" + c.Y(last), fill: "none", stroke: RED, "stroke-width": 3, "stroke-dasharray": "10 8" });
           var a2 = note(c, 20, c.Y(20200), "−" + fr((S[ip][1] - last) / S[ip][1] * 100, 1) + " % depuis le record", RED, "start", 44);
           tl.fromTo([pd, pt], { opacity: 0 }, { opacity: 1, duration: .2 }, 11.62); tl.fromTo([br, a2], { opacity: 0 }, { opacity: 1, duration: .25 }, 11.86);
@@ -193,7 +204,7 @@
           return T3;
         }
         (function () {
-          var s = scene(21.12, 25.40, NIGHT), T3 = tiles(s, 21.12, []);
+          var s = iscene("wall-street-sepia.jpg", 21.12, 25.40, "rgba(0,11,34,.78)"), T3 = tiles(s, 21.12, []);
           T3.forEach(function (t, k) { fadeIn(t, 22.77 + k * .14, .35, 30); });
           tl.to(T3[2], { backgroundColor: "rgba(61,90,254,.28)", boxShadow: "inset 0 0 0 3px " + BLUE, duration: .3 }, 23.61);
           tl.fromTo(T3[2].lastChild, { scale: 1 }, { scale: 1.12, transformOrigin: "0% 50%", duration: .25, yoyo: true, repeat: 1 }, 24.69);
@@ -225,9 +236,7 @@
             tl.fromTo(b, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .6, ease: "power3.out" }, r[3] + .05);
             tl.fromTo(v, { opacity: 0 }, { opacity: 1, duration: .2 }, r[3] + .45);
           });
-          var tot = div(s, "≈ 560 Md$ à eux trois", "left:96px; top:1130px; font-size:56px; font-weight:700; letter-spacing:-.05em");
-          fadeIn(tot, 31.18, .3, 12);
-          pop(div(s, "Rentable ?", "left:690px; top:1124px; background:" + BLUE, "pill"), 34.74);
+          pop(div(s, "Rentable ?", "left:96px; top:1110px; background:" + BLUE, "pill"), 34.74);
           fadeIn(div(s, "Milieu des fourchettes annoncées, en milliards de dollars · Sources : Amazon, Alphabet, Meta", "top:1222px; width:888px", "src"), 29.1, .3, 0);
         })();
 
@@ -236,16 +245,16 @@
           var s = vscene("#v-cap", 36.08, 43.35);
           var c1 = div(s, "<div style='position:absolute; left:44px; top:36px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Raison 2</div><div style='position:absolute; left:44px; top:80px; font-size:64px; font-weight:700; letter-spacing:-.055em; line-height:1'>La politique</div>", "left:96px; top:330px; width:520px; height:180px", "card");
           fadeIn(c1, 36.15, .4, 30);
-          var c2 = div(s, "<div style='position:absolute; left:44px; top:32px; font-size:32px; font-weight:600; color:#6b7290; letter-spacing:-.02em'>Congrès américain</div><div style='position:absolute; left:44px; top:76px; font-size:56px; font-weight:700; letter-spacing:-.05em; line-height:1'>Victoire des démocrates</div>", "left:96px; top:540px; width:720px; height:164px", "card");
-          fadeIn(c2, 37.6, .4, 30);
-          var k1 = div(s, "Encadrer l'IA", "left:96px; top:1020px; background:#fff; color:" + NAVY + "; box-shadow:0 18px 50px rgba(0,11,34,.3)", "pill");
-          var k2 = div(s, "Freiner les data centers", "left:96px; top:1120px; background:" + RED + "; box-shadow:0 18px 50px rgba(0,11,34,.3)", "pill");
+          var k0 = div(s, "Victoire des démocrates", "left:96px; top:540px; background:#fff; color:" + NAVY + "; box-shadow:0 18px 50px rgba(0,11,34,.3)", "pill");
+          pop(k0, 37.64); tl.to([c1, k0], { opacity: 0, duration: .2 }, 40.25);
+          var k1 = div(s, "Encadrer l'IA", "left:96px; top:420px; background:#fff; color:" + NAVY + "; box-shadow:0 18px 50px rgba(0,11,34,.3)", "pill");
+          var k2 = div(s, "Freiner les data centers", "left:96px; top:520px; background:" + RED + "; box-shadow:0 18px 50px rgba(0,11,34,.3)", "pill");
           pop(k1, 40.37); pop(k2, 41.41);
         })();
 
         // ===== 11. Enfin, la raison 3 se révèle : les résultats (43,35 → 46,89) =====
         (function () {
-          var s = scene(43.35, 46.89, NIGHT), T3 = tiles(s, 43.35, ["Le coût de l'IA", "La politique", "?"]);
+          var s = iscene("wall-street-sepia.jpg", 43.35, 46.89, "rgba(0,11,34,.78)"), T3 = tiles(s, 43.35, ["Le coût de l'IA", "La politique", "?"]);
           tl.set([T3[0], T3[1]], { opacity: .45 }, 43.35);
           tl.set(T3[2], { backgroundColor: "rgba(61,90,254,.28)", boxShadow: "inset 0 0 0 3px " + BLUE }, 43.35);
           tl.fromTo(T3[2], { scale: .96 }, { scale: 1, duration: .35, ease: "back.out(2)" }, 43.4);
@@ -277,12 +286,8 @@
 
         // ===== 14. « Le marché pardonnait tout. Plus maintenant. » (51,32 → 54,45) : bleu nuit =====
         (function () {
-          var s = scene(51.32, 54.45, NIGHT);
-          fadeIn(div(s, "Le marché", "left:96px; top:600px; font-size:110px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff"), 52.69, .3, 20);
-          fadeIn(div(s, "pardonnait tout.", "left:96px; top:730px; font-size:110px; font-weight:700; letter-spacing:-.06em; line-height:1; color:rgba(255,255,255,.55)"), 53.21, .3, 20);
-          var b = div(s, "Plus maintenant.", "left:96px; top:900px; padding:10px 26px; background:" + RED + "; color:#fff; font-size:96px; font-weight:700; letter-spacing:-.06em; line-height:1; border-radius:3px");
-          pop(b, 53.87);
-          fadeIn(div(s, "Les bénéfices montaient…", "left:96px; top:470px; font-size:48px; font-weight:700; letter-spacing:-.04em; color:rgba(255,255,255,.55)"), 51.5, .3, 12);
+          var s = iscene("wall-street-panneau.jpg", 51.32, 54.45, "linear-gradient(180deg, rgba(0,11,34,.25), rgba(0,11,34,.6))");
+          pop(div(s, "Plus maintenant.", "left:96px; top:900px; padding:10px 26px; background:" + RED + "; color:#fff; font-size:96px; font-weight:700; letter-spacing:-.06em; line-height:1; border-radius:3px", "a"), 53.87);
         })();
 
         // ===== 15. Faut-il paniquer ? Le S&P 500 depuis 1990, treize corrections, toujours un nouveau record (54,45 → 63,93) =====
@@ -291,16 +296,16 @@
           div(s, "S&P 500 depuis 1990", "", "ttl");
           var c = chart(s, { S: S, ix: ix, log: true, top: 440, H: 700, ymin: 250, ymax: 9500, ticks: [500, 1000, 2000, 4000, 8000], xt: [["1990-01-02", "1990"], ["2000-01-03", "2000"], ["2010-01-04", "2010"], ["2020-01-02", "2020"]], t: 54.5, dur: 1.6, area: GREEN, ease: "power1.inOut" });
           var EP = [["1990-01-30", 322.98], ["1990-10-11", 295.46], ["1997-10-27", 876.99], ["1998-08-31", 957.28], ["1999-10-15", 1247.41], ["2002-10-09", 776.76], ["2009-03-09", 676.53], ["2016-02-11", 1829.08], ["2018-02-08", 2581.0], ["2018-12-24", 2351.1], ["2020-03-23", 2237.4], ["2022-10-12", 3577.03], ["2025-04-08", 4982.77]];
-          var cnt = note(c, 20, c.Y(5200), "0 correction de plus de 10 %", RED, "start", 40);
+          var cnt = note(c, 20, c.Y(5200), "0 correction", RED, "start", 48);
           tl.fromTo(cnt, { opacity: 0 }, { opacity: 1, duration: .2 }, 58.56);
           EP.forEach(function (e, k) {
             var i = ix(e[0]), m = el(c.g, "circle", { cx: c.X(i), cy: c.Y(e[1]), r: 11, fill: RED, stroke: "#fff", "stroke-width": 3 });
             var t = 58.56 + k * .17;
             tl.fromTo(m, { opacity: 0, attr: { r: 2 } }, { opacity: 1, attr: { r: 11 }, duration: .2, ease: "back.out(3)" }, t);
-            tl.call(function () { var v = Math.min(13, Math.max(0, Math.round((tl.time() - 58.56) / .17) + 1)); cnt.textContent = v + (v > 1 ? " corrections" : " correction") + " de plus de 10 %"; }, null, t + .01);
+            tl.call(function () { var v = Math.min(13, Math.max(0, Math.round((tl.time() - 58.56) / .17) + 1)); cnt.textContent = v + (v > 1 ? " corrections" : " correction"); }, null, t + .01);
           });
-          tl.call(function () { cnt.textContent = tl.time() >= 60.6 ? "13 corrections de plus de 10 %" : cnt.textContent; }, null, 60.6);
-          var rec = note(c, 20, c.Y(5200) + 52, "Après chacune, un nouveau record", NAVY, "start", 40);
+          tl.call(function () { cnt.textContent = tl.time() >= 60.6 ? "13 corrections" : cnt.textContent; }, null, 60.6);
+          var rec = note(c, 20, c.Y(5200) + 58, "13 nouveaux records", GREEN, "start", 48);
           tl.fromTo(rec, { opacity: 0 }, { opacity: 1, duration: .25 }, 61.8);
           var ld = dot(c, n - 1, GREEN); tl.fromTo(ld, { opacity: 0 }, { opacity: 1, duration: .15 }, 56.1);
           fadeIn(div(s, "Clôtures hebdomadaires, échelle logarithmique · Calcul FinanceData d'après Yahoo Finance", "top:1262px; width:888px", "src"), 54.6, .3, 0);
@@ -308,12 +313,9 @@
 
         // ===== 16. Une correction n'est pas un krach (63,93 → 69,00) : bleu nuit =====
         (function () {
-          var s = scene(63.93, 69.0, NIGHT);
-          fadeIn(div(s, "Une correction", "left:96px; top:520px; font-size:110px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff"), 64.0, .3, 20);
-          fadeIn(div(s, "n'est pas un krach.", "left:96px; top:650px; font-size:110px; font-weight:700; letter-spacing:-.06em; line-height:1; color:rgba(255,255,255,.55)"), 64.73, .3, 20);
-          fadeIn(div(s, "Les meilleures entreprises redeviennent", "left:96px; top:880px; font-size:52px; font-weight:700; letter-spacing:-.045em; color:#fff"), 66.83, .3, 14);
-          var b = div(s, "abordables", "left:96px; top:970px; padding:10px 26px; background:" + BLUE + "; color:#fff; font-size:96px; font-weight:700; letter-spacing:-.06em; line-height:1; border-radius:3px");
-          pop(b, 68.35);
+          var s = iscene("taureau-nuit.jpg", 63.93, 69.0, "linear-gradient(180deg, rgba(0,11,34,.15), rgba(0,11,34,.55))");
+          pop(div(s, "Correction ≠ krach", "left:96px; top:420px; background:#fff; color:" + NAVY + "; font-size:64px; box-shadow:0 18px 50px rgba(0,11,34,.3)", "pill"), 64.09);
+          pop(div(s, "Abordables", "left:96px; top:540px; background:" + BLUE + "; font-size:64px; box-shadow:0 18px 50px rgba(0,11,34,.3)", "pill"), 68.35);
         })();
 
         // ===== 17. CTA (69,00 → 71,25) =====
@@ -355,9 +357,10 @@
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 69.0;
           if (t1 - t0 > 1.6) t1 = Math.min(t1, gp[gp.length - 1].e + .5 || t1);
+          if ((t0 >= 53.8 && t0 < 54.45) || (t0 >= 68.3 && t0 < 69)) return; // déjà écrit à l'écran (étiquette)
           var dark = DARK.some(function (r) { return t0 >= r[0] - .01 && t0 < r[1] - .01; });
           var txt = gp.map(function (t) { return t.w; }).join(" ").replace(/\s+([?:!])/g, " $1");
-          var d = div(st, "<span>" + txt + "</span>", "", dark ? "cap w" : "cap");
+          var d = div(st, "<span>" + txt + "</span>", "", "cap");
           tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, Math.max(0, t0 - .02)); tl.set(d, { opacity: 0 }, t1 - .03);
         });
 
