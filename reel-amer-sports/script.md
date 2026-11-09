@@ -6,11 +6,11 @@ Framework : **paradoxe** en hook (« ventes +32 %, action −25 % ») → **Du d
 
 ## Voix off
 
-**[Hook — paradoxe]**
-Arc'teryx, Salomon, Wilson. Vous connaissez ces marques, mais sûrement pas l'entreprise qui les possède. Ses ventes ont bondi de 32 %. Et pourtant, son action a perdu un quart de sa valeur.
+**[Hook — Salomon d'abord]**
+Salomon, la marque née à Annecy, n'est plus française depuis presque trente ans. Aujourd'hui, elle appartient à un groupe coté à New York, dont le premier actionnaire est chinois. Ses ventes explosent… et pourtant, son action a perdu un quart de sa valeur.
 
 **[Contexte]**
-Elle s'appelle Amer Sports. Un groupe né en Finlande, coté à New York depuis 2024.
+Ce groupe, c'est Amer Sports. Il possède aussi Arc'teryx et Wilson.
 
 **[Les faits]**
 Et ses marques n'ont jamais aussi bien marché. Au dernier trimestre, Salomon a progressé de 37 %, Arc'teryx de 32 %, Wilson de 24 %. Le groupe a même remboursé 800 millions de dollars de dette : il a aujourd'hui bien plus de cash que d'emprunts.
@@ -36,8 +36,8 @@ Pour ne pas rater la suite, abonnez-vous.
 
 | # | Séquence | Texte | Durée | Visuel |
 |---|---|---|---|---|
-| 1 | Hook | « Arc'teryx, Salomon, Wilson… perdu un quart de sa valeur » | ~9 s | trois logos qui tombent un par un sur fond blanc à foyer, puis deux barres face à face : ventes +32 % (vert) / action −25 % (rouge) |
-| 2 | Contexte | « Elle s'appelle Amer Sports… depuis 2024 » | ~4 s | vraie vidéo outdoor (montagne, trail) + carte blanche logo Amer Sports, « NYSE : AS » |
+| 1 | Hook | « Salomon, la marque née à Annecy… perdu un quart de sa valeur » | ~11 s | vraie vidéo de Salomon aux pieds (rue ou sentier) + logo Salomon ; étiquette « Annecy, 1947 » avec drapeau français, barrée sur « n'est plus française » ; logo Amer Sports + « NYSE » ; puis barres ventes +32 % (vert) / action −25 % (rouge) |
+| 2 | Contexte | « Ce groupe, c'est Amer Sports… Arc'teryx et Wilson » | ~4 s | arbre : logo Amer Sports en haut, Salomon, Arc'teryx, Wilson en dessous |
 | 3 | Les faits | « Salomon +37 %, Arc'teryx +32 %, Wilson +24 %… plus de cash que d'emprunts » | ~12 s | barres horizontales par marque (une couleur : vert), puis colonnes trésorerie 720 vs emprunts 147 M$ |
 | 4 | Le doute | « Pourquoi l'action chute ? La Chine… 47 % → 35 % » | ~11 s | courbe du cours en aire rouge depuis le plus haut de février 2026, puis colonnes de croissance en Chine qui baissent (rouge sur la dernière) |
 | 5 | L'asymétrie | « Moins de 20 fois ses bénéfices… le doute est déjà dans le prix » | ~10 s | balance : « Bénéfices ×2 » contre « < 20× » ; étiquette bleue « Asymétrie » |
@@ -51,6 +51,7 @@ Pour ne pas rater la suite, abonnez-vous.
 - Cours : clôture du 06/11/2026 à 31,47 $, contre 41,96 $ au plus haut sur un an (20/02/2026), soit −25 % (Yahoo Finance). La newsletter disait « un tiers » au 01/11 : l'action a rebondi depuis, d'où « un quart ».
 
 ## À vérifier avant de tourner
+- Histoire de Salomon : fondée à Annecy en 1947 ; vendue à Adidas en 1997, puis au finlandais Amer Sports en 2005 ; Amer racheté en 2019 par un consortium mené par le chinois Anta Sports, toujours premier actionnaire (≈ 44 % fin 2025 selon des sources secondaires, à confirmer dans le dernier rapport annuel). D'où « n'est plus française depuis presque trente ans » et « dont le premier actionnaire est chinois » (et non « contrôlé par la Chine »).
 - « au dernier trimestre » = T2 2026 (dernier publié). Si la vidéo sort après le 17 novembre, remplacer par les chiffres du T3.
 - Recalculer la baisse depuis le plus haut le jour de la publication (−25 % au 06/11).
 - « né en Finlande, coté à New York depuis 2024 » : siège historique à Helsinki, introduction à la Bourse de New York en février 2024.
