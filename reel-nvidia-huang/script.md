@@ -22,7 +22,7 @@ La femme en question : une ancienne cadre d'une société de puces basée à Sin
 Nvidia a ouvert une enquête. Le conseil dit n'avoir aucune raison de croire que des secrets ont fuité. Mais le sujet est explosif : Nvidia n'a pas le droit de vendre ses puces les plus puissantes à la Chine.
 
 **[L'action, en express]**
-Et l'action dans tout ça ? Elle avait déjà perdu 22 % depuis son record d'octobre. Pourtant, Nvidia n'a jamais autant vendu : 96 milliards de dollars au dernier trimestre, deux fois plus qu'il y a un an.
+Et l'action dans tout ça ? Elle a perdu 27 % depuis son sommet d'octobre. Pourtant, Nvidia n'a jamais autant vendu : 96 milliards de dollars au dernier trimestre, deux fois plus qu'il y a un an.
 
 **[Payoff]**
 Alors, comment réagir quand un patron fait scandale ? Posez-vous une seule question : est-ce que ça change ce que l'entreprise vend ? Une liaison, non. Mais si Washington perdait confiance en Nvidia, là, ce serait un vrai risque.
@@ -41,7 +41,7 @@ Premier verdict le 17 novembre, avec ses résultats. Abonnez-vous pour ne pas le
 | 2 | L'aveu | « Ce week-end, Jensen Huang a écrit à ses salariés… » | ~6 s | carte blanche façon e-mail interne : « À : tous les salariés » + un mot surligné « infidèle » |
 | 3 | Qui est-elle | « Une ancienne cadre… approcher l'homme qui fabrique les puces de l'IA » | ~11 s | carte du monde minimale : Singapour → Pékin → Santa Clara, reliés en pointillés ; silhouette floutée (jamais son visage) |
 | 4 | L'enquête et l'enjeu | « Nvidia a ouvert une enquête… pas le droit de vendre à la Chine » | ~10 s | vraie photo du siège de Nvidia ; carte « Enquête interne » ; puis une puce avec un cadenas et le drapeau chinois barré |
-| 5 | L'action | « −22 % depuis son record… 96 milliards, deux fois plus » | ~10 s | courbe NVDA sur un an en aire rouge (−22 %), puis deux colonnes de ventes 46,7 → 96,2 Md$ (bleu) |
+| 5 | L'action | « −27 % depuis son sommet… 96 milliards, deux fois plus » | ~10 s | courbe NVDA sur un an en aire rouge (−27 %), puis deux colonnes de ventes 46,7 → 96,2 Md$ (bleu) |
 | 6 | Payoff | « Une seule question… est-ce que ça change ce que l'entreprise vend ? » | ~10 s | bleu nuit : la question en grand ; deux lignes « Liaison → non » (gris) / « Confiance de Washington → oui » (rouge) |
 | 7 | Boucle + CTA | « Premier verdict le 17 novembre… abonnez-vous » | ~5 s | calendrier « 17 nov. », puis logo rond et bouton S'abonner |
 | **Total** | | | **~60–65 s** | |
@@ -49,7 +49,7 @@ Premier verdict le 17 novembre, avec ses résultats. Abonnez-vous pour ne pas le
 ## Chiffres et sources
 - Aveu et enquête : note de Jensen Huang aux salariés et annonce de Nvidia du 08/11/2026 ; le conseil dit n'avoir « aucune raison de croire » que la sécurité nationale ou des secrets de l'entreprise aient été compromis ; Huang reste PDG. [CNN](https://www.cnn.com/2026/11/08/business/nvidia-investigation-ceo-jensen-huang), [TechCrunch](https://techcrunch.com/2026/11/08/nvidia-says-its-investigating-ceo-jensen-huangs-relationship-with-possible-chinese-spy/)
 - Allégation d'espionnage : une note diffusée parmi des responsables politiques américains affirmait que cette femme, ancienne cadre de Megaspeed (Singapour), aurait été recrutée par le ministère chinois de la Sécurité d'État. **Non prouvé** : toujours au conditionnel et attribué à « une note ».
-- Cours : clôture du 06/11/2026 à 186,64 $, contre 239,24 $ au record de clôture du 06/10/2026, soit −22 % (Yahoo Finance).
+- Cours : 178,23 $ le lundi 09/11/2026 en séance (après l'annonce de l'enquête), contre 243,37 $ au plus haut du 06/10/2026 en séance, soit −27 % (−25,5 % par rapport au record de clôture de 239,24 $). Source : Yahoo Finance. À recalculer à la clôture et le jour de la publication.
 - Chiffre d'affaires : 96,2 Md$ au trimestre clos fin juillet 2026, +106 % sur un an (communiqué Nvidia du 26/08/2026, [8-K](https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000073/q2fy27pr.htm)) ; d'où « deux fois plus qu'il y a un an ».
 - Résultats du T3 de l'exercice 2027 : 17/11/2026 après la clôture ([Earnings Whispers](https://www.earningswhispers.com/stocks/NVDA)).
 - Restrictions d'exportation : depuis 2022, les États-Unis interdisent à Nvidia de vendre ses puces d'IA les plus puissantes à la Chine (règles du département du Commerce, durcies depuis).
