@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/cours.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <style>
+      /* Reel « Amer Sports : l'asymétrie » (65,06 s), trame FinanceData minimaliste (styles/financedata/TRAME.md) :
+         une idée par écran, une couleur pour le point clé, vraies vidéos de temps en temps, data viz épurées,
+         contenu réduit à 82 % (zone sûre), sous-titres blancs sur encadré sombre, 3 mots max. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
+      .cap { position: absolute; left: 0; right: 0; top: 1360px; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-weight: 700; font-size: 62px; letter-spacing: -.05em; word-spacing: .02em; color: #fff; background: rgba(8,10,20,.72); padding: 8px 26px 14px; border-radius: 6px; line-height: 1.1; }
+      .ttl { position: absolute; left: 96px; top: 286px; font-weight: 700; font-size: 72px; letter-spacing: -.055em; line-height: 1; }
+      .src { position: absolute; left: 96px; font-size: 28px; font-weight: 500; color: #6b7290; letter-spacing: -.02em; }
+      .card { position: absolute; background: #fff; border-radius: 4px; box-shadow: 0 18px 50px rgba(0,11,34,.3); }
+      .pill { position: absolute; padding: 12px 26px; color: #fff; font-size: 56px; font-weight: 700; letter-spacing: -.04em; border-radius: 3px; white-space: nowrap; box-shadow: 0 18px 50px rgba(0,11,34,.3); }
+      .lg { display: block; object-fit: contain; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="65.06" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="65.06" data-track-index="1"></audio>
+      <video id="v-sent" class="clip" src="assets/video/salomon-sentier.mp4" data-start="11.12" data-duration="5.0" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-mont" class="clip" src="assets/video/montagne.mp4" data-start="16.12" data-duration="2.42" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-chine" class="clip" src="assets/video/chine.mp4" data-start="39.57" data-duration="3.28" data-track-index="5" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-rue" class="clip" src="assets/video/rue.mp4" data-start="52.32" data-duration="5.73" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-arc" class="clip" src="assets/video/montagne-arc.mp4" data-start="58.05" data-duration="5.3" data-track-index="7" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="bgl" class="clip" data-start="0" data-duration="65.06" data-track-index="4" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="65.06" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true });
+        var st = document.getElementById("stage"), bgl = document.getElementById("bgl"), END = 65.06;
+        var NAVY = "#0a105e", BLUE = "#3d5afe", RED = "#d9161e", GREEN = "#1f9d55", GRID = "#d5dae5", AX = "#6b7290", PALE = "#c5cad9";
+        var FOCAL = "radial-gradient(ellipse 75% 55% at 50% 44%, #ffffff 0%, #f2f3f7 50%, #c3c7d2 100%)", LIGHT = "#eef1f5";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+        function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
+        function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power2.inOut" }, t); }
+        function fadeIn(e, t, d, y) { tl.fromTo(e, { opacity: 0, y: y == null ? 16 : y }, { opacity: 1, y: 0, duration: d || .35, ease: "power3.out" }, t); return e; }
+        function pop(e, t) { tl.fromTo(e, { opacity: 0, scale: 1.3, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, t); return e; }
+        function count(e, t, d, v0, v1, f) { var o = { v: v0 }; tl.fromTo(o, { v: v0 }, { v: v1, duration: d, ease: "power3.out", onUpdate: function () { e.textContent = f(o.v); } }, t); }
+        function scene(t0, t1, bg) {
+          var s = div(st, "", "", "sc"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1);
+          if (bg) { var b = div(bgl, "", "background:" + bg, "full"); tl.set(b, { opacity: 1 }, t0); tl.set(b, { opacity: 0 }, t1); }
+          return s;
+        }
+        // vraie vidéo plein cadre : lente poussée, léger voile bleu nuit en bas
+        function vscene(id, t0, t1) {
+          var s = scene(t0, t1, null), v = div(bgl, "", "background:linear-gradient(180deg, rgba(0,11,34,.1) 0%, rgba(0,11,34,.1) 50%, rgba(0,11,34,.55) 100%)", "full");
+          tl.set(v, { opacity: 1 }, t0); tl.set(v, { opacity: 0 }, t1);
+          tl.fromTo(id, { scale: 1 }, { scale: 1.07, duration: t1 - t0, ease: "none" }, t0);
+          return s;
+        }
+        function iscene(img, t0, t1, veil) {
+          var s = scene(t0, t1, null), im = div(bgl, "", "background:url(assets/img/" + img + ") center/cover", "full"), v = div(bgl, "", "background:" + veil, "full");
+          tl.set([im, v], { opacity: 1 }, t0); tl.set([im, v], { opacity: 0 }, t1);
+          tl.fromTo(im, { scale: 1 }, { scale: 1.07, duration: t1 - t0, ease: "none" }, t0);
+          return s;
+        }
+        var LOGO = { arc: "arcteryx.png", sal: "salomon.png", wil: "wilson.svg", amer: "amer.png" };
+        function logo(k, w, h) { return "<img class='lg' src='assets/img/" + LOGO[k] + "' style='width:" + w + "px; height:" + h + "px'>"; }
+
+        // ===== 1. Les trois marques… et l'entreprise inconnue au-dessus (0 → 5,98) =====
+        (function () {
+          var s = scene(0, 5.98, FOCAL);
+          var K = [["arc", 0], ["sal", 1.02], ["wil", 1.78]], X = [96, 412, 728];
+          var g = svg(s, 0, 0, 1080, 1300), lines = [];
+          K.forEach(function (k, i) {
+            var b = div(s, logo(k[0], 256, 170), "left:" + X[i] + "px; top:820px; width:256px; height:170px");
+            tl.fromTo(b, { opacity: 0, y: -50 }, { opacity: 1, y: 0, duration: .35, ease: "back.out(2)" }, k[1]);
+            var x = X[i] + 128, l = el(g, "path", { d: "M" + x + " 800 V720 H540 V650", fill: "none", stroke: NAVY, "stroke-width": 4 });
+            lines.push(l);
+          });
+          lines.forEach(function (l) { draw(l, 4.54, .45, "power2.out"); });
+          var box = div(s, "?", "left:390px; top:480px; width:300px; height:170px; background:#fff; border:4px solid " + NAVY + "; border-radius:4px; text-align:center; font-size:120px; font-weight:700; line-height:162px; letter-spacing:-.05em", "a");
+          tl.fromTo(box, { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, 4.9);
+        })();
+
+        // ===== 2. Le paradoxe : ventes +32 %, action −25 % (5,98 → 11,12) =====
+        (function () {
+          var s = scene(5.98, 11.12, LIGHT), Z = 820, U = 11;
+          div(s, "", "left:96px; top:" + (Z - 1.5) + "px; width:888px; height:3px; background:" + NAVY);
+          var b1 = div(s, "", "left:170px; top:" + (Z - 32 * U) + "px; width:320px; height:" + (32 * U) + "px; background:" + GREEN);
+          var v1 = div(s, "+0 %", "left:170px; width:320px; top:" + (Z - 32 * U - 104) + "px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.055em; color:" + GREEN + "; font-feature-settings:'tnum' 1");
+          var l1 = div(s, "Ventes", "left:170px; width:320px; top:" + (Z + 22) + "px; text-align:center; font-size:44px; font-weight:700; letter-spacing:-.04em");
+          tl.fromTo(b1, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, 7.13);
+          tl.fromTo([v1, l1], { opacity: 0 }, { opacity: 1, duration: .15 }, 7.13); count(v1, 7.13, .6, 0, 32, function (v) { return "+" + Math.round(v) + " %"; });
+          var b2 = div(s, "", "left:590px; top:" + Z + "px; width:320px; height:" + (25 * U) + "px; background:" + RED);
+          var v2 = div(s, "−0 %", "left:590px; width:320px; top:" + (Z + 25 * U + 18) + "px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.055em; color:" + RED + "; font-feature-settings:'tnum' 1");
+          var l2 = div(s, "Action", "left:590px; width:320px; top:" + (Z - 74) + "px; text-align:center; font-size:44px; font-weight:700; letter-spacing:-.04em");
+          tl.fromTo(b2, { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, 9.49);
+          tl.fromTo([v2, l2], { opacity: 0 }, { opacity: 1, duration: .15 }, 9.49); count(v2, 9.49, .6, 0, 25, function (v) { return "−" + Math.round(v) + " %"; });
+          fadeIn(div(s, "Ventes du T2 2026 sur un an ; action depuis son plus haut de février · Sources : Amer Sports, Yahoo Finance", "top:1230px; width:888px", "src"), 6.1, .3, 0);
+        })();
+
+        // ===== 3. Amer Sports (11,12 → 16,12) : vraie vidéo Salomon sur un sentier + carte =====
+        (function () {
+          var s = vscene("#v-sent", 11.12, 16.12);
+          var card = div(s, logo("amer", 380, 194) + "<div style='margin-top:14px; font-size:36px; font-weight:600; color:#6b7290; letter-spacing:-.02em; text-align:center'>NYSE : AS</div>", "left:290px; top:420px; width:500px; padding:40px 60px 36px", "card");
+          tl.fromTo(card, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out" }, 11.8);
+          tl.fromTo(card.lastChild, { opacity: 0 }, { opacity: 1, duration: .25 }, 14.54);
+        })();
+
+        // ===== 4. « Ses marques n'ont jamais aussi bien marché » (16,12 → 18,54) : vraie vidéo de montagne =====
+        vscene("#v-mont", 16.12, 18.54);
+
+        // ===== 5. Croissance des ventes par marque (18,54 → 25,56) =====
+        (function () {
+          var s = scene(18.54, 25.56, LIGHT);
+          div(s, "Croissance des ventes", "", "ttl");
+          var X0 = 96, PX = 640 / 40, R = [["sal", 37, 19.62], ["arc", 32, 21.80], ["wil", 24, 23.94]];
+          div(s, "", "left:" + (X0 - 1.5) + "px; top:460px; width:3px; height:690px; background:" + NAVY);
+          R.forEach(function (r, k) {
+            var top = 470 + k * 230;
+            var lg = div(s, { sal: "Salomon", arc: "Arc'teryx", wil: "Wilson" }[r[0]], "left:" + (X0 + 20) + "px; top:" + (top + 8) + "px; font-size:46px; font-weight:700; letter-spacing:-.045em");
+            var b = div(s, "", "left:" + X0 + "px; top:" + (top + 82) + "px; width:" + (r[1] * PX) + "px; height:110px; background:" + GREEN);
+            var v = div(s, "+0 %", "left:" + (X0 + r[1] * PX + 24) + "px; top:" + (top + 100) + "px; font-size:72px; font-weight:700; letter-spacing:-.055em; line-height:1; color:" + GREEN + "; font-feature-settings:'tnum' 1");
+            fadeIn(lg, r[2] - .1, .25, 8);
+            tl.fromTo(b, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .6, ease: "power3.out" }, r[2]);
+            tl.fromTo(v, { opacity: 0 }, { opacity: 1, duration: .1 }, r[2]); count(v, r[2], .6, 0, r[1], function (x) { return "+" + Math.round(x) + " %"; });
+          });
+          fadeIn(div(s, "T2 2026, sur un an · Source : Amer Sports", "top:1230px", "src"), 18.6, .3, 0);
+        })();
+
+        // ===== 6. La dette fond, le cash dépasse les emprunts (25,56 → 30,92) =====
+        (function () {
+          var s = scene(25.56, 30.92, LIGHT), Z = 1120, U = .62;
+          div(s, "Dette et cash", "", "ttl");
+          div(s, "", "left:96px; top:" + (Z - 1.5) + "px; width:888px; height:3px; background:" + NAVY);
+          // emprunts : 947 → 147 (800 M$ remboursés), l'ancienne hauteur reste en pointillés
+          var ghost = div(s, "", "left:170px; top:" + (Z - 947 * U) + "px; width:320px; height:" + (947 * U) + "px; border:4px dashed " + PALE);
+          var b1 = div(s, "", "left:170px; top:" + (Z - 947 * U) + "px; width:320px; height:" + (947 * U) + "px; background:" + PALE);
+          var v1 = div(s, "947", "left:170px; width:320px; top:" + (Z - 947 * U - 90) + "px; text-align:center; font-size:68px; font-weight:700; letter-spacing:-.05em; color:" + AX + "; font-feature-settings:'tnum' 1");
+          div(s, "Emprunts", "left:170px; width:320px; top:" + (Z + 22) + "px; text-align:center; font-size:42px; font-weight:700; letter-spacing:-.04em; color:" + AX);
+          fadeIn(b1, 25.6, .3, 0); fadeIn(v1, 25.6, .3, 0);
+          tl.fromTo(ghost, { opacity: 0 }, { opacity: 1, duration: .2 }, 26.36);
+          tl.fromTo(b1, { scaleY: 1, transformOrigin: "50% 100%" }, { scaleY: 147 / 947, duration: .8, ease: "power3.inOut" }, 26.36);
+          tl.fromTo(v1, { y: 0 }, { y: 800 * U, duration: .8, ease: "power3.inOut" }, 26.36);
+          count(v1, 26.36, .8, 947, 147, function (v) { return fr(Math.round(v), 0); });
+          var rb = div(s, "−800 M$", "left:200px; top:" + (Z - 600 * U) + "px; font-size:56px; font-weight:700; letter-spacing:-.05em; color:" + NAVY);
+          tl.fromTo(rb, { opacity: 0 }, { opacity: 1, duration: .25 }, 27.0);
+          // trésorerie : 720 (bleu), sur « bien plus de cash »
+          var b2 = div(s, "", "left:590px; top:" + (Z - 720 * U) + "px; width:320px; height:" + (720 * U) + "px; background:" + BLUE);
+          var v2 = div(s, "0", "left:590px; width:320px; top:" + (Z - 720 * U - 90) + "px; text-align:center; font-size:68px; font-weight:700; letter-spacing:-.05em; color:" + BLUE + "; font-feature-settings:'tnum' 1");
+          var l2 = div(s, "Cash", "left:590px; width:320px; top:" + (Z + 22) + "px; text-align:center; font-size:42px; font-weight:700; letter-spacing:-.04em");
+          tl.fromTo(b2, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, 29.44);
+          tl.fromTo([v2, l2], { opacity: 0 }, { opacity: 1, duration: .1 }, 29.44); count(v2, 29.44, .6, 0, 720, function (v) { return fr(Math.round(v), 0); });
+          fadeIn(div(s, "En millions de dollars · Source : Amer Sports", "top:1230px", "src"), 25.6, .3, 0);
+        })();
+
+        // ===== 7. Le cours : −25 % depuis le sommet (30,92 → 33,69) =====
+        (function () {
+          var s = scene(30.92, 33.69, LIGHT), S = window.AS, n = S.length, W = 888, PW = 760, H = 700, ymin = 20, ymax = 46;
+          div(s, "Amer Sports", "", "ttl");
+          var g = svg(s, 96, 440, W, H + 70), X = function (i) { return i / (n - 1) * PW; }, Y = function (v) { return H - (v - ymin) / (ymax - ymin) * H; };
+          var axis = [];
+          [25, 30, 35, 40, 45].forEach(function (v) { axis.push(el(g, "line", { x1: 0, x2: W, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 })); axis.push(T(g, W, Y(v) - 12, v + " $", 30, AX, 500, "end")); });
+          axis.push(el(g, "line", { x1: 0, x2: W, y1: H, y2: H, stroke: NAVY, "stroke-width": 3 }));
+          var ix = function (d) { for (var i = 0; i < n; i++) if (S[i][0] >= d) return i; return n - 1; };
+          [["2026-01-02", "2026"], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]].forEach(function (m) { var x = X(ix(m[0])); axis.push(el(g, "line", { x1: x, x2: x, y1: H, y2: H + 14, stroke: NAVY, "stroke-width": 3 })); axis.push(T(g, x + 8, H + 50, m[1], 30, AX, 500)); });
+          tl.fromTo(axis, { opacity: 0 }, { opacity: 1, duration: .25 }, 30.95);
+          var p = ""; for (var i = 0; i < n; i++) p += (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(S[i][1]).toFixed(1);
+          var defs = el(g, "defs", {}), lgr = el(defs, "linearGradient", { id: "ar1", x1: 0, y1: 0, x2: 0, y2: 1 });
+          el(lgr, "stop", { offset: 0, "stop-color": RED, "stop-opacity": .32 }); el(lgr, "stop", { offset: 1, "stop-color": RED, "stop-opacity": 0 });
+          var ar = el(g, "path", { d: "M0 " + H + " " + p.replace(/^M/, "L") + " L" + X(n - 1) + " " + H + " Z", fill: "url(#ar1)" });
+          tl.fromTo(ar, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: .9, ease: "none" }, 31.0);
+          var ln = el(g, "path", { d: p, fill: "none", stroke: RED, "stroke-width": 5, "stroke-linejoin": "round" }); draw(ln, 31.0, .9, "none");
+          var ip = 0; S.forEach(function (r, k) { if (r[1] > S[ip][1]) ip = k; });
+          var pd = el(g, "circle", { cx: X(ip), cy: Y(S[ip][1]), r: 10, fill: LIGHT, stroke: NAVY, "stroke-width": 4 });
+          var br = el(g, "path", { d: "M" + X(ip) + " " + Y(S[ip][1]) + " H" + (PW + 20) + " V" + Y(S[n - 1][1]), fill: "none", stroke: RED, "stroke-width": 3, "stroke-dasharray": "10 8" });
+          var a = T(g, 20, Y(22.5), "−" + Math.round((1 - S[n - 1][1] / S[ip][1]) * 100) + " % depuis le sommet", 44, RED, 700);
+          var ld = el(g, "circle", { cx: X(n - 1), cy: Y(S[n - 1][1]), r: 12, fill: RED, stroke: "#fff", "stroke-width": 4 });
+          tl.fromTo([pd, br, a, ld], { opacity: 0 }, { opacity: 1, duration: .25 }, 32.0);
+          fadeIn(div(s, "Clôtures, en dollars · Source : Yahoo Finance", "top:1262px", "src"), 31.0, .3, 0);
+        })();
+
+        // ===== 8. La Chine : un tiers des ventes (33,69 → 35,53), croissance 47 % → 35 % (35,53 → 39,57) =====
+        (function () {
+          var s = scene(33.69, 35.53, FOCAL), g = svg(s, 0, 0, 1080, 1300), cx = 540, cy = 760, r = 250;
+          var ring = el(g, "circle", { cx: cx, cy: cy, r: r, fill: "none", stroke: PALE, "stroke-width": 110 });
+          var L = 2 * Math.PI * r, arc = el(g, "circle", { cx: cx, cy: cy, r: r, fill: "none", stroke: RED, "stroke-width": 110, transform: "rotate(-90 " + cx + " " + cy + ")" });
+          arc.style.strokeDasharray = (L / 3) + " " + L;
+          tl.fromTo(ring, { opacity: 0 }, { opacity: 1, duration: .25 }, 33.7);
+          tl.fromTo(arc, { strokeDashoffset: L / 3 }, { strokeDashoffset: 0, duration: .6, ease: "power3.out" }, 34.25);
+          var t1 = T(g, cx, cy + 10, "1/3", 120, RED, 700, "middle"), t2 = T(g, cx, cy + 74, "Chine", 44, NAVY, 700, "middle");
+          tl.fromTo([t1, t2], { opacity: 0 }, { opacity: 1, duration: .2 }, 34.45);
+          div(s, "Part des ventes", "", "ttl");
+
+          var s2 = scene(35.53, 39.57, LIGHT), Z = 1120, U = 12;
+          div(s2, "Croissance en Chine", "", "ttl");
+          div(s2, "", "left:96px; top:" + (Z - 1.5) + "px; width:888px; height:3px; background:" + NAVY);
+          [["Il y a 3 trimestres", 47, PALE, AX, 36.85, 170], ["T2 2026", 35, RED, RED, 37.69, 590]].forEach(function (c) {
+            var b = div(s2, "", "left:" + c[5] + "px; top:" + (Z - c[1] * U) + "px; width:320px; height:" + (c[1] * U) + "px; background:" + c[2]);
+            var v = div(s2, "+" + c[1] + " %", "left:" + c[5] + "px; width:320px; top:" + (Z - c[1] * U - 96) + "px; text-align:center; font-size:76px; font-weight:700; letter-spacing:-.055em; color:" + c[3]);
+            var l = div(s2, c[0], "left:" + c[5] + "px; width:320px; top:" + (Z + 22) + "px; text-align:center; font-size:38px; font-weight:700; letter-spacing:-.04em; color:" + (c[2] === RED ? NAVY : AX));
+            tl.fromTo(b, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .5, ease: "power3.out" }, c[4]);
+            tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .15 }, c[4] + .1);
+          });
+          fadeIn(div(s2, "Croissance des ventes en Chine sur un an · Source : Amer Sports", "top:1230px", "src"), 35.6, .3, 0);
+        })();
+
+        // ===== 9. « L'âge d'or d'Arc'teryx en Chine est terminé » (39,57 → 42,85) : vraie vidéo =====
+        vscene("#v-chine", 39.57, 42.85);
+
+        // ===== 10. Le prix : moins de 20 fois les bénéfices, des bénéfices ×2 (42,85 → 49,13) =====
+        (function () {
+          var s = scene(42.85, 49.13, FOCAL);
+          var r1 = div(s, "<div style='font-size:200px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + BLUE + "'>&lt; 20×</div><div style='margin-top:14px; font-size:44px; font-weight:700; letter-spacing:-.04em'>le prix des bénéfices attendus</div>", "left:96px; top:430px");
+          var r2 = div(s, "<div style='font-size:200px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + NAVY + "'>×2</div><div style='margin-top:14px; font-size:44px; font-weight:700; letter-spacing:-.04em'>les bénéfices sur un an</div>", "left:96px; top:810px");
+          fadeIn(r1, 44.64, .35, 20); fadeIn(r2, 47.92, .35, 20);
+          tl.to(r1, { opacity: .35, duration: .3 }, 47.92);
+          fadeIn(div(s, "Cours / bénéfices attendus sur 12 mois ; bénéfices des 12 derniers mois · Source : FinanceData", "top:1230px; width:888px", "src"), 44.7, .3, 0);
+        })();
+
+        // ===== 11. « C'est ça, une asymétrie » (49,13 → 52,32) : vraie photo =====
+        (function () {
+          var s = iscene("couverture.jpg", 49.13, 52.32, "linear-gradient(180deg, rgba(0,11,34,.2), rgba(0,11,34,.55))");
+          pop(div(s, "Asymétrie", "left:96px; top:520px; background:" + BLUE + "; font-size:84px", "pill"), 49.85);
+        })();
+
+        // ===== 12. La mode outdoor (52,32 → 58,05) : vraie vidéo de rue =====
+        (function () {
+          var s = vscene("#v-rue", 52.32, 58.05);
+          pop(div(s, "Effet de mode ?", "left:96px; top:420px; background:#fff; color:" + NAVY, "pill"), 55.02);
+        })();
+
+        // ===== 13. Rendez-vous le 17 novembre (58,05 → 63,35) : vraie vidéo de montagne + calendrier =====
+        (function () {
+          var s = vscene("#v-arc", 58.05, 63.35);
+          var cal = div(s, "<div style='height:64px; background:" + BLUE + "; color:#fff; font-size:36px; font-weight:700; letter-spacing:-.02em; text-align:center; line-height:64px'>Novembre</div><div style='font-size:150px; font-weight:700; letter-spacing:-.06em; text-align:center; line-height:190px'>17</div>", "left:96px; top:380px; width:280px; height:254px; overflow:hidden", "card");
+          tl.fromTo(cal, { opacity: 0, y: 30, rotation: -4 }, { opacity: 1, y: 0, rotation: 0, duration: .4, ease: "back.out(2)" }, 58.57);
+          var p1 = div(s, "Amérique <span style='color:" + GREEN + "'>+26 %</span>", "left:96px; top:700px; background:#fff; color:" + NAVY + "; font-size:48px", "pill");
+          var p2 = div(s, "Europe <span style='color:" + GREEN + "'>+20 %</span>", "left:96px; top:800px; background:#fff; color:" + NAVY + "; font-size:48px", "pill");
+          pop(p1, 60.67); pop(p2, 61.19);
+        })();
+
+        // ===== 14. CTA (63,35 → 65,06) =====
+        (function () {
+          var s = scene(63.35, END, LIGHT);
+          var lg = div(s, "<div class='ring' style='position:absolute; inset:0; border-radius:50%; background:conic-gradient(from 210deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75)'></div><div style='position:absolute; inset:9px; border-radius:50%; background:#eef1f5'></div><img src='assets/img/logo-financedata.png' style='position:absolute; inset:17px; width:calc(100% - 34px); height:calc(100% - 34px); display:block; border-radius:50%'>", "left:405px; top:610px; width:270px; height:270px");
+          var name = div(s, "FinanceData", "left:0; right:0; top:930px; text-align:center; font-size:96px; font-weight:700; letter-spacing:-.055em; line-height:1");
+          var btn = div(s, "<span class='b1' style='position:absolute; inset:0'>S'abonner</span><span class='b2' style='position:absolute; inset:0; opacity:0'>Abonné ✓</span>", "left:340px; top:1090px; width:400px; height:110px; border-radius:4px; background:" + BLUE + "; color:#fff; font-size:46px; font-weight:700; letter-spacing:-.03em; text-align:center; line-height:110px");
+          fadeIn(lg, 63.35, .4, 16); tl.fromTo(lg.querySelector(".ring"), { rotation: -90 }, { rotation: 0, duration: 1.2, ease: "power3.out" }, 63.35);
+          fadeIn(name, 63.45, .35, 16); fadeIn(btn, 63.55, .35, 16);
+          fadeIn(div(s, "Ceci n'est pas un conseil en investissement.", "left:0; right:0; top:1250px; text-align:center; font-size:30px; font-weight:500; color:#6b7290; letter-spacing:-.02em"), 63.6, .3, 0);
+          var tA = 64.59;
+          tl.to(btn, { scale: .95, duration: .1 }, tA); tl.to(btn, { scale: 1, duration: .25, ease: "power2.out" }, tA + .1);
+          tl.to(btn, { backgroundColor: "#d5dae5", color: "#0a105e", duration: .15 }, tA + .1);
+          tl.set(btn.querySelector(".b1"), { opacity: 0 }, tA + .12); tl.set(btn.querySelector(".b2"), { opacity: 1 }, tA + .12);
+        })();
+
+        // ===== sous-titres : blancs sur encadré sombre, 3 mots max, chiffres en chiffres, aucun sur le CTA =====
+        var W = window.VO.words.filter(function (w) { return w.s < 63.3; }), NUM = [
+          [["trente-deux", "pour", "cent"], "32 %"], [["trente-sept", "pour", "cent"], "37 %"], [["vingt-quatre", "pour", "cent"], "24 %"],
+          [["deux", "mille", "vingt-quatre"], "2024"], [["huit", "cents", "millions"], "800 millions"], [["quarante-sept"], "47 %"],
+          [["trente-cinq", "pour", "cent"], "35 %"], [["vingt", "fois"], "20 fois"], [["dix-sept", "novembre"], "17 novembre"]];
+        function norm(w) { return w.toLowerCase().replace(/[,.?:!]+$/, ""); }
+        var Tk = [];
+        for (var i = 0; i < W.length; i++) {
+          var done = false;
+          NUM.forEach(function (m) { if (done) return; var ok = m[0].every(function (w, j) { return W[i + j] && norm(W[i + j].w) === w; }); if (ok) { var last = W[i + m[0].length - 1], p = (last.w.match(/[,.?:!]+$/) || [""])[0]; Tk.push({ w: m[1] + p, s: W[i].s, e: last.e }); i += m[0].length - 1; done = true; } });
+          if (!done) Tk.push({ w: W[i].w, s: W[i].s, e: W[i].e });
+        }
+        Tk.forEach(function (t, k) { if (t.w === "chute" && Tk[k + 1] && Tk[k + 1].w === "À") t.w = "chute ?"; if (/^(Résultat|asymétrie|dette|novembre)$/.test(t.w)) t.w += t.w === "dette" ? "." : t.w === "novembre" ? "," : t.w === "Résultat" ? " :" : "."; });
+        var groups = [], cur = [];
+        Tk.forEach(function (t, k) {
+          cur.push(t);
+          var nwords = cur.reduce(function (a, b) { return a + b.w.split(" ").length; }, 0);
+          var punct = /[,.?:!]$/.test(t.w), next = Tk[k + 1], nextLen = next ? next.w.split(" ").length : 0;
+          if (punct || nwords >= 3 || nwords + nextLen > 3 || !next) { groups.push(cur); cur = []; }
+        });
+        groups.forEach(function (gp, k) {
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 63.35;
+          var txt = gp.map(function (t) { return t.w; }).join(" ").replace(/\s+([?:!])/g, " $1");
+          var d = div(st, "<span>" + txt + "</span>", "", "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, Math.max(0, t0 - .02)); tl.set(d, { opacity: 0 }, t1 - .03);
+        });
+
+        // zone sûre Instagram / TikTok : contenu réduit à 82 % vers le centre utile (les fonds de #bgl restent plein cadre)
+        st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
+        tl.set({}, {}, END);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
