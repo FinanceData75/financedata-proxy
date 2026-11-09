@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Série « Les indicateurs pour investir expliqués », partie 1 (le RSI) : intro muette de 7,5 s.
+         Fond nuit FinanceData, 8 indicateurs dessinés en mini data viz (blanc + bleu FinanceData), puis zoom sur le RSI. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #fff; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
+      .ttl { position: absolute; left: 0; right: 0; text-align: center; font-weight: 700; font-size: 80px; letter-spacing: -.055em; line-height: 1.02; color: #fff; }
+      .part { position: absolute; left: 0; right: 0; text-align: center; font-weight: 600; font-size: 40px; letter-spacing: -.03em; color: #7d93ff; }
+      .lab { position: absolute; width: 440px; text-align: center; font-weight: 600; font-size: 36px; letter-spacing: -.035em; color: #fff; }
+      .tile { position: absolute; width: 440px; height: 300px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="7.5" data-width="1080" data-height="1920">
+      <div id="bgl" class="clip" data-start="0" data-duration="7.5" data-track-index="1" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="7.5" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true });
+        var st = document.getElementById("stage"), bgl = document.getElementById("bgl"), END = 7.5;
+        var BLUE = "#3d5afe", SKY = "#7d93ff", W = "#ffffff", DIM = "rgba(255,255,255,.28)";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
+        function line(s, pts, stroke, sw, extra) { var a = { d: "M" + pts.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join("L"), fill: "none", stroke: stroke, "stroke-width": sw, "stroke-linecap": "round", "stroke-linejoin": "round" }; for (var k in extra || {}) a[k] = extra[k]; return el(s, "path", a); }
+        function hl(s, y, x0, x1, stroke, dash) { return el(s, "line", { x1: x0, x2: x1, y1: y, y2: y, stroke: stroke, "stroke-width": 2, "stroke-dasharray": dash || "6 7" }); }
+        function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power2.inOut" }, t); }
+        // séries pseudo-aléatoires déterministes
+        var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+        function walk(n, drift, vol) { var v = 0, a = []; for (var i = 0; i < n; i++) { v += drift + (rnd() - .5) * vol; a.push(v); } return a; }
+        function fit(a, x0, x1, y0, y1, lo, hi) { lo = lo == null ? Math.min.apply(0, a) : lo; hi = hi == null ? Math.max.apply(0, a) : hi; return a.map(function (v, i) { return [x0 + (x1 - x0) * i / (a.length - 1), y1 - (y1 - y0) * (v - lo) / (hi - lo)]; }); }
+        function sma(a, k) { return a.map(function (v, i) { var s = 0, n = 0; for (var j = Math.max(0, i - k + 1); j <= i; j++) { s += a[j]; n++; } return s / n; }); }
+        function osc(n, f, amp, base) { var a = []; for (var i = 0; i < n; i++) a.push(base + amp * (Math.sin(i * f) * .8 + Math.sin(i * f * 2.3 + 1) * .35) + (rnd() - .5) * 6); return a; }
+
+        // ---------- fond nuit + halo
+        div(bgl, "", "inset:0; background:radial-gradient(ellipse 80% 55% at 50% 52%, #0c1d5c 0%, #04103a 45%, #000b22 80%)");
+        var halo = div(bgl, "", "left:-200px; top:300px; width:1480px; height:1400px; background:radial-gradient(circle at 50% 50%, rgba(61,90,254,.22), rgba(61,90,254,0) 60%)");
+        tl.fromTo(halo, { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: 1.6, ease: "power2.out" }, 0);
+
+        // ---------- titre
+        var grid = div(st, "", "inset:0; transform-origin:300px 700px");
+        var t1 = div(grid, "Les indicateurs pour", "top:190px", "ttl"), t2 = div(grid, "investir expliqués", "top:272px", "ttl");
+        var part = div(grid, "Partie 1", "top:384px", "part");
+        tl.fromTo(t1, { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: .5, ease: "power3.out" }, .1);
+        tl.fromTo(t2, { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: .5, ease: "power3.out" }, .25);
+        tl.fromTo(part, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out" }, .6);
+
+        // ---------- 8 indicateurs, chacun en mini data viz
+        var ITEMS = [
+          ["Le RSI", function (s, t) {
+            hl(s, 34, 0, 240, SKY); hl(s, 126, 0, 240, SKY);
+            el(s, "rect", { x: 0, y: 0, width: 240, height: 34, fill: BLUE, opacity: .22 }); el(s, "rect", { x: 0, y: 126, width: 240, height: 34, fill: BLUE, opacity: .22 });
+            draw(line(s, fit(osc(40, .32, 34, 50), 0, 240, 8, 152), W, 4), t, .9);
+          }],
+          ["Les moyennes mobiles", function (s, t) {
+            var p = walk(48, .35, 4.2), pts = function (a) { return fit(a, 0, 240, 10, 150, Math.min.apply(0, p), Math.max.apply(0, p)); };
+            draw(line(s, pts(p), DIM, 2.5), t, .9); draw(line(s, pts(sma(p, 6)), W, 4), t + .1, .9); draw(line(s, pts(sma(p, 16)), SKY, 4), t + .2, .9);
+          }],
+          ["Le MACD", function (s, t) {
+            var h = osc(22, .38, 30, 0); hl(s, 80, 0, 240, DIM, "1 0");
+            h.forEach(function (v, i) { var b = el(s, "rect", { x: 3 + i * 10.8, width: 7, y: v > 0 ? 80 - v * 1.6 : 80, height: Math.abs(v) * 1.6, fill: v > 0 ? BLUE : DIM, rx: 1.5 });
+              tl.fromTo(b, { scaleY: 0, transformOrigin: "50% " + (v > 0 ? "100%" : "0%") }, { scaleY: 1, duration: .35, ease: "power3.out" }, t + i * .025); });
+            var m = h.map(function (v, i) { return v + Math.sin(i * .38 - .6) * 8; });
+            draw(line(s, fit(m, 0, 240, 22, 138, -45, 45), W, 3.5), t + .2, .9);
+          }],
+          ["Les bandes de Bollinger", function (s, t) {
+            var p = walk(46, .3, 4.5), m = sma(p, 8), lo = Math.min.apply(0, p) - 6, hi = Math.max.apply(0, p) + 6;
+            var up = fit(m.map(function (v) { return v + 6; }), 0, 240, 6, 154, lo, hi), dn = fit(m.map(function (v) { return v - 6; }), 0, 240, 6, 154, lo, hi);
+            var band = el(s, "path", { d: "M" + up.map(function (q) { return q.join(","); }).join("L") + "L" + dn.slice().reverse().map(function (q) { return q.join(","); }).join("L") + "Z", fill: BLUE, opacity: .3 });
+            tl.fromTo(band, { opacity: 0 }, { opacity: .3, duration: .6 }, t + .3);
+            draw(line(s, up, SKY, 2.5), t, .9); draw(line(s, dn, SKY, 2.5), t, .9); draw(line(s, fit(p, 0, 240, 6, 154, lo, hi), W, 3.5), t + .15, .9);
+          }],
+          ["Le volume", function (s, t) {
+            draw(line(s, fit(walk(20, .4, 3), 0, 240, 6, 66), W, 3.5), t, .8);
+            for (var i = 0; i < 20; i++) { var v = 18 + rnd() * 60 + (i > 15 ? 20 : 0); var b = el(s, "rect", { x: i * 12.2, y: 160 - v, width: 8, height: v, fill: i > 15 ? BLUE : DIM, rx: 1.5 });
+              tl.fromTo(b, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .35, ease: "power3.out" }, t + i * .03); }
+          }],
+          ["Supports et résistances", function (s, t) {
+            hl(s, 30, 0, 240, SKY, "1 0"); hl(s, 130, 0, 240, SKY, "1 0");
+            draw(line(s, [[0, 110], [30, 130], [62, 52], [92, 30], [124, 100], [150, 130], [186, 46], [214, 30], [240, 70]], W, 4), t + .1, 1);
+          }],
+          ["Fibonacci", function (s, t) {
+            [[10, .25], [52, .45], [80, 1], [104, .45], [150, .25]].forEach(function (l, i) { var e = hl(s, l[0], 0, 240, l[1] === 1 ? SKY : "rgba(125,147,255," + l[1] + ")", "1 0"); tl.fromTo(e, { opacity: 0 }, { opacity: 1, duration: .3 }, t + .1 + i * .07); });
+            draw(line(s, [[0, 150], [40, 120], [70, 136], [130, 10], [160, 40], [182, 26], [210, 72], [228, 80], [240, 64]], W, 4), t, 1);
+          }],
+          ["Le stochastique", function (s, t) {
+            el(s, "rect", { x: 0, y: 0, width: 240, height: 28, fill: BLUE, opacity: .22 }); el(s, "rect", { x: 0, y: 132, width: 240, height: 28, fill: BLUE, opacity: .22 });
+            var k = osc(30, .45, 40, 50); draw(line(s, fit(k, 0, 240, 6, 154, 0, 100), W, 3.5), t, .9);
+            draw(line(s, fit(sma(k, 4), 0, 240, 6, 154, 0, 100), SKY, 3.5), t + .12, .9);
+          }]
+        ];
+        var CX = [300, 780], tiles = [];
+        ITEMS.forEach(function (it, i) {
+          var cx = CX[i % 2], y = 540 + Math.floor(i / 2) * 330, t = .85 + i * .14;
+          var tile = div(grid, "", "left:" + (cx - 220) + "px; top:" + y + "px", "tile");
+          var glow = div(tile, "", "left:60px; top:150px; width:320px; height:70px; border-radius:50%; background:radial-gradient(ellipse at 50% 50%, rgba(61,90,254,.55), rgba(61,90,254,0) 70%)");
+          var s = svg(tile, 100, 0, 240, 160); s.style.filter = "drop-shadow(0 0 10px rgba(125,147,255,.55))"; s.style.transform = "scale(1.22)"; s.style.transformOrigin = "50% 70%";
+          it[1](s, t + .1);
+          var lab = div(tile, it[0], "left:0; top:206px", "lab");
+          tl.fromTo(tile, { opacity: 0, y: 40, scale: .9 }, { opacity: 1, y: 0, scale: 1, duration: .5, ease: "back.out(1.6)" }, t);
+          tl.fromTo(glow, { opacity: 0, scaleX: .4 }, { opacity: 1, scaleX: 1, duration: .6, ease: "power2.out" }, t + .1);
+          // léger flottement pour garder l'image vivante
+          tl.to(s, { y: -6, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 2 }, 2.3 + (i % 3) * .2);
+          tiles.push(tile);
+        });
+
+        // ---------- focus sur le RSI (4,7 s) puis plongée dedans (5,6 s)
+        var rsiTile = tiles[0];
+        tl.to(tiles.slice(1), { opacity: .18, duration: .4, ease: "power2.out" }, 4.7);
+        tl.to([t1, t2, part], { opacity: .25, duration: .4 }, 4.7);
+        tl.to(rsiTile, { scale: 1.12, duration: .45, ease: "back.out(2)" }, 4.7);
+        var ring = div(grid, "", "left:86px; top:500px; width:428px; height:360px; border:3px solid " + SKY + "; border-radius:28px; box-shadow:0 0 40px rgba(61,90,254,.6)");
+        tl.fromTo(ring, { opacity: 0, scale: 1.15 }, { opacity: 1, scale: 1, duration: .4, ease: "power3.out" }, 4.75);
+        tl.to(grid, { scale: 3.4, opacity: 0, duration: .7, ease: "power3.in" }, 5.55);
+
+        // ---------- écran RSI plein cadre
+        var big = div(st, "", "inset:0; opacity:0");
+        var bt = div(big, "Le RSI", "top:500px; font-size:150px", "ttl");
+        var bs = svg(big, 90, 820, 900, 560); bs.style.filter = "drop-shadow(0 0 16px rgba(125,147,255,.5))";
+        el(bs, "rect", { x: 0, y: 0, width: 900, height: 120, fill: BLUE, opacity: .2 }); el(bs, "rect", { x: 0, y: 440, width: 900, height: 120, fill: BLUE, opacity: .2 });
+        hl(bs, 120, 0, 900, SKY, "10 10"); hl(bs, 440, 0, 900, SKY, "10 10");
+        el(bs, "text", { x: 900, y: 106, "font-size": 40, "font-weight": 600, fill: SKY, "text-anchor": "end" }, "70");
+        el(bs, "text", { x: 900, y: 500, "font-size": 40, "font-weight": 600, fill: SKY, "text-anchor": "end" }, "30");
+        seed = 11; var bigLine = line(bs, fit(osc(60, .3, 36, 50), 0, 820, 20, 540, 0, 100), W, 7);
+        tl.fromTo(big, { opacity: 0, scale: .55 }, { opacity: 1, scale: 1, duration: .7, ease: "power3.out" }, 5.95);
+        draw(bigLine, 6.05, 1.3, "power2.out");
+        tl.fromTo(bt, { y: 30 }, { y: 0, duration: .6, ease: "power3.out" }, 5.95);
+
+        // zone sûre Instagram / TikTok : contenu réduit à 82 % vers le centre utile
+        st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
+        tl.set({}, {}, END);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
