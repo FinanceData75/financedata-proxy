@@ -1,12 +1,16 @@
 # Reel — Jensen Huang : la liaison, l'espionne présumée et l'action Nvidia (novembre 2026)
 
 Format : actu « thriller » + analyse express · ~65 s · « vous »
-Plan (v2) : **hook 100 % scandale** (la liaison + l'espionne présumée) → **l'histoire** racontée comme un thriller, en 3 temps (l'aveu, qui est-elle, l'enquête) → **l'enjeu** (pourquoi Washington s'en mêle) → **l'action en 10 secondes** (la chute, mais des ventes record) → **payoff** : la seule question à se poser quand un patron fait scandale → boucle ouverte (17 novembre) → CTA.
+Série : **Le dessous des marchés**, épisode 1.
+Plan (v2) : **hook 100 % scandale** (la liaison + l'espionne présumée) → **signature de série** (1,5 s) → **l'histoire** racontée comme un thriller, en 3 temps (l'aveu, qui est-elle, l'enquête) → **l'enjeu** (pourquoi Washington s'en mêle) → **l'action en 10 secondes** (la chute, mais des ventes record) → **payoff** : la seule question à se poser quand un patron fait scandale → boucle ouverte (17 novembre) → CTA.
 
 ## Voix off
 
 **[Hook — le scandale]**
 Le patron de la plus grande entreprise du monde vient d'avouer qu'il a trompé sa femme… avec une potentielle espionne chinoise, selon un papier qui circule à Washington.
+
+**[Signature de série]**
+Le dessous des marchés, épisode 1.
 
 **[L'histoire — l'aveu]**
 Cet homme, c'est Jensen Huang, le patron de Nvidia. Ce week-end, il a écrit à ses salariés. Il reconnaît avoir été infidèle, et avoir blessé sa femme et ses enfants.
@@ -24,15 +28,16 @@ Et l'action dans tout ça ? Elle avait déjà perdu 22 % depuis son record d'oct
 Alors, comment réagir quand un patron fait scandale ? Posez-vous une seule question : est-ce que ça change ce que l'entreprise vend ? Une liaison, non. Mais si Washington perdait confiance en Nvidia, là, ce serait un vrai risque.
 
 **[Boucle ouverte + CTA]**
-Premier verdict le 17 novembre, avec ses résultats. Abonnez-vous pour ne pas le rater.
+Premier verdict le 17 novembre, avec ses résultats. Abonnez-vous pour ne pas rater le prochain épisode du Dessous des marchés.
 
-(≈ 205 mots · mention à l'écran : « Ceci n'est pas un conseil en investissement. »)
+(≈ 215 mots · mention à l'écran : « Ceci n'est pas un conseil en investissement. »)
 
 ## Découpage (trame FinanceData minimaliste)
 
 | # | Séquence | Texte | Durée | Visuel |
 |---|---|---|---|---|
 | 1 | Hook | « Le patron de la plus grande entreprise du monde… selon un papier qui circule à Washington » | ~7 s | vraie photo de Jensen Huang sur scène, qui passe en noir et blanc ; étiquette rouge « Aveu », puis tampon « Espionnage ? » |
+| 1b | Signature | « Le dessous des marchés, épisode 1. » | ~1,5 s | carte de série : « LE DESSOUS DES MARCHÉS » en blanc sur bleu FinanceData, « Épisode 1 » au-dessus, petit glissement ; identique à chaque épisode |
 | 2 | L'aveu | « Ce week-end, Jensen Huang a écrit à ses salariés… » | ~6 s | carte blanche façon e-mail interne : « À : tous les salariés » + un mot surligné « infidèle » |
 | 3 | Qui est-elle | « Une ancienne cadre… approcher l'homme qui fabrique les puces de l'IA » | ~11 s | carte du monde minimale : Singapour → Pékin → Santa Clara, reliés en pointillés ; silhouette floutée (jamais son visage) |
 | 4 | L'enquête et l'enjeu | « Nvidia a ouvert une enquête… pas le droit de vendre à la Chine » | ~10 s | vraie photo du siège de Nvidia ; carte « Enquête interne » ; puis une puce avec un cadenas et le drapeau chinois barré |
