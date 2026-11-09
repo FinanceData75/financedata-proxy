@@ -9,11 +9,11 @@ Plan (v2) : **hook 100 % scandale** (la liaison + l'espionne présumée) → **s
 **[Hook — le scandale]**
 Le patron de la plus grande entreprise du monde vient d'avouer qu'il a trompé sa femme… avec une potentielle espionne chinoise, selon un papier qui circule à Washington.
 
-**[La révélation + signature de série]**
-Cet homme, c'est Jensen Huang, le patron de Nvidia. Le dessous des marchés, épisode 1.
+**[Signature de série]**
+Bienvenue dans le dessous des marchés, épisode 1.
 
-**[L'histoire — l'aveu]**
-Ce week-end, il a écrit à ses salariés. Il reconnaît avoir été infidèle, et avoir blessé sa femme et ses enfants.
+**[La révélation + l'aveu]**
+Cet homme, c'est Jensen Huang, le patron de Nvidia. Ce week-end, il a écrit à ses salariés. Il reconnaît avoir été infidèle, et avoir blessé sa femme et ses enfants.
 
 **[L'histoire — qui est-elle]**
 La femme en question : une ancienne cadre d'une société de puces basée à Singapour. Et plus tôt cette année, un papier a circulé parmi les responsables américains : elle aurait été recrutée par l'espionnage chinois pour approcher l'homme qui fabrique les puces de l'IA.
@@ -37,7 +37,7 @@ Premier verdict le 17 novembre, avec ses résultats. Abonnez-vous pour ne pas le
 | # | Séquence | Texte | Durée | Visuel |
 |---|---|---|---|---|
 | 1 | Hook | « Le patron de la plus grande entreprise du monde… selon un papier qui circule à Washington » | ~7 s | vraie photo de Jensen Huang sur scène, qui passe en noir et blanc ; étiquette rouge « Aveu », puis tampon « Espionnage ? » |
-| 1b | Révélation + signature | « Cet homme, c'est Jensen Huang… Le dessous des marchés, épisode 1. » | ~1,5 s | carte de série : « LE DESSOUS DES MARCHÉS » en blanc sur bleu FinanceData, « Épisode 1 » au-dessus, petit glissement ; identique à chaque épisode |
+| 1b | Signature | « Bienvenue dans le dessous des marchés, épisode 1. » | ~1,5 s | carte de série : « LE DESSOUS DES MARCHÉS » en blanc sur bleu FinanceData, « Épisode 1 » au-dessus, petit glissement ; identique à chaque épisode |
 | 2 | L'aveu | « Ce week-end, Jensen Huang a écrit à ses salariés… » | ~6 s | carte blanche façon e-mail interne : « À : tous les salariés » + un mot surligné « infidèle » |
 | 3 | Qui est-elle | « Une ancienne cadre… approcher l'homme qui fabrique les puces de l'IA » | ~11 s | carte du monde minimale : Singapour → Pékin → Santa Clara, reliés en pointillés ; silhouette floutée (jamais son visage) |
 | 4 | L'enquête et l'enjeu | « Nvidia a ouvert une enquête… pas le droit de vendre à la Chine » | ~10 s | vraie photo du siège de Nvidia ; carte « Enquête interne » ; puis une puce avec un cadenas et le drapeau chinois barré |
