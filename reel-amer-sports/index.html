@@ -26,18 +26,20 @@
       .card { position: absolute; background: #fff; border-radius: 4px; box-shadow: 0 18px 50px rgba(0,11,34,.3); }
       .pill { position: absolute; padding: 12px 26px; color: #fff; font-size: 56px; font-weight: 700; letter-spacing: -.04em; border-radius: 3px; white-space: nowrap; box-shadow: 0 18px 50px rgba(0,11,34,.3); }
       .lg { display: block; object-fit: contain; }
+      .ov { position: absolute; left: 0; right: 0; text-align: center; color: #fff; font-weight: 700; letter-spacing: -.055em; line-height: 1.05; text-shadow: 0 2px 20px rgba(0,0,0,.35); }
+      .wl { filter: brightness(0) invert(1) drop-shadow(0 2px 14px rgba(0,0,0,.3)); }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="68.71" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="68.71" data-track-index="1"></audio>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="67.91" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="67.91" data-track-index="1"></audio>
       <video id="v-sent" class="clip" src="assets/video/salomon-sentier.mp4" data-start="0" data-duration="4.31" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-mont" class="clip" src="assets/video/montagne.mp4" data-start="19.77" data-duration="2.42" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-chine" class="clip" src="assets/video/chine.mp4" data-start="43.22" data-duration="3.28" data-track-index="5" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-rue" class="clip" src="assets/video/rue.mp4" data-start="55.97" data-duration="5.73" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-arc" class="clip" src="assets/video/montagne-arc.mp4" data-start="61.70" data-duration="5.3" data-track-index="7" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <div id="bgl" class="clip" data-start="0" data-duration="68.71" data-track-index="4" style="position:absolute; inset:0"></div>
-      <div id="stage" class="clip" data-start="0" data-duration="68.71" data-track-index="0" style="position:absolute; inset:0"></div>
+      <video id="v-mont" class="clip" src="assets/video/montagne.mp4" data-start="20.47" data-duration="2.42" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-chine" class="clip" src="assets/video/chine.mp4" data-start="43.92" data-duration="3.28" data-track-index="5" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-rue" class="clip" src="assets/video/rue.mp4" data-start="55.17" data-duration="5.73" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-arc" class="clip" src="assets/video/montagne-arc.mp4" data-start="60.90" data-duration="5.3" data-track-index="7" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="bgl" class="clip" data-start="0" data-duration="67.91" data-track-index="4" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="67.91" data-track-index="0" style="position:absolute; inset:0"></div>
     </div>
     <script>
       (function () {
@@ -78,14 +80,14 @@
         // ===== 1. Salomon, née à Annecy… plus française (0 → 4,31) : vraie vidéo + logo + étiquette barrée =====
         (function () {
           var s = vscene("#v-sent", 0, 4.31);
-          var card = div(s, "<div style='display:flex; align-items:center; justify-content:center; height:100%'>" + logo("sal", 280, 176) + "</div>", "left:330px; top:360px; width:420px; height:250px", "card");
-          tl.fromTo(card, { opacity: 0, scale: .85 }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, 0.02);
-          var flag = "<span style='display:inline-flex; width:66px; height:44px; margin-right:20px; vertical-align:-4px; box-shadow:0 0 0 2px #d5dae5'><i style='flex:1; background:#0055a4'></i><i style='flex:1; background:#fff'></i><i style='flex:1; background:#ef4135'></i></span>";
-          var tag = div(s, flag + "Annecy, 1947", "left:330px; top:660px; background:#fff; color:" + NAVY + "; font-size:52px", "pill");
-          pop(tag, 1.67);
-          var bar = div(tag, "", "left:-10px; right:-10px; top:50%; height:8px; margin-top:-4px; background:" + RED);
+          var lg = div(s, "<div class='wl' style='display:flex; justify-content:center'>" + logo("sal", 400, 252) + "</div>", "left:0; right:0; top:420px");
+          tl.fromTo(lg, { opacity: 0, scale: .85, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, 0.02);
+          var flag = "<span style='display:inline-flex; width:60px; height:40px; margin-right:22px; vertical-align:-2px'><i style='flex:1; background:#0055a4'></i><i style='flex:1; background:#fff'></i><i style='flex:1; background:#ef4135'></i></span>";
+          var tag = div(s, "<span style='position:relative; display:inline-block'>" + flag + "Annecy, 1947<i class='bar' style='position:absolute; left:-12px; right:-12px; top:50%; height:8px; margin-top:-4px; background:" + RED + "'></i></span>", "top:760px; font-size:76px", "ov");
+          fadeIn(tag, 1.67, .3, 14);
+          var bar = tag.querySelector(".bar");
           tl.fromTo(bar, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .3, ease: "power2.out" }, 2.47);
-          tl.to(tag, { color: "#6b7290", duration: .2 }, 2.47);
+          tl.to(tag, { opacity: .75, duration: .2 }, 2.47);
         })();
 
         // ===== 2. Un groupe coté à New York, premier actionnaire chinois (4,31 → 8,99) =====
@@ -260,23 +262,22 @@
         // ===== 11. « C'est ça, une asymétrie » (49,13 → 52,32) : vraie photo =====
         (function () {
           var s = iscene("couverture.jpg", 49.13, 52.32, "linear-gradient(180deg, rgba(0,11,34,.2), rgba(0,11,34,.55))");
-          pop(div(s, "Asymétrie", "left:96px; top:520px; background:" + BLUE + "; font-size:84px", "pill"), 49.85);
+          fadeIn(div(s, "Le doute est<br>déjà dans le prix", "top:600px; font-size:104px", "ov"), 50.63, .4, 20);
         })();
 
         // ===== 12. La mode outdoor (52,32 → 58,05) : vraie vidéo de rue =====
         (function () {
           var s = vscene("#v-rue", 52.32, 58.05);
-          pop(div(s, "Effet de mode ?", "left:96px; top:420px; background:#fff; color:" + NAVY, "pill"), 55.02);
+          fadeIn(div(s, "Effet de mode ?", "top:560px; font-size:104px", "ov"), 55.02, .4, 20);
         })();
 
         // ===== 13. Rendez-vous le 17 novembre (58,05 → 63,35) : vraie vidéo de montagne + calendrier =====
         (function () {
           var s = vscene("#v-arc", 58.05, 63.35);
-          var cal = div(s, "<div style='height:64px; background:" + BLUE + "; color:#fff; font-size:36px; font-weight:700; letter-spacing:-.02em; text-align:center; line-height:64px'>Novembre</div><div style='font-size:150px; font-weight:700; letter-spacing:-.06em; text-align:center; line-height:190px'>17</div>", "left:96px; top:380px; width:280px; height:254px; overflow:hidden", "card");
-          tl.fromTo(cal, { opacity: 0, y: 30, rotation: -4 }, { opacity: 1, y: 0, rotation: 0, duration: .4, ease: "back.out(2)" }, 58.57);
-          var p1 = div(s, "Amérique <span style='color:" + GREEN + "'>+26 %</span>", "left:96px; top:700px; background:#fff; color:" + NAVY + "; font-size:48px", "pill");
-          var p2 = div(s, "Europe <span style='color:" + GREEN + "'>+20 %</span>", "left:96px; top:800px; background:#fff; color:" + NAVY + "; font-size:48px", "pill");
-          pop(p1, 60.67); pop(p2, 61.19);
+          var d = div(s, "<div style='font-size:150px; letter-spacing:-.06em'>17 nov.</div><div style='margin-top:10px; font-size:48px; letter-spacing:-.03em; opacity:.85'>Résultats</div>", "top:420px", "ov");
+          fadeIn(d, 58.57, .4, 20);
+          var p1 = div(s, "Amérique +26 %", "top:820px; font-size:64px", "ov"), p2 = div(s, "Europe +20 %", "top:910px; font-size:64px", "ov");
+          fadeIn(p1, 60.67, .3, 14); fadeIn(p2, 61.19, .3, 14);
         })();
 
         // ===== 14. CTA (63,35 → 65,06) =====
@@ -296,9 +297,12 @@
 
         tl.getChildren(false, true, true).forEach(function (c) { if (BEFORE.indexOf(c) < 0) c.startTime(c.startTime() + D); });
         END = 68.71;
+        function M(t) { if (t < 17.53) return t; if (t < 19.66) return 17.53 + (t - 17.53) * 2.83 / 2.13; if (t < 52.66) return t + .70; if (t < 54.16) return 53.36; return t - .80; }
+        tl.getChildren(false, true, true).forEach(function (c) { c.startTime(M(c.startTime())); });
+        END = 67.91;
 
         // ===== sous-titres : blancs sur encadré sombre, 3 mots max, chiffres en chiffres, aucun sur le CTA =====
-        var W = window.VO.words.filter(function (w) { return w.s < 66.95; }), NUM = [
+        var W = window.VO.words.filter(function (w) { return w.s < 66.15; }), NUM = [
           [["trente-deux", "pour", "cent"], "32 %"], [["trente-sept", "pour", "cent"], "37 %"], [["vingt-quatre", "pour", "cent"], "24 %"],
           [["deux", "mille", "vingt-quatre"], "2024"], [["huit", "cents", "millions"], "800 millions"], [["quarante-sept"], "47 %"],
           [["trente-cinq", "pour", "cent"], "35 %"], [["vingt", "fois"], "20 fois"], [["dix-sept", "novembre"], "17 novembre"], [["trente", "ans"], "30 ans"]];
@@ -318,8 +322,8 @@
           if (punct || nwords >= 3 || nwords + nextLen > 3 || !next) { groups.push(cur); cur = []; }
         });
         groups.forEach(function (gp, k) {
-          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 67.0;
-          if (t0 >= 17.55 && t0 < 19.77) return; // signature de série déjà écrite à l'écran
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 66.2;
+          if ((t0 >= 17.5 && t0 < 20.47) || (t0 >= 53.4 && t0 < 55.17)) return; // signature de série déjà écrite à l'écran
           var txt = gp.map(function (t) { return t.w; }).join(" ").replace(/\s+([?:!])/g, " $1");
           var d = div(st, "<span>" + txt + "</span>", "", "cap");
           tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, Math.max(0, t0 - .02)); tl.set(d, { opacity: 0 }, t1 - .03);
