@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/cours.js"></script>
+    <script src="assets/logos.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <style>
+      /* Reel « Le dessous des marchés, épisode 1 : Jensen Huang » (70,92 s), trame FinanceData minimaliste (styles/financedata/TRAME.md) :
+         une idée par écran, vraies photos et vidéos, textes blancs centrés sans fond sur les images, data viz épurées,
+         contenu réduit à 82 % (zone sûre), sous-titres blancs sur encadré sombre, 3 mots max. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-variation-settings: "opsz" 32; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
+      .cap { position: absolute; left: 0; right: 0; top: 1360px; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-weight: 700; font-size: 62px; letter-spacing: -.05em; word-spacing: .02em; color: #fff; background: rgba(8,10,20,.72); padding: 8px 26px 14px; border-radius: 6px; line-height: 1.1; }
+      .ttl { position: absolute; left: 96px; top: 286px; font-weight: 700; font-size: 72px; letter-spacing: -.055em; line-height: 1; }
+      .src { position: absolute; left: 96px; font-size: 28px; font-weight: 500; color: #6b7290; letter-spacing: -.02em; }
+      .ov { position: absolute; left: 0; right: 0; text-align: center; color: #fff; font-weight: 700; letter-spacing: -.055em; line-height: 1.05; text-shadow: 0 2px 20px rgba(0,0,0,.35); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="70.92" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="70.92" data-track-index="1"></audio>
+      <video id="v-cap" class="clip" src="assets/video/capitole.mp4" data-start="24.80" data-duration="6.04" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-dc" class="clip" src="assets/video/datacenter.mp4" data-start="30.84" data-duration="2.65" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="bgl" class="clip" data-start="0" data-duration="70.92" data-track-index="4" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="70.92" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true });
+        var st = document.getElementById("stage"), bgl = document.getElementById("bgl"), END = 70.92;
+        var NAVY = "#0a105e", BLUE = "#3d5afe", RED = "#d9161e", GREEN = "#1f9d55", GRID = "#d5dae5", AX = "#6b7290", PALE = "#c5cad9";
+        var FOCAL = "radial-gradient(ellipse 75% 55% at 50% 44%, #ffffff 0%, #f2f3f7 50%, #c3c7d2 100%)", LIGHT = "#eef1f5", NIGHT = "#000b22";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+        function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
+        function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power2.inOut" }, t); }
+        function fadeIn(e, t, d, y) { tl.fromTo(e, { opacity: 0, y: y == null ? 16 : y }, { opacity: 1, y: 0, duration: d || .35, ease: "power3.out" }, t); return e; }
+        function count(e, t, d, v0, v1, f) { var o = { v: v0 }; tl.fromTo(o, { v: v0 }, { v: v1, duration: d, ease: "power3.out", onUpdate: function () { e.textContent = f(o.v); } }, t); }
+        function scene(t0, t1, bg) {
+          var s = div(st, "", "", "sc"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1);
+          if (bg) { var b = div(bgl, "", "background:" + bg, "full"); tl.set(b, { opacity: 1 }, t0); tl.set(b, { opacity: 0 }, t1); }
+          return s;
+        }
+        var VEIL = "linear-gradient(180deg, rgba(0,11,34,.25) 0%, rgba(0,11,34,.15) 40%, rgba(0,11,34,.65) 100%)";
+        function vscene(id, t0, t1) {
+          var s = scene(t0, t1, null), v = div(bgl, "", "background:" + VEIL, "full");
+          tl.set(v, { opacity: 1 }, t0); tl.set(v, { opacity: 0 }, t1);
+          tl.fromTo(id, { scale: 1 }, { scale: 1.07, duration: t1 - t0, ease: "none" }, t0);
+          return s;
+        }
+        function iscene(img, t0, t1, veil, zoom) {
+          var s = scene(t0, t1, null), im = div(bgl, "", "background:url(assets/img/" + img + ") center/cover", "full"), v = div(bgl, "", "background:" + (veil || VEIL), "full");
+          tl.set([im, v], { opacity: 1 }, t0); tl.set([im, v], { opacity: 0 }, t1);
+          tl.fromTo(im, { scale: 1 }, { scale: zoom || 1.07, duration: t1 - t0, ease: "none" }, t0);
+          s.im = im; return s;
+        }
+        function nvlogo(size, color) { return "<svg width='" + size + "' height='" + size + "' viewBox='0 0 24 24' style='position:static; display:inline-block; vertical-align:middle'><path d='" + window.LOGOS.nvidia + "' fill='" + (color || "#76b900") + "'/></svg>"; }
+
+        // ===== 1. HOOK, temps 1 (0 → 4,24) : portrait noir et blanc de Jensen Huang, poussée rapide, « Aveu » =====
+        (function () {
+          var s = iscene("jensen-nb.jpg", 0, 4.24, "linear-gradient(180deg, rgba(0,0,0,.1) 0%, rgba(0,0,0,.05) 45%, rgba(0,0,0,.7) 100%)", 1.14);
+          tl.fromTo(s.im, { scale: 1.32 }, { scale: 1.06, duration: .55, ease: "power3.out" }, 0);
+          tl.to(s.im, { scale: 1.16, duration: 3.69, ease: "none" }, .55);
+          var vig = div(bgl, "", "background:radial-gradient(ellipse 70% 60% at 50% 45%, rgba(217,22,30,0) 55%, rgba(217,22,30,.42) 100%)", "full");
+          tl.fromTo(vig, { opacity: 0 }, { opacity: 1, duration: .25 }, 3.08); tl.set(vig, { opacity: 0 }, 4.24);
+          var a = div(s, "Aveu", "top:1010px; font-size:190px; letter-spacing:-.06em", "ov");
+          tl.fromTo(a, { opacity: 0, scale: 1.35, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "power3.out" }, 2.53);
+          tl.fromTo(s.im, { filter: "brightness(1)" }, { filter: "brightness(1.8)", duration: .06, yoyo: true, repeat: 1 }, 2.53);   // éclair sur « d'avouer »
+          var l = div(s, "", "left:380px; top:1220px; width:320px; height:10px; background:" + RED);
+          tl.fromTo(l, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .3, ease: "power2.out" }, 3.08);  // « trompé »
+        })();
+
+        // ===== 1. HOOK, temps 2 (4,24 → 8,25) : le papier qui circule à Washington, tampon « Espionnage ? » =====
+        (function () {
+          var s = scene(4.24, 8.25, NIGHT);
+          var lines = ""; [0, 1, 2, 3, 4, 5, 6, 7].forEach(function (k) { var w = [92, 78, 88, 60, 94, 70, 84, 52][k]; lines += "<div style='height:22px; width:" + w + "%; margin:0 0 26px; background:" + (k % 3 === 1 ? "#0a105e" : "#d5dae5") + "'></div>"; });
+          var doc = div(s, "<div style='font-size:30px; font-weight:700; letter-spacing:.12em; color:#6b7290; margin-bottom:46px'>NOTE · CONFIDENTIEL</div>" + lines, "left:250px; top:380px; width:580px; height:760px; padding:60px 56px; background:#fff; border-radius:2px; box-shadow:0 30px 80px rgba(0,0,0,.5)");
+          tl.fromTo(doc, { opacity: 0, y: 160, rotation: 4 }, { opacity: 1, y: 0, rotation: -3, duration: .5, ease: "power3.out" }, 4.26);
+          var stamp = div(s, "Espionnage ?", "left:200px; top:690px; width:680px; text-align:center; font-size:96px; font-weight:800; letter-spacing:-.03em; color:" + RED + "; border:8px solid " + RED + "; padding:10px 0 16px; border-radius:6px; background:rgba(255,255,255,.88)");
+          tl.fromTo(stamp, { opacity: 0, scale: 2.2, rotation: -4, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, rotation: -12, duration: .22, ease: "power4.in" }, 5.24);
+          tl.fromTo(doc, { x: 0 }, { x: 10, duration: .05, yoyo: true, repeat: 3 }, 5.46);   // l'impact du tampon
+          var w = div(s, "Washington", "top:1200px; font-size:84px", "ov");
+          fadeIn(w, 7.76, .3, 14);
+          tl.to(doc, { scale: 1.05, duration: 1.6, ease: "none" }, 6.6);
+        })();
+
+        // ===== 2. Signature de série (8,25 → 11,17) =====
+        (function () {
+          var s = scene(8.25, 11.17, BLUE);
+          var ep = div(s, "Épisode 1", "left:96px; top:640px; font-size:44px; font-weight:700; letter-spacing:.02em; color:rgba(255,255,255,.75); text-transform:uppercase");
+          var t1 = div(s, "Le dessous", "left:90px; top:710px; font-size:132px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff");
+          var t2 = div(s, "des marchés", "left:90px; top:850px; font-size:132px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff");
+          var rule = div(s, "", "left:96px; top:1010px; width:180px; height:10px; background:#fff");
+          tl.fromTo([t1, t2], { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: .45, ease: "power3.out", stagger: .08 }, 8.27);
+          tl.fromTo(rule, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .4, ease: "power3.out" }, 8.6);
+          fadeIn(ep, 10.24, .3, 10);
+        })();
+
+        // ===== 3. « Cet homme, c'est Jensen Huang, le patron de Nvidia » (11,17 → 14,38) =====
+        (function () {
+          var s = iscene("jensen-scene.jpg", 11.17, 14.38);
+          fadeIn(div(s, "Jensen Huang", "top:1000px; font-size:120px", "ov"), 12.09, .35, 20);
+          fadeIn(div(s, nvlogo(70, "#fff") + "<span style='margin-left:18px; vertical-align:middle'>PDG de Nvidia</span>", "top:1150px; font-size:58px; letter-spacing:-.03em", "ov"), 13.69, .3, 14);
+        })();
+
+        // ===== 4. La note aux salariés : « infidèle » (14,38 → 20,48) =====
+        (function () {
+          var s = scene(14.38, 20.48, FOCAL);
+          var bars = ""; [86, 72, 90, 64].forEach(function (w) { bars += "<div style='height:20px; width:" + w + "%; margin:0 0 24px; background:#e3e6ee'></div>"; });
+          var mail = div(s, "<div style='font-size:32px; color:#6b7290; font-weight:600; letter-spacing:-.02em'>De : <b style='color:#0a105e'>Jensen Huang</b></div><div style='margin-top:10px; font-size:32px; color:#6b7290; font-weight:600; letter-spacing:-.02em'>À : <b style='color:#0a105e'>tous les salariés</b></div><div style='margin:36px 0; height:2px; background:#e3e6ee'></div>" + bars + "<div class='w' style='display:inline-block; position:relative; font-size:96px; font-weight:700; letter-spacing:-.055em; color:#0a105e; margin-top:12px'>« infidèle »<i style='position:absolute; left:0; right:0; bottom:-6px; height:10px; background:" + RED + "'></i></div>", "left:150px; top:420px; width:780px; padding:56px 60px 70px; background:#fff; border-radius:4px; box-shadow:0 24px 60px rgba(0,11,34,.18)");
+          tl.fromTo(mail, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, 14.5);
+          var w = mail.querySelector(".w"); tl.fromTo(w, { opacity: 0 }, { opacity: 1, duration: .2 }, 17.69);
+          tl.fromTo(w.querySelector("i"), { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .35, ease: "power2.out" }, 17.85);
+          fadeIn(div(s, "Note interne du 8 novembre 2026, traduite · Source : Nvidia", "top:1230px", "src"), 14.6, .3, 0);
+        })();
+
+        // ===== 5. « Une ancienne cadre d'une société de puces basée à Singapour » (20,48 → 24,80) =====
+        (function () {
+          var s = iscene("singapour.jpg", 20.48, 24.80);
+          fadeIn(div(s, "Ancienne cadre", "top:880px; font-size:72px", "ov"), 21.70, .3, 14);
+          fadeIn(div(s, "d'une société de puces", "top:970px; font-size:52px; letter-spacing:-.03em", "ov"), 22.74, .3, 14);
+          fadeIn(div(s, "Singapour", "top:560px; font-size:140px", "ov"), 24.10, .3, 20);
+        })();
+
+        // ===== 6. Le papier à Washington : recrutée par l'espionnage chinois ? (24,80 → 30,84) : vraie vidéo du Capitole =====
+        (function () {
+          var s = vscene("#v-cap", 24.80, 30.84);
+          fadeIn(div(s, "Recrutée par<br>l'espionnage chinois ?", "top:640px; font-size:96px", "ov"), 29.08, .4, 20);
+          fadeIn(div(s, "selon un papier qui circule à Washington", "top:880px; font-size:40px; letter-spacing:-.02em; font-weight:600", "ov"), 29.3, .3, 10);
+        })();
+
+        // ===== 7. « L'homme qui fabrique les puces de l'IA » (30,84 → 33,49) : vraie vidéo de data center =====
+        (function () {
+          var s = vscene("#v-dc", 30.84, 33.49);
+          fadeIn(div(s, "Les puces de l'IA", "top:760px; font-size:110px", "ov"), 32.52, .35, 20);
+        })();
+
+        // ===== 8. L'enquête (33,49 → 38,75) : le siège de Nvidia =====
+        (function () {
+          var s = iscene("siege-nvidia.jpg", 33.49, 38.75, "rgba(0,11,34,.45)");
+          fadeIn(div(s, "Enquête interne", "top:720px; font-size:120px", "ov"), 34.45, .35, 20);
+          fadeIn(div(s, "Aucune fuite, selon le conseil", "top:870px; font-size:52px; letter-spacing:-.03em", "ov"), 37.66, .3, 14);
+        })();
+
+        // ===== 9. L'enjeu : pas le droit de vendre ses puces les plus puissantes à la Chine (38,75 → 44,21) =====
+        (function () {
+          var s = scene(38.75, 44.21, FOCAL);
+          div(s, "Exportations", "", "ttl");
+          var us = div(s, "États-Unis", "left:96px; top:760px; width:300px; text-align:center; font-size:52px; font-weight:700; letter-spacing:-.045em");
+          var cn = div(s, "Chine", "left:684px; top:760px; width:300px; text-align:center; font-size:52px; font-weight:700; letter-spacing:-.045em");
+          fadeIn(us, 38.8, .3, 10); fadeIn(cn, 43.58, .3, 10);
+          var g = svg(s, 0, 0, 1080, 1300);
+          var line = el(g, "line", { x1: 300, x2: 780, y1: 700, y2: 700, stroke: PALE, "stroke-width": 6, "stroke-dasharray": "16 12" });
+          tl.fromTo(line, { opacity: 0 }, { opacity: 1, duration: .3 }, 41.94);
+          // la puce : carré marine avec ses broches
+          var chip = el(g, "g", {});
+          el(chip, "rect", { x: -62, y: -62, width: 124, height: 124, rx: 6, fill: NAVY });
+          el(chip, "rect", { x: -34, y: -34, width: 68, height: 68, rx: 3, fill: "none", stroke: "#fff", "stroke-width": 4 });
+          [-40, -14, 14, 40].forEach(function (o) { [[o, -62, o, -84], [o, 62, o, 84], [-62, o, -84, o], [62, o, 84, o]].forEach(function (p) { el(chip, "line", { x1: p[0], y1: p[1], x2: p[2], y2: p[3], stroke: NAVY, "stroke-width": 6 }); }); });
+          chip.setAttribute("transform", "translate(246 700)");
+          var pos = { x: 246 };
+          tl.fromTo(chip, { opacity: 0 }, { opacity: 1, duration: .2 }, 42.46);
+          tl.fromTo(pos, { x: 246 }, { x: 560, duration: .9, ease: "power2.in", onUpdate: function () { chip.setAttribute("transform", "translate(" + pos.x + " 700)"); } }, 42.6);
+          var wall = el(g, "rect", { x: 660, y: 590, width: 14, height: 220, fill: RED });
+          tl.fromTo(wall, { opacity: 0, scaleY: 0, transformOrigin: "50% 50%" }, { opacity: 1, scaleY: 1, duration: .2 }, 43.3);
+          var no = div(s, "Interdit", "left:0; right:0; top:900px; text-align:center; font-size:72px; font-weight:700; letter-spacing:-.05em; color:" + RED);
+          tl.fromTo(no, { opacity: 0, scale: 1.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .25, ease: "back.out(2)" }, 43.5);
+          fadeIn(div(s, "Puces d'IA les plus puissantes · Règles d'exportation américaines", "top:1230px", "src"), 38.9, .3, 0);
+        })();
+
+        // ===== 10. L'action : −27 % depuis le sommet (44,21 → 48,18) =====
+        (function () {
+          var s = scene(44.21, 48.18, LIGHT), S = window.NVDA, n = S.length, W = 888, PW = 760, H = 700, ymin = 120, ymax = 260;
+          div(s, nvlogo(66) + "<span style='margin-left:18px; vertical-align:middle'>Nvidia</span>", "", "ttl");
+          var g = svg(s, 96, 440, W, H + 70), X = function (i) { return i / (n - 1) * PW; }, Y = function (v) { return H - (v - ymin) / (ymax - ymin) * H; };
+          var axis = [];
+          [150, 175, 200, 225, 250].forEach(function (v) { axis.push(el(g, "line", { x1: 0, x2: W, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 })); axis.push(T(g, W, Y(v) - 12, v + " $", 30, AX, 500, "end")); });
+          axis.push(el(g, "line", { x1: 0, x2: W, y1: H, y2: H, stroke: NAVY, "stroke-width": 3 }));
+          var ix = function (d) { for (var i = 0; i < n; i++) if (S[i][0] >= d) return i; return n - 1; };
+          [["2026-01-02", "2026"], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]].forEach(function (m) { var x = X(ix(m[0])); axis.push(el(g, "line", { x1: x, x2: x, y1: H, y2: H + 14, stroke: NAVY, "stroke-width": 3 })); axis.push(T(g, x + 8, H + 50, m[1], 30, AX, 500)); });
+          tl.fromTo(axis, { opacity: 0 }, { opacity: 1, duration: .25 }, 44.24);
+          var p = ""; for (var i = 0; i < n; i++) p += (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(S[i][1]).toFixed(1);
+          var defs = el(g, "defs", {}), lgr = el(defs, "linearGradient", { id: "ar1", x1: 0, y1: 0, x2: 0, y2: 1 });
+          el(lgr, "stop", { offset: 0, "stop-color": RED, "stop-opacity": .32 }); el(lgr, "stop", { offset: 1, "stop-color": RED, "stop-opacity": 0 });
+          var ar = el(g, "path", { d: "M0 " + H + " " + p.replace(/^M/, "L") + " L" + X(n - 1) + " " + H + " Z", fill: "url(#ar1)" });
+          tl.fromTo(ar, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 1.0, ease: "none" }, 44.3);
+          var ln = el(g, "path", { d: p, fill: "none", stroke: RED, "stroke-width": 5, "stroke-linejoin": "round" }); draw(ln, 44.3, 1.0, "none");
+          var ip = 0; S.forEach(function (r, k) { if (r[1] > S[ip][1]) ip = k; });
+          var pd = el(g, "circle", { cx: X(ip), cy: Y(S[ip][1]), r: 10, fill: LIGHT, stroke: NAVY, "stroke-width": 4 });
+          var br = el(g, "path", { d: "M" + X(ip) + " " + Y(S[ip][1]) + " H" + (PW + 20) + " V" + Y(S[n - 1][1]), fill: "none", stroke: RED, "stroke-width": 3, "stroke-dasharray": "10 8" });
+          var a = T(g, 20, Y(135), "−27 % depuis le sommet", 48, RED, 700);
+          var ld = el(g, "circle", { cx: X(n - 1), cy: Y(S[n - 1][1]), r: 12, fill: RED, stroke: "#fff", "stroke-width": 4 });
+          tl.fromTo([pd, br, ld], { opacity: 0 }, { opacity: 1, duration: .25 }, 45.4); tl.fromTo(a, { opacity: 0 }, { opacity: 1, duration: .25 }, 45.91);
+          fadeIn(div(s, "Clôtures, puis cours du 9 novembre ; sommet de 243 $ en séance le 6 octobre · Source : Yahoo Finance", "top:1262px; width:888px", "src"), 44.3, .3, 0);
+        })();
+
+        // ===== 11. Les ventes ont doublé (48,18 → 54,90) =====
+        (function () {
+          var s = scene(48.18, 54.90, LIGHT), Z = 1120, U = 6.2;
+          div(s, "Ventes par trimestre", "", "ttl");
+          div(s, "", "left:96px; top:" + (Z - 1.5) + "px; width:888px; height:3px; background:" + NAVY);
+          [["Mai–juil. 2025", 46.7, PALE, AX, 48.3, 170], ["Mai–juil. 2026", 96.2, BLUE, BLUE, 50.58, 590]].forEach(function (c) {
+            var b = div(s, "", "left:" + c[5] + "px; top:" + (Z - c[1] * U) + "px; width:320px; height:" + (c[1] * U) + "px; background:" + c[2]);
+            var v = div(s, "0", "left:" + c[5] + "px; width:320px; top:" + (Z - c[1] * U - 96) + "px; text-align:center; font-size:76px; font-weight:700; letter-spacing:-.055em; color:" + c[3] + "; font-feature-settings:'tnum' 1");
+            var l = div(s, c[0], "left:" + c[5] + "px; width:320px; top:" + (Z + 22) + "px; text-align:center; font-size:38px; font-weight:700; letter-spacing:-.04em; color:" + (c[2] === BLUE ? NAVY : AX));
+            tl.fromTo(b, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .7, ease: "power3.out" }, c[4]);
+            tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .1 }, c[4]); count(v, c[4], .7, 0, c[1], function (x) { return fr(x, 1); });
+          });
+          var x2 = div(s, "×2", "left:590px; width:320px; top:" + (Z - 96.2 * U + 40) + "px; text-align:center; font-size:110px; font-weight:700; letter-spacing:-.06em; color:#fff");
+          tl.fromTo(x2, { opacity: 0, scale: 1.4, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, 53.5);
+          fadeIn(div(s, "Chiffre d'affaires, en milliards de dollars · Source : Nvidia", "top:1230px", "src"), 48.3, .3, 0);
+        })();
+
+        // ===== 12. Payoff : comment réagir ? (54,90 → 57,65) puis la seule question (57,65 → 66,70) =====
+        (function () {
+          var s = iscene("jensen-nb.jpg", 54.90, 57.65, "rgba(0,0,0,.45)");
+          fadeIn(div(s, "Comment réagir ?", "top:760px; font-size:120px", "ov"), 55.45, .35, 20);
+
+          var s2 = scene(57.65, 66.70, NIGHT);
+          fadeIn(div(s2, "Une seule question", "top:380px; font-size:44px; letter-spacing:-.02em; color:rgba(255,255,255,.6)", "ov"), 58.21, .3, 10);
+          fadeIn(div(s2, "Ça change ce que<br>l'entreprise vend ?", "top:470px; font-size:100px", "ov"), 59.14, .4, 20);
+          var r1 = div(s2, "<span style='color:rgba(255,255,255,.65)'>Une liaison</span><span style='display:inline-block; width:40px'></span><span style='color:#fff'>Non</span>", "top:820px; font-size:68px", "ov");
+          var r2 = div(s2, "<span style='color:rgba(255,255,255,.85)'>La confiance de Washington</span>", "top:960px; font-size:60px", "ov");
+          var r3 = div(s2, "Vrai risque", "left:330px; right:330px; top:1060px; text-align:center; font-size:72px; font-weight:700; letter-spacing:-.05em; color:#fff; background:" + RED + "; padding:6px 0 14px; border-radius:3px");
+          fadeIn(r1, 61.36, .3, 14); fadeIn(r2, 62.81, .3, 14);
+          tl.fromTo(r3, { opacity: 0, scale: 1.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, 65.91);
+        })();
+
+        // ===== 13. Premier verdict le 17 novembre (66,70 → 69,52) : le siège de Nvidia =====
+        (function () {
+          var s = iscene("siege-exterieur.jpg", 66.70, 69.52, "rgba(0,11,34,.5)");
+          fadeIn(div(s, "17 nov.", "top:640px; font-size:170px; letter-spacing:-.06em", "ov"), 67.58, .35, 20);
+          fadeIn(div(s, "Résultats", "top:830px; font-size:60px; letter-spacing:-.03em", "ov"), 68.94, .3, 14);
+        })();
+
+        // ===== 14. CTA (69,52 → 70,92) =====
+        (function () {
+          var s = scene(69.52, END, LIGHT);
+          var lg = div(s, "<div class='ring' style='position:absolute; inset:0; border-radius:50%; background:conic-gradient(from 210deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75)'></div><div style='position:absolute; inset:9px; border-radius:50%; background:#eef1f5'></div><img src='assets/img/logo-financedata.png' style='position:absolute; inset:17px; width:calc(100% - 34px); height:calc(100% - 34px); display:block; border-radius:50%'>", "left:405px; top:610px; width:270px; height:270px");
+          var name = div(s, "FinanceData", "left:0; right:0; top:930px; text-align:center; font-size:96px; font-weight:700; letter-spacing:-.055em; line-height:1");
+          var btn = div(s, "<span class='b1' style='position:absolute; inset:0'>S'abonner</span><span class='b2' style='position:absolute; inset:0; opacity:0'>Abonné ✓</span>", "left:340px; top:1090px; width:400px; height:110px; border-radius:4px; background:" + BLUE + "; color:#fff; font-size:46px; font-weight:700; letter-spacing:-.03em; text-align:center; line-height:110px");
+          fadeIn(lg, 69.52, .35, 16); tl.fromTo(lg.querySelector(".ring"), { rotation: -90 }, { rotation: 0, duration: 1.0, ease: "power3.out" }, 69.52);
+          fadeIn(name, 69.58, .3, 16); fadeIn(btn, 69.64, .3, 16);
+          div(s, "Ceci n'est pas un conseil en investissement.", "left:0; right:0; top:1250px; text-align:center; font-size:30px; font-weight:500; color:#6b7290; letter-spacing:-.02em");
+          var tA = 70.0;
+          tl.to(btn, { scale: .95, duration: .1 }, tA); tl.to(btn, { scale: 1, duration: .25, ease: "power2.out" }, tA + .1);
+          tl.to(btn, { backgroundColor: "#d5dae5", color: "#0a105e", duration: .15 }, tA + .1);
+          tl.set(btn.querySelector(".b1"), { opacity: 0 }, tA + .12); tl.set(btn.querySelector(".b2"), { opacity: 1 }, tA + .12);
+        })();
+
+        // ===== sous-titres : blancs sur encadré sombre, 3 mots max, chiffres en chiffres =====
+        var W = window.VO.words.filter(function (w) { return w.s < 69.5; }), NUM = [
+          [["vingt-sept", "pour", "cent"], "27 %"], [["quatre-vingt-seize", "milliards"], "96 milliards"], [["dix-sept", "novembre"], "17 novembre"], [["épisode", "un"], "épisode 1"]];
+        function norm(w) { return w.toLowerCase().replace(/[,.?:!…]+$/, ""); }
+        var Tk = [];
+        for (var i = 0; i < W.length; i++) {
+          var done = false;
+          NUM.forEach(function (m) { if (done) return; var ok = m[0].every(function (w, j) { return W[i + j] && norm(W[i + j].w) === w; }); if (ok) { var last = W[i + m[0].length - 1], p = (last.w.match(/[,.?:!…]+$/) || [""])[0]; Tk.push({ w: m[1] + p, s: W[i].s, e: last.e }); i += m[0].length - 1; done = true; } });
+          if (!done) Tk.push({ w: W[i].w, s: W[i].s, e: W[i].e });
+        }
+        Tk.forEach(function (t, k) {
+          var nx = Tk[k + 1] && Tk[k + 1].w;
+          if (t.w === "ça" && nx === "Elle") t.w = "ça ?";
+          if (t.w === "scandale" || t.w === "vend") t.w += " ?";
+          if (t.w === "question" && nx === "une") t.w += " :";
+          if (t.w === "question" && nx === "est-ce") t.w += " :";
+          if (t.w === "américains" || t.w === "explosif") t.w += " :";
+        });
+        var groups = [], cur = [];
+        Tk.forEach(function (t, k) {
+          cur.push(t);
+          var nwords = cur.reduce(function (a, b) { return a + b.w.split(" ").length; }, 0);
+          var punct = /[,.?:!…]$/.test(t.w), next = Tk[k + 1], nextLen = next ? next.w.split(" ").length : 0;
+          if (punct || nwords >= 3 || nwords + nextLen > 3 || !next) { groups.push(cur); cur = []; }
+        });
+        groups.forEach(function (gp, k) {
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 69.52;
+          if ((t0 >= 8.2 && t0 < 11.17) || (t0 >= 7.7 && t0 < 8.25)) return; // signature de série déjà écrite à l'écran
+          var txt = gp.map(function (t) { return t.w; }).join(" ").replace(/\s+([?:!])/g, " $1");
+          var d = div(st, "<span>" + txt + "</span>", "", "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, Math.max(0, t0 - .02)); tl.set(d, { opacity: 0 }, t1 - .03);
+        });
+
+        // zone sûre Instagram / TikTok : contenu réduit à 82 % vers le centre utile (les fonds de #bgl restent plein cadre)
+        st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
+        tl.set({}, {}, END);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
