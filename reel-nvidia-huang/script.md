@@ -6,13 +6,13 @@ Plan (v2) : **hook 100 % scandale** (la liaison + l'espionne présumée) → **l
 ## Voix off
 
 **[Hook — le scandale]**
-Le patron de l'une des plus grandes entreprises du monde vient d'avouer qu'il a trompé sa femme… avec une potentielle espionne chinoise, selon une note qui circule à Washington.
+Le patron de la plus grande entreprise du monde vient d'avouer qu'il a trompé sa femme… avec une potentielle espionne chinoise, selon un papier qui circule à Washington.
 
 **[L'histoire — l'aveu]**
 Cet homme, c'est Jensen Huang, le patron de Nvidia. Ce week-end, il a écrit à ses salariés. Il reconnaît avoir été infidèle, et avoir blessé sa femme et ses enfants.
 
 **[L'histoire — qui est-elle]**
-La femme en question : une ancienne cadre d'une société de puces basée à Singapour. Et plus tôt cette année, une note a circulé parmi les responsables américains : elle aurait été recrutée par l'espionnage chinois pour approcher l'homme qui fabrique les puces de l'IA.
+La femme en question : une ancienne cadre d'une société de puces basée à Singapour. Et plus tôt cette année, un papier a circulé parmi les responsables américains : elle aurait été recrutée par l'espionnage chinois pour approcher l'homme qui fabrique les puces de l'IA.
 
 **[L'enquête et l'enjeu]**
 Nvidia a ouvert une enquête. Le conseil dit n'avoir aucune raison de croire que des secrets ont fuité. Mais le sujet est explosif : Nvidia n'a pas le droit de vendre ses puces les plus puissantes à la Chine.
@@ -32,7 +32,7 @@ Premier verdict le 17 novembre, avec ses résultats. Abonnez-vous pour ne pas le
 
 | # | Séquence | Texte | Durée | Visuel |
 |---|---|---|---|---|
-| 1 | Hook | « Le patron de l'une des plus grandes entreprises du monde… selon une note qui circule à Washington » | ~7 s | vraie photo de Jensen Huang sur scène, qui passe en noir et blanc ; étiquette rouge « Aveu », puis tampon « Espionnage ? » |
+| 1 | Hook | « Le patron de la plus grande entreprise du monde… selon un papier qui circule à Washington » | ~7 s | vraie photo de Jensen Huang sur scène, qui passe en noir et blanc ; étiquette rouge « Aveu », puis tampon « Espionnage ? » |
 | 2 | L'aveu | « Ce week-end, Jensen Huang a écrit à ses salariés… » | ~6 s | carte blanche façon e-mail interne : « À : tous les salariés » + un mot surligné « infidèle » |
 | 3 | Qui est-elle | « Une ancienne cadre… approcher l'homme qui fabrique les puces de l'IA » | ~11 s | carte du monde minimale : Singapour → Pékin → Santa Clara, reliés en pointillés ; silhouette floutée (jamais son visage) |
 | 4 | L'enquête et l'enjeu | « Nvidia a ouvert une enquête… pas le droit de vendre à la Chine » | ~10 s | vraie photo du siège de Nvidia ; carte « Enquête interne » ; puis une puce avec un cadenas et le drapeau chinois barré |
@@ -51,7 +51,7 @@ Premier verdict le 17 novembre, avec ses résultats. Abonnez-vous pour ne pas le
 - Ne jamais montrer ni nommer la femme concernée à l'écran : ce n'est pas une personnalité publique et l'accusation n'est pas prouvée.
 
 ## À vérifier avant de tourner
-- « l'une des plus grandes entreprises du monde » (et non « la plus grande ») : Nvidia était n° 1 mondial à son record d'octobre ; le 7 novembre, Apple (≈ 4 975 Md$) la dépasse selon CompaniesMarketCap, Nvidia étant vers 4 500 Md$ après sa baisse. « D'après une note qui circule à Washington » plutôt que « d'après Washington » : c'est une note diffusée parmi des responsables américains, pas une position officielle.
+- « la plus grande entreprise du monde » (choix validé) : vrai à son record d'octobre et encore au 03/11 (≈ 4 990 Md$, FinanceCharts) ; à vérifier le jour de la publication, car Nvidia était n° 1 mondial à son record d'octobre ; le 7 novembre, Apple (≈ 4 975 Md$) la dépasse selon CompaniesMarketCap, Nvidia étant vers 4 500 Md$ après sa baisse. « D'après une note qui circule à Washington » plutôt que « d'après Washington » : c'est une note diffusée parmi des responsables américains, pas une position officielle.
 - **La réaction du marché ce lundi 9 novembre** : l'annonce date du dimanche 8 ; le −22 % est mesuré à la clôture du vendredi 6. Mettre à jour le chiffre le jour de la publication.
 - Toute évolution de l'enquête (conclusions, départ ou maintien de Huang) avant la mise en ligne.
 - Ne jamais présenter l'espionnage comme un fait : « selon une note », « aurait été ».
