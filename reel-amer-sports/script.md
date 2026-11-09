@@ -9,11 +9,11 @@ Framework : **paradoxe** en hook (« ventes +32 %, action −25 % ») → **Du d
 **[Hook — Salomon d'abord]**
 Salomon, la marque née à Annecy, n'est plus française depuis presque trente ans. Aujourd'hui, elle appartient à un groupe coté à New York, dont le premier actionnaire est chinois. Ses ventes explosent… et pourtant, son action a perdu un quart de sa valeur.
 
-**[Contexte]**
-Ce groupe, c'est Amer Sports. Il possède aussi Arc'teryx et Wilson.
-
 **[Signature de série]**
 Bienvenue dans le dessous des marchés, épisode 2.
+
+**[Contexte]**
+Ce groupe, c'est Amer Sports. Il possède aussi Arc'teryx et Wilson.
 
 **[Les faits]**
 Et ses marques n'ont jamais aussi bien marché. Au dernier trimestre, Salomon a progressé de 37 %, Arc'teryx de 32 %, Wilson de 24 %. Le groupe a même remboursé 800 millions de dollars de dette : il a aujourd'hui bien plus de cash que d'emprunts.
