@@ -33,8 +33,8 @@
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
         function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
         function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
-        function line(s, pts, stroke, sw, extra) { var a = { d: "M" + pts.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join("L"), fill: "none", stroke: stroke, "stroke-width": sw, "stroke-linecap": "round", "stroke-linejoin": "round" }; for (var k in extra || {}) a[k] = extra[k]; return el(s, "path", a); }
-        function hl(s, y, x0, x1, stroke, dash) { return el(s, "line", { x1: x0, x2: x1, y1: y, y2: y, stroke: stroke, "stroke-width": 2, "stroke-dasharray": dash || "6 7" }); }
+        function line(s, pts, stroke, sw, extra) { var a = { d: "M" + pts.map(function (p) { return p[0].toFixed(1) + "," + p[1].toFixed(1); }).join("L"), fill: "none", stroke: stroke, "stroke-width": sw * .65, "vector-effect": "non-scaling-stroke", "stroke-linecap": "round", "stroke-linejoin": "round" }; for (var k in extra || {}) a[k] = extra[k]; return el(s, "path", a); }
+        function hl(s, y, x0, x1, stroke, dash) { return el(s, "line", { x1: x0, x2: x1, y1: y, y2: y, stroke: stroke, "stroke-width": 1.5, "vector-effect": "non-scaling-stroke", "stroke-dasharray": dash || "6 7" }); }
         function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power2.inOut" }, t); }
         // séries pseudo-aléatoires déterministes
         var seed = 7; function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
@@ -100,42 +100,42 @@
             draw(line(s, fit(sma(k, 4), 0, 240, 6, 154, 0, 100), SKY, 3.5), t + .12, .9);
           }]
         ];
-        var CX = [300, 780], tiles = [];
+        var X0 = [100, 580], tiles = [], rules = [];
         ITEMS.forEach(function (it, i) {
-          var cx = CX[i % 2], y = 540 + Math.floor(i / 2) * 330, t = .85 + i * .14;
-          var tile = div(grid, "", "left:" + (cx - 220) + "px; top:" + y + "px", "tile");
-          var s = svg(tile, 100, 0, 240, 160); s.style.transform = "scale(1.22)"; s.style.transformOrigin = "50% 70%";
-          [0, 80, 160].forEach(function (y) { el(s, "line", { x1: 0, x2: 240, y1: y, y2: y, stroke: "rgba(255,255,255,.12)", "stroke-width": 1.5 }); });
-          el(s, "rect", { x: 0, y: -22, width: 34, height: 7, fill: SKY });
-          it[1](s, t + .1);
-          var lab = div(tile, it[0], "left:0; top:206px", "lab");
-          tl.fromTo(tile, { opacity: 0, y: 40, scale: .9 }, { opacity: 1, y: 0, scale: 1, duration: .5, ease: "back.out(1.6)" }, t);
-          // léger flottement pour garder l'image vivante
-          tl.to(s, { y: -6, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 2 }, 2.3 + (i % 3) * .2);
-          tiles.push(tile);
+          var x0 = X0[i % 2], y = 520 + Math.floor(i / 2) * 330, t = .85 + i * .14;
+          var tile = div(grid, "", "left:" + x0 + "px; top:" + y + "px; width:400px; height:290px");
+          var rule = div(tile, "", "left:0; top:0; width:400px; height:2px; background:rgba(255,255,255,.4); transform-origin:0 50%");
+          div(tile, "0" + (i + 1), "left:0; top:22px; font-size:32px; font-weight:700; color:" + SKY + "; letter-spacing:-.02em");
+          div(tile, it[0], "left:60px; top:16px; font-size:38px; font-weight:600; letter-spacing:-.035em; white-space:nowrap");
+          var s = svg(tile, 0, 92, 240, 160); s.style.transform = "scale(1.667, 1.15)"; s.style.transformOrigin = "0 0";
+          [0, 80, 160].forEach(function (y) { el(s, "line", { x1: 0, x2: 240, y1: y, y2: y, stroke: "rgba(255,255,255,.13)", "stroke-width": 1.5, "vector-effect": "non-scaling-stroke" }); });
+          it[1](s, t + .15);
+          tl.fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: .5, ease: "power3.inOut" }, t);
+          tl.fromTo(tile, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, t);
+          tiles.push(tile); rules.push(rule);
         });
 
-        // ---------- focus sur le RSI (4,7 s) puis plongée dedans (5,6 s)
-        var rsiTile = tiles[0];
-        tl.to(tiles.slice(1), { opacity: .18, duration: .4, ease: "power2.out" }, 4.7);
+        // ---------- focus sur le RSI (4,7 s), puis écran RSI (5,6 s)
+        tl.to(tiles.slice(1), { opacity: .2, duration: .4, ease: "power2.out" }, 4.7);
         tl.to([t1, t2, part], { opacity: .25, duration: .4 }, 4.7);
-        tl.to(rsiTile, { scale: 1.12, duration: .45, ease: "back.out(2)" }, 4.7);
-        var ring = div(grid, "", "left:86px; top:500px; width:428px; height:360px; border:2px solid " + SKY + "; border-radius:4px");
-        tl.fromTo(ring, { opacity: 0, scale: 1.15 }, { opacity: 1, scale: 1, duration: .4, ease: "power3.out" }, 4.75);
-        tl.to(grid, { scale: 3.4, opacity: 0, duration: .7, ease: "power3.in" }, 5.55);
+        tl.to(rules[0], { backgroundColor: SKY, height: 5, duration: .35, ease: "power2.out" }, 4.7);
+        tl.to(grid, { opacity: 0, y: -40, duration: .45, ease: "power2.in" }, 5.5);
 
-        // ---------- écran RSI plein cadre
-        var big = div(st, "", "inset:0; opacity:0");
-        var bt = div(big, "Le RSI", "top:500px; font-size:150px", "ttl");
-        var bs = svg(big, 90, 820, 900, 560); [0, 140, 280, 420, 560].forEach(function (y) { el(bs, "line", { x1: 0, x2: 900, y1: y, y2: y, stroke: "rgba(255,255,255,.12)", "stroke-width": 2 }); }); el(bs, "rect", { x: 0, y: -40, width: 60, height: 10, fill: SKY });
-        el(bs, "rect", { x: 0, y: 0, width: 900, height: 120, fill: BLUE, opacity: .1 }); el(bs, "rect", { x: 0, y: 440, width: 900, height: 120, fill: BLUE, opacity: .1 });
-        hl(bs, 120, 0, 900, SKY, "10 10"); hl(bs, 440, 0, 900, SKY, "10 10");
-        el(bs, "text", { x: 900, y: 106, "font-size": 40, "font-weight": 600, fill: SKY, "text-anchor": "end" }, "70");
-        el(bs, "text", { x: 900, y: 500, "font-size": 40, "font-weight": 600, fill: SKY, "text-anchor": "end" }, "30");
-        seed = 11; var bigLine = line(bs, fit(osc(60, .3, 36, 50), 0, 820, 20, 540, 0, 100), W, 5);
-        tl.fromTo(big, { opacity: 0, scale: .55 }, { opacity: 1, scale: 1, duration: .7, ease: "power3.out" }, 5.95);
-        draw(bigLine, 6.05, 1.3, "power2.out");
-        tl.fromTo(bt, { y: 30 }, { y: 0, duration: .6, ease: "power3.out" }, 5.95);
+        // ---------- écran RSI, graphique façon presse éco
+        var big = div(st, "", "inset:0; opacity:0"), GX = 90;
+        div(big, "", "left:" + GX + "px; top:430px; width:72px; height:12px; background:" + SKY);
+        var bt = div(big, "Le RSI", "left:" + GX + "px; top:466px; font-size:128px; font-weight:700; letter-spacing:-.055em; line-height:1");
+        div(big, "Indice de force relative, de 0 à 100", "left:" + GX + "px; top:612px; font-size:36px; font-weight:500; letter-spacing:-.025em; color:#a9b4e0");
+        var bs = svg(big, GX, 740, 900, 520), Y = function (v) { return 520 - v * 5.2; };
+        el(bs, "rect", { x: 0, y: Y(100), width: 900, height: Y(70) - Y(100), fill: BLUE, opacity: .14 });
+        el(bs, "rect", { x: 0, y: Y(30), width: 900, height: Y(0) - Y(30), fill: BLUE, opacity: .14 });
+        [0, 100].forEach(function (v) { el(bs, "line", { x1: 0, x2: 900, y1: Y(v), y2: Y(v), stroke: "rgba(255,255,255,.18)", "stroke-width": 2 }); });
+        [30, 70].forEach(function (v) { el(bs, "line", { x1: 0, x2: 900, y1: Y(v), y2: Y(v), stroke: SKY, "stroke-width": 2.5 }); });
+        [0, 30, 70, 100].forEach(function (v) { el(bs, "text", { x: 900, y: Y(v) - 12, "font-size": 30, "font-weight": 500, fill: "#a9b4e0", "text-anchor": "end" }, String(v)); });
+        seed = 11; var bigLine = line(bs, fit(osc(60, .3, 36, 50), 0, 820, 10, 510, 0, 100), W, 6);
+        div(big, "Exemple illustratif · FinanceData", "left:" + GX + "px; top:1292px; font-size:26px; font-weight:500; color:#8a95c4; letter-spacing:-.01em");
+        tl.fromTo(big, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .55, ease: "power3.out" }, 5.8);
+        draw(bigLine, 5.95, 1.4, "power2.out");
 
         // zone sûre Instagram / TikTok : contenu réduit à 82 % vers le centre utile
         st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
