@@ -60,7 +60,7 @@
         var ITEMS = [
           ["Le RSI", function (s, t) {
             hl(s, 34, 0, 240, SKY); hl(s, 126, 0, 240, SKY);
-            el(s, "rect", { x: 0, y: 0, width: 240, height: 34, fill: BLUE, opacity: .22 }); el(s, "rect", { x: 0, y: 126, width: 240, height: 34, fill: BLUE, opacity: .22 });
+            el(s, "rect", { x: 0, y: 0, width: 240, height: 34, fill: BLUE, opacity: .12 }); el(s, "rect", { x: 0, y: 126, width: 240, height: 34, fill: BLUE, opacity: .12 });
             draw(line(s, fit(osc(40, .32, 34, 50), 0, 240, 8, 152), W, 4), t, .9);
           }],
           ["Les moyennes mobiles", function (s, t) {
@@ -77,8 +77,8 @@
           ["Les bandes de Bollinger", function (s, t) {
             var p = walk(46, .3, 4.5), m = sma(p, 8), lo = Math.min.apply(0, p) - 6, hi = Math.max.apply(0, p) + 6;
             var up = fit(m.map(function (v) { return v + 6; }), 0, 240, 6, 154, lo, hi), dn = fit(m.map(function (v) { return v - 6; }), 0, 240, 6, 154, lo, hi);
-            var band = el(s, "path", { d: "M" + up.map(function (q) { return q.join(","); }).join("L") + "L" + dn.slice().reverse().map(function (q) { return q.join(","); }).join("L") + "Z", fill: BLUE, opacity: .3 });
-            tl.fromTo(band, { opacity: 0 }, { opacity: .3, duration: .6 }, t + .3);
+            var band = el(s, "path", { d: "M" + up.map(function (q) { return q.join(","); }).join("L") + "L" + dn.slice().reverse().map(function (q) { return q.join(","); }).join("L") + "Z", fill: BLUE, opacity: .16 });
+            tl.fromTo(band, { opacity: 0 }, { opacity: .16, duration: .6 }, t + .3);
             draw(line(s, up, SKY, 2.5), t, .9); draw(line(s, dn, SKY, 2.5), t, .9); draw(line(s, fit(p, 0, 240, 6, 154, lo, hi), W, 3.5), t + .15, .9);
           }],
           ["Le volume", function (s, t) {
@@ -95,7 +95,7 @@
             draw(line(s, [[0, 150], [40, 120], [70, 136], [130, 10], [160, 40], [182, 26], [210, 72], [228, 80], [240, 64]], W, 4), t, 1);
           }],
           ["Le stochastique", function (s, t) {
-            el(s, "rect", { x: 0, y: 0, width: 240, height: 28, fill: BLUE, opacity: .22 }); el(s, "rect", { x: 0, y: 132, width: 240, height: 28, fill: BLUE, opacity: .22 });
+            el(s, "rect", { x: 0, y: 0, width: 240, height: 28, fill: BLUE, opacity: .12 }); el(s, "rect", { x: 0, y: 132, width: 240, height: 28, fill: BLUE, opacity: .12 });
             var k = osc(30, .45, 40, 50); draw(line(s, fit(k, 0, 240, 6, 154, 0, 100), W, 3.5), t, .9);
             draw(line(s, fit(sma(k, 4), 0, 240, 6, 154, 0, 100), SKY, 3.5), t + .12, .9);
           }]
@@ -104,12 +104,12 @@
         ITEMS.forEach(function (it, i) {
           var cx = CX[i % 2], y = 540 + Math.floor(i / 2) * 330, t = .85 + i * .14;
           var tile = div(grid, "", "left:" + (cx - 220) + "px; top:" + y + "px", "tile");
-          var glow = div(tile, "", "left:60px; top:150px; width:320px; height:70px; border-radius:50%; background:radial-gradient(ellipse at 50% 50%, rgba(61,90,254,.55), rgba(61,90,254,0) 70%)");
-          var s = svg(tile, 100, 0, 240, 160); s.style.filter = "drop-shadow(0 0 10px rgba(125,147,255,.55))"; s.style.transform = "scale(1.22)"; s.style.transformOrigin = "50% 70%";
+          var s = svg(tile, 100, 0, 240, 160); s.style.transform = "scale(1.22)"; s.style.transformOrigin = "50% 70%";
+          [0, 80, 160].forEach(function (y) { el(s, "line", { x1: 0, x2: 240, y1: y, y2: y, stroke: "rgba(255,255,255,.12)", "stroke-width": 1.5 }); });
+          el(s, "rect", { x: 0, y: -22, width: 34, height: 7, fill: SKY });
           it[1](s, t + .1);
           var lab = div(tile, it[0], "left:0; top:206px", "lab");
           tl.fromTo(tile, { opacity: 0, y: 40, scale: .9 }, { opacity: 1, y: 0, scale: 1, duration: .5, ease: "back.out(1.6)" }, t);
-          tl.fromTo(glow, { opacity: 0, scaleX: .4 }, { opacity: 1, scaleX: 1, duration: .6, ease: "power2.out" }, t + .1);
           // léger flottement pour garder l'image vivante
           tl.to(s, { y: -6, duration: 1.2, ease: "sine.inOut", yoyo: true, repeat: 2 }, 2.3 + (i % 3) * .2);
           tiles.push(tile);
@@ -120,19 +120,19 @@
         tl.to(tiles.slice(1), { opacity: .18, duration: .4, ease: "power2.out" }, 4.7);
         tl.to([t1, t2, part], { opacity: .25, duration: .4 }, 4.7);
         tl.to(rsiTile, { scale: 1.12, duration: .45, ease: "back.out(2)" }, 4.7);
-        var ring = div(grid, "", "left:86px; top:500px; width:428px; height:360px; border:3px solid " + SKY + "; border-radius:28px; box-shadow:0 0 40px rgba(61,90,254,.6)");
+        var ring = div(grid, "", "left:86px; top:500px; width:428px; height:360px; border:2px solid " + SKY + "; border-radius:4px");
         tl.fromTo(ring, { opacity: 0, scale: 1.15 }, { opacity: 1, scale: 1, duration: .4, ease: "power3.out" }, 4.75);
         tl.to(grid, { scale: 3.4, opacity: 0, duration: .7, ease: "power3.in" }, 5.55);
 
         // ---------- écran RSI plein cadre
         var big = div(st, "", "inset:0; opacity:0");
         var bt = div(big, "Le RSI", "top:500px; font-size:150px", "ttl");
-        var bs = svg(big, 90, 820, 900, 560); bs.style.filter = "drop-shadow(0 0 16px rgba(125,147,255,.5))";
-        el(bs, "rect", { x: 0, y: 0, width: 900, height: 120, fill: BLUE, opacity: .2 }); el(bs, "rect", { x: 0, y: 440, width: 900, height: 120, fill: BLUE, opacity: .2 });
+        var bs = svg(big, 90, 820, 900, 560); [0, 140, 280, 420, 560].forEach(function (y) { el(bs, "line", { x1: 0, x2: 900, y1: y, y2: y, stroke: "rgba(255,255,255,.12)", "stroke-width": 2 }); }); el(bs, "rect", { x: 0, y: -40, width: 60, height: 10, fill: SKY });
+        el(bs, "rect", { x: 0, y: 0, width: 900, height: 120, fill: BLUE, opacity: .1 }); el(bs, "rect", { x: 0, y: 440, width: 900, height: 120, fill: BLUE, opacity: .1 });
         hl(bs, 120, 0, 900, SKY, "10 10"); hl(bs, 440, 0, 900, SKY, "10 10");
         el(bs, "text", { x: 900, y: 106, "font-size": 40, "font-weight": 600, fill: SKY, "text-anchor": "end" }, "70");
         el(bs, "text", { x: 900, y: 500, "font-size": 40, "font-weight": 600, fill: SKY, "text-anchor": "end" }, "30");
-        seed = 11; var bigLine = line(bs, fit(osc(60, .3, 36, 50), 0, 820, 20, 540, 0, 100), W, 7);
+        seed = 11; var bigLine = line(bs, fit(osc(60, .3, 36, 50), 0, 820, 20, 540, 0, 100), W, 5);
         tl.fromTo(big, { opacity: 0, scale: .55 }, { opacity: 1, scale: 1, duration: .7, ease: "power3.out" }, 5.95);
         draw(bigLine, 6.05, 1.3, "power2.out");
         tl.fromTo(bt, { y: 30 }, { y: 0, duration: .6, ease: "power3.out" }, 5.95);
