@@ -12,6 +12,9 @@ Salomon, la marque née à Annecy, n'est plus française depuis presque trente a
 **[Contexte]**
 Ce groupe, c'est Amer Sports. Il possède aussi Arc'teryx et Wilson.
 
+**[Signature de série]**
+C'est le dessous des marchés, épisode 2.
+
 **[Les faits]**
 Et ses marques n'ont jamais aussi bien marché. Au dernier trimestre, Salomon a progressé de 37 %, Arc'teryx de 32 %, Wilson de 24 %. Le groupe a même remboursé 800 millions de dollars de dette : il a aujourd'hui bien plus de cash que d'emprunts.
 

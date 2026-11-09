@@ -29,15 +29,15 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="65.06" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="65.06" data-track-index="1"></audio>
-      <video id="v-sent" class="clip" src="assets/video/salomon-sentier.mp4" data-start="11.12" data-duration="5.0" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-mont" class="clip" src="assets/video/montagne.mp4" data-start="16.12" data-duration="2.42" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-chine" class="clip" src="assets/video/chine.mp4" data-start="39.57" data-duration="3.28" data-track-index="5" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-rue" class="clip" src="assets/video/rue.mp4" data-start="52.32" data-duration="5.73" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-arc" class="clip" src="assets/video/montagne-arc.mp4" data-start="58.05" data-duration="5.3" data-track-index="7" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <div id="bgl" class="clip" data-start="0" data-duration="65.06" data-track-index="4" style="position:absolute; inset:0"></div>
-      <div id="stage" class="clip" data-start="0" data-duration="65.06" data-track-index="0" style="position:absolute; inset:0"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="68.71" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="68.71" data-track-index="1"></audio>
+      <video id="v-sent" class="clip" src="assets/video/salomon-sentier.mp4" data-start="0" data-duration="4.31" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-mont" class="clip" src="assets/video/montagne.mp4" data-start="19.77" data-duration="2.42" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-chine" class="clip" src="assets/video/chine.mp4" data-start="43.22" data-duration="3.28" data-track-index="5" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-rue" class="clip" src="assets/video/rue.mp4" data-start="55.97" data-duration="5.73" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-arc" class="clip" src="assets/video/montagne-arc.mp4" data-start="61.70" data-duration="5.3" data-track-index="7" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="bgl" class="clip" data-start="0" data-duration="68.71" data-track-index="4" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="68.71" data-track-index="0" style="position:absolute; inset:0"></div>
     </div>
     <script>
       (function () {
@@ -75,47 +75,77 @@
         var LOGO = { arc: "arcteryx.png", sal: "salomon.png", wil: "wilson.svg", amer: "amer.png" };
         function logo(k, w, h) { return "<img class='lg' src='assets/img/" + LOGO[k] + "' style='width:" + w + "px; height:" + h + "px'>"; }
 
-        // ===== 1. Les trois marques… et l'entreprise inconnue au-dessus (0 → 5,98) =====
+        // ===== 1. Salomon, née à Annecy… plus française (0 → 4,31) : vraie vidéo + logo + étiquette barrée =====
         (function () {
-          var s = scene(0, 5.98, FOCAL);
-          var K = [["arc", 0], ["sal", 1.02], ["wil", 1.78]], X = [96, 412, 728];
-          var g = svg(s, 0, 0, 1080, 1300), lines = [];
-          K.forEach(function (k, i) {
-            var b = div(s, logo(k[0], 256, 170), "left:" + X[i] + "px; top:820px; width:256px; height:170px");
-            tl.fromTo(b, { opacity: 0, y: -50 }, { opacity: 1, y: 0, duration: .35, ease: "back.out(2)" }, k[1]);
-            var x = X[i] + 128, l = el(g, "path", { d: "M" + x + " 800 V720 H540 V650", fill: "none", stroke: NAVY, "stroke-width": 4 });
-            lines.push(l);
-          });
-          lines.forEach(function (l) { draw(l, 4.54, .45, "power2.out"); });
-          var box = div(s, "?", "left:390px; top:480px; width:300px; height:170px; background:#fff; border:4px solid " + NAVY + "; border-radius:4px; text-align:center; font-size:120px; font-weight:700; line-height:162px; letter-spacing:-.05em", "a");
-          tl.fromTo(box, { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, 4.9);
+          var s = vscene("#v-sent", 0, 4.31);
+          var card = div(s, "<div style='display:flex; align-items:center; justify-content:center; height:100%'>" + logo("sal", 280, 176) + "</div>", "left:330px; top:360px; width:420px; height:250px", "card");
+          tl.fromTo(card, { opacity: 0, scale: .85 }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, 0.02);
+          var flag = "<span style='display:inline-flex; width:66px; height:44px; margin-right:20px; vertical-align:-4px; box-shadow:0 0 0 2px #d5dae5'><i style='flex:1; background:#0055a4'></i><i style='flex:1; background:#fff'></i><i style='flex:1; background:#ef4135'></i></span>";
+          var tag = div(s, flag + "Annecy, 1947", "left:330px; top:660px; background:#fff; color:" + NAVY + "; font-size:52px", "pill");
+          pop(tag, 1.67);
+          var bar = div(tag, "", "left:-10px; right:-10px; top:50%; height:8px; margin-top:-4px; background:" + RED);
+          tl.fromTo(bar, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .3, ease: "power2.out" }, 2.47);
+          tl.to(tag, { color: "#6b7290", duration: .2 }, 2.47);
         })();
 
-        // ===== 2. Le paradoxe : ventes +32 %, action −25 % (5,98 → 11,12) =====
+        // ===== 2. Un groupe coté à New York, premier actionnaire chinois (4,31 → 8,99) =====
         (function () {
-          var s = scene(5.98, 11.12, LIGHT), Z = 820, U = 11;
+          var s = scene(4.31, 8.99, FOCAL), g = svg(s, 0, 0, 1080, 1300);
+          var sal = div(s, logo("sal", 256, 160), "left:412px; top:820px; width:256px; height:160px");
+          tl.set(sal, { opacity: 1 }, 4.31);
+          var box = div(s, "?", "left:390px; top:440px; width:300px; height:170px; background:#fff; border:4px solid " + NAVY + "; border-radius:4px; text-align:center; font-size:120px; font-weight:700; line-height:162px; letter-spacing:-.05em");
+          var ln = el(g, "path", { d: "M540 800 V610", fill: "none", stroke: NAVY, "stroke-width": 4 });
+          draw(ln, 5.51, .3, "power2.out");
+          tl.fromTo(box, { opacity: 0, scale: .8 }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, 5.71);
+          pop(div(s, "Coté à New York", "left:96px; top:1040px; background:" + NAVY, "pill"), 6.27);
+          pop(div(s, "1<sup style='font-size:.55em'>er</sup> actionnaire : chinois", "left:96px; top:1140px; background:" + RED, "pill"), 7.39);
+        })();
+
+        // ===== 3. Le paradoxe : ventes +32 %, action −25 % (8,99 → 13,42) =====
+        (function () {
+          var s = scene(8.99, 13.42, LIGHT), Z = 820, U = 11;
           div(s, "", "left:96px; top:" + (Z - 1.5) + "px; width:888px; height:3px; background:" + NAVY);
           var b1 = div(s, "", "left:170px; top:" + (Z - 32 * U) + "px; width:320px; height:" + (32 * U) + "px; background:" + GREEN);
           var v1 = div(s, "+0 %", "left:170px; width:320px; top:" + (Z - 32 * U - 104) + "px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.055em; color:" + GREEN + "; font-feature-settings:'tnum' 1");
           var l1 = div(s, "Ventes", "left:170px; width:320px; top:" + (Z + 22) + "px; text-align:center; font-size:44px; font-weight:700; letter-spacing:-.04em");
-          tl.fromTo(b1, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, 7.13);
-          tl.fromTo([v1, l1], { opacity: 0 }, { opacity: 1, duration: .15 }, 7.13); count(v1, 7.13, .6, 0, 32, function (v) { return "+" + Math.round(v) + " %"; });
+          tl.fromTo(b1, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, 9.19);
+          tl.fromTo([v1, l1], { opacity: 0 }, { opacity: 1, duration: .15 }, 9.19); count(v1, 9.19, .6, 0, 32, function (v) { return "+" + Math.round(v) + " %"; });
           var b2 = div(s, "", "left:590px; top:" + Z + "px; width:320px; height:" + (25 * U) + "px; background:" + RED);
           var v2 = div(s, "−0 %", "left:590px; width:320px; top:" + (Z + 25 * U + 18) + "px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.055em; color:" + RED + "; font-feature-settings:'tnum' 1");
           var l2 = div(s, "Action", "left:590px; width:320px; top:" + (Z - 74) + "px; text-align:center; font-size:44px; font-weight:700; letter-spacing:-.04em");
-          tl.fromTo(b2, { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, 9.49);
-          tl.fromTo([v2, l2], { opacity: 0 }, { opacity: 1, duration: .15 }, 9.49); count(v2, 9.49, .6, 0, 25, function (v) { return "−" + Math.round(v) + " %"; });
-          fadeIn(div(s, "Ventes du T2 2026 sur un an ; action depuis son plus haut de février · Sources : Amer Sports, Yahoo Finance", "top:1230px; width:888px", "src"), 6.1, .3, 0);
+          tl.fromTo(b2, { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, 11.45);
+          tl.fromTo([v2, l2], { opacity: 0 }, { opacity: 1, duration: .15 }, 11.45); count(v2, 11.45, .6, 0, 25, function (v) { return "−" + Math.round(v) + " %"; });
+          fadeIn(div(s, "Ventes du T2 2026 sur un an ; action depuis son plus haut de février · Sources : Amer Sports, Yahoo Finance", "top:1230px; width:888px", "src"), 9.05, .3, 0);
         })();
 
-        // ===== 3. Amer Sports (11,12 → 16,12) : vraie vidéo Salomon sur un sentier + carte =====
+        // ===== 4. Amer Sports et ses trois marques (13,42 → 17,60) =====
         (function () {
-          var s = vscene("#v-sent", 11.12, 16.12);
-          var card = div(s, logo("amer", 380, 194) + "<div style='margin-top:14px; font-size:36px; font-weight:600; color:#6b7290; letter-spacing:-.02em; text-align:center'>NYSE : AS</div>", "left:290px; top:420px; width:500px; padding:40px 60px 36px", "card");
-          tl.fromTo(card, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out" }, 11.8);
-          tl.fromTo(card.lastChild, { opacity: 0 }, { opacity: 1, duration: .25 }, 14.54);
+          var s = scene(13.42, 17.60, FOCAL), g = svg(s, 0, 0, 1080, 1300);
+          var K = [["arc", 16.14], ["sal", 13.42], ["wil", 16.94]], X = [96, 412, 728];
+          var box = div(s, "<div style='display:flex; align-items:center; justify-content:center; height:100%'>" + logo("amer", 300, 153) + "</div>", "left:340px; top:420px; width:400px; height:230px", "card");
+          tl.fromTo(box, { opacity: 0, scale: .85 }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, 14.34);
+          K.forEach(function (k, i) {
+            var b = div(s, logo(k[0], 256, 170), "left:" + X[i] + "px; top:820px; width:256px; height:170px");
+            if (k[0] === "sal") tl.set(b, { opacity: 1 }, 13.42); else tl.fromTo(b, { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: .35, ease: "back.out(2)" }, k[1]);
+            var x = X[i] + 128, l = el(g, "path", { d: "M" + x + " 800 V725 H540 V650", fill: "none", stroke: NAVY, "stroke-width": 4 });
+            draw(l, k[0] === "sal" ? 14.5 : k[1], .35, "power2.out");
+          });
         })();
 
+        // ===== 5. Signature de série : « C'est le dessous des marchés, épisode 2 » (17,60 → 19,77) =====
+        (function () {
+          var s = scene(17.60, 19.77, "#3d5afe");
+          var ep = div(s, "Épisode 2", "left:96px; top:640px; font-size:44px; font-weight:700; letter-spacing:.02em; color:rgba(255,255,255,.75); text-transform:uppercase");
+          var t1 = div(s, "Le dessous", "left:90px; top:710px; font-size:132px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff");
+          var t2 = div(s, "des marchés", "left:90px; top:850px; font-size:132px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff");
+          var rule = div(s, "", "left:96px; top:1010px; width:180px; height:10px; background:#fff");
+          tl.fromTo([t1, t2], { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: .45, ease: "power3.out", stagger: .08 }, 17.62);
+          tl.fromTo(rule, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .4, ease: "power3.out" }, 17.9);
+          fadeIn(ep, 18.96, .3, 10);
+        })();
+
+        // ---- à partir d'ici, la suite de la première version, décalée de D (nouvelle introduction plus longue) ----
+        var D = 3.65, BEFORE = tl.getChildren(false, true, true);
         // ===== 4. « Ses marques n'ont jamais aussi bien marché » (16,12 → 18,54) : vraie vidéo de montagne =====
         vscene("#v-mont", 16.12, 18.54);
 
@@ -264,11 +294,14 @@
           tl.set(btn.querySelector(".b1"), { opacity: 0 }, tA + .12); tl.set(btn.querySelector(".b2"), { opacity: 1 }, tA + .12);
         })();
 
+        tl.getChildren(false, true, true).forEach(function (c) { if (BEFORE.indexOf(c) < 0) c.startTime(c.startTime() + D); });
+        END = 68.71;
+
         // ===== sous-titres : blancs sur encadré sombre, 3 mots max, chiffres en chiffres, aucun sur le CTA =====
-        var W = window.VO.words.filter(function (w) { return w.s < 63.3; }), NUM = [
+        var W = window.VO.words.filter(function (w) { return w.s < 66.95; }), NUM = [
           [["trente-deux", "pour", "cent"], "32 %"], [["trente-sept", "pour", "cent"], "37 %"], [["vingt-quatre", "pour", "cent"], "24 %"],
           [["deux", "mille", "vingt-quatre"], "2024"], [["huit", "cents", "millions"], "800 millions"], [["quarante-sept"], "47 %"],
-          [["trente-cinq", "pour", "cent"], "35 %"], [["vingt", "fois"], "20 fois"], [["dix-sept", "novembre"], "17 novembre"]];
+          [["trente-cinq", "pour", "cent"], "35 %"], [["vingt", "fois"], "20 fois"], [["dix-sept", "novembre"], "17 novembre"], [["trente", "ans"], "30 ans"]];
         function norm(w) { return w.toLowerCase().replace(/[,.?:!]+$/, ""); }
         var Tk = [];
         for (var i = 0; i < W.length; i++) {
@@ -285,7 +318,8 @@
           if (punct || nwords >= 3 || nwords + nextLen > 3 || !next) { groups.push(cur); cur = []; }
         });
         groups.forEach(function (gp, k) {
-          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 63.35;
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 67.0;
+          if (t0 >= 17.55 && t0 < 19.77) return; // signature de série déjà écrite à l'écran
           var txt = gp.map(function (t) { return t.w; }).join(" ").replace(/\s+([?:!])/g, " $1");
           var d = div(st, "<span>" + txt + "</span>", "", "cap");
           tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, Math.max(0, t0 - .02)); tl.set(d, { opacity: 0 }, t1 - .03);
