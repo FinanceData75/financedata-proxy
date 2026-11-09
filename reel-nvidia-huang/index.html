@@ -69,32 +69,26 @@
         }
         function nvlogo(size, color) { return "<svg width='" + size + "' height='" + size + "' viewBox='0 0 24 24' style='position:static; display:inline-block; vertical-align:middle'><path d='" + window.LOGOS.nvidia + "' fill='" + (color || "#76b900") + "'/></svg>"; }
 
-        // ===== 1. HOOK, temps 1 (0 → 4,24) : portrait noir et blanc de Jensen Huang, poussée rapide, « Aveu » =====
+        // ===== 1. HOOK (0 → 8,25) : trois vraies photos ; seuls Jensen Huang et la femme au premier plan sont en couleur =====
+        function hookPhoto(name, H, t0, t1, tColor, ox, oy) {
+          var top = Math.round((1920 - H) / 2) - 140;
+          var bg = div(bgl, "", "background:url(assets/img/" + name + "-fond.jpg) center/cover", "full");
+          var wrap = div(bgl, "", "left:0; top:" + top + "px; width:1080px; height:" + H + "px; overflow:hidden", "full");
+          var nb = div(wrap, "", "inset:0; background:url(assets/img/" + name + "-nb.jpg) center/cover");
+          var co = div(wrap, "", "inset:0; background:url(assets/img/" + name + ".jpg) center/cover");
+          tl.set([bg, wrap], { opacity: 1 }, t0); tl.set([bg, wrap], { opacity: 0 }, t1);
+          tl.fromTo([nb, co], { scale: 1.12, transformOrigin: ox + " " + oy }, { scale: 1, duration: .45, ease: "power3.out" }, t0);
+          tl.to([nb, co], { scale: 1.1, duration: t1 - t0 - .45, ease: "none" }, t0 + .45);
+          tl.fromTo(co, { opacity: 0 }, { opacity: 1, duration: .35, ease: "power2.out" }, tColor);
+          tl.fromTo(wrap, { filter: "brightness(1)" }, { filter: "brightness(1.6)", duration: .05, yoyo: true, repeat: 1 }, t0);   // flash de coupe
+          return scene(t0, t1, null);
+        }
+        hookPhoto("hook-1", 1074, 0, 2.53, .24, "40%", "30%");
+        hookPhoto("hook-3", 920, 2.53, 4.24, 3.08, "60%", "40%");
         (function () {
-          var s = iscene("jensen-nb.jpg", 0, 4.24, "linear-gradient(180deg, rgba(0,0,0,.1) 0%, rgba(0,0,0,.05) 45%, rgba(0,0,0,.7) 100%)", 1.14);
-          tl.fromTo(s.im, { scale: 1.32 }, { scale: 1.06, duration: .55, ease: "power3.out" }, 0);
-          tl.to(s.im, { scale: 1.16, duration: 3.69, ease: "none" }, .55);
-          var vig = div(bgl, "", "background:radial-gradient(ellipse 70% 60% at 50% 45%, rgba(217,22,30,0) 55%, rgba(217,22,30,.42) 100%)", "full");
-          tl.fromTo(vig, { opacity: 0 }, { opacity: 1, duration: .25 }, 3.08); tl.set(vig, { opacity: 0 }, 4.24);
-          var a = div(s, "Aveu", "top:1010px; font-size:190px; letter-spacing:-.06em", "ov");
-          tl.fromTo(a, { opacity: 0, scale: 1.35, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "power3.out" }, 2.53);
-          tl.fromTo(s.im, { filter: "brightness(1)" }, { filter: "brightness(1.8)", duration: .06, yoyo: true, repeat: 1 }, 2.53);   // éclair sur « d'avouer »
-          var l = div(s, "", "left:380px; top:1220px; width:320px; height:10px; background:" + RED);
-          tl.fromTo(l, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .3, ease: "power2.out" }, 3.08);  // « trompé »
-        })();
-
-        // ===== 1. HOOK, temps 2 (4,24 → 8,25) : le papier qui circule à Washington, tampon « Espionnage ? » =====
-        (function () {
-          var s = scene(4.24, 8.25, NIGHT);
-          var lines = ""; [0, 1, 2, 3, 4, 5, 6, 7].forEach(function (k) { var w = [92, 78, 88, 60, 94, 70, 84, 52][k]; lines += "<div style='height:22px; width:" + w + "%; margin:0 0 26px; background:" + (k % 3 === 1 ? "#0a105e" : "#d5dae5") + "'></div>"; });
-          var doc = div(s, "<div style='font-size:30px; font-weight:700; letter-spacing:.12em; color:#6b7290; margin-bottom:46px'>NOTE · CONFIDENTIEL</div>" + lines, "left:250px; top:380px; width:580px; height:760px; padding:60px 56px; background:#fff; border-radius:2px; box-shadow:0 30px 80px rgba(0,0,0,.5)");
-          tl.fromTo(doc, { opacity: 0, y: 160, rotation: 4 }, { opacity: 1, y: 0, rotation: -3, duration: .5, ease: "power3.out" }, 4.26);
-          var stamp = div(s, "Espionnage ?", "left:200px; top:690px; width:680px; text-align:center; font-size:96px; font-weight:800; letter-spacing:-.03em; color:" + RED + "; border:8px solid " + RED + "; padding:10px 0 16px; border-radius:6px; background:rgba(255,255,255,.88)");
-          tl.fromTo(stamp, { opacity: 0, scale: 2.2, rotation: -4, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, rotation: -12, duration: .22, ease: "power4.in" }, 5.24);
-          tl.fromTo(doc, { x: 0 }, { x: 10, duration: .05, yoyo: true, repeat: 3 }, 5.46);   // l'impact du tampon
-          var w = div(s, "Washington", "top:1200px; font-size:84px", "ov");
-          fadeIn(w, 7.76, .3, 14);
-          tl.to(doc, { scale: 1.05, duration: 1.6, ease: "none" }, 6.6);
+          var s = hookPhoto("hook-2", 1080, 4.24, 8.25, 4.52, "35%", "25%");
+          var stamp = div(s, "Espionnage ?", "left:220px; top:1110px; width:640px; text-align:center; font-size:92px; font-weight:800; letter-spacing:-.03em; color:" + RED + "; border:8px solid " + RED + "; padding:6px 0 14px; border-radius:6px; text-shadow:0 2px 16px rgba(0,0,0,.35)");
+          tl.fromTo(stamp, { opacity: 0, scale: 2.2, rotation: -2, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, rotation: -8, duration: .22, ease: "power4.in" }, 5.24);
         })();
 
         // ===== 2. Signature de série (8,25 → 11,17) =====
@@ -131,7 +125,6 @@
         (function () {
           var s = iscene("singapour.jpg", 20.48, 24.80);
           fadeIn(div(s, "Ancienne cadre", "top:880px; font-size:72px", "ov"), 21.70, .3, 14);
-          fadeIn(div(s, "d'une société de puces", "top:970px; font-size:52px; letter-spacing:-.03em", "ov"), 22.74, .3, 14);
           fadeIn(div(s, "Singapour", "top:560px; font-size:140px", "ov"), 24.10, .3, 20);
         })();
 
@@ -152,33 +145,12 @@
         (function () {
           var s = iscene("siege-nvidia.jpg", 33.49, 38.75, "rgba(0,11,34,.45)");
           fadeIn(div(s, "Enquête interne", "top:720px; font-size:120px", "ov"), 34.45, .35, 20);
-          fadeIn(div(s, "Aucune fuite, selon le conseil", "top:870px; font-size:52px; letter-spacing:-.03em", "ov"), 37.66, .3, 14);
         })();
 
-        // ===== 9. L'enjeu : pas le droit de vendre ses puces les plus puissantes à la Chine (38,75 → 44,21) =====
+        // ===== 9. L'enjeu : pas le droit de vendre ses puces les plus puissantes à la Chine (38,75 → 44,21) : vraie photo de puce =====
         (function () {
-          var s = scene(38.75, 44.21, FOCAL);
-          div(s, "Exportations", "", "ttl");
-          var us = div(s, "États-Unis", "left:96px; top:760px; width:300px; text-align:center; font-size:52px; font-weight:700; letter-spacing:-.045em");
-          var cn = div(s, "Chine", "left:684px; top:760px; width:300px; text-align:center; font-size:52px; font-weight:700; letter-spacing:-.045em");
-          fadeIn(us, 38.8, .3, 10); fadeIn(cn, 43.58, .3, 10);
-          var g = svg(s, 0, 0, 1080, 1300);
-          var line = el(g, "line", { x1: 300, x2: 780, y1: 700, y2: 700, stroke: PALE, "stroke-width": 6, "stroke-dasharray": "16 12" });
-          tl.fromTo(line, { opacity: 0 }, { opacity: 1, duration: .3 }, 41.94);
-          // la puce : carré marine avec ses broches
-          var chip = el(g, "g", {});
-          el(chip, "rect", { x: -62, y: -62, width: 124, height: 124, rx: 6, fill: NAVY });
-          el(chip, "rect", { x: -34, y: -34, width: 68, height: 68, rx: 3, fill: "none", stroke: "#fff", "stroke-width": 4 });
-          [-40, -14, 14, 40].forEach(function (o) { [[o, -62, o, -84], [o, 62, o, 84], [-62, o, -84, o], [62, o, 84, o]].forEach(function (p) { el(chip, "line", { x1: p[0], y1: p[1], x2: p[2], y2: p[3], stroke: NAVY, "stroke-width": 6 }); }); });
-          chip.setAttribute("transform", "translate(246 700)");
-          var pos = { x: 246 };
-          tl.fromTo(chip, { opacity: 0 }, { opacity: 1, duration: .2 }, 42.46);
-          tl.fromTo(pos, { x: 246 }, { x: 560, duration: .9, ease: "power2.in", onUpdate: function () { chip.setAttribute("transform", "translate(" + pos.x + " 700)"); } }, 42.6);
-          var wall = el(g, "rect", { x: 660, y: 590, width: 14, height: 220, fill: RED });
-          tl.fromTo(wall, { opacity: 0, scaleY: 0, transformOrigin: "50% 50%" }, { opacity: 1, scaleY: 1, duration: .2 }, 43.3);
-          var no = div(s, "Interdit", "left:0; right:0; top:900px; text-align:center; font-size:72px; font-weight:700; letter-spacing:-.05em; color:" + RED);
-          tl.fromTo(no, { opacity: 0, scale: 1.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .25, ease: "back.out(2)" }, 43.5);
-          fadeIn(div(s, "Puces d'IA les plus puissantes · Règles d'exportation américaines", "top:1230px", "src"), 38.9, .3, 0);
+          var s = iscene("puce.jpg", 38.75, 44.21, "linear-gradient(180deg, rgba(0,11,34,.35), rgba(0,11,34,.55))");
+          fadeIn(div(s, "Interdit<br>en Chine", "top:640px; font-size:140px", "ov"), 41.30, .4, 20);
         })();
 
         // ===== 10. L'action : −27 % depuis le sommet (44,21 → 48,18) =====
@@ -229,21 +201,20 @@
           var s = iscene("jensen-nb.jpg", 54.90, 57.65, "rgba(0,0,0,.45)");
           fadeIn(div(s, "Comment réagir ?", "top:760px; font-size:120px", "ov"), 55.45, .35, 20);
 
-          var s2 = scene(57.65, 66.70, NIGHT);
-          fadeIn(div(s2, "Une seule question", "top:380px; font-size:44px; letter-spacing:-.02em; color:rgba(255,255,255,.6)", "ov"), 58.21, .3, 10);
-          fadeIn(div(s2, "Ça change ce que<br>l'entreprise vend ?", "top:470px; font-size:100px", "ov"), 59.14, .4, 20);
-          var r1 = div(s2, "<span style='color:rgba(255,255,255,.65)'>Une liaison</span><span style='display:inline-block; width:40px'></span><span style='color:#fff'>Non</span>", "top:820px; font-size:68px", "ov");
-          var r2 = div(s2, "<span style='color:rgba(255,255,255,.85)'>La confiance de Washington</span>", "top:960px; font-size:60px", "ov");
-          var r3 = div(s2, "Vrai risque", "left:330px; right:330px; top:1060px; text-align:center; font-size:72px; font-weight:700; letter-spacing:-.05em; color:#fff; background:" + RED + "; padding:6px 0 14px; border-radius:3px");
-          fadeIn(r1, 61.36, .3, 14); fadeIn(r2, 62.81, .3, 14);
-          tl.fromTo(r3, { opacity: 0, scale: 1.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, 65.91);
+          var s2 = scene(57.65, 61.36, NIGHT);
+          fadeIn(div(s2, "Ça change ce que<br>l'entreprise vend ?", "top:640px; font-size:104px", "ov"), 58.61, .4, 20);
+          var s3 = scene(61.36, 62.57, NIGHT);
+          fadeIn(div(s3, "Une liaison :<br><span style='color:rgba(255,255,255,.6)'>non</span>", "top:640px; font-size:120px", "ov"), 61.38, .3, 20);
+          var s4 = scene(62.57, 66.70, NIGHT);
+          fadeIn(div(s4, "La confiance<br>de Washington", "top:600px; font-size:110px", "ov"), 62.69, .35, 20);
+          var r = div(s4, "Vrai risque", "left:300px; right:300px; top:880px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.05em; color:#fff; background:" + RED + "; padding:8px 0 16px; border-radius:3px");
+          tl.fromTo(r, { opacity: 0, scale: 1.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, 65.91);
         })();
 
         // ===== 13. Premier verdict le 17 novembre (66,70 → 69,52) : le siège de Nvidia =====
         (function () {
           var s = iscene("siege-exterieur.jpg", 66.70, 69.52, "rgba(0,11,34,.5)");
           fadeIn(div(s, "17 nov.", "top:640px; font-size:170px; letter-spacing:-.06em", "ov"), 67.58, .35, 20);
-          fadeIn(div(s, "Résultats", "top:830px; font-size:60px; letter-spacing:-.03em", "ov"), 68.94, .3, 14);
         })();
 
         // ===== 14. CTA (69,52 → 70,92) =====
