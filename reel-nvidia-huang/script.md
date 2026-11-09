@@ -25,7 +25,7 @@ Nvidia a ouvert une enquête. Le conseil dit n'avoir aucune raison de croire que
 Et l'action dans tout ça ? Elle a perdu 27 % depuis son sommet d'octobre. Pourtant, Nvidia n'a jamais autant vendu : 96 milliards de dollars au dernier trimestre, deux fois plus qu'il y a un an.
 
 **[Payoff]**
-Alors, comment réagir quand un patron fait scandale ? Posez-vous une seule question : est-ce que ça change ce que l'entreprise vend ? Une liaison, non. Mais si Washington perdait confiance en Nvidia, là, ce serait un vrai risque.
+Alors, comment réagir quand un patron fait scandale ? Posez-vous une seule question : est-ce que ça change ce que l'entreprise vend ? Une liaison, non. Mais si Washington perdait confiance en Nvidia, ou si son fondateur devait partir, là, ce serait un vrai risque.
 
 **[Boucle ouverte + CTA]**
 Premier verdict le 17 novembre, avec ses résultats. Abonnez-vous pour ne pas le rater.
