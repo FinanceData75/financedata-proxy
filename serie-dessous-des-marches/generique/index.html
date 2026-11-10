@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <style>
+      /* Générique « Le dessous des marchés » calé sur la voix (2,8 s) : le générique fourni (0,3 → 3,1 s),
+         plus une signature propre à chaque épisode : un bandeau de cotation qui défile « sous » le titre avec l'action du jour,
+         mouvement de caméra, tremblement de pellicule, grain, scintillement et fuite de lumière bleue. Changer EP et TICK ci-dessous. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0a1020; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #0a1020; font-family: "Display", sans-serif; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .tape span { display: inline-block; margin-right: 54px; font-size: 30px; font-weight: 600; letter-spacing: .14em; color: rgba(255,255,255,.88); white-space: nowrap; font-feature-settings: "tnum" 1; }
+      .tape b { font-weight: 700; color: #4fd58a; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="2.8" data-width="1080" data-height="1920">
+      <div id="cam" style="position:absolute; inset:0">
+        <video id="gen" class="clip" src="assets/generique.mp4" data-start="0" data-duration="2.8" data-track-index="1" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      </div>
+      <div id="stage" class="clip" data-start="0" data-duration="2.8" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var EP = "03", TICK = "UBER", PX = "71,17 $", VAR = "▲ 3,8 %";
+        var END = 2.8, tl = gsap.timeline({ paused: true }), st = document.getElementById("stage"), cam = document.getElementById("cam");
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+
+        // caméra : lente poussée + tremblement de pellicule (gate weave), image par image
+        tl.fromTo(cam, { scale: 1.0 }, { scale: 1.07, duration: END, ease: "none", transformOrigin: "50% 40%" }, 0);
+        var wv = { t: 0 };
+        tl.to(wv, { t: 1, duration: END, ease: "steps(84)", onUpdate: function () { var k = Math.round(wv.t * 84); cam.style.translate = (Math.sin(k * 2.1) * 1.6).toFixed(1) + "px " + (Math.cos(k * 1.3) * 2.2).toFixed(1) + "px"; } }, 0);
+
+        // bandeau de cotation, glissé juste sous le titre : la signature de l'épisode
+        var band = div(st, "", "left:0; top:584px; width:1080px; height:64px; overflow:hidden");
+        var hl1 = div(band, "", "left:0; top:0; width:1080px; height:2px; background:rgba(255,255,255,.55); transform-origin:0 50%");
+        var hl2 = div(band, "", "left:0; bottom:0; width:1080px; height:2px; background:rgba(255,255,255,.55); transform-origin:100% 50%");
+        var item = "<span>" + TICK + " &nbsp;" + PX + " &nbsp;<b>" + VAR + "</b></span><span>LE DESSOUS DES MARCHÉS · ÉP. " + EP + "</span>";
+        var tape = div(band, item + item + item + item, "left:0; top:15px; white-space:nowrap", "a tape");
+        tl.fromTo(hl1, { scaleX: 0 }, { scaleX: 1, duration: .5, ease: "power3.inOut" }, .55);
+        tl.fromTo(hl2, { scaleX: 0 }, { scaleX: 1, duration: .5, ease: "power3.inOut" }, .62);
+        tl.fromTo(tape, { opacity: 0 }, { opacity: 1, duration: .3 }, .85);
+        tl.fromTo(tape, { x: 120 }, { x: -520, duration: END - .7, ease: "none" }, .7);
+
+        // fuite de lumière bleue qui traverse l'image à l'ouverture
+        var leak = div(st, "", "left:-700px; top:-200px; width:900px; height:2400px; background:linear-gradient(90deg, rgba(61,90,254,0), rgba(61,120,254,.55), rgba(180,200,255,.35), rgba(61,90,254,0)); mix-blend-mode:screen; transform:rotate(12deg)");
+        tl.fromTo(leak, { x: 0, opacity: 1 }, { x: 2100, duration: 1.1, ease: "power2.inOut" }, .05);
+        tl.to(leak, { opacity: 0, duration: .2 }, 1.0);
+
+        // grain, scintillement d'exposition, vignette
+        var grain = div(st, "", "left:-256px; top:-256px; width:1592px; height:2432px; background:url(assets/grain.png); opacity:.14; mix-blend-mode:overlay");
+        tl.fromTo(grain, { x: 0, y: 0 }, { x: 250, y: 190, duration: END, ease: "steps(84)" }, 0);
+        var flick = div(st, "", "inset:0; background:#000");
+        var fk = { t: 0 };
+        tl.to(fk, { t: 1, duration: END, ease: "steps(42)", onUpdate: function () { var k = Math.round(fk.t * 42); flick.style.opacity = (0.03 + 0.03 * Math.abs(Math.sin(k * 7.7))).toFixed(3); } }, 0);
+        div(st, "", "inset:0; background:radial-gradient(ellipse 85% 70% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,.45) 100%)");
+        // deux images noires puis ouverture, comme une coupe de pellicule
+        var cut = div(st, "", "inset:0; background:#000");
+        tl.set(cut, { opacity: 1 }, 0); tl.set(cut, { opacity: 0 }, 2 / 30);
+
+        tl.set({}, {}, END);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
