@@ -28,6 +28,11 @@
 
         // caméra : lente poussée
         tl.fromTo(cam, { scale: 1.0 }, { scale: 1.07, duration: END, ease: "none", transformOrigin: "50% 40%" }, 0);
+        // numéro d'épisode juste sous le titre, sur un fond bleu FinanceData (le « ÉPISODE 03 » du bas est effacé de la vidéo)
+        var EP = 3;
+        var ep = div(cam, "<span style=\"display:inline-block; background:#3d5afe; color:#fff; font-weight:600; font-size:34px; letter-spacing:.22em; padding:12px 18px 12px 26px; border-radius:4px\">ÉPISODE " + EP + "</span>", "left:0; right:0; top:572px; text-align:center");
+        tl.fromTo(ep, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out" }, 1.7);
+
         // fuite de lumière bleue qui traverse l'image à l'ouverture
         var leak = div(st, "", "left:-700px; top:-200px; width:900px; height:2400px; background:linear-gradient(90deg, rgba(61,90,254,0), rgba(61,120,254,.55), rgba(180,200,255,.35), rgba(61,90,254,0)); mix-blend-mode:screen; transform:rotate(12deg)");
         tl.fromTo(leak, { x: 0, opacity: 1 }, { x: 2100, duration: 1.1, ease: "power2.inOut" }, .05);
