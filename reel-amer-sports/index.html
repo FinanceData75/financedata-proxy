@@ -34,7 +34,6 @@
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="66.01" data-width="1080" data-height="1920">
       <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="66.01" data-track-index="1"></audio>
-      <video id="v-sent" class="clip" src="assets/video/salomon-sentier.mp4" data-start="0" data-duration="2.30" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
       <video id="v-mont" class="clip" src="assets/video/montagne.mp4" data-start="18.57" data-duration="2.42" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
       <video id="v-chine" class="clip" src="assets/video/chine.mp4" data-start="42.02" data-duration="3.28" data-track-index="5" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
       <video id="v-rue" class="clip" src="assets/video/rue.mp4" data-start="53.27" data-duration="5.73" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
@@ -80,11 +79,22 @@
         function logo(k, w, h) { return "<img class='lg' src='assets/img/" + LOGO[k] + "' style='width:" + w + "px; height:" + h + "px'>"; }
 
         // ===== NOUVEAU DÉBUT (v4) : « Vous voyez Salomon partout ? » → l'action inconnue → générique → Amer Sports =====
-        // 1. « Vous voyez Salomon partout ? C'est normal » (0 → 2,30) : vraie vidéo + logo Salomon en blanc
+        // 1. « Vous voyez Salomon partout ? C'est normal » (0 → 2,30) : trois vraies photos en coupes rapides
         (function () {
-          var s = vscene("#v-sent", 0, 2.30);
-          var lg = div(s, "<div class='wl' style='display:flex; justify-content:center'>" + logo("sal", 440, 277) + "</div>", "left:0; right:0; top:600px");
-          tl.fromTo(lg, { opacity: 0, scale: 1.25, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "power3.out" }, 0.02);
+          function shot(html, t0, t1) {
+            var w = div(bgl, html, "", "full"), inner = w.firstChild;
+            tl.set(w, { opacity: 1 }, t0); tl.set(w, { opacity: 0 }, t1);
+            tl.fromTo(inner, { scale: 1.18 }, { scale: 1.04, duration: .35, ease: "power3.out" }, t0);
+            tl.to(inner, { scale: 1.0, duration: t1 - t0 - .35, ease: "none" }, t0 + .35);
+            var f = div(bgl, "", "background:#fff", "full");
+            tl.fromTo(f, { opacity: .6 }, { opacity: 0, duration: .18, ease: "power2.out", immediateRender: false }, t0);
+            return w;
+          }
+          shot("<div style='position:absolute; inset:0; background:url(assets/img/hook-xt6-blanche.jpg) 50% 40%/cover'></div>", 0, 0.9);
+          shot("<div style='position:absolute; inset:0; background:url(assets/img/hook-xt6-main.jpg) 50% 45%/cover'></div>", 0.9, 1.42);
+          // image plus petite : posée sur son propre fond flouté, encadrée
+          shot("<div style='position:absolute; inset:0'><div style='position:absolute; inset:-40px; background:url(assets/img/hook-collection-fond.jpg) center/cover; filter:brightness(.55)'></div><div style='position:absolute; left:150px; top:360px; width:780px; height:975px; background:url(assets/img/hook-collection.jpg) center/cover; box-shadow:0 30px 70px rgba(0,0,0,.45)'></div></div>", 1.42, 2.30);
+          scene(0, 2.30, null);
         })();
         // 2. « les ventes ont bondi de 37 % en un an » (2,30 → 5,31)
         (function () {
