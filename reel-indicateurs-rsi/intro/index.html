@@ -52,9 +52,9 @@
         var grid = div(st, "", "inset:0; transform-origin:300px 700px");
         var t1 = div(grid, "Les indicateurs pour", "top:190px", "ttl"), t2 = div(grid, "investir expliqués", "top:272px", "ttl");
         var part = div(grid, "Partie 1", "top:384px", "part");
-        tl.fromTo(t1, { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: .5, ease: "power3.out" }, .1);
-        tl.fromTo(t2, { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: .5, ease: "power3.out" }, .25);
-        tl.fromTo(part, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out" }, .6);
+        tl.fromTo(t1, { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: .5, ease: "power3.out" }, 0);
+        tl.fromTo(t2, { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: .5, ease: "power3.out" }, .9);
+        tl.fromTo(part, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out" }, 2.55);
 
         // ---------- 8 indicateurs, chacun en mini data viz
         var ITEMS = [
@@ -102,7 +102,7 @@
         ];
         var X0 = [100, 580], tiles = [], rules = [];
         ITEMS.forEach(function (it, i) {
-          var x0 = X0[i % 2], y = 520 + Math.floor(i / 2) * 330, t = .85 + i * .14;
+          var x0 = X0[i % 2], y = 520 + Math.floor(i / 2) * 330, t = 1.7 + i * .1;
           var tile = div(grid, "", "left:" + x0 + "px; top:" + y + "px; width:400px; height:290px");
           var rule = div(tile, "", "left:0; top:0; width:400px; height:2px; background:rgba(255,255,255,.4); transform-origin:0 50%");
           div(tile, "0" + (i + 1), "left:0; top:22px; font-size:32px; font-weight:700; color:" + SKY + "; letter-spacing:-.02em");
@@ -116,10 +116,10 @@
         });
 
         // ---------- focus sur le RSI (4,7 s), puis écran RSI (5,6 s)
-        tl.to(tiles.slice(1), { opacity: .2, duration: .4, ease: "power2.out" }, 4.7);
-        tl.to([t1, t2, part], { opacity: .25, duration: .4 }, 4.7);
-        tl.to(rules[0], { backgroundColor: SKY, height: 5, duration: .35, ease: "power2.out" }, 4.7);
-        tl.to(grid, { opacity: 0, y: -40, duration: .45, ease: "power2.in" }, 5.5);
+        tl.to(tiles.slice(1), { opacity: .2, duration: .4, ease: "power2.out" }, 3.3);
+        tl.to([t1, t2, part], { opacity: .25, duration: .4 }, 3.3);
+        tl.to(rules[0], { backgroundColor: SKY, height: 5, duration: .35, ease: "power2.out" }, 3.3);
+        tl.to(grid, { opacity: 0, y: -40, duration: .4, ease: "power2.in" }, 3.95);
 
         // ---------- écran RSI, graphique façon presse éco
         var big = div(st, "", "inset:0; opacity:0"), GX = 90;
@@ -134,8 +134,8 @@
         [0, 30, 70, 100].forEach(function (v) { el(bs, "text", { x: 900, y: Y(v) - 12, "font-size": 30, "font-weight": 500, fill: "#a9b4e0", "text-anchor": "end" }, String(v)); });
         seed = 11; var bigLine = line(bs, fit(osc(60, .3, 36, 50), 0, 820, 10, 510, 0, 100), W, 6);
         div(big, "Exemple illustratif · FinanceData", "left:" + GX + "px; top:1292px; font-size:26px; font-weight:500; color:#8a95c4; letter-spacing:-.01em");
-        tl.fromTo(big, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .55, ease: "power3.out" }, 5.8);
-        draw(bigLine, 5.95, 1.4, "power2.out");
+        tl.fromTo(big, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .5, ease: "power3.out" }, 4.21);
+        draw(bigLine, 4.3, 2.2, "power2.out");
 
         // zone sûre Instagram / TikTok : contenu réduit à 82 % vers le centre utile
         st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
