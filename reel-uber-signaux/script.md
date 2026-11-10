@@ -4,33 +4,33 @@ Format : leçon d'investissement / action décryptée · ~70 s · « vous »
 Série : **Le dessous des marchés**, épisode 3 (à confirmer).
 Structure : **La percée** (l'erreur que tout le monde fait → le bon chiffre → la preuve → les 3 signaux → le risque → la règle).
 
-## Voix off
+## Voix off (v2 : plus naturelle, hook émotion + boucles ouvertes)
 
-**[Hook]**
-Le patron d'Uber a mis 10 millions de dollars de sa poche dans son action. Son numéro 2, 5 millions. Pourtant, beaucoup d'investisseurs pensent qu'Uber ne grandit plus. Ils regardent le mauvais chiffre.
+**[Hook — curiosité + FOMO, boucle ouverte n° 1 : « le chiffre »]**
+Pendant que l'action Uber s'effondrait, son patron a sorti 10 millions de dollars de sa poche pour en racheter. Il a vu un chiffre que presque personne ne regarde. Et ce chiffre raconte une tout autre histoire.
 
 **[Signature de série]**
 Bienvenue dans le dessous des marchés, épisode 3.
 
-**[L'erreur]**
-Les bénéfices d'Uber : 9,9 milliards de dollars en 2024, 10 milliards en 2025. À plat. Sauf que ces deux années sont gonflées par un cadeau fiscal de plus de 11 milliards. Un gain comptable, pas un dollar de cash. En 2026, il disparaît, et les bénéfices vont sembler chuter.
+**[L'illusion]**
+Ce que tout le monde regarde, ce sont les bénéfices. Presque 10 milliards de dollars en 2024. 10 milliards en 2025. Zéro croissance. Et cette année, ils vont même avoir l'air de s'écrouler. Sauf que c'est une illusion : ces deux années ont été gonflées par un cadeau du fisc de plus de 11 milliards. De l'argent sur le papier, jamais en banque.
 
-**[Le bon chiffre]**
-Le bon chiffre, c'est le free cash flow : l'argent qui reste vraiment en caisse. 3,4 milliards en 2023. 6,9 en 2024. 9,8 en 2025. Et les analystes attendent environ 13 milliards en 2027.
+**[Le chiffre — fermeture de la boucle n° 1]**
+Le chiffre que le patron regarde, c'est le cash. Ce qui reste vraiment dans les caisses. 3 milliards en 2023. 7 en 2024. Presque 10 en 2025. Et selon les analystes, 13 en 2027. Uber grandit. Et vite.
 
-**[Les 3 signaux]**
-D'où trois signaux verts. Un : l'action est revenue sur sa zone de support, entre 65 et 70 dollars, là où elle rebondit depuis février. Deux : elle vaut environ 14 fois son free cash flow, deux fois moins que la moyenne des grandes entreprises américaines. Trois : les dirigeants achètent. Le patron à 71 dollars. Aujourd'hui, l'action vaut… 71 dollars.
+**[Les autres signaux — boucle ouverte n° 2 : « le prix du patron »]**
+Et ce n'est pas le seul signal. L'action est revenue là où elle rebondit depuis février, entre 65 et 70 dollars. Elle ne vaut plus que 14 fois ce cash, à peu près deux fois moins que les grandes entreprises américaines. Et le patron n'est pas seul : son bras droit a acheté, lui aussi, pour 5 millions.
 
 **[Le risque]**
-Le risque ? Les robotaxis. Si Waymo ou Tesla se passent d'Uber, ce cash pourrait fondre. C'est cette peur qui pèse sur le cours.
+Attention quand même. Si les robotaxis de Waymo ou de Tesla se passent d'Uber, tout ce cash peut fondre. C'est exactement ce qui fait peur au marché.
 
-**[Leçon]**
-Retenez ça : quand la fiscalité déforme les bénéfices, regardez le cash. Il ment beaucoup moins.
+**[Payoff — fermeture de la boucle n° 2 + leçon]**
+Mais un détail : le patron a payé son action 71 dollars. Aujourd'hui, elle vaut… 71 dollars. Le même prix. Alors retenez ça : quand les bénéfices et le cash racontent deux histoires différentes, croyez le cash.
 
 **[CTA]**
-Abonnez-vous pour ne pas rater le prochain épisode.
+Abonnez-vous : on décortique une action comme ça chaque semaine.
 
-(≈ 215 mots · mention à l'écran : « Ceci n'est pas un conseil en investissement. »)
+(≈ 225 mots · mention à l'écran : « Ceci n'est pas un conseil en investissement. »)
 
 ## Découpage
 
