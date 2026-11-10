@@ -1,6 +1,6 @@
-// usage : node audio/tts.mjs <sortie-sans-extension> : voix « Waul Story Telling », Eleven v4, stabilité et similarité à 0,30
+// usage : node audio/tts.mjs <sortie-sans-extension> : voix « Camille - Content Creator », Eleven v4, stabilité et similarité à 0,30
 import fs from "fs";
-const K = process.env.ELEVENLABS_API_KEY, VOICE = "I0ZNjxaJrLklKmZK1mlA", out = process.argv[2];
+const K = process.env.ELEVENLABS_API_KEY, VOICE = "Da9VfudgKUvFOKayCiue", out = process.argv[2];
 const text = fs.readFileSync(new URL("./texte-tts.txt", import.meta.url), "utf8").trim();
 const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${VOICE}/with-timestamps?output_format=mp3_44100_128`, {
   method: "POST", headers: { "xi-api-key": K, "content-type": "application/json" },
