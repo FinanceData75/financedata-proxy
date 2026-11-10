@@ -25,12 +25,12 @@ Et ce n'est pas le seul signal. L'action est revenue là où elle rebondit depui
 Attention quand même. Si les robotaxis de Waymo ou de Tesla se passent d'Uber, tout ce cash peut fondre. C'est exactement ce qui fait peur au marché.
 
 **[Payoff]**
-Mais un détail : le patron a payé son action 71 dollars. Aujourd'hui, elle vaut… 71 dollars. Le même prix.
+Mais un détail : le patron a payé son action 71 dollars. Aujourd'hui, elle vaut… 71 dollars. Le même prix. Alors retenez ça : quand les bénéfices et le cash racontent deux histoires différentes, croyez le cash.
 
 **[CTA]**
 Commentez « PDG », et on vous envoie notre outil pour être le premier au courant quand un PDG ou un politique achète des actions.
 
-(≈ 220 mots · mention à l'écran : « Ceci n'est pas un conseil en investissement. »)
+(≈ 235 mots · mention à l'écran : « Ceci n'est pas un conseil en investissement. »)
 
 ## Découpage
 
