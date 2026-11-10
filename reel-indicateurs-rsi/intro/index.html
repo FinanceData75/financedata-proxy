@@ -102,7 +102,7 @@
         ];
         var X0 = [100, 580], tiles = [], rules = [];
         ITEMS.forEach(function (it, i) {
-          var x0 = X0[i % 2], y = 520 + Math.floor(i / 2) * 330, t = 1.7 + i * .1;
+          var x0 = X0[i % 2], y = 520 + Math.floor(i / 2) * 330, t = .05 + i * .05;
           var tile = div(grid, "", "left:" + x0 + "px; top:" + y + "px; width:400px; height:290px");
           var rule = div(tile, "", "left:0; top:0; width:400px; height:2px; background:rgba(255,255,255,.4); transform-origin:0 50%");
           div(tile, "0" + (i + 1), "left:0; top:22px; font-size:32px; font-weight:700; color:" + SKY + "; letter-spacing:-.02em");

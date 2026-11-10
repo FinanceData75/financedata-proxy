@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=1080, height=1920" />
     <script src="assets/gsap.min.js"></script>
     <script src="assets/vo-words.js"></script>
+    <script src="assets/data.js"></script>
     <style>
       /* Reel « Les indicateurs pour investir expliqués, partie 1 : le RSI » (69,19 s). DA « data intelligence » FinanceData, minimaliste. */
       @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf") format("opentype"); font-weight: 400; }
@@ -62,98 +63,257 @@
       (function () {
         var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 69.19;
         var root = document.getElementById("root"), st = document.getElementById("stage"), bgL = document.getElementById("bg-light");
-        var INK = "#eaf1fb", SOFT = "#8fa3c7", CYAN = "#7dd0f5", RED = "#ff2e24", GREEN = "#35d07f", NAVY = "#00194b", NSOFT = "#5b6b8a";
+        var INK = "#eaf1fb", SOFT = "#8fa3c7", CYAN = "#7dd0f5", RED = "#ff2e24", GREEN = "#35d07f", NAVY = "#00194b", UP = "#2fd27a", DN = "#ff3b30";
+        var D = window.DATA, uid = 0;
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
         function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
-        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start", "letter-spacing": "-0.02em" }, str); }
+        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start", "letter-spacing": "-0.01em" }, str); }
         function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
         function drawIn(n, at, dur, ease) { var L = n.getTotalLength(); n.style.strokeDasharray = L + " " + L; tl.fromTo(n, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.inOut" }, at); }
-        function fadeIn(n, at, dur, y) { tl.fromTo(n, { opacity: 0, y: y == null ? 16 : y }, { opacity: 1, y: 0, duration: dur || .45, ease: "power2.out" }, at); return n; }
-        function popIn(n, at) { tl.fromTo(n, { opacity: 0, scale: .85, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, at); return n; }
-        function count(e, t, d, v0, v1, f) { var o = { v: v0 }; tl.fromTo(o, { v: v0 }, { v: v1, duration: d, ease: "power3.out", onUpdate: function () { e.textContent = f(o.v); } }, t); }
-        function scene(t0, t1, mode) {
-          var s = div(st, "", "", "scene" + (mode === "light" ? " light" : ""));
-          tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: .25, ease: "power1.out" }, t0); tl.set(s, { opacity: 0 }, t1);
-          if (mode === "light") { tl.set(bgL, { opacity: 1 }, t0); tl.set(bgL, { opacity: 0 }, t1); }
-          return s;
-        }
-        function path(pts) { return "M" + pts.map(function (p) { return p[0].toFixed(1) + " " + p[1].toFixed(1); }).join("L"); }
+        function fadeIn(n, at, dur, y) { tl.fromTo(n, { opacity: 0, y: y == null ? 12 : y }, { opacity: 1, y: 0, duration: dur || .4, ease: "power2.out" }, at); return n; }
+        function show(n, at, dur) { tl.fromTo(n, { opacity: 0 }, { opacity: 1, duration: dur || .3 }, at); return n; }
+        function popIn(n, at) { tl.fromTo(n, { opacity: 0, scale: .8, transformOrigin: "50% 50%", transformBox: "fill-box" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, at); return n; }
+        function scene(t0, t1) { var s = div(st, "", "", "scene"); tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: .25, ease: "power1.out" }, t0); tl.set(s, { opacity: 0 }, t1); return s; }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+        // étiquette « pilule » sur l'axe de droite (style terminal)
+        function tag(g, x, y, txt, bg, fg) { var w = txt.length * 17 + 26, gg = el(g, "g", {}); el(gg, "rect", { x: x, y: y - 22, width: w, height: 44, rx: 6, fill: bg }); T(gg, x + w / 2, y + 10, txt, 28, fg || NAVY, 600, "middle"); return gg; }
 
-        // ===== 1. Titre de série (0 → 8,34) : l'intro animée (vidéo) =====
-
-        // ===== 2. Définition (8,34 → 17,90) : un prix, ses 14 dernières variations, une note sur 100 =====
-        (function () {
-          var s = scene(8.34, 17.9, "dark");
-          // prix (exemple) : 40 séances
-          var P = [100, 101.2, 100.6, 102.1, 103.4, 102.8, 104.2, 105.1, 104.3, 103.6, 104.9, 106.3, 107.0, 106.2, 107.8, 109.1, 108.4, 107.5, 108.9, 110.4, 111.2, 110.1, 109.4, 110.8, 112.3, 113.1, 112.2, 113.8, 115.0, 114.1, 113.2, 114.6, 116.1, 117.3, 116.4, 117.9, 119.2, 118.5, 120.1, 121.4];
-          var n = P.length, X = function (i) { return 20 + i / (n - 1) * 760; }, Y = function (v) { return 330 - (v - 98) / 25 * 300; };
-          var g = svg(s, 0, 40, 800, 360);
-          var pts = P.map(function (v, i) { return [X(i), Y(v)]; });
-          var ln = el(g, "path", { d: path(pts), fill: "none", stroke: INK, "stroke-width": 4, "stroke-linejoin": "round", "stroke-linecap": "round" });
-          drawIn(ln, 8.4, 1.6, "power1.inOut");
-          var dot = el(g, "circle", { cx: X(n - 1), cy: Y(P[n - 1]), r: 9, fill: INK });
-          tl.fromTo(dot, { opacity: 0 }, { opacity: 1, duration: .2 }, 9.9);
-          // les 14 dernières séances : crochet cyan au-dessus de la courbe
-          var x0 = X(n - 15), x1 = X(n - 1);
-          var br = el(g, "path", { d: "M" + x0 + " 18 V4 H" + x1 + " V18", fill: "none", stroke: CYAN, "stroke-width": 3 });
-          var bl = T(g, (x0 + x1) / 2, -14, "14 séances", 30, CYAN, 600, "middle");
-          var sh = el(g, "rect", { x: x0, y: 20, width: x1 - x0, height: 320, fill: CYAN, "fill-opacity": .08 });
-          g.insertBefore(sh, g.firstChild);
-          tl.fromTo([br, bl, sh], { opacity: 0 }, { opacity: 1, duration: .3 }, 13.94);
-          // barres des variations : hausses en vert, baisses en rouge
-          var B = svg(s, 0, 440, 800, 300), up = [], dn = [], gain = 0, loss = 0;
-          var bw = 760 / 14 - 10;
-          el(B, "line", { x1: 20, x2: 780, y1: 150, y2: 150, stroke: SOFT, "stroke-width": 1.5, opacity: .5 });
-          for (var k = 0; k < 14; k++) {
-            var ch = P[n - 14 + k] - P[n - 15 + k], h = Math.abs(ch) * 70, x = 20 + k * (760 / 14) + 5;
-            var r = el(B, "rect", { x: x, y: ch >= 0 ? 150 - h : 150, width: bw, height: h, fill: ch >= 0 ? GREEN : RED, rx: 2 });
-            (ch >= 0 ? up : dn).push(r); if (ch >= 0) gain += ch; else loss -= ch;
+        // ===== terminal : bougies + panneau RSI(14), révélés de gauche à droite avec curseur =====
+        function terminal(s, rows, o) {
+          o = o || {}; var id = "c" + (++uid), n = rows.length, PW = 690, W = 800;
+          var top = o.top || 0, PH = o.ph || 400, GAP = 56, RH = o.rh || 220, showPrice = o.price !== false;
+          var g = svg(s, 0, top, W, (showPrice ? PH + GAP : 0) + RH + 60);
+          var defs = el(g, "defs", {}), cp = el(defs, "clipPath", { id: id }), cr = el(cp, "rect", { x: -10, y: -40, width: 0, height: 2000 });
+          var X = function (i) { return 10 + i / (n - 1) * (PW - 20); }, cw = Math.max(3, (PW - 20) / n * .62);
+          var lo = Math.min.apply(0, rows.map(function (r) { return r[3]; })), hi = Math.max.apply(0, rows.map(function (r) { return r[2]; })), pad = (hi - lo) * .08; lo -= pad; hi += pad;
+          var Y = function (v) { return PH - (v - lo) / (hi - lo) * PH; };
+          var r0 = showPrice ? PH + GAP : 0, YR = function (v) { return r0 + RH - v / 100 * RH; };
+          var ax = [];
+          if (showPrice) {
+            var step = Math.pow(10, Math.floor(Math.log10((hi - lo) / 3))), st_ = step * Math.ceil((hi - lo) / 4 / step);
+            for (var v = Math.ceil(lo / st_) * st_; v < hi; v += st_) { ax.push(el(g, "line", { x1: 0, x2: PW, y1: Y(v), y2: Y(v), stroke: "#ffffff", "stroke-opacity": .07, "stroke-width": 1.5 })); ax.push(T(g, W, Y(v) + 9, fr(v, v < 200 ? 0 : 0), 24, SOFT, 500, "end")); }
+            if (o.label) ax.push(T(g, 0, -16, o.label, 24, SOFT, 600));
           }
-          tl.fromTo(up, { scaleY: 0, transformOrigin: "50% 100%", transformBox: "fill-box" }, { scaleY: 1, duration: .35, stagger: .04, ease: "power3.out" }, 12.74);
-          tl.fromTo(dn, { scaleY: 0, transformOrigin: "50% 0%", transformBox: "fill-box" }, { scaleY: 1, duration: .35, stagger: .05, ease: "power3.out" }, 13.38);
-          // la note sur 100
-          var RSI = 100 * gain / (gain + loss);
-          tl.to(B, { opacity: 0, y: -20, duration: .3 }, 15.4);
-          var big = div(s, "0", "left:0; right:0; top:450px; font-size:200px; color:" + INK, "a big");
-          tl.fromTo(big, { opacity: 0, scale: 1.2, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "power3.out" }, 15.54);
-          count(big, 15.54, 1.0, 0, RSI, function (x) { return String(Math.round(x)); });
-          var sc = svg(s, 0, 720, 800, 120);
-          var bar = el(sc, "rect", { x: 40, y: 40, width: 720, height: 10, rx: 5, fill: SOFT, "fill-opacity": .35 });
-          var fill = el(sc, "rect", { x: 40, y: 40, width: 720 * RSI / 100, height: 10, rx: 5, fill: CYAN });
-          var l0 = T(sc, 40, 100, "0", 34, SOFT, 600, "middle"), l100 = T(sc, 760, 100, "100", 34, SOFT, 600, "middle");
-          tl.fromTo(bar, { opacity: 0 }, { opacity: 1, duration: .25 }, 16.4);
-          tl.fromTo(fill, { scaleX: 0, transformOrigin: "0% 50%", transformBox: "fill-box" }, { scaleX: 1, duration: .8, ease: "power3.out" }, 16.5);
-          tl.fromTo(l0, { opacity: 0 }, { opacity: 1, duration: .2 }, 16.98); tl.fromTo(l100, { opacity: 0 }, { opacity: 1, duration: .2 }, 17.68);
-        })();
+          // panneau RSI : bande 30–70, seuils pointillés
+          var band = el(g, "rect", { x: 0, y: YR(70), width: PW, height: YR(30) - YR(70), fill: "#ffffff", "fill-opacity": .035 });
+          ax.push(band);
+          [70, 30].forEach(function (v) { ax.push(el(g, "line", { x1: 0, x2: PW, y1: YR(v), y2: YR(v), stroke: SOFT, "stroke-opacity": .55, "stroke-width": 1.5, "stroke-dasharray": "6 6" })); ax.push(T(g, W, YR(v) + 9, String(v), 24, SOFT, 500, "end")); });
+          ax.push(el(g, "line", { x1: 0, x2: PW, y1: YR(0), y2: YR(0), stroke: "#ffffff", "stroke-opacity": .12, "stroke-width": 1.5 }));
+          ax.push(el(g, "line", { x1: 0, x2: PW, y1: YR(100), y2: YR(100), stroke: "#ffffff", "stroke-opacity": .12, "stroke-width": 1.5 }));
+          ax.push(T(g, 0, r0 - 16, "RSI (14)", 24, SOFT, 600));
+          // contenu révélé
+          var body = el(g, "g", { "clip-path": "url(#" + id + ")" });
+          if (showPrice) rows.forEach(function (r, i) {
+            var up = r[4] >= r[1], c = up ? UP : DN, x = X(i);
+            el(body, "line", { x1: x, x2: x, y1: Y(r[2]), y2: Y(r[3]), stroke: c, "stroke-width": 1.6 });
+            el(body, "rect", { x: x - cw / 2, y: Y(Math.max(r[1], r[4])), width: cw, height: Math.max(1.5, Math.abs(Y(r[1]) - Y(r[4]))), fill: c });
+          });
+          var rp = rows.map(function (r, i) { return (i ? "L" : "M") + X(i).toFixed(1) + " " + YR(r[5]).toFixed(1); }).join("");
+          el(body, "path", { d: rp, fill: "none", stroke: CYAN, "stroke-width": 3, "stroke-linejoin": "round" });
+          // curseur vertical qui suit la révélation
+          var cur = el(g, "line", { x1: 0, x2: 0, y1: showPrice ? -10 : r0 - 10, y2: r0 + RH + 10, stroke: "#ffffff", "stroke-opacity": .35, "stroke-width": 1.5, "stroke-dasharray": "4 5", opacity: 0 });
+          var api = { g: g, X: X, Y: Y, YR: YR, n: n, PW: PW, r0: r0, RH: RH, ax: ax, body: body, rows: rows, idx: function (d) { for (var i = 0; i < n; i++) if (rows[i][0] >= d) return i; return n - 1; } };
+          api.reveal = function (k, at, dur) {
+            var w = X(k) + cw;
+            tl.to(cr, { attr: { width: w }, duration: dur, ease: "none" }, at);
+            tl.to(cur, { attr: { x1: X(k), x2: X(k) }, opacity: 1, duration: dur, ease: "none" }, at);
+          };
+          api.hideCursor = function (at) { tl.to(cur, { opacity: 0, duration: .2 }, at); };
+          tl.fromTo(ax, { opacity: 0 }, { opacity: 1, duration: .3 }, o.at || 0);
+          return api;
+        }
+        function vline(c, i, color, at, label) {
+          var x = c.X(i), l = el(c.g, "line", { x1: x, x2: x, y1: -10, y2: c.r0 + c.RH + 10, stroke: color, "stroke-width": 2, "stroke-dasharray": "3 6" });
+          show(l, at, .25);
+        }
+        function ring(c, x, y, color, at, r) { var e = el(c.g, "circle", { cx: x, cy: y, r: r || 18, fill: "none", stroke: color, "stroke-width": 3.5 }); drawIn(e, at, .35); return e; }
 
-        // ===== 3. 70 / 30 (17,90 → 24,4) : la courbe du RSI et ses deux zones =====
+        // ===== 1. Titre de série (0 → 8,34) : intro animée (vidéo) =====
+
+        // ===== 2. Définition (8,34 → 17,90) : S&P 500, 60 dernières séances, RSI dessous =====
         (function () {
-          var s = scene(17.9, 24.4, "dark");
-          var R = [55, 61, 66, 72, 77, 81, 78, 74, 69, 63, 57, 51, 45, 40, 34, 28, 24, 22, 26, 31, 38, 45, 52, 58, 63, 68, 73, 76, 72, 66];
-          var n = R.length, X = function (i) { return 20 + i / (n - 1) * 720; }, Y = function (v) { return 600 - v * 6; };
-          var g = svg(s, 0, 100, 800, 620);
-          var zH = el(g, "rect", { x: 0, y: Y(100), width: 800, height: Y(70) - Y(100), fill: RED, "fill-opacity": .12 });
-          var zL = el(g, "rect", { x: 0, y: Y(30), width: 800, height: Y(0) - Y(30), fill: CYAN, "fill-opacity": .12 });
-          var h70 = el(g, "line", { x1: 0, x2: 800, y1: Y(70), y2: Y(70), stroke: RED, "stroke-width": 2.5, "stroke-dasharray": "10 8" });
-          var h30 = el(g, "line", { x1: 0, x2: 800, y1: Y(30), y2: Y(30), stroke: CYAN, "stroke-width": 2.5, "stroke-dasharray": "10 8" });
-          var t70 = T(g, 800, Y(70) - 14, "70", 44, RED, 600, "end"), t30 = T(g, 800, Y(30) + 50, "30", 44, CYAN, 600, "end");
-          var ln = el(g, "path", { d: path(R.map(function (v, i) { return [X(i), Y(v)]; })), fill: "none", stroke: INK, "stroke-width": 4, "stroke-linejoin": "round" });
-          drawIn(ln, 17.95, 1.2, "power1.inOut");
-          tl.fromTo([zH, h70, t70], { opacity: 0 }, { opacity: 1, duration: .3 }, 18.4);
-          tl.fromTo([zL, h30, t30], { opacity: 0 }, { opacity: 1, duration: .3 }, 22.37);
-          var r1 = el(g, "circle", { cx: X(5), cy: Y(81), r: 20, fill: "none", stroke: RED, "stroke-width": 4 });
-          var r2 = el(g, "circle", { cx: X(17), cy: Y(22), r: 20, fill: "none", stroke: CYAN, "stroke-width": 4 });
-          drawIn(r1, 20.12, .35); drawIn(r2, 23.29, .35);
+          var s = scene(8.34, 17.9), rows = D.def.slice(-60);
+          var c = terminal(s, rows, { top: 60, ph: 380, rh: 210, label: "S&P 500 · quotidien", at: 8.34 });
+          c.reveal(c.n - 1, 8.45, 2.2);
+          // les 14 dernières séances
+          var k0 = c.n - 15, x0 = c.X(k0) - 6, x1 = c.X(c.n - 1) + 8;
+          var hl = el(c.g, "rect", { x: x0, y: -10, width: x1 - x0, height: c.r0 + c.RH + 20, fill: CYAN, "fill-opacity": .07, stroke: CYAN, "stroke-opacity": .6, "stroke-width": 2, rx: 4 });
+          var bl = T(c.g, (x0 + x1) / 2, c.r0 + c.RH + 46, "14 séances", 26, CYAN, 600, "middle");
+          tl.fromTo(hl, { opacity: 0, scaleX: .2, transformOrigin: "100% 50%", transformBox: "fill-box" }, { opacity: 1, scaleX: 1, duration: .4, ease: "power3.out" }, 12.6);
+          show(bl, 13.94, .25);
+          // hausses (vertes) puis baisses (rouges) qui s'allument dans la fenêtre
+          var ups = [], dns = [];
+          for (var i = k0 + 1; i < c.n; i++) { var r = rows[i], u = r[4] >= rows[i - 1][4], x = c.X(i); var m = el(c.g, "circle", { cx: x, cy: c.Y(r[2]) - 16, r: 5, fill: u ? UP : DN }); (u ? ups : dns).push(m); }
+          tl.fromTo(ups, { opacity: 0 }, { opacity: 1, duration: .15, stagger: .05 }, 12.74);
+          tl.fromTo(dns, { opacity: 0 }, { opacity: 1, duration: .15, stagger: .05 }, 13.38);
+          // la note : étiquette sur l'axe RSI, puis compteur
+          var last = rows[c.n - 1][5];
+          var dot = el(c.g, "circle", { cx: c.X(c.n - 1), cy: c.YR(last), r: 7, fill: CYAN });
+          var tg = tag(c.g, c.PW + 8, c.YR(last), String(Math.round(last)), CYAN);
+          popIn(dot, 15.54); popIn(tg, 15.6);
+          var big = div(s, "0", "left:0; right:0; top:-10px; font-size:0px");
+          var sc = svg(s, 0, 740, 800, 90);
+          var bar = el(sc, "rect", { x: 40, y: 30, width: 720, height: 8, rx: 4, fill: "#ffffff", "fill-opacity": .14 });
+          var fill = el(sc, "rect", { x: 40, y: 30, width: 720 * last / 100, height: 8, rx: 4, fill: CYAN });
+          var l0 = T(sc, 40, 80, "0", 28, SOFT, 600, "middle"), l100 = T(sc, 760, 80, "100", 28, SOFT, 600, "middle");
+          var mk = el(sc, "circle", { cx: 40 + 720 * last / 100, cy: 34, r: 11, fill: NAVY, stroke: CYAN, "stroke-width": 4 });
+          show(bar, 16.2, .25);
+          tl.fromTo(fill, { scaleX: 0, transformOrigin: "0% 50%", transformBox: "fill-box" }, { scaleX: 1, duration: .7, ease: "power3.out" }, 16.3);
+          tl.fromTo(mk, { attr: { cx: 40 } }, { attr: { cx: 40 + 720 * last / 100 }, duration: .7, ease: "power3.out" }, 16.3); show(mk, 16.3, .1);
+          show(l0, 16.98, .2); show(l100, 17.68, .2);
         })();
 
-        // ===== sous-titres : 3 mots max =====
+        // ===== 3. 70 / 30 (17,90 → 25,40) : le RSI seul, S&P 500 déc. 2019 → avr. 2020 =====
+        (function () {
+          var s = scene(17.9, 25.4), rows = D.spx20;
+          var c = terminal(s, rows, { top: 140, price: false, rh: 560, at: 17.9 });
+          c.reveal(c.n - 1, 17.95, 1.4); c.hideCursor(19.5);
+          var zH = el(c.g, "rect", { x: 0, y: c.YR(100), width: c.PW, height: c.YR(70) - c.YR(100), fill: RED, "fill-opacity": .14 });
+          var zL = el(c.g, "rect", { x: 0, y: c.YR(30), width: c.PW, height: c.YR(0) - c.YR(30), fill: CYAN, "fill-opacity": .14 });
+          c.g.insertBefore(zH, c.body); c.g.insertBefore(zL, c.body);
+          show(zH, 18.4, .3); show(zL, 22.37, .3);
+          var tH = tag(c.g, c.PW + 8, c.YR(70), "70", RED, "#fff"), tL = tag(c.g, c.PW + 8, c.YR(30), "30", CYAN);
+          popIn(tH, 18.4); popIn(tL, 22.37);
+          var ih = 0, il = 0; rows.forEach(function (r, i) { if (r[5] > rows[ih][5]) ih = i; if (r[5] < rows[il][5]) il = i; });
+          ring(c, c.X(ih), c.YR(rows[ih][5]), RED, 20.12); ring(c, c.X(il), c.YR(rows[il][5]), CYAN, 23.29);
+          fadeIn(div(s, "S&P 500 · déc. 2019 → avr. 2020", "left:0; top:60px; text-align:left; font-size:24px; font-weight:600; color:" + SOFT), 17.95, .3, 0);
+        })();
+
+        // ===== 4. Le piège : Nvidia, début 2024 (25,40 → 37,45) =====
+        (function () {
+          var s = scene(25.4, 37.45), rows = D.nvda;
+          var c = terminal(s, rows, { top: 60, ph: 400, rh: 220, label: "Nvidia · quotidien", at: 25.4 });
+          var a = c.idx("2024-01-10"), b = c.idx("2024-02-16");
+          c.reveal(a, 25.5, 2.4);
+          // franchissement de 70 : « vendre »
+          var x = c.X(a), cross = el(c.g, "circle", { cx: x, cy: c.YR(rows[a][5]), r: 9, fill: RED });
+          popIn(cross, 28.19); vline(c, a, RED, 28.19);
+          var sell = tag(c.g, x - 70, c.Y(rows[a][4]) - 60, "Vendre", RED, "#fff");
+          popIn(sell, 28.3); tl.to(sell, { opacity: 0, duration: .2 }, 30.2);
+          // 27 séances au-dessus de 70
+          c.reveal(b, 30.4, 3.2);
+          var z = el(c.g, "rect", { x: c.X(a) - 4, y: c.YR(100), width: c.X(b) - c.X(a) + 8, height: c.YR(70) - c.YR(100), fill: RED, "fill-opacity": .16 });
+          c.g.insertBefore(z, c.body);
+          tl.fromTo(z, { scaleX: 0, transformOrigin: "0% 50%", transformBox: "fill-box" }, { scaleX: 1, duration: 3.2, ease: "none" }, 30.4);
+          var br = el(c.g, "path", { d: "M" + c.X(a) + " " + (c.YR(100) - 8) + " v-12 H" + c.X(b) + " v12", fill: "none", stroke: RED, "stroke-width": 2.5 });
+          var bt = T(c.g, (c.X(a) + c.X(b)) / 2, c.YR(100) - 32, "27 séances > 70", 26, RED, 600, "middle");
+          show(br, 33.46, .25); show(bt, 33.46, .25);
+          // +34 % sur le prix
+          var p0 = rows[a][4], p1 = rows[b][4];
+          var ln = el(c.g, "line", { x1: c.X(a), y1: c.Y(p0), x2: c.X(b), y2: c.Y(p1), stroke: UP, "stroke-width": 3, "stroke-dasharray": "8 6" });
+          drawIn(ln, 35.6, .5);
+          var gain = tag(c.g, c.X(b) - 150, c.Y(p1) - 52, "+" + Math.round((p1 / p0 - 1) * 100) + " %", UP);
+          popIn(gain, 36.43);
+          c.hideCursor(36.0);
+        })();
+
+        // ===== 5. Le piège inverse : S&P 500, 2020 (37,45 → 47,50) =====
+        (function () {
+          var s = scene(37.45, 47.5), rows = D.spx20.filter(function (r) { return r[0] <= "2020-03-31"; });
+          var c = terminal(s, rows, { top: 60, ph: 400, rh: 220, label: "S&P 500 · quotidien", at: 37.45 });
+          var a = c.idx("2020-02-28"), b = c.idx("2020-03-23");
+          c.reveal(a, 37.6, 3.2);
+          var r19 = rows[a][5];
+          ring(c, c.X(a), c.YR(r19), CYAN, 42.34, 20);
+          var t19 = tag(c.g, c.X(a) + 28, c.YR(r19), String(Math.round(r19)), CYAN);
+          popIn(t19, 42.34);
+          var buy = el(c.g, "circle", { cx: c.X(a), cy: c.Y(rows[a][4]), r: 9, fill: CYAN });
+          popIn(buy, 43.53); vline(c, a, CYAN, 43.53);
+          c.reveal(b, 44.0, 1.6);
+          var p0 = rows[a][4], p1 = rows[b][4];
+          var ln = el(c.g, "line", { x1: c.X(a), y1: c.Y(p0), x2: c.X(b), y2: c.Y(p1), stroke: DN, "stroke-width": 3, "stroke-dasharray": "8 6" });
+          drawIn(ln, 45.2, .45);
+          var loss = tag(c.g, c.X(b) - 150, c.Y(p1) + 50, "−" + Math.round((1 - p1 / p0) * 100) + " %", DN, "#fff");
+          popIn(loss, 45.69);
+          c.hideCursor(45.8);
+        })();
+
+        // ===== jauge « compteur de vitesse » =====
+        function gauge(s, top, at, target, tNeedle) {
+          var g = svg(s, 0, top, 800, 520), cx = 400, cy = 420, R = 330;
+          function P(v, r) { var a = Math.PI * (1 - v / 100); return [cx + r * Math.cos(a), cy - r * Math.sin(a)]; }
+          function arc(v0, v1, r) { var a = P(v0, r), b = P(v1, r); return "M" + a[0] + " " + a[1] + " A" + r + " " + r + " 0 0 1 " + b[0] + " " + b[1]; }
+          var base = el(g, "path", { d: arc(0, 100, R), fill: "none", stroke: "#ffffff", "stroke-opacity": .1, "stroke-width": 26, "stroke-linecap": "butt" });
+          var zc = el(g, "path", { d: arc(0, 30, R), fill: "none", stroke: CYAN, "stroke-opacity": .8, "stroke-width": 26 });
+          var zr = el(g, "path", { d: arc(70, 100, R), fill: "none", stroke: RED, "stroke-opacity": .85, "stroke-width": 26 });
+          var ticks = [];
+          for (var v = 0; v <= 100; v += 5) { var a = P(v, R - 30), b = P(v, R - (v % 10 ? 44 : 58)); ticks.push(el(g, "line", { x1: a[0], y1: a[1], x2: b[0], y2: b[1], stroke: INK, "stroke-opacity": v % 10 ? .35 : .8, "stroke-width": v % 10 ? 2 : 3 })); }
+          [0, 30, 50, 70, 100].forEach(function (v) { var p = P(v, R - 92); ticks.push(T(g, p[0], p[1] + 10, String(v), 30, SOFT, 600, "middle")); });
+          var nd = el(g, "g", {});
+          el(nd, "path", { d: "M" + (cx - 9) + " " + cy + " L" + cx + " " + (cy - R + 70) + " L" + (cx + 9) + " " + cy + " Z", fill: INK });
+          el(g, "circle", { cx: cx, cy: cy, r: 22, fill: NAVY, stroke: INK, "stroke-width": 5 });
+          var val = T(g, cx, cy + 90, "0", 72, INK, 600, "middle");
+          tl.fromTo([base, zc, zr].concat(ticks), { opacity: 0 }, { opacity: 1, duration: .35 }, at);
+          drawIn(base, at, .5);
+          tl.fromTo(nd, { rotation: -90, svgOrigin: cx + " " + cy }, { rotation: -90 + 180 * target / 100, svgOrigin: cx + " " + cy, duration: 1.1, ease: "back.out(1.3)" }, tNeedle);
+          var o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: target, duration: 1.1, ease: "back.out(1.3)", onUpdate: function () { val.textContent = String(Math.round(o.v)); } }, tNeedle);
+          show(val, tNeedle, .2);
+          return { g: g, nd: nd, cx: cx, cy: cy, val: val };
+        }
+
+        // ===== 6. Bonne lecture (47,50 → 54,65) : compteur de vitesse dans le rouge =====
+        (function () {
+          var s = scene(47.5, 54.65);
+          var G = gauge(s, 160, 47.55, 84, 51.2);
+          // petite courbe de tendance qui monte, sous la jauge
+          var g = svg(s, 0, 720, 800, 120), pts = [];
+          for (var i = 0; i <= 40; i++) pts.push([60 + i * 17, 100 - i * 2 - Math.sin(i * .9) * 8]);
+          var ln = el(g, "path", { d: "M" + pts.map(function (p) { return p.join(" "); }).join("L"), fill: "none", stroke: UP, "stroke-width": 4, "stroke-linejoin": "round" });
+          drawIn(ln, 52.4, 1.4, "power1.out");
+        })();
+
+        // ===== 7. La divergence (54,65 → 63,30) : S&P 500, janv.–fév. 2020 =====
+        (function () {
+          var s = scene(54.65, 63.3), rows = D.spx20.filter(function (r) { return r[0] <= "2020-03-23"; });
+          var c = terminal(s, rows, { top: 60, ph: 400, rh: 220, label: "S&P 500 · quotidien", at: 54.65 });
+          var a = c.idx("2020-01-17"), b = c.idx("2020-02-19"), z = c.n - 1;
+          c.reveal(b, 54.75, 2.4);
+          var lp = el(c.g, "line", { x1: c.X(a), y1: c.Y(rows[a][2]) - 14, x2: c.X(b), y2: c.Y(rows[b][2]) - 14, stroke: UP, "stroke-width": 4 });
+          var lr = el(c.g, "line", { x1: c.X(a), y1: c.YR(rows[a][5]) - 10, x2: c.X(b), y2: c.YR(rows[b][5]) - 10, stroke: DN, "stroke-width": 4 });
+          var pa = el(c.g, "circle", { cx: c.X(a), cy: c.Y(rows[a][2]) - 14, r: 7, fill: UP }), pb = el(c.g, "circle", { cx: c.X(b), cy: c.Y(rows[b][2]) - 14, r: 7, fill: UP });
+          var ra = el(c.g, "circle", { cx: c.X(a), cy: c.YR(rows[a][5]) - 10, r: 7, fill: DN }), rb = el(c.g, "circle", { cx: c.X(b), cy: c.YR(rows[b][5]) - 10, r: 7, fill: DN });
+          popIn(pa, 57.5); drawIn(lp, 57.7, .5); popIn(pb, 58.14);
+          popIn(ra, 59.0); drawIn(lr, 60.0, .5); popIn(rb, 60.67);
+          var up = el(c.g, "path", { d: "M" + (c.X(b) + 22) + " " + (c.Y(rows[b][2]) - 4) + " l14 -22 l14 22", fill: "none", stroke: UP, "stroke-width": 4 });
+          var dn = el(c.g, "path", { d: "M" + (c.X(b) + 22) + " " + (c.YR(rows[b][5]) - 26) + " l14 22 l14 -22", fill: "none", stroke: DN, "stroke-width": 4 });
+          show(up, 58.3, .2); show(dn, 60.9, .2);
+          // la suite : la hausse s'essouffle, puis la chute
+          c.reveal(z, 62.0, 1.2); c.hideCursor(63.1);
+        })();
+
+        // ===== 8. À retenir (63,30 → 67,30) : compteur de vitesse, pas panneau stop =====
+        (function () {
+          var s = scene(63.3, 67.3);
+          var G = gauge(s, 120, 63.35, 78, 64.9);
+          var stop = div(s, "<svg width='150' height='150' viewBox='0 0 100 100'><polygon points='30,2 70,2 98,30 98,70 70,98 30,98 2,70 2,30' fill='" + DN + "'/><text x='50' y='60' font-size='26' font-weight='700' fill='#fff' text-anchor='middle' font-family='Inter UI'>STOP</text><line x1='12' y1='88' x2='88' y2='12' stroke='#fff' stroke-width='8'/></svg>", "left:325px; top:690px; width:150px; height:150px");
+          popIn(stop, 66.34);
+        })();
+
+        // ===== 9. CTA (67,30 → 69,19) =====
+        (function () {
+          var t0 = 67.3;
+          var av = div(st, "<svg viewBox='0 0 360 360' style='position:absolute; inset:0; width:100%; height:100%'><defs><linearGradient id='gStory' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.3' stop-color='#fa7e1e'/><stop offset='.6' stop-color='#d62976'/><stop offset='1' stop-color='#962fbf'/></linearGradient></defs><circle id='ring' cx='180' cy='180' r='170' fill='none' stroke='url(#gStory)' stroke-width='12' transform='rotate(-90 180 180)'/></svg><div class='pic'><img src='assets/img/logo-financedata.png'></div>", "", "");
+          av.id = "avatar";
+          tl.fromTo(av, { opacity: 0, scale: .85, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .4, ease: "power3.out" }, t0);
+          drawIn(document.getElementById("ring"), t0 + .1, .6);
+          fadeIn(div(st, "finance_data", "left:0; right:0; top:860px; text-align:center; font-size:72px; font-weight:600; letter-spacing:-.04em; color:#fff"), t0 + .2, .35, 10);
+          var btn = div(st, "<span class='b1'>S'abonner</span><span class='b2' style='display:none'>✓ Abonné</span>", "left:0; right:0; margin:auto; width:400px; top:990px; height:100px; line-height:96px; text-align:center; border-radius:10px; background:#0095f6; color:#fff; font-size:44px; font-weight:600; letter-spacing:-.02em; box-shadow:0 18px 40px rgba(0,60,140,.4)");
+          tl.fromTo(btn, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .35, ease: "power3.out" }, t0 + .3);
+          var tc = 68.3;
+          tl.to(btn, { scale: .94, duration: .1 }, tc); tl.to(btn, { scale: 1, duration: .2, ease: "back.out(2)" }, tc + .1);
+          tl.to(btn, { backgroundColor: "#363a45", duration: .25 }, tc + .05);
+          tl.set(btn.querySelector(".b1"), { display: "none" }, tc + .1); tl.set(btn.querySelector(".b2"), { display: "inline" }, tc + .1);
+        })();
+
+        // ===== sous-titres : dès « le RSI », 3 mots max =====
         var W = window.VO.words, groups = [], cur = [];
         W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
-        var SKIP = [[0, 8.3]];
+        var SKIP = [[0, 3.25]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
           if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
-          var d = div(st, "<span class='cap-box'>" + gp.map(function (t) { return t.w; }).join(" ") + "</span>", "", "cap-line");
+          var txt = gp.map(function (t) { return t.w === "34" ? "34 %" : t.w === "24" ? "24 %" : t.w; }).join(" ");
+          var d = div(st, "<span class='cap-box'>" + txt + "</span>", "", "cap-line");
           tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out" }, Math.max(0, t0 - .06));
           tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6) - .035);
         });
