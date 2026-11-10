@@ -4,33 +4,33 @@ Format : leçon d'investissement / action décryptée · ~70 s · « vous »
 Série : **Le dessous des marchés**, épisode 3 (à confirmer).
 Structure : **La percée** (l'erreur que tout le monde fait → le bon chiffre → la preuve → les 3 signaux → le risque → la règle).
 
-## Voix off (v4, proposition : plus courte, les 3 signaux de départ remis dans l'ordre)
+## Voix off (v5 : texte de l'utilisateur, connecteurs logiques ajoutés)
 
 **[Hook]**
-Si vous regardez les bénéfices d'Uber, vous allez croire que l'entreprise ne grandit plus. Et vous allez vous tromper. Son patron, lui, a sorti 10 millions de dollars de sa poche pour acheter l'action. Parce qu'il regarde un autre chiffre.
+Si vous regardez l'évolution des bénéfices d'Uber, vous allez croire que l'entreprise ne grandit plus. Et pourtant, vous allez vous tromper. La preuve : son patron, lui, a investi 10 millions de dollars de sa poche pour acheter l'action. Pourquoi ? Parce qu'il regarde un autre chiffre.
 
 **[Signature de série]**
 Bienvenue dans le dessous des marchés, épisode 3.
 
 **[Ce que tout le monde regarde]**
-Tout le monde regarde les bénéfices : 10 milliards de dollars en 2024, 10 milliards en 2025. Zéro croissance. Sauf que ces deux années sont gonflées par un cadeau du fisc de 11 milliards. De l'argent sur le papier, jamais en banque.
+D'abord, ce que tout le monde regarde : les bénéfices. 10 milliards de dollars en 2024, puis 10 milliards en 2025. Autrement dit, zéro croissance. Sauf qu'en réalité, ces deux années sont gonflées par un cadeau du fisc de 11 milliards. Donc de l'argent sur le papier, mais jamais en banque.
 
 **[Ce qu'il faut regarder]**
-Il faut regarder le cash : l'argent qui rentre vraiment dans les caisses. 3 milliards en 2023. 7 en 2024. Presque 10 en 2025. Et 13 attendus en 2027. Quatre fois plus en quatre ans.
+Ce qu'il faut regarder, c'est le cash : l'argent qui rentre vraiment dans les caisses. Et là, tout change. 3 milliards en 2023. Puis 7 en 2024. Presque 10 en 2025. Et 13 attendus en 2027. En clair : quatre fois plus en quatre ans.
 
 **[Les 3 signaux verts]**
-Et aujourd'hui, trois signaux passent au vert. Un : l'action est revenue sur son support, entre 65 et 70 dollars. Deux : elle ne vaut plus que 14 années de ce cash, à peu près deux fois moins que les grandes entreprises américaines. Trois : les dirigeants achètent. 10 millions pour le patron, 5 pour son bras droit.
+Et justement, aujourd'hui, trois signaux passent au vert. Premier signal : l'action est revenue sur son support, entre 65 et 70 dollars, une zone où elle rebondit depuis 2024. Deuxième signal : elle ne vaut plus que 14 fois le cash généré, soit à peu près deux fois moins que les grandes entreprises américaines. Troisième signal : les dirigeants achètent. 10 millions pour le patron, et 5 pour son bras droit.
 
 **[Le risque]**
-Le risque ? Les robotaxis. Si Waymo ou Tesla se passent d'Uber, ce cash peut fondre.
+Alors, où est le risque ? Les taxis autonomes. Si Waymo ou Tesla se passent d'Uber, alors la croissance pourrait freiner.
 
 **[Payoff]**
-Mais un détail : le patron a payé son action 71 dollars. Aujourd'hui, elle vaut… 71 dollars. Le même prix. Alors retenez ça : quand les bénéfices et le cash racontent deux histoires différentes, croyez le cash.
+Mais un dernier détail : le patron a payé son action 71 dollars. Et aujourd'hui, elle vaut… 71 dollars. Le même prix. Alors retenez ça : quand les bénéfices et le cash racontent deux histoires différentes, croyez le cash.
 
 **[CTA]**
-Commentez PDG, et on vous envoie notre outil pour savoir en premier quand un PDG ou un politique achète des actions.
+Et pour être alerté en premier quand un PDG ou un politique achète des actions, commentez PDG.
 
-(≈ 205 mots · mention à l'écran : « Ceci n'est pas un conseil en investissement. »)
+(≈ 240 mots · mention à l'écran : « Ceci n'est pas un conseil en investissement. »)
 
 ## Découpage
 
