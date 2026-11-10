@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/cours.js"></script>
+    <script src="assets/logos.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <style>
+      /* Reel « Le dessous des marchés, épisode 3 : Uber » (84,25 s), trame FinanceData minimaliste (styles/financedata/TRAME.md). */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
+      .cap { position: absolute; left: 0; right: 0; top: 1360px; text-align: center; opacity: 0; }
+      .cap span { display: inline-block; font-weight: 700; font-size: 62px; letter-spacing: -.05em; word-spacing: .02em; color: #fff; background: rgba(8,10,20,.72); padding: 8px 26px 14px; border-radius: 6px; line-height: 1.1; }
+      .ttl { position: absolute; left: 96px; top: 286px; font-weight: 700; font-size: 72px; letter-spacing: -.055em; line-height: 1; }
+      .sub { position: absolute; left: 96px; top: 376px; font-weight: 500; font-size: 40px; letter-spacing: -.03em; color: #6b7290; }
+      .src { position: absolute; left: 96px; font-size: 28px; font-weight: 500; color: #6b7290; letter-spacing: -.02em; }
+      .ov { position: absolute; left: 0; right: 0; text-align: center; color: #fff; font-weight: 700; letter-spacing: -.055em; line-height: 1.05; text-shadow: 0 2px 20px rgba(0,0,0,.35); }
+      .pill { position: absolute; font-weight: 700; font-size: 48px; letter-spacing: -.04em; color: #fff; padding: 6px 24px 12px; border-radius: 8px; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="84.25" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="84.25" data-track-index="1"></audio>
+      <video id="v-ub" class="clip" src="assets/video/uber-chauffeur.mp4" data-start="0" data-duration="5.24" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-gen" class="clip" src="assets/video/generique.mp4" data-start="11.34" data-duration="2.8" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-wm" class="clip" src="assets/video/waymo.mp4" data-start="58.5" data-duration="7.55" data-track-index="5" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="bgl" class="clip" data-start="0" data-duration="84.25" data-track-index="4" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="84.25" data-track-index="0" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true });
+        var st = document.getElementById("stage"), bgl = document.getElementById("bgl"), END = 84.25;
+        var NAVY = "#0a105e", BLUE = "#3d5afe", RED = "#d9161e", GREEN = "#1f9d55", GRID = "#d5dae5", AX = "#6b7290", PALE = "#c5cad9";
+        var LIGHT = "#eef1f5", NIGHT = "#000b22";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+        function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
+        function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power2.inOut" }, t); }
+        function fadeIn(e, t, d, y) { tl.fromTo(e, { opacity: 0, y: y == null ? 16 : y }, { opacity: 1, y: 0, duration: d || .35, ease: "power3.out" }, t); return e; }
+        function count(e, t, d, v0, v1, f) { var o = { v: v0 }; tl.fromTo(o, { v: v0 }, { v: v1, duration: d, ease: "power3.out", onUpdate: function () { e.textContent = f(o.v); } }, t); }
+        function scene(t0, t1, bg) {
+          var s = div(st, "", "", "sc"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1);
+          if (bg) { var b = div(bgl, "", "background:" + bg, "full"); tl.set(b, { opacity: 1 }, t0); tl.set(b, { opacity: 0 }, t1); }
+          return s;
+        }
+        var VEIL = "linear-gradient(180deg, rgba(0,11,34,.25) 0%, rgba(0,11,34,.15) 40%, rgba(0,11,34,.65) 100%)";
+        function vscene(id, t0, t1, veil) {
+          var s = scene(t0, t1, null), v = div(bgl, "", "background:" + (veil || VEIL), "full");
+          tl.set(v, { opacity: 1 }, t0); tl.set(v, { opacity: 0 }, t1);
+          tl.fromTo(id, { scale: 1 }, { scale: 1.07, duration: t1 - t0, ease: "none" }, t0);
+          return s;
+        }
+        function iscene(img, t0, t1, veil, zoom, pos) {
+          var s = scene(t0, t1, null), im = div(bgl, "", "background:url(assets/img/" + img + ") " + (pos || "center") + "/cover", "full"), v = div(bgl, "", "background:" + (veil || VEIL), "full");
+          tl.set([im, v], { opacity: 1 }, t0); tl.set([im, v], { opacity: 0 }, t1);
+          tl.fromTo(im, { scale: 1.06 }, { scale: zoom || 1.14, duration: t1 - t0, ease: "none" }, t0);
+          return s;
+        }
+        function logo(size, color) { return "<svg width='" + size + "' height='" + size + "' viewBox='0 0 24 24' style='position:static; display:inline-block; vertical-align:middle'><path d='" + window.LOGOS.uber + "' fill='" + (color || "#fff") + "'/></svg>"; }
+        function pill(s, txt, color, x, y, t, center) {
+          var p = div(s, txt, (center ? "left:0; right:0; margin:auto; width:max-content; " : "left:" + x + "px; ") + "top:" + y + "px; background:" + color, "pill");
+          tl.fromTo(p, { opacity: 0, scale: 1.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .28, ease: "back.out(2)" }, t);
+          return p;
+        }
+
+        // ===== 1. HOOK (0 → 5,24) : vraie vidéo d'un chauffeur Uber, logo blanc, puis « Erreur » =====
+        (function () {
+          var s = vscene("#v-ub", 0, 5.24, "linear-gradient(180deg, rgba(0,11,34,.35), rgba(0,11,34,.25) 45%, rgba(0,11,34,.6))");
+          var lg = div(s, logo(460), "left:0; right:0; top:640px; text-align:center; filter:drop-shadow(0 2px 20px rgba(0,0,0,.35))");
+          tl.fromTo(lg, { opacity: 0, scale: 1.25, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "power3.out" }, .05);
+          tl.to(lg, { opacity: 0, duration: .15 }, 4.55);
+          var stamp = div(s, "Erreur", "left:290px; top:860px; width:500px; text-align:center; font-size:110px; font-weight:800; letter-spacing:-.03em; color:" + RED + "; border:9px solid " + RED + "; padding:4px 0 14px; border-radius:8px; background:rgba(255,255,255,.9)");
+          tl.fromTo(stamp, { opacity: 0, scale: 2.2, rotation: -2, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, rotation: -8, duration: .22, ease: "power4.in" }, 4.62);
+        })();
+
+        // ===== 2. Le patron : 10 M$ de sa poche (5,24 → 9,44) =====
+        (function () {
+          var s = iscene("dara-1.jpg", 5.24, 9.44, "linear-gradient(180deg, rgba(0,11,34,.1) 0%, rgba(0,11,34,.1) 45%, rgba(0,11,34,.75) 100%)", 1.16, "50% 30%");
+          var v = div(s, "0 M$", "top:1010px; font-size:210px; letter-spacing:-.06em", "ov");
+          tl.fromTo(v, { opacity: 0, scale: 1.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "power3.out" }, 6.88);
+          count(v, 6.88, .7, 0, 10, function (x) { return Math.round(x) + " M$"; });
+          fadeIn(div(s, "de sa poche", "top:1250px; font-size:64px", "ov"), 8.1, .3, 14);
+        })();
+
+        // ===== 3. « Parce qu'il regarde un autre chiffre » (9,44 → 11,34) =====
+        (function () {
+          var s = iscene("dara-2.jpg", 9.44, 11.34, "linear-gradient(180deg, rgba(0,11,34,.15), rgba(0,11,34,.2) 45%, rgba(0,11,34,.75))", 1.12, "50% 35%");
+          fadeIn(div(s, "Un autre chiffre", "top:1080px; font-size:104px", "ov"), 10.5, .35, 20);
+        })();
+
+        // ===== 4. Générique « Le dessous des marchés, épisode 3 » (11,34 → 14,14) : la vidéo couvre tout =====
+        scene(11.34, 14.14, null);
+
+        // ===== 5. Ce que tout le monde regarde : les bénéfices (14,14 → 28,60) =====
+        (function () {
+          var s = scene(14.14, 28.6, LIGHT), Z = 1150, U = 44, BW = 300, X1 = 180, X2 = 600;
+          fadeIn(div(s, "Ce que tout le monde regarde", "", "ttl"), 14.2, .35, 14);
+          fadeIn(div(s, "Bénéfice net d'Uber, en milliards de dollars", "", "sub"), 15.3, .35, 10);
+          div(s, "", "left:96px; top:" + (Z - 1.5) + "px; width:888px; height:3px; background:" + NAVY);
+          var D = [["2024", 9.86, 6.4, X1, 16.44], ["2025", 10.05, 5.0, X2, 18.62]], tax = [], base = [], vals = [], rest = [];
+          D.forEach(function (c) {
+            var real = c[1] - c[2];
+            var b = div(s, "", "left:" + c[3] + "px; top:" + (Z - real * U) + "px; width:" + BW + "px; height:" + (real * U) + "px; background:" + NAVY);
+            var t = div(s, "", "left:" + c[3] + "px; top:" + (Z - c[1] * U) + "px; width:" + BW + "px; height:" + (c[2] * U) + "px; background:" + NAVY);
+            var v = div(s, "0", "left:" + c[3] + "px; width:" + BW + "px; top:" + (Z - c[1] * U - 100) + "px; text-align:center; font-size:76px; font-weight:700; letter-spacing:-.055em; color:" + NAVY + "; font-feature-settings:'tnum' 1");
+            var l = div(s, c[0], "left:" + c[3] + "px; width:" + BW + "px; top:" + (Z + 22) + "px; text-align:center; font-size:40px; font-weight:700; letter-spacing:-.04em; color:" + NAVY);
+            var r = div(s, fr(real, 1), "left:" + c[3] + "px; width:" + BW + "px; top:" + (Z - real * U + 30) + "px; text-align:center; font-size:64px; font-weight:700; letter-spacing:-.05em; color:#fff");
+            tl.fromTo(b, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, c[4]);
+            tl.fromTo(t, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .4, ease: "power3.out" }, c[4] + .35);
+            tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .1 }, c[4]); count(v, c[4], .9, 0, c[1], function (x) { return fr(x, 1); });
+            tax.push(t); vals.push(v); rest.push(r);
+          });
+          // « À plat » : pointillés entre les deux sommets
+          var flat = div(s, "", "left:" + (X1 + BW / 2) + "px; top:" + (Z - 10 * U - 14) + "px; width:" + (X2 - X1) + "px; height:0; border-top:4px dashed " + AX);
+          tl.fromTo(flat, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .4, ease: "power2.out" }, 20.3);
+          var pf = pill(s, "À plat", AX, 0, 470, 20.46, true);
+          tl.to([flat, pf], { opacity: 0, duration: .2 }, 23.2);
+          // le cadeau fiscal se détache (hachures grises), puis « sur le papier » (contour seul)
+          var HATCH = "repeating-linear-gradient(135deg, #b8bfd0 0 12px, #e2e6ee 12px 24px)";
+          tl.set(tax, { background: HATCH }, 23.38);
+          var lt = div(s, "Cadeau fiscal", "left:0; right:0; top:470px; text-align:center; font-size:54px; font-weight:700; letter-spacing:-.045em; color:" + AX);
+          fadeIn(lt, 23.4, .3, 10);
+          var lsum = div(s, "+ 11,4 Md$", "left:0; right:0; top:536px; text-align:center; font-size:44px; font-weight:600; letter-spacing:-.03em; color:" + AX);
+          fadeIn(lsum, 24.72, .3, 8);
+          tl.to(tax, { opacity: .35, duration: .4 }, 25.7);
+          tl.to(vals, { opacity: 0, duration: .25 }, 25.7);
+          tl.fromTo(rest, { opacity: 0 }, { opacity: 1, duration: .3 }, 26.2);
+          var pap = div(s, "Sur le papier", "left:0; right:0; top:470px; text-align:center; font-size:54px; font-weight:700; letter-spacing:-.045em; color:" + AX);
+          tl.to(lt, { opacity: 0, duration: .2 }, 26.8); fadeIn(pap, 26.92, .3, 8);
+          fadeIn(div(s, "Le cadeau fiscal : 6,4 Md$ en 2024, 5,0 Md$ en 2025, sans entrée d'argent · Source : Uber", "top:1262px; width:888px", "src"), 23.5, .3, 0);
+        })();
+
+        // ===== 6. Ce qu'il faut regarder : le cash (28,60 → 42,97) =====
+        (function () {
+          var s = scene(28.6, 42.97, LIGHT), Z = 1150, U = 46, BW = 180, GAP = 36, X0 = 120;
+          fadeIn(div(s, "Ce qu'il faut regarder", "", "ttl"), 28.64, .35, 14);
+          fadeIn(div(s, "Free cash flow d'Uber, en milliards de dollars", "", "sub"), 30.57, .35, 10);
+          div(s, "", "left:96px; top:" + (Z - 1.5) + "px; width:888px; height:3px; background:" + NAVY);
+          [["2023", 3.36, 32.83], ["2024", 6.9, 34.65], ["2025", 9.76, 36.04], ["2027*", 13.1, 39.3]].forEach(function (c, i) {
+            var x = X0 + i * (BW + GAP), est = i === 3;
+            var b = div(s, "", "left:" + x + "px; top:" + (Z - c[1] * U) + "px; width:" + BW + "px; height:" + (c[1] * U) + "px; " + (est ? "border:4px dashed " + GREEN + "; border-bottom:none; background:rgba(31,157,85,.08)" : "background:" + GREEN));
+            var v = div(s, "0", "left:" + x + "px; width:" + BW + "px; top:" + (Z - c[1] * U - 84) + "px; text-align:center; font-size:64px; font-weight:700; letter-spacing:-.055em; color:" + GREEN + "; font-feature-settings:'tnum' 1");
+            var l = div(s, c[0], "left:" + x + "px; width:" + BW + "px; top:" + (Z + 22) + "px; text-align:center; font-size:38px; font-weight:700; letter-spacing:-.04em; color:" + NAVY);
+            tl.fromTo(b, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, c[2]);
+            tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .1 }, c[2]);
+            count(v, c[2], .6, 0, c[1], function (x) { return fr(x, i === 3 ? 0 : 1).replace(",0", ""); });
+          });
+          pill(s, "× 4", GREEN, 560, Z - 13.1 * U - 20, 41.0);
+          fadeIn(div(s, "* prévision moyenne des analystes · Source : Uber, Simply Wall St", "top:1262px", "src"), 39.4, .3, 0);
+        })();
+
+        // ===== 7. « Et ce n'est pas le seul signal » (42,97 → 44,32) : trois signaux, le premier coché =====
+        (function () {
+          var s = scene(42.97, 44.32, NIGHT);
+          var tt = div(s, "3 signaux verts", "top:640px; font-size:96px", "ov");
+          fadeIn(tt, 42.99, .3, 14);
+          ["Le cash", "Le support", "Le prix"].forEach(function (n, i) {
+            var y = 820 + i * 130, on = i === 0;
+            var c = div(s, on ? "✓" : String(i + 1), "left:250px; top:" + y + "px; width:96px; height:96px; border-radius:50%; text-align:center; line-height:92px; font-size:54px; font-weight:700; color:" + (on ? "#fff" : GREEN) + "; " + (on ? "background:" + GREEN : "border:4px solid " + GREEN));
+            var t = div(s, n, "left:380px; top:" + (y + 14) + "px; font-size:60px; font-weight:700; letter-spacing:-.045em; color:" + (on ? "rgba(255,255,255,.55)" : "#fff"));
+            tl.fromTo([c, t], { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: .25, ease: "power3.out" }, 43.1 + i * .15);
+          });
+        })();
+
+        // ===== 8. Signal : le support 65–70 $ (44,32 → 49,13) =====
+        var S = window.UBER.filter(function (r) { return r[0] >= "2026-01-01"; });
+        function priceChart(s, t0, lo, hi, color) {
+          var g = svg(s, 96, 520, 888, 640), Wd = 760, H = 640, n = S.length;
+          var X = function (i) { return i / (n - 1) * Wd; }, Y = function (v) { return H - (v - lo) / (hi - lo) * H; };
+          var axis = [];
+          for (var v = lo; v <= hi; v += 10) { axis.push(el(g, "line", { x1: 0, x2: 888, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 })); axis.push(T(g, 888, Y(v) - 12, v + " $", 30, AX, 500, "end")); }
+          var ix = function (d) { for (var i = 0; i < n; i++) if (S[i][0] >= d) return i; return n - 1; };
+          [["2026-01-02", "janv."], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]].forEach(function (m) { var x = X(ix(m[0])); axis.push(el(g, "line", { x1: x, x2: x, y1: H, y2: H + 14, stroke: NAVY, "stroke-width": 3 })); axis.push(T(g, x + 8, H + 50, m[1], 30, AX, 500)); });
+          axis.push(el(g, "line", { x1: 0, x2: 888, y1: H, y2: H, stroke: NAVY, "stroke-width": 3 }));
+          tl.fromTo(axis, { opacity: 0 }, { opacity: 1, duration: .25 }, t0);
+          var p = ""; for (var i = 0; i < n; i++) p += (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(S[i][1]).toFixed(1);
+          var ln = el(g, "path", { d: p, fill: "none", stroke: color || NAVY, "stroke-width": 5, "stroke-linejoin": "round" });
+          return { g: g, X: X, Y: Y, n: n, ln: ln, H: H, Wd: Wd };
+        }
+        (function () {
+          var s = scene(44.32, 49.13, LIGHT);
+          fadeIn(div(s, "Cours de l'action Uber", "", "ttl"), 44.34, .35, 14);
+          var c = priceChart(s, 44.4, 60, 90);
+          var band = el(c.g, "rect", { x: 0, y: c.Y(70), width: 888, height: c.Y(65) - c.Y(70), fill: BLUE, opacity: .16 });
+          c.g.insertBefore(band, c.g.firstChild);
+          tl.fromTo(band, { opacity: 0 }, { opacity: .16, duration: .3 }, 47.1);
+          draw(c.ln, 44.45, 1.2, "none");
+          // creux qui ont rebondi dans la zone (minimum local sur ± 12 séances, sous 70 $)
+          var dots = [];
+          for (var i = 6; i < c.n - 3; i++) { var v = S[i][1], ok = v < 70.5; for (var j = Math.max(0, i - 12); j <= Math.min(c.n - 1, i + 12); j++) if (S[j][1] < v) ok = false; if (ok) dots.push(el(c.g, "circle", { cx: c.X(i), cy: c.Y(v), r: 11, fill: "#fff", stroke: BLUE, "stroke-width": 5 })); }
+          tl.fromTo(dots, { opacity: 0, scale: 0, transformOrigin: "center", transformBox: "fill-box" }, { opacity: 1, scale: 1, duration: .25, stagger: .1, ease: "back.out(2)" }, 45.63);
+          var lbl = T(c.g, 10, c.Y(65) + 56, "Zone de support : 65–70 $", 44, BLUE, 700);
+          tl.fromTo(lbl, { opacity: 0 }, { opacity: 1, duration: .25 }, 47.27);
+          var last = el(c.g, "circle", { cx: c.X(c.n - 1), cy: c.Y(S[c.n - 1][1]), r: 13, fill: NAVY, stroke: "#fff", "stroke-width": 4 });
+          tl.fromTo(last, { opacity: 0 }, { opacity: 1, duration: .2 }, 45.6);
+          fadeIn(div(s, "Clôtures quotidiennes en dollars, du 2 janvier au 9 novembre 2026 · Source : Yahoo Finance", "top:1262px; width:888px", "src"), 44.4, .3, 0);
+        })();
+
+        // ===== 9. Signal : la valorisation, 14 fois le cash (49,13 → 54,14) =====
+        (function () {
+          var s = scene(49.13, 54.14, LIGHT);
+          fadeIn(div(s, "Prix de l'action", "", "ttl"), 49.15, .35, 14);
+          fadeIn(div(s, "en nombre d'années de free cash flow", "", "sub"), 49.3, .35, 10);
+          var U = 26;
+          var b1 = div(s, "", "left:96px; top:640px; width:" + (14 * U) + "px; height:150px; background:" + BLUE);
+          var v1 = div(s, "14×", "left:" + (96 + 14 * U + 24) + "px; top:664px; font-size:96px; font-weight:700; letter-spacing:-.055em; color:" + BLUE);
+          var l1 = div(s, "Uber", "left:96px; top:580px; font-size:44px; font-weight:700; letter-spacing:-.04em; color:" + NAVY);
+          tl.fromTo(b1, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .5, ease: "power3.out" }, 49.89);
+          tl.fromTo([v1, l1], { opacity: 0 }, { opacity: 1, duration: .2 }, 49.95);
+          var b2 = div(s, "", "left:96px; top:930px; width:" + (28 * U) + "px; height:150px; background:" + PALE);
+          var v2 = div(s, "≈ 2× plus", "left:120px; top:972px; font-size:60px; font-weight:700; letter-spacing:-.045em; color:" + NAVY);
+          var l2 = div(s, "Grandes entreprises américaines", "left:96px; top:870px; font-size:44px; font-weight:700; letter-spacing:-.04em; color:" + AX);
+          tl.fromTo(b2, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .6, ease: "power3.out" }, 51.77);
+          tl.fromTo([v2, l2], { opacity: 0 }, { opacity: 1, duration: .2 }, 51.85);
+          fadeIn(div(s, "Capitalisation ≈ 148 Md$ / free cash flow des 12 derniers mois (10,4 Md$) · Source : Uber", "top:1262px; width:888px", "src"), 50.0, .3, 0);
+        })();
+
+        // ===== 10. Signal : les dirigeants achètent (54,14 → 58,50) =====
+        (function () {
+          var s = scene(54.14, 58.5, LIGHT), U = 62;
+          fadeIn(div(s, "Les dirigeants achètent", "", "ttl"), 54.16, .35, 14);
+          fadeIn(div(s, "Achats en Bourse, septembre 2026", "", "sub"), 54.3, .35, 10);
+          [["Le patron", 10.0, "10 M$", 54.34, "dara-2.jpg"], ["Son bras droit", 5.3, "5 M$", 55.58, null]].forEach(function (r, i) {
+            var y = 620 + i * 300;
+            var ph = r[4] ? div(s, "", "left:96px; top:" + y + "px; width:140px; height:140px; border-radius:50%; background:url(assets/img/" + r[4] + ") 50% 30%/cover") : div(s, "", "");
+            var n = div(s, r[0], "left:270px; top:" + (y - 4) + "px; font-size:46px; font-weight:700; letter-spacing:-.04em; color:" + NAVY);
+            var b = div(s, "", "left:270px; top:" + (y + 66) + "px; width:" + (r[1] * U) + "px; height:74px; background:" + GREEN);
+            var v = div(s, r[2], "left:" + (270 + r[1] * U + 22) + "px; top:" + (y + 62) + "px; white-space:nowrap; font-size:66px; font-weight:700; letter-spacing:-.05em; color:" + GREEN);
+            tl.fromTo([ph, n], { opacity: 0 }, { opacity: 1, duration: .2 }, r[3]);
+            tl.fromTo(b, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .5, ease: "power3.out" }, r[3] + .05);
+            tl.fromTo(v, { opacity: 0 }, { opacity: 1, duration: .2 }, r[3] + .3);
+          });
+          fadeIn(div(s, "Dara Khosrowshahi (PDG), Andrew Macdonald (directeur des opérations) · Source : SEC", "top:1262px; width:888px", "src"), 54.4, .3, 0);
+        })();
+
+        // ===== 11. Le risque : les robotaxis (58,50 → 66,05) =====
+        (function () {
+          var s = vscene("#v-wm", 58.5, 66.05);
+          fadeIn(div(s, "Le risque", "top:420px; font-size:64px; color:rgba(255,255,255,.85)", "ov"), 58.56, .3, 10);
+          fadeIn(div(s, "Les robotaxis", "top:510px; font-size:118px", "ov"), 59.82, .35, 16);
+        })();
+
+        // ===== 12. Payoff : le prix du patron (66,05 → 72,97) =====
+        (function () {
+          var s = scene(66.05, 72.97, LIGHT);
+          fadeIn(div(s, "Le prix payé par le patron", "", "ttl"), 66.07, .35, 14);
+          var c = priceChart(s, 66.1, 60, 90);
+          tl.set(c.ln, { opacity: 1 }, 66.1); draw(c.ln, 66.1, .9, "power1.out");
+          var yb = c.Y(70.96);
+          var bl = el(c.g, "line", { x1: 0, x2: 888, y1: yb, y2: yb, stroke: GREEN, "stroke-width": 5, "stroke-dasharray": "14 10" });
+          tl.fromTo(bl, { opacity: 0 }, { opacity: 1, duration: .3 }, 68.48);
+          var bt = T(c.g, 330, c.Y(87), "Achat du patron : 70,96 $", 44, GREEN, 700);
+          tl.fromTo(bt, { opacity: 0 }, { opacity: 1, duration: .25 }, 68.48);
+          var ix = 0; for (var i = 0; i < c.n; i++) if (S[i][0] <= "2026-09-10") ix = i;
+          var bd = el(c.g, "circle", { cx: c.X(ix), cy: yb, r: 12, fill: GREEN, stroke: "#fff", "stroke-width": 4 });
+          tl.fromTo(bd, { opacity: 0 }, { opacity: 1, duration: .2 }, 68.5);
+          var ld = el(c.g, "circle", { cx: c.X(c.n - 1), cy: c.Y(S[c.n - 1][1]), r: 16, fill: NAVY, stroke: "#fff", "stroke-width": 5 });
+          var lt = T(c.g, 790, c.Y(61.2), "Aujourd'hui : 71,17 $", 44, NAVY, 700, "end");
+          tl.fromTo([ld, lt], { opacity: 0 }, { opacity: 1, duration: .25 }, 71.05);
+          tl.fromTo(ld, { scale: 1.8, transformOrigin: "center", transformBox: "fill-box" }, { scale: 1, duration: .35, ease: "back.out(2)" }, 71.05);
+          pill(s, "Le même prix", BLUE, 0, 400, 72.2, true);
+          fadeIn(div(s, "Cours du 9 novembre 2026 · Ceci n'est pas un conseil en investissement", "top:1262px", "src"), 66.2, .3, 0);
+        })();
+
+        // ===== 13. Leçon : croyez le cash (72,97 → 78,11) =====
+        (function () {
+          var s = scene(72.97, 78.11, NIGHT);
+          var a = div(s, "Bénéfices", "top:720px; font-size:96px; color:rgba(255,255,255,.4)", "ov");
+          var b = div(s, "Cash", "top:850px; font-size:150px; color:#4fd58a", "ov");
+          fadeIn(a, 74.2, .3, 12); fadeIn(b, 75.04, .3, 12);
+          tl.to([a, b], { opacity: 0, duration: .2 }, 76.85);
+          var c = div(s, "Croyez <span style='color:#4fd58a'>le cash.</span>", "top:820px; font-size:130px", "ov");
+          tl.fromTo(c, { opacity: 0, scale: 1.15, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "power3.out" }, 77.03);
+        })();
+
+        // ===== 14. CTA : commentez « PDG » (78,11 → 84,25) =====
+        (function () {
+          var s = scene(78.11, END, NIGHT);
+          fadeIn(div(s, "Commentez", "top:600px; font-size:84px", "ov"), 78.11, .3, 12);
+          var k = div(s, "PDG", "left:0; right:0; margin:auto; width:max-content; top:720px; font-size:200px; font-weight:800; letter-spacing:-.04em; color:#fff; background:" + BLUE + "; padding:10px 60px 30px; border-radius:18px");
+          tl.fromTo(k, { opacity: 0, scale: 1.4, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, 78.51);
+          tl.to(k, { scale: 1.06, duration: .45, ease: "sine.inOut", yoyo: true, repeat: 5 }, 79.2);
+          var t = div(s, "Les achats des PDG<br>et des politiques,<br>en premier", "top:1060px; font-size:62px; color:rgba(255,255,255,.88); line-height:1.12", "ov");
+          fadeIn(t, 80.3, .35, 12);
+        })();
+
+        // ===== sous-titres : blancs sur encadré sombre, 3 mots max =====
+        var W = window.VO.words.filter(function (w) { return w.s < 78.0; });
+        var Tk = W.map(function (w) { return { w: w.w, s: w.s, e: w.e }; });
+        var groups = [], cur = [];
+        Tk.forEach(function (t, k) {
+          cur.push(t);
+          var nwords = cur.length, punct = /[,.?:!…]$/.test(t.w), next = Tk[k + 1];
+          if (punct || nwords >= 3 || !next) { groups.push(cur); cur = []; }
+        });
+        groups.forEach(function (gp, k) {
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 78.05;
+          if (t0 >= 11.3 && t0 < 14.1) return;   // générique
+          if (t0 >= 72.9) return;
+          if (t0 >= 10.3 && t0 < 11.3) return;
+          if (t0 >= 6.8 && t0 < 9.4) return;
+          if (t0 >= 20.4 && t0 < 21) return;     // « À plat » déjà à l'écran     // « 10 M$ de sa poche » déjà à l'écran   // « Un autre chiffre » déjà à l'écran
+          if (t0 >= 72.1 && t0 < 72.9) return;   // « Le même prix » déjà à l'écran                  // leçon écrite à l'écran
+          var txt = gp.map(function (t) { return t.w; }).join(" ");
+          var d = div(st, "<span>" + txt + "</span>", "", "cap");
+          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, Math.max(0, t0 - .02)); tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6) - .03);
+        });
+
+        // zone sûre Instagram / TikTok : contenu réduit à 82 % vers le centre utile (les fonds de #bgl restent plein cadre)
+        st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
+        tl.set({}, {}, END);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
