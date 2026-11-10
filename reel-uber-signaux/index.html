@@ -104,15 +104,12 @@
           // la fiche
           var card = div(cam, "", "left:0; top:0; width:800px; height:420px; transform-origin:400px 200px");
           var lg = div(card, logo(300), "left:0; right:0; top:-10px; text-align:center");
-          var tk = div(card, "NYSE : UBER", "left:0; right:0; top:290px; font-size:36px; font-weight:500; letter-spacing:.04em; color:" + SOFT);
-          var px = div(card, "0,00 USD", "left:0; right:0; top:340px; font-size:92px", "a big");
+          var px = div(card, "0,00 USD", "left:0; right:0; top:300px; font-size:92px", "a big");
           slam(lg, 0, 1.8); flash(0.02);
-          fadeIn(tk, .12, .25, 10); fadeIn(px, .18, .25, 10);
+          fadeIn(px, .18, .25, 10);
           count(px, .18, .55, 0, 71.17, function (x) { return fr(x, 2) + " USD"; });
           // la fiche monte et rétrécit, le graphique arrive dessous
           tl.to(card, { y: -40, scale: .62, duration: .45, ease: "power3.inOut" }, .62);
-          var lab = div(cam, "Bénéfice net, en milliards de dollars", "left:0; right:0; top:330px; font-size:28px; color:" + SOFT);
-          fadeIn(lab, .8, .3, 8);
           var Z = 780, U = 28, BW = 220;
           var axl = div(cam, "", "left:120px; top:" + Z + "px; width:560px; height:3px; background:rgba(234,241,251,.6)");
           tl.fromTo(axl, { scaleX: 0 }, { scaleX: 1, duration: .4, ease: "power3.out" }, .9);
@@ -130,40 +127,26 @@
           tl.to(card, { opacity: 0, y: -120, duration: .25, ease: "power2.in" }, 3.7);
           var zero = div(cam, "0 %", "left:0; right:0; top:40px; font-size:160px; color:" + INK, "a big");
           slam(zero, 3.84, 1.6); flash(3.84);
-          var cr = div(cam, "de croissance", "left:0; right:0; top:215px; font-size:38px; color:" + SOFT);
-          fadeIn(cr, 3.95, .25, 6);
+          
           // « Et vous allez vous tromper » : zoom caméra, trait rouge, secousse
           tl.to(cam, { scale: 1.18, duration: .5, ease: "power3.out" }, 4.69);
           var slash = div(cam, "", "left:230px; top:118px; width:340px; height:12px; background:" + RED + "; transform:rotate(-12deg); transform-origin:0 50%");
           tl.fromTo(slash, { scaleX: 0 }, { scaleX: 1, duration: .18, ease: "power4.out" }, 5.2);
-          tl.to(zero, { color: RED, duration: .1 }, 5.22); tl.to(cr, { color: RED, duration: .1 }, 5.22);
+          tl.to(zero, { color: RED, duration: .1 }, 5.22); 
           tl.fromTo(cam, { x: 0 }, { x: 10, duration: .04, yoyo: true, repeat: 5, ease: "none" }, 5.22);
         })();
 
         // ===== 2. Le patron (5,84 → 10,36) : photo HD, nom, puis 10 M$ =====
         (function () {
-          photo("dara-hd.jpg", 5.84, 10.36, "50% 30%"); flash(5.84);
-          var s = scene(5.84, 10.36, "photo");
+          photo("dara-hd.jpg", 5.84, 12.17, "50% 30%"); flash(5.84);
+          var s = scene(5.84, 12.17, "photo");
           var n1 = div(s, "Dara", "left:0; right:0; top:560px; font-size:96px; font-weight:400; letter-spacing:-.05em", "ov");
           var n2 = div(s, "Khosrowshahi", "left:0; right:0; top:668px; font-size:112px", "ov");
-          var n3 = div(s, "Directeur général d'Uber", "left:0; right:0; top:800px; font-size:38px; font-weight:500; letter-spacing:-.02em", "ov");
-          tl.fromTo([n1, n2], { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: .35, ease: "power3.out", stagger: .08 }, 5.95); fadeIn(n3, 6.15, .3, 10);
-          tl.to([n1, n2, n3], { opacity: 0, duration: .2 }, 7.5);
+          tl.fromTo([n1, n2], { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: .35, ease: "power3.out", stagger: .08 }, 5.95); 
+          tl.to([n1, n2], { opacity: 0, duration: .2 }, 7.5);
           var v = div(s, "0 M$", "left:0; right:0; top:560px; font-size:210px", "ov");
           slam(v, 7.72, 1.5); flash(7.72, CYAN);
           count(v, 7.72, .6, 0, 10, function (x) { return Math.round(x) + " M$"; });
-          fadeIn(div(s, "de sa poche, dans l'action", "left:0; right:0; top:800px; font-size:52px", "ov"), 9.0, .3, 12);
-        })();
-
-        // ===== 3. « Parce qu'il regarde un autre chiffre » (10,36 → 12,17) =====
-        (function () {
-          var s = scene(10.36, 12.17, "dark");
-          var lg = div(s, "Ce qu'il regarde", "left:0; right:0; top:0; font-size:30px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:" + SOFT);
-          var fr_ = div(s, "<img src='assets/img/dara-carte.jpg' style='width:100%; height:100%; object-fit:cover; object-position:50% 30%; display:block'>", "left:120px; top:70px; width:560px; height:620px; box-shadow:0 30px 60px rgba(0,5,25,.55); outline:1px solid rgba(255,255,255,.18)");
-          fadeIn(lg, 10.4, .3, 8);
-          tl.fromTo(fr_, { opacity: 0, y: 40, scale: .94 }, { opacity: 1, y: 0, scale: 1, duration: .45, ease: "power3.out" }, 10.4);
-          tl.to(fr_, { scale: 1.04, duration: 1.3, ease: "none" }, 10.85);
-          popIn(div(s, "?", "left:0; right:0; top:720px; font-size:110px; color:" + CYAN, "a big"), 11.36);
         })();
 
         // ===== 4. Générique (12,17 → 14,97) =====
@@ -171,8 +154,7 @@
         // ===== 5. Ce que tout le monde regarde (14,97 → 28,40) =====
         (function () {
           var s = scene(14.97, 28.4, "light");
-          fadeIn(div(s, "Ce que tout le monde regarde", "left:0; top:0", "a kick"), 15.0, .35, 10);
-          fadeIn(div(s, "<span class='hl'>Les bénéfices</span>", "left:-6px; top:66px; text-align:left"), 15.86, .35, 10);
+          fadeIn(div(s, "Bénéfices", "left:0; right:0; top:60px; font-size:64px; color:" + NAVY, "a big"), 15.86, .35, 10);
           var Z = 760, U = 34, BW = 240, X = [130, 430];
           div(s, "", "left:40px; top:" + Z + "px; width:720px; height:3px; background:" + NAVY);
           var tax = [], vals = [], rest = [];
@@ -190,24 +172,18 @@
           });
           var flat = div(s, "", "left:250px; top:" + (Z - 10 * U - 112) + "px; width:300px; height:0; border-top:3px dashed " + NSOFT);
           tl.fromTo(flat, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .35 }, 20.75);
-          var cf = chip(s, "Zéro croissance", 250, 208, 20.9, NSOFT);
-          tl.to([flat, cf], { opacity: 0, duration: .2 }, 23.9);
+          tl.to(flat, { opacity: 0, duration: .2 }, 23.9);
           var HATCH = "repeating-linear-gradient(135deg, #9aa6bf 0 10px, #e6eaf2 10px 20px)";
           tl.set(tax, { background: HATCH }, 24.13);
-          var c1 = chip(s, "Cadeau fiscal : + 11,4 Md$", 160, 208, 24.13, RED);
+          var c1 = chip(s, "+ 11,4 Md$ du fisc", 230, 208, 24.13, RED);
           tl.to(tax, { opacity: .3, duration: .4 }, 26.0); tl.to(vals, { opacity: 0, duration: .25 }, 26.0);
           tl.fromTo(rest, { opacity: 0 }, { opacity: 1, duration: .3 }, 26.4);
-          tl.to(c1, { opacity: 0, duration: .15 }, 26.5);
-          chip(s, "De l'argent sur le papier", 175, 208, 26.63, NAVY);
-          fadeIn(div(s, "Bénéfice net, en milliards de dollars. Reprises de provisions fiscales : 6,4 Md$ (2024), 5,0 Md$ (2025) · Source : Uber", "top:" + (Z + 80) + "px", "src"), 24.2, .3, 0);
         })();
 
         // ===== 6. Ce qu'il faut regarder : le cash (28,40 → 42,45) =====
         (function () {
           var s = scene(28.4, 42.45, "dark");
-          fadeIn(div(s, "Ce qu'il faut regarder", "left:0; top:0", "a kick"), 28.43, .35, 10);
-          fadeIn(div(s, "<span class='hl'>Le cash</span>", "left:-6px; top:66px; text-align:left"), 29.85, .35, 10);
-          fadeIn(div(s, "free cash flow, en milliards de dollars", "left:0; top:200px; text-align:left; font-size:28px; color:" + SOFT), 30.5, .35, 6);
+          fadeIn(div(s, "Cash", "left:0; right:0; top:60px; font-size:64px; color:" + INK, "a big"), 29.85, .35, 10);
           var Z = 760, U = 32, BW = 150, GAP = 40, X0 = 50;
           div(s, "", "left:40px; top:" + Z + "px; width:720px; height:2px; background:rgba(234,241,251,.6)");
           [["2023", 3.36, 32.7], ["2024", 6.9, 34.58], ["2025", 9.76, 36.38], ["2027*", 13.1, 38.14]].forEach(function (c, i) {
@@ -222,25 +198,21 @@
           var g = svg(s, 0, 0, 800, 800);
           var arr = el(g, "path", { d: "M125 " + (760 - 3.36 * 32 - 100) + " C 300 " + (760 - 6 * 32 - 160) + ", 500 " + (760 - 12 * 32 - 150) + ", 610 " + (760 - 13.1 * 32 - 105), fill: "none", stroke: CYAN, "stroke-width": 4, "stroke-dasharray": "2 10", "stroke-linecap": "round" });
           drawIn(arr, 40.4, .7);
-          chip(s, "× 4 en 4 ans", 240, 300, 41.05, CYAN, NAVY);
-          fadeIn(div(s, "* prévision moyenne des analystes · Source : Uber, Simply Wall St", "top:830px", "src"), 38.2, .3, 0);
+          chip(s, "× 4", 300, 300, 41.05, CYAN, NAVY);
         })();
 
         // ===== 7. « Trois signaux passent au vert » (42,45 → 44,75) =====
         (function () {
           var s = scene(42.45, 44.75, "dark");
-          fadeIn(div(s, "3 signaux au vert", "left:0; right:0; top:120px", "a title"), 42.6, .3, 10);
-          ["Le support", "La valorisation", "Les dirigeants"].forEach(function (n, i) {
-            var y = 300 + i * 130;
-            var c = div(s, String(i + 1), "left:170px; top:" + y + "px; width:88px; height:88px; border-radius:50%; text-align:center; line-height:84px; font-size:46px; font-weight:600; color:" + NAVY + "; background:" + GREEN);
-            var t = div(s, n, "left:290px; top:" + (y + 12) + "px; font-size:56px; font-weight:600; letter-spacing:-.04em; text-align:left; color:" + INK);
-            tl.fromTo([c, t], { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: .3, ease: "power3.out" }, 43.31 + i * .2);
+          [0, 1, 2].forEach(function (i) {
+            var c = div(s, String(i + 1), "left:" + (130 + i * 200) + "px; top:330px; width:140px; height:140px; border-radius:50%; text-align:center; line-height:136px; font-size:70px; font-weight:600; color:" + GREEN + "; border:4px solid " + GREEN);
+            tl.fromTo(c, { opacity: 0, scale: .6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, 43.31 + i * .18);
+            tl.to(c, { backgroundColor: GREEN, color: NAVY, duration: .2 }, 44.35 + i * .08);
           });
         })();
         function signal(s, n, txt, at, light) {
-          var c = div(s, String(n), "left:0; top:0; width:64px; height:64px; border-radius:50%; text-align:center; line-height:60px; font-size:34px; font-weight:600; color:" + (light ? "#fff" : NAVY) + "; background:" + (light ? "#12924f" : GREEN));
-          var t = div(s, txt, "left:84px; top:8px; font-size:40px; font-weight:600; letter-spacing:-.035em; text-align:left; white-space:nowrap; color:" + (light ? NAVY : INK));
-          tl.fromTo([c, t], { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: .3, ease: "power3.out" }, at);
+          var c = div(s, String(n), "left:368px; top:0; width:64px; height:64px; border-radius:50%; text-align:center; line-height:60px; font-size:34px; font-weight:600; color:" + (light ? "#fff" : NAVY) + "; background:" + (light ? "#12924f" : GREEN));
+          tl.fromTo(c, { opacity: 0, scale: .6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2)" }, at);
         }
 
         // ===== 8. Signal 1 : le support (44,75 → 51,55) =====
@@ -259,7 +231,6 @@
         (function () {
           var s = scene(44.75, 51.55, "dark");
           signal(s, 1, "Le support", 44.8);
-          fadeIn(div(s, "Uber en Bourse, clôture hebdomadaire en dollars", "left:0; top:90px; text-align:left; font-size:28px; color:" + SOFT), 45.0, .3, 6);
           var c = lineChart(s, SW, 200, 45.0, 50, 100, 10, [["2024-01-01", "2024"], ["2025-01-01", "2025"], ["2026-01-01", "2026"]]);
           var band = el(c.g, "rect", { x: 0, y: c.Y(70), width: 800, height: c.Y(65) - c.Y(70), fill: CYAN, "fill-opacity": .16 });
           c.g.insertBefore(band, c.g.firstChild);
@@ -270,30 +241,27 @@
           var rings = [];
           for (var i = 3; i < c.n - 1; i++) { var v = SW[i][1], ok = v >= 63 && v <= 71; for (var j = Math.max(0, i - 4); j <= Math.min(c.n - 1, i + 4); j++) if (SW[j][1] < v) ok = false; if (ok) rings.push(el(c.g, "circle", { cx: c.X(i), cy: c.Y(v), r: 15, fill: "none", stroke: RED, "stroke-width": 3.5 })); }
           rings.forEach(function (r, k) { drawIn(r, 49.37 + k * .12, .3); });
-          var lb = T(c.g, 20, c.Y(95), "support : 65–70 $", 34, CYAN, 600);
+          var lb = T(c.g, 20, c.Y(95), "65–70 $", 34, CYAN, 600);
           tl.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: .25 }, 47.25);
-          fadeIn(div(s, "Du 1er janvier 2024 au 9 novembre 2026 · Source : Yahoo Finance", "top:810px", "src"), 45.1, .3, 0);
         })();
 
         // ===== 9. Signal 2 : la valorisation (51,55 → 57,60) =====
         (function () {
           var s = scene(51.55, 57.6, "light");
           signal(s, 2, "La valorisation", 51.6, true);
-          fadeIn(div(s, "Prix de l'action, en nombre de fois le cash généré sur un an", "left:0; top:90px; text-align:left; font-size:28px; color:" + NSOFT), 51.8, .3, 6);
           var U = 24;
           var l1 = div(s, "Uber", "left:0; top:250px; font-size:38px; font-weight:600; text-align:left; color:" + NAVY);
           var b1 = div(s, "", "left:0; top:305px; width:" + (14 * U) + "px; height:110px; background:" + NAVY);
-          var v1 = div(s, "14 fois", "left:" + (14 * U + 24) + "px; top:318px; font-size:84px; color:" + NAVY, "a big");
+          var v1 = div(s, "14×", "left:" + (14 * U + 24) + "px; top:318px; font-size:84px; color:" + NAVY, "a big");
           tl.fromTo(l1, { opacity: 0 }, { opacity: 1, duration: .2 }, 52.74);
           tl.fromTo(b1, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .5, ease: "power3.out" }, 52.74);
           tl.fromTo(v1, { opacity: 0 }, { opacity: 1, duration: .2 }, 53.0);
-          var l2 = div(s, "Grandes entreprises américaines", "left:0; top:500px; font-size:38px; font-weight:600; text-align:left; color:" + NSOFT);
+          var l2 = div(s, "Grandes entreprises US", "left:0; top:500px; font-size:38px; font-weight:600; text-align:left; color:" + NSOFT);
           var b2 = div(s, "", "left:0; top:555px; width:" + (28 * U) + "px; height:110px; background:#c5cbd8");
-          var v2 = div(s, "≈ 2 fois plus", "left:24px; top:574px; font-size:60px; color:" + NAVY, "a big");
+          var v2 = div(s, "≈ ×2", "left:24px; top:574px; font-size:60px; color:" + NAVY, "a big");
           tl.fromTo(l2, { opacity: 0 }, { opacity: 1, duration: .2 }, 55.26);
           tl.fromTo(b2, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .6, ease: "power3.out" }, 55.26);
           tl.fromTo(v2, { opacity: 0 }, { opacity: 1, duration: .2 }, 55.6);
-          fadeIn(div(s, "Capitalisation (≈ 148 Md$) / free cash flow des 12 derniers mois (10,4 Md$) · Source : Uber", "top:760px", "src"), 52.8, .3, 0);
         })();
 
         // ===== 10. Signal 3 : les dirigeants achètent (57,60 → 62,25) =====
@@ -304,13 +272,10 @@
             var y = r[5], g = [];
             if (r[0]) g.push(div(s, "", "left:20px; top:" + y + "px; width:150px; height:150px; border-radius:50%; background:url(assets/img/" + r[0] + ") 50% 25%/cover; box-shadow:0 0 0 3px rgba(255,255,255,.25)"));
             else g.push(div(s, "<span style='font-size:64px; font-weight:600; color:" + SOFT + "'>AM</span>", "left:20px; top:" + y + "px; width:150px; height:150px; border-radius:50%; border:3px solid rgba(255,255,255,.25); text-align:center; line-height:144px"));
-            g.push(div(s, r[1], "left:200px; top:" + (y + 22) + "px; font-size:44px; font-weight:600; letter-spacing:-.035em; text-align:left; color:" + INK));
-            g.push(div(s, r[2], "left:200px; top:" + (y + 84) + "px; font-size:30px; text-align:left; color:" + SOFT));
-            var v = div(s, "▲ " + r[3], "left:200px; top:" + (y + 150) + "px; font-size:96px; text-align:left; color:" + GREEN, "a big");
+            var v = div(s, "▲ " + r[3], "left:220px; top:" + (y + 22) + "px; font-size:96px; text-align:left; color:" + GREEN, "a big");
             tl.fromTo(g, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: .35, ease: "power3.out" }, r[4] - .35);
             slam(v, r[4], 1.3);
           });
-          fadeIn(div(s, "Achats en Bourse déclarés à la SEC, septembre 2026", "top:810px", "src"), 57.8, .3, 0);
         })();
 
         // ===== 11. Le risque : les taxis autonomes (62,25 → 68,65) =====
@@ -320,41 +285,31 @@
           var veil = div(root, "", "background:linear-gradient(180deg, rgba(0,10,30,.55) 0%, rgba(0,10,30,.1) 40%, rgba(0,20,60,.7) 100%)", "full");
           root.insertBefore(veil, st);
           tl.set(veil, { opacity: 1 }, 62.25); tl.set(veil, { opacity: 0 }, 68.65);
-          fadeIn(div(s, "Le risque", "left:0; right:0; top:-230px; font-size:40px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.85)", "ov"), 62.3, .35, 8);
-          fadeIn(div(s, "Les taxis<br>autonomes", "left:0; right:0; top:-170px; font-size:112px", "ov"), 63.6, .4, 14);
         })();
 
         // ===== 12. Payoff : le prix du patron (68,65 → 75,75) =====
         (function () {
           var s = scene(68.65, 75.75, "dark");
-          fadeIn(div(s, "Le prix payé par le patron", "left:0; right:0; top:0", "a title"), 68.7, .35, 10);
-          fadeIn(div(s, "clôture quotidienne en 2026, en dollars", "left:0; right:0; top:74px", "a sub"), 68.75, .35, 6);
           var c = lineChart(s, S, 200, 68.75, 60, 90, 10, [["2026-01-02", "janv."], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]]);
           drawIn(c.ln, 68.8, .9, "power1.out");
           var yb = c.Y(70.96);
           var bl = el(c.g, "line", { x1: 0, x2: 800, y1: yb, y2: yb, stroke: GREEN, "stroke-width": 3, "stroke-dasharray": "12 9" });
           var ix = 0; for (var i = 0; i < c.n; i++) if (S[i][0] <= "2026-09-10") ix = i;
           var bd = el(c.g, "circle", { cx: c.X(ix), cy: yb, r: 16, fill: "none", stroke: GREEN, "stroke-width": 4 });
-          var bt = T(c.g, 240, c.Y(86), "achat du PDG : 70,96 $", 34, GREEN, 600);
+          var bt = T(c.g, 240, c.Y(86), "70,96 $", 40, GREEN, 600);
           tl.fromTo([bl, bt], { opacity: 0 }, { opacity: 1, duration: .3 }, 71.41); drawIn(bd, 71.45, .3);
           var ld = el(c.g, "circle", { cx: c.X(c.n - 1), cy: c.Y(S[c.n - 1][1]), r: 9, fill: INK });
           var lr = el(c.g, "circle", { cx: c.X(c.n - 1), cy: c.Y(S[c.n - 1][1]), r: 20, fill: "none", stroke: INK, "stroke-width": 3 });
-          var lt = T(c.g, c.X(c.n - 1) - 20, c.Y(61.5), "aujourd'hui : 71,17 $", 34, INK, 600, "end");
+          var lt = T(c.g, c.X(c.n - 1) - 20, c.Y(61.5), "71,17 $", 40, INK, 600, "end");
           tl.fromTo([ld, lt], { opacity: 0 }, { opacity: 1, duration: .25 }, 73.95); drawIn(lr, 73.95, .3);
-          var ch = div(s, "Le même prix", "left:0; right:0; margin:auto; width:max-content; top:-100px; background:" + INK + "; color:" + NAVY, "chip");
+          var ch = div(s, "Le même prix", "left:0; right:0; margin:auto; width:max-content; top:60px; background:" + INK + "; color:" + NAVY, "chip");
           popIn(ch, 75.05);
-          fadeIn(div(s, "Cours du 9 novembre 2026 · Ceci n'est pas un conseil en investissement", "top:810px", "src"), 68.8, .3, 0);
+          fadeIn(div(s, "Ceci n'est pas un conseil en investissement", "top:810px", "src"), 68.8, .3, 0);
         })();
 
         // ===== 13. Leçon : croyez le cash (75,75 → 80,75) =====
         (function () {
           var s = scene(75.75, 80.75, "light");
-          var k = div(s, "Retenez ça", "left:0; right:0; top:200px; font-size:46px; font-weight:600; letter-spacing:-.04em; color:" + NAVY);
-          fadeIn(k, 75.8, .3, 8);
-          var a = div(s, "Bénéfices", "left:0; right:0; top:300px; font-size:84px; color:" + NSOFT, "a big");
-          var b = div(s, "≠ cash", "left:0; right:0; top:400px; font-size:84px; color:" + NAVY, "a big");
-          fadeIn(a, 76.92, .3, 10); fadeIn(b, 77.84, .3, 10);
-          tl.to([a, b], { opacity: 0, duration: .2 }, 79.6);
           popIn(div(s, "<span class='hl'>Croyez le cash.</span>", "left:0; right:0; top:300px; text-align:center"), 79.79);
         })();
 
@@ -366,9 +321,7 @@
           tl.fromTo(av, { opacity: 0, scale: .85, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .5, ease: "power3.out" }, t0);
           drawIn(document.getElementById("ring"), t0 + .2, .8);
           fadeIn(div(st, "finance_data", "left:0; right:0; top:860px; text-align:center; font-size:72px; font-weight:600; letter-spacing:-.04em; color:#fff"), t0 + .4, .4, 10);
-          var sub = div(st, "Alerté en premier quand un PDG<br>ou un politique achète", "left:0; right:0; top:980px; text-align:center; font-size:40px; font-weight:500; letter-spacing:-.025em; line-height:1.2; color:" + SOFT);
-          fadeIn(sub, 81.3, .4, 10);
-          var btn = div(st, "Commentez « PDG »", "left:0; right:0; margin:auto; width:max-content; top:1120px; padding:20px 44px 26px; border-radius:14px; background:#fff; color:#0b1020; font-size:52px; font-weight:600; letter-spacing:-.035em; box-shadow:0 18px 40px rgba(0,5,25,.4)");
+          var btn = div(st, "Commentez « PDG »", "left:0; right:0; margin:auto; width:max-content; top:990px; padding:20px 44px 26px; border-radius:14px; background:#fff; color:#0b1020; font-size:52px; font-weight:600; letter-spacing:-.035em; box-shadow:0 18px 40px rgba(0,5,25,.4)");
           tl.fromTo(btn, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out" }, 82.4);
           tl.to(btn, { scale: .94, duration: .1 }, 85.09); tl.to(btn, { scale: 1.06, duration: .25, ease: "back.out(2)" }, 85.19); tl.to(btn, { scale: 1, duration: .3 }, 85.5);
         })();
@@ -377,7 +330,7 @@
         var W = window.VO.words;
         var groups = [], cur = [];
         W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
-        var SKIP = [[7.6, 10.3], [12.1, 15.0], [20.8, 21.9], [75.0, 87]];
+        var SKIP = [[7.6, 10.3], [12.1, 15.0], [75.0, 87]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
           if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
