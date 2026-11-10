@@ -8,318 +8,359 @@
     <script src="assets/logos.js"></script>
     <script src="assets/vo-words.js"></script>
     <style>
-      /* Reel « Le dessous des marchés, épisode 3 : Uber » (84,25 s), trame FinanceData minimaliste (styles/financedata/TRAME.md). */
-      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      /* Reel « Le dessous des marchés, épisode 3 : Uber » (84,25 s). DA « data intelligence » de FinanceData (reprise du reel VIX) :
+         bleu #00194B quadrillé avec halo, alterné avec un blanc cassé quadrillé ; Inter ; blanc, cyan et rouge ; photos HD plein cadre
+         avec nom en typographie, petites images posées sur fond bleu avec légende ; fin : logo FinanceData dans l'anneau story. */
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf") format("opentype"); font-weight: 600; }
+      :root { --bg: #00194b; --ink: #eaf1fb; --soft: #8fa3c7; --cyan: #7dd0f5; --red: #ff2e24; --green: #35d07f; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000b22; }
-      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000b22; color: #0a105e; font-family: "Display", sans-serif; font-variation-settings: "opsz" 32; -webkit-font-smoothing: antialiased; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { width: 1080px; height: 1920px; position: relative; overflow: hidden; font-family: "Inter UI", sans-serif; color: var(--ink); background: var(--bg); font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
+      #bg-dark { position: absolute; inset: 0; }
+      #bg-dark .glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 38% at 50% 46%, #0b3480 0%, rgba(0, 25, 75, 0) 72%); }
+      #bg-dark .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-dark .vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(0,0,0,0) 55%, rgba(0,5,22,.6) 100%); }
+      #bg-light { position: absolute; inset: 0; opacity: 0; background: #f6f8fc; }
+      #bg-light::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,25,75,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,25,75,.06) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-light::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(255,255,255,0) 55%, rgba(0,25,75,.08) 100%); }
       .a { position: absolute; }
-      .sc { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
-      .full { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; opacity: 0; }
+      .full { position: absolute; inset: 0; opacity: 0; }
+      /* scène : bloc centré dans la zone sûre (x 140–940, y 440–1290) */
+      .scene { position: absolute; left: 140px; top: 440px; width: 800px; height: 850px; opacity: 0; text-align: center; color: var(--ink); }
+      .scene.light { --ink: #00194b; --soft: #5b6b8a; --cyan: #0b6fd0; --green: #12924f; }
+      .title { font-size: 60px; font-weight: 600; letter-spacing: -.035em; line-height: 1.04; white-space: nowrap; }
+      .sub { margin-top: 12px; font-size: 26px; color: var(--soft); }
+      .kick { font-size: 46px; font-weight: 600; letter-spacing: -.04em; color: var(--ink); text-align: left; }
+      .hl { display: inline-block; font-size: 96px; font-weight: 600; letter-spacing: -.05em; line-height: 1; padding: 6px 18px 18px; background: var(--ink); color: var(--bg); }
+      .scene.light .hl { color: #fff; }
+      .big { font-weight: 600; letter-spacing: -.05em; line-height: 1; white-space: nowrap; }
+      .chip { position: absolute; padding: 8px 20px 12px; font-weight: 600; font-size: 40px; letter-spacing: -.03em; white-space: nowrap; opacity: 0; }
+      .src { position: absolute; left: 0; right: 0; font-size: 22px; color: var(--soft); }
       svg { position: absolute; overflow: visible; }
-      svg text { font-family: "Display"; font-feature-settings: "tnum" 1; letter-spacing: -1px; }
-      .cap { position: absolute; left: 0; right: 0; top: 1360px; text-align: center; opacity: 0; }
-      .cap span { display: inline-block; font-weight: 700; font-size: 62px; letter-spacing: -.05em; word-spacing: .02em; color: #fff; background: rgba(8,10,20,.72); padding: 8px 26px 14px; border-radius: 6px; line-height: 1.1; }
-      .ttl { position: absolute; left: 96px; top: 286px; font-weight: 700; font-size: 72px; letter-spacing: -.055em; line-height: 1; }
-      .sub { position: absolute; left: 96px; top: 376px; font-weight: 500; font-size: 40px; letter-spacing: -.03em; color: #6b7290; }
-      .src { position: absolute; left: 96px; font-size: 28px; font-weight: 500; color: #6b7290; letter-spacing: -.02em; }
-      .ov { position: absolute; left: 0; right: 0; text-align: center; color: #fff; font-weight: 700; letter-spacing: -.055em; line-height: 1.05; text-shadow: 0 2px 20px rgba(0,0,0,.35); }
-      .pill { position: absolute; font-weight: 700; font-size: 48px; letter-spacing: -.04em; color: #fff; padding: 6px 24px 12px; border-radius: 8px; }
+      svg text { font-family: "Inter UI", sans-serif; font-feature-settings: "tnum" 1; }
+      .ov { position: absolute; left: 0; right: 0; text-align: center; color: #fff; font-weight: 600; letter-spacing: -.045em; line-height: 1.02; text-shadow: 0 2px 24px rgba(0,10,40,.45); }
+      /* sous-titres : blanc, fond gris translucide */
+      .cap-line { position: absolute; left: 80px; right: 80px; top: 1330px; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -.045em; word-spacing: -.02em; color: #fff; white-space: nowrap; }
+      /* fin */
+      #avatar { position: absolute; left: 360px; top: 470px; width: 360px; height: 360px; opacity: 0; }
+      #avatar .pic { position: absolute; left: 22px; top: 22px; width: 316px; height: 316px; border-radius: 50%; overflow: hidden; border: 8px solid #00194b; box-shadow: 0 20px 50px rgba(0,5,25,.5); }
+      #avatar .pic img { width: 100%; height: 100%; display: block; }
     </style>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="84.25" data-width="1080" data-height="1920">
       <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="84.25" data-track-index="1"></audio>
-      <video id="v-ub" class="clip" src="assets/video/uber-chauffeur.mp4" data-start="0" data-duration="5.24" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-gen" class="clip" src="assets/video/generique.mp4" data-start="11.34" data-duration="2.8" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="bgs" class="clip" data-start="0" data-duration="84.25" data-track-index="2" style="position:absolute; inset:0">
+        <div id="bg-dark"><div class="glow"></div><div class="grid"></div><div class="vig"></div></div>
+        <div id="bg-light"></div>
+      </div>
+      <div id="photos" class="clip" data-start="0" data-duration="84.25" data-track-index="3" style="position:absolute; inset:0"></div>
+      <video id="v-gen" class="clip" src="assets/video/generique.mp4" data-start="11.34" data-duration="2.8" data-track-index="4" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
       <video id="v-wm" class="clip" src="assets/video/waymo.mp4" data-start="58.5" data-duration="7.55" data-track-index="5" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <div id="bgl" class="clip" data-start="0" data-duration="84.25" data-track-index="4" style="position:absolute; inset:0"></div>
-      <div id="stage" class="clip" data-start="0" data-duration="84.25" data-track-index="0" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="84.25" data-track-index="6" style="position:absolute; inset:0"></div>
     </div>
     <script>
       (function () {
-        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true });
-        var st = document.getElementById("stage"), bgl = document.getElementById("bgl"), END = 84.25;
-        var NAVY = "#0a105e", BLUE = "#3d5afe", RED = "#d9161e", GREEN = "#1f9d55", GRID = "#d5dae5", AX = "#6b7290", PALE = "#c5cad9";
-        var LIGHT = "#eef1f5", NIGHT = "#000b22";
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 84.25;
+        var st = document.getElementById("stage"), ph = document.getElementById("photos"), bgL = document.getElementById("bg-light");
+        var INK = "#eaf1fb", SOFT = "#8fa3c7", CYAN = "#7dd0f5", RED = "#ff2e24", GREEN = "#35d07f", NAVY = "#00194b", NSOFT = "#5b6b8a";
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
         function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
-        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 600, "text-anchor": anchor || "start" }, str); }
-        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+        function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start", "letter-spacing": "-0.02em" }, str); }
         function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
-        function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power2.inOut" }, t); }
-        function fadeIn(e, t, d, y) { tl.fromTo(e, { opacity: 0, y: y == null ? 16 : y }, { opacity: 1, y: 0, duration: d || .35, ease: "power3.out" }, t); return e; }
+        function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+        function drawIn(n, at, dur, ease) { var L = n.getTotalLength(); n.style.strokeDasharray = L + " " + L; tl.fromTo(n, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.inOut" }, at); }
+        function fadeIn(n, at, dur, y) { tl.fromTo(n, { opacity: 0, y: y == null ? 16 : y }, { opacity: 1, y: 0, duration: dur || .45, ease: "power2.out" }, at); return n; }
+        function popIn(n, at) { tl.fromTo(n, { opacity: 0, scale: .85, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, at); return n; }
         function count(e, t, d, v0, v1, f) { var o = { v: v0 }; tl.fromTo(o, { v: v0 }, { v: v1, duration: d, ease: "power3.out", onUpdate: function () { e.textContent = f(o.v); } }, t); }
-        function scene(t0, t1, bg) {
-          var s = div(st, "", "", "sc"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1);
-          if (bg) { var b = div(bgl, "", "background:" + bg, "full"); tl.set(b, { opacity: 1 }, t0); tl.set(b, { opacity: 0 }, t1); }
+        // scène : mode "dark" (fond bleu quadrillé), "light" (blanc cassé quadrillé) ou "photo" (le fond est une photo ou une vidéo)
+        function scene(t0, t1, mode) {
+          var s = div(st, "", "", "scene" + (mode === "light" ? " light" : ""));
+          tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: .25, ease: "power1.out" }, t0); tl.set(s, { opacity: 0 }, t1);
+          if (mode === "light") { tl.set(bgL, { opacity: 1 }, t0); tl.set(bgL, { opacity: 0 }, t1); }
           return s;
         }
-        var VEIL = "linear-gradient(180deg, rgba(0,11,34,.25) 0%, rgba(0,11,34,.15) 40%, rgba(0,11,34,.65) 100%)";
-        function vscene(id, t0, t1, veil) {
-          var s = scene(t0, t1, null), v = div(bgl, "", "background:" + (veil || VEIL), "full");
-          tl.set(v, { opacity: 1 }, t0); tl.set(v, { opacity: 0 }, t1);
-          tl.fromTo(id, { scale: 1 }, { scale: 1.07, duration: t1 - t0, ease: "none" }, t0);
-          return s;
+        // photo HD plein cadre (lent zoom), voile bas pour le texte
+        function photo(img, t0, t1, pos) {
+          var w = div(ph, "", "", "full"), im = div(w, "", "position:absolute; inset:0; background:url(assets/img/" + img + ") " + (pos || "center") + "/cover");
+          div(w, "", "position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,10,30,.25) 0%, rgba(0,10,30,0) 30%, rgba(0,10,30,0) 50%, rgba(0,20,60,.8) 100%)");
+          tl.fromTo(w, { opacity: 0 }, { opacity: 1, duration: .3 }, t0); tl.set(w, { opacity: 0 }, t1);
+          tl.fromTo(im, { scale: 1.02 }, { scale: 1.1, duration: t1 - t0, ease: "none" }, t0);
+          return w;
         }
-        function iscene(img, t0, t1, veil, zoom, pos) {
-          var s = scene(t0, t1, null), im = div(bgl, "", "background:url(assets/img/" + img + ") " + (pos || "center") + "/cover", "full"), v = div(bgl, "", "background:" + (veil || VEIL), "full");
-          tl.set([im, v], { opacity: 1 }, t0); tl.set([im, v], { opacity: 0 }, t1);
-          tl.fromTo(im, { scale: 1.06 }, { scale: zoom || 1.14, duration: t1 - t0, ease: "none" }, t0);
-          return s;
-        }
-        function logo(size, color) { return "<svg width='" + size + "' height='" + size + "' viewBox='0 0 24 24' style='position:static; display:inline-block; vertical-align:middle'><path d='" + window.LOGOS.uber + "' fill='" + (color || "#fff") + "'/></svg>"; }
-        function pill(s, txt, color, x, y, t, center) {
-          var p = div(s, txt, (center ? "left:0; right:0; margin:auto; width:max-content; " : "left:" + x + "px; ") + "top:" + y + "px; background:" + color, "pill");
-          tl.fromTo(p, { opacity: 0, scale: 1.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .28, ease: "back.out(2)" }, t);
-          return p;
-        }
+        function chip(p, txt, x, y, at, bg, color) { var c = div(p, txt, "left:" + x + "px; top:" + y + "px; background:" + bg + "; color:" + (color || "#fff"), "chip"); popIn(c, at); return c; }
+        function logo(h, color) { return "<svg width='" + h + "' height='" + h + "' viewBox='0 0 24 24' style='position:static; display:inline-block; vertical-align:middle'><path d='" + window.LOGOS.uber + "' fill='" + (color || "#fff") + "'/></svg>"; }
 
-        // ===== 1. HOOK (0 → 5,24) : vraie vidéo d'un chauffeur Uber, logo blanc, puis « Erreur » =====
+        // ===== 1. HOOK (0 → 5,24) : la fiche boursière d'Uber, puis ses bénéfices à plat =====
         (function () {
-          var s = vscene("#v-ub", 0, 5.24, "linear-gradient(180deg, rgba(0,11,34,.35), rgba(0,11,34,.25) 45%, rgba(0,11,34,.6))");
-          var lg = div(s, logo(460), "left:0; right:0; top:640px; text-align:center; filter:drop-shadow(0 2px 20px rgba(0,0,0,.35))");
-          tl.fromTo(lg, { opacity: 0, scale: 1.25, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "power3.out" }, .05);
-          tl.to(lg, { opacity: 0, duration: .15 }, 4.55);
-          var stamp = div(s, "Erreur", "left:290px; top:860px; width:500px; text-align:center; font-size:110px; font-weight:800; letter-spacing:-.03em; color:" + RED + "; border:9px solid " + RED + "; padding:4px 0 14px; border-radius:8px; background:rgba(255,255,255,.9)");
-          tl.fromTo(stamp, { opacity: 0, scale: 2.2, rotation: -2, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, rotation: -8, duration: .22, ease: "power4.in" }, 4.62);
+          var s = scene(0, 5.24, "dark");
+          var lg = div(s, logo(330), "left:0; right:0; top:60px; text-align:center");
+          var tk = div(s, "NYSE : UBER", "left:0; right:0; top:380px; font-size:40px; font-weight:500; letter-spacing:.02em; color:" + SOFT);
+          var px = div(s, "71,17 USD", "left:0; right:0; top:450px; font-size:104px", "a big");
+          popIn(lg, 0); fadeIn(tk, .15, .35, 10); fadeIn(px, .25, .35, 10);
+          // les bénéfices : une ligne plate
+          var g = svg(s, 100, 600, 600, 160);
+          var ln = el(g, "path", { d: "M0 70 L600 66", fill: "none", stroke: INK, "stroke-width": 5, "stroke-linecap": "round" });
+          var a = el(g, "circle", { cx: 0, cy: 70, r: 9, fill: INK }), b = el(g, "circle", { cx: 600, cy: 66, r: 9, fill: INK });
+          var lb = T(g, 300, 140, "bénéfice net 2024 → 2025", 30, SOFT, 500, "middle");
+          tl.fromTo([a, lb], { opacity: 0 }, { opacity: 1, duration: .2 }, 1.3); drawIn(ln, 1.35, .7); tl.fromTo(b, { opacity: 0 }, { opacity: 1, duration: .2 }, 2.0);
+          var no = div(s, "Croissance : 0 %", "left:0; right:0; top:772px; font-size:44px; font-weight:600; letter-spacing:-.03em; color:" + SOFT);
+          fadeIn(no, 3.4, .3, 8);
+          tl.to(no, { color: RED, duration: .15 }, 4.65);
+          var ring = div(s, "", "left:200px; top:754px; width:400px; height:96px; border:4px solid " + RED + "; border-radius:48px");
+          tl.fromTo(ring, { opacity: 0, scale: 1.25, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .25, ease: "power3.out" }, 4.65);
         })();
 
-        // ===== 2. Le patron : 10 M$ de sa poche (5,24 → 9,44) =====
+        // ===== 2. Le patron (5,24 → 9,44) : photo HD plein cadre, nom en typographie, puis 10 M$ =====
         (function () {
-          var s = iscene("dara-1.jpg", 5.24, 9.44, "linear-gradient(180deg, rgba(0,11,34,.1) 0%, rgba(0,11,34,.1) 45%, rgba(0,11,34,.75) 100%)", 1.16, "50% 30%");
-          var v = div(s, "0 M$", "top:1010px; font-size:210px; letter-spacing:-.06em", "ov");
-          tl.fromTo(v, { opacity: 0, scale: 1.3, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "power3.out" }, 6.88);
+          photo("dara-hd.jpg", 5.24, 9.44, "50% 30%");
+          var s = scene(5.24, 9.44, "photo");
+          var n1 = div(s, "Dara", "left:0; right:0; top:560px; font-size:96px; font-weight:400; letter-spacing:-.05em", "ov");
+          var n2 = div(s, "Khosrowshahi", "left:0; right:0; top:668px; font-size:112px", "ov");
+          var n3 = div(s, "Directeur général d'Uber", "left:0; right:0; top:800px; font-size:38px; font-weight:500; letter-spacing:-.02em", "ov");
+          fadeIn(n1, 5.35, .4, 14); fadeIn(n2, 5.45, .4, 14); fadeIn(n3, 5.6, .4, 10);
+          tl.to([n1, n2, n3], { opacity: 0, duration: .2 }, 6.7);
+          var v = div(s, "0 M$", "left:0; right:0; top:560px; font-size:200px", "ov");
+          tl.fromTo(v, { opacity: 0, scale: 1.2, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "power3.out" }, 6.88);
           count(v, 6.88, .7, 0, 10, function (x) { return Math.round(x) + " M$"; });
-          fadeIn(div(s, "de sa poche", "top:1250px; font-size:64px", "ov"), 8.1, .3, 14);
+          fadeIn(div(s, "de sa poche, dans l'action", "left:0; right:0; top:790px; font-size:52px", "ov"), 8.1, .35, 12);
         })();
 
-        // ===== 3. « Parce qu'il regarde un autre chiffre » (9,44 → 11,34) =====
+        // ===== 3. « Parce qu'il regarde un autre chiffre » (9,44 → 11,34) : image posée sur fond bleu + légende =====
         (function () {
-          var s = iscene("dara-2.jpg", 9.44, 11.34, "linear-gradient(180deg, rgba(0,11,34,.15), rgba(0,11,34,.2) 45%, rgba(0,11,34,.75))", 1.12, "50% 35%");
-          fadeIn(div(s, "Un autre chiffre", "top:1080px; font-size:104px", "ov"), 10.5, .35, 20);
+          var s = scene(9.44, 11.34, "dark");
+          var lg = div(s, "Ce qu'il regarde", "left:0; right:0; top:0; font-size:30px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:" + SOFT);
+          var fr_ = div(s, "<img src='assets/img/dara-carte.jpg' style='width:100%; height:100%; object-fit:cover; object-position:50% 30%; display:block'>", "left:120px; top:70px; width:560px; height:620px; box-shadow:0 30px 60px rgba(0,5,25,.55); outline:1px solid rgba(255,255,255,.18)");
+          fadeIn(lg, 9.5, .35, 8);
+          tl.fromTo(fr_, { opacity: 0, y: 30, scale: .96 }, { opacity: 1, y: 0, scale: 1, duration: .5, ease: "power3.out" }, 9.5);
+          tl.to(fr_, { scale: 1.03, duration: 1.4, ease: "none" }, 10.0);
+          var q = div(s, "?", "left:0; right:0; top:720px; font-size:110px; color:" + CYAN, "a big");
+          popIn(q, 10.6);
         })();
 
-        // ===== 4. Générique « Le dessous des marchés, épisode 3 » (11,34 → 14,14) : la vidéo couvre tout =====
-        scene(11.34, 14.14, null);
+        // ===== 4. Générique (11,34 → 14,14) : la vidéo couvre tout =====
 
-        // ===== 5. Ce que tout le monde regarde : les bénéfices (14,14 → 28,60) =====
+        // ===== 5. Ce que tout le monde regarde (14,14 → 28,60) : les bénéfices, gonflés par le fisc =====
         (function () {
-          var s = scene(14.14, 28.6, LIGHT), Z = 1150, U = 44, BW = 300, X1 = 180, X2 = 600;
-          fadeIn(div(s, "Ce que tout le monde regarde", "", "ttl"), 14.2, .35, 14);
-          fadeIn(div(s, "Bénéfice net d'Uber, en milliards de dollars", "", "sub"), 15.3, .35, 10);
-          div(s, "", "left:96px; top:" + (Z - 1.5) + "px; width:888px; height:3px; background:" + NAVY);
-          var D = [["2024", 9.86, 6.4, X1, 16.44], ["2025", 10.05, 5.0, X2, 18.62]], tax = [], base = [], vals = [], rest = [];
-          D.forEach(function (c) {
-            var real = c[1] - c[2];
-            var b = div(s, "", "left:" + c[3] + "px; top:" + (Z - real * U) + "px; width:" + BW + "px; height:" + (real * U) + "px; background:" + NAVY);
-            var t = div(s, "", "left:" + c[3] + "px; top:" + (Z - c[1] * U) + "px; width:" + BW + "px; height:" + (c[2] * U) + "px; background:" + NAVY);
-            var v = div(s, "0", "left:" + c[3] + "px; width:" + BW + "px; top:" + (Z - c[1] * U - 100) + "px; text-align:center; font-size:76px; font-weight:700; letter-spacing:-.055em; color:" + NAVY + "; font-feature-settings:'tnum' 1");
-            var l = div(s, c[0], "left:" + c[3] + "px; width:" + BW + "px; top:" + (Z + 22) + "px; text-align:center; font-size:40px; font-weight:700; letter-spacing:-.04em; color:" + NAVY);
-            var r = div(s, fr(real, 1), "left:" + c[3] + "px; width:" + BW + "px; top:" + (Z - real * U + 30) + "px; text-align:center; font-size:64px; font-weight:700; letter-spacing:-.05em; color:#fff");
-            tl.fromTo(b, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, c[4]);
-            tl.fromTo(t, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .4, ease: "power3.out" }, c[4] + .35);
-            tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .1 }, c[4]); count(v, c[4], .9, 0, c[1], function (x) { return fr(x, 1); });
+          var s = scene(14.14, 28.6, "light");
+          fadeIn(div(s, "Ce que tout le monde regarde", "left:0; top:0", "a kick"), 14.16, .35, 10);
+          fadeIn(div(s, "<span class='hl'>Les bénéfices</span>", "left:-6px; top:66px; text-align:left"), 14.4, .35, 10);
+          var Z = 760, U = 34, BW = 240, X = [130, 430];
+          div(s, "", "left:40px; top:" + Z + "px; width:720px; height:3px; background:" + NAVY);
+          var tax = [], vals = [], rest = [];
+          [["2024", 9.86, 6.4, 16.44], ["2025", 10.05, 5.0, 18.62]].forEach(function (c, i) {
+            var x = X[i], real = c[1] - c[2];
+            var b = div(s, "", "left:" + x + "px; top:" + (Z - real * U) + "px; width:" + BW + "px; height:" + (real * U) + "px; background:" + NAVY);
+            var t = div(s, "", "left:" + x + "px; top:" + (Z - c[1] * U) + "px; width:" + BW + "px; height:" + (c[2] * U - 3) + "px; background:" + NAVY);
+            var v = div(s, "0", "left:" + x + "px; width:" + BW + "px; top:" + (Z - c[1] * U - 88) + "px; font-size:68px; color:" + NAVY, "a big");
+            var l = div(s, c[0], "left:" + x + "px; width:" + BW + "px; top:" + (Z + 18) + "px; font-size:34px; font-weight:600; color:" + NAVY);
+            var r = div(s, fr(real, 1), "left:" + x + "px; width:" + BW + "px; top:" + (Z - real * U + 28) + "px; font-size:56px; color:#fff", "a big");
+            tl.fromTo(b, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .5, ease: "power3.out" }, c[3]);
+            tl.fromTo(t, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .4, ease: "power3.out" }, c[3] + .35);
+            tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .1 }, c[3]); count(v, c[3], .9, 0, c[1], function (x) { return fr(x, 1); });
             tax.push(t); vals.push(v); rest.push(r);
           });
-          // « À plat » : pointillés entre les deux sommets
-          var flat = div(s, "", "left:" + (X1 + BW / 2) + "px; top:" + (Z - 10 * U - 14) + "px; width:" + (X2 - X1) + "px; height:0; border-top:4px dashed " + AX);
-          tl.fromTo(flat, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .4, ease: "power2.out" }, 20.3);
-          var pf = pill(s, "À plat", AX, 0, 470, 20.46, true);
-          tl.to([flat, pf], { opacity: 0, duration: .2 }, 23.2);
-          // le cadeau fiscal se détache (hachures grises), puis « sur le papier » (contour seul)
-          var HATCH = "repeating-linear-gradient(135deg, #b8bfd0 0 12px, #e2e6ee 12px 24px)";
+          var flat = div(s, "", "left:250px; top:" + (Z - 10 * U - 112) + "px; width:300px; height:0; border-top:3px dashed " + NSOFT);
+          tl.fromTo(flat, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .35 }, 20.3);
+          var cf = chip(s, "À plat", 330, Z - 10 * U - 150, 20.46, NSOFT);
+          tl.to([flat, cf], { opacity: 0, duration: .2 }, 23.1);
+          var HATCH = "repeating-linear-gradient(135deg, #9aa6bf 0 10px, #e6eaf2 10px 20px)";
           tl.set(tax, { background: HATCH }, 23.38);
-          var lt = div(s, "Cadeau fiscal", "left:0; right:0; top:470px; text-align:center; font-size:54px; font-weight:700; letter-spacing:-.045em; color:" + AX);
-          fadeIn(lt, 23.4, .3, 10);
-          var lsum = div(s, "+ 11,4 Md$", "left:0; right:0; top:536px; text-align:center; font-size:44px; font-weight:600; letter-spacing:-.03em; color:" + AX);
-          fadeIn(lsum, 24.72, .3, 8);
-          tl.to(tax, { opacity: .35, duration: .4 }, 25.7);
-          tl.to(vals, { opacity: 0, duration: .25 }, 25.7);
+          var c1 = chip(s, "Cadeau fiscal : + 11,4 Md$", 160, Z - 10 * U - 150, 23.4, RED);
+          tl.to(tax, { opacity: .3, duration: .4 }, 25.7); tl.to(vals, { opacity: 0, duration: .25 }, 25.7);
           tl.fromTo(rest, { opacity: 0 }, { opacity: 1, duration: .3 }, 26.2);
-          var pap = div(s, "Sur le papier", "left:0; right:0; top:470px; text-align:center; font-size:54px; font-weight:700; letter-spacing:-.045em; color:" + AX);
-          tl.to(lt, { opacity: 0, duration: .2 }, 26.8); fadeIn(pap, 26.92, .3, 8);
-          fadeIn(div(s, "Le cadeau fiscal : 6,4 Md$ en 2024, 5,0 Md$ en 2025, sans entrée d'argent · Source : Uber", "top:1262px; width:888px", "src"), 23.5, .3, 0);
+          tl.to(c1, { opacity: 0, duration: .15 }, 26.8);
+          chip(s, "De l'argent sur le papier", 175, Z - 10 * U - 150, 26.92, NAVY);
+          fadeIn(div(s, "Bénéfice net, en milliards de dollars. Reprises de provisions fiscales : 6,4 Md$ (2024), 5,0 Md$ (2025) · Source : Uber", "top:" + (Z + 80) + "px", "src"), 23.5, .3, 0);
         })();
 
         // ===== 6. Ce qu'il faut regarder : le cash (28,60 → 42,97) =====
         (function () {
-          var s = scene(28.6, 42.97, LIGHT), Z = 1150, U = 46, BW = 180, GAP = 36, X0 = 120;
-          fadeIn(div(s, "Ce qu'il faut regarder", "", "ttl"), 28.64, .35, 14);
-          fadeIn(div(s, "Free cash flow d'Uber, en milliards de dollars", "", "sub"), 30.57, .35, 10);
-          div(s, "", "left:96px; top:" + (Z - 1.5) + "px; width:888px; height:3px; background:" + NAVY);
+          var s = scene(28.6, 42.97, "dark");
+          fadeIn(div(s, "Ce qu'il faut regarder", "left:0; top:0", "a kick"), 28.64, .35, 10);
+          fadeIn(div(s, "<span class='hl'>Le cash</span>", "left:-6px; top:66px; text-align:left"), 29.4, .35, 10);
+          fadeIn(div(s, "free cash flow, en milliards de dollars", "left:0; top:200px; text-align:left; font-size:28px; color:" + SOFT), 30.6, .35, 6);
+          var Z = 760, U = 32, BW = 150, GAP = 40, X0 = 50;
+          div(s, "", "left:40px; top:" + Z + "px; width:720px; height:2px; background:rgba(234,241,251,.6)");
           [["2023", 3.36, 32.83], ["2024", 6.9, 34.65], ["2025", 9.76, 36.04], ["2027*", 13.1, 39.3]].forEach(function (c, i) {
             var x = X0 + i * (BW + GAP), est = i === 3;
-            var b = div(s, "", "left:" + x + "px; top:" + (Z - c[1] * U) + "px; width:" + BW + "px; height:" + (c[1] * U) + "px; " + (est ? "border:4px dashed " + GREEN + "; border-bottom:none; background:rgba(31,157,85,.08)" : "background:" + GREEN));
-            var v = div(s, "0", "left:" + x + "px; width:" + BW + "px; top:" + (Z - c[1] * U - 84) + "px; text-align:center; font-size:64px; font-weight:700; letter-spacing:-.055em; color:" + GREEN + "; font-feature-settings:'tnum' 1");
-            var l = div(s, c[0], "left:" + x + "px; width:" + BW + "px; top:" + (Z + 22) + "px; text-align:center; font-size:38px; font-weight:700; letter-spacing:-.04em; color:" + NAVY);
-            tl.fromTo(b, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .6, ease: "power3.out" }, c[2]);
+            var b = div(s, "", "left:" + x + "px; top:" + (Z - c[1] * U) + "px; width:" + BW + "px; height:" + (c[1] * U) + "px; " + (est ? "border:3px dashed " + CYAN + "; border-bottom:none" : "background:" + INK));
+            var v = div(s, "0", "left:" + x + "px; width:" + BW + "px; top:" + (Z - c[1] * U - 76) + "px; font-size:58px; color:" + (est ? CYAN : INK), "a big");
+            var l = div(s, c[0], "left:" + x + "px; width:" + BW + "px; top:" + (Z + 16) + "px; font-size:30px; color:" + SOFT);
+            tl.fromTo(b, { scaleY: 0, transformOrigin: "50% 100%" }, { scaleY: 1, duration: .55, ease: "power3.out" }, c[2]);
             tl.fromTo([v, l], { opacity: 0 }, { opacity: 1, duration: .1 }, c[2]);
-            count(v, c[2], .6, 0, c[1], function (x) { return fr(x, i === 3 ? 0 : 1).replace(",0", ""); });
+            count(v, c[2], .6, 0, c[1], function (x) { return est ? fr(x, 0) : fr(x, 1); });
           });
-          pill(s, "× 4", GREEN, 560, Z - 13.1 * U - 20, 41.0);
-          fadeIn(div(s, "* prévision moyenne des analystes · Source : Uber, Simply Wall St", "top:1262px", "src"), 39.4, .3, 0);
+          var g = svg(s, 0, 0, 800, 800);
+          var arr = el(g, "path", { d: "M125 " + (760 - 3.36 * 32 - 100) + " C 300 " + (760 - 6 * 32 - 160) + ", 500 " + (760 - 12 * 32 - 150) + ", 610 " + (760 - 13.1 * 32 - 105), fill: "none", stroke: CYAN, "stroke-width": 4, "stroke-dasharray": "2 10", "stroke-linecap": "round" });
+          drawIn(arr, 40.9, .7);
+          chip(s, "× 4", 300, 300, 41.3, CYAN, NAVY);
+          fadeIn(div(s, "* prévision moyenne des analystes · Source : Uber, Simply Wall St", "top:830px", "src"), 39.4, .3, 0);
         })();
 
-        // ===== 7. « Et ce n'est pas le seul signal » (42,97 → 44,32) : trois signaux, le premier coché =====
+        // ===== 7. « Ce n'est pas le seul signal » (42,97 → 44,32) =====
         (function () {
-          var s = scene(42.97, 44.32, NIGHT);
-          var tt = div(s, "3 signaux verts", "top:640px; font-size:96px", "ov");
-          fadeIn(tt, 42.99, .3, 14);
+          var s = scene(42.97, 44.32, "dark");
+          fadeIn(div(s, "3 signaux verts", "left:0; right:0; top:120px", "a title"), 42.99, .3, 10);
           ["Le cash", "Le support", "Le prix"].forEach(function (n, i) {
-            var y = 820 + i * 130, on = i === 0;
-            var c = div(s, on ? "✓" : String(i + 1), "left:250px; top:" + y + "px; width:96px; height:96px; border-radius:50%; text-align:center; line-height:92px; font-size:54px; font-weight:700; color:" + (on ? "#fff" : GREEN) + "; " + (on ? "background:" + GREEN : "border:4px solid " + GREEN));
-            var t = div(s, n, "left:380px; top:" + (y + 14) + "px; font-size:60px; font-weight:700; letter-spacing:-.045em; color:" + (on ? "rgba(255,255,255,.55)" : "#fff"));
-            tl.fromTo([c, t], { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: .25, ease: "power3.out" }, 43.1 + i * .15);
+            var y = 300 + i * 130, on = i === 0;
+            var c = div(s, on ? "✓" : String(i + 1), "left:190px; top:" + y + "px; width:88px; height:88px; border-radius:50%; text-align:center; line-height:84px; font-size:46px; font-weight:600; color:" + (on ? NAVY : GREEN) + "; " + (on ? "background:" + GREEN : "border:3px solid " + GREEN));
+            var t = div(s, n, "left:310px; top:" + (y + 12) + "px; font-size:56px; font-weight:600; letter-spacing:-.04em; color:" + (on ? SOFT : INK));
+            tl.fromTo([c, t], { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: .3, ease: "power3.out" }, 43.1 + i * .15);
           });
         })();
 
-        // ===== 8. Signal : le support 65–70 $ (44,32 → 49,13) =====
+        // ===== graphique de cours (sombre) =====
         var S = window.UBER.filter(function (r) { return r[0] >= "2026-01-01"; });
-        function priceChart(s, t0, lo, hi, color) {
-          var g = svg(s, 96, 520, 888, 640), Wd = 760, H = 640, n = S.length;
-          var X = function (i) { return i / (n - 1) * Wd; }, Y = function (v) { return H - (v - lo) / (hi - lo) * H; };
-          var axis = [];
-          for (var v = lo; v <= hi; v += 10) { axis.push(el(g, "line", { x1: 0, x2: 888, y1: Y(v), y2: Y(v), stroke: GRID, "stroke-width": 2 })); axis.push(T(g, 888, Y(v) - 12, v + " $", 30, AX, 500, "end")); }
-          var ix = function (d) { for (var i = 0; i < n; i++) if (S[i][0] >= d) return i; return n - 1; };
-          [["2026-01-02", "janv."], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]].forEach(function (m) { var x = X(ix(m[0])); axis.push(el(g, "line", { x1: x, x2: x, y1: H, y2: H + 14, stroke: NAVY, "stroke-width": 3 })); axis.push(T(g, x + 8, H + 50, m[1], 30, AX, 500)); });
-          axis.push(el(g, "line", { x1: 0, x2: 888, y1: H, y2: H, stroke: NAVY, "stroke-width": 3 }));
-          tl.fromTo(axis, { opacity: 0 }, { opacity: 1, duration: .25 }, t0);
+        function priceChart(s, top, t0, lo, hi, ink, soft) {
+          var g = svg(s, 0, top, 800, 520), Wd = 700, H = 520, n = S.length;
+          var X = function (i) { return 20 + i / (n - 1) * (Wd - 20); }, Y = function (v) { return H - (v - lo) / (hi - lo) * H; };
+          var ax = [];
+          for (var v = lo; v <= hi; v += 10) { ax.push(el(g, "line", { x1: 0, x2: 800, y1: Y(v), y2: Y(v), stroke: soft, "stroke-width": 1.5, opacity: .35 })); ax.push(T(g, 800, Y(v) - 10, String(v), 26, soft, 500, "end")); }
+          [["2026-01-02", "janv."], ["2026-04-01", "avr."], ["2026-07-01", "juil."], ["2026-10-01", "oct."]].forEach(function (m) { var i = 0; while (i < n - 1 && S[i][0] < m[0]) i++; ax.push(T(g, X(i), H + 46, m[1], 26, soft, 500, "middle")); });
+          tl.fromTo(ax, { opacity: 0 }, { opacity: 1, duration: .3 }, t0);
           var p = ""; for (var i = 0; i < n; i++) p += (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(S[i][1]).toFixed(1);
-          var ln = el(g, "path", { d: p, fill: "none", stroke: color || NAVY, "stroke-width": 5, "stroke-linejoin": "round" });
-          return { g: g, X: X, Y: Y, n: n, ln: ln, H: H, Wd: Wd };
+          var ln = el(g, "path", { d: p, fill: "none", stroke: ink, "stroke-width": 3, "stroke-linejoin": "round" });
+          return { g: g, X: X, Y: Y, n: n, ln: ln };
         }
+
+        // ===== 8. Signal : le support (44,32 → 49,13) =====
         (function () {
-          var s = scene(44.32, 49.13, LIGHT);
-          fadeIn(div(s, "Cours de l'action Uber", "", "ttl"), 44.34, .35, 14);
-          var c = priceChart(s, 44.4, 60, 90);
-          var band = el(c.g, "rect", { x: 0, y: c.Y(70), width: 888, height: c.Y(65) - c.Y(70), fill: BLUE, opacity: .16 });
+          var s = scene(44.32, 49.13, "dark");
+          fadeIn(div(s, "Uber en Bourse", "left:0; right:0; top:0", "a title"), 44.34, .35, 10);
+          fadeIn(div(s, "clôture quotidienne, en dollars", "left:0; right:0; top:74px", "a sub"), 44.4, .35, 6);
+          var c = priceChart(s, 200, 44.4, 60, 90, INK, SOFT);
+          var band = el(c.g, "rect", { x: 0, y: c.Y(70), width: 800, height: c.Y(65) - c.Y(70), fill: CYAN, "fill-opacity": .14 });
           c.g.insertBefore(band, c.g.firstChild);
-          tl.fromTo(band, { opacity: 0 }, { opacity: .16, duration: .3 }, 47.1);
-          draw(c.ln, 44.45, 1.2, "none");
-          // creux qui ont rebondi dans la zone (minimum local sur ± 12 séances, sous 70 $)
-          var dots = [];
-          for (var i = 6; i < c.n - 3; i++) { var v = S[i][1], ok = v < 70.5; for (var j = Math.max(0, i - 12); j <= Math.min(c.n - 1, i + 12); j++) if (S[j][1] < v) ok = false; if (ok) dots.push(el(c.g, "circle", { cx: c.X(i), cy: c.Y(v), r: 11, fill: "#fff", stroke: BLUE, "stroke-width": 5 })); }
-          tl.fromTo(dots, { opacity: 0, scale: 0, transformOrigin: "center", transformBox: "fill-box" }, { opacity: 1, scale: 1, duration: .25, stagger: .1, ease: "back.out(2)" }, 45.63);
-          var lbl = T(c.g, 10, c.Y(65) + 56, "Zone de support : 65–70 $", 44, BLUE, 700);
-          tl.fromTo(lbl, { opacity: 0 }, { opacity: 1, duration: .25 }, 47.27);
-          var last = el(c.g, "circle", { cx: c.X(c.n - 1), cy: c.Y(S[c.n - 1][1]), r: 13, fill: NAVY, stroke: "#fff", "stroke-width": 4 });
-          tl.fromTo(last, { opacity: 0 }, { opacity: 1, duration: .2 }, 45.6);
-          fadeIn(div(s, "Clôtures quotidiennes en dollars, du 2 janvier au 9 novembre 2026 · Source : Yahoo Finance", "top:1262px; width:888px", "src"), 44.4, .3, 0);
+          var d1 = el(c.g, "line", { x1: 0, x2: 800, y1: c.Y(70), y2: c.Y(70), stroke: CYAN, "stroke-width": 2.5, "stroke-dasharray": "10 8" });
+          var d2 = el(c.g, "line", { x1: 0, x2: 800, y1: c.Y(65), y2: c.Y(65), stroke: CYAN, "stroke-width": 2.5, "stroke-dasharray": "10 8" });
+          tl.fromTo([band, d1, d2], { opacity: 0 }, { opacity: 1, duration: .3 }, 47.1);
+          drawIn(c.ln, 44.45, 1.2, "none");
+          var rings = [];
+          for (var i = 6; i < c.n - 3; i++) { var v = S[i][1], ok = v < 70.5; for (var j = Math.max(0, i - 12); j <= Math.min(c.n - 1, i + 12); j++) if (S[j][1] < v) ok = false; if (ok) rings.push(el(c.g, "circle", { cx: c.X(i), cy: c.Y(v), r: 16, fill: "none", stroke: RED, "stroke-width": 3.5 })); }
+          rings.forEach(function (r, k) { drawIn(r, 45.63 + k * .14, .3); });
+          var lb = T(c.g, 20, c.Y(65) + 44, "support : 65–70 $", 32, CYAN, 600);
+          tl.fromTo(lb, { opacity: 0 }, { opacity: 1, duration: .25 }, 47.27);
+          fadeIn(div(s, "Du 2 janvier au 9 novembre 2026 · Source : Yahoo Finance", "top:810px", "src"), 44.5, .3, 0);
         })();
 
-        // ===== 9. Signal : la valorisation, 14 fois le cash (49,13 → 54,14) =====
+        // ===== 9. Signal : la valorisation (49,13 → 54,14) =====
         (function () {
-          var s = scene(49.13, 54.14, LIGHT);
-          fadeIn(div(s, "Prix de l'action", "", "ttl"), 49.15, .35, 14);
-          fadeIn(div(s, "en nombre d'années de free cash flow", "", "sub"), 49.3, .35, 10);
-          var U = 26;
-          var b1 = div(s, "", "left:96px; top:640px; width:" + (14 * U) + "px; height:150px; background:" + BLUE);
-          var v1 = div(s, "14×", "left:" + (96 + 14 * U + 24) + "px; top:664px; font-size:96px; font-weight:700; letter-spacing:-.055em; color:" + BLUE);
-          var l1 = div(s, "Uber", "left:96px; top:580px; font-size:44px; font-weight:700; letter-spacing:-.04em; color:" + NAVY);
+          var s = scene(49.13, 54.14, "light");
+          fadeIn(div(s, "Combien d'années de cash", "left:0; top:0", "a kick"), 49.15, .35, 10);
+          fadeIn(div(s, "<span class='hl'>pour l'action ?</span>", "left:-6px; top:66px; text-align:left"), 49.3, .35, 10);
+          var U = 24;
+          var l1 = div(s, "Uber", "left:0; top:290px; font-size:38px; font-weight:600; color:" + NAVY);
+          var b1 = div(s, "", "left:0; top:345px; width:" + (14 * U) + "px; height:110px; background:" + NAVY);
+          var v1 = div(s, "14 ans", "left:" + (14 * U + 24) + "px; top:358px; font-size:84px; color:" + NAVY, "a big");
+          tl.fromTo(l1, { opacity: 0 }, { opacity: 1, duration: .2 }, 49.89);
           tl.fromTo(b1, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .5, ease: "power3.out" }, 49.89);
-          tl.fromTo([v1, l1], { opacity: 0 }, { opacity: 1, duration: .2 }, 49.95);
-          var b2 = div(s, "", "left:96px; top:930px; width:" + (28 * U) + "px; height:150px; background:" + PALE);
-          var v2 = div(s, "≈ 2× plus", "left:120px; top:972px; font-size:60px; font-weight:700; letter-spacing:-.045em; color:" + NAVY);
-          var l2 = div(s, "Grandes entreprises américaines", "left:96px; top:870px; font-size:44px; font-weight:700; letter-spacing:-.04em; color:" + AX);
+          tl.fromTo(v1, { opacity: 0 }, { opacity: 1, duration: .2 }, 50.2);
+          var l2 = div(s, "Grandes entreprises américaines", "left:0; top:520px; font-size:38px; font-weight:600; color:" + NSOFT);
+          var b2 = div(s, "", "left:0; top:575px; width:" + (28 * U) + "px; height:110px; background:#c5cbd8");
+          var v2 = div(s, "≈ 2 fois plus", "left:24px; top:594px; font-size:60px; color:" + NAVY, "a big");
+          tl.fromTo(l2, { opacity: 0 }, { opacity: 1, duration: .2 }, 51.77);
           tl.fromTo(b2, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .6, ease: "power3.out" }, 51.77);
-          tl.fromTo([v2, l2], { opacity: 0 }, { opacity: 1, duration: .2 }, 51.85);
-          fadeIn(div(s, "Capitalisation ≈ 148 Md$ / free cash flow des 12 derniers mois (10,4 Md$) · Source : Uber", "top:1262px; width:888px", "src"), 50.0, .3, 0);
+          tl.fromTo(v2, { opacity: 0 }, { opacity: 1, duration: .2 }, 52.2);
+          fadeIn(div(s, "Capitalisation (≈ 148 Md$) / free cash flow des 12 derniers mois (10,4 Md$) · Source : Uber", "top:760px", "src"), 50.0, .3, 0);
         })();
 
         // ===== 10. Signal : les dirigeants achètent (54,14 → 58,50) =====
         (function () {
-          var s = scene(54.14, 58.5, LIGHT), U = 62;
-          fadeIn(div(s, "Les dirigeants achètent", "", "ttl"), 54.16, .35, 14);
-          fadeIn(div(s, "Achats en Bourse, septembre 2026", "", "sub"), 54.3, .35, 10);
-          [["Le patron", 10.0, "10 M$", 54.34, "dara-2.jpg"], ["Son bras droit", 5.3, "5 M$", 55.58, null]].forEach(function (r, i) {
-            var y = 620 + i * 300;
-            var ph = r[4] ? div(s, "", "left:96px; top:" + y + "px; width:140px; height:140px; border-radius:50%; background:url(assets/img/" + r[4] + ") 50% 30%/cover") : div(s, "", "");
-            var n = div(s, r[0], "left:270px; top:" + (y - 4) + "px; font-size:46px; font-weight:700; letter-spacing:-.04em; color:" + NAVY);
-            var b = div(s, "", "left:270px; top:" + (y + 66) + "px; width:" + (r[1] * U) + "px; height:74px; background:" + GREEN);
-            var v = div(s, r[2], "left:" + (270 + r[1] * U + 22) + "px; top:" + (y + 62) + "px; white-space:nowrap; font-size:66px; font-weight:700; letter-spacing:-.05em; color:" + GREEN);
-            tl.fromTo([ph, n], { opacity: 0 }, { opacity: 1, duration: .2 }, r[3]);
-            tl.fromTo(b, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .5, ease: "power3.out" }, r[3] + .05);
-            tl.fromTo(v, { opacity: 0 }, { opacity: 1, duration: .2 }, r[3] + .3);
+          var s = scene(54.14, 58.5, "dark");
+          fadeIn(div(s, "Achats en Bourse · septembre 2026", "left:0; right:0; top:0; font-size:30px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:" + SOFT), 54.16, .35, 8);
+          [["dara-rond.jpg", "Dara Khosrowshahi", "Directeur général", "10 M$", 54.34, 140], [null, "Andrew Macdonald", "Directeur des opérations", "5 M$", 55.58, 470]].forEach(function (r) {
+            var y = r[5], g = [];
+            if (r[0]) g.push(div(s, "", "left:20px; top:" + y + "px; width:150px; height:150px; border-radius:50%; background:url(assets/img/" + r[0] + ") 50% 25%/cover; box-shadow:0 0 0 3px rgba(255,255,255,.25)"));
+            else g.push(div(s, "<span style='font-size:64px; font-weight:600; color:" + SOFT + "'>AM</span>", "left:20px; top:" + y + "px; width:150px; height:150px; border-radius:50%; border:3px solid rgba(255,255,255,.25); text-align:center; line-height:144px"));
+            g.push(div(s, r[1], "left:200px; top:" + (y + 22) + "px; font-size:44px; font-weight:600; letter-spacing:-.035em; text-align:left; color:" + INK));
+            g.push(div(s, r[2], "left:200px; top:" + (y + 84) + "px; font-size:30px; text-align:left; color:" + SOFT));
+            var v = div(s, "▲ " + r[3], "left:200px; top:" + (y + 150) + "px; font-size:96px; text-align:left; color:" + GREEN, "a big");
+            tl.fromTo(g, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: .35, ease: "power3.out" }, r[4]);
+            fadeIn(v, r[4] + .25, .35, 10);
           });
-          fadeIn(div(s, "Dara Khosrowshahi (PDG), Andrew Macdonald (directeur des opérations) · Source : SEC", "top:1262px; width:888px", "src"), 54.4, .3, 0);
+          fadeIn(div(s, "Achats en Bourse déclarés à la SEC (formulaires 4) · 10/09/2026 et début septembre", "top:810px", "src"), 54.3, .3, 0);
         })();
 
         // ===== 11. Le risque : les robotaxis (58,50 → 66,05) =====
         (function () {
-          var s = vscene("#v-wm", 58.5, 66.05);
-          fadeIn(div(s, "Le risque", "top:420px; font-size:64px; color:rgba(255,255,255,.85)", "ov"), 58.56, .3, 10);
-          fadeIn(div(s, "Les robotaxis", "top:510px; font-size:118px", "ov"), 59.82, .35, 16);
+          var s = scene(58.5, 66.05, "photo");
+          tl.fromTo("#v-wm", { scale: 1 }, { scale: 1.06, duration: 7.55, ease: "none" }, 58.5);
+          var root = document.getElementById("root"), veil = div(root, "", "background:linear-gradient(180deg, rgba(0,10,30,.55) 0%, rgba(0,10,30,.1) 40%, rgba(0,20,60,.7) 100%)", "full");
+          root.insertBefore(veil, st);
+          tl.set(veil, { opacity: 1 }, 58.5); tl.set(veil, { opacity: 0 }, 66.05);
+          fadeIn(div(s, "Le risque", "left:0; right:0; top:-40px; font-size:40px; font-weight:500; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.85)", "ov"), 58.56, .35, 8);
+          fadeIn(div(s, "Les robotaxis", "left:0; right:0; top:20px; font-size:112px", "ov"), 59.82, .4, 14);
         })();
 
         // ===== 12. Payoff : le prix du patron (66,05 → 72,97) =====
         (function () {
-          var s = scene(66.05, 72.97, LIGHT);
-          fadeIn(div(s, "Le prix payé par le patron", "", "ttl"), 66.07, .35, 14);
-          var c = priceChart(s, 66.1, 60, 90);
-          tl.set(c.ln, { opacity: 1 }, 66.1); draw(c.ln, 66.1, .9, "power1.out");
+          var s = scene(66.05, 72.97, "dark");
+          fadeIn(div(s, "Le prix payé par le patron", "left:0; right:0; top:0", "a title"), 66.07, .35, 10);
+          fadeIn(div(s, "clôture quotidienne, en dollars", "left:0; right:0; top:74px", "a sub"), 66.1, .35, 6);
+          var c = priceChart(s, 200, 66.1, 60, 90, INK, SOFT);
+          drawIn(c.ln, 66.15, .9, "power1.out");
           var yb = c.Y(70.96);
-          var bl = el(c.g, "line", { x1: 0, x2: 888, y1: yb, y2: yb, stroke: GREEN, "stroke-width": 5, "stroke-dasharray": "14 10" });
-          tl.fromTo(bl, { opacity: 0 }, { opacity: 1, duration: .3 }, 68.48);
-          var bt = T(c.g, 330, c.Y(87), "Achat du patron : 70,96 $", 44, GREEN, 700);
-          tl.fromTo(bt, { opacity: 0 }, { opacity: 1, duration: .25 }, 68.48);
+          var bl = el(c.g, "line", { x1: 0, x2: 800, y1: yb, y2: yb, stroke: GREEN, "stroke-width": 3, "stroke-dasharray": "12 9" });
           var ix = 0; for (var i = 0; i < c.n; i++) if (S[i][0] <= "2026-09-10") ix = i;
-          var bd = el(c.g, "circle", { cx: c.X(ix), cy: yb, r: 12, fill: GREEN, stroke: "#fff", "stroke-width": 4 });
-          tl.fromTo(bd, { opacity: 0 }, { opacity: 1, duration: .2 }, 68.5);
-          var ld = el(c.g, "circle", { cx: c.X(c.n - 1), cy: c.Y(S[c.n - 1][1]), r: 16, fill: NAVY, stroke: "#fff", "stroke-width": 5 });
-          var lt = T(c.g, 790, c.Y(61.2), "Aujourd'hui : 71,17 $", 44, NAVY, 700, "end");
-          tl.fromTo([ld, lt], { opacity: 0 }, { opacity: 1, duration: .25 }, 71.05);
-          tl.fromTo(ld, { scale: 1.8, transformOrigin: "center", transformBox: "fill-box" }, { scale: 1, duration: .35, ease: "back.out(2)" }, 71.05);
-          pill(s, "Le même prix", BLUE, 0, 400, 72.2, true);
-          fadeIn(div(s, "Cours du 9 novembre 2026 · Ceci n'est pas un conseil en investissement", "top:1262px", "src"), 66.2, .3, 0);
+          var bd = el(c.g, "circle", { cx: c.X(ix), cy: yb, r: 16, fill: "none", stroke: GREEN, "stroke-width": 4 });
+          var bt = T(c.g, 240, c.Y(86), "achat du PDG : 70,96 $", 34, GREEN, 600);
+          tl.fromTo([bl, bt], { opacity: 0 }, { opacity: 1, duration: .3 }, 68.48); drawIn(bd, 68.5, .3);
+          var ld = el(c.g, "circle", { cx: c.X(c.n - 1), cy: c.Y(S[c.n - 1][1]), r: 9, fill: INK });
+          var lr = el(c.g, "circle", { cx: c.X(c.n - 1), cy: c.Y(S[c.n - 1][1]), r: 20, fill: "none", stroke: INK, "stroke-width": 3 });
+          var lt = T(c.g, c.X(c.n - 1) - 20, c.Y(61.5), "aujourd'hui : 71,17 $", 34, INK, 600, "end");
+          tl.fromTo([ld, lt], { opacity: 0 }, { opacity: 1, duration: .25 }, 71.05); drawIn(lr, 71.05, .3);
+          var ch = div(s, "Le même prix", "left:0; right:0; margin:auto; width:max-content; top:-110px; background:" + INK + "; color:" + NAVY, "chip");
+          popIn(ch, 72.2);
+          fadeIn(div(s, "Cours du 9 novembre 2026 · Ceci n'est pas un conseil en investissement", "top:810px", "src"), 66.2, .3, 0);
         })();
 
         // ===== 13. Leçon : croyez le cash (72,97 → 78,11) =====
         (function () {
-          var s = scene(72.97, 78.11, NIGHT);
-          var a = div(s, "Bénéfices", "top:720px; font-size:96px; color:rgba(255,255,255,.4)", "ov");
-          var b = div(s, "Cash", "top:850px; font-size:150px; color:#4fd58a", "ov");
-          fadeIn(a, 74.2, .3, 12); fadeIn(b, 75.04, .3, 12);
+          var s = scene(72.97, 78.11, "light");
+          var a = div(s, "Les bénéfices", "left:0; right:0; top:230px; font-size:84px; color:" + NSOFT, "a big");
+          var b = div(s, "ou le cash ?", "left:0; right:0; top:340px; font-size:84px; color:" + NAVY, "a big");
+          fadeIn(a, 74.2, .3, 10); fadeIn(b, 74.9, .3, 10);
           tl.to([a, b], { opacity: 0, duration: .2 }, 76.85);
-          var c = div(s, "Croyez <span style='color:#4fd58a'>le cash.</span>", "top:820px; font-size:130px", "ov");
-          tl.fromTo(c, { opacity: 0, scale: 1.15, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "power3.out" }, 77.03);
+          var k = div(s, "Retenez ça", "left:0; right:0; top:200px; font-size:46px; font-weight:600; letter-spacing:-.04em; color:" + NAVY);
+          var h = div(s, "<span class='hl'>Croyez le cash.</span>", "left:0; right:0; top:270px; text-align:center");
+          fadeIn(k, 77.0, .3, 8); popIn(h, 77.03);
         })();
 
-        // ===== 14. CTA : commentez « PDG » (78,11 → 84,25) =====
+        // ===== 14. CTA (78,11 → 84,25) : logo FinanceData dans l'anneau story, puis « Commentez PDG » =====
         (function () {
-          var s = scene(78.11, END, NIGHT);
-          fadeIn(div(s, "Commentez", "top:600px; font-size:84px", "ov"), 78.11, .3, 12);
-          var k = div(s, "PDG", "left:0; right:0; margin:auto; width:max-content; top:720px; font-size:200px; font-weight:800; letter-spacing:-.04em; color:#fff; background:" + BLUE + "; padding:10px 60px 30px; border-radius:18px");
-          tl.fromTo(k, { opacity: 0, scale: 1.4, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)" }, 78.51);
-          tl.to(k, { scale: 1.06, duration: .45, ease: "sine.inOut", yoyo: true, repeat: 5 }, 79.2);
-          var t = div(s, "Les achats des PDG<br>et des politiques,<br>en premier", "top:1060px; font-size:62px; color:rgba(255,255,255,.88); line-height:1.12", "ov");
-          fadeIn(t, 80.3, .35, 12);
+          var t0 = 78.11, root = st;
+          var av = div(root, "<svg viewBox='0 0 360 360' style='position:absolute; inset:0; width:100%; height:100%'><defs><linearGradient id='gStory' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.3' stop-color='#fa7e1e'/><stop offset='.6' stop-color='#d62976'/><stop offset='1' stop-color='#962fbf'/></linearGradient></defs><circle id='ring' cx='180' cy='180' r='170' fill='none' stroke='url(#gStory)' stroke-width='12' transform='rotate(-90 180 180)'/></svg><div class='pic'><img src='assets/img/logo-financedata.png'></div>", "", "");
+          av.id = "avatar";
+          tl.fromTo(av, { opacity: 0, scale: .85, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .5, ease: "power3.out" }, t0);
+          drawIn(document.getElementById("ring"), t0 + .2, .8);
+          var wm = div(root, "finance_data", "left:0; right:0; top:860px; text-align:center; font-size:72px; font-weight:600; letter-spacing:-.04em; color:#fff");
+          fadeIn(wm, t0 + .4, .4, 10);
+          var btn = div(root, "Commentez « PDG »", "left:0; right:0; margin:auto; width:max-content; top:980px; padding:20px 44px 26px; border-radius:14px; background:#fff; color:#0b1020; font-size:52px; font-weight:600; letter-spacing:-.035em; box-shadow:0 18px 40px rgba(0,5,25,.4)");
+          tl.fromTo(btn, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out" }, 78.45);
+          tl.to(btn, { scale: 1.05, duration: .45, ease: "sine.inOut", yoyo: true, repeat: 3 }, 79.2);
+          var sub = div(root, "Les achats des PDG et des politiques,<br>en premier", "left:0; right:0; top:1130px; text-align:center; font-size:40px; font-weight:500; letter-spacing:-.025em; line-height:1.2; color:" + SOFT);
+          fadeIn(sub, 80.1, .4, 10);
         })();
 
-        // ===== sous-titres : blancs sur encadré sombre, 3 mots max =====
+        // ===== sous-titres : 3 mots max, blancs sur fond gris translucide =====
         var W = window.VO.words.filter(function (w) { return w.s < 78.0; });
-        var Tk = W.map(function (w) { return { w: w.w, s: w.s, e: w.e }; });
         var groups = [], cur = [];
-        Tk.forEach(function (t, k) {
-          cur.push(t);
-          var nwords = cur.length, punct = /[,.?:!…]$/.test(t.w), next = Tk[k + 1];
-          if (punct || nwords >= 3 || !next) { groups.push(cur); cur = []; }
-        });
+        W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
+        var SKIP = [[6.8, 9.4], [11.3, 14.1], [20.4, 21], [72.1, 78.2]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : 78.05;
-          if (t0 >= 11.3 && t0 < 14.1) return;   // générique
-          if (t0 >= 72.9) return;
-          if (t0 >= 10.3 && t0 < 11.3) return;
-          if (t0 >= 6.8 && t0 < 9.4) return;
-          if (t0 >= 20.4 && t0 < 21) return;     // « À plat » déjà à l'écran     // « 10 M$ de sa poche » déjà à l'écran   // « Un autre chiffre » déjà à l'écran
-          if (t0 >= 72.1 && t0 < 72.9) return;   // « Le même prix » déjà à l'écran                  // leçon écrite à l'écran
-          var txt = gp.map(function (t) { return t.w; }).join(" ");
-          var d = div(st, "<span>" + txt + "</span>", "", "cap");
-          tl.fromTo(d, { opacity: 0 }, { opacity: 1, duration: .06 }, Math.max(0, t0 - .02)); tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6) - .03);
+          if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
+          var d = div(st, "<span class='cap-box'>" + gp.map(function (t) { return t.w; }).join(" ") + "</span>", "", "cap-line");
+          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out" }, Math.max(0, t0 - .06));
+          tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6) - .035);
         });
 
-        // zone sûre Instagram / TikTok : contenu réduit à 82 % vers le centre utile (les fonds de #bgl restent plein cadre)
-        st.style.transform = "scale(.82)"; st.style.transformOrigin = "540px 880px";
         tl.set({}, {}, END);
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
