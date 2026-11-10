@@ -39,6 +39,7 @@
       <video id="v-rue" class="clip" src="assets/video/rue.mp4" data-start="55.17" data-duration="5.73" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
       <video id="v-arc" class="clip" src="assets/video/montagne-arc.mp4" data-start="60.90" data-duration="5.3" data-track-index="7" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
       <div id="bgl" class="clip" data-start="0" data-duration="67.91" data-track-index="4" style="position:absolute; inset:0"></div>
+      <video id="v-gen" class="clip" src="assets/video/generique.mp4" data-start="13.30" data-duration="2.83" data-track-index="8" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
       <div id="stage" class="clip" data-start="0" data-duration="67.91" data-track-index="0" style="position:absolute; inset:0"></div>
     </div>
     <script>
@@ -134,17 +135,7 @@
           });
         })();
 
-        // ===== 5. Signature de série : « Bienvenue dans le dessous des marchés, épisode 2 » (13,30 → 16,13) =====
-        (function () {
-          var s = scene(13.30, 16.13, "#3d5afe");
-          var ep = div(s, "Épisode 2", "left:96px; top:640px; font-size:44px; font-weight:700; letter-spacing:.02em; color:rgba(255,255,255,.75); text-transform:uppercase");
-          var t1 = div(s, "Le dessous", "left:90px; top:710px; font-size:132px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff");
-          var t2 = div(s, "des marchés", "left:90px; top:850px; font-size:132px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff");
-          var rule = div(s, "", "left:96px; top:1010px; width:180px; height:10px; background:#fff");
-          tl.fromTo([t1, t2], { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: .45, ease: "power3.out", stagger: .08 }, 13.32);
-          tl.fromTo(rule, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .4, ease: "power3.out" }, 13.6);
-          fadeIn(ep, 15.30, .3, 10);
-        })();
+        // ===== 5. Signature de série (13,30 → 16,13) : générique « Le dessous des marchés », épisode 2 (vidéo) =====
 
         // ---- à partir d'ici, la suite de la première version, décalée de D (nouvelle introduction plus longue) ----
         var D = 3.65, BEFORE = tl.getChildren(false, true, true);
