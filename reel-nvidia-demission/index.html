@@ -72,7 +72,7 @@
         var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 60.82;
         var root = document.getElementById("root"), st = document.getElementById("stage"), ph = document.getElementById("photos");
         // palette « terminal » : vert et rouge de marché, pas les couleurs primaires
-        var INK = "#eaf1fb", SOFT = "#8fa3c7", NAVY = "#00194b", UP = "#26a69a", DN = "#ef5350", ACC = "#7dd0f5";
+        var INK = "#eaf1fb", SOFT = "#8fa3c7", NAVY = "#00194b", UP = "#00e676", DN = "#ff1744", ACC = "#7dd0f5";
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
         function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
         function T(s, x, y, str, size, fill, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": 700, "text-anchor": anchor || "start", "letter-spacing": "-0.03em" }, str); }
@@ -101,6 +101,10 @@
         (function () {
           photo("jensen-scene.jpg", 0, 3.13, "50% 30%");
           var s = scene(0, 3.13);
+          var al = div(root, "<span style='display:inline-block; width:16px; height:16px; border-radius:50%; background:#fff; margin-right:18px; vertical-align:middle'></span><span style='vertical-align:middle'>ALERTE</span><span style='vertical-align:middle; opacity:.85; margin-left:18px; font-weight:600'>Nvidia</span>", "position:absolute; left:0; right:0; margin:auto; width:max-content; top:200px; padding:10px 34px 16px; border-radius:8px; background:" + DN + "; color:#fff; font-family:Display; font-size:58px; font-weight:700; letter-spacing:-.04em; opacity:0");
+          tl.fromTo(al, { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" }, 0);
+          var dot = al.firstChild; tl.to(dot, { opacity: .2, duration: .3, yoyo: true, repeat: 5, ease: "sine.inOut" }, .3);
+          tl.set(al, { opacity: 0 }, 9.09);
           var n = div(s, "Jensen Huang", "left:0; right:0; top:560px; font-size:130px", "ov");
           slam(n, 1.54);
           slam(pill(s, "Démissionne", DN, "#fff", 730, 60), 2.37);
@@ -117,7 +121,7 @@
           tl.to([nb, co], { scale: 1.06, duration: 5.4, ease: "none" }, 3.63);
           tl.fromTo(co, { opacity: 0 }, { opacity: 1, duration: .35 }, 6.93);
           var s = scene(3.13, 9.09);
-          slam(div(s, "2 infidélités", "left:0; right:0; top:-160px; font-size:104px", "ov"), 5.09);
+          slam(div(s, "2 infidélités", "left:0; right:0; top:-125px; font-size:104px", "ov"), 5.09);
           slam(pill(s, "Soupçon d'espionnage", DN, "#fff", 780, 50), 7.33);
         })();
         // « Et ce matin, l'action a plongé de 14 % à l'ouverture » (9,09 → 12,27)
@@ -183,6 +187,8 @@
         // ===== 5. La valorisation (32,28 → 38,49) =====
         (function () {
           var s = scene(32.28, 38.49);
+          var bgc = candles(s, NV.filter(function (r) { return r[0] >= "2026-08-15"; }), 120, { h: 560, at: 32.28 });
+          bgc.reveal(bgc.n - 1, 32.28, .01); tl.set(bgc.g, { opacity: .22 }, 32.28);
           var big = div(s, "30×", "left:0; right:0; top:220px; font-size:280px; color:" + INK, "a big");
           show(big, 33.9, .2);
           count(big, 34.08, 1.0, 30, 11, function (x) { return Math.round(x) + "×"; });
@@ -205,10 +211,11 @@
 
         // ===== 7. Payoff (51,34 → 57,59) =====
         (function () {
+          photo("siege-nvidia.jpg", 51.34, 57.59, "center", "linear-gradient(180deg, rgba(0,10,30,.55) 0%, rgba(0,15,45,.45) 45%, rgba(0,20,60,.85) 100%)");
           var s = scene(51.34, 57.59);
-          var a = pill(s, "Attractive", UP, "#fff", 300, 110);
+          var a = pill(s, "Attractive", UP, NAVY, 300, 110);
           slam(a, 53.39);
-          var d = div(s, "17 novembre", "left:0; right:0; top:540px; font-size:96px; color:" + INK, "a big");
+          var d = div(s, "Résultats le 17 novembre", "left:0; right:0; top:540px; font-size:76px; color:#fff; text-shadow:0 2px 20px rgba(0,10,40,.5)", "a big");
           fadeIn(d, 56.83, .3, 10);
           fadeIn(div(s, "Avis de la rédaction · Ceci n'est pas un conseil en investissement", "top:820px; font-size:26px", "src"), 53.4, .3, 0);
         })();
