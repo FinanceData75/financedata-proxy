@@ -18,7 +18,7 @@ Dimanche, Nvidia lui renouvelait encore sa confiance. Mais le New York Times a r
 Depuis son record d'octobre, l'action a perdu près de 40 % à l'ouverture. Plus de 2 000 milliards de dollars envolés. Et aujourd'hui, Nvidia ne vaut plus qu'environ 11 fois ses bénéfices attendus. Moins cher qu'un fabricant de papier toilette.
 
 **[Les doutes]**
-Alors pourquoi personne n'achète ? Parce que deux doutes pèsent. D'abord, l'avenir sans Jensen Huang : c'est lui qui a fait de Nvidia le moteur de l'intelligence artificielle. Ensuite, la Chine : c'est lui qui négociait avec Washington et Pékin pour y vendre ses puces.
+Si les acheteurs hésitent, c'est que deux doutes pèsent. D'abord, l'avenir sans Jensen Huang : c'est lui qui a fait de Nvidia le moteur de l'intelligence artificielle. Ensuite, la Chine : c'est lui qui négociait avec Washington et Pékin pour y vendre ses puces.
 
 **[Le payoff]**
 Dans l'épisode 1, on vous disait que le vrai risque, c'était le départ du fondateur. On y est. Donc la vraie réponse arrivera le 17 novembre, avec ses résultats : si les ventes tiennent sans lui, la panique aura peut-être été excessive.
