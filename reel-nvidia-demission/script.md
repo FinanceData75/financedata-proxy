@@ -20,8 +20,8 @@ Depuis son record d'octobre, l'action a perdu près de 40 % à l'ouverture. Plus
 **[Les doutes]**
 Si les acheteurs hésitent, c'est que deux doutes pèsent. D'abord, l'avenir sans Jensen Huang : c'est lui qui a fait de Nvidia le moteur de l'intelligence artificielle. Ensuite, la Chine : c'est lui qui négociait avec Washington et Pékin pour y vendre ses puces.
 
-**[Le payoff — notre avis]**
-Notre avis : à ce prix, Nvidia devient vraiment attractive. Pour 11 fois ses bénéfices, vous achetez le leader mondial des puces d'IA, qui vend encore 96 milliards de dollars par trimestre, deux fois plus qu'il y a un an. Le marché sanctionne un homme, alors que l'entreprise, elle, n'a jamais autant vendu. Le risque, c'est le 17 novembre : si ses résultats déçoivent, l'action pourrait encore baisser.
+**[Le payoff]**
+Pour 11 fois ses bénéfices, vous achetez le leader mondial des puces d'IA, qui vend encore 96 milliards de dollars par trimestre, deux fois plus qu'il y a un an. À ce prix, Nvidia devient donc vraiment attractive et difficile à ignorer. On surveillera de près les résultats du 17 novembre.
 
 **[CTA]**
 Abonnez-vous pour ne pas rater la suite.
