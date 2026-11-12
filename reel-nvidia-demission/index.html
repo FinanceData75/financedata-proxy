@@ -58,18 +58,24 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="60.82" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="60.82" data-track-index="1"></audio>
-      <div id="bgs" class="clip" data-start="0" data-duration="60.82" data-track-index="2" style="position:absolute; inset:0">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="59.51" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="59.51" data-track-index="1"></audio>
+      <div id="bgs" class="clip" data-start="0" data-duration="59.51" data-track-index="2" style="position:absolute; inset:0">
         <div id="bg-dark"><div class="glow"></div><div class="grid"></div><div class="vig"></div></div>
       </div>
-      <div id="photos" class="clip" data-start="0" data-duration="60.82" data-track-index="3" style="position:absolute; inset:0"></div>
+      <div id="photos" class="clip" data-start="0" data-duration="59.51" data-track-index="3" style="position:absolute; inset:0"></div>
       <video id="v-gen" class="clip" src="assets/video/generique.mp4" data-start="12.27" data-duration="2.55" data-track-index="4" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <div id="stage" class="clip" data-start="0" data-duration="60.82" data-track-index="6" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="59.51" data-track-index="6" style="position:absolute; inset:0"></div>
     </div>
     <script>
       (function () {
-        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 60.82;
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 59.51;
+        // fin recollée à 51,28 s (« l'action redevient attractive », −1,31 s) : les positions écrites sur l'ancienne prise sont recalées
+        function M(t) { var P = [[51.28, 51.28], [53.39, 52.96], [56.83, 55.52], [57.57, 56.26]]; if (t <= P[0][0]) return t; for (var i = 1; i < P.length; i++) if (t <= P[i][0]) return P[i - 1][1] + (t - P[i - 1][0]) * (P[i][1] - P[i - 1][1]) / (P[i][0] - P[i - 1][0]); return t - 1.31; }
+        var RAW = { to: tl.to.bind(tl), fromTo: tl.fromTo.bind(tl), set: tl.set.bind(tl) };
+        tl.to = function (a, b, p) { return RAW.to(a, b, typeof p === "number" ? M(p) : p); };
+        tl.fromTo = function (a, b, c, p) { return RAW.fromTo(a, b, c, typeof p === "number" ? M(p) : p); };
+        tl.set = function (a, b, p) { return RAW.set(a, b, typeof p === "number" ? M(p) : p); };
         var root = document.getElementById("root"), st = document.getElementById("stage"), ph = document.getElementById("photos");
         // palette « terminal » : vert et rouge de marché, pas les couleurs primaires
         var INK = "#eaf1fb", SOFT = "#8fa3c7", NAVY = "#00194b", UP = "#00e676", DN = "#ff1744", ACC = "#7dd0f5";
@@ -250,17 +256,17 @@
         // ===== sous-titres =====
         var W = window.VO.words, groups = [], cur = [];
         W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
-        var SKIP = [[1.5, 3.1], [10.1, 14.85], [28.3, 32.28], [56.6, 57.55]];
+        var SKIP = [[1.5, 3.1], [10.1, 14.85], [28.3, 32.28], [55.3, 56.3]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
           if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
           var txt = gp.map(function (t) { return t.w === "14" ? "14 %" : t.w === "40" ? "40 %." : t.w; }).join(" ");
           var d = div(st, "<span class='cap-box'>" + txt + "</span>", "", "cap-line");
-          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out" }, Math.max(0, t0 - .06));
-          tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6) - .035);
+          RAW.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out" }, Math.max(0, t0 - .06));
+          RAW.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6) - .035);
         });
 
-        tl.set({}, {}, END);
+        RAW.set({}, {}, END);
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
     </script>

@@ -21,7 +21,7 @@ Du coup, depuis son record d'octobre, l'action a perdu près de 40 %. Plus de 2 
 Si les investisseurs hésitent, c'est pour deux raisons. D'abord, Nvidia sans Jensen Huang, c'est l'inconnu : c'est lui qui en a fait le moteur de l'intelligence artificielle. Et puis il y a la Chine : c'est lui qui négociait avec Washington et Pékin pour y vendre ses puces.
 
 **[Le payoff]**
-Mais regardez les chiffres : Nvidia vend encore 96 milliards de dollars par trimestre, deux fois plus qu'il y a un an. Donc à ce prix, l'action devient vraiment attractive, et difficile à ignorer. On surveillera de près les résultats du 17 novembre.
+À ce prix, l'action redevient attractive, et on surveillera de près les résultats du 17 novembre.
 
 **[CTA]**
 Abonnez-vous pour ne pas rater la suite.
