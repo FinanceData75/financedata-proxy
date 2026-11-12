@@ -20,13 +20,13 @@ Depuis son record d'octobre, l'action a perdu près de 40 % à l'ouverture. Plus
 **[Les doutes]**
 Si les acheteurs hésitent, c'est que deux doutes pèsent. D'abord, l'avenir sans Jensen Huang : c'est lui qui a fait de Nvidia le moteur de l'intelligence artificielle. Ensuite, la Chine : c'est lui qui négociait avec Washington et Pékin pour y vendre ses puces.
 
-**[Le payoff]**
-Dans l'épisode 1, on vous disait que le vrai risque, c'était le départ du fondateur. On y est. Donc la vraie réponse arrivera le 17 novembre, avec ses résultats : si les ventes tiennent sans lui, la panique aura peut-être été excessive.
+**[Le payoff — notre avis]**
+Notre avis : à ce prix, Nvidia devient vraiment attractive. Pour 11 fois ses bénéfices, vous achetez le leader mondial des puces d'IA, qui vend encore 96 milliards de dollars par trimestre, deux fois plus qu'il y a un an. Le marché sanctionne un homme, alors que l'entreprise, elle, n'a jamais autant vendu. Le risque, c'est le 17 novembre : si ses résultats déçoivent, l'action pourrait encore baisser.
 
 **[CTA]**
 Abonnez-vous pour ne pas rater la suite.
 
-(≈ 215 mots · mention à l'écran : « Ceci n'est pas un conseil en investissement. »)
+(≈ 220 mots · mention à l'écran, bien visible pendant l'avis : « Avis de la rédaction · Ceci n'est pas un conseil en investissement. »)
 
 ## Chiffres et sources
 - Démission : président, directeur général et administrateur, avec effet immédiat ; démission acceptée par le conseil le 11/11/2026, annoncée le 12/11. Colette Kress (directrice financière) nommée PDG par intérim ; Harvey C. Jones nommé président du conseil ; recherche d'un successeur. [8-K Nvidia](https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000082/nvda-20261111.htm), [communiqué](https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition), [CNBC](https://www.cnbc.com/2026/11/12/nvidia-jensen-huang-ceo-live-updates.html)
