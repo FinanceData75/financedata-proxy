@@ -6,13 +6,13 @@ Série : **Le dessous des marchés**, épisode 4 (suite directe de l'épisode 1 
 ## Voix off (v3 : plus naturelle, hook direct)
 
 **[Hook]**
-C'est fini pour Jensen Huang. Le fondateur de Nvidia démissionne après deux liaisons, dont une avec une femme soupçonnée d'espionner pour la Chine. Et ce matin, l'action a plongé de 14 % à l'ouverture.
+C'est fini pour Jensen Huang. Le fondateur de Nvidia démissionne après deux infidélités, dont une avec une femme soupçonnée d'espionner pour la Chine. Et ce matin, l'action a plongé de 14 % à l'ouverture.
 
 **[Signature de série]**
 Bienvenue dans le dessous des marchés, épisode 4.
 
 **[L'histoire]**
-Dimanche encore, Nvidia le soutenait. Mais ensuite, le New York Times a révélé une deuxième liaison, cette fois avec une cadre de l'entreprise. Le conseil s'est réuni, et Jensen Huang est parti. Avec effet immédiat.
+Dimanche encore, Nvidia le soutenait. Mais ensuite, le New York Times a révélé une deuxième infidélité, cette fois avec une cadre de l'entreprise. Le conseil s'est réuni, et Jensen Huang est parti. Avec effet immédiat.
 
 **[L'action]**
 Du coup, depuis son record d'octobre, l'action a perdu près de 40 %. Plus de 2 000 milliards de dollars envolés. Et aujourd'hui, Nvidia vaut à peine 11 fois ses bénéfices attendus. C'est moins cher qu'un fabricant de papier toilette.
