@@ -99,12 +99,12 @@
         // ===== 1. HOOK =====
         // « Ça y est, c'est officiel : Jensen Huang démissionne » (0 → 3,13)
         (function () {
-          photo("jensen-scene.jpg", 0, 3.13, "50% 30%");
+          photo("jensen-scene-2.jpg", 0, 3.13, "46% 30%");
           var s = scene(0, 3.13);
-          var al = div(root, "<span style='display:inline-block; width:16px; height:16px; border-radius:50%; background:#fff; margin-right:18px; vertical-align:middle'></span><span style='vertical-align:middle'>ALERTE</span><span style='vertical-align:middle; opacity:.85; margin-left:18px; font-weight:600'>Nvidia</span>", "position:absolute; left:0; right:0; margin:auto; width:max-content; top:200px; padding:10px 34px 16px; border-radius:8px; background:" + DN + "; color:#fff; font-family:Display; font-size:58px; font-weight:700; letter-spacing:-.04em; opacity:0");
+          var al = div(root, "<span style='display:inline-block; width:16px; height:16px; border-radius:50%; background:#fff; margin-right:18px; vertical-align:middle'></span><span style='vertical-align:middle'>ALERTE</span>", "position:absolute; left:0; right:0; margin:auto; width:max-content; top:200px; padding:10px 34px 16px; border-radius:8px; background:" + DN + "; color:#fff; font-family:Display; font-size:58px; font-weight:700; letter-spacing:-.04em; opacity:0");
           tl.fromTo(al, { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" }, 0);
-          var dot = al.firstChild; tl.to(dot, { opacity: .2, duration: .3, yoyo: true, repeat: 5, ease: "sine.inOut" }, .3);
-          tl.set(al, { opacity: 0 }, 9.09);
+          var dot = al.firstChild; tl.to(dot, { opacity: .2, duration: .3, yoyo: true, repeat: 7, ease: "sine.inOut" }, .3);
+          tl.to(al, { opacity: 0, y: -20, duration: .25 }, 2.8);
           var n = div(s, "Jensen Huang", "left:0; right:0; top:560px; font-size:130px", "ov");
           slam(n, 1.54);
           slam(pill(s, "Démissionne", DN, "#fff", 730, 60), 2.37);
@@ -126,31 +126,37 @@
         })();
         // « Et ce matin, l'action a plongé de 14 % à l'ouverture » (9,09 → 12,27)
         var NV = window.NVDA;
-        function candles(s, rows, top, o) {
-          o = o || {}; var n = rows.length, PW = 690, PH = o.h || 520;
-          var g = svg(s, 0, top, 800, PH + 60), X = function (i) { return 10 + i / (n - 1) * (PW - 20); }, cw = Math.max(4, (PW - 20) / n * .6);
-          var lo = Math.min.apply(0, rows.map(function (r) { return r[3]; })), hi = Math.max.apply(0, rows.map(function (r) { return r[2]; })), pad = (hi - lo) * .08; lo = Math.min(lo, 146) - pad; hi += pad;
+        // graphique de cours 2D : ligne nette, aplat discret, titre au-dessus
+        function lineChart(s, pts, top, o) {
+          o = o || {}; var n = pts.length, PW = 690, PH = o.h || 480;
+          var ttl = div(s, o.title, "left:0; top:" + (top - 120) + "px; text-align:left; font-family:Display; font-size:52px; font-weight:700; letter-spacing:-.05em; color:" + INK);
+          var sub = div(s, "Clôtures quotidiennes, en dollars · Source : Yahoo Finance", "left:0; top:" + (top - 56) + "px; text-align:left; font-family:Display; font-size:24px; font-weight:600; color:" + SOFT);
+          var g = svg(s, 0, top, 800, PH + 60), X = function (i) { return 10 + i / (n - 1) * (PW - 20); };
+          var vals = pts.map(function (p) { return p[1]; }), lo = Math.min.apply(0, vals), hi = Math.max.apply(0, vals), pad = (hi - lo) * .1; lo -= pad; hi += pad;
           var Y = function (v) { return PH - (v - lo) / (hi - lo) * PH; }, ax = [];
-          for (var v = Math.ceil(lo / 20) * 20; v < hi; v += 20) { ax.push(el(g, "line", { x1: 0, x2: PW, y1: Y(v), y2: Y(v), stroke: "#fff", "stroke-opacity": .07, "stroke-width": 1.5 })); ax.push(T(g, 800, Y(v) + 9, v + " $", 24, SOFT, "end")); }
-          tl.fromTo(ax, { opacity: 0 }, { opacity: 1, duration: .25 }, o.at || 0);
-          var id = "cl" + Math.round((o.at || 0) * 100), cp = el(el(g, "defs", {}), "clipPath", { id: id }), cr = el(cp, "rect", { x: -10, y: -40, width: 0, height: 2000 });
-          var body = el(g, "g", { "clip-path": "url(#" + id + ")" });
-          rows.forEach(function (r, i) { var c = r[4] >= r[1] ? UP : DN, x = X(i);
-            el(body, "line", { x1: x, x2: x, y1: Y(r[2]), y2: Y(r[3]), stroke: c, "stroke-width": 1.6 });
-            el(body, "rect", { x: x - cw / 2, y: Y(Math.max(r[1], r[4])), width: cw, height: Math.max(1.5, Math.abs(Y(r[1]) - Y(r[4]))), fill: c }); });
-          return { g: g, X: X, Y: Y, n: n, cw: cw, reveal: function (k, at, dur) { tl.to(cr, { attr: { width: X(k) + cw }, duration: dur, ease: "none" }, at); } };
+          for (var v = Math.ceil(lo / 20) * 20; v < hi; v += 20) { ax.push(el(g, "line", { x1: 0, x2: PW, y1: Y(v), y2: Y(v), stroke: "#fff", "stroke-opacity": .08, "stroke-width": 1.5 })); ax.push(T(g, 800, Y(v) + 9, v + " $", 24, SOFT, "end")); }
+          ax.push(el(g, "line", { x1: 0, x2: PW, y1: PH, y2: PH, stroke: SOFT, "stroke-opacity": .5, "stroke-width": 2 }));
+          tl.fromTo([ttl, sub].concat(ax), { opacity: 0 }, { opacity: 1, duration: .25 }, o.at || 0);
+          var d = pts.map(function (p, i) { return (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(p[1]).toFixed(1); }).join("");
+          var area = el(g, "path", { d: d + "L" + X(n - 1) + " " + PH + "L" + X(0) + " " + PH + "Z", fill: INK, "fill-opacity": .06 });
+          var ln = el(g, "path", { d: d, fill: "none", stroke: INK, "stroke-width": 4, "stroke-linejoin": "round", "stroke-linecap": "round" });
+          return { g: g, X: X, Y: Y, n: n, ln: ln, area: area, ttl: ttl, sub: sub };
         }
         (function () {
-          var s = scene(9.09, 12.27), rows = NV.slice(-30), last = rows.length - 1;
-          var c = candles(s, rows, 140, { h: 540, at: 9.09 });
-          c.reveal(last - 1, 9.12, .9);
-          var prev = rows[last - 1][4], op = 149.29, gx = c.X(last);
-          var pl = el(c.g, "line", { x1: c.X(last - 6), x2: gx + 24, y1: c.Y(prev), y2: c.Y(prev), stroke: SOFT, "stroke-width": 2, "stroke-dasharray": "6 6" });
-          show(pl, 10.0, .2);
-          var gb = el(c.g, "rect", { x: gx - c.cw / 2, y: c.Y(prev), width: c.cw, height: c.Y(op) - c.Y(prev), fill: DN });
-          tl.fromTo(gb, { scaleY: 0, transformOrigin: "50% 0%", transformBox: "fill-box" }, { scaleY: 1, duration: .45, ease: "power3.in" }, 10.24);
-          popIn(tag(c.g, gx - 120, c.Y(op) + 4, "149 $", DN), 10.7);
-          slam(div(s, "−14 %", "left:0; right:0; top:730px; font-size:190px; color:" + DN, "a big"), 10.8);
+          var s = scene(9.09, 12.27), rows = NV.slice(-31, -1), pts = rows.map(function (r) { return [r[0], r[4]]; });
+          pts.push(["2026-11-12", 149.29]);
+          var c = lineChart(s, pts, 180, { title: "Cours de Nvidia depuis octobre", h: 460, at: 9.09 });
+          var k = c.n - 2;
+          var main = el(c.g, "path", { d: pts.slice(0, k + 1).map(function (p, i) { return (i ? "L" : "M") + c.X(i).toFixed(1) + " " + c.Y(p[1]).toFixed(1); }).join(""), fill: "none", stroke: INK, "stroke-width": 4, "stroke-linejoin": "round" });
+          c.ln.remove();
+          tl.fromTo(c.area, { opacity: 0 }, { opacity: 1, duration: .4 }, 9.1);
+          drawIn(main, 9.1, 1.0, "power1.inOut");
+          var drop = el(c.g, "line", { x1: c.X(k), y1: c.Y(pts[k][1]), x2: c.X(k + 1), y2: c.Y(149.29), stroke: DN, "stroke-width": 5, "stroke-linecap": "round" });
+          drawIn(drop, 10.24, .35, "power3.in");
+          var dot = el(c.g, "circle", { cx: c.X(k + 1), cy: c.Y(149.29), r: 9, fill: DN });
+          show(dot, 10.55, .15);
+          popIn(tag(c.g, c.X(k + 1) - 120, c.Y(149.29) + 46, "149 $", DN), 10.7);
+          slam(div(s, "−14 %", "left:0; right:0; top:700px; font-size:190px; color:" + DN, "a big"), 10.8);
         })();
 
         // ===== 2. Générique (12,27 → 14,82) =====
@@ -173,22 +179,27 @@
 
         // ===== 4. L'action (26,09 → 32,28) =====
         (function () {
-          var s = scene(26.09, 32.28), rows = NV.filter(function (r) { return r[0] >= "2026-08-15"; });
-          var c = candles(s, rows, 140, { h: 540, at: 26.09 });
-          c.reveal(c.n - 1, 26.15, 1.6);
-          var ih = 0; rows.forEach(function (r, i) { if (r[2] > rows[ih][2]) ih = i; });
-          var hr = el(c.g, "circle", { cx: c.X(ih), cy: c.Y(rows[ih][2]) - 14, r: 16, fill: "none", stroke: INK, "stroke-width": 3 });
-          drawIn(hr, 27.09, .35);
-          popIn(tag(c.g, c.X(ih) - 50, c.Y(rows[ih][2]) - 54, "243 $", INK, NAVY), 27.2);
-          slam(div(s, "−40 %", "left:0; right:0; top:740px; font-size:170px; color:" + DN, "a big"), 29.05);
-          fadeIn(div(s, "−2 300 Md$", "left:0; right:0; top:930px; font-size:66px; color:" + INK, "a big"), 30.37, .3, 10);
+          var s = scene(26.09, 32.28), rows = NV.filter(function (r) { return r[0] >= "2026-08-03" && r[0] < "2026-11-12"; }), pts = rows.map(function (r) { return [r[0], r[4]]; });
+          pts.push(["2026-11-12", 149.29]);
+          var c = lineChart(s, pts, 180, { title: "Cours de Nvidia depuis août", h: 460, at: 26.09 });
+          tl.fromTo(c.area, { opacity: 0 }, { opacity: 1, duration: .4 }, 26.1);
+          drawIn(c.ln, 26.12, 1.6, "power1.inOut");
+          var ih = 0; pts.forEach(function (p, i) { if (p[1] > pts[ih][1]) ih = i; });
+          var hr = el(c.g, "circle", { cx: c.X(ih), cy: c.Y(pts[ih][1]), r: 9, fill: INK });
+          popIn(hr, 27.09);
+          popIn(tag(c.g, c.X(ih) - 50, c.Y(pts[ih][1]) - 40, "239 $", INK, NAVY), 27.2);
+          var ld = el(c.g, "circle", { cx: c.X(c.n - 1), cy: c.Y(149.29), r: 9, fill: DN });
+          popIn(ld, 28.0);
+          slam(div(s, "−38 %", "left:0; right:0; top:720px; font-size:170px; color:" + DN, "a big"), 29.05);
+          fadeIn(div(s, "−2 200 Md$", "left:0; right:0; top:910px; font-size:66px; color:" + INK, "a big"), 30.37, .3, 10);
         })();
 
         // ===== 5. La valorisation (32,28 → 38,49) =====
         (function () {
           var s = scene(32.28, 38.49);
-          var bgc = candles(s, NV.filter(function (r) { return r[0] >= "2026-08-15"; }), 120, { h: 560, at: 32.28 });
-          bgc.reveal(bgc.n - 1, 32.28, .01); tl.set(bgc.g, { opacity: .22 }, 32.28);
+          var bgp = NV.filter(function (r) { return r[0] >= "2026-08-03" && r[0] < "2026-11-12"; }).map(function (r) { return [r[0], r[4]]; }); bgp.push(["2026-11-12", 149.29]);
+          var bgc = lineChart(s, bgp, 260, { title: "", h: 520, at: 32.28 });
+          tl.set([bgc.g], { opacity: .18 }, 32.29); bgc.ttl.remove(); bgc.sub.remove();
           var big = div(s, "30×", "left:0; right:0; top:220px; font-size:280px; color:" + INK, "a big");
           show(big, 33.9, .2);
           count(big, 34.08, 1.0, 30, 11, function (x) { return Math.round(x) + "×"; });
