@@ -6,7 +6,7 @@ Structure : titre de série (intro animée, focus sur « 02 Les moyennes mobiles
 ## Voix off
 
 **[Titre de série — sur l'intro animée]**
-Les indicateurs pour investir expliqués, partie 2 : les moyennes mobiles. L'outil le plus simple de la Bourse, et pourtant celui que les pros regardent en premier.
+Les indicateurs pour investir expliqués, partie 2 : les moyennes mobiles. C'est la ligne que vous devez absolument comprendre pour analyser un graphique en 5 secondes, top chrono.
 
 **[Définition]**
 Une moyenne mobile, c'est simplement la moyenne des derniers cours. La plus suivie, c'est celle des 200 derniers jours : près de dix mois de Bourse résumés en une seule ligne. Elle efface le bruit, pour ne garder que la tendance.
