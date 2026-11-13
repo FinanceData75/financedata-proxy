@@ -1,0 +1,17 @@
+Les indicateurs pour investir expliqués, partie 2 : les moyennes mobiles. C'est la ligne que vous devez absolument comprendre pour analyser un graphique en 5 secondes, top chrono.
+
+Une moyenne mobile, c'est simplement la moyenne des derniers cours. La plus suivie, c'est celle des 200 derniers jours : près de dix mois de Bourse résumés en une seule ligne. Elle efface le bruit, pour ne garder que la tendance.
+
+Le principe est simple : quand le prix est au-dessus de sa moyenne 200 jours, la tendance est haussière. Et quand il passe en dessous, elle devient baissière.
+
+Et ça compte vraiment. Depuis 1990, le S&P 500 n'a passé que 24 % de son temps sous cette ligne. Pourtant, c'est là qu'ont eu lieu 17 de ses 20 pires journées.
+
+D'ailleurs, Nvidia vient justement de passer en dessous. Elle est aujourd'hui près de 20 % sous sa moyenne 200 jours.
+
+Les pros regardent aussi deux moyennes à la fois : celle à 50 jours et celle à 200 jours. Quand la courte passe sous la longue, c'est ce qu'on appelle un "death cross". Et quand elle repasse au-dessus, c'est un "golden cross".
+
+Mais attention, ces signaux arrivent toujours en retard. En avril 2025, le S&P 500 fait un "death cross", en pleine panique sur les droits de douane. Deux mois et demi plus tard, il avait déjà repris 15 %.
+
+Retenez ça : une moyenne mobile ne prédit rien. Elle vous dit seulement dans quel sens souffle le vent.
+
+Abonnez-vous pour ne pas rater la partie 3.
