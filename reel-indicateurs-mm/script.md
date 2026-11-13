@@ -27,7 +27,7 @@ Les pros regardent aussi deux moyennes à la fois : celle à 50 jours et celle �
 Mais attention, ces signaux arrivent toujours en retard. En avril 2025, le S&P 500 fait un death cross, en pleine panique sur les droits de douane. Deux mois et demi plus tard, il avait déjà repris 15 %.
 
 **[À retenir]**
-Retenez ça : une moyenne mobile ne prédit rien. Elle vous dit seulement dans quel sens souffle le vent.
+Bref, la moyenne mobile vous montre la tendance. Et en général, mieux vaut ne pas parier contre elle.
 
 **[CTA]**
 Abonnez-vous pour ne pas rater la partie 3.

@@ -57,17 +57,23 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="71.58" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="71.58" data-track-index="1"></audio>
-      <div id="bgs" class="clip" data-start="0" data-duration="71.58" data-track-index="2" style="position:absolute; inset:0">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="71.85" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="71.85" data-track-index="1"></audio>
+      <div id="bgs" class="clip" data-start="0" data-duration="71.85" data-track-index="2" style="position:absolute; inset:0">
         <div id="bg-dark"><div class="glow"></div><div class="grid"></div><div class="vig"></div></div>
       </div>
       <video id="v-intro" class="clip" src="assets/intro.mp4" data-start="0" data-duration="9.45" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <div id="stage" class="clip" data-start="0" data-duration="71.58" data-track-index="6" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="71.85" data-track-index="6" style="position:absolute; inset:0"></div>
     </div>
     <script>
       (function () {
-        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 71.58;
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 71.85;
+        // conclusion recollée à 64,70 s (« Bref, la moyenne mobile vous montre la tendance… », +0,27 s)
+        function M(t) { return t <= 64.70 ? t : t < 69.76 ? 64.70 + (t - 64.70) * (5.33 / 5.06) : t + .27; }
+        var RAW = { to: tl.to.bind(tl), fromTo: tl.fromTo.bind(tl), set: tl.set.bind(tl) };
+        tl.to = function (a, b, p) { return RAW.to(a, b, typeof p === "number" ? M(p) : p); };
+        tl.fromTo = function (a, b, c, p) { return RAW.fromTo(a, b, c, typeof p === "number" ? M(p) : p); };
+        tl.set = function (a, b, p) { return RAW.set(a, b, typeof p === "number" ? M(p) : p); };
         var root = document.getElementById("root"), st = document.getElementById("stage"), D = window.DATA;
         var INK = "#eaf1fb", SOFT = "#8fa3c7", NAVY = "#00194b", UP = "#00e676", DN = "#ff1744", MA = "#7dd0f5", MA50 = "#ffd166";
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
@@ -211,10 +217,10 @@
           var c = chart(s, rows, 380, { title: "", sub: " ", h: 520, at: 64.75 });
           var ma = el(c.g, "path", { d: c.path(3), fill: "none", stroke: MA, "stroke-width": 6, "stroke-linejoin": "round" });
           tl.set(c.g, { opacity: .22 }, 64.76); drawIn(ma, 64.8, 1.5, "power1.inOut");
-          var p1 = pill(s, "Ne prédit rien", "rgba(255,255,255,.12)", INK, 150, 60);
-          popIn(p1, 66.51);
-          var p2 = pill(s, "Indique la tendance", MA, NAVY, 270, 60);
-          popIn(p2, 67.84);
+          var p1 = pill(s, "La tendance", MA, NAVY, 150, 64);
+          popIn(p1, 66.62);
+          var p2 = pill(s, "Ne pariez pas contre", "rgba(255,255,255,.14)", INK, 280, 56);
+          popIn(p2, 69.04);
         })();
 
         // ===== 8. CTA (69,80 → 71,58) =====
@@ -243,11 +249,11 @@
           if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
           var txt = gp.map(function (t) { return t.w === "24" ? "24 %" : t.w === "20" && gp.some(function (x) { return x.w === "près" || x.w === "de"; }) && t.s > 41 && t.s < 42 ? "20 %" : t.w === "15" ? "15 %." : t.w; }).join(" ");
           var d = div(st, "<span class='cap-box'>" + txt + "</span>", "", "cap-line");
-          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out" }, Math.max(0, t0 - .06));
-          tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6) - .035);
+          RAW.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out" }, Math.max(0, t0 - .06));
+          RAW.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6) - .035);
         });
 
-        tl.set({}, {}, END);
+        RAW.set({}, {}, END);
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
     </script>
