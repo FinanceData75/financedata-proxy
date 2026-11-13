@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <script src="assets/data.js"></script>
+    <style>
+      /* Reel « Les indicateurs pour investir expliqués, partie 2 : les moyennes mobiles » (71,58 s). DA data intelligence, minimaliste. */
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Regular.otf") format("opentype"); font-weight: 400; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+      @font-face { font-family: "Inter UI"; src: url("assets/fonts/Inter-SemiBold.otf") format("opentype"); font-weight: 600; }
+      :root { --bg: #00194b; --ink: #eaf1fb; --soft: #8fa3c7; --cyan: #7dd0f5; --red: #ff2e24; --green: #35d07f; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { width: 1080px; height: 1920px; position: relative; overflow: hidden; font-family: "Inter UI", sans-serif; color: var(--ink); background: var(--bg); font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
+      #bg-dark { position: absolute; inset: 0; }
+      #bg-dark .glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 38% at 50% 46%, #0b3480 0%, rgba(0, 25, 75, 0) 72%); }
+      #bg-dark .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-dark .vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(0,0,0,0) 55%, rgba(0,5,22,.6) 100%); }
+      #bg-light { position: absolute; inset: 0; opacity: 0; background: #f6f8fc; }
+      #bg-light::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(0,25,75,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,25,75,.06) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      #bg-light::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(255,255,255,0) 55%, rgba(0,25,75,.08) 100%); }
+      .a { position: absolute; }
+      .full { position: absolute; inset: 0; opacity: 0; }
+      /* scène : bloc centré dans la zone sûre (x 140–940, y 440–1290) */
+      .scene { position: absolute; left: 140px; top: 440px; width: 800px; height: 850px; opacity: 0; text-align: center; color: var(--ink); }
+      .scene.light { --ink: #00194b; --soft: #5b6b8a; --cyan: #0b6fd0; --green: #12924f; }
+      .title { font-size: 60px; font-weight: 600; letter-spacing: -.035em; line-height: 1.04; white-space: nowrap; }
+      .sub { margin-top: 12px; font-size: 26px; color: var(--soft); }
+      .kick { font-size: 46px; font-weight: 600; letter-spacing: -.04em; color: var(--ink); text-align: left; }
+      .hl { display: inline-block; font-size: 96px; font-weight: 600; letter-spacing: -.05em; line-height: 1; padding: 6px 18px 18px; background: var(--ink); color: var(--bg); }
+      .scene.light .hl { color: #fff; }
+      .big { font-weight: 600; letter-spacing: -.05em; line-height: 1; white-space: nowrap; }
+      .chip { position: absolute; padding: 8px 20px 12px; font-weight: 600; font-size: 40px; letter-spacing: -.03em; white-space: nowrap; opacity: 0; }
+      .src { position: absolute; left: 0; right: 0; font-size: 22px; color: var(--soft); }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Inter UI", sans-serif; font-feature-settings: "tnum" 1; }
+      .ov { position: absolute; left: 0; right: 0; text-align: center; color: #fff; font-weight: 600; letter-spacing: -.045em; line-height: 1.02; text-shadow: 0 2px 24px rgba(0,10,40,.45); }
+      /* sous-titres : blanc, fond gris translucide */
+      .cap-line { position: absolute; left: 80px; right: 80px; top: 1330px; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 600; font-size: 54px; line-height: 1.12; letter-spacing: -.045em; word-spacing: -.02em; color: #fff; white-space: nowrap; }
+      /* fin */
+      #avatar { position: absolute; left: 360px; top: 470px; width: 360px; height: 360px; opacity: 0; }
+      #avatar .pic { position: absolute; left: 22px; top: 22px; width: 316px; height: 316px; border-radius: 50%; overflow: hidden; border: 8px solid #00194b; box-shadow: 0 20px 50px rgba(0,5,25,.5); }
+      #avatar .pic img { width: 100%; height: 100%; display: block; }
+      /* v2 : typo grasse et serrée partout (Inter Display 700) */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      #root { font-family: "Display", sans-serif; }
+      .big, .ov { font-family: "Display"; font-weight: 700 !important; letter-spacing: -.055em !important; }
+      .cap-box { font-family: "Display"; font-weight: 700; letter-spacing: -.05em; }
+      .src { font-family: "Display"; font-weight: 600; letter-spacing: -.01em; }
+      svg text { font-family: "Display"; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="71.58" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="71.58" data-track-index="1"></audio>
+      <div id="bgs" class="clip" data-start="0" data-duration="71.58" data-track-index="2" style="position:absolute; inset:0">
+        <div id="bg-dark"><div class="glow"></div><div class="grid"></div><div class="vig"></div></div>
+      </div>
+      <video id="v-intro" class="clip" src="assets/intro.mp4" data-start="0" data-duration="9.45" data-track-index="3" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="stage" class="clip" data-start="0" data-duration="71.58" data-track-index="6" style="position:absolute; inset:0"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 71.58;
+        var root = document.getElementById("root"), st = document.getElementById("stage"), D = window.DATA;
+        var INK = "#eaf1fb", SOFT = "#8fa3c7", NAVY = "#00194b", UP = "#00e676", DN = "#ff1744", MA = "#7dd0f5", MA50 = "#ffd166";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function T(s, x, y, str, size, fill, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": 700, "text-anchor": anchor || "start", "letter-spacing": "-0.03em" }, str); }
+        function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
+        function drawIn(n, at, dur, ease) { var L = n.getTotalLength(); n.style.strokeDasharray = L + " " + L; tl.fromTo(n, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: dur, ease: ease || "power2.inOut" }, at); }
+        function fadeIn(n, at, dur, y) { tl.fromTo(n, { opacity: 0, y: y == null ? 14 : y }, { opacity: 1, y: 0, duration: dur || .35, ease: "power2.out" }, at); return n; }
+        function show(n, at, dur) { tl.fromTo(n, { opacity: 0 }, { opacity: 1, duration: dur || .3 }, at); return n; }
+        function popIn(n, at) { tl.fromTo(n, { opacity: 0, scale: .9, transformOrigin: "50% 50%", transformBox: "fill-box" }, { opacity: 1, scale: 1, duration: .3, ease: "power3.out" }, at); return n; }
+        function slam(n, at) { tl.fromTo(n, { opacity: 0, scale: 1.25, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "power3.out" }, at); return n; }
+        function count(e, t, d, v0, v1, f) { var o = { v: v0 }; tl.fromTo(o, { v: v0 }, { v: v1, duration: d, ease: "power3.out", onUpdate: function () { e.textContent = f(o.v); } }, t); }
+        function scene(t0, t1) { var s = div(st, "", "", "scene"); tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: .2 }, t0); tl.set(s, { opacity: 0 }, t1); return s; }
+        function tag(g, x, y, txt, bg, fg) { var w = txt.length * 16 + 28, gg = el(g, "g", {}); el(gg, "rect", { x: x, y: y - 22, width: w, height: 44, rx: 6, fill: bg }); T(gg, x + w / 2, y + 10, txt, 27, fg || NAVY, "middle"); return gg; }
+        function pill(p, txt, bg, fg, top, size) { return div(p, txt, "left:0; right:0; margin:auto; width:max-content; top:" + top + "px; padding:6px 26px 12px; border-radius:6px; font-family:Display; font-weight:700; font-size:" + (size || 52) + "px; letter-spacing:-.045em; white-space:nowrap; background:" + bg + "; color:" + (fg || "#fff")); }
+        function fmt(v) { return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
+
+        // graphique 2D : titre, sous-titre, grille fine, axe de droite ; series = [{key, color, width}]
+        function chart(s, rows, top, o) {
+          var n = rows.length, PW = 700, PH = o.h || 520;
+          var ttl = div(s, o.title, "left:0; top:" + (top - 124) + "px; text-align:left; font-family:Display; font-size:52px; font-weight:700; letter-spacing:-.05em; color:" + INK);
+          var sub = div(s, o.sub || "Clôtures quotidiennes · Source : Yahoo Finance", "left:0; top:" + (top - 60) + "px; text-align:left; font-family:Display; font-size:24px; font-weight:600; color:" + SOFT);
+          var g = svg(s, 0, top, 800, PH + 60), X = function (i) { return 6 + i / (n - 1) * (PW - 12); };
+          var vals = []; rows.forEach(function (r) { [1, 2, 3].forEach(function (k) { if (r[k] != null) vals.push(r[k]); }); });
+          var lo = Math.min.apply(0, vals), hi = Math.max.apply(0, vals), pad = (hi - lo) * .08; lo -= pad; hi += pad;
+          var Y = function (v) { return PH - (v - lo) / (hi - lo) * PH; }, ax = [];
+          var step = o.step || Math.pow(10, Math.floor(Math.log10((hi - lo) / 3)));
+          if ((hi - lo) / step > 7) step *= 2; if ((hi - lo) / step > 7) step *= 2.5;
+          for (var v = Math.ceil(lo / step) * step; v < hi; v += step) { ax.push(el(g, "line", { x1: 0, x2: PW, y1: Y(v), y2: Y(v), stroke: "#fff", "stroke-opacity": .08, "stroke-width": 1.5 })); ax.push(T(g, 800, Y(v) + 9, fmt(v) + (o.unit || ""), 24, SOFT, "end")); }
+          ax.push(el(g, "line", { x1: 0, x2: PW, y1: PH, y2: PH, stroke: SOFT, "stroke-opacity": .5, "stroke-width": 2 }));
+          (o.ticks || []).forEach(function (m) { var i = 0; while (i < n - 1 && rows[i][0] < m[0]) i++; ax.push(T(g, X(i), PH + 44, m[1], 24, SOFT, "middle")); });
+          tl.fromTo([ttl, sub].concat(ax), { opacity: 0 }, { opacity: 1, duration: .25 }, o.at);
+          function path(k) { var d = "", on = false; rows.forEach(function (r, i) { if (r[k] == null) { on = false; return; } d += (on ? "L" : "M") + X(i).toFixed(1) + " " + Y(r[k]).toFixed(1); on = true; }); return d; }
+          return { g: g, X: X, Y: Y, n: n, PH: PH, path: path, rows: rows, idx: function (d) { for (var i = 0; i < n; i++) if (rows[i][0] >= d) return i; return n - 1; } };
+        }
+        function legend(s, top, items, at) { var html = items.map(function (it) { return "<span style='display:inline-block; width:34px; height:6px; border-radius:3px; background:" + it[1] + "; vertical-align:middle; margin-right:12px'></span><span style='vertical-align:middle; margin-right:34px'>" + it[0] + "</span>"; }).join(""); return fadeIn(div(s, html, "left:0; top:" + top + "px; text-align:left; font-family:Display; font-size:28px; font-weight:700; letter-spacing:-.03em; color:" + INK), at, .3, 6); }
+
+        // ===== 1. Titre de série (0 → 9,45) : intro animée =====
+
+        // ===== 2. Définition (9,45 → 20,39) : le S&P 500 et sa moyenne 200 jours =====
+        (function () {
+          var s = scene(9.45, 20.39), rows = D.spx.filter(function (r) { return r[0] >= "2024-01-01"; });
+          var c = chart(s, rows, 200, { title: "Le S&P 500 depuis 2024", h: 520, at: 9.45, ticks: [["2024-01-02", "2024"], ["2025-01-02", "2025"], ["2026-01-02", "2026"]] });
+          var pr = el(c.g, "path", { d: c.path(1), fill: "none", stroke: INK, "stroke-width": 3, "stroke-linejoin": "round" });
+          var ma = el(c.g, "path", { d: c.path(3), fill: "none", stroke: MA, "stroke-width": 7, "stroke-linejoin": "round", "stroke-linecap": "round" });
+          drawIn(pr, 9.5, 1.6, "power1.inOut");
+          drawIn(ma, 14.03, 1.6, "power2.out");
+          var lg = legend(s, 800, [["Cours", INK], ["Moyenne 200 jours", MA]], 14.2);
+          // « elle efface le bruit » : le cours s'estompe, la moyenne reste
+          tl.to(pr, { opacity: .25, duration: .6 }, 18.35);
+        })();
+
+        // ===== 3. La lecture (20,39 → 27,79) : au-dessus = hausse, en dessous = baisse =====
+        (function () {
+          var s = scene(20.39, 27.79), rows = D.spx.filter(function (r) { return r[0] >= "2021-06-01" && r[0] <= "2023-12-31"; });
+          var c = chart(s, rows, 200, { title: "Le S&P 500, 2021–2023", h: 520, at: 20.39, ticks: [["2022-01-03", "2022"], ["2023-01-03", "2023"]] });
+          // zones entre le cours et la moyenne : vert au-dessus, rouge en dessous
+          var upD = "", dnD = "";
+          for (var i = 1; i < c.n; i++) { var a = rows[i - 1], b = rows[i]; if (a[3] == null) continue;
+            var q = "M" + c.X(i - 1) + " " + c.Y(a[1]) + "L" + c.X(i) + " " + c.Y(b[1]) + "L" + c.X(i) + " " + c.Y(b[3]) + "L" + c.X(i - 1) + " " + c.Y(a[3]) + "Z";
+            if (a[1] + b[1] >= a[3] + b[3]) upD += q; else dnD += q; }
+          var zu = el(c.g, "path", { d: upD, fill: UP, "fill-opacity": .35 }), zd = el(c.g, "path", { d: dnD, fill: DN, "fill-opacity": .35 });
+          var pr = el(c.g, "path", { d: c.path(1), fill: "none", stroke: INK, "stroke-width": 3, "stroke-linejoin": "round" });
+          var ma = el(c.g, "path", { d: c.path(3), fill: "none", stroke: MA, "stroke-width": 6, "stroke-linejoin": "round", "stroke-linecap": "round" });
+          drawIn(pr, 20.45, 1.2, "power1.inOut"); drawIn(ma, 20.6, 1.2, "power1.inOut");
+          show(zu, 22.07, .4); show(zd, 26.11, .4);
+          var t1 = pill(s, "Au-dessus : hausse", UP, NAVY, 790, 46), t2 = pill(s, "En dessous : baisse", DN, "#fff", 790, 46);
+          popIn(t1, 24.72); tl.to(t1, { opacity: 0, duration: .15 }, 26.0); popIn(t2, 27.21 - .1);
+        })();
+
+        // ===== 4. La statistique (27,79 → 37,96) =====
+        (function () {
+          var s = scene(27.79, 37.96);
+          fadeIn(div(s, "Le S&P 500 depuis 1990", "left:0; top:40px; text-align:left; font-family:Display; font-size:52px; font-weight:700; letter-spacing:-.05em; color:" + INK), 29.07, .3, 8);
+          // temps passé au-dessus / en dessous
+          var bar = div(s, "", "left:0; top:180px; width:800px; height:90px; border-radius:6px; overflow:hidden; background:rgba(255,255,255,.08)");
+          var bu = div(bar, "", "left:0; top:0; width:76.3%; height:100%; background:" + UP), bd = div(bar, "", "left:76.3%; top:0; width:23.7%; height:100%; background:" + DN);
+          tl.fromTo(bar, { opacity: 0 }, { opacity: 1, duration: .2 }, 30.59);
+          tl.fromTo(bu, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .6, ease: "power3.out" }, 30.7);
+          tl.fromTo(bd, { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: .4, ease: "power3.out" }, 32.27);
+          var l1 = div(s, "76 % au-dessus", "left:0; top:290px; text-align:left; font-family:Display; font-size:34px; font-weight:700; letter-spacing:-.03em; color:" + UP);
+          var l2 = div(s, "24 % en dessous", "left:0; right:0; top:290px; text-align:right; font-family:Display; font-size:34px; font-weight:700; letter-spacing:-.03em; color:" + DN);
+          show(l1, 31.0, .25); show(l2, 32.27, .25);
+          // les 20 pires journées : 17 sous la moyenne
+          var gl = div(s, "Les 20 pires journées", "left:0; top:420px; text-align:left; font-family:Display; font-size:40px; font-weight:700; letter-spacing:-.04em; color:" + INK);
+          fadeIn(gl, 35.0, .3, 8);
+          var sq = [];
+          for (var i = 0; i < 20; i++) { var x = (i % 10) * 80, y = 500 + Math.floor(i / 10) * 80, red = i < 17;
+            var d = div(s, "", "left:" + x + "px; top:" + y + "px; width:66px; height:66px; border-radius:6px; background:" + (red ? DN : "rgba(255,255,255,.18)")); sq.push(d); }
+          tl.fromTo(sq, { opacity: 0, scale: .6 }, { opacity: 1, scale: 1, duration: .2, stagger: .04, ease: "power3.out" }, 35.3);
+          var big = div(s, "17 / 20", "left:0; top:690px; text-align:left; font-size:120px; color:" + DN, "a big");
+          slam(big, 36.01);
+          fadeIn(div(s, "sous la moyenne 200 jours · Clôtures 1990–2026 · Source : Yahoo Finance", "left:0; top:830px; text-align:left; font-family:Display; font-size:24px; font-weight:600; color:" + SOFT), 36.2, .3, 0);
+        })();
+
+        // ===== 5. Nvidia (37,96 → 43,83) =====
+        (function () {
+          var s = scene(37.96, 43.83), rows = D.nvda.filter(function (r) { return r[0] >= "2026-05-01"; });
+          var c = chart(s, rows, 200, { title: "Nvidia depuis mai", h: 520, at: 37.96, unit: " $", step: 20, ticks: [["2026-06-01", "juin"], ["2026-08-03", "août"], ["2026-10-01", "oct."]] });
+          var ma = el(c.g, "path", { d: c.path(3), fill: "none", stroke: MA, "stroke-width": 6, "stroke-linejoin": "round", "stroke-linecap": "round" });
+          var pr = el(c.g, "path", { d: c.path(1), fill: "none", stroke: INK, "stroke-width": 3.5, "stroke-linejoin": "round" });
+          drawIn(ma, 38.0, 1.0, "power1.inOut"); drawIn(pr, 38.1, 1.6, "power1.inOut");
+          legend(s, 800, [["Cours", INK], ["Moyenne 200 jours", MA]], 38.3);
+          var k = c.idx("2026-11-04"), last = c.n - 1;
+          var cr = el(c.g, "circle", { cx: c.X(k), cy: c.Y(rows[k][1]), r: 16, fill: "none", stroke: DN, "stroke-width": 4 });
+          drawIn(cr, 40.21, .35);
+          var gap = el(c.g, "line", { x1: c.X(last) + 4, x2: c.X(last) + 4, y1: c.Y(rows[last][3]), y2: c.Y(rows[last][1]), stroke: DN, "stroke-width": 5 });
+          tl.fromTo(gap, { scaleY: 0, transformOrigin: "50% 0%", transformBox: "fill-box" }, { scaleY: 1, duration: .35, ease: "power3.out" }, 41.31);
+          popIn(tag(c.g, c.X(last) - 120, (c.Y(rows[last][3]) + c.Y(rows[last][1])) / 2, "−19 %", DN, "#fff"), 41.71);
+        })();
+
+        // ===== 6. Death cross, golden cross… et le retard (43,83 → 64,75) : S&P 500 en 2025 =====
+        (function () {
+          var s = scene(43.83, 64.75), rows = D.spx.filter(function (r) { return r[0] >= "2024-12-01" && r[0] <= "2025-09-30"; });
+          var c = chart(s, rows, 200, { title: "Le S&P 500 en 2025", h: 520, at: 43.83, ticks: [["2025-01-02", "janv."], ["2025-04-01", "avr."], ["2025-07-01", "juil."]] });
+          var pr = el(c.g, "path", { d: c.path(1), fill: "none", stroke: INK, "stroke-width": 2.5, "stroke-opacity": .35, "stroke-linejoin": "round" });
+          var m5 = el(c.g, "path", { d: c.path(2), fill: "none", stroke: MA50, "stroke-width": 6, "stroke-linejoin": "round", "stroke-linecap": "round" });
+          var m2 = el(c.g, "path", { d: c.path(3), fill: "none", stroke: MA, "stroke-width": 6, "stroke-linejoin": "round", "stroke-linecap": "round" });
+          show(pr, 43.9, .4);
+          drawIn(m5, 46.27, 1.2, "power1.inOut"); drawIn(m2, 47.47, 1.2, "power1.inOut");
+          var lg = legend(s, 800, [["Moyenne 50 jours", MA50], ["Moyenne 200 jours", MA]], 46.3);
+          var a = c.idx("2025-04-14"), b = c.idx("2025-07-01");
+          var ra = el(c.g, "circle", { cx: c.X(a), cy: c.Y(rows[a][3]), r: 20, fill: "none", stroke: DN, "stroke-width": 5 });
+          var rb = el(c.g, "circle", { cx: c.X(b), cy: c.Y(rows[b][3]), r: 20, fill: "none", stroke: UP, "stroke-width": 5 });
+          drawIn(ra, 50.61, .4); drawIn(rb, 53.14, .4);
+          var ta = tag(c.g, c.X(a) - 90, c.Y(rows[a][3]) + 56, "Death cross", DN, "#fff"), tb = tag(c.g, c.X(b) - 40, c.Y(rows[b][3]) - 50, "Golden cross", UP, NAVY);
+          popIn(ta, 50.61); popIn(tb, 53.14);
+          // le retard : on montre le cours, du death cross au golden cross
+          tl.to(pr, { attr: { "stroke-opacity": 1 }, duration: .4 }, 56.24);
+          var pa = el(c.g, "circle", { cx: c.X(a), cy: c.Y(rows[a][1]), r: 9, fill: DN }), pb = el(c.g, "circle", { cx: c.X(b), cy: c.Y(rows[b][1]), r: 9, fill: UP });
+          popIn(pa, 59.21);
+          var ar = el(c.g, "line", { x1: c.X(a), y1: c.Y(rows[a][1]), x2: c.X(b), y2: c.Y(rows[b][1]), stroke: UP, "stroke-width": 4, "stroke-dasharray": "10 8" });
+          drawIn(ar, 62.0, .6); popIn(pb, 62.6);
+          tl.to(lg, { opacity: 0, duration: .15 }, 63.8);
+          popIn(pill(s, "+15 % en 2 mois et demi", UP, NAVY, 790, 46), 63.95);
+        })();
+
+        // ===== 7. À retenir (64,75 → 69,80) : le sens du vent =====
+        (function () {
+          var s = scene(64.75, 69.8), rows = D.spx.filter(function (r) { return r[0] >= "2021-01-01"; });
+          var c = chart(s, rows, 380, { title: "", sub: " ", h: 520, at: 64.75 });
+          var ma = el(c.g, "path", { d: c.path(3), fill: "none", stroke: MA, "stroke-width": 6, "stroke-linejoin": "round" });
+          tl.set(c.g, { opacity: .22 }, 64.76); drawIn(ma, 64.8, 1.5, "power1.inOut");
+          var p1 = pill(s, "Ne prédit rien", "rgba(255,255,255,.12)", INK, 150, 60);
+          popIn(p1, 66.51);
+          var p2 = pill(s, "Indique la tendance", MA, NAVY, 270, 60);
+          popIn(p2, 67.84);
+        })();
+
+        // ===== 8. CTA (69,80 → 71,58) =====
+        (function () {
+          var t0 = 69.8;
+          var av = div(st, "<svg viewBox='0 0 360 360' style='position:absolute; inset:0; width:100%; height:100%'><defs><linearGradient id='gStory' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.3' stop-color='#fa7e1e'/><stop offset='.6' stop-color='#d62976'/><stop offset='1' stop-color='#962fbf'/></linearGradient></defs><circle id='ring' cx='180' cy='180' r='170' fill='none' stroke='url(#gStory)' stroke-width='12' transform='rotate(-90 180 180)'/></svg><div class='pic'><img src='assets/img/logo-financedata.png'></div>", "", "");
+          av.id = "avatar";
+          tl.fromTo(av, { opacity: 0, scale: .9, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "power3.out" }, t0);
+          drawIn(document.getElementById("ring"), t0 + .05, .6);
+          fadeIn(div(st, "finance_data", "left:0; right:0; top:860px; text-align:center; font-family:Display; font-size:76px; font-weight:700; letter-spacing:-.05em; color:#fff"), t0 + .15, .3, 10);
+          var btn = div(st, "<span class='b1'>S'abonner</span><span class='b2' style='display:none'>Abonné</span>", "left:0; right:0; margin:auto; width:400px; top:990px; height:100px; line-height:96px; text-align:center; border-radius:10px; background:#0095f6; color:#fff; font-family:Display; font-size:46px; font-weight:700; letter-spacing:-.035em");
+          tl.fromTo(btn, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out" }, t0 + .25);
+          var tc = 70.6;
+          tl.to(btn, { scale: .95, duration: .1 }, tc); tl.to(btn, { scale: 1, duration: .2, ease: "power2.out" }, tc + .1);
+          tl.to(btn, { backgroundColor: "#363a45", duration: .25 }, tc + .05);
+          tl.set(btn.querySelector(".b1"), { display: "none" }, tc + .1); tl.set(btn.querySelector(".b2"), { display: "inline" }, tc + .1);
+        })();
+
+        // ===== sous-titres : dès « les moyennes mobiles » =====
+        var W = window.VO.words.map(function (w) { var t = w.w.replace(/^"S$/, "S&P").replace(/^P"$/, ""); return { w: t, s: w.s, e: w.e }; }).filter(function (w) { return w.w && w.w !== "and"; });
+        var groups = [], cur = [];
+        W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
+        var SKIP = [[0, 3.1], [35.9, 37.96]];
+        groups.forEach(function (gp, k) {
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
+          if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
+          var txt = gp.map(function (t) { return t.w === "24" ? "24 %" : t.w === "20" && gp.some(function (x) { return x.w === "près" || x.w === "de"; }) && t.s > 41 && t.s < 42 ? "20 %" : t.w === "15" ? "15 %." : t.w; }).join(" ");
+          var d = div(st, "<span class='cap-box'>" + txt + "</span>", "", "cap-line");
+          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out" }, Math.max(0, t0 - .06));
+          tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6) - .035);
+        });
+
+        tl.set({}, {}, END);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
