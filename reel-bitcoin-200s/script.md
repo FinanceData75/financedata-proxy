@@ -3,31 +3,23 @@
 Format : actu crypto + analyse · ~60 s · « vous »
 Série : Le dessous des marchés, épisode 5.
 
-## Voix off (v3 : hook « regardez cette ligne »)
+## Voix off (v4 : texte de l'utilisateur, transition retravaillée)
 
-**[Hook]**
-Le Bitcoin vient de chuter, mais vous devez regarder cette ligne, car il vient de passer dessous, et c'est seulement la quatrième fois en huit ans. Et les trois fois précédentes, ceux qui ont acheté ici ont été largement gagnants.
+Le Bitcoin chute et vous devez absolument regarder cette ligne. Il vient juste de passer dessous, et c'est seulement la quatrième fois en huit ans. Et les trois fois précédentes, ceux qui ont acheté ici ont été largement gagnants.
 
-**[Signature de série]**
 Bienvenue dans le dessous des marchés, épisode 5.
 
-**[Problème]**
-Depuis son record d'octobre 2025, le Bitcoin a perdu près de la moitié de sa valeur. Et partout, on parle de krach.
+Depuis son record d'octobre 2025 à 126 000 dollars, le Bitcoin a perdu près de la moitié de sa valeur. Et il vient de passer sous cette ligne, la moyenne mobile 200 semaines.
 
-**[Agitation]**
-Résultat, les investisseurs paniquent. Le Fear and Greed Index, l'indice qui mesure la peur du marché, est passé de 74 en septembre à 10 aujourd'hui. C'est la peur extrême.
+Elle représente le prix moyen du Bitcoin sur les quatre dernières années. Et il passe très rarement en dessous, seulement au plus fort des crises, comme en 2020, en 2022 ou encore cet été.
 
-**[La ligne]**
-Pourtant, cette ligne, c'est sa moyenne 200 semaines, c'est-à-dire son prix moyen des quatre dernières années. Et quand le Bitcoin passe dessous en pleine peur extrême, l'histoire est plutôt claire.
+Et historiquement, c'est un excellent moment pour acheter. Regardez, en mars 2020, le Bitcoin est passé sous cette moyenne, et un an après, il avait été multiplié par 11. Pareil en juin 2022, il a triplé en deux ans.
 
-**[Preuve]**
-En décembre 2018, le Bitcoin valait 3 200 dollars, et un an plus tard, il avait plus que doublé. En mars 2020, il a été multiplié par 11 en un an. Et en juin 2022, il a triplé en deux ans.
+Et à chaque fois, un deuxième signal était là, la peur. Aujourd'hui encore, les investisseurs paniquent. Le Fear and Greed Index, l'indice qui mesure la peur du marché, est passé de 74 en septembre à 10 aujourd'hui. C'est la peur extrême. Et c'est souvent dans ces moments-là que le marché touche son point bas.
 
-**[Notre avis]**
-Donc pour nous, cette correction à court terme n'est pas inquiétante. C'est même une vraie opportunité, même si rien ne garantit que l'histoire se répète.
+Pour nous, cette correction à court terme n'est donc pas inquiétante. Au contraire, c'est une vraie opportunité, même si rien n'est garanti.
 
-**[CTA]**
-Et si vous voulez enfin comprendre les mécanismes invisibles des marchés, abonnez-vous.
+Et si vous voulez enfin comprendre les mécanismes invisibles pour mieux investir, abonnez-vous.
 
 ## Vérifications (clôtures hebdo Yahoo BTC-USD, moyenne 200 semaines)
 
