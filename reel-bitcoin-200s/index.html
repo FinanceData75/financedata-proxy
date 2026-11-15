@@ -7,79 +7,94 @@
     <script src="assets/vo-words.js"></script>
     <script src="assets/data.js"></script>
     <style>
-      /* Reel « Le dessous des marchés, épisode 5 » : le Bitcoin passe sous sa moyenne 200 semaines. Hook (0 → 7,7 s). DA data intelligence. */
+      /* Reel « Le dessous des marchés, épisode 5 » : le Bitcoin passe sous sa moyenne 200 semaines (74,05 s). Fond blanc, minimaliste. */
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f6f8fc; }
       #root { width: 1080px; height: 1920px; position: relative; overflow: hidden; font-family: "Display", sans-serif; color: #00194b; background: #f6f8fc; font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
-      #bg { position: absolute; inset: 0; }
-      #bg .glow { position: absolute; inset: 0; background: #f6f8fc; }
-      #bg .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,25,75,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(0,25,75,.06) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+      #bg { position: absolute; inset: 0; background: #f6f8fc; }
+      #bg .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,25,75,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,25,75,.05) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
         -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
-      #bg .vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(255,255,255,0) 55%, rgba(0,25,75,.07) 100%); }
+      #bg .vig { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 65% at 50% 46%, rgba(255,255,255,0) 55%, rgba(0,25,75,.06) 100%); }
       .a { position: absolute; }
       svg { position: absolute; overflow: visible; }
       svg text { font-family: "Display"; font-feature-settings: "tnum" 1; }
-      .cap-line { position: absolute; left: 80px; right: 80px; top: 1400px; text-align: center; opacity: 0; }
-      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.74); font-weight: 700; font-size: 54px; line-height: 1.12; letter-spacing: -.05em; color: #fff; white-space: nowrap; }
+      .small { font-size: 40px; font-weight: 700; letter-spacing: -.04em; color: #5b6b8a; white-space: nowrap; }
+      .big { font-size: 100px; font-weight: 700; letter-spacing: -.055em; line-height: 1; color: #00194b; white-space: nowrap; }
+      .chip { display: inline-block; transform: translate(-50%, -50%); padding: 4px 14px 8px; border-radius: 6px; font-size: 30px; font-weight: 700; letter-spacing: -.03em; white-space: nowrap; }
+      .cap-line { position: absolute; left: 100px; right: 100px; top: 1400px; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.78); font-weight: 700; font-size: 52px; line-height: 1.12; letter-spacing: -.05em; color: #fff; white-space: nowrap; }
+      #avatar { position: absolute; left: 380px; top: 500px; width: 320px; height: 320px; opacity: 0; }
+      #avatar .pic { position: absolute; left: 20px; top: 20px; width: 280px; height: 280px; border-radius: 50%; overflow: hidden; border: 8px solid #f6f8fc; }
+      #avatar .pic img { width: 100%; height: 100%; display: block; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="8" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="8" data-track-index="1"></audio>
-      <div id="bgs" class="clip" data-start="0" data-duration="8" data-track-index="2" style="position:absolute; inset:0">
-        <div id="bg"><div class="glow"></div><div class="grid"></div><div class="vig"></div></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="74.05" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="74.05" data-track-index="1"></audio>
+      <div id="bgs" class="clip" data-start="0" data-duration="74.05" data-track-index="2" style="position:absolute; inset:0">
+        <div id="bg"><div class="grid"></div><div class="vig"></div></div>
       </div>
-      <div id="stage" class="clip" data-start="0" data-duration="8" data-track-index="3" style="position:absolute; inset:0"></div>
+      <div id="stage" class="clip" data-start="0" data-duration="74.05" data-track-index="3" style="position:absolute; inset:0"></div>
+      <video id="v-gen" class="clip" src="assets/video/generique-ep5.mp4" data-start="12.2" data-duration="2.55" data-track-index="4" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
     </div>
     <script>
       (function () {
-        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 8;
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 74.05;
         var st = document.getElementById("stage"), B = window.BTC, N = B.length;
-        var INK = "#00194b", SOFT = "#5b6b8a", NAVY = "#00194b", UP = "#00e676", DN = "#ff1744", MA = "#f2a100", ORANGE = "#d06f00";
-        function div(p, html, style) { var d = document.createElement("div"); d.className = "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        var INK = "#00194b", SOFT = "#5b6b8a", DN = "#ff1744", DNT = "#d50f35", GR = "#00b85c", GRT = "#00843f", MA = "#f2a100", ORANGE = "#d06f00";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
         function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
         function fmt(v) { return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
         function idx(d) { for (var i = 0; i < N; i++) if (B[i][0] >= d) return i; return N - 1; }
-        var L = Math.log10, LAST = N - 1, REC = idx("2025-10-06"), REC_V = B[REC][1], CROSS = idx("2026-11-14");
+        function inn(n, t, d) { tl.fromTo(n, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: d || .4, ease: "power2.out" }, t); return n; }
+        function out(n, t, d) { tl.to(n, { opacity: 0, duration: d || .25 }, t); return n; }
+        function count(e, t, d, v0, v1, f, ease) { var o = { v: v0 }; tl.fromTo(o, { v: v0 }, { v: v1, duration: d, ease: ease || "power2.out", onUpdate: function () { e.textContent = f(o.v); } }, t); }
+        var L = Math.log10, LAST = N - 1, REC = idx("2025-10-06"), REC_V = 126198, CROSS = idx("2026-11-14");
+        var I20 = idx("2020-03-12"), I21 = idx("2021-03-12"), I22 = idx("2022-06-18"), I24 = idx("2024-06-18");
 
-        // ===== zone du graphique (pleine largeur) =====
+        // ===== graphique (une seule « caméra » pour toute la vidéo) =====
         var PX = 100, PY = 600, PW = 760, PH = 620;
         var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 1080); g.setAttribute("height", 1920); g.style.left = "0px"; g.style.top = "0px"; st.appendChild(g);
         var defs = el(g, "defs", {});
         var cp = el(defs, "clipPath", { id: "plot" }); el(cp, "rect", { x: PX - 10, y: PY - 60, width: PW + 20, height: PH + 60 });
         var gr = el(defs, "linearGradient", { id: "fall", x1: 0, y1: 0, x2: 0, y2: 1 });
-        el(gr, "stop", { offset: 0, "stop-color": DN, "stop-opacity": .32 }); el(gr, "stop", { offset: 1, "stop-color": DN, "stop-opacity": 0 });
+        el(gr, "stop", { offset: 0, "stop-color": DN, "stop-opacity": .26 }); el(gr, "stop", { offset: 1, "stop-color": DN, "stop-opacity": 0 });
         var axis = el(g, "g", {}), plot = el(g, "g", { "clip-path": "url(#plot)" });
-        var base = el(g, "line", { x1: PX, x2: PX + PW, y1: PY + PH, y2: PY + PH, stroke: SOFT, "stroke-opacity": .5, "stroke-width": 2 });
+        el(g, "line", { x1: PX, x2: PX + PW, y1: PY + PH, y2: PY + PH, stroke: SOFT, "stroke-opacity": .5, "stroke-width": 2 });
         var area = el(plot, "path", { fill: "url(#fall)" });
-        var maHalo = el(plot, "path", { fill: "none", stroke: MA, "stroke-opacity": .18, "stroke-width": 20, "stroke-linejoin": "round", "stroke-linecap": "round" });
-        var maLine = el(plot, "path", { fill: "none", stroke: MA, "stroke-width": 8, "stroke-linejoin": "round", "stroke-linecap": "round" });
-        var pOld = el(plot, "path", { fill: "none", stroke: INK, "stroke-width": 4, "stroke-linejoin": "round" });
-        var pNew = el(plot, "path", { fill: "none", stroke: DN, "stroke-width": 5, "stroke-linejoin": "round" });
-        var pulse = el(g, "circle", { r: 12, fill: "none", stroke: DN, "stroke-width": 5, opacity: 0 });
-        var head = el(g, "circle", { r: 10, fill: "#fff", stroke: DN, "stroke-width": 5 });
-        var MK = [["2018-12-15", "2018"], ["2020-03-12", "2020"], ["2022-06-18", "2022"], [B[LAST][0], "2026"]].map(function (m, k) {
-          var i = idx(m[0]), c = el(g, "circle", { r: k < 3 ? 26 : 30, fill: k < 3 ? "none" : "rgba(255,23,68,.12)", stroke: k < 3 ? INK : DN, "stroke-width": 5, opacity: 0 });
-          return { i: i, c: c };
+        var zone = el(plot, "path", { fill: DN, "fill-opacity": .2, opacity: 0 });
+        var maHalo = el(plot, "path", { fill: "none", stroke: MA, "stroke-opacity": .16, "stroke-width": 20, "stroke-linejoin": "round", "stroke-linecap": "round" });
+        var maLine = el(plot, "path", { fill: "none", stroke: MA, "stroke-width": 7, "stroke-linejoin": "round", "stroke-linecap": "round" });
+        var pOld = el(plot, "path", { fill: "none", stroke: INK, "stroke-width": 3.5, "stroke-linejoin": "round" });
+        var pNew = el(plot, "path", { fill: "none", stroke: DN, "stroke-width": 4.5, "stroke-linejoin": "round" });
+        var GL = [[I20, I21], [I22, I24]].map(function (r) { return { i0: r[0], i1: r[1], p: el(plot, "path", { fill: "none", stroke: GR, "stroke-width": 6, "stroke-linejoin": "round", "stroke-linecap": "round" }), d: el(g, "circle", { r: 9, fill: GR, opacity: 0 }) }; });
+        var pulse = el(g, "circle", { r: 12, fill: "none", stroke: DN, "stroke-width": 3, opacity: 0 });
+        var head = el(g, "circle", { r: 9, fill: "#fff", stroke: DN, "stroke-width": 4.5 });
+        var MK = ["2018-12-15", "2020-03-12", "2022-06-18", B[LAST][0]].map(function (d, k) {
+          return { i: idx(d), c: el(g, "circle", { r: 24, fill: "none", stroke: k < 3 ? INK : DN, "stroke-width": 3, opacity: 0 }) };
         });
+        var bra = el(g, "g", { opacity: 0 }), braP = el(bra, "path", { fill: "none", stroke: INK, "stroke-width": 3 }), braT = el(bra, "text", { "font-size": 30, "font-weight": 700, fill: INK, "text-anchor": "middle", "letter-spacing": "-0.03em" }, "4 ans");
+        var ANC = [];
+        function chip(t, i, k, dx, dy, html, bg, fg) { var w = div(st, "<span class='chip' style='background:" + bg + "; color:" + fg + "'>" + html + "</span>", "opacity:0"); ANC.push({ e: w, i: i, k: k, dx: dx, dy: dy }); return inn(w, t, .35); }
 
-        // caméra et révélation : tout est recalculé à chaque image (déterministe)
-        var S = { a: idx("2025-09-20"), b: LAST + 9, lo: L(56000), hi: L(134000), p: REC, m: idx("2025-09-20"), dim: 1 };
+        var S = { a: idx("2025-09-20"), b: LAST + 9, lo: L(56000), hi: L(134000), p: REC, m: idx("2025-09-20"), dim: 1, z: 0, g0: 0, g1: 0, br: 0 };
         function X(i) { return PX + (i - S.a) / (S.b - S.a) * PW; }
         function Y(v) { return PY + PH - (L(v) - S.lo) / (S.hi - S.lo) * PH; }
         function val(i, k) { var f = Math.floor(i), c = Math.min(f + 1, LAST), t = i - f; return B[f][k] + (B[c][k] - B[f][k]) * t; }
-        function path(k, i0, i1) { var d = "", s = Math.max(0, Math.floor(Math.max(i0, S.a - 2))), e = Math.min(i1, S.b + 2), step = Math.max(1, Math.floor((S.b - S.a) / 900));
-          if (e <= s) return ""; for (var i = s; i < e; i += step) d += (d ? "L" : "M") + X(i).toFixed(1) + " " + Y(B[i][k]).toFixed(1);
+        function rng() { return [Math.max(0, Math.floor(S.a - 2)), Math.min(LAST, Math.ceil(S.b + 2)), Math.max(1, Math.floor((S.b - S.a) / 900))]; }
+        function path(k, i0, i1) { var r = rng(), d = "", s = Math.max(Math.floor(i0), r[0]), e = Math.min(i1, r[1]);
+          if (e <= s) return ""; for (var i = s; i < e; i += r[2]) d += (d ? "L" : "M") + X(i).toFixed(1) + " " + Y(B[i][k]).toFixed(1);
           d += (d ? "L" : "M") + X(e).toFixed(1) + " " + Y(val(e, k)).toFixed(1); return d; }
+        function zones() { var r = rng(), d = "", run = []; function flush() { if (run.length > 1) { d += "M" + run.map(function (i) { return X(i).toFixed(1) + " " + Y(B[i][1]).toFixed(1); }).join("L"); for (var j = run.length - 1; j >= 0; j--) d += "L" + X(run[j]).toFixed(1) + " " + Y(B[run[j]][2]).toFixed(1); d += "Z"; } run = []; }
+          for (var i = r[0]; i <= r[1]; i++) { if (B[i][1] < B[i][2]) run.push(i); else flush(); } flush(); return d; }
         var YT = [2000, 3000, 5000, 10000, 20000, 30000, 50000, 60000, 70000, 80000, 90000, 100000, 120000], MO = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
         var ticker, pct;
         function render() {
-          // axes
           axis.textContent = ""; var lastY = 1e9;
           YT.forEach(function (v) { var y = Y(v); if (y < PY - 10 || y > PY + PH - 20 || lastY - y < 70) return; lastY = y;
-            el(axis, "line", { x1: PX, x2: PX + PW, y1: y, y2: y, stroke: "#00194b", "stroke-opacity": .08, "stroke-width": 1.5 });
-            el(axis, "text", { x: 980, y: y + 8, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "end" }, v >= 1000 ? fmt(v / 1000) + " k$" : v); });
+            el(axis, "line", { x1: PX, x2: PX + PW, y1: y, y2: y, stroke: INK, "stroke-opacity": .07, "stroke-width": 1.5 });
+            el(axis, "text", { x: 980, y: y + 8, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "end" }, fmt(v / 1000) + " k$"); });
           var span = S.b - S.a, lastX = -1e9;
           for (var i = Math.max(1, Math.ceil(S.a)); i <= Math.min(LAST, S.b); i++) {
             var d0 = B[i - 1][0], d1 = B[i][0], lab = null;
@@ -87,65 +102,196 @@
             else if (d1.slice(5, 7) !== d0.slice(5, 7)) { var mo = +d1.slice(5, 7); if (span < 200 || mo % 2 === 1) lab = mo === 1 ? d1.slice(0, 4) : MO[mo - 1]; }
             if (lab && X(i) - lastX > 90 && X(i) > PX + 20 && X(i) < PX + PW - 20) { lastX = X(i); el(axis, "text", { x: X(i), y: PY + PH + 46, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, lab); }
           }
-          // courbes
           pOld.setAttribute("d", path(1, 0, Math.min(S.p, REC)));
           var dn = S.p > REC ? path(1, REC, S.p) : ""; pNew.setAttribute("d", dn);
           area.setAttribute("d", dn ? dn + "L" + X(S.p).toFixed(1) + " " + (PY + PH) + "L" + X(REC).toFixed(1) + " " + (PY + PH) + "Z" : "");
           var md = path(2, 0, S.m); maLine.setAttribute("d", md); maHalo.setAttribute("d", md);
           [pOld, pNew].forEach(function (n) { n.style.opacity = S.dim; });
-          var hx = X(S.p), hy = Y(val(S.p, 1)); head.setAttribute("cx", hx); head.setAttribute("cy", hy);
+          zone.setAttribute("d", S.z > 0 ? zones() : ""); zone.style.opacity = S.z;
+          [S.g0, S.g1].forEach(function (q, k) { var G = GL[k], e = G.i0 + (G.i1 - G.i0) * q; G.p.setAttribute("d", q > 0 ? path(1, G.i0, e) : ""); G.d.setAttribute("cx", X(e)); G.d.setAttribute("cy", Y(val(e, 1))); G.d.style.opacity = q > 0 ? 1 : 0; });
+          head.setAttribute("cx", X(S.p)); head.setAttribute("cy", Y(val(S.p, 1)));
           pulse.setAttribute("cx", X(CROSS)); pulse.setAttribute("cy", Y(B[CROSS][1]));
           MK.forEach(function (m) { m.c.setAttribute("cx", X(m.i)); m.c.setAttribute("cy", Y(B[m.i][1])); });
-          if (ticker) { var v = val(S.p, 1); ticker.textContent = fmt(v) + " $"; var q = Math.round((v / REC_V - 1) * 100); pct.textContent = q < 0 ? "−" + Math.abs(q) + " %" : "0 %"; }
+          ANC.forEach(function (c) { c.e.style.left = (X(c.i) + c.dx) + "px"; c.e.style.top = (Y(B[c.i][c.k]) + c.dy) + "px"; });
+          var b0 = Math.max(0, LAST - 1461), bx0 = X(b0), bx1 = X(LAST), by = PY + 40;
+          braP.setAttribute("d", "M" + bx0 + " " + (by + 14) + "V" + by + "H" + bx1 + "V" + (by + 14)); braT.setAttribute("x", (bx0 + bx1) / 2); braT.setAttribute("y", by - 16); bra.style.opacity = S.br;
+          if (ticker) { var v = val(S.p, 1); ticker.textContent = fmt(v) + " $"; var q = Math.round((v / REC_V - 1) * 100); pct.textContent = "−" + Math.abs(q) + " %"; }
         }
+        function cam(t, a, b, lo, hi, d, extra) { var o = { a: a, b: b, lo: L(lo), hi: L(hi), duration: d || .8, ease: "power2.inOut" }; for (var k in extra || {}) o[k] = extra[k]; tl.to(S, o, t); }
 
-        // ===== en-tête : Bitcoin + cours en direct =====
+        // ===== en-têtes =====
         var hd = div(st, "", "left:100px; top:330px; width:880px; height:220px");
         div(hd, "<svg width='48' height='48' viewBox='0 0 64 64' style='position:static; vertical-align:middle'><circle cx='32' cy='32' r='32' fill='" + ORANGE + "'/><text x='33' y='45' font-size='40' font-weight='800' fill='#fff' text-anchor='middle' font-family='Display'>B</text><rect x='26' y='10' width='4' height='8' fill='#fff'/><rect x='33' y='10' width='4' height='8' fill='#fff'/><rect x='26' y='46' width='4' height='8' fill='#fff'/><rect x='33' y='46' width='4' height='8' fill='#fff'/></svg><span style='vertical-align:middle; margin-left:14px; font-size:40px; font-weight:700; letter-spacing:-.04em'>Bitcoin</span>", "left:0; top:0");
-        ticker = div(hd, "", "left:0; top:72px; font-size:100px; font-weight:700; letter-spacing:-.055em; line-height:1; color:" + INK + "; white-space:nowrap");
-        pct = div(hd, "", "right:0; top:92px; padding:4px 16px 8px; border-radius:6px; background:rgba(255,23,68,.1); color:#d50f35; font-size:46px; font-weight:700; letter-spacing:-.04em; white-space:nowrap");
+        ticker = div(hd, "", "left:0; top:72px", "a big");
+        pct = div(hd, "", "right:0; top:92px; padding:4px 16px 8px; border-radius:6px; background:rgba(255,23,68,.1); color:" + DNT + "; font-size:46px; font-weight:700; letter-spacing:-.04em; white-space:nowrap");
+        function H(small, big, t0, t1, tb) { var s = small ? div(st, small, "left:100px; top:340px; opacity:0", "a small") : null, b = big ? div(st, big, "left:100px; top:404px; opacity:0", "a big") : null;
+          if (s) { inn(s, t0); out(s, t1); } if (b) { inn(b, tb == null ? t0 : tb); out(b, t1); } return b; }
         var src = div(st, "Clôtures quotidiennes · Échelle logarithmique · Source : Yahoo Finance", "left:100px; top:1300px; font-size:22px; font-weight:600; color:" + SOFT);
-        
-        // 1. « Le Bitcoin chute » (0 → 2,6) : le krach se dessine en direct depuis le record
+
+        // ===== 1. Hook (0 → 7,66) =====
         tl.fromTo(S, { p: REC + 4 }, { p: LAST, duration: 2.55, ease: "power1.in" }, 0);
-        tl.fromTo(g, { scale: 1.04, transformOrigin: "50% 50%" }, { scale: 1, duration: 3.4, ease: "power1.out" }, 0);
-        // 2. « regarder cette ligne » (2,85 → 3,6) : la ligne jaune, sans la nommer
-        tl.fromTo(S, { m: idx("2025-09-20") }, { m: LAST, duration: .75, ease: "power2.out" }, 2.85);
+        tl.fromTo(g, { scale: 1.03, transformOrigin: "50% 50%" }, { scale: 1, duration: 3.4, ease: "power1.out" }, 0);
+        tl.fromTo(S, { m: idx("2025-09-20") }, { m: LAST, duration: .8, ease: "power2.out" }, 2.85);
         tl.fromTo(S, { dim: 1 }, { dim: .4, duration: .3 }, 2.9);
-        // 3. « Il vient juste de passer dessous » (3,6 → 5,0) : on plonge sur la cassure
-        tl.to(S, { a: idx("2026-08-25"), b: LAST + 5, lo: L(60500), hi: L(84000), dim: 1, duration: .8, ease: "power2.inOut" }, 3.6);
-        tl.fromTo(pulse, { attr: { r: 12 }, opacity: 1 }, { attr: { r: 64 }, opacity: 0, duration: .7, ease: "power2.out", immediateRender: false }, 4.45);
-        tl.fromTo(pulse, { attr: { r: 12 }, opacity: 1 }, { attr: { r: 64 }, opacity: 0, duration: .7, ease: "power2.out", immediateRender: false }, 4.95);
-        // 4. « seulement la quatrième fois en huit ans » (5,0 → 7,7) : on recule sur 8 ans
-        tl.to(S, { a: 0, b: LAST + 30, lo: L(2300), hi: L(175000), duration: .6, ease: "power3.inOut" }, 5.0);
-        tl.to(head, { opacity: 0, duration: .2 }, 5.4);
+        cam(3.6, idx("2026-08-25"), LAST + 5, 60500, 84000, .8, { dim: 1 });
+        tl.fromTo(pulse, { attr: { r: 10 }, opacity: .9 }, { attr: { r: 46 }, opacity: 0, duration: .9, ease: "power2.out", immediateRender: false }, 4.5);
+        cam(5.0, 0, LAST + 30, 2300, 175000, .7, { ease: "power3.inOut" });
         tl.to(area, { opacity: 0, duration: .3 }, 5.0);
-        tl.to(hd, { opacity: 0, duration: .15 }, 5.75);
-        var big = div(st, "<span>4<sup style='font-size:.5em; vertical-align:.8em; letter-spacing:0'>e</sup> fois</span><span id='huit'> en 8 ans</span>", "left:100px; top:380px; color:" + INK + "; font-size:100px; font-weight:700; letter-spacing:-.055em; line-height:1; white-space:nowrap; opacity:0");
-        tl.fromTo(big, { opacity: 0, scale: 1.2, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "power3.out" }, 6.0);
-        var huit = document.getElementById("huit");
-        tl.fromTo(huit, { opacity: 0 }, { opacity: 1, duration: .2 }, 7.03);
-        [5.42, 5.6, 5.78].forEach(function (t, k) { tl.fromTo(MK[k].c, { opacity: 0, scale: .4, transformOrigin: "50% 50%", transformBox: "fill-box" }, { opacity: 1, scale: 1, duration: .28, ease: "back.out(2)" }, t); });
-        tl.fromTo(MK[3].c, { opacity: 0, scale: .3, transformOrigin: "50% 50%", transformBox: "fill-box" }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2.5)" }, 6.0);
-        tl.fromTo(pulse, { attr: { r: 20 }, opacity: 1 }, { attr: { r: 80 }, opacity: 0, duration: .8, ease: "power2.out", immediateRender: false }, 6.1);
-        // accolade « 8 ans » sous l'axe
-        var br = el(g, "path", { d: "M" + PX + " 1282 V1294 H" + (PX + PW - 20) + " V1282", fill: "none", stroke: INK, "stroke-width": 4 });
-        var bl = br.getTotalLength(); br.style.strokeDasharray = bl + " " + bl;
-        tl.fromTo(br, { strokeDashoffset: bl }, { strokeDashoffset: 0, duration: .5, ease: "power2.out" }, 7.0);
-        tl.to(src, { opacity: 0, duration: .15 }, 6.9);
+        tl.to(head, { opacity: 0, duration: .2 }, 5.4);
+        out(hd, 5.75, .2);
+        var big4 = div(st, "4<sup style='font-size:.5em; vertical-align:.8em; letter-spacing:0'>e</sup> fois<span id='huit'> en 8 ans</span>", "left:100px; top:380px; opacity:0", "a big");
+        tl.fromTo(big4, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .4, ease: "power2.out" }, 6.0);
+        tl.fromTo("#huit", { opacity: 0 }, { opacity: 1, duration: .3 }, 7.03);
+        // les quatre ronds : apparition discrète
+        [5.45, 5.65, 5.85, 6.05].forEach(function (t, k) { tl.fromTo(MK[k].c, { opacity: 0, scale: .85, transformOrigin: "50% 50%", transformBox: "fill-box" }, { opacity: 1, scale: 1, duration: .5, ease: "power2.out" }, t); });
+        tl.to(S, { br: 0, duration: .01 }, 0);
+        var br8 = el(g, "path", { d: "M" + PX + " 1282 V1294 H" + (PX + PW - 20) + " V1282", fill: "none", stroke: INK, "stroke-width": 3 }), bl = br8.getTotalLength(); br8.style.strokeDasharray = bl + " " + bl;
+        tl.fromTo(br8, { strokeDashoffset: bl }, { strokeDashoffset: 0, duration: .6, ease: "power2.out" }, 7.0);
+        out(src, 6.9, .15);
+
+        // ===== 2. « la dernière fois… triplé dans les deux ans » (7,66 → 12,2) =====
+        out(big4, 7.66); out(br8, 7.66); tl.to(MK.map(function (m) { return m.c; }), { opacity: 0, duration: .3 }, 7.66);
+        tl.to(src, { opacity: 1, duration: .3 }, 8.2);
+        cam(7.75, idx("2022-01-15"), idx("2024-09-15"), 14000, 85000, .9);
+        H("Juin 2022 → juin 2024", "×3 en 2 ans", 8.0, 12.15, 10.1);
+        tl.fromTo(S, { g1: 0 }, { g1: 1, duration: 2.6, ease: "power1.inOut" }, 8.6);
+        chip(8.5, I22, 1, 0, 52, "19 018 $", INK, "#fff"); chip(11.0, I24, 1, 0, -52, "65 141 $", GR, "#fff");
+
+        // ===== 3. Générique (12,2 → 14,75) : vidéo =====
+        // ===== 4. « Depuis son record… près de la moitié » (14,75 → 20,7) =====
+        tl.set(S, { a: idx("2025-08-01"), b: LAST + 10, lo: L(55000), hi: L(140000), g1: 0, dim: 1 }, 14.74);
+        tl.set(ANC.map(function (c) { return c.e; }), { opacity: 0 }, 12.2);
+        var t4s = div(st, "Bitcoin depuis son record", "left:100px; top:340px; opacity:0", "a small"); inn(t4s, 14.8); out(t4s, 24.15);
+        var t4 = div(st, "126 000 $", "left:100px; top:404px; opacity:0", "a big"); inn(t4, 15.3); out(t4, 24.15);
+        count(t4, 18.6, 1.6, 126000, 64663, function (v) { return fmt(v) + " $"; }, "power2.inOut");
+        var p4 = div(st, "−49 %", "right:100px; top:424px; padding:4px 16px 8px; border-radius:6px; background:rgba(255,23,68,.1); color:" + DNT + "; font-size:46px; font-weight:700; letter-spacing:-.04em; opacity:0"); inn(p4, 19.5); out(p4, 24.15);
+        var cRec = chip(15.4, REC, 1, 0, -44, "Record", INK, "#fff"); out(cRec, 24.1);
+        tl.set([head, area], { opacity: 1 }, 14.74);
+        // « …sous cette ligne, la moyenne mobile 200 semaines »
+        tl.to(S, { dim: .35, duration: .4 }, 21.6);
+        var tagMA = chip(22.4, idx("2026-04-15"), 2, 0, -50, "Moyenne mobile 200 semaines", MA, INK);
+        // ===== 5. « prix moyen sur les quatre dernières années » (24,2 → 27,5) =====
+        out(tagMA, 24.1); out(head, 24.1, .2); out(area, 24.1, .3);
+        cam(24.2, idx("2022-06-01"), LAST + 25, 14000, 140000, .9, { dim: .25 });
+        tl.to(S, { br: 1, duration: .4 }, 26.4);
+        var t5 = div(st, "Prix moyen sur 4 ans", "left:100px; top:380px; opacity:0", "a big"); inn(t5, 24.45); out(t5, 27.45);
+        // ===== 6. « très rarement en dessous… 2020, 2022, cet été » (27,5 → 33,6) =====
+        tl.to(S, { br: 0, duration: .25 }, 27.4);
+        cam(27.5, 0, LAST + 30, 2300, 175000, .9, { dim: 1 });
+        var t6 = div(st, "Le Bitcoin depuis 2018", "left:100px; top:380px; opacity:0", "a big"); inn(t6, 27.6); out(t6, 36.6);
+        tl.to(S, { z: 1, duration: .6 }, 28.3);
+        var c20 = chip(31.0, I20, 1, 0, 58, "2020", DN, "#fff"), c22 = chip(31.8, I22, 1, 0, 58, "2022", DN, "#fff"), c26 = chip(33.1, idx("2026-06-27"), 1, -70, 62, "Été 2026", DN, "#fff");
+        // ===== 7. « historiquement, un excellent moment » (33,6 → 36,6) : ce qui a suivi, en vert =====
+        tl.to([c20, c22, c26], { opacity: 0, duration: .3 }, 34.4);
+        tl.to(S, { z: .5, duration: .4 }, 34.4);
+        tl.fromTo(S, { g0: 0, g1: 0 }, { g0: 1, g1: 1, duration: 1.3, ease: "power2.inOut", immediateRender: false }, 34.6);
+        // ===== 8. Mars 2020 : ×11 (36,6 → 43,2) =====
+        tl.to(S, { g0: 0, g1: 0, z: 0, duration: .01 }, 36.62);
+        cam(36.65, idx("2019-11-01"), idx("2021-05-01"), 3300, 75000, .9);
+        H("Mars 2020 → mars 2021", null, 36.8, 43.15);
+        var x11 = div(st, "×1", "left:100px; top:404px; opacity:0", "a big"); inn(x11, 40.1); out(x11, 43.15);
+        count(x11, 40.2, 2.5, 1, 11.5, function (v) { return "×" + Math.min(11, Math.floor(v)); }, "power1.inOut");
+        var c49 = chip(38.9, I20, 1, 0, 52, "4 971 $", INK, "#fff"); out(c49, 43.15);
+        tl.fromTo(S, { g0: 0 }, { g0: 1, duration: 2.5, ease: "power1.inOut", immediateRender: false }, 40.2);
+        var c57 = chip(42.6, I21, 1, -60, -50, "57 332 $", GR, "#fff"); out(c57, 43.15);
+        // ===== 9. Juin 2022 : ×3 (43,2 → 47,5) =====
+        tl.to(S, { g0: 0, duration: .01 }, 43.2);
+        cam(43.22, idx("2022-01-15"), idx("2024-09-15"), 14000, 85000, .8);
+        H("Juin 2022 → juin 2024", null, 43.3, 47.45);
+        var x3 = div(st, "×1", "left:100px; top:404px; opacity:0", "a big"); inn(x3, 44.5); out(x3, 47.45);
+        count(x3, 44.6, 2.4, 1, 3.4, function (v) { return "×" + Math.min(3, Math.floor(v)); }, "power1.inOut");
+        chip(44.6, I22, 1, 0, 52, "19 018 $", INK, "#fff");
+        tl.fromTo(S, { g1: 0 }, { g1: 1, duration: 2.4, ease: "power1.inOut", immediateRender: false }, 44.6);
+        chip(46.9, I24, 1, 0, -52, "65 141 $", GR, "#fff");
+        // le graphique s'efface pour la jauge
+        tl.to([g, src], { opacity: 0, duration: .35 }, 47.45);
+        tl.set(ANC.map(function (c) { return c.e; }), { opacity: 0 }, 47.8);
+
+        // ===== 10. Le deuxième signal : la peur (47,5 → 61,1) =====
+        var gs = div(st, "", "left:0; top:0; width:1080px; height:1920px; opacity:0"); inn(gs, 47.7, .4); out(gs, 60.95, .3);
+        var gg = document.createElementNS(NS, "svg"); gg.setAttribute("width", 1080); gg.setAttribute("height", 1920); gg.style.left = "0px"; gg.style.top = "0px"; gs.appendChild(gg);
+        var CX = 540, CY = 1000, R = 330;
+        function pt(v, r) { var a = Math.PI * (1 - v / 100); return [CX + r * Math.cos(a), CY - r * Math.sin(a)]; }
+        function arc(v0, v1, r) { var p0 = pt(v0, r), p1 = pt(v1, r); return "M" + p0[0].toFixed(1) + " " + p0[1].toFixed(1) + "A" + r + " " + r + " 0 0 1 " + p1[0].toFixed(1) + " " + p1[1].toFixed(1); }
+        var Z = [[0, 25, DN, "Peur extrême"], [25, 45, "#ff8a65"], [45, 55, "#c5cbd6"], [55, 75, "#7bd88f"], [75, 100, GR]].map(function (z) { return el(gg, "path", { d: arc(z[0] + .8, z[1] - .8, R), fill: "none", stroke: z[2], "stroke-width": 56 }); });
+        tl.fromTo(Z, { opacity: 0 }, { opacity: 1, duration: .25, stagger: .08 }, 48.5);
+        el(gg, "text", { x: CX - R, y: CY + 62, "font-size": 26, "font-weight": 600, fill: SOFT, "text-anchor": "middle" }, "0");
+        el(gg, "text", { x: CX + R, y: CY + 62, "font-size": 26, "font-weight": 600, fill: SOFT, "text-anchor": "middle" }, "100");
+        var lf = div(gs, "Peur", "left:" + (CX - R - 30) + "px; top:" + (CY + 80) + "px; font-size:28px; font-weight:700; color:" + DNT);
+        var lg = div(gs, "Euphorie", "left:" + (CX + R - 90) + "px; top:" + (CY + 80) + "px; font-size:28px; font-weight:700; color:" + GRT);
+        var needle = el(gg, "g", {}), nl = el(needle, "line", { x1: CX, y1: CY, x2: CX + R - 70, y2: CY, stroke: INK, "stroke-width": 8, "stroke-linecap": "round" }); el(needle, "circle", { cx: CX, cy: CY, r: 18, fill: INK });
+        var NV = { v: 50 }; tl.fromTo(needle, { opacity: 0 }, { opacity: 1, duration: .3 }, 54.95);
+        function setN() { needle.setAttribute("transform", "rotate(" + (-(180 * (1 - NV.v / 100))) + " " + CX + " " + CY + ")"); }
+        var num = div(gs, "50", "left:0; right:0; top:" + (CY + 60) + "px; text-align:center; font-size:150px; font-weight:700; letter-spacing:-.06em; color:" + INK + "; opacity:0");
+        var tg = div(st, "La peur extrême", "left:100px; top:380px; opacity:0", "a big"); inn(tg, 50.0); out(tg, 53.5);
+        // « la peur extrême » : la zone rouge seule ; 2020 et 2022 y étaient
+        tl.to(Z.slice(1), { opacity: .25, duration: .4 }, 50.1);
+        var h20 = div(gs, "<span class='chip' style='background:" + DN + "; color:#fff'>Mars 2020</span>", "left:540px; top:" + (CY - 190) + "px; opacity:0");
+        var h22 = div(gs, "<span class='chip' style='background:" + DN + "; color:#fff'>Juin 2022</span>", "left:540px; top:" + (CY - 120) + "px; opacity:0");
+        inn(h20, 50.6); inn(h22, 50.9);
+        var h26 = div(gs, "<span class='chip' style='background:" + INK + "; color:#fff'>Aujourd'hui</span>", "left:540px; top:" + (CY - 50) + "px; opacity:0");
+        inn(h26, 51.2);
+        tl.to([h20, h22, h26], { opacity: 0, duration: .3 }, 53.4); tl.to(Z.slice(1), { opacity: 1, duration: .4 }, 53.5);
+        // « Fear and Greed Index… vient de tomber à 10 »
+        var tf = div(st, "Fear & Greed Index", "left:100px; top:380px; opacity:0", "a big"); inn(tf, 53.7); out(tf, 60.9);
+        var tfs = div(st, "Crypto · Source : alternative.me", "left:100px; top:1335px; font-size:22px; font-weight:600; color:" + SOFT + "; opacity:0"); inn(tfs, 53.8); out(tfs, 60.9);
+        tl.fromTo(NV, { v: 50 }, { v: 74, duration: 1.0, ease: "power2.out", onUpdate: setN }, 55.0);
+        var sep = div(gs, "Septembre", "left:0; right:0; top:" + (CY + 255) + "px; text-align:center; font-size:32px; font-weight:700; color:" + SOFT + "; opacity:0"); inn(sep, 55.1); out(sep, 57.3, .2);
+        tl.fromTo(num, { opacity: 0 }, { opacity: 1, duration: .3 }, 55.1);
+        count(num, 55.0, 1.0, 50, 74, function (v) { return Math.round(v); });
+        tl.fromTo(NV, { v: 74 }, { v: 10, duration: 1.0, ease: "power3.inOut", onUpdate: setN, immediateRender: false }, 57.4);
+        count(num, 57.4, 1.0, 74, 10, function (v) { return Math.round(v); }, "power3.inOut");
+        tl.to(num, { color: DNT, duration: .3 }, 58.2);
+        tl.to(Z.slice(1), { opacity: .25, duration: .4 }, 59.4);
+        var pe = div(gs, "Peur extrême", "left:0; right:0; top:" + (CY + 255) + "px; text-align:center; font-size:40px; font-weight:700; letter-spacing:-.03em; color:" + DNT + "; opacity:0"); inn(pe, 59.4);
+        setN();
+
+        // ===== 11. « c'est souvent là que le marché touche son point bas » (61,1 → 63,9) =====
+        tl.set(S, { a: 0, b: LAST + 30, lo: L(2300), hi: L(175000), dim: 1, z: 0, g0: 0, g1: 0, br: 0 }, 61.0);
+        tl.to([g, src], { opacity: 1, duration: .4 }, 61.1);
+        var t11 = div(st, "Le Bitcoin depuis 2018", "left:100px; top:380px; opacity:0", "a big"); inn(t11, 61.15); out(t11, 63.85);
+        [62.4, 62.6, 62.8, 63.0].forEach(function (t, k) { tl.fromTo(MK[k].c, { opacity: 0, scale: .85, transformOrigin: "50% 50%", transformBox: "fill-box" }, { opacity: 1, scale: 1, duration: .5, ease: "power2.out", immediateRender: false }, t); });
+
+        // ===== 12. Notre avis (63,9 → 69,5) =====
+        tl.to(g, { opacity: 0, duration: .4 }, 63.9); out(src, 63.9);
+        tl.to(MK.map(function (m) { return m.c; }), { opacity: 0, duration: .3 }, 63.9);
+        var av = div(st, "Notre avis", "left:100px; top:340px; opacity:0", "a small"); inn(av, 64.0); out(av, 69.45);
+        var a1 = div(st, "Correction à court terme", "left:100px; top:600px; opacity:0", "a big"); a1.style.fontSize = "84px"; inn(a1, 64.4); out(a1, 69.45);
+        var a2 = div(st, "Pas inquiétante", "left:100px; top:730px; padding:6px 22px 14px; border-radius:8px; background:" + INK + "; color:#fff; font-size:72px; font-weight:700; letter-spacing:-.05em; opacity:0"); inn(a2, 65.9); out(a2, 69.45);
+        var a3 = div(st, "Une vraie opportunité", "left:100px; top:880px; padding:6px 22px 14px; border-radius:8px; background:" + GRT + "; color:#fff; font-size:72px; font-weight:700; letter-spacing:-.05em; opacity:0"); inn(a3, 68.4); out(a3, 69.45);
+        var amf = div(st, "Avis de la rédaction. Ceci n'est pas un conseil en investissement. Les cryptoactifs sont très volatils.", "left:100px; right:100px; top:1290px; font-size:24px; font-weight:600; line-height:1.3; color:" + SOFT + "; opacity:0"); inn(amf, 64.2); out(amf, 69.45);
+
+        // ===== 13. CTA (69,55 → 74,05) =====
+        (function () {
+          var t0 = 69.55;
+          tl.to(g, { opacity: 0, duration: .3 }, t0);
+          var avt = div(st, "<svg viewBox='0 0 320 320' style='position:absolute; inset:0; width:100%; height:100%'><defs><linearGradient id='gStory' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.3' stop-color='#fa7e1e'/><stop offset='.6' stop-color='#d62976'/><stop offset='1' stop-color='#962fbf'/></linearGradient></defs><circle id='ring' cx='160' cy='160' r='152' fill='none' stroke='url(#gStory)' stroke-width='10' transform='rotate(-90 160 160)'/></svg><div class='pic'><img src='assets/img/logo-financedata.png'></div>", "", "");
+          avt.id = "avatar";
+          tl.fromTo(avt, { opacity: 0, scale: .94, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .45, ease: "power2.out" }, t0);
+          var ring = document.getElementById("ring"), rl = 2 * Math.PI * 152; ring.style.strokeDasharray = rl + " " + rl;
+          tl.fromTo(ring, { strokeDashoffset: rl }, { strokeDashoffset: 0, duration: .7, ease: "power2.inOut" }, t0 + .05);
+          inn(div(st, "finance_data", "left:0; right:0; top:860px; text-align:center; font-size:68px; font-weight:700; letter-spacing:-.05em; color:" + INK + "; opacity:0"), t0 + .15);
+          var btn = div(st, "<span class='b1'>S'abonner</span><span class='b2' style='display:none'>Abonné</span>", "left:0; right:0; margin:auto; width:360px; top:980px; height:92px; line-height:88px; text-align:center; border-radius:10px; background:#0064d2; color:#fff; font-size:42px; font-weight:700; letter-spacing:-.035em; opacity:0");
+          inn(btn, t0 + .25);
+          var tc = 73.5;
+          tl.to(btn, { scale: .95, duration: .1 }, tc); tl.to(btn, { scale: 1, duration: .2, ease: "power2.out" }, tc + .1);
+          tl.to(btn, { backgroundColor: "#363a45", duration: .25 }, tc + .05);
+          tl.set(btn.querySelector(".b1"), { display: "none" }, tc + .1); tl.set(btn.querySelector(".b2"), { display: "inline" }, tc + .1);
+        })();
 
         tl.eventCallback("onUpdate", render);
 
-        // ===== sous-titres : 3 mots max ; pas quand « 4e fois en 8 ans » est à l'écran =====
-        var W = window.VO.words, groups = [], cur = [];
+        // ===== sous-titres : 3 mots max, pas quand le même texte est à l'écran =====
+        var W = window.VO.words.map(function (w) { return { w: w.w === "10," ? "10," : w.w, s: w.s, e: w.e }; }), groups = [], cur = [];
         W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
+        var SKIP = [[5.8, 7.6], [9.9, 14.85], [22.4, 24.2], [24.4, 27.4], [49.8, 51.2], [53.6, 54.95], [59.4, 61.0], [63.9, 69.5]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
-          if ((t0 >= 5.8 && t0 < 7.6) || t0 >= END) return;
-          var d = div(st, "<span class='cap-box'>" + gp.map(function (t) { return t.w; }).join(" ") + "</span>", "");
-          d.className = "cap-line";
+          if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
+          var lim = SKIP.reduce(function (m, r) { return r[0] > t0 && r[0] < m ? r[0] : m; }, END);
+          var d = div(st, "<span class='cap-box'>" + gp.map(function (t) { return t.w; }).join(" ") + "</span>", "", "cap-line");
           tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out" }, Math.max(0, t0 - .06));
-          tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6, t0 < 5.8 ? 5.95 : END) - .035);
+          tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6, lim) - .035);
         });
 
         tl.set({}, {}, END);
