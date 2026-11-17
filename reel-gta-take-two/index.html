@@ -222,12 +222,12 @@
         // ===== sous-titres : 3 mots max, pas quand le même texte est à l'écran =====
         var W = window.VO.words.map(function (w) { return { w: w.w === "720" ? "720 %" : w.w, s: w.s, e: w.e }; }), groups = [], cur = [];
         W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
-        var SKIP = [[0, 2.3], [14.4, 17.4], [41.7, 44.2], [60.6, 62.0], [63.8, 72.72]];
+        var SKIP = [[14.4, 17.4], [41.7, 44.2], [60.6, 62.0], [63.8, 72.72]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
           if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
           var lim = SKIP.reduce(function (m, r) { return r[0] > t0 && r[0] < m ? r[0] : m; }, END);
-          var d = div(st, "<span class='cap-box'>" + gp.map(function (t) { return t.w; }).join(" ") + "</span>", "", "cap-line");
+          var d = div(document.getElementById("top"), "<span class='cap-box'>" + gp.map(function (t) { return t.w; }).join(" ") + "</span>", "", "cap-line");
           tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out", immediateRender: false }, Math.max(0, t0 - .06));
           tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6, lim) - .035);
         });
