@@ -2,11 +2,15 @@
 
 Skill : script-viral · Source : newsletter FinanceData « Le signal d'achat que le marché ignore » (focus GTA VI) · ~65 s
 
-## Voix off (v4 · Hugo, 80,43 s, phrase de contexte insérée)
+## Voix off (v5 · nouveau hook · Hugo, 83,95 s)
 
-GTA 6 sort jeudi et la dernière fois qu'un GTA est sorti, l'action de son éditeur a été multipliée par près de 8 en cinq ans. Mais aujourd'hui vous devez absolument regarder un chiffre que personne ne vous montre. Mais avant de vous dire lequel, il faut comprendre le contexte.
+La dernière fois que GTA est sorti, l'action Take-Two, la société qui détient le jeu, a explosé de 727 % dans les 5 années qui ont suivi.
 
-Le jeu a déjà battu un record avant même sa sortie, 942 millions de dollars de précommandes. C'est plus que GTA 5 en vingt-quatre heures.
+Aujourd'hui les ventes de GTA 6 ont déjà battu des records. Alors faut-il acheter l'action Take-Two ?
+
+Pour répondre à cette question, vous devez absolument comprendre plusieurs choses.
+
+GTA 6 a explosé les chiffres avant même sa sortie avec 942 millions de dollars de précommandes. C'est plus que GTA 5, en vingt-quatre heures.
 
 Mais pour comprendre l'explosion de l'action après la sortie de GTA 5, il faut revenir en 2013. À l'époque, les attentes des investisseurs étaient beaucoup moins élevées.
 
