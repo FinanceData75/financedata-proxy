@@ -34,20 +34,18 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="80.43" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="80.43" data-track-index="1"></audio>
-      <div id="bgs" class="clip" data-start="0" data-duration="80.43" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
-      <video id="v-pre" class="clip" src="assets/video/bg-precommandes.mp4" data-start="14.78" data-duration="8.2" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-avis" class="clip" src="assets/video/bg-avis.mp4" data-start="66.68" data-duration="9.4" data-track-index="7" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <div id="stage" class="clip" data-start="0" data-duration="80.43" data-track-index="3" style="position:absolute; inset:0"></div>
-      <video id="v-hook" class="clip" src="assets/video/hook-trailer.mp4" data-start="1.0" data-duration="1.36" data-track-index="4" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <div id="top" class="clip" data-start="0" data-duration="80.43" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="71.61" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="71.61" data-track-index="1"></audio>
+      <div id="bgs" class="clip" data-start="0" data-duration="71.61" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
+      <video id="v-avis" class="clip" src="assets/video/bg-avis.mp4" data-start="57.86" data-duration="9.4" data-track-index="7" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="stage" class="clip" data-start="0" data-duration="71.61" data-track-index="3" style="position:absolute; inset:0"></div>
+      <video id="v-hook" class="clip" src="assets/video/hook-trailer.mp4" data-start="9.7" data-duration="1.33" data-track-index="4" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="top" class="clip" data-start="0" data-duration="71.61" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
     </div>
     <script>
       (function () {
-        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 80.43;
-        // phrase insérée à 11,40 s (« Mais avant de vous dire lequel, il faut comprendre le contexte. », +3,36 s)
-        function M(t) { return t < 11.40 ? t : t + 3.36; }
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 71.61;
+                function M(t) { return t - 5.46; } // ancien minutage (voix v1) → nouvelle voix (hook refait, −5,46 s à partir de « À l'époque »)
         var RAW = { to: tl.to.bind(tl), fromTo: tl.fromTo.bind(tl), set: tl.set.bind(tl) };
         tl.to = function (a, b, p) { return RAW.to(a, b, typeof p === "number" ? M(p) : p); };
         tl.fromTo = function (a, b, c, p) { return RAW.fromTo(a, b, c, typeof p === "number" ? M(p) : p); };
@@ -85,63 +83,61 @@
         function dot(c, i, col, t) { var e = el(c.g, "circle", { cx: c.X(i), cy: c.Y(c.rows[i][1]), r: 10, fill: "#fff", stroke: col, "stroke-width": 5, opacity: 0 }); tl.fromTo(e, { opacity: 0 }, { opacity: 1, duration: .25, immediateRender: false }, t); return e; }
         function tagAt(s, c, i, dx, dy, html, bg, fg, t) { var w = div(s, "<span style='font-size:34px; font-weight:700; letter-spacing:-.03em; white-space:nowrap; transform:translate(-50%,-50%); display:inline-block; color:" + bg + "; text-shadow:0 0 8px #f6f8fc, 0 0 8px #f6f8fc'>" + html + "</span>", "left:" + (c.X(i) + dx) + "px; top:" + (c.Y(c.rows[i][1]) + dy) + "px; opacity:0"); return inn(w, t, .35, 6); }
 
-        // ===== 1. HOOK (0 → 11,4) =====
-        // 1a. « GTA 6 sort jeudi » : le key art plein écran dès la 1re image
-        (function () { var s = scene(0, 1.0, true); photo(s, "gta6-key.jpg", 1120, 1.12, 0, 1.0, "linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,0) 32%)");
-          // 0,6 → 2,36 : trois plans du trailer (bateau, néons, Jason et Lucia), coupés sur la voix (vidéo, piste 4)
-          var top = document.getElementById("top");
-          var tx = div(top, "GTA 6 sort jeudi", "left:0; right:0; top:330px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.05em; color:#fff; text-shadow:0 4px 30px rgba(0,0,0,.55)");
-          tl.fromTo(tx, { scale: 1.15, transformOrigin: "50% 50%" }, { scale: 1, duration: .35, ease: "power3.out", immediateRender: false }, 0.0);
-          tl.set(tx, { opacity: 0 }, 2.36);
-          // flash blanc très court à chaque coupe
-          [1.0, 1.44, 1.84].forEach(function (t) { var f = div(top, "", "inset:0; background:#fff; opacity:0"); tl.fromTo(f, { opacity: .35 }, { opacity: 0, duration: .12, immediateRender: false }, t); }); })();
-        // 1b. « la dernière fois qu'un GTA est sorti » : GTA 5, 2013
-        (function () { var s = scene(2.36, 3.55, true); div(s, "", "inset:0; background:" + NAVY);
-          var c = div(s, "<img src='assets/img/gta5-cover.jpg' style='width:560px; display:block; border-radius:6px; box-shadow:0 30px 70px rgba(0,0,0,.45)'>", "left:260px; top:420px");
-          tl.fromTo(c, { scale: 1.18 }, { scale: 1, duration: .5, ease: "power3.out", immediateRender: false }, 2.36);
-          div(s, "GTA 5 · 17 septembre 2013", "left:0; right:0; top:1150px; text-align:center; font-size:36px; font-weight:700; letter-spacing:-.03em; color:#fff"); })();
-        // 1c. « l'action de son éditeur… près de 8 en cinq ans »
-        (function () { var s = scene(3.55, 7.45, true);
-          div(s, "Take-Two, 2013 → 2018", "left:100px; top:340px", "a small");
-          var x = div(s, "×1", "left:100px; top:404px", "a big");
-          var c = chart(s, "2013-09-17", "2018-09-28", { lo: 10, hi: 160, ticks: [50, 100, 150], color: GR, top: 620, h: 560 });
-          drawIn(c.p, 3.6, 2.7, "power1.in");
-          count(x, 3.65, 2.65, 1, 8.12, function (v) { return "×" + Math.floor(v); }, "power1.in");
-          dot(c, 0, INK, 3.6); dot(c, c.rows.length - 1, GR, 6.3);
-          div(s, "Clôtures quotidiennes · Source : Yahoo Finance", "top:1290px", "src"); })();
-        // 1d. « vous devez absolument regarder un chiffre que personne ne vous montre » : le chiffre masqué
+        // ===== 1. HOOK (nouvelle voix, minutage direct via RAW) =====
         var hid = function (s, top) { var box = div(s, "", "left:100px; right:100px; top:" + top + "px; height:450px; border-radius:16px; background:#fff; box-shadow:0 30px 80px rgba(0,25,75,.12)");
           var num = div(box, "8×", "left:0; right:0; top:90px; text-align:center; font-size:240px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + INK + "; filter:blur(30px)"); return { box: box, num: num }; };
-        (function () { var s = scene(7.45, 11.42, true); var h = hid(s, 640);
-          div(s, "Le chiffre caché", "left:0; right:0; text-align:center; top:440px", "a ttl");
-          var shuf = { v: 0 }; tl.fromTo(shuf, { v: 0 }, { v: 40, duration: 3.6, ease: "none", immediateRender: false, onUpdate: function () { h.num.textContent = [12, 7, 41, 3, 26, 9, 33, 15, 8, 22][Math.floor(shuf.v) % 10] + "×"; } }, 7.5);
-          var bar = div(h.box, "", "left:120px; right:120px; top:150px; height:110px; border-radius:6px; transform:scaleX(0); transform-origin:0 50%; background:" + INK);
-          tl.fromTo(bar, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .45, ease: "power3.out", immediateRender: false }, 10.4);
-          var lock = div(h.box, "Masqué", "left:0; right:0; top:360px; text-align:center; font-size:34px; font-weight:700; letter-spacing:.02em; color:" + SOFT + "; opacity:0"); inn(lock, 10.6);
-          RAW.to(h.box, { scale: 1.03, transformOrigin: "50% 50%", duration: .35, ease: "power2.out", yoyo: true, repeat: 1 }, 12.3);
-          RAW.to(h.box, { y: -40, opacity: 0, duration: .35, ease: "power2.in" }, 14.45); })();
-
-        // ===== 2. Le record : 942 M$ (11,42 → 19,6) =====
-        (function () { var s = scene(11.42, 19.62, true); s.style.background = "transparent"; div(s, "", "inset:0; background:linear-gradient(180deg, rgba(0,12,40,.5), rgba(0,12,40,.72))");
-          var lab = div(s, "Précommandes de GTA 6", "left:0; right:0; top:560px; text-align:center; font-size:44px; font-weight:700; letter-spacing:-.04em; color:#e6ecf7; opacity:0"); inn(lab, 14.4);
-          var v = div(s, "0 M$", "left:0; right:0; top:650px; text-align:center; font-size:180px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff; text-shadow:0 6px 40px rgba(0,0,0,.4); opacity:0"); inn(v, 14.4, .2, 0);
-          tl.to([lab, v], { y: -200, duration: .5, ease: "power3.inOut" }, 17.3);
-          count(v, 14.45, 1.6, 0, 942, function (x) { return fmt(x) + " M$"; });
-          // comparaison avec GTA 5
-          var W = 880 / 942;
-          var b1 = div(s, "", "left:100px; top:860px; width:" + 942 * W + "px; height:64px; transform:scaleX(0); transform-origin:0 50%; background:" + PINK), b2 = div(s, "", "left:100px; top:1010px; width:" + 800 * W + "px; height:64px; transform:scaleX(0); transform-origin:0 50%; background:rgba(255,255,255,.6)");
-          var l1 = div(s, "GTA 6 · précommandes", "left:100px; top:812px; font-size:32px; font-weight:700; color:#fff; opacity:0"), l2 = div(s, "GTA 5 · ventes en 24 h · 800 M$", "left:100px; top:962px; font-size:32px; font-weight:700; color:#fff; opacity:0");
-          [b1, b2].forEach(function (b, k) { tl.fromTo(b, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .6, ease: "power3.out", immediateRender: false }, 17.5 + k * .45); });
-          inn(l1, 17.5); inn(l2, 17.95);
-          var sr = div(s, "Source : Sensor Tower (9,69 millions de précommandes), Take-Two", "top:1300px; color:#e6ecf7; opacity:0", "src"); inn(sr, 14.6); })();
+        function rinn(n, t, d) { RAW.fromTo(n, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: d || .4, ease: "power2.out", immediateRender: false }, t); return n; }
+        function rscene(t0, t1) { var s = div(st, "", "", "scene"); RAW.set(s, { opacity: 1 }, t0); RAW.set(s, { opacity: 0 }, t1); return s; }
+        // 1a. « La dernière fois que GTA est sorti… a explosé de 727 % » : le graphique, la pochette de GTA 5 épinglée, zoom arrière
+        (function () { var s = rscene(0, 8.57);
+          div(s, "Take-Two, 2013 → 2018", "left:100px; top:340px", "a small");
+          var x = div(s, "+0 %", "left:100px; top:404px; color:" + GRT, "a big");
+          var cam = div(s, "", "inset:0");
+          var c = chart(cam, "2013-09-17", "2018-09-28", { lo: 10, hi: 160, ticks: [50, 100, 150], color: GR, top: 620, h: 560 });
+          var L0 = c.p.getTotalLength(); c.p.style.strokeDasharray = L0 + " " + L0; c.p.style.strokeDashoffset = L0;
+          RAW.fromTo(c.p, { strokeDashoffset: L0 }, { strokeDashoffset: 0, duration: 5.6, ease: "power1.in", immediateRender: false }, 0.3);
+          var o = { v: 0 }; RAW.fromTo(o, { v: 0 }, { v: 727, duration: 5.55, ease: "power1.in", immediateRender: false, onUpdate: function () { x.textContent = "+" + Math.round(o.v) + " %"; } }, 0.3);
+          var dx = c.X(0), dy = c.Y(c.rows[0][1]);
+          el(c.g, "circle", { cx: dx, cy: dy, r: 11, fill: "#fff", stroke: INK, "stroke-width": 5 });
+          // annotation : la pochette reliée au point de sortie
+          var ln = el(c.g, "path", { d: "M" + dx + " " + (dy - 14) + " L" + (dx + 60) + " 1080", fill: "none", stroke: INK, "stroke-width": 3 });
+          var Ll = ln.getTotalLength(); ln.style.strokeDasharray = Ll + " " + Ll; ln.style.strokeDashoffset = Ll;
+          ln.style.strokeDashoffset = 0;
+          var cv = div(cam, "<img src='assets/img/gta5-cover.jpg' style='width:190px; display:block; box-shadow:0 14px 34px rgba(0,25,75,.3)'>", "left:" + (dx + 40) + "px; top:846px");
+          var lb = div(cam, "<div style='font-size:32px; font-weight:700; letter-spacing:-.03em; color:" + INK + "'>Sortie de GTA 5</div><div style='font-size:26px; font-weight:600; color:" + SOFT + "; margin-top:4px'>17 septembre 2013 · 17 $</div>", "left:" + (dx + 100) + "px; top:1088px; text-shadow:0 0 8px #f6f8fc");
+          RAW.to(lb, { opacity: 0, duration: .3 }, 2.4);
+          // caméra : on part zoomé sur la sortie, puis on recule pendant que l'action grimpe
+          RAW.fromTo(cam, { scale: 1.7, transformOrigin: dx + "px " + dy + "px" }, { scale: 1, duration: 3.6, ease: "power2.inOut", immediateRender: false }, 1.2);
+          RAW.set(cam, { scale: 1.7, transformOrigin: dx + "px " + dy + "px" }, 0);
+          var e = el(c.g, "circle", { cx: c.X(c.rows.length - 1), cy: c.Y(c.rows[c.rows.length - 1][1]), r: 11, fill: "#fff", stroke: GR, "stroke-width": 5, opacity: 0 });
+          RAW.fromTo(e, { opacity: 0 }, { opacity: 1, duration: .2, immediateRender: false }, 5.9);
+          var tg = div(cam, "<span style='font-size:34px; font-weight:700; color:" + GRT + "; display:inline-block; transform:translate(-50%,-50%); text-shadow:0 0 8px #f6f8fc'>138 $</span>", "left:" + (c.X(c.rows.length - 1) - 70) + "px; top:" + (c.Y(c.rows[c.rows.length - 1][1]) + 10) + "px; opacity:0");
+          rinn(tg, 6.0, .3);
+          rinn(div(s, "Clôtures quotidiennes · Source : Yahoo Finance", "top:1290px; opacity:0", "src"), 4.8, .3); })();
+        // 1b. « Et aujourd'hui les ventes de GTA 6 ont déjà battu des records » : key art, plans du trailer, 942 M$
+        (function () { var s = rscene(8.57, 11.86); var p1 = div(s, "", "inset:0"); photo(p1, "gta6-key.jpg", 1120, 1.1, 8.57, 9.7, "linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,0) 35%)"); RAW.set(p1, { opacity: 0 }, 9.7);
+          var p2 = div(s, "", "inset:0; opacity:0"); photo(p2, "vice-nuit.jpg", 3420, 1.06, 11.03, 11.86, ""); RAW.set(p2, { opacity: 1 }, 11.03);
+          var top = document.getElementById("top");
+          var v = div(top, "942 M$<div style='font-size:44px; letter-spacing:-.04em; margin-top:28px'>de précommandes</div>", "left:0; right:0; top:620px; text-align:center; font-size:170px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff; text-shadow:0 6px 40px rgba(0,0,0,.55); opacity:0");
+          RAW.fromTo(v, { opacity: 0, scale: 1.15, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .35, ease: "power3.out", immediateRender: false }, 10.95);
+          RAW.set(v, { opacity: 0 }, 11.86);
+          div(s, "", "inset:0; background:linear-gradient(180deg, rgba(0,12,40,0) 50%, rgba(0,12,40,.35) 100%)");
+          [9.7, 11.03].forEach(function (t) { var f = div(top, "", "inset:0; background:#fff; opacity:0"); RAW.fromTo(f, { opacity: .3 }, { opacity: 0, duration: .12, immediateRender: false }, t); }); })();
+        // 1c. « Alors faut-il acheter l'action Take-Two ? »
+        (function () { var s = rscene(11.86, 13.82); div(s, "", "inset:0; background:" + NAVY);
+          var q = div(s, "Faut-il acheter<br>Take-Two ?", "left:0; right:0; top:700px; text-align:center; font-size:100px; font-weight:700; letter-spacing:-.055em; line-height:1.05; color:#fff");
+          RAW.fromTo(q, { scale: 1.12, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: .4, ease: "power3.out", immediateRender: false }, 11.86); })();
+        // 1d. « Déjà, pour comprendre… il faut revenir en 2013 » : retour en arrière
+        (function () { var s = rscene(13.82, 19.04);
+          var y = div(s, "2026", "left:0; right:0; top:500px; text-align:center; font-size:240px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + INK);
+          var o = { v: 2026 }; RAW.fromTo(o, { v: 2026 }, { v: 2013, duration: 1.5, ease: "power2.inOut", immediateRender: false, onUpdate: function () { y.textContent = Math.round(o.v); } }, 16.9);
+          var k6 = div(s, "<img src='assets/img/gta6-key.jpg' style='width:300px; display:block; box-shadow:0 20px 50px rgba(0,25,75,.25)'>", "left:390px; top:820px"); rinn(k6, 13.9);
+          RAW.to(k6, { opacity: 0, duration: .2 }, 16.6);
+          var k5 = div(s, "<img src='assets/img/gta5-cover.jpg' style='width:300px; display:block; box-shadow:0 20px 50px rgba(0,25,75,.25)'>", "left:390px; top:820px; opacity:0"); rinn(k5, 16.75); })();
 
         // ===== 3. Retour en 2013 (19,62 → 27,6) =====
-        (function () { var s = scene(19.62, 27.62);
-          var y = div(s, "2026", "left:0; right:0; top:560px; text-align:center; font-size:260px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + INK);
-          count(y, 22.0, 1.85, 2026, 2013, function (v) { return Math.round(v); }, "power2.inOut");
-          var cv = div(s, "<img src='assets/img/gta5-cover.jpg' style='width:300px; display:block; border-radius:6px; box-shadow:0 20px 50px rgba(0,25,75,.25)'>", "left:390px; top:860px; opacity:0"); inn(cv, 22.3);
+        (function () { var s = scene(24.5, 27.62);
           // « les attentes étaient beaucoup moins élevées » : jauge basse
-          tl.to([y, cv], { opacity: 0, duration: .25 }, 24.5);
           var t = div(s, "Les attentes en 2013", "left:0; right:0; text-align:center; top:470px; opacity:0", "a ttl"); inn(t, 24.6);
           var g = div(s, "", "left:100px; top:640px; width:880px; height:70px; background:rgba(0,25,75,.08); opacity:0"), f = div(g, "", "left:0; top:0; width:22%; height:100%; transform:scaleX(0); transform-origin:0 50%; background:" + INK);
           inn(g, 24.7); tl.fromTo(f, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .7, ease: "power3.out", immediateRender: false }, 25.3);
@@ -210,7 +206,7 @@
 
         // ===== 9. CTA (72,98 → 77,07) =====
         (function () {
-          var t0 = 72.72, s = scene(t0, END, true); div(s, "", "inset:0; background:#00194b");
+          var t0 = 72.72, s = scene(t0, 999, true); div(s, "", "inset:0; background:#00194b");
           var avt = div(s, "<svg viewBox='0 0 320 320' style='position:absolute; inset:0; width:100%; height:100%'><defs><linearGradient id='gStory' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.3' stop-color='#fa7e1e'/><stop offset='.6' stop-color='#d62976'/><stop offset='1' stop-color='#962fbf'/></linearGradient></defs><circle id='ring' cx='160' cy='160' r='152' fill='none' stroke='url(#gStory)' stroke-width='10' transform='rotate(-90 160 160)'/></svg><div class='pic'><img src='assets/img/logo-financedata.png'></div>", "", "");
           avt.id = "avatar";
           tl.fromTo(avt, { opacity: 0, scale: .6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .55, ease: "power3.out", immediateRender: false }, t0 + .05);
@@ -230,7 +226,7 @@
         // ===== sous-titres : 3 mots max, pas quand le même texte est à l'écran =====
         var W = window.VO.words.map(function (w) { return { w: w.w === "720" ? "720 %" : w.w, s: w.s, e: w.e }; }), groups = [], cur = [];
         W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
-        var SKIP = [[17.76, 20.76], [45.06, 47.56], [63.96, 65.36], [67.16, 76.08]];
+        var SKIP = [[5.6, 6.2], [11.8, 13.8], [36.24, 38.74], [55.14, 56.54], [58.34, 67.26]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
           if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
