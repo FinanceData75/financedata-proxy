@@ -2,23 +2,28 @@
 
 Skill : script-viral · Source : newsletter FinanceData « Le signal d'achat que le marché ignore » (focus GTA VI) · ~65 s
 
-## Voix off (v2, plus simple)
+## Voix off (v3, texte de l'utilisateur · Hugo, 77,07 s)
 
-GTA 6 sort jeudi. Et la dernière fois qu'un GTA est sorti, l'action de son éditeur a été multipliée par près de 8 en cinq ans. Mais cette fois, vous devez absolument regarder ce chiffre.
+GTA 6 sort jeudi et la dernière fois qu'un GTA est sorti, l'action de son éditeur a été multipliée par près de 8 en cinq ans. Mais aujourd'hui vous devez absolument regarder un chiffre que personne ne vous montre.
 
 Le jeu a déjà battu un record avant même sa sortie, 942 millions de dollars de précommandes. C'est plus que GTA 5 en vingt-quatre heures.
 
-Pour comprendre ce chiffre, il faut revenir en 2013. À l'époque, personne ne croyait vraiment à Take-Two. Pour chaque dollar de bénéfice, les investisseurs n'acceptaient de payer que 8 dollars.
+Mais pour comprendre l'explosion de l'action après la sortie de GTA 5, il faut revenir en 2013. À l'époque, les attentes des investisseurs étaient beaucoup moins élevées.
 
-Alors quand GTA 5 a cartonné, l'action a gagné deux fois. D'abord, parce que les bénéfices ont explosé. Ensuite, parce que les investisseurs ont accepté de payer chaque dollar de bénéfice de plus en plus cher.
+Avant la sortie de GTA 5, les investisseurs n'étaient prêts à payer que 8 fois les futurs bénéfices de Take-Two, la maison mère de GTA.
 
-Mais aujourd'hui, ce chiffre est déjà à plus de 30. Autrement dit, les investisseurs paient déjà le succès de GTA 6, avant même sa sortie. D'ailleurs, la semaine dernière, l'action a pris jusqu'à 10 % en une seule séance.
+Alors quand les ventes de GTA 5 ont dépassé les attentes, les bénéfices ont explosé et l'action a grimpé grâce à cette surprise. Elle a pris 720 % dans les cinq années qui ont suivi.
 
-C'est tout le paradoxe de la Bourse. Quand tout le monde attend un succès, il est déjà dans le prix.
+Mais aujourd'hui, les investisseurs ont des attentes très élevées, l'action se paie plus de 30 fois les bénéfices futurs. C'est 4 fois plus qu'en 2013.
 
-Pour nous, GTA 6 sera un carton. Mais une hausse comme celle de 2013 paraît aujourd'hui très difficile. Pour que l'action s'envole, il faudra une vraie surprise.
+Autrement dit, les investisseurs anticipent déjà l'énorme succès de GTA 6, avant même sa sortie.
+
+Et c'est tout le paradoxe de la Bourse. Quand tout le monde attend un succès, il est déjà dans le prix et le potentiel est donc restreint.
+
+Pour nous, GTA 6 sera un carton et l'action pourrait bien performer. Mais une hausse comme celle de 2013 paraît aujourd'hui très difficile. Pour que l'action s'envole, il faudra une vraie surprise.
 
 Et si vous voulez enfin comprendre les mécanismes invisibles des marchés, abonnez-vous.
+
 
 ## Vérifications
 
