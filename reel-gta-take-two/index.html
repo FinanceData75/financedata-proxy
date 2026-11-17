@@ -38,6 +38,8 @@
       <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="77.07" data-track-index="1"></audio>
       <div id="bgs" class="clip" data-start="0" data-duration="77.07" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
       <div id="stage" class="clip" data-start="0" data-duration="77.07" data-track-index="3" style="position:absolute; inset:0"></div>
+      <video id="v-hook" class="clip" src="assets/video/hook-trailer.mp4" data-start="0.6" data-duration="1.76" data-track-index="4" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="top" class="clip" data-start="0" data-duration="77.07" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
     </div>
     <script>
       (function () {
@@ -77,12 +79,18 @@
 
         // ===== 1. HOOK (0 → 11,4) =====
         // 1a. « GTA 6 sort jeudi » : le key art plein écran dès la 1re image
-        (function () { var s = scene(0, 2.36, true); photo(s, "gta6-key.jpg", 1120, 1.1, 0, 2.36, "linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, rgba(0,0,0,.35) 100%)");
-          var d = div(s, "<span class='pill' style='font-size:52px; background:#fff; color:" + INK + "'>Sortie jeudi 19 novembre</span>", "left:100px; top:330px; opacity:0"); d.style.opacity = 1; })();
+        (function () { var s = scene(0, 0.6, true); photo(s, "gta6-key.jpg", 1120, 1.12, 0, 0.6, "linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,0) 32%)");
+          // 0,6 → 2,36 : trois plans du trailer (bateau, néons, Jason et Lucia), coupés sur la voix (vidéo, piste 4)
+          var top = document.getElementById("top");
+          var tx = div(top, "GTA 6 sort jeudi", "left:0; right:0; top:330px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.05em; color:#fff; text-shadow:0 4px 30px rgba(0,0,0,.55)");
+          tl.fromTo(tx, { scale: 1.15, transformOrigin: "50% 50%" }, { scale: 1, duration: .35, ease: "power3.out", immediateRender: false }, 0.0);
+          tl.set(tx, { opacity: 0 }, 2.36);
+          // flash blanc très court à chaque coupe
+          [0.6, 1.12, 1.7].forEach(function (t) { var f = div(top, "", "inset:0; background:#fff; opacity:0"); tl.fromTo(f, { opacity: .35 }, { opacity: 0, duration: .12, immediateRender: false }, t); }); })();
         // 1b. « la dernière fois qu'un GTA est sorti » : GTA 5, 2013
         (function () { var s = scene(2.36, 3.55, true); div(s, "", "inset:0; background:" + NAVY);
           var c = div(s, "<img src='assets/img/gta5-cover.jpg' style='width:560px; display:block; border-radius:6px; box-shadow:0 30px 70px rgba(0,0,0,.45)'>", "left:260px; top:420px");
-          tl.fromTo(c, { scale: 1.06 }, { scale: 1, duration: 1.2, ease: "power2.out", immediateRender: false }, 2.36);
+          tl.fromTo(c, { scale: 1.18 }, { scale: 1, duration: .5, ease: "power3.out", immediateRender: false }, 2.36);
           div(s, "GTA 5 · 17 septembre 2013", "left:0; right:0; top:1150px; text-align:center; font-size:36px; font-weight:700; letter-spacing:-.03em; color:#fff"); })();
         // 1c. « l'action de son éditeur… près de 8 en cinq ans »
         (function () { var s = scene(3.55, 7.45, true);
@@ -209,7 +217,7 @@
         // ===== sous-titres : 3 mots max, pas quand le même texte est à l'écran =====
         var W = window.VO.words.map(function (w) { return { w: w.w === "720" ? "720 %" : w.w, s: w.s, e: w.e }; }), groups = [], cur = [];
         W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
-        var SKIP = [[0.7, 2.3], [14.4, 17.4], [41.7, 44.2], [61.1, 62.0], [64.7, 66.0], [70.3, 72.98]];
+        var SKIP = [[0, 2.3], [14.4, 17.4], [41.7, 44.2], [61.1, 62.0], [64.7, 66.0], [70.3, 72.98]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
           if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
