@@ -2,17 +2,15 @@
 
 Skill : script-viral · Source : newsletter FinanceData « Le signal d'achat que le marché ignore » (focus GTA VI) · ~65 s
 
-## Voix off (v5 · nouveau hook · Hugo, 83,95 s)
+## Voix off (v6 · hook « faut-il acheter » · Hugo, 71,61 s)
 
 La dernière fois que GTA est sorti, l'action Take-Two, la société qui détient le jeu, a explosé de 727 % dans les 5 années qui ont suivi.
 
-Aujourd'hui les ventes de GTA 6 ont déjà battu des records. Alors faut-il acheter l'action Take-Two ?
+Et aujourd'hui les ventes de GTA 6 ont déjà battu des records. Alors faut-il acheter l'action Take-Two ?
 
-Pour répondre à cette question, vous devez absolument comprendre plusieurs choses.
+Déjà, pour comprendre l'explosion de l'action après la sortie de GTA 5, il faut revenir en 2013.
 
-GTA 6 a explosé les chiffres avant même sa sortie avec 942 millions de dollars de précommandes. C'est plus que GTA 5, en vingt-quatre heures.
-
-Mais pour comprendre l'explosion de l'action après la sortie de GTA 5, il faut revenir en 2013. À l'époque, les attentes des investisseurs étaient beaucoup moins élevées.
+À l'époque, les attentes des investisseurs étaient beaucoup moins élevées.
 
 Avant la sortie de GTA 5, les investisseurs n'étaient prêts à payer que 8 fois les futurs bénéfices de Take-Two, la maison mère de GTA.
 
