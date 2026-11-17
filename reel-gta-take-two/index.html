@@ -34,18 +34,24 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="77.07" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="77.07" data-track-index="1"></audio>
-      <div id="bgs" class="clip" data-start="0" data-duration="77.07" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
-      <video id="v-pre" class="clip" src="assets/video/bg-precommandes.mp4" data-start="11.42" data-duration="8.2" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <video id="v-avis" class="clip" src="assets/video/bg-avis.mp4" data-start="63.32" data-duration="9.4" data-track-index="7" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <div id="stage" class="clip" data-start="0" data-duration="77.07" data-track-index="3" style="position:absolute; inset:0"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="80.43" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="80.43" data-track-index="1"></audio>
+      <div id="bgs" class="clip" data-start="0" data-duration="80.43" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
+      <video id="v-pre" class="clip" src="assets/video/bg-precommandes.mp4" data-start="14.78" data-duration="8.2" data-track-index="6" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <video id="v-avis" class="clip" src="assets/video/bg-avis.mp4" data-start="66.68" data-duration="9.4" data-track-index="7" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="stage" class="clip" data-start="0" data-duration="80.43" data-track-index="3" style="position:absolute; inset:0"></div>
       <video id="v-hook" class="clip" src="assets/video/hook-trailer.mp4" data-start="1.0" data-duration="1.36" data-track-index="4" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:1920px; object-fit:cover"></video>
-      <div id="top" class="clip" data-start="0" data-duration="77.07" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
+      <div id="top" class="clip" data-start="0" data-duration="80.43" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
     </div>
     <script>
       (function () {
-        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 77.07;
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 80.43;
+        // phrase insérée à 11,40 s (« Mais avant de vous dire lequel, il faut comprendre le contexte. », +3,36 s)
+        function M(t) { return t < 11.40 ? t : t + 3.36; }
+        var RAW = { to: tl.to.bind(tl), fromTo: tl.fromTo.bind(tl), set: tl.set.bind(tl) };
+        tl.to = function (a, b, p) { return RAW.to(a, b, typeof p === "number" ? M(p) : p); };
+        tl.fromTo = function (a, b, c, p) { return RAW.fromTo(a, b, c, typeof p === "number" ? M(p) : p); };
+        tl.set = function (a, b, p) { return RAW.set(a, b, typeof p === "number" ? M(p) : p); };
         var st = document.getElementById("stage"), T = window.TT, N = T.length;
         var INK = "#00194b", SOFT = "#5b6b8a", NAVY = "#00194b", DN = "#ff1744", DNT = "#d50f35", GR = "#00b85c", GRT = "#00843f", PINK = "#ff4fa3";
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
@@ -111,7 +117,9 @@
           var shuf = { v: 0 }; tl.fromTo(shuf, { v: 0 }, { v: 40, duration: 3.6, ease: "none", immediateRender: false, onUpdate: function () { h.num.textContent = [12, 7, 41, 3, 26, 9, 33, 15, 8, 22][Math.floor(shuf.v) % 10] + "×"; } }, 7.5);
           var bar = div(h.box, "", "left:120px; right:120px; top:150px; height:110px; border-radius:6px; transform:scaleX(0); transform-origin:0 50%; background:" + INK);
           tl.fromTo(bar, { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: .45, ease: "power3.out", immediateRender: false }, 10.4);
-          var lock = div(h.box, "Masqué", "left:0; right:0; top:360px; text-align:center; font-size:34px; font-weight:700; letter-spacing:.02em; color:" + SOFT + "; opacity:0"); inn(lock, 10.6); })();
+          var lock = div(h.box, "Masqué", "left:0; right:0; top:360px; text-align:center; font-size:34px; font-weight:700; letter-spacing:.02em; color:" + SOFT + "; opacity:0"); inn(lock, 10.6);
+          RAW.to(h.box, { scale: 1.03, transformOrigin: "50% 50%", duration: .35, ease: "power2.out", yoyo: true, repeat: 1 }, 12.3);
+          RAW.to(h.box, { y: -40, opacity: 0, duration: .35, ease: "power2.in" }, 14.45); })();
 
         // ===== 2. Le record : 942 M$ (11,42 → 19,6) =====
         (function () { var s = scene(11.42, 19.62, true); s.style.background = "transparent"; div(s, "", "inset:0; background:linear-gradient(180deg, rgba(0,12,40,.5), rgba(0,12,40,.72))");
@@ -222,17 +230,17 @@
         // ===== sous-titres : 3 mots max, pas quand le même texte est à l'écran =====
         var W = window.VO.words.map(function (w) { return { w: w.w === "720" ? "720 %" : w.w, s: w.s, e: w.e }; }), groups = [], cur = [];
         W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
-        var SKIP = [[14.4, 17.4], [41.7, 44.2], [60.6, 62.0], [63.8, 72.72]];
+        var SKIP = [[17.76, 20.76], [45.06, 47.56], [63.96, 65.36], [67.16, 76.08]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
           if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
           var lim = SKIP.reduce(function (m, r) { return r[0] > t0 && r[0] < m ? r[0] : m; }, END);
           var d = div(document.getElementById("top"), "<span class='cap-box'>" + gp.map(function (t) { return t.w; }).join(" ") + "</span>", "", "cap-line");
-          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out", immediateRender: false }, Math.max(0, t0 - .06));
-          tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6, lim) - .035);
+          RAW.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out", immediateRender: false }, Math.max(0, t0 - .06));
+          RAW.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6, lim) - .035);
         });
 
-        tl.set({}, {}, END);
+        RAW.set({}, {}, END);
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
     </script>

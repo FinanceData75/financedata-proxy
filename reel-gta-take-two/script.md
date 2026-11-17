@@ -2,9 +2,9 @@
 
 Skill : script-viral · Source : newsletter FinanceData « Le signal d'achat que le marché ignore » (focus GTA VI) · ~65 s
 
-## Voix off (v3, texte de l'utilisateur · Hugo, 77,07 s)
+## Voix off (v4 · Hugo, 80,43 s, phrase de contexte insérée)
 
-GTA 6 sort jeudi et la dernière fois qu'un GTA est sorti, l'action de son éditeur a été multipliée par près de 8 en cinq ans. Mais aujourd'hui vous devez absolument regarder un chiffre que personne ne vous montre.
+GTA 6 sort jeudi et la dernière fois qu'un GTA est sorti, l'action de son éditeur a été multipliée par près de 8 en cinq ans. Mais aujourd'hui vous devez absolument regarder un chiffre que personne ne vous montre. Mais avant de vous dire lequel, il faut comprendre le contexte.
 
 Le jeu a déjà battu un record avant même sa sortie, 942 millions de dollars de précommandes. C'est plus que GTA 5 en vingt-quatre heures.
 
