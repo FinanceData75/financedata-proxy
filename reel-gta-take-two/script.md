@@ -2,17 +2,17 @@
 
 Skill : script-viral · Source : newsletter FinanceData « Le signal d'achat que le marché ignore » (focus GTA VI) · ~65 s
 
-## Voix off (v1, texte pour ElevenLabs)
+## Voix off (v2, plus simple)
 
 GTA 6 sort jeudi. Et la dernière fois qu'un GTA est sorti, l'action de son éditeur a été multipliée par près de 8 en cinq ans. Mais cette fois, vous devez absolument regarder ce chiffre.
 
-Le jeu a déjà battu un record avant même sa sortie, 942 millions de dollars de précommandes. Plus que GTA 5 en vingt-quatre heures.
+Le jeu a déjà battu un record avant même sa sortie, 942 millions de dollars de précommandes. C'est plus que GTA 5 en vingt-quatre heures.
 
-Ce chiffre, c'est ce que le marché paie pour chaque dollar de bénéfice de Take-Two. En 2013, à la sortie de GTA 5, il payait moins de 8 dollars. Aujourd'hui, il en paie plus de 30.
+Pour comprendre ce chiffre, il faut revenir en 2013. À l'époque, personne ne croyait vraiment à Take-Two. Pour chaque dollar de bénéfice, les investisseurs n'acceptaient de payer que 8 dollars.
 
-Regardez, en 2013, personne n'y croyait. L'action valait 17 dollars. Alors quand GTA 5 s'est vendu à plus de 200 millions d'exemplaires, l'action a gagné deux fois. Les bénéfices ont explosé, et le marché a accepté de les payer de plus en plus cher.
+Alors quand GTA 5 a cartonné, l'action a gagné deux fois. D'abord, parce que les bénéfices ont explosé. Ensuite, parce que les investisseurs ont accepté de payer chaque dollar de bénéfice de plus en plus cher.
 
-Mais cette fois, tout le monde l'attend. Take-Two prévoit 20 % de ventes en plus cette année, et la semaine dernière, l'action a déjà pris jusqu'à 10 % en une seule séance.
+Mais aujourd'hui, ce chiffre est déjà à plus de 30. Autrement dit, les investisseurs paient déjà le succès de GTA 6, avant même sa sortie. D'ailleurs, la semaine dernière, l'action a pris jusqu'à 10 % en une seule séance.
 
 C'est tout le paradoxe de la Bourse. Quand tout le monde attend un succès, il est déjà dans le prix.
 
