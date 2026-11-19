@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <style>
+      /* Reel « L'IPO d'Anthropic : mieux vaut être patient » (72,64 s). Fond blanc FinanceData, bleu sombre pour les moments forts. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f6f8fc; }
+      #root { width: 1080px; height: 1920px; position: relative; overflow: hidden; font-family: "Display", sans-serif; color: #00194b; background: #f6f8fc; font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
+      #bg { position: absolute; inset: 0; background: #f6f8fc; }
+      #bg .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,25,75,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,25,75,.05) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      .a { position: absolute; }
+      .scene { position: absolute; inset: 0; opacity: 0; }
+      .navy { background: #00194b; }
+      .navy .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-feature-settings: "tnum" 1; }
+      .cap-line { position: absolute; left: 100px; right: 100px; top: 1400px; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.78); font-weight: 700; font-size: 52px; line-height: 1.12; letter-spacing: -.05em; color: #fff; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="72.64" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="72.64" data-track-index="1"></audio>
+      <div id="bgs" class="clip" data-start="0" data-duration="72.64" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
+      <div id="stage" class="clip" data-start="0" data-duration="72.64" data-track-index="3" style="position:absolute; inset:0"></div>
+      <div id="top" class="clip" data-start="0" data-duration="72.64" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 72.64;
+        var st = document.getElementById("stage"), top = document.getElementById("top");
+        var INK = "#00194b", SOFT = "#5b6b8a", DN = "#ff1744", DNT = "#d50f35", GR = "#00b85c", GRT = "#00843f", CY = "#7dd0f5";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
+        function inn(n, t, d, y) { tl.fromTo(n, { opacity: 0, y: y == null ? 12 : y }, { opacity: 1, y: 0, duration: d || .4, ease: "power2.out", immediateRender: false }, t); return n; }
+        function out(n, t, d) { tl.to(n, { opacity: 0, duration: d || .2 }, t); return n; }
+        function scene(t0, t1, cls) { var s = div(st, "", "", "scene" + (cls ? " " + cls : "")); if (cls === "navy") div(s, "", "", "grid"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1); return s; }
+
+        // ===== HOOK 1 (0 → 2,0) : « N'achetez pas l'action d'Anthropic aujourd'hui » — l'ordre d'achat qu'on arrête =====
+        (function () { var s = scene(0, 2.0);
+          var card = div(s, "", "left:120px; right:120px; top:560px; height:620px; border-radius:20px; background:#fff; box-shadow:0 40px 100px rgba(0,25,75,.16)");
+          div(card, "Anthropic", "left:56px; top:52px; font-size:56px; font-weight:700; letter-spacing:-.05em; color:" + INK);
+          div(card, "ANT · Nasdaq", "left:56px; top:124px; font-size:30px; font-weight:600; color:" + SOFT);
+          var px = div(card, "81,00 $", "left:56px; top:200px; font-size:120px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + INK);
+          var tag = div(card, "1<sup style='font-size:.55em'>re</sup> cotation", "right:56px; top:64px; font-size:30px; font-weight:700; color:" + GRT);
+          var btn = div(card, "<span class='b1'>Acheter</span><span class='b2' style='display:none'>Attendez</span>", "left:56px; right:56px; top:440px; height:120px; line-height:116px; border-radius:14px; text-align:center; background:" + GR + "; color:#fff; font-size:52px; font-weight:700; letter-spacing:-.04em");
+          // curseur qui fonce vers le bouton
+          var cur = div(s, "<svg width='70' height='90' viewBox='0 0 24 30' style='position:static'><path d='M2 1 L2 24 L8 18.5 L12.5 28 L16.5 26.2 L12 17 L20 17 Z' fill='#fff' stroke='#00194b' stroke-width='1.6' stroke-linejoin='round'/></svg>", "left:760px; top:1290px");
+          tl.fromTo(cur, { x: 0, y: 0 }, { x: -170, y: -220, duration: .38, ease: "power3.out", immediateRender: false }, 0);
+          tl.to(cur, { scale: .88, duration: .06, transformOrigin: "0% 0%" }, 0.38); tl.to(cur, { scale: 1, duration: .1 }, 0.44);
+          // « N'achetez pas » : le bouton passe au rouge, verrouillé
+          tl.to(btn, { backgroundColor: DN, duration: .1 }, 0.42);
+          tl.set(btn.querySelector(".b1"), { display: "none" }, 0.44); tl.set(btn.querySelector(".b2"), { display: "inline" }, 0.44);
+          tl.fromTo(card, { x: 0 }, { x: 14, duration: .05, yoyo: true, repeat: 5, ease: "none", immediateRender: false }, 0.44);
+          tl.fromTo(card, { scale: 1, transformOrigin: "50% 50%" }, { scale: 1.06, duration: 1.4, ease: "power1.out", immediateRender: false }, 0.6);
+          // « aujourd'hui »
+          var d = div(s, "Aujourd'hui", "left:0; right:0; top:420px; text-align:center; font-size:64px; font-weight:700; letter-spacing:-.05em; color:" + INK + "; opacity:0"); inn(d, 1.42, .3);
+        })();
+
+        // ===== HOOK 2 (2,0 → 5,05) : « sans connaître ce qu'a découvert ce chercheur américain » — le portrait caché =====
+        (function () { var s = scene(2.0, 7.6, "navy");
+          var ring = div(s, "", "left:290px; top:520px; width:500px; height:500px; border-radius:50%; overflow:hidden; border:6px solid " + CY);
+          var img = div(ring, "<img src='assets/img/ritter.jpg' style='width:100%; height:100%; object-fit:cover; display:block'>", "inset:0");
+          tl.set(img, { filter: "blur(26px) brightness(.35)" }, 2.0);
+          var q = div(ring, "?", "left:0; right:0; top:110px; text-align:center; font-size:240px; font-weight:700; line-height:1; color:#fff");
+          tl.fromTo(ring, { scale: .7, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: .45, ease: "power3.out", immediateRender: false }, 2.0);
+          tl.fromTo(ring, { scale: 1 }, { scale: 1.05, duration: 2.4, ease: "none", immediateRender: false }, 2.45);
+          var t = div(s, "Ce qu'il a découvert", "left:0; right:0; top:1110px; text-align:center; font-size:56px; font-weight:700; letter-spacing:-.045em; color:#fff; opacity:0"); inn(t, 2.9, .35);
+          // « Lui, c'est Jay Ritter » : on révèle
+          tl.to(q, { opacity: 0, duration: .2 }, 4.85);
+          tl.to(img, { filter: "blur(0px) brightness(1)", duration: .45, ease: "power2.out" }, 4.9);
+          out(t, 4.85);
+          var n = div(s, "Jay Ritter", "left:0; right:0; top:1090px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.055em; color:#fff; opacity:0"); inn(n, 5.1, .35);
+          var r = div(s, "Professeur à l'université de Floride", "left:0; right:0; top:1200px; text-align:center; font-size:38px; font-weight:600; letter-spacing:-.03em; color:" + CY + "; opacity:0"); inn(r, 5.95, .35);
+        })();
+
+        // ===== sous-titres : 3 mots max =====
+        var W = window.VO.words, groups = [], cur = [];
+        W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
+        var SKIP = [[5.0, 5.9]];
+        groups.forEach(function (gp, k) {
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
+          if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
+          var lim = SKIP.reduce(function (m, r) { return r[0] > t0 && r[0] < m ? r[0] : m; }, END);
+          var d = div(top, "<span class='cap-box'>" + gp.map(function (t) { return t.w.replace(/^18$/, "18 %").replace(/^50$/, "50 %"); }).join(" ") + "</span>", "", "cap-line");
+          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out", immediateRender: false }, Math.max(0, t0 - .06));
+          tl.set(d, { opacity: 0 }, Math.min(t1, gp[gp.length - 1].e + .6, lim) - .035);
+        });
+
+        tl.set({}, {}, END);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
