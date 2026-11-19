@@ -8,7 +8,9 @@ N'achetez pas l'action d'Anthropic aujourd'hui sans connaître ce qu'a découver
 
 Lui, c'est Jay Ritter, professeur à l'université de Floride. Depuis plus de 30 ans, il étudie ce qui arrive aux actions après leur entrée en Bourse. Et ce qu'il a trouvé devrait vous faire réfléchir.
 
-Car aujourd'hui, Anthropic, la maison mère de Claude, entre en Bourse à 81 dollars par action. Elle vaut déjà plus de 1 400 milliards de dollars.
+Bienvenue dans le guide de la culture financière, épisode 6.
+
+Aujourd'hui, Anthropic, la maison mère de Claude, entre en Bourse à 83 dollars par action. Elle vaut déjà plus de 1 400 milliards de dollars.
 
 Mais sur des milliers d'introductions depuis 1980, Jay Ritter a mesuré une chose. En moyenne, ces actions font 18 % de moins que le marché sur leurs trois premières années.
 
@@ -29,7 +31,7 @@ Et si vous voulez enfin comprendre les mécanismes invisibles des marchés, abon
 | Affirmation | Valeur | Source |
 |---|---|---|
 | Anthropic en Bourse jeudi | cotation prévue le 19/11/2026 sur le Nasdaq (ANT), prix fixé le 18/11 au soir | CNBC 16/11/2026 |
-| 81 $, plus de 1 400 Md$ | prix d'IPO fixé à 81 $ (au-dessus de la fourchette 70–78 $), valorisation > 1 400 Md$ | donné par l'utilisateur le 19/11 |
+| 83 $, plus de 1 400 Md$ | prix d'IPO fixé à 83 $ (au-dessus de la fourchette 70–78 $), valorisation > 1 400 Md$ | donné par l'utilisateur le 19/11 |
 | Demandes 6 fois supérieures | « commandes six fois supérieures au nombre d'actions disponibles » | newsletter FinanceData du 17/11 (à sourcer) |
 | −18 % sur 3 ans | IPO 1980–2017 : −17,9 % contre le marché sur 3 ans (pondération égale) | Jay Ritter, mise à jour 2019, résumé par Larry Swedroe ; −20,2 % sur 1980–2023 selon une source secondaire, à confirmer sur le site de Ritter |
 | Facebook 38 $ → 17 $ en 4 mois | prix d'IPO 38 $ (18/05/2012), clôture 17,73 $ le 04/09/2012 (−53 %), retour à 38 $ le 02/08/2013 | Yahoo Finance (META) |
