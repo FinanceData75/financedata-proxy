@@ -44,23 +44,27 @@
         function out(n, t, d) { tl.to(n, { opacity: 0, duration: d || .2 }, t); return n; }
         function scene(t0, t1, cls) { var s = div(st, "", "", "scene" + (cls ? " " + cls : "")); if (cls === "navy") div(s, "", "", "grid"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1); return s; }
 
-        // ===== HOOK 1 (0 → 3,3) : « N'achetez pas l'action d'Anthropic aujourd'hui… » — le logo, sobre =====
-        (function () { var s = scene(0, 3.3);
-          var lg = div(s, "<img src='assets/img/anthropic.png' style='width:760px; display:block'>", "left:160px; top:860px");
-          tl.fromTo(lg, { scale: 1.04, transformOrigin: "50% 50%" }, { scale: 1, duration: 3.3, ease: "power1.out", immediateRender: false }, 0);
-          var d = div(s, "Entre en Bourse aujourd'hui", "left:0; right:0; top:1000px; text-align:center; font-size:48px; font-weight:700; letter-spacing:-.04em; color:" + SOFT + "; opacity:0"); inn(d, 1.42, .3);
-          var p = div(s, "81 $ par action", "left:0; right:0; top:1070px; text-align:center; font-size:48px; font-weight:700; letter-spacing:-.04em; color:" + INK + "; opacity:0"); inn(p, 2.0, .3);
-        })();
+        // transitions fluides : fondu court + léger glissement, images fixes (pas de zoom sur les photos)
+        function sc(t0, t1, cls) { var s = div(st, "", "", "scene" + (cls ? " " + cls : "")); tl.fromTo(s, { opacity: 0 }, { opacity: 1, duration: .18, ease: "power1.out", immediateRender: false }, t0); tl.set(s, { opacity: 0 }, t1 + .18); return s; }
+        function full(s, src, pos, dark) { div(s, "<img src='assets/img/" + src + "' style='width:1080px; height:1920px; object-fit:cover; object-position:" + (pos || "50% 50%") + "; display:block'>", "inset:0"); if (dark) div(s, "", "inset:0; background:" + dark); }
+        function rise(n, t, d) { tl.fromTo(n, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: d || .4, ease: "power3.out", immediateRender: false }, t); return n; }
 
-        // ===== HOOK 2 (3,3 → 7,6) : « …ce chercheur américain. Lui, c'est Jay Ritter » — la photo, bords droits =====
-        (function () { var s = scene(3.3, 7.6);
-          var ph = div(s, "<img src='assets/img/ritter.jpg' style='width:760px; height:760px; object-fit:cover; display:block'>", "left:160px; top:430px");
-          tl.fromTo(ph, { opacity: 0 }, { opacity: 1, duration: .25, immediateRender: false }, 3.3);
-          tl.fromTo(ph.querySelector("img"), { scale: 1.06, transformOrigin: "50% 40%" }, { scale: 1, duration: 4.3, ease: "power1.out", immediateRender: false }, 3.3);
-          ph.style.overflow = "hidden";
-          var n = div(s, "Jay Ritter", "left:0; right:0; top:1225px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.055em; color:" + INK + "; opacity:0"); inn(n, 5.1, .35);
-          var r = div(s, "Professeur à l'université de Floride", "left:0; right:0; top:1325px; text-align:center; font-size:38px; font-weight:600; letter-spacing:-.03em; color:" + SOFT + "; opacity:0"); inn(r, 5.95, .35);
-        })();
+        // 1. « N'achetez pas l'action » (0 → 0,88) : la tour Nasdaq
+        (function () { var s = sc(0, 0.88); s.style.opacity = 1; full(s, "nasdaq-tour.jpg", "50% 35%", "linear-gradient(180deg, rgba(0,12,40,.25), rgba(0,12,40,0) 40%, rgba(0,12,40,.3))"); })();
+        // 2. « d'Anthropic aujourd'hui » (0,88 → 2,0) : Claude + Anthropic
+        (function () { var s = sc(0.88, 2.0);
+          var c = div(s, "<img src='assets/img/claude.png' style='width:200px; display:block'>", "left:440px; top:600px"); rise(c, 0.9, .45);
+          var a = div(s, "<img src='assets/img/anthropic.png' style='width:720px; display:block'>", "left:180px; top:880px"); rise(a, 1.0, .45);
+          var d = div(s, "Entre en Bourse aujourd'hui", "left:0; right:0; top:1010px; text-align:center; font-size:46px; font-weight:700; letter-spacing:-.04em; color:" + SOFT + "; opacity:0"); rise(d, 1.42, .35); })();
+        // 3. « sans connaître ce qu'a découvert » (2,0 → 3,3) : la fête de l'introduction, 81 $
+        (function () { var s = sc(2.0, 3.3); full(s, "nasdaq-fete.jpg", "50% 50%", "linear-gradient(180deg, rgba(0,12,40,.55), rgba(0,12,40,.75))");
+          var p = div(s, "81 $", "left:0; right:0; top:700px; text-align:center; font-size:220px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff; text-shadow:0 8px 40px rgba(0,0,0,.4)"); rise(p, 2.05, .4);
+          var q = div(s, "par action · 1<sup style='font-size:.6em'>re</sup> cotation", "left:0; right:0; top:950px; text-align:center; font-size:44px; font-weight:700; letter-spacing:-.04em; color:#e6ecf7; opacity:0"); rise(q, 2.3, .35); })();
+        // 4. « ce chercheur américain. Lui, c'est Jay Ritter » (3,3 → 7,6) : la photo, fixe, bords droits
+        (function () { var s = sc(3.3, 7.6);
+          var ph = div(s, "<img src='assets/img/ritter.jpg' style='width:760px; height:760px; object-fit:cover; display:block'>", "left:160px; top:430px"); rise(ph, 3.3, .45);
+          var n = div(s, "Jay Ritter", "left:0; right:0; top:1225px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.055em; color:" + INK + "; opacity:0"); rise(n, 5.1, .35);
+          var r = div(s, "Professeur à l'université de Floride", "left:0; right:0; top:1325px; text-align:center; font-size:38px; font-weight:600; letter-spacing:-.03em; color:" + SOFT + "; opacity:0"); rise(r, 5.95, .35); })();
 
         // ===== sous-titres : 3 mots max =====
         var W = window.VO.words, groups = [], cur = [];
