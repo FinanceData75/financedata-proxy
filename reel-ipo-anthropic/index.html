@@ -7,6 +7,9 @@
     <script src="assets/vo-words.js"></script>
     <style>
       /* Reel « L'IPO d'Anthropic : mieux vaut être patient » (72,64 s). Fond blanc FinanceData, bleu sombre pour les moments forts. */
+      @font-face { font-family: "Archivo"; src: url("assets/fonts/ArchivoNarrow-var.ttf"); font-weight: 100 900; }
+      @font-face { font-family: "Mono"; src: url("assets/fonts/SpaceMono-Bold.ttf"); font-weight: 700; }
+      @font-face { font-family: "Typo"; src: url("assets/fonts/CourierPrime-Regular.ttf"); font-weight: 400; }
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f6f8fc; }
@@ -26,15 +29,17 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="72.64" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="72.64" data-track-index="1"></audio>
-      <div id="bgs" class="clip" data-start="0" data-duration="72.64" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
-      <div id="stage" class="clip" data-start="0" data-duration="72.64" data-track-index="3" style="position:absolute; inset:0"></div>
-      <div id="top" class="clip" data-start="0" data-duration="72.64" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="76.23" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="76.23" data-track-index="1"></audio>
+      <div id="bgs" class="clip" data-start="0" data-duration="76.23" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
+      <div id="stage" class="clip" data-start="0" data-duration="76.23" data-track-index="3" style="position:absolute; inset:0"></div>
+      <video id="v-dario" class="clip" src="assets/video/dario.mp4" data-start="0" data-duration="0.88" data-track-index="6" muted playsinline style="position:absolute; left:0; top:513px; width:1080px; height:894px; object-fit:cover"></video>
+      <video id="v-claude" class="clip" src="assets/video/claude-usage.mp4" data-start="18.06" data-duration="2.83" data-track-index="7" muted playsinline style="position:absolute; left:0; top:664px; width:1080px; height:592px; object-fit:cover"></video>
+      <div id="top" class="clip" data-start="0" data-duration="76.23" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
     </div>
     <script>
       (function () {
-        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 72.64;
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 76.23;
         var st = document.getElementById("stage"), top = document.getElementById("top");
         var INK = "#00194b", SOFT = "#5b6b8a", DN = "#ff1744", DNT = "#d50f35", GR = "#00b85c", GRT = "#00843f", CY = "#7dd0f5";
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
@@ -49,27 +54,78 @@
         function full(s, src, pos, dark) { div(s, "<img src='assets/img/" + src + "' style='width:1080px; height:1920px; object-fit:cover; object-position:" + (pos || "50% 50%") + "; display:block'>", "inset:0"); if (dark) div(s, "", "inset:0; background:" + dark); }
         function rise(n, t, d) { tl.fromTo(n, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: d || .4, ease: "power3.out", immediateRender: false }, t); return n; }
 
-        // 1. « N'achetez pas l'action » (0 → 0,88) : la tour Nasdaq
-        (function () { var s = sc(0, 0.88); s.style.opacity = 1; full(s, "nasdaq-tour.jpg", "50% 35%", "linear-gradient(180deg, rgba(0,12,40,.25), rgba(0,12,40,0) 40%, rgba(0,12,40,.3))"); })();
+        // 1. « N'achetez pas l'action » (0 → 0,88) : Dario Amodei à Davos (vidéo, piste 6) sur fond bleu sombre
+        (function () { var s = sc(0, 0.88, "navy"); s.style.opacity = 1;
+          div(s, "Dario Amodei, PDG d'Anthropic", "left:0; right:0; top:430px; text-align:center; font-size:34px; font-weight:700; letter-spacing:-.03em; color:#cfd8ea"); })();
         // 2. « d'Anthropic aujourd'hui » (0,88 → 2,0) : Claude + Anthropic
         (function () { var s = sc(0.88, 2.0);
           var c = div(s, "<img src='assets/img/claude.png' style='width:200px; display:block'>", "left:440px; top:600px"); rise(c, 0.9, .45);
           var a = div(s, "<img src='assets/img/anthropic.png' style='width:720px; display:block'>", "left:180px; top:880px"); rise(a, 1.0, .45);
           var d = div(s, "Entre en Bourse aujourd'hui", "left:0; right:0; top:1010px; text-align:center; font-size:46px; font-weight:700; letter-spacing:-.04em; color:" + SOFT + "; opacity:0"); rise(d, 1.42, .35); })();
-        // 3. « sans connaître ce qu'a découvert » (2,0 → 3,3) : la fête de l'introduction, 81 $
-        (function () { var s = sc(2.0, 3.3); full(s, "nasdaq-fete.jpg", "50% 50%", "linear-gradient(180deg, rgba(0,12,40,.55), rgba(0,12,40,.75))");
-          var p = div(s, "81 $", "left:0; right:0; top:700px; text-align:center; font-size:220px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff; text-shadow:0 8px 40px rgba(0,0,0,.4)"); rise(p, 2.05, .4);
-          var q = div(s, "par action · 1<sup style='font-size:.6em'>re</sup> cotation", "left:0; right:0; top:950px; text-align:center; font-size:44px; font-weight:700; letter-spacing:-.04em; color:#e6ecf7; opacity:0"); rise(q, 2.3, .35); })();
-        // 4. « ce chercheur américain. Lui, c'est Jay Ritter » (3,3 → 7,6) : la photo, fixe, bords droits
-        (function () { var s = sc(3.3, 7.6);
-          var ph = div(s, "<img src='assets/img/ritter.jpg' style='width:760px; height:760px; object-fit:cover; display:block'>", "left:160px; top:430px"); rise(ph, 3.3, .45);
-          var n = div(s, "Jay Ritter", "left:0; right:0; top:1225px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.055em; color:" + INK + "; opacity:0"); rise(n, 5.1, .35);
-          var r = div(s, "Professeur à l'université de Floride", "left:0; right:0; top:1325px; text-align:center; font-size:38px; font-weight:600; letter-spacing:-.03em; color:" + SOFT + "; opacity:0"); rise(r, 5.95, .35); })();
+        // 3. « sans connaître ce qu'a découvert » (2,0 → 3,3) : la tour Nasdaq
+        (function () { var s = sc(2.0, 3.3); full(s, "nasdaq-tour.jpg", "50% 35%", "linear-gradient(180deg, rgba(0,12,40,.25), rgba(0,12,40,0) 40%, rgba(0,12,40,.3))"); })();
+        // 4. « ce chercheur américain » (3,3 → 5,05) : le visage
+        (function () { var s = sc(3.3, 5.05);
+          var ph = div(s, "<img src='assets/img/ritter-visage.jpg' style='width:760px; height:760px; object-fit:cover; display:block'>", "left:160px; top:520px"); rise(ph, 3.3, .4); })();
+        // 5. « Lui, c'est Jay Ritter, professeur à l'université de Floride » (5,05 → 7,6) : plan large + nom
+        (function () { var s = sc(5.05, 7.6);
+          div(s, "<img src='assets/img/ritter-large.jpg' style='width:880px; display:block'>", "left:100px; top:330px");
+          var n = div(s, "Jay Ritter", "left:0; right:0; top:1190px; text-align:center; font-size:84px; font-weight:700; letter-spacing:-.055em; color:" + INK + "; opacity:0"); rise(n, 5.1, .35);
+          var r = div(s, "Professeur à l'université de Floride", "left:0; right:0; top:1295px; text-align:center; font-size:38px; font-weight:600; letter-spacing:-.03em; color:" + SOFT + "; opacity:0"); rise(r, 5.95, .35); })();
+        // 6. « Depuis plus de 30 ans, il étudie… » (7,6 → 12,0) : noir et blanc plein écran, « 30 ans »
+        (function () { var s = sc(7.6, 12.0, "navy"); full(s, "ritter-nb.jpg", "50% 30%", "linear-gradient(180deg, rgba(0,12,40,.35), rgba(0,12,40,.8))");
+          var t = div(s, "+ de 30 ans", "left:0; right:0; top:700px; text-align:center; font-size:150px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff; opacity:0"); rise(t, 8.3, .4);
+          var u = div(s, "à étudier les entrées en Bourse", "left:0; right:0; top:880px; text-align:center; font-size:48px; font-weight:700; letter-spacing:-.04em; color:#e6ecf7; opacity:0"); rise(u, 9.3, .4); })();
+        // 7. « Et ce qu'il a trouvé devrait vous faire réfléchir » (12,0 → 14,49) : le chiffre flouté
+        (function () { var s = sc(12.0, 14.49, "navy");
+          var h = div(s, "−18 %", "left:0; right:0; top:700px; text-align:center; font-size:260px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff; filter:blur(30px); opacity:0"); rise(h, 12.05, .4);
+          var t = div(s, "Ce qu'il a trouvé", "left:0; right:0; top:1020px; text-align:center; font-size:52px; font-weight:700; letter-spacing:-.04em; color:" + CY + "; opacity:0"); rise(t, 12.4, .35); })();
+
+        // 8. Générique « le guide de la culture financière, épisode 6 » (14,49 → 18,0), d'après le visuel de la série
+        (function () { var t0 = 14.49, s = sc(t0, 18.0); s.style.background = "#f2f2f4";
+          // grain papier + vignette
+          div(s, "<svg width='1080' height='1920' style='position:absolute; inset:0'><filter id='gr'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .09 0'/></filter><rect width='1080' height='1920' filter='url(#gr)'/></svg>", "inset:0");
+          div(s, "", "inset:0; background:radial-gradient(ellipse 75% 60% at 50% 48%, rgba(0,0,0,0) 55%, rgba(0,0,0,.1) 100%)");
+          // les deux courbes bleues pâles
+          var g = svg(s, 0, 0, 1080, 1920), rnd = function (k) { var x = Math.sin(k * 12.9898) * 43758.5453; return x - Math.floor(x); };
+          var d1 = "", d2 = "", v = 0;
+          for (var i = 0; i <= 120; i++) { var x = i * 9; var y = 210 - rnd(i) * 40 - (i === 38 ? 190 : 0) - (i > 38 && i < 44 ? 120 - (i - 38) * 20 : 0) - Math.sin(i / 9) * 14; d1 += (i ? "L" : "M") + x + " " + y.toFixed(1); }
+          for (var j = 0; j <= 120; j++) { v += (rnd(j + 300) - .42) * 26; var y2 = 1840 - j * 2.3 + v * .9; d2 += (j ? "L" : "M") + j * 9 + " " + y2.toFixed(1); }
+          [d1, d2].forEach(function (d) { var p = el(g, "path", { d: d, fill: "none", stroke: "#7c96e6", "stroke-width": 3, "stroke-opacity": .7, "stroke-linejoin": "round" }); var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; p.style.strokeDashoffset = L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: 2.6, ease: "power1.out", immediateRender: false }, t0); });
+          // « le guide de la culture »
+          var w1 = div(s, "le guide", "left:0; width:1080px; top:760px; text-align:center; font-family:Archivo; font-size:76px; font-weight:700; letter-spacing:-.02em; color:#2b2b2b; opacity:0");
+          var l1 = div(s, "le guide de la culture", "left:0; width:1080px; top:760px; text-align:center; font-family:Archivo; font-size:76px; font-weight:700; letter-spacing:-.02em; color:#2b2b2b; opacity:0");
+          tl.set(w1, { opacity: 1 }, 15.40); tl.set(w1, { opacity: 0 }, 15.88); tl.set(l1, { opacity: 1 }, 15.88);
+          // « financière » : bandeau bleu, lettres qui se décodent
+          var box = div(s, "<span id='fin'>financière</span>", "left:0; right:0; margin:auto; width:max-content; top:862px; padding:4px 26px 10px; background:#1d2f6f; font-family:Mono; font-size:104px; font-weight:700; letter-spacing:-.02em; color:#fff; opacity:0");
+          tl.set(box, { opacity: 1 }, 16.28);
+          var fin = box.querySelector("#fin"), T = "financière", CH = "abcdefghijklmnopqrstuvwxyz", o = { v: 0 };
+          tl.fromTo(o, { v: 0 }, { v: 1, duration: .6, ease: "none", immediateRender: false, onUpdate: function () { var n = Math.floor(o.v * T.length), out = ""; for (var k = 0; k < T.length; k++) out += k < n ? T[k] : CH[Math.floor(rnd(k * 7 + Math.floor(o.v * 30)) * 26)]; fin.textContent = out; } }, 16.28);
+          // « épisode 6 » (machine à écrire)
+          var ep = div(s, "", "left:0; width:850px; top:1032px; text-align:right; font-family:Typo; font-size:46px; color:#2b2b2b");
+          var e = { v: 0 }, E = "épisode 6";
+          tl.fromTo(e, { v: 0 }, { v: E.length, duration: .55, ease: "none", immediateRender: false, onUpdate: function () { ep.textContent = E.slice(0, Math.round(e.v)); } }, 17.1);
+        })();
+
+        // 9. « Aujourd'hui, Anthropic, la maison mère de Claude » (18,0 → 20,89) : Claude en action (vidéo, piste 7)
+        (function () { var s = sc(18.0, 20.89);
+          var c = div(s, "<img src='assets/img/claude.png' style='width:110px; display:block'>", "left:485px; top:440px"); rise(c, 18.1, .4);
+          var t = div(s, "Claude, l'IA d'Anthropic", "left:0; right:0; top:1300px; text-align:center; font-size:44px; font-weight:700; letter-spacing:-.04em; color:" + SOFT + "; opacity:0"); rise(t, 19.6, .35); })();
+        // 10. « entre en Bourse à 81 dollars par action » (20,89 → 23,3) : cérémonie Nasdaq, 81 $
+        (function () { var s = sc(20.89, 23.3); full(s, "nasdaq-fete.jpg", "50% 50%", "linear-gradient(180deg, rgba(0,12,40,.55), rgba(0,12,40,.75))");
+          var p = div(s, "0 $", "left:0; right:0; top:700px; text-align:center; font-size:220px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff; text-shadow:0 8px 40px rgba(0,0,0,.4); opacity:0"); rise(p, 21.0, .3);
+          var o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: 81, duration: .9, ease: "power2.out", immediateRender: false, onUpdate: function () { p.textContent = Math.round(o.v) + " $"; } }, 21.0);
+          var q = div(s, "par action", "left:0; right:0; top:950px; text-align:center; font-size:46px; font-weight:700; letter-spacing:-.04em; color:#e6ecf7; opacity:0"); rise(q, 22.6, .3); })();
+        // 11. « Elle vaut déjà plus de 1 400 milliards de dollars » (23,3 → 26,4)
+        (function () { var s = sc(23.3, 26.4, "navy");
+          var p = div(s, "0", "left:0; right:0; top:690px; text-align:center; font-size:200px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff; opacity:0"); rise(p, 23.35, .3);
+          var o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: 1400, duration: 1.4, ease: "power2.out", immediateRender: false, onUpdate: function () { p.textContent = Math.round(o.v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); } }, 23.6);
+          var q = div(s, "milliards de dollars", "left:0; right:0; top:920px; text-align:center; font-size:52px; font-weight:700; letter-spacing:-.04em; color:" + CY + "; opacity:0"); rise(q, 24.9, .3); })();
 
         // ===== sous-titres : 3 mots max =====
         var W = window.VO.words, groups = [], cur = [];
         W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
-        var SKIP = [[5.0, 7.6]];
+        var SKIP = [[5.0, 7.6], [14.49, 18.0]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
           if (SKIP.some(function (r) { return t0 >= r[0] && t0 < r[1]; })) return;
