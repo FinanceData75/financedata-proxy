@@ -2,13 +2,13 @@
 
 Inspiré de la structure d'un reel anglophone (paradoxe → un chiffre → deux causes → piège → rendez-vous) · ~65 s
 
-## Voix off (v3, skill script-viral)
+## Voix off (v4, hook à une seule idée)
 
-L'or vient de chuter de 36 % depuis son sommet, en pleine guerre avec l'Iran. Et vous devez absolument regarder ce chiffre, car c'est lui qui fait plonger l'or. Mais il approche aussi d'un niveau qui pourrait tout changer.
+L'or vient de chuter de 36 % depuis son sommet, en pleine guerre avec l'Iran. Alors que c'est justement dans ces moments-là qu'il est censé monter.
 
 Bienvenue dans le guide de la culture financière, épisode 7.
 
-Ce chiffre, c'est 5 %. C'est ce que rapporte une obligation américaine à 10 ans, du jamais vu depuis 2007. L'or, lui, ne rapporte rien. Alors l'argent qui a peur vend son or, et achète de la dette américaine.
+Et le coupable, c'est la dette américaine. Une obligation américaine à 10 ans rapporte aujourd'hui plus de 5 %, du jamais vu depuis 2007. L'or, lui, ne rapporte rien. Alors l'argent qui a peur vend son or, et achète de la dette américaine.
 
 Et si l'Amérique paie aussi cher, c'est d'abord à cause de la guerre. Elle a fait flamber le pétrole, le pétrole a fait monter les prix, et la Fed parle maintenant de remonter ses taux.
 
@@ -16,7 +16,7 @@ Mais il y a une raison plus profonde. Sur sa dernière année budgétaire, l'Am�
 
 Résultat, les intérêts de sa dette dépassent 1 000 milliards de dollars par an, plus que le budget de son armée. Pour les payer, elle emprunte encore, et les taux montent encore.
 
-Voilà pourquoi l'or chute en pleine guerre. Mais regardez ce niveau, 3 400 dollars. En 2025, l'or a buté dessus pendant des mois. Cet ancien plafond pourrait maintenant lui servir de plancher. Prochain rendez-vous, la réunion de la Fed, le 9 décembre.
+Voilà pourquoi l'or chute en pleine guerre. Mais il y a un point positif. Il s'approche des 3 400 dollars. En 2025, l'or a buté dessus pendant des mois. Cet ancien plafond pourrait maintenant lui servir de plancher. Prochain rendez-vous, la réunion de la Fed, le 9 décembre.
 
 Et si vous voulez enfin comprendre les mécanismes invisibles des marchés, abonnez-vous.
 
@@ -26,15 +26,14 @@ Et si vous voulez enfin comprendre les mécanismes invisibles des marchés, abon
 |---|---|
 | « L'or vient de chuter de 36 % » | Courbe de l'or depuis 2025 qui se trace, record de janvier puis chute rouge, compteur −36 % |
 | « en pleine guerre avec l'Iran » | Image de guerre / pétrole (photo d'actualité) |
-| « regardez ce chiffre » | Chiffre flouté (même procédé que l'épisode 6) |
-| « un niveau qui pourrait tout changer » | Ligne pointillée horizontale sans légende sous le cours |
+| « là qu'il est censé monter » | Image de crise (guerre, pétrole) avec la courbe de l'or qui continue de baisser |
 | Générique | « le guide de la culture financière, épisode 7 » (charte : Helvetica Bold, IBM Plex Mono sur #00194B, Lora) |
-| « 5 % … depuis 2007 » | Le chiffre se dévoile, puis la courbe du taux à 10 ans 2005–2026 avec le pic de 2026 |
+| « la dette américaine… plus de 5 % … depuis 2007 » | Billet / Capitole, puis la courbe du taux à 10 ans 2005–2026 avec le pic de 2026 et « 5 % » |
 | « L'or ne rapporte rien » | Deux barres : obligation US 5 % / or 0 % |
 | La guerre | Pétrole → prix → Fed (trois pictos qui s'enchaînent) |
 | La dette | Compteur 2 000 Md$ |
 | Le piège | Barres intérêts 1 052 Md$ / armée 833 Md$, puis boucle emprunter → taux ↑ → intérêts ↑ |
-| « regardez ce niveau, 3 400 $ » | Retour sur la courbe de l'or : la ligne pointillée prend sa légende « 3 400 $ », la zone 2025 se colore |
+| « il s'approche des 3 400 $ » | Retour sur la courbe de l'or : ligne pointillée « 3 400 $ », la zone de 2025 se colore |
 | Fed | « 9 décembre · Réunion de la Fed » |
 | CTA | Fond bleu sombre, bouton cyan |
 
