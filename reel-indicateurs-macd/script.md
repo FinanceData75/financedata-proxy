@@ -4,7 +4,7 @@ Format : pédagogie, même série que le RSI (partie 1) et les moyennes mobiles 
 
 ## Voix off (v1)
 
-Les indicateurs pour investir expliqués, partie 3, le MACD. C'est l'indicateur qui vous dit si une tendance accélère, ou si elle est en train de s'essouffler.
+Les indicateurs de trading expliqués, partie 3, le MACD. C'est l'indicateur qui vous dit si une tendance accélère, ou si elle est en train de s'essouffler.
 
 Le MACD compare deux moyennes mobiles du prix, une rapide sur 12 jours et une lente sur 26 jours. L'écart entre les deux, c'est la ligne MACD. Quand elle monte, la hausse prend de la vitesse. Quand elle baisse, le marché ralentit.
 
