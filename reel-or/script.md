@@ -2,13 +2,13 @@
 
 Inspiré de la structure d'un reel anglophone (paradoxe → un chiffre → deux causes → piège → rendez-vous) · ~65 s
 
-## Voix off (v5, hook + teaser)
+## Voix off (v6, hook de l'utilisateur)
 
-L'or vient de chuter de 36 % depuis son sommet, en pleine guerre avec l'Iran. Alors que c'est justement dans ces moments-là qu'il est censé monter. Et la raison qui explique tout se cache dans un placement que presque personne ne regarde.
+L'or vient de chuter de 36 % depuis son sommet, et cette semaine il est tombé au plus bas depuis un an. Et aujourd'hui, il y a une raison qui explique cette chute.
 
 Bienvenue dans le guide de la culture financière, épisode 7.
 
-Ce placement, c'est la dette américaine. Une obligation à 10 ans rapporte aujourd'hui plus de 5 %, du jamais vu depuis 2007. L'or, lui, ne rapporte rien. Alors l'argent qui a peur vend son or, et achète de la dette américaine.
+Cette raison, c'est la dette américaine. Une obligation à 10 ans rapporte aujourd'hui plus de 5 %, du jamais vu depuis 2007. L'or, lui, ne rapporte rien. Alors l'argent qui a peur vend son or, et achète de la dette américaine.
 
 Et si l'Amérique paie aussi cher, c'est d'abord à cause de la guerre. Elle a fait flamber le pétrole, le pétrole a fait monter les prix, et la Fed parle maintenant de remonter ses taux.
 
