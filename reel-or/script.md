@@ -2,13 +2,13 @@
 
 Inspiré de la structure d'un reel anglophone (paradoxe → un chiffre → deux causes → piège → rendez-vous) · ~65 s
 
-## Voix off (v8)
+## Voix off (finale · Hugo, 75,9 s)
 
 L'or vient de chuter de 36 % depuis son sommet, et cette semaine il est tombé au plus bas depuis un an. Et aujourd'hui, il y a une raison qui explique cette chute.
 
 Bienvenue dans le guide de la culture financière, épisode 7.
 
-Cette raison, c'est ce que rapporte la dette américaine. Aujourd'hui, si vous prêtez de l'argent aux États-Unis pour 10 ans, ils vous versent plus de 5 % par an, du jamais vu depuis 2007. Pendant ce temps, l'or ne vous rapporte rien. Alors les investisseurs qui cherchent la sécurité vendent leur or pour acheter des obligations américaines.
+Si l'or chute, c'est en partie à cause du taux d'intérêt de la dette américaine. Aujourd'hui, si vous prêtez de l'argent aux États-Unis pour 10 ans, ils vous versent plus de 5 % par an, du jamais vu depuis 2007. Pendant ce temps, l'or ne vous rapporte rien. Alors les investisseurs qui cherchent la sécurité vendent leur or pour acheter des obligations américaines.
 
 Et si l'Amérique paie aussi cher, c'est d'abord à cause de la guerre. Elle a fait flamber le pétrole, le pétrole a fait monter les prix, et la Fed parle maintenant de remonter ses taux.
 
@@ -16,9 +16,10 @@ Mais il y a une raison plus profonde. Sur sa dernière année budgétaire, l'Am�
 
 Résultat, les intérêts de sa dette dépassent 1 000 milliards de dollars par an, plus que le budget de son armée. Pour les payer, elle emprunte encore, et les taux montent encore.
 
-Voilà pourquoi l'or chute en pleine guerre. Mais il y a un point positif. Il s'approche des 3 400 dollars. En 2025, l'or a buté dessus pendant des mois. Cet ancien plafond pourrait maintenant lui servir de plancher. Prochain rendez-vous, la réunion de la Fed, le 9 décembre.
+Voilà pourquoi l'or chute en pleine guerre. Mais il y a un point positif à surveiller. L'or s'approche maintenant d'un potentiel support à 3 400 dollars. En 2025, l'or a buté dessus pendant des mois. Pour nous, cet ancien plafond pourrait donc maintenant lui servir de plancher.
 
 Et si vous voulez enfin comprendre les mécanismes invisibles des marchés, abonnez-vous.
+
 
 ## Plan visuel
 
