@@ -31,32 +31,29 @@
         // zone nette (en px écran) autour du nombre d'abonnés
         function clip(fx, fy, H, w, h, dy) { var cx = fx * 1080, cy = fy * H + (dy || 0);
           return "inset(" + (cy - h / 2) + "px " + (1080 - cx - w / 2) + "px " + (H - cy - h / 2) + "px " + (cx - w / 2) + "px round 18px)"; }
-        function shot(src, H, fx, fy, t, d, w, h, dy) {
+        function shot(src, H, fx, fy, t, d, w, h, dy, first) {
           var sh = document.createElement("div"); sh.className = "shot"; st.appendChild(sh);
-          sh.innerHTML = "<img class='fg' src='" + src + "' style='height:" + H + "px'><img class='bg' src='" + src + "' style='opacity:0; height:" + H + "px'><img class='fg' src='" + src + "' style='height:" + H + "px; clip-path:" + clip(fx, fy, H, w, h, dy) + "'>";
+          sh.innerHTML = "<img class='fg' src='" + src + "' style='height:" + H + "px'><img class='bg' src='" + src + "' style='opacity:" + (first ? 0 : 1) + "; height:" + H + "px'><img class='fg' src='" + src + "' style='height:" + H + "px; clip-path:" + clip(fx, fy, H, w, h, dy) + "'>";
           tl.set(sh, { opacity: 1 }, t); if (d) tl.set(sh, { opacity: 0 }, t + d);
-          tl.fromTo(sh.children[1], { opacity: 0 }, { opacity: 1, duration: .22, ease: "power1.inOut", immediateRender: false }, t + .1);
+          // le flou n'arrive qu'une fois, au début, de façon linéaire, puis reste
+          if (first) tl.fromTo(sh.children[1], { opacity: 0 }, { opacity: 1, duration: .8, ease: "none", immediateRender: false }, t + .15);
         }
         var pick = [1111, 2500, 4002, 5000, 8001, 10000, 15000, 20000, 30000, 40000, 74300, 85400], t = 0;
         pick.forEach(function (c, k) {
           var s = C.shots.filter(function (x) { return x.c === c; })[0], big = s.f === "img_2997" || s.f === "img_2983";
-          var d = k ? .5 : .7; shot("assets/img/" + s.f + ".jpg", big ? 1080 * 2622 / 1206 : 1080 * 2436 / 1125, s.fx, s.fy, t, d, big ? 215 : 290, big ? 140 : 170, big ? 10 : 16); t += d;
+          var d = k ? 5.2 / 11 : 1.0; shot("assets/img/" + s.f + ".jpg", big ? 1080 * 2622 / 1206 : 1080 * 2436 / 1125, s.fx, s.fy, t, d, big ? 215 : 290, big ? 140 : 170, big ? 10 : 16, k === 0); t += d;
         });
         // l'enregistrement d'écran : 99,9 K → 100 K à 7,0 s
         document.getElementById("v-fg").style.clipPath = clip(.64, .205, 2351, 220, 145, 16);
-        var vb = document.getElementById("v-bg"); vb.style.opacity = 0;
-        tl.to(vb, { opacity: 1, duration: .3, ease: "power1.inOut" }, 6.35);
-        // écran de fin : merci pour les 100 000 abonnés
-        var e = document.createElement("div"); e.setAttribute("style", "position:absolute; inset:0; opacity:0; background:radial-gradient(ellipse 75% 45% at 50% 45%, #0a1f45 0%, #000a1f 55%, #00040d 100%); font-family:Display, sans-serif; color:#fff; text-align:center");
-        e.innerHTML = "<div id='lg' style='position:absolute; left:400px; top:560px; width:280px; height:280px; border-radius:50%; padding:14px; background:linear-gradient(135deg,#ffd166,#f5a623 50%,#ffe9a8)'><div style='width:100%; height:100%; border-radius:50%; padding:8px; background:#000a1f'><img src='assets/img/logo-financedata.png' style='width:100%; height:100%; border-radius:50%; display:block'></div></div>"
-          + "<div id='m1' style='position:absolute; left:0; right:0; top:950px; font-size:64px; font-weight:600; letter-spacing:-.03em'>Merci pour les</div>"
-          + "<div id='m2' style='position:absolute; left:0; right:0; top:1030px; font-size:130px; font-weight:700; letter-spacing:-.05em; color:#ffd166'>100 000</div>"
-          + "<div id='m3' style='position:absolute; left:0; right:0; top:1180px; font-size:64px; font-weight:600; letter-spacing:-.03em'>abonnés</div>";
+                // écran de fin minimaliste : logo + une ligne
+        var e = document.createElement("div"); e.setAttribute("style", "position:absolute; inset:0; opacity:0; background:#000a1f; font-family:Display, sans-serif; color:#fff; text-align:center");
+        e.innerHTML = "<img id='lg' src='assets/img/logo-financedata.png' style='position:absolute; left:450px; top:740px; width:180px; height:180px; border-radius:50%; display:block'>"
+          + "<div id='m1' style='position:absolute; left:0; right:0; top:980px; font-size:46px; font-weight:500; letter-spacing:-.02em'>Merci pour les 100 000 abonnés</div>";
         document.getElementById("top").appendChild(e);
         var E = 8.0;
-        tl.to(e, { opacity: 1, duration: .35, ease: "power1.inOut" }, E);
-        tl.fromTo("#lg", { opacity: 0, scale: .85, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .6, ease: "power3.out", immediateRender: false }, E + .15);
-        ["#m1", "#m2", "#m3"].forEach(function (q, i) { tl.fromTo(q, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .5, ease: "power3.out", immediateRender: false }, E + .45 + i * .15); });
+        tl.to(e, { opacity: 1, duration: .4, ease: "power1.inOut" }, E);
+        tl.fromTo("#lg", { opacity: 0 }, { opacity: 1, duration: .6, ease: "power1.out", immediateRender: false }, E + .2);
+        tl.fromTo("#m1", { opacity: 0 }, { opacity: 1, duration: .6, ease: "power1.out", immediateRender: false }, E + .55);
         tl.set({}, {}, END);
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
