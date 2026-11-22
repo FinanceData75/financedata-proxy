@@ -47,13 +47,11 @@
         document.getElementById("v-fg").style.clipPath = clip(.64, .205, 2351, 220, 145, 16);
                 // écran de fin minimaliste : logo + une ligne
         var e = document.createElement("div"); e.setAttribute("style", "position:absolute; inset:0; opacity:0; background:#000a1f; font-family:Display, sans-serif; color:#fff; text-align:center");
-        e.innerHTML = "<img id='lg' src='assets/img/logo-financedata.png' style='position:absolute; left:450px; top:740px; width:180px; height:180px; border-radius:50%; display:block'>"
-          + "<div id='m1' style='position:absolute; left:0; right:0; top:980px; font-size:46px; font-weight:500; letter-spacing:-.02em'>Merci pour les 100 000 abonnés</div>";
+        e.innerHTML = "<img id='lg' src='assets/img/logo-financedata.png' style='position:absolute; left:375px; top:640px; width:330px; height:330px; border-radius:50%; display:block'>"
+          + "<div id='m1' style='position:absolute; left:0; right:0; top:1040px; font-size:78px; font-weight:600; letter-spacing:-.02em; line-height:1.15'>Merci pour les<br>100 000 abonnés</div>";
         document.getElementById("top").appendChild(e);
         var E = 8.0;
-        tl.to(e, { opacity: 1, duration: .4, ease: "power1.inOut" }, E);
-        tl.fromTo("#lg", { opacity: 0 }, { opacity: 1, duration: .6, ease: "power1.out", immediateRender: false }, E + .2);
-        tl.fromTo("#m1", { opacity: 0 }, { opacity: 1, duration: .6, ease: "power1.out", immediateRender: false }, E + .55);
+        tl.set(e, { opacity: 1 }, E); // coupe franche, aucun fondu ni scintillement
         tl.set({}, {}, END);
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
