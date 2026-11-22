@@ -48,10 +48,13 @@
                 // écran de fin minimaliste : logo + une ligne
         var e = document.createElement("div"); e.setAttribute("style", "position:absolute; inset:0; opacity:0; background:#000a1f; font-family:Display, sans-serif; color:#fff; text-align:center");
         e.innerHTML = "<img id='lg' src='assets/img/logo-financedata.png' style='position:absolute; left:375px; top:640px; width:330px; height:330px; border-radius:50%; display:block'>"
-          + "<div id='m1' style='position:absolute; left:0; right:0; top:1040px; font-size:78px; font-weight:600; letter-spacing:-.02em; line-height:1.15'>Merci pour les<br>100 000 abonnés</div>";
+          + "<svg id='ring' width='400' height='400' viewBox='0 0 400 400' style='position:absolute; left:340px; top:605px; transform:rotate(-90deg)'><defs><linearGradient id='ig' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.3' stop-color='#fa7e1e'/><stop offset='.6' stop-color='#d62976'/><stop offset='.85' stop-color='#962fbf'/><stop offset='1' stop-color='#4f5bd5'/></linearGradient></defs><circle id='rc' cx='200' cy='200' r='184' fill='none' stroke='url(#ig)' stroke-width='11' stroke-linecap='round' stroke-dasharray='1156.1' stroke-dashoffset='1156.1'/></svg>"
+          + "<div id='m1' style='position:absolute; left:0; right:0; top:1060px; font-size:84px; font-weight:600; letter-spacing:-.02em; line-height:1.15'>Merci 100 000 fois</div>";
         document.getElementById("top").appendChild(e);
         var E = 8.0;
         tl.set(e, { opacity: 1 }, E); // coupe franche, aucun fondu ni scintillement
+        // contour de story Instagram qui se dessine autour du logo
+        tl.to("#rc", { attr: { "stroke-dashoffset": 0 }, duration: .7, ease: "power2.inOut" }, E + .15);
         tl.set({}, {}, END);
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
