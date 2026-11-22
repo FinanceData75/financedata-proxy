@@ -6,57 +6,43 @@
     <script src="assets/gsap.min.js"></script>
     <script src="assets/config.js"></script>
     <style>
-      /* Reel « 100 000 abonnés », version minimaliste : captures entières, focale sur le nombre d'abonnés, aucun texte ajouté. */
+      /* Reel « 100 000 abonnés » : captures plein écran, fixes, tout est flouté sauf le nombre d'abonnés (effet surlignage de coupure de presse). */
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
       #root { width: 1080px; height: 1920px; position: relative; overflow: hidden; background: #000; }
       .shot { position: absolute; inset: 0; overflow: hidden; opacity: 0; }
-      .w { position: absolute; top: 0; height: 1920px; }
-      .w img, .w video { width: 100%; height: 100%; display: block; }
+      .bg, .fg { position: absolute; left: 0; top: 0; width: 1080px; display: block; }
+      .bg { filter: blur(10px) brightness(.5); transform: scale(1.03); transform-origin: 50% 0; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="21.8" data-width="1080" data-height="1920">
-      <div id="stage" class="clip" data-start="0" data-duration="21.8" data-track-index="1" style="position:absolute; inset:0"></div>
-      <video id="v-ref" class="clip" src="assets/video/refresh.mp4" data-start="14.5" data-duration="4.4" data-track-index="2" data-layout-allow-overflow muted playsinline style="position:absolute; left:99px; top:0; width:882px; height:1920px"></video>
-      <div id="top" class="clip" data-start="0" data-duration="21.8" data-track-index="3" style="position:absolute; inset:0; pointer-events:none"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="9.6" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="9.6" data-track-index="1" style="position:absolute; inset:0"></div>
+      <video id="v-bg" class="clip bg" src="assets/video/flip.mp4" data-start="6.2" data-duration="1.8" data-track-index="2" muted playsinline style="height:2351px"></video>
+      <video id="v-fg" class="clip fg" src="assets/video/flip.mp4" data-start="6.2" data-duration="1.8" data-track-index="3" muted playsinline style="height:2351px"></video>
+      <div id="top" class="clip" data-start="0" data-duration="9.6" data-track-index="4" style="position:absolute; inset:0"></div>
     </div>
     <script>
       (function () {
-        var C = window.CFG, tl = gsap.timeline({ paused: true }), END = 21.8;
+        var C = window.CFG, tl = gsap.timeline({ paused: true }), END = 9.6;
         var st = document.getElementById("stage");
-        function mk(src, ratio) { // capture entière, ajustée à la hauteur de l'écran
+        // zone nette (en px écran) autour du nombre d'abonnés
+        function clip(fx, fy, H, w, h, dy) { var cx = fx * 1080, cy = fy * H + (dy || 0);
+          return "inset(" + (cy - h / 2) + "px " + (1080 - cx - w / 2) + "px " + (H - cy - h / 2) + "px " + (cx - w / 2) + "px round 18px)"; }
+        function shot(src, H, fx, fy, t, d, w, h, dy) {
           var sh = document.createElement("div"); sh.className = "shot"; st.appendChild(sh);
-          var W = Math.round(1920 * ratio), w = document.createElement("div"); w.className = "w";
-          w.style.left = (1080 - W) / 2 + "px"; w.style.width = W + "px"; w.innerHTML = "<img src='" + src + "'>"; sh.appendChild(w);
-          return { sh: sh, w: w, W: W };
+          sh.innerHTML = "<img class='bg' src='" + src + "' style='height:" + H + "px'><img class='fg' src='" + src + "' style='height:" + H + "px; clip-path:" + clip(fx, fy, H, w, h, dy) + "'>";
+          tl.set(sh, { opacity: 1 }, t); if (d) tl.set(sh, { opacity: 0 }, t + d);
         }
-        // focale : de la capture entière vers le nombre d'abonnés, ramené au centre de l'écran
-        function focal(w, W, fx, fy, Z, t, d, ease) {
-          var ox = fx * W, oy = fy * 1920, left = (1080 - W) / 2;
-          tl.set(w, { transformOrigin: ox + "px " + oy + "px", x: 0, y: 0, scale: 1 }, t);
-          tl.to(w, { x: 540 - (left + ox), y: 960 - oy, scale: Z, duration: d, ease: ease || "expo.inOut" }, t);
-          return { x: 540 - (left + ox), y: 960 - oy };
-        }
-        C.shots.forEach(function (s) {
-          var big = s.f === "img_2997" || s.f === "img_2983", o = mk("assets/img/" + s.f + ".jpg", big ? 1206 / 2622 : 1125 / 2436);
-          tl.set(o.sh, { opacity: 1 }, s.t); tl.set(o.sh, { opacity: 0 }, s.t + s.d);
-          focal(o.w, o.W, s.fx, s.fy, 2.6, s.t + .08, Math.min(.62, s.d - .12));
-          tl.to(o.w, { scale: 2.72, duration: Math.max(.1, s.d - .7), ease: "none" }, s.t + Math.min(.7, s.d - .1));
+        var pick = [1111, 2500, 4002, 5000, 8001, 10000, 15000, 20000, 30000, 40000, 74300, 85400], t = 0;
+        pick.forEach(function (c, k) {
+          var s = C.shots.filter(function (x) { return x.c === c; })[0], big = s.f === "img_2997" || s.f === "img_2983";
+          var d = k ? .5 : .7; shot("assets/img/" + s.f + ".jpg", big ? 1080 * 2622 / 1206 : 1080 * 2436 / 1125, s.fx, s.fy, t, d, big ? 215 : 290, big ? 140 : 170, big ? 10 : 16); t += d;
         });
-        // l'enregistrement d'écran : 99,9 K → 100 K
-        var vw = document.getElementById("v-ref"), B = C.BOOM;
-        focal(vw, 882, .615, .205, 2.6, C.TV + .35, 1.5);
-        tl.to(vw, { scale: 2.75, duration: B - (C.TV + 1.85), ease: "none" }, C.TV + 1.85);
-        tl.to(vw, { scale: 3.0, duration: .18, ease: "power2.out" }, B);
-        tl.to(vw, { scale: 2.8, duration: 1.2, ease: "power3.out" }, B + .18);
+        // l'enregistrement d'écran : 99,9 K → 100 K à 7,0 s
+        document.getElementById("v-fg").style.clipPath = clip(.64, .205, 2351, 220, 145, 16);
         // le tableau de bord : « Followers 100,006 »
-        var d = mk("assets/img/dashboard.png", 588 / 1280);
-        tl.set(d.sh, { opacity: 1 }, C.TD);
-        focal(d.w, d.W, .69, .33, 2.3, C.TD + .3, 1.3);
-        tl.to(d.w, { scale: 2.42, duration: END - (C.TD + 1.6), ease: "none" }, C.TD + 1.6);
-        var blk = document.createElement("div"); blk.setAttribute("style", "position:absolute; inset:0; background:#000; opacity:0"); document.getElementById("top").appendChild(blk);
-        tl.to(blk, { opacity: 1, duration: .5, ease: "power1.in" }, END - .5);
+        shot("assets/img/dashboard.png", 1080 * 1280 / 588, .762, .33, 8.0, 0, 452, 250, -12);
         tl.set({}, {}, END);
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
