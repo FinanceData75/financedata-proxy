@@ -6,93 +6,57 @@
     <script src="assets/gsap.min.js"></script>
     <script src="assets/config.js"></script>
     <style>
-      /* Reel « 100 000 abonnés » : la progression du compteur d'abonnés, du 1er screenshot au passage à 100 K (24,3 s). */
-      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      /* Reel « 100 000 abonnés », version minimaliste : captures entières, focale sur le nombre d'abonnés, aucun texte ajouté. */
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000a1f; }
-      #root { width: 1080px; height: 1920px; position: relative; overflow: hidden; font-family: "Display", sans-serif; color: #fff; background: #000a1f; font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
-      .a { position: absolute; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { width: 1080px; height: 1920px; position: relative; overflow: hidden; background: #000; }
       .shot { position: absolute; inset: 0; overflow: hidden; opacity: 0; }
-      .shot .w { position: absolute; left: 0; top: 0; width: 1080px; }
-      .shot img { width: 1080px; display: block; }
+      .w { position: absolute; top: 0; height: 1920px; }
+      .w img, .w video { width: 100%; height: 100%; display: block; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="24.3" data-width="1080" data-height="1920">
-      <div id="stage" class="clip" data-start="0" data-duration="24.3" data-track-index="1" style="position:absolute; inset:0"></div>
-      <video id="v-ref" class="clip" src="assets/video/refresh.mp4" data-start="14.5" data-duration="4.4" data-track-index="2" muted playsinline style="position:absolute; left:0; top:0; width:1080px; height:2351px; transform-origin:664px 482px; transform:translate(-124px, 278px) scale(2.3)"></video>
-      <div id="top" class="clip" data-start="0" data-duration="24.3" data-track-index="3" style="position:absolute; inset:0"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="21.8" data-width="1080" data-height="1920">
+      <div id="stage" class="clip" data-start="0" data-duration="21.8" data-track-index="1" style="position:absolute; inset:0"></div>
+      <video id="v-ref" class="clip" src="assets/video/refresh.mp4" data-start="14.5" data-duration="4.4" data-track-index="2" data-layout-allow-overflow muted playsinline style="position:absolute; left:99px; top:0; width:882px; height:1920px"></video>
+      <div id="top" class="clip" data-start="0" data-duration="21.8" data-track-index="3" style="position:absolute; inset:0; pointer-events:none"></div>
     </div>
     <script>
       (function () {
-        var C = window.CFG, tl = gsap.timeline({ paused: true }), END = C.END;
-        var st = document.getElementById("stage"), top = document.getElementById("top");
-        var CY = "#7dd0f5", GOLD = "#ffd166";
-        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
-        function fmt(v) { return Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " "); }
-        var FX = 540, FY = 760; // point de l'écran où l'on cale le compteur d'abonnés
-
-        // ---------- les captures, zoomées sur le nombre d'abonnés ----------
-        C.shots.forEach(function (s, k) {
-          var sh = div(st, "", "", "shot"), w = div(sh, "<img src='assets/img/" + s.f + ".jpg'>", "", "w");
-          var H = 1080 * (s.f === "img_2997" || s.f === "img_2983" ? 2622 / 1206 : 2436 / 1125), ox = s.fx * 1080, oy = s.fy * H;
-          tl.set(w, { x: FX - ox, y: FY - oy, transformOrigin: ox + "px " + oy + "px", scale: 2.15 }, 0);
-          tl.set(sh, { opacity: 1 }, s.t); tl.set(sh, { opacity: 0 }, s.t + s.d);
-          tl.fromTo(w, { scale: 2.0 }, { scale: 2.35, duration: s.d, ease: "power1.out", immediateRender: false }, s.t);
-          // flash très court à chaque coupe
-          if (k) { var f = div(sh, "", "inset:0; background:#fff; opacity:0"); tl.fromTo(f, { opacity: .18 }, { opacity: 0, duration: .12, immediateRender: false }, s.t); }
+        var C = window.CFG, tl = gsap.timeline({ paused: true }), END = 21.8;
+        var st = document.getElementById("stage");
+        function mk(src, ratio) { // capture entière, ajustée à la hauteur de l'écran
+          var sh = document.createElement("div"); sh.className = "shot"; st.appendChild(sh);
+          var W = Math.round(1920 * ratio), w = document.createElement("div"); w.className = "w";
+          w.style.left = (1080 - W) / 2 + "px"; w.style.width = W + "px"; w.innerHTML = "<img src='" + src + "'>"; sh.appendChild(w);
+          return { sh: sh, w: w, W: W };
+        }
+        // focale : de la capture entière vers le nombre d'abonnés, ramené au centre de l'écran
+        function focal(w, W, fx, fy, Z, t, d, ease) {
+          var ox = fx * W, oy = fy * 1920, left = (1080 - W) / 2;
+          tl.set(w, { transformOrigin: ox + "px " + oy + "px", x: 0, y: 0, scale: 1 }, t);
+          tl.to(w, { x: 540 - (left + ox), y: 960 - oy, scale: Z, duration: d, ease: ease || "expo.inOut" }, t);
+          return { x: 540 - (left + ox), y: 960 - oy };
+        }
+        C.shots.forEach(function (s) {
+          var big = s.f === "img_2997" || s.f === "img_2983", o = mk("assets/img/" + s.f + ".jpg", big ? 1206 / 2622 : 1125 / 2436);
+          tl.set(o.sh, { opacity: 1 }, s.t); tl.set(o.sh, { opacity: 0 }, s.t + s.d);
+          focal(o.w, o.W, s.fx, s.fy, 2.6, s.t + .08, Math.min(.62, s.d - .12));
+          tl.to(o.w, { scale: 2.72, duration: Math.max(.1, s.d - .7), ease: "none" }, s.t + Math.min(.7, s.d - .1));
         });
-        // la vidéo du passage à 100 K (piste 2) : légère poussée
-        var vr = document.getElementById("v-ref");
+        // l'enregistrement d'écran : 99,9 K → 100 K
+        var vw = document.getElementById("v-ref"), B = C.BOOM;
+        focal(vw, 882, .615, .205, 2.6, C.TV + .35, 1.5);
+        tl.to(vw, { scale: 2.75, duration: B - (C.TV + 1.85), ease: "none" }, C.TV + 1.85);
+        tl.to(vw, { scale: 3.0, duration: .18, ease: "power2.out" }, B);
+        tl.to(vw, { scale: 2.8, duration: 1.2, ease: "power3.out" }, B + .18);
         // le tableau de bord : « Followers 100,006 »
-        (function () { var sh = div(st, "", "", "shot"), w = div(sh, "<img src='assets/img/dashboard.png'>", "", "w"), H = 1080 * 1280 / 588, ox = .66 * 1080, oy = .33 * H;
-          tl.set(w, { x: FX - ox, y: FY - oy, transformOrigin: ox + "px " + oy + "px" }, 0);
-          tl.set(sh, { opacity: 1 }, C.TD); tl.set(sh, { opacity: 0 }, C.TE);
-          tl.fromTo(w, { scale: 1.6 }, { scale: 2.1, duration: 1.6, ease: "power2.out", immediateRender: false }, C.TD); })();
-
-        // ---------- habillage : dégradé, compteur, barre de progression vers 100 000 ----------
-        div(top, "", "inset:0; background:linear-gradient(180deg, #000a1f 0%, #000a1f 15%, rgba(0,10,31,0) 24%, rgba(0,10,31,0) 50%, #000a1f 60%, #000a1f 100%)");
-        var hd = div(top, "Objectif 100 000 abonnés", "left:0; right:0; top:180px; text-align:center; font-size:48px; font-weight:700; letter-spacing:-.04em; color:#fff; opacity:.95");
-        var cnt = div(top, "0", "left:0; right:0; top:1160px; text-align:center; font-size:200px; font-weight:700; letter-spacing:-.06em; line-height:1; color:#fff");
-        var lab = div(top, "abonnés", "left:0; right:0; top:1370px; text-align:center; font-size:48px; font-weight:700; letter-spacing:-.04em; color:" + CY);
-        var track = div(top, "", "left:100px; top:1490px; width:880px; height:22px; border-radius:11px; background:rgba(255,255,255,.12); overflow:hidden");
-        var fill = div(track, "", "left:0; top:0; height:100%; width:880px; border-radius:11px; background:linear-gradient(90deg, #3d5afe, " + CY + "); transform-origin:0 50%; transform:scaleX(0)");
-        [25, 50, 75, 100].forEach(function (k) { div(top, k + "k", "left:" + (100 + 880 * k / 100 - 40) + "px; width:80px; top:1530px; text-align:center; font-size:28px; font-weight:700; color:rgba(255,255,255,.55)"); });
-        var hud = [hd, cnt, lab, track];
-        var val = { v: 0 };
-        function go(v, t, d) { tl.to(val, { v: v, duration: d || .5, ease: "power2.out", onUpdate: function () { cnt.textContent = fmt(val.v); fill.style.transform = "scaleX(" + Math.min(1, val.v / 100000) + ")"; } }, t); }
-        C.shots.forEach(function (s) { go(s.c, s.t + .02, Math.min(.55, s.d - .1)); });
-        go(99900, C.TV + .05, .5);
-        // ---------- 100 000 ! ----------
-        var B = C.BOOM;
-        go(100000, B, .25);
-        tl.to(cnt, { color: GOLD, scale: 1.12, transformOrigin: "50% 50%", duration: .2, ease: "back.out(3)" }, B);
-        tl.to(cnt, { scale: 1, duration: .4, ease: "power2.out" }, B + .2);
-        tl.to(fill, { background: "linear-gradient(90deg, #ffb703, " + GOLD + ")", duration: .2 }, B);
-        var flash = div(top, "", "inset:0; background:#fff; opacity:0"); tl.fromTo(flash, { opacity: .7 }, { opacity: 0, duration: .5, immediateRender: false }, B);
-        // confettis (positions déterministes)
-        var seed = 11; function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
-        var COLS = [GOLD, CY, "#ff5d8f", "#00e676", "#ffffff", "#3d5afe"];
-        function burst(t, n, y0) { for (var i = 0; i < n; i++) { var w = 10 + rnd() * 14, h = 14 + rnd() * 22, p = div(top, "", "left:" + (540 - w / 2) + "px; top:" + y0 + "px; width:" + w + "px; height:" + h + "px; border-radius:3px; background:" + COLS[i % COLS.length] + "; opacity:0");
-            var ang = -Math.PI / 2 + (rnd() - .5) * Math.PI * 1.3, sp = 500 + rnd() * 900, dx = Math.cos(ang) * sp, dy = Math.sin(ang) * sp;
-            tl.fromTo(p, { opacity: 1, x: 0, y: 0, rotation: 0 }, { x: dx, y: dy, rotation: (rnd() - .5) * 720, duration: .9, ease: "power3.out", immediateRender: false }, t);
-            tl.to(p, { y: dy + 900 + rnd() * 500, x: dx + (rnd() - .5) * 200, rotation: "+=" + ((rnd() - .5) * 540), opacity: 0, duration: 2.2, ease: "power1.in" }, t + .9); } }
-        burst(B, 90, 1250);
-        // ---------- carte de fin ----------
-        var E = C.TE;
-        tl.to(hud, { opacity: 0, duration: .25 }, E - .05);
-        var end = div(top, "", "inset:0; opacity:0; background:radial-gradient(ellipse 70% 45% at 50% 40%, #06204f 0%, #000a1f 55%, #00040d 100%)");
-        tl.to(end, { opacity: 1, duration: .3 }, E);
-        var lg = div(end, "<img src='assets/img/logo-financedata.png' style='width:100%; height:100%; display:block; border-radius:50%'>", "left:420px; top:470px; width:240px; height:240px; border-radius:50%; box-shadow:0 0 0 8px #000a1f, 0 0 0 16px " + GOLD + ", 0 0 90px rgba(255,209,102,.45)");
-        tl.fromTo(lg, { scale: .6, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: .5, ease: "back.out(2)", immediateRender: false }, E + .1);
-        var big = div(end, "100 000", "left:0; right:0; top:800px; text-align:center; font-size:210px; font-weight:700; letter-spacing:-.06em; line-height:1; color:" + GOLD);
-        tl.fromTo(big, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, E + .3);
-        var ab = div(end, "abonnés", "left:0; right:0; top:1030px; text-align:center; font-size:60px; font-weight:700; letter-spacing:-.045em; color:#fff");
-        tl.fromTo(ab, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out", immediateRender: false }, E + .5);
-        var mc = div(end, "Merci à vous", "left:0; right:0; top:1190px; text-align:center; font-size:72px; font-weight:700; letter-spacing:-.05em; color:" + CY);
-        tl.fromTo(mc, { opacity: 0, scale: .9, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .45, ease: "back.out(2)", immediateRender: false }, E + 1.1);
-        burst(E + 1.15, 70, 1240);
-
+        var d = mk("assets/img/dashboard.png", 588 / 1280);
+        tl.set(d.sh, { opacity: 1 }, C.TD);
+        focal(d.w, d.W, .69, .33, 2.3, C.TD + .3, 1.3);
+        tl.to(d.w, { scale: 2.42, duration: END - (C.TD + 1.6), ease: "none" }, C.TD + 1.6);
+        var blk = document.createElement("div"); blk.setAttribute("style", "position:absolute; inset:0; background:#000; opacity:0"); document.getElementById("top").appendChild(blk);
+        tl.to(blk, { opacity: 1, duration: .5, ease: "power1.in" }, END - .5);
         tl.set({}, {}, END);
         window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
       })();
