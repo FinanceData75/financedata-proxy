@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Carrousel Nvidia, le retour de Jensen Huang</title>
+<script src="assets/nv.js"></script>
+<style>
+  /* Carrousel Instagram (6 pages, 1080 × 1350) : le retour de Jensen Huang chez Nvidia (23 novembre 2026).
+     Même charte que le carrousel Amer Sports : couverture photo + titre blanc League Spartan, pages blanches avec texte marine DM Sans en haut et un visuel en bas.
+     Chaque page s'affiche avec ?p=1 … ?p=6 (capture : node slides/capture.cjs). */
+  @font-face { font-family: "DM Sans"; src: url("assets/fonts/dm-sans-latin-wght-normal.woff2"); font-weight: 100 1000; }
+  @font-face { font-family: "League Spartan"; src: url("assets/fonts/league-spartan-latin-wght-normal.woff2"); font-weight: 100 900; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1350px; overflow: hidden; background: #fff; color: #14234b; font-family: "DM Sans"; -webkit-font-smoothing: antialiased; position: relative; }
+  .pg { position: absolute; inset: 0; display: none; background: #fff; }
+  .txt { position: absolute; left: 104px; top: 150px; width: 880px; font-size: 46px; line-height: 1.2; letter-spacing: -.012em; font-weight: 400; }
+  .txt p + p { margin-top: 46px; }
+  .txt b { font-weight: 700; }
+  .ph { position: absolute; left: 0; width: 1080px; object-fit: cover; display: block; }
+  .card { position: absolute; left: 104px; width: 872px; border-radius: 18px; overflow: hidden; }
+  .src { position: absolute; left: 104px; width: 872px; font-size: 22px; color: #7a8299; letter-spacing: 0; }
+  svg { position: absolute; overflow: visible; }
+  svg text { font-family: "DM Sans"; font-feature-settings: "tnum" 1; }
+</style>
+</head>
+<body>
+
+<!-- 1. Couverture -->
+<section class="pg" id="p1" style="background:#000">
+  <img src="assets/photos/jensen-scene.jpg" style="position:absolute; inset:0; width:1080px; height:1350px; object-fit:cover; object-position:50% 12%">
+  <div style="position:absolute; left:0; right:0; bottom:0; height:720px; background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.7) 45%, rgba(0,0,0,.92) 100%)"></div>
+  <div style="position:absolute; left:80px; right:80px; top:850px; text-align:center; font-family:'League Spartan'; font-weight:700; font-size:82px; line-height:1.02; letter-spacing:-.01em; color:#fff">11 jours après sa démission, Jensen Huang revient chez Nvidia</div>
+  <img src="assets/img/fd-fleche-blanche.png" style="position:absolute; left:495px; top:1210px; width:90px; height:90px">
+</section>
+
+<!-- 2. Ce qui s'est passé -->
+<section class="pg" id="p2">
+  <div class="txt">
+    <p><b>Le 12 novembre, Jensen Huang quittait Nvidia</b>, après des révélations sur sa vie privée et des soupçons de liens avec le renseignement chinois.</p>
+    <p><b>Ce 23 novembre, le conseil d'administration le réintègre</b> comme PDG, avec effet immédiat.</p>
+  </div>
+  <div class="card vis" id="frise" style="height:560px; background:#fff; box-shadow:inset 0 0 0 2px #e3e6ee"></div>
+</section>
+
+<!-- 3. Pourquoi ce revirement -->
+<section class="pg" id="p3">
+  <div class="txt" style="font-size:44px">
+    <p>Le conseil dit avoir échangé avec <b>les plus hauts niveaux du gouvernement américain</b>, et se dit confiant que Jensen Huang ne présente <b>aucun risque pour la sécurité nationale</b>.</p>
+    <p>La veille, Donald Trump avait publiquement demandé son retour.</p>
+  </div>
+  <img class="ph vis" src="assets/photos/jensen-scene-2.jpg" style="object-position:50% 30%">
+</section>
+
+<!-- 4. L'action -->
+<section class="pg" id="p4">
+  <div class="txt" style="font-size:44px">
+    <p>Sans lui, <b>l'action avait perdu 47 % depuis son record</b> du 6 octobre, dont 14 % le seul vendredi 20 novembre.</p>
+    <p><b>Ce matin, elle bondit d'environ 28 % avant l'ouverture.</b></p>
+  </div>
+  <div class="card vis" id="stock" style="height:640px; background:#1c1c1e"></div>
+</section>
+
+<!-- 5. Ce qui reste à surveiller -->
+<section class="pg" id="p5">
+  <div class="txt" style="font-size:44px">
+    <p><b>Les enquêtes ne sont pas closes.</b> Selon le Wall Street Journal, le gendarme de la Bourse américaine examine si les investisseurs ont été induits en erreur.</p>
+    <p><b>Et la gouvernance interroge</b> : le 17 novembre, ce même conseil disait ne pas vouloir le réintégrer.</p>
+  </div>
+  <img class="ph vis" src="assets/photos/siege-nvidia.jpg">
+</section>
+
+<!-- 6. Ce qu'il faut retenir -->
+<section class="pg" id="p6">
+  <div class="txt" style="font-size:44px">
+    <p><b>Ce qu'il faut retenir :</b> Nvidia retrouve son fondateur, celui qui en a fait le moteur de l'intelligence artificielle.</p>
+    <p>Mais le marché attendra des preuves. <b>Les enquêtes et la gouvernance</b> restent les deux points à suivre.</p>
+    <p style="font-size:24px; color:#7a8299; margin-top:36px">Ceci n'est pas un conseil en investissement.</p>
+  </div>
+  <img class="ph vis" src="assets/photos/puce.jpg">
+</section>
+
+<script>
+  var NS = "http://www.w3.org/2000/svg", NAVY = "#14234b", GREEN = "#1f9d55", RED = "#ff453a", GREY = "#7a8299";
+  function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+  function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start" }, str); }
+  function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
+  // page 2 : frise des 11 jours
+  (function () {
+    var box = document.getElementById("frise");
+    box.insertAdjacentHTML("beforeend", "<div style='position:absolute; left:40px; top:34px; font-size:36px; font-weight:700; letter-spacing:-.02em'>Onze jours chez Nvidia</div>");
+    var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 872); g.setAttribute("height", 560); g.style.left = "0"; g.style.top = "0"; box.appendChild(g);
+    var EV = [["12 nov.", "Démission de Jensen Huang", RED], ["17 nov.", "Résultats sans lui, son retour est exclu", NAVY], ["22 nov.", "Donald Trump demande son retour", NAVY], ["23 nov.", "Le conseil le réintègre comme PDG", GREEN]];
+    var x = 80, y0 = 140, step = 100;
+    el(g, "line", { x1: x, x2: x, y1: y0, y2: y0 + step * 3, stroke: "#e3e6ee", "stroke-width": 4 });
+    EV.forEach(function (e, k) { var y = y0 + k * step;
+      el(g, "circle", { cx: x, cy: y, r: 14, fill: e[2] });
+      T(g, x + 40, y - 6, e[0], 26, GREY, 600);
+      T(g, x + 40, y + 28, e[1], 30, k === 3 ? GREEN : NAVY, 700); });
+    box.insertAdjacentHTML("beforeend", "<div style='position:absolute; left:40px; bottom:26px; font-size:20px; color:#7a8299'>Sources : Nvidia, CNBC, CNN, Forbes</div>");
+  })();
+  // page 4 : carte sombre, cours depuis avril, chute en rouge, point avant l'ouverture du 23/11
+  (function () {
+    var S = window.NV, n = S.length, card = document.getElementById("stock"), pre = window.PRE[1];
+    var ip = 0; S.forEach(function (r, i) { if (r[1] > S[ip][1]) ip = i; }); var pk = S[ip][1], last = S[n - 1][1];
+    card.insertAdjacentHTML("beforeend",
+      "<div style='position:absolute; left:34px; top:28px; display:flex; align-items:baseline; gap:18px'><span style='font-size:52px; font-weight:800; color:#fff; letter-spacing:-.02em'>NVDA</span><span style='font-size:30px; font-weight:500; color:#a1a1a6'>Nvidia</span></div>" +
+      "<div style='position:absolute; left:34px; top:96px; font-size:22px; color:#a1a1a6'>Cours de l'action · Nasdaq · USD</div>" +
+      "<div style='position:absolute; right:34px; top:34px; text-align:right'><div style='font-size:30px; font-weight:700; color:#fff'>" + fr(pre, 2) + " $</div><div style='font-size:24px; font-weight:700; color:#30d158'>+" + fr((pre / last - 1) * 100, 1) + " % avant l'ouverture</div></div>");
+    var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 872); g.setAttribute("height", 640); g.style.left = "0"; g.style.top = "0"; card.appendChild(g);
+    var x0 = 34, PW = 680, top = 170, H = 360, ymin = 100, ymax = 260, N = n + 6;
+    var X = function (i) { return x0 + i / (N - 1) * PW; }, Y = function (v) { return top + H - (v - ymin) / (ymax - ymin) * H; };
+    [100, 150, 200, 250].forEach(function (v) { el(g, "line", { x1: x0, x2: x0 + PW, y1: Y(v), y2: Y(v), stroke: "#2c2c2e", "stroke-width": 2 }); T(g, x0 + PW + 16, Y(v) + 9, v + " $", 26, "#d1d1d6", 600); });
+    function path(a, b) { var d = ""; for (var i = a; i <= b; i++) d += (i > a ? "L" : "M") + X(i).toFixed(1) + " " + Y(S[i][1]).toFixed(1); return d; }
+    el(g, "path", { d: path(0, ip), fill: "none", stroke: "#d1d1d6", "stroke-width": 4, "stroke-linejoin": "round" });
+    el(g, "path", { d: path(ip, n - 1), fill: "none", stroke: RED, "stroke-width": 5, "stroke-linejoin": "round" });
+    el(g, "path", { d: "M" + X(n - 1) + " " + Y(last) + " L" + X(n + 1) + " " + Y(pre), fill: "none", stroke: "#30d158", "stroke-width": 5, "stroke-dasharray": "10 8", "stroke-linecap": "round" });
+    el(g, "circle", { cx: X(n + 1), cy: Y(pre), r: 9, fill: "#30d158" });
+    el(g, "line", { x1: x0, x2: x0 + PW, y1: top + H, y2: top + H, stroke: "#48484a", "stroke-width": 2 });
+    var M = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+    ["2026-05-01", "2026-07-01", "2026-09-01", "2026-11-02"].forEach(function (dt) { var i = S.findIndex(function (r) { return r[0] >= dt; }); T(g, X(i), top + H + 40, M[+dt.slice(5, 7) - 1], 24, "#d1d1d6", 600, "middle"); });
+    el(g, "circle", { cx: X(ip), cy: Y(pk), r: 7, fill: "#fff" });
+    T(g, X(ip) - 14, Y(pk) - 16, "Record : " + fr(pk, 2) + " $", 24, "#fff", 700, "end");
+    T(g, X(n - 1) - 12, Y(last) + 40, fr(last, 2) + " $", 24, RED, 700, "end");
+    T(g, x0, 604, "Clôtures au 20/11, puis avant-Bourse du 23/11 à " + window.PRE[0].replace(":", " h ") + " UTC · Yahoo Finance", 20, "#a1a1a6", 500);
+  })();
+  var p = +(new URLSearchParams(location.search).get("p") || 1), pg = document.getElementById("p" + p);
+  pg.style.display = "block";
+  var tx = pg.querySelector(".txt"), v = pg.querySelector(".vis");
+  function place() { if (tx && v) { var vt = tx.offsetTop + tx.offsetHeight + 70; v.style.top = vt + "px"; if (v.classList.contains("ph")) v.style.height = (1350 - vt) + "px"; } }
+  place(); document.fonts.ready.then(place);
+</script>
+</body>
+</html>
