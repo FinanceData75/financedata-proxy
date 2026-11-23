@@ -29,7 +29,7 @@
 <section class="pg" id="p1" style="background:#000">
   <img src="assets/photos/jensen-scene.jpg" style="position:absolute; inset:0; width:1080px; height:1350px; object-fit:cover; object-position:50% 12%">
   <div style="position:absolute; left:0; right:0; bottom:0; height:720px; background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.7) 45%, rgba(0,0,0,.92) 100%)"></div>
-  <div style="position:absolute; left:80px; right:80px; top:850px; text-align:center; font-family:'League Spartan'; font-weight:700; font-size:82px; line-height:1.02; letter-spacing:-.01em; color:#fff">11 jours après sa démission, Jensen Huang revient chez Nvidia</div>
+  <div style="position:absolute; left:80px; right:80px; top:790px; text-align:center; font-family:'League Spartan'; font-weight:700; font-size:76px; line-height:1.02; letter-spacing:-.01em; color:#fff">11 jours après sa démission, Jensen Huang revient chez Nvidia<div style="margin-top:22px; font-size:52px; color:#30d158">et l'action bondit de +26 % avant l'ouverture</div></div>
   <img src="assets/img/fd-fleche-blanche.png" style="position:absolute; left:495px; top:1210px; width:90px; height:90px">
 </section>
 
@@ -55,7 +55,7 @@
 <section class="pg" id="p4">
   <div class="txt" style="font-size:44px">
     <p>Sans lui, <b>l'action avait perdu 47 % depuis son record</b> du 6 octobre, dont 14 % le seul vendredi 20 novembre.</p>
-    <p><b>Ce matin, elle bondit d'environ 28 % avant l'ouverture.</b></p>
+    <p><b>Ce matin, elle bondit de 26 % avant l'ouverture.</b></p>
   </div>
   <div class="card vis" id="stock" style="height:640px; background:#1c1c1e"></div>
 </section>
@@ -105,7 +105,7 @@
     card.insertAdjacentHTML("beforeend",
       "<div style='position:absolute; left:34px; top:28px; display:flex; align-items:baseline; gap:18px'><span style='font-size:52px; font-weight:800; color:#fff; letter-spacing:-.02em'>NVDA</span><span style='font-size:30px; font-weight:500; color:#a1a1a6'>Nvidia</span></div>" +
       "<div style='position:absolute; left:34px; top:96px; font-size:22px; color:#a1a1a6'>Cours de l'action · Nasdaq · USD</div>" +
-      "<div style='position:absolute; right:34px; top:34px; text-align:right'><div style='font-size:30px; font-weight:700; color:#fff'>" + fr(pre, 2) + " $</div><div style='font-size:24px; font-weight:700; color:#30d158'>+" + fr((pre / last - 1) * 100, 1) + " % avant l'ouverture</div></div>");
+      "<div style='position:absolute; right:34px; top:34px; text-align:right'><div style='font-size:30px; font-weight:700; color:#30d158'>+26 %</div><div style='font-size:24px; font-weight:700; color:#30d158'>avant l'ouverture</div></div>");
     var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 872); g.setAttribute("height", 640); g.style.left = "0"; g.style.top = "0"; card.appendChild(g);
     var x0 = 34, PW = 680, top = 170, H = 360, ymin = 100, ymax = 260, N = n + 6;
     var X = function (i) { return x0 + i / (N - 1) * PW; }, Y = function (v) { return top + H - (v - ymin) / (ymax - ymin) * H; };
