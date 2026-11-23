@@ -6,8 +6,13 @@
     <script src="assets/gsap.min.js"></script>
     <script src="assets/vo-words.js"></script>
     <script src="assets/data.js"></script>
+    <script src="assets/data2.js"></script>
+    <script src="assets/series.js"></script>
     <style>
       /* Reel « Le guide de la culture financière, épisode 8 » : tout chute en même temps. Aperçu du hook (0 → 13,44 s). Fond clair FinanceData, comme le reel sur l'or. */
+      @font-face { font-family: "Helv"; src: local("Helvetica Bold"), local("Helvetica-Bold"), url("assets/fonts/NimbusSans-Bold.otf"); font-weight: 700; }
+      @font-face { font-family: "Plex"; src: url("assets/fonts/IBMPlexMono-Bold.ttf"); font-weight: 700; }
+      @font-face { font-family: "Lora"; src: url("assets/fonts/Lora.ttf"); font-weight: 400 700; }
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f6f8fc; }
@@ -22,19 +27,22 @@
       .src { position: absolute; left: 100px; right: 100px; font-size: 22px; font-weight: 600; color: #5b6b8a; }
       .cap-line { position: absolute; left: 100px; right: 100px; top: 1400px; text-align: center; opacity: 0; }
       .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.78); font-weight: 700; font-size: 52px; line-height: 1.12; letter-spacing: -.05em; color: #fff; white-space: nowrap; }
+      #avatar { position: absolute; left: 380px; top: 500px; width: 320px; height: 320px; opacity: 0; }
+      #avatar .pic { position: absolute; left: 20px; top: 20px; width: 280px; height: 280px; border-radius: 50%; overflow: hidden; border: 8px solid #000a1f; }
+      #avatar .pic img { width: 100%; height: 100%; display: block; }
       .tile { position: absolute; width: 420px; height: 370px; background: #fff; border: 2px solid rgba(0,25,75,.08); opacity: 0; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="13.44" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="13.44" data-track-index="1"></audio>
-      <div id="bgs" class="clip" data-start="0" data-duration="13.44" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
-      <div id="stage" class="clip" data-start="0" data-duration="13.44" data-track-index="3" style="position:absolute; inset:0"></div>
-      <div id="top" class="clip" data-start="0" data-duration="13.44" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="102.4" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="102.4" data-track-index="1"></audio>
+      <div id="bgs" class="clip" data-start="0" data-duration="102.4" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
+      <div id="stage" class="clip" data-start="0" data-duration="102.4" data-track-index="3" style="position:absolute; inset:0"></div>
+      <div id="top" class="clip" data-start="0" data-duration="102.4" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
     </div>
     <script>
       (function () {
-        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 13.44;
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 102.4;
         var st = document.getElementById("stage"), top = document.getElementById("top");
         var INK = "#00194b", SOFT = "#5b6b8a", DN = "#ff1744", DNT = "#d50f35";
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
@@ -131,12 +139,223 @@
         // ===== 4. « Et en réalité, tout part d'un seul secteur » : photos, le secteur n'est pas encore nommé =====
         [["trader-ecrans.jpg", 10.92, 12.2, "50% 0%", 2200], ["wallstreet.jpg", 12.2, 13.44, "50% 40%"]].forEach(function (m) { var s = sc(m[1], m[2]); full(s, m[0], m[3] || "50% 45%", "linear-gradient(180deg, rgba(0,12,40,.12), rgba(0,12,40,.45))", m[4]); });
 
-        // ===== sous-titres : 3 mots max =====
+        // ================= SUITE DE LA VIDÉO =================
+        var GR = "#00b85c", GRT = "#00843f", CY = "#7dd0f5", E2 = window.E;
+        function montage(list) { list.forEach(function (m) { var s = sc(m[1], m[2]); full(s, m[0], m[3] || "50% 45%", "linear-gradient(180deg, rgba(0,12,40,.12), rgba(0,12,40,.45))", m[4]); }); }
+        function title(s, txt, t, y) { var d = div(s, txt, "left:100px; right:100px; top:" + (y || 400) + "px; font-size:56px; font-weight:700; letter-spacing:-.045em; line-height:1.08; opacity:0"); fade(d, t, .3); return d; }
+        // graphique en ligne générique (2D, titre, source)
+        function chart(s, R, o) {
+          var PX = 100, PY = o.py || 600, PW = 760, PH = o.ph || 620, n = R.length, L = n - 1, lg = !!o.log, f = function (v) { return lg ? Math.log10(v) : v; };
+          var lo = f(o.lo), hi = f(o.hi), X = function (i) { return PX + i / (L + (o.pad || 4)) * PW; }, Y = function (v) { return PY + PH - (f(v) - lo) / (hi - lo) * PH; };
+          var g = svg(s, 0, 0, 1080, 1920);
+          o.ticks.forEach(function (v) { var y = Y(v); el(g, "line", { x1: PX, x2: PX + PW, y1: y, y2: y, stroke: INK, "stroke-opacity": .07, "stroke-width": 1.5 });
+            el(g, "text", { x: 980, y: y + 8, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "end" }, o.tf ? o.tf(v) : fr(v)); });
+          el(g, "line", { x1: PX, x2: PX + PW, y1: PY + PH, y2: PY + PH, stroke: SOFT, "stroke-opacity": .5, "stroke-width": 2 });
+          var lx = -1e9; for (var i = 1; i < n; i++) { var y0 = R[i - 1][0], y1 = R[i][0], lab = null;
+            if (o.years) { if (y1.slice(0, 4) !== y0.slice(0, 4) && +y1.slice(0, 4) % o.years === 0) lab = y1.slice(0, 4); }
+            else if (y1.slice(5, 7) !== y0.slice(5, 7)) { var mo = +y1.slice(5, 7); if (mo % (o.mstep || 3) === 1 % (o.mstep || 3)) lab = mo === 1 ? y1.slice(0, 4) : MO[mo - 1]; }
+            if (lab && X(i) - lx > 100 && X(i) > PX + 30 && X(i) < PX + PW - 20) { lx = X(i); el(g, "text", { x: X(i), y: PY + PH + 46, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, lab); } }
+          function path(a, b) { var d = ""; for (var i = a; i <= b; i++) d += (d ? "L" : "M") + X(i).toFixed(1) + " " + Y(R[i][1]).toFixed(1); return d; }
+          if (o.src) div(s, o.src, "top:" + (PY + PH + 80) + "px", "src");
+          return { g: g, X: X, Y: Y, L: L, path: path, line: function (a, b, col, w, t, d, ease) { return draw(el(g, "path", { d: path(a, b), fill: "none", stroke: col, "stroke-width": w || 4, "stroke-linejoin": "round" }), t, d, ease); } };
+        }
+        function at(R, d) { for (var i = 0; i < R.length; i++) if (R[i][0] >= d) return i; return R.length - 1; }
+        function pill(s, html, x, y, col, bg, t, anchor) { var d = div(s, "<span style='display:inline-block; transform:translate(" + (anchor || "-50%") + ",-50%); padding:2px 16px 8px; border-radius:6px; background:" + bg + "; color:" + col + "; font-size:52px; font-weight:700; letter-spacing:-.045em; white-space:nowrap'>" + html + "</span>", "left:" + x + "px; top:" + y + "px; opacity:0");
+          tl.fromTo(d, { opacity: 0, scale: .7, transformOrigin: "0% 0%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2.5)", immediateRender: false }, t); return d; }
+        // carte « coup dur » : fond bleu nuit, numéro + titre
+        function coup(t0, t1, n, txt) { var s = sc(t0, t1); s.style.background = INK;
+          var a = div(s, "Coup dur n°" + n, "left:0; right:0; top:800px; text-align:center; font-size:48px; font-weight:700; letter-spacing:-.04em; color:" + CY + "; opacity:0"); rise(a, t0 + .02, .3);
+          var b = div(s, txt, "left:80px; right:80px; top:880px; text-align:center; font-size:80px; font-weight:700; letter-spacing:-.05em; line-height:1.05; color:#fff; opacity:0"); rise(b, t0 + .12, .35); }
+        // enchaînement cause → conséquence (fond clair)
+        function chain(t0, t1, l1, l2, ta, tb, tc) { var s = sc(t0, t1);
+          var a = div(s, l1, "left:80px; right:80px; top:560px; text-align:center; font-size:76px; font-weight:700; letter-spacing:-.05em; line-height:1.05; opacity:0"); rise(a, ta, .35);
+          var g = svg(s, 0, 0, 1080, 1920); draw(el(g, "path", { d: "M540 800 V1000 M500 960 L540 1000 L580 960", fill: "none", stroke: INK, "stroke-width": 8, "stroke-linecap": "round", "stroke-linejoin": "round" }), tb, .4, "power2.out");
+          var b = div(s, l2, "left:80px; right:80px; top:1050px; text-align:center; font-size:76px; font-weight:700; letter-spacing:-.05em; line-height:1.05; color:" + DNT + "; opacity:0"); rise(b, tc, .35); }
+
+        // ===== 5. Générique « le guide de la culture financière, épisode 8 » (13,44 → 16,5), charte de la série =====
+        (function () { var t0 = 13.44, s = sc(t0, 16.5); s.style.background = "#f2f2f4";
+          div(s, "<svg width='1080' height='1920' style='position:absolute; inset:0'><filter id='gr2'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .09 0'/></filter><rect width='1080' height='1920' filter='url(#gr2)'/></svg>", "inset:0");
+          div(s, "", "inset:0; background:radial-gradient(ellipse 75% 60% at 50% 48%, rgba(0,0,0,0) 55%, rgba(0,0,0,.1) 100%)");
+          var gg = svg(s, 0, 0, 1080, 1920), D = window.SER;
+          function line(v, y0, y1, op, w, t, dur) { var lo = Math.min.apply(0, v), hi = Math.max.apply(0, v), d = "";
+            v.forEach(function (x, i) { var XX = -20 + i / (v.length - 1) * 1120, YY = y1 - (Math.log(x) - Math.log(lo)) / (Math.log(hi) - Math.log(lo)) * (y1 - y0); d += (i ? "L" : "M") + XX.toFixed(1) + " " + YY.toFixed(1); });
+            draw(el(gg, "path", { d: d, fill: "none", stroke: "#7c96e6", "stroke-width": w, "stroke-opacity": op, "stroke-linejoin": "round" }), t, dur, "power1.out"); }
+          line(D.vix, 60, 640, .75, 3.5, t0, 2.4); line(D.ndx, 1180, 1880, .35, 3, t0 + .1, 2.6); line(D.spx, 1250, 1860, .75, 3.5, t0, 2.6);
+          var blk = div(s, "", "left:0; right:0; margin:auto; width:max-content; top:720px");
+          var row = div(blk, "", "position:relative; font-family:Helv, Helvetica, sans-serif; font-size:78px; font-weight:700; letter-spacing:-.035em; line-height:1.15; color:#00194B; white-space:nowrap; text-align:left");
+          ["le", "guide", "de", "la", "culture"].forEach(function (w, k) { var sp = document.createElement("span"); sp.textContent = w + (k < 4 ? " " : ""); sp.style.display = "inline-block"; sp.style.whiteSpace = "pre"; sp.style.opacity = 0; row.appendChild(sp);
+            tl.fromTo(sp, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, [13.92, 14.08, 14.2, 14.32, 14.55][k]); });
+          var box = div(blk, "", "position:relative; margin-top:10px; background:#00194B; text-align:center; padding:10px 0 22px; font-family:Plex; font-size:116px; font-weight:700; line-height:1; color:#fff");
+          "financière".split("").forEach(function (c, k) { var sp = document.createElement("span"); sp.textContent = c; sp.style.opacity = 0; box.appendChild(sp);
+            tl.fromTo(sp, { opacity: 0 }, { opacity: 1, duration: .18, ease: "power1.out", immediateRender: false }, 15.0 + k * .035); });
+          box.style.clipPath = "inset(0 100% 0 0)";
+          tl.fromTo(box, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: .5, ease: "power3.inOut", immediateRender: false }, 14.78);
+          var ep = div(blk, "épisode 8", "position:relative; margin-top:14px; text-align:right; font-family:Lora, serif; font-size:56px; font-weight:400; letter-spacing:.01em; color:#00194B; opacity:0");
+          tl.fromTo(ep, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, 15.55); })();
+
+        // ===== 6. « Ce secteur, c'est l'intelligence artificielle » =====
+        montage([["ia-1.jpg", 16.5, 17.75], ["datacenter-1.jpg", 17.75, 18.98]]);
+
+        // ===== 7. « Depuis deux ans, c'est lui qui fait monter les marchés. Mais depuis début novembre… » : le Nasdaq =====
+        (function () { var s = sc(18.98, 22.95), R = E2.ndx.filter(function (r) { return r[0] >= "2024-11-01"; });
+          title(s, "Nasdaq, l'indice de la tech américaine", 19.0);
+          var c = chart(s, R, { lo: 16000, hi: 29000, ticks: [18000, 21000, 24000, 27000], src: "Nasdaq Composite · Clôtures quotidiennes · Source : Yahoo Finance" });
+          var a = at(R, "2024-11-20"), P = at(R, "2026-10-06");
+          c.line(0, P, INK, 4, 19.05, 1.8, "power1.inOut");
+          pill(s, "+46 % en 2 ans", c.X(P) - 20, c.Y(R[P][1]) - 60, GRT, "rgba(0,184,92,.12)", 20.75, "-100%");
+          c.line(P, c.L, DN, 5, 21.45, 1.1, "power1.in");
+          var e = el(c.g, "circle", { cx: c.X(c.L), cy: c.Y(R[c.L][1]), r: 11, fill: "#fff", stroke: DN, "stroke-width": 5, opacity: 0 }); fade(e, 22.5, .1);
+          pill(s, "−18 %", c.X(c.L) + 20, c.Y(R[c.L][1]) + 70, DNT, "rgba(255,23,68,.1)", 22.55, "-100%");
+          tl.fromTo(c.g, { scale: 1.02, transformOrigin: "50% 50%" }, { scale: 1, duration: 3.9, ease: "power1.out", immediateRender: false }, 18.98); })();
+
+        // « un triple coup dur » : trois carrés numérotés
+        (function () { var s = sc(22.95, 24.06); s.style.background = INK;
+          [0, 1, 2].forEach(function (k) { var b = div(s, String(k + 1), "left:" + (150 + k * 290) + "px; top:820px; width:200px; height:200px; line-height:190px; text-align:center; background:" + DN + "; color:#fff; font-size:110px; font-weight:700; letter-spacing:-.05em; opacity:0");
+            tl.fromTo(b, { opacity: 0, scale: .6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .25, ease: "back.out(2.5)", immediateRender: false }, [23.1, 23.45, 23.62][k]); }); })();
+
+        // ===== 8. Coup dur n°1 : les élections de mi-mandat =====
+        coup(24.06, 25.0, 1, "Les élections de mi‑mandat aux États‑Unis");
+        montage([["vote-1.jpg", 25.0, 25.95], ["capitole.jpg", 25.95, 26.84, "50% 35%"], ["capitole-nuit.jpg", 26.84, 28.37, "50% 35%"], ["marteau-1.jpg", 28.37, 29.65], ["datacenter-2.jpg", 29.65, 30.9]]);
+        chain(30.9, 33.67, "Une réglementation plus stricte pour l'IA", "Moins de croissance", 30.95, 32.15, 32.62);
+
+        // ===== 9. Coup dur n°2 : les taux d'intérêt américains =====
+        coup(33.67, 34.6, 2, "Les taux d'intérêt américains");
+        (function () { var s = sc(34.6, 37.59), R = E2.tnx;
+          title(s, "Taux d'intérêt américain à 10 ans", 34.62);
+          var c = chart(s, R, { lo: 3.4, hi: 5.6, ticks: [3.5, 4, 4.5, 5, 5.5], tf: function (v) { return fr(v, 1) + " %"; }, src: "Rendement de l'obligation d'État américaine à 10 ans · Quotidien · Source : Yahoo Finance" });
+          c.line(0, c.L, INK, 4, 34.65, 1.7, "power1.inOut");
+          var h = el(c.g, "line", { x1: 100, x2: 860, y1: c.Y(5), y2: c.Y(5), stroke: DN, "stroke-width": 3.5, "stroke-dasharray": "12 9" }); draw(h, 36.3, .5, "power2.out");
+          pill(s, "5 %", 120, c.Y(5) - 52, DNT, "rgba(255,23,68,.1)", 36.5, "0%");
+          var e = el(c.g, "circle", { cx: c.X(c.L), cy: c.Y(R[c.L][1]), r: 11, fill: "#fff", stroke: DN, "stroke-width": 5, opacity: 0 }); fade(e, 36.35, .1); })();
+        montage([["chantier-1.jpg", 37.59, 38.85], ["datacenter-3.jpg", 38.85, 40.0], ["chantier-2.jpg", 40.0, 41.11]]);
+        chain(41.11, 44.54, "Des taux plus élevés", "La rentabilité de l'IA recule", 41.15, 41.95, 42.45);
+
+        // ===== 10. Coup dur n°3 : Nvidia =====
+        coup(44.54, 45.45, 3, "Nvidia");
+        montage([["puce.jpg", 45.45, 46.7], ["siege-nvidia.jpg", 46.7, 47.95], ["ia-2.jpg", 47.95, 49.3], ["siege-exterieur.jpg", 49.3, 50.35], ["marteau-2.jpg", 50.35, 51.35]]);
+        (function () { var t0 = 51.35, t1 = 54.74, s = sc(t0, t1), R = E2.nvda, P = at(R, "2026-10-06");
+          div(s, "<svg width='48' height='48' viewBox='0 0 64 64' style='position:static; vertical-align:middle'><circle cx='32' cy='32' r='32' fill='#76b900'/><text x='32' y='44' font-size='34' font-weight='800' fill='#fff' text-anchor='middle' font-family='Display'>N</text></svg><span style='vertical-align:middle; margin-left:14px; font-size:40px; font-weight:700; letter-spacing:-.04em'>Nvidia</span>", "left:100px; top:330px");
+          var tk = div(s, "", "left:100px; top:400px; font-size:100px; font-weight:700; letter-spacing:-.055em; line-height:1; white-space:nowrap");
+          var pc = div(s, "", "right:100px; top:322px; padding:4px 16px 8px; border-radius:6px; background:rgba(255,23,68,.1); color:" + DNT + "; font-size:46px; font-weight:700; letter-spacing:-.04em; white-space:nowrap");
+          div(s, "depuis le record", "right:100px; top:392px; font-size:24px; font-weight:600; color:" + SOFT);
+          var c = chart(s, R, { lo: 100, hi: 260, ticks: [100, 150, 200, 250], tf: function (v) { return v + " $"; }, src: "Action Nvidia · Clôtures quotidiennes · Source : Yahoo Finance" });
+          el(c.g, "path", { d: c.path(0, P), fill: "none", stroke: INK, "stroke-width": 4, "stroke-linejoin": "round" });
+          c.line(P, c.L, DN, 5, t0 + .1, 2.4, "power1.in");
+          var e = el(c.g, "circle", { cx: c.X(c.L), cy: c.Y(R[c.L][1]), r: 11, fill: "#fff", stroke: DN, "stroke-width": 5, opacity: 0 }); fade(e, t0 + 2.45, .1);
+          var o = { p: 0 }; tl.fromTo(o, { p: 0 }, { p: 1, duration: 2.4, ease: "power1.in", immediateRender: false, onUpdate: function () { var f = P + (c.L - P) * o.p, i = Math.floor(f), v = R[i][1] + (R[Math.min(i + 1, c.L)][1] - R[i][1]) * (f - i);
+            tk.textContent = fr(v, 1) + " $"; pc.textContent = "−" + Math.round((1 - v / R[P][1]) * 100) + " %"; } }, t0 + .1);
+          tk.textContent = fr(R[P][1], 1) + " $"; pc.textContent = "−0 %";
+          tl.fromTo(c.g, { scale: 1.03, transformOrigin: "50% 50%" }, { scale: 1, duration: t1 - t0, ease: "power1.out", immediateRender: false }, t0); })();
+
+        // ===== 11. « les investisseurs vendent les actifs risqués » =====
+        montage([["trader-panique.jpg", 54.74, 56.1], ["salle-chaos.jpg", 56.1, 57.45]]);
+        function rows(t0, t1, ttl, list, col, bg, src) { var s = sc(t0, t1); title(s, ttl, t0 + .02, 420);
+          list.forEach(function (r, k) { var y = 640 + k * 210;
+            var a = div(s, r[0], "left:100px; top:" + y + "px; font-size:64px; font-weight:700; letter-spacing:-.045em; opacity:0"); rise(a, r[2], .3);
+            var b = div(s, r[1], "right:100px; top:" + (y - 4) + "px; padding:2px 16px 8px; border-radius:6px; background:" + bg + "; color:" + col + "; font-size:60px; font-weight:700; letter-spacing:-.045em; opacity:0");
+            tl.fromTo(b, { opacity: 0, scale: .7, transformOrigin: "100% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2.5)", immediateRender: false }, r[2] + .12);
+            var ln = div(s, "", "left:100px; right:100px; top:" + (y + 130) + "px; height:2px; background:rgba(0,25,75,.1); transform:scaleX(0); transform-origin:0 50%");
+            tl.fromTo(ln, { scaleX: 0 }, { scaleX: 1, duration: .4, ease: "power2.out", immediateRender: false }, r[2]); });
+          div(s, src, "top:1300px", "src"); return s; }
+        rows(57.45, 61.5, "Depuis le 6 octobre", [["Actions tech", "−26 %", 58.8], ["Bitcoin", "−31 %", 60.05], ["Argent (métal)", "−32 %", 60.9]], DNT, "rgba(255,23,68,.1)", "Du 6/10 au 20/11/2026 · Tech : ETF XLK · Bitcoin en dollars · Argent : contrat à terme · Source : Yahoo Finance");
+
+        // ===== 12. « ils achètent les actifs plus sûrs » : dollar, obligations, défensives =====
+        montage([["dollars.jpg", 61.5, 62.75], ["dollars-sombre.jpg", 62.75, 63.9]]);
+        (function () { var s = sc(63.9, 66.5), R = E2.dxy;
+          title(s, "Le dollar face aux grandes devises", 63.92);
+          var c = chart(s, R, { lo: 94, hi: 112, ticks: [95, 100, 105, 110], src: "Indice dollar (DXY) · Clôtures quotidiennes · Source : Yahoo Finance" });
+          var lo = 0; R.forEach(function (r, i) { if (r[1] < R[lo][1]) lo = i; });
+          el(c.g, "path", { d: c.path(0, lo), fill: "none", stroke: INK, "stroke-width": 4, "stroke-linejoin": "round", "stroke-opacity": .45 });
+          c.line(lo, c.L, GR, 5, 63.95, 1.3, "power1.inOut");
+          var i25 = at(R, "2025-03-31"), h = el(c.g, "line", { x1: c.X(i25), x2: c.X(c.L), y1: c.Y(103.9), y2: c.Y(103.9), stroke: GRT, "stroke-width": 3.5, "stroke-dasharray": "12 9" }); draw(h, 65.1, .6, "power2.out");
+          var d = el(c.g, "circle", { cx: c.X(i25), cy: c.Y(103.9), r: 10, fill: "#fff", stroke: GRT, "stroke-width": 5, opacity: 0 }); fade(d, 65.65, .15);
+          var lb = div(s, "Plus haut depuis mars 2025", "left:" + (c.X(i25) - 10) + "px; top:" + (c.Y(103.9) - 64) + "px; font-size:32px; font-weight:700; letter-spacing:-.03em; color:" + GRT + "; opacity:0"); fade(lb, 65.7, .2); })();
+        montage([["obligation.jpg", 66.5, 67.95], ["fed.jpg", 67.95, 69.2, "50% 40%"], ["super-1.jpg", 69.2, 70.45], ["super-2.jpg", 70.45, 71.4], ["sante-1.jpg", 71.4, 72.19]]);
+
+        // ===== 13. « D'ailleurs, regardez » : tech contre défensives depuis le 6 octobre =====
+        (function () { var t0 = 72.19, s = sc(t0, 80.91);
+          title(s, "Depuis le 6 octobre", t0 + .02);
+          var K = [["xlk", DN, "Tech", 75.6], ["xlp", GR, "Alimentation", 78.7], ["xlv", "#3d5afe", "Santé", 80.2]];
+          var base = {}, R0 = E2.xlk.filter(function (r) { return r[0] >= "2026-10-06"; }), n = R0.length;
+          var PX = 100, PY = 600, PW = 700, PH = 620, X = function (i) { return PX + i / (n - 1) * PW; }, Y = function (v) { return PY + PH - (v - 70) / (115 - 70) * PH; };
+          var g = svg(s, 0, 0, 1080, 1920);
+          [70, 80, 90, 100, 110].forEach(function (v) { el(g, "line", { x1: PX, x2: PX + PW, y1: Y(v), y2: Y(v), stroke: INK, "stroke-opacity": v === 100 ? .3 : .07, "stroke-width": v === 100 ? 2.5 : 1.5, "stroke-dasharray": v === 100 ? "8 8" : "" });
+            el(g, "text", { x: 60, y: Y(v) + 8, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, (v - 100 > 0 ? "+" : v === 100 ? "" : "−") + Math.abs(v - 100) + " %"); });
+          el(g, "line", { x1: PX, x2: PX + PW, y1: PY + PH, y2: PY + PH, stroke: SOFT, "stroke-opacity": .5, "stroke-width": 2 });
+          [["2026-10-06", "6 oct."], ["2026-11-02", "2 nov."], ["2026-11-20", "20 nov."]].forEach(function (d) { var i = at(R0, d[0]); el(g, "text", { x: X(i), y: PY + PH + 46, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, d[1]); });
+          K.forEach(function (k, j) { var R = E2[k[0]].filter(function (r) { return r[0] >= "2026-10-06"; }), b = R[0][1], d = "";
+            R.forEach(function (r, i) { d += (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(r[1] / b * 100).toFixed(1); });
+            draw(el(g, "path", { d: d, fill: "none", stroke: k[1], "stroke-width": 5, "stroke-linejoin": "round" }), t0 + .7 + j * .25, 2.2, "power1.inOut");
+            var v = R[R.length - 1][1] / b * 100, ch = v - 100;
+            var e = el(g, "circle", { cx: X(n - 1), cy: Y(v), r: 10, fill: "#fff", stroke: k[1], "stroke-width": 5, opacity: 0 }); fade(e, k[3] - .05, .1);
+            var lb = div(s, "<span style='display:block; font-size:30px; color:" + SOFT + "'>" + k[2] + "</span>" + (ch > 0 ? "+" : "−") + fr(Math.abs(ch), 1) + " %", "left:" + (X(n - 1) + 24) + "px; top:" + (Y(v) + (k[0] === "xlp" ? -96 : k[0] === "xlv" ? 14 : -40)) + "px; font-size:46px; font-weight:700; letter-spacing:-.04em; line-height:1; color:" + k[1] + "; opacity:0");
+            tl.fromTo(lb, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: .3, ease: "power3.out", immediateRender: false }, k[3]); });
+          div(s, "Base 100 au 6/10/2026 · ETF sectoriels américains XLK (tech), XLP (consommation de base), XLV (santé) · Source : Yahoo Finance", "top:1300px; line-height:1.3", "src");
+          tl.fromTo(g, { scale: 1.02, transformOrigin: "50% 50%" }, { scale: 1, duration: 8.7, ease: "power1.out", immediateRender: false }, t0); })();
+
+        // ===== 14. « Aujourd'hui, les investisseurs ont peur » : le VIX =====
+        montage([["trader-ecrans.jpg", 80.91, 82.5, "50% 0%", 2200]]);
+        (function () { var t0 = 82.5, t1 = 87.31, s = sc(t0, t1), R = E2.vix, a = at(R, "2026-10-21");
+          div(s, "<svg width='48' height='48' viewBox='0 0 64 64' style='position:static; vertical-align:middle'><circle cx='32' cy='32' r='32' fill='" + DN + "'/><path d='M14 44 L26 36 L34 40 L50 18' fill='none' stroke='#fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/></svg><span style='vertical-align:middle; margin-left:14px; font-size:40px; font-weight:700; letter-spacing:-.04em'>VIX · l'indice de la peur</span>", "left:100px; top:330px");
+          var tk = div(s, "", "left:100px; top:400px; font-size:100px; font-weight:700; letter-spacing:-.055em; line-height:1; white-space:nowrap");
+          var pc = div(s, "×2 en un mois", "right:100px; top:322px; padding:4px 16px 8px; border-radius:6px; background:rgba(255,23,68,.1); color:" + DNT + "; font-size:46px; font-weight:700; letter-spacing:-.04em; white-space:nowrap; opacity:0");
+          tl.fromTo(pc, { opacity: 0, scale: .7, transformOrigin: "100% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2.5)", immediateRender: false }, t0 + 2.3);
+          var c = chart(s, R, { lo: 10, hi: 40, ticks: [10, 20, 30, 40], src: "Indice de volatilité VIX · Clôtures quotidiennes · Source : Yahoo Finance" });
+          el(c.g, "path", { d: c.path(0, a), fill: "none", stroke: INK, "stroke-width": 4, "stroke-linejoin": "round" });
+          c.line(a, c.L, DN, 5, t0 + .1, 2.0, "power1.in");
+          var e = el(c.g, "circle", { cx: c.X(c.L), cy: c.Y(R[c.L][1]), r: 11, fill: "#fff", stroke: DN, "stroke-width": 5, opacity: 0 }); fade(e, t0 + 2.1, .1);
+          var o = { p: 0 }; tl.fromTo(o, { p: 0 }, { p: 1, duration: 2.0, ease: "power1.in", immediateRender: false, onUpdate: function () { var f = a + (c.L - a) * o.p, i = Math.floor(f), v = R[i][1] + (R[Math.min(i + 1, c.L)][1] - R[i][1]) * (f - i); tk.textContent = fr(v, 1); } }, t0 + .1);
+          tk.textContent = fr(R[a][1], 1);
+          tl.fromTo(c.g, { scale: 1.03, transformOrigin: "50% 50%" }, { scale: 1, duration: t1 - t0, ease: "power1.out", immediateRender: false }, t0); })();
+
+        // ===== 15. Avis : la tendance longue tient, le marché corrige ses excès =====
+        var AMF = "Avis de la rédaction. Ceci n'est pas un conseil en investissement. Investir comporte des risques de perte en capital.";
+        (function () { var t0 = 87.31, s = sc(t0, 91.99), R = E2.spxw;
+          title(s, "S&P 500 depuis 2009", t0 + .02);
+          var c = chart(s, R, { lo: 600, hi: 10000, log: true, years: 3, pad: 8, ticks: [1000, 2000, 4000, 8000], src: "Indice S&P 500 · Hebdomadaire · Échelle logarithmique · Source : Yahoo Finance" });
+          c.line(0, c.L, INK, 4, t0 + .1, 1.9, "power1.inOut");
+          // tendance : droite (log) entre les clôtures de 2009 et le niveau moyen récent
+          var n = R.length, sx = 0, sy = 0, sxx = 0, sxy = 0; R.forEach(function (r, i) { var y = Math.log10(r[1]); sx += i; sy += y; sxx += i * i; sxy += i * y; });
+          var b = (n * sxy - sx * sy) / (n * sxx - sx * sx), a0 = (sy - b * sx) / n, v0 = Math.pow(10, a0), v1 = Math.pow(10, a0 + b * (c.L + 6));
+          var tr = el(c.g, "line", { x1: c.X(0), y1: c.Y(v0), x2: c.X(c.L + 6), y2: c.Y(v1), stroke: GR, "stroke-width": 4, "stroke-dasharray": "14 10" }); draw(tr, 89.6, .8, "power2.out");
+          var im = Math.round(c.L * .45), vm = Math.pow(10, a0 + b * im), lb = div(s, "Tendance de long terme", "left:" + (c.X(im) + 20) + "px; top:" + (c.Y(vm) + 40) + "px; font-size:34px; font-weight:700; letter-spacing:-.03em; color:" + GRT + "; opacity:0"); fade(lb, 90.1, .25);
+          div(s, AMF, "top:1500px; line-height:1.3", "src"); })();
+        (function () { var t0 = 91.99, s = sc(t0, 95.43), R = window.D.spx.filter(function (r) { return r[0] >= "2025-03-01"; });
+          title(s, "S&P 500, les 20 derniers mois", t0 + .02);
+          var c = chart(s, R, { lo: 4600, hi: 8200, ticks: [5000, 6000, 7000, 8000], src: "Indice S&P 500 · Clôtures quotidiennes · Source : Yahoo Finance" });
+          var lo = at(R, "2025-04-08"), P = at(R, "2026-10-06");
+          el(c.g, "path", { d: c.path(0, lo), fill: "none", stroke: INK, "stroke-width": 4, "stroke-linejoin": "round" });
+          c.line(lo, P, GR, 5, t0 + .1, 1.4, "power1.inOut");
+          pill(s, "+57 %", c.X(P) - 30, c.Y(R[P][1]) - 56, GRT, "rgba(0,184,92,.12)", t0 + 1.4, "-100%");
+          c.line(P, c.L, DN, 5, 93.4, .7, "power1.in");
+          pill(s, "−12 %", c.X(c.L) + 20, c.Y(R[c.L][1]) + 66, DNT, "rgba(255,23,68,.1)", 94.15, "-100%");
+          div(s, AMF, "top:1500px; line-height:1.3", "src"); })();
+        montage([["aube-1.jpg", 95.43, 96.8], ["aube-2.jpg", 96.8, 98.1], ["aube-3.jpg", 98.1, 99.38]]);
+
+        // ===== 16. CTA (99,38 → fin) : fond sombre, contour de story, bouton « Suivre » sans curseur =====
+        (function () { var t0 = 99.38, s = sc(t0, 999); s.style.background = "radial-gradient(ellipse 70% 45% at 50% 38%, #06204f 0%, #000a1f 55%, #00040d 100%)";
+          var avt = div(s, "<svg viewBox='0 0 320 320' style='position:absolute; inset:0; width:100%; height:100%'><defs><linearGradient id='gStory' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.3' stop-color='#fa7e1e'/><stop offset='.6' stop-color='#d62976'/><stop offset='1' stop-color='#962fbf'/></linearGradient></defs><circle id='ring' cx='160' cy='160' r='152' fill='none' stroke='url(#gStory)' stroke-width='10' transform='rotate(-90 160 160)'/></svg><div class='pic'><img src='assets/img/logo-financedata.png'></div>", "", "");
+          avt.id = "avatar";
+          tl.fromTo(avt, { opacity: 0, scale: .6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .55, ease: "power3.out", immediateRender: false }, t0 + .05);
+          var ring = document.getElementById("ring"), rl = 2 * Math.PI * 152; ring.style.strokeDasharray = rl + " " + rl; ring.style.strokeDashoffset = rl;
+          tl.fromTo(ring, { strokeDashoffset: rl }, { strokeDashoffset: 0, duration: .8, ease: "power2.inOut", immediateRender: false }, t0 + .1);
+          fade(div(s, "finance_data", "left:0; right:0; top:860px; text-align:center; font-size:64px; font-weight:700; letter-spacing:-.05em; color:#fff; opacity:0"), t0 + .3);
+          var btn = div(s, "<span class='b1'>Suivre</span><span class='b2' style='display:none'>Suivi(e)</span>", "left:0; right:0; margin:auto; width:380px; top:980px; height:84px; line-height:82px; text-align:center; border-radius:12px; background:#0095f6; color:#fff; font-family:-apple-system, 'Helvetica Neue', Helv, sans-serif; font-size:38px; font-weight:600; letter-spacing:0; opacity:0");
+          tl.fromTo(btn, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, t0 + .5);
+          var tc = 101.55;
+          tl.to(btn, { scale: .95, duration: .1 }, tc); tl.to(btn, { scale: 1, duration: .2, ease: "power2.out" }, tc + .1);
+          tl.to(btn, { backgroundColor: "#363636", color: "#fff", duration: .2 }, tc + .05);
+          tl.set(btn.querySelector(".b1"), { display: "none" }, tc + .1); tl.set(btn.querySelector(".b2"), { display: "inline" }, tc + .1); })();
+
+        // ===== sous-titres : 3 mots max, masqués quand le même texte est à l'écran =====
         var W = window.VO.words.filter(function (w) { return w.s < END; }), groups = [], cur = [];
         W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
+        var SKIP = [[13.44, 16.5], [24.06, 25.0], [30.9, 37.59], [41.11, 45.45], [57.45, 61.5], [63.9, 66.5], [73.3, 80.91], [89.3, 91.99], [99.38, 999]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
-          var d = div(top, "<span class='cap-box'>" + gp.map(function (t) { return t.w.replace(/^3$/, "3 %"); }).join(" ") + "</span>", "", "cap-line");
+          if (SKIP.some(function (r) { return t0 >= r[0] - .05 && t0 < r[1]; })) return;
+          t1 = Math.min(t1, SKIP.reduce(function (m, r) { return r[0] > t0 && r[0] < m ? r[0] : m; }, END));
+          var d = div(top, "<span class='cap-box'>" + gp.map(function (t) { return t.w.replace(/^(3|5|26|10|6)$/, "$1 %"); }).join(" ") + "</span>", "", "cap-line");
           tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out", immediateRender: false }, Math.max(0, t0 - .06));
           tl.set(d, { opacity: 0 }, Math.min(t1 - .07, gp[gp.length - 1].e + .6, END - .035));
         });
