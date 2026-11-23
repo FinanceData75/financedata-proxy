@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <script src="assets/data.js"></script>
+    <style>
+      /* Reel « Le guide de la culture financière, épisode 8 » : tout chute en même temps. Aperçu du hook (0 → 13,44 s). Fond clair FinanceData, comme le reel sur l'or. */
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f6f8fc; }
+      #root { width: 1080px; height: 1920px; position: relative; overflow: hidden; font-family: "Display", sans-serif; color: #00194b; background: #f6f8fc; font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
+      #bg { position: absolute; inset: 0; background: #f6f8fc; }
+      #bg .grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,25,75,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,25,75,.05) 1px, transparent 1px); background-size: 48px 48px; background-position: 12px 0;
+        -webkit-mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); mask-image: radial-gradient(ellipse 70% 50% at 50% 46%, #000 30%, transparent 85%); }
+      .a { position: absolute; }
+      .scene { position: absolute; inset: 0; opacity: 0; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-feature-settings: "tnum" 1; }
+      .src { position: absolute; left: 100px; right: 100px; font-size: 22px; font-weight: 600; color: #5b6b8a; }
+      .cap-line { position: absolute; left: 100px; right: 100px; top: 1400px; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.78); font-weight: 700; font-size: 52px; line-height: 1.12; letter-spacing: -.05em; color: #fff; white-space: nowrap; }
+      .tile { position: absolute; width: 420px; height: 370px; background: #fff; border: 2px solid rgba(0,25,75,.08); opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="13.44" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="13.44" data-track-index="1"></audio>
+      <div id="bgs" class="clip" data-start="0" data-duration="13.44" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
+      <div id="stage" class="clip" data-start="0" data-duration="13.44" data-track-index="3" style="position:absolute; inset:0"></div>
+      <div id="top" class="clip" data-start="0" data-duration="13.44" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 13.44;
+        var st = document.getElementById("stage"), top = document.getElementById("top");
+        var INK = "#00194b", SOFT = "#5b6b8a", DN = "#ff1744", DNT = "#d50f35";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
+        function fade(n, t, d) { tl.fromTo(n, { opacity: 0 }, { opacity: 1, duration: d || .3, ease: "power1.out", immediateRender: false }, t); return n; }
+        function rise(n, t, d) { tl.fromTo(n, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: d || .4, ease: "power3.out", immediateRender: false }, t); return n; }
+        function sc(t0, t1) { var s = div(st, "", "", "scene"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1); return s; }
+        function full(p, src, pos, dark, h) { div(p, "<img src='assets/img/" + src + "' style='width:1080px; height:" + (h || 1920) + "px; object-fit:cover; object-position:" + (pos || "50% 50%") + "; display:block'>", "inset:0"); if (dark) div(p, "", "inset:0; background:" + dark); }
+        function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; p.style.strokeDashoffset = L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power1.inOut", immediateRender: false }, t); return p; }
+        function fr(v, dec) { var s = v.toFixed(dec || 0).split("."); return s[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + (s[1] ? "," + s[1] : ""); }
+        var MO = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+        // icônes des quatre actifs
+        var ICON = {
+          spx: "<circle cx='32' cy='32' r='32' fill='#00194b'/><path d='M14 42 L26 30 L34 37 L50 20' fill='none' stroke='#fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/>",
+          gold: "<circle cx='32' cy='32' r='32' fill='#c9a227'/><circle cx='32' cy='32' r='22' fill='none' stroke='#fff' stroke-width='3' stroke-opacity='.7'/>",
+          silver: "<circle cx='32' cy='32' r='32' fill='#9aa3b2'/><circle cx='32' cy='32' r='22' fill='none' stroke='#fff' stroke-width='3' stroke-opacity='.8'/>",
+          btc: "<circle cx='32' cy='32' r='32' fill='#f7931a'/><text x='32' y='45' font-size='38' font-weight='800' fill='#fff' text-anchor='middle' font-family='Display'>₿</text>"
+        };
+        var AS = [
+          { k: "spx", name: "S&P 500", from: "2025-11-01", dec: 0, unit: " pts", t0: 0, t1: 1.30, ticks: [6000, 6500, 7000, 7500, 8000] },
+          { k: "gold", name: "Or · l'once", from: "2025-07-01", dec: 0, unit: " $", t0: 1.30, t1: 2.24, ticks: [3000, 3500, 4000, 4500, 5000, 5500] },
+          { k: "silver", name: "Argent · l'once", from: "2025-07-01", dec: 2, unit: " $", t0: 2.24, t1: 3.22, ticks: [40, 60, 80, 100, 120] },
+          { k: "btc", name: "Bitcoin", from: "2025-04-01", dec: 0, unit: " $", t0: 3.22, t1: 4.28, ticks: [60000, 80000, 100000, 120000] }
+        ];
+        function head(p, a, y) { return div(p, "<svg width='48' height='48' viewBox='0 0 64 64' style='position:static; vertical-align:middle'>" + ICON[a.k] + "</svg><span style='vertical-align:middle; margin-left:14px; font-size:40px; font-weight:700; letter-spacing:-.04em'>" + a.name + "</span>", "left:100px; top:" + y + "px"); }
+
+        // ===== 1. « Les actions chutent, l'or chute, l'argent chute, et le Bitcoin aussi » : un graphique par actif, la chute se dessine en direct =====
+        AS.forEach(function (a) {
+          var s = sc(a.t0, a.t1), B = window.D[a.k].filter(function (r) { return r[0] >= a.from; }), N = B.length, L = N - 1;
+          var PK = 0; B.forEach(function (r, i) { if (r[1] > B[PK][1]) PK = i; });
+          var lo = Math.min.apply(0, B.map(function (r) { return r[1]; })) * .92, hi = B[PK][1] * 1.05;
+          var PX = 100, PY = 600, PW = 760, PH = 620, X = function (i) { return PX + i / (L + 6) * PW; }, Y = function (v) { return PY + PH - (v - lo) / (hi - lo) * PH; };
+          head(s, a, 330);
+          var tk = div(s, "", "left:100px; top:400px; font-size:100px; font-weight:700; letter-spacing:-.055em; line-height:1; white-space:nowrap");
+          var pc = div(s, "", "right:100px; top:322px; padding:4px 16px 8px; border-radius:6px; background:rgba(255,23,68,.1); color:" + DNT + "; font-size:46px; font-weight:700; letter-spacing:-.04em; white-space:nowrap");
+          div(s, "depuis le record", "right:100px; top:392px; font-size:24px; font-weight:600; color:" + SOFT);
+          var g = svg(s, 0, 0, 1080, 1920), defs = el(g, "defs", {}), gr = el(defs, "linearGradient", { id: "f" + a.k, x1: 0, y1: 0, x2: 0, y2: 1 });
+          el(gr, "stop", { offset: 0, "stop-color": DN, "stop-opacity": .24 }); el(gr, "stop", { offset: 1, "stop-color": DN, "stop-opacity": 0 });
+          var lastY = 1e9; a.ticks.forEach(function (v) { var y = Y(v); if (y < PY - 10 || y > PY + PH - 20 || lastY - y < 60) return; lastY = y;
+            el(g, "line", { x1: PX, x2: PX + PW, y1: y, y2: y, stroke: INK, "stroke-opacity": .07, "stroke-width": 1.5 });
+            el(g, "text", { x: 980, y: y + 8, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "end" }, fr(v) + (a.unit === " $" ? " $" : "")); });
+          el(g, "line", { x1: PX, x2: PX + PW, y1: PY + PH, y2: PY + PH, stroke: SOFT, "stroke-opacity": .5, "stroke-width": 2 });
+          var lx = -1e9; for (var i = 1; i < N; i++) { if (B[i][0].slice(5, 7) === B[i - 1][0].slice(5, 7)) continue; var mo = +B[i][0].slice(5, 7); if (mo % 3 !== 1) continue;
+            if (X(i) - lx > 110 && X(i) > PX + 30) { lx = X(i); el(g, "text", { x: X(i), y: PY + PH + 46, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, mo === 1 ? B[i][0].slice(0, 4) : MO[mo - 1]); } }
+          function path(i0, i1) { var d = ""; for (var i = i0; i <= i1; i++) d += (d ? "L" : "M") + X(i).toFixed(1) + " " + Y(B[i][1]).toFixed(1); return d; }
+          el(g, "path", { d: path(0, PK), fill: "none", stroke: INK, "stroke-width": 4, "stroke-linejoin": "round" });
+          var area = el(g, "path", { d: path(PK, L) + "L" + X(L) + " " + (PY + PH) + "L" + X(PK) + " " + (PY + PH) + "Z", fill: "url(#f" + a.k + ")", opacity: 0 });
+          var red = draw(el(g, "path", { d: path(PK, L), fill: "none", stroke: DN, "stroke-width": 5, "stroke-linejoin": "round" }), a.t0 + .05, a.t1 - a.t0 - .2, "power1.in");
+          tl.to(area, { opacity: 1, duration: .15 }, a.t1 - .17);
+          var dot = el(g, "circle", { cx: X(L), cy: Y(B[L][1]), r: 11, fill: "#fff", stroke: DN, "stroke-width": 5, opacity: 0 }); fade(dot, a.t1 - .22, .12);
+          // le cours et la baisse depuis le record défilent avec la courbe
+          var o = { p: 0 }; tl.fromTo(o, { p: 0 }, { p: 1, duration: a.t1 - a.t0 - .2, ease: "power1.in", immediateRender: false, onUpdate: function () {
+            var f = PK + (L - PK) * o.p, i = Math.floor(f), v = B[i][1] + (B[Math.min(i + 1, L)][1] - B[i][1]) * (f - i);
+            tk.textContent = fr(v, a.dec) + a.unit; pc.textContent = "−" + Math.round((1 - v / B[PK][1]) * 100) + " %"; } }, a.t0 + .05);
+          tk.textContent = fr(B[PK][1], a.dec) + a.unit; pc.textContent = "−0 %";
+          tl.fromTo(g, { scale: 1.03, transformOrigin: "50% 50%" }, { scale: 1, duration: a.t1 - a.t0, ease: "power1.out", immediateRender: false }, a.t0);
+          div(s, (a.k === "spx" ? "Indice S&P 500" : a.k === "btc" ? "Bitcoin en dollars" : a.name.split(" ·")[0] + ", contrat à terme") + " · Clôtures quotidiennes · Source : Yahoo Finance", "top:1300px", "src");
+        });
+
+        // ===== 2. « Vendredi, les quatre ont même perdu plus de 3 % le même jour » : les quatre tuiles, la séance du 20 novembre =====
+        (function () { var s = sc(4.28, 8.02);
+          var t = div(s, "Séance du 20 novembre 2026", "left:0; right:0; top:390px; text-align:center; font-size:52px; font-weight:700; letter-spacing:-.045em; opacity:0"); fade(t, 4.3, .25);
+          var POS = [[100, 520], [560, 520], [100, 920], [560, 920]];
+          AS.forEach(function (a, k) { var B = window.D[a.k], n = 16, R = B.slice(-n), L = n - 1, chg = (R[L][1] / R[L - 1][1] - 1) * 100;
+            var tile = div(s, "", "left:" + POS[k][0] + "px; top:" + POS[k][1] + "px", "tile"); rise(tile, 4.32 + k * .09, .35);
+            div(tile, "<svg width='36' height='36' viewBox='0 0 64 64' style='position:static; vertical-align:middle'>" + ICON[a.k] + "</svg><span style='vertical-align:middle; margin-left:10px; font-size:32px; font-weight:700; letter-spacing:-.04em'>" + a.name.split(" ·")[0] + "</span>", "left:28px; top:26px");
+            var lo = Math.min.apply(0, R.map(function (r) { return r[1]; })), hi = Math.max.apply(0, R.map(function (r) { return r[1]; })), W = 364, H = 140, x0 = 28, y0 = 96;
+            var X = function (i) { return x0 + i / L * W; }, Y = function (v) { return y0 + H - (v - lo) / (hi - lo) * H; };
+            var g = svg(tile, 0, 0, 420, 370), d = ""; for (var i = 0; i < L; i++) d += (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(R[i][1]).toFixed(1);
+            draw(el(g, "path", { d: d, fill: "none", stroke: INK, "stroke-width": 3.5, "stroke-linejoin": "round", "stroke-opacity": .55 }), 4.45 + k * .09, .7, "power1.inOut");
+            var last = draw(el(g, "path", { d: "M" + X(L - 1) + " " + Y(R[L - 1][1]) + "L" + X(L) + " " + Y(R[L][1]), fill: "none", stroke: DN, "stroke-width": 5, "stroke-linecap": "round" }), 6.35 + k * .1, .25, "power1.in");
+            var dot = el(g, "circle", { cx: X(L), cy: Y(R[L][1]), r: 8, fill: "#fff", stroke: DN, "stroke-width": 4, opacity: 0 }); fade(dot, 6.55 + k * .1, .1);
+            var bd = div(tile, "−" + fr(Math.abs(chg), 1) + " %", "left:28px; top:262px; padding:2px 16px 8px; border-radius:6px; background:rgba(255,23,68,.1); color:" + DNT + "; font-size:60px; font-weight:700; letter-spacing:-.045em; white-space:nowrap; opacity:0");
+            tl.fromTo(bd, { opacity: 0, scale: .7, transformOrigin: "0% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2.5)", immediateRender: false }, 6.49 + k * .1);
+          });
+          div(s, "Variation de la clôture du 20/11 par rapport au 19/11 · Source : Yahoo Finance", "top:1320px", "src"); })();
+
+        // ===== 3. « c'est seulement la troisième fois depuis 2014 » : frise 2014 → 2026, trois points =====
+        (function () { var s = sc(8.02, 10.92);
+          var t = div(s, "Les quatre à −3 % ou pire,<br>le même jour", "left:0; right:0; top:470px; text-align:center; font-size:60px; font-weight:700; letter-spacing:-.045em; line-height:1.1; opacity:0"); rise(t, 8.05, .35);
+          var g = svg(s, 0, 0, 1080, 1920), A = 2014.37, Z = 2027, X = function (y) { return 100 + (y - A) / (Z - A) * 880; }, Yl = 960;
+          var ax = draw(el(g, "line", { x1: X(A), x2: X(Z), y1: Yl, y2: Yl, stroke: INK, "stroke-opacity": .35, "stroke-width": 4 }), 8.1, .7, "power2.out");
+          [2014, 2016, 2018, 2020, 2022, 2024, 2026].forEach(function (y) { var tx = el(g, "text", { x: X(y + .5), y: Yl + 120, "font-size": 26, fill: SOFT, "font-weight": 600, "text-anchor": "middle", opacity: 0 }, y); fade(tx, 8.3, .3);
+            var tk = el(g, "line", { x1: X(y + .5), x2: X(y + .5), y1: Yl - 10, y2: Yl + 10, stroke: INK, "stroke-opacity": .35, "stroke-width": 3, opacity: 0 }); fade(tk, 8.3, .3); });
+          [[2020.19, "mars 2020", 8.55, INK, 190], [2022.45, "juin 2022", 8.8, INK, 110], [2026.89, "nov. 2026", 9.05, DN, 110]].forEach(function (e, k) {
+            var ld = el(g, "line", { x1: X(e[0]), x2: X(e[0]), y1: Yl - e[4] + 52, y2: Yl - 24, stroke: e[3], "stroke-opacity": .4, "stroke-width": 2.5, opacity: 0 }); fade(ld, e[2] + .05, .25);
+            var c = el(g, "circle", { cx: X(e[0]), cy: Yl, r: k === 2 ? 22 : 18, fill: e[3] }); tl.fromTo(c, { attr: { r: 0 } }, { attr: { r: k === 2 ? 22 : 18 }, duration: .3, ease: "back.out(3)", immediateRender: false }, e[2]); c.setAttribute("r", 0);
+            var lb = div(s, "<span style='display:inline-block; transform:translateX(-50%); white-space:nowrap'>" + e[1] + "</span>", "left:" + X(e[0]) + "px; top:" + (Yl - e[4]) + "px; font-size:34px; font-weight:700; letter-spacing:-.03em; color:" + (k === 2 ? DNT : INK) + "; opacity:0");
+            if (k === 2) lb.style.left = (X(e[0]) - 55) + "px";
+            rise(lb, e[2] + .05, .3); });
+          div(s, "Clôtures du S&P 500, de l'or, de l'argent et du Bitcoin depuis mai 2014 · Source : Yahoo Finance", "top:1300px", "src"); })();
+
+        // ===== 4. « Et en réalité, tout part d'un seul secteur » : photos, le secteur n'est pas encore nommé =====
+        [["trader-ecrans.jpg", 10.92, 12.2, "50% 0%", 2200], ["wallstreet.jpg", 12.2, 13.44, "50% 40%"]].forEach(function (m) { var s = sc(m[1], m[2]); full(s, m[0], m[3] || "50% 45%", "linear-gradient(180deg, rgba(0,12,40,.12), rgba(0,12,40,.45))", m[4]); });
+
+        // ===== sous-titres : 3 mots max =====
+        var W = window.VO.words.filter(function (w) { return w.s < END; }), groups = [], cur = [];
+        W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
+        groups.forEach(function (gp, k) {
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
+          var d = div(top, "<span class='cap-box'>" + gp.map(function (t) { return t.w.replace(/^3$/, "3 %"); }).join(" ") + "</span>", "", "cap-line");
+          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out", immediateRender: false }, Math.max(0, t0 - .06));
+          tl.set(d, { opacity: 0 }, Math.min(t1 - .07, gp[gp.length - 1].e + .6, END - .035));
+        });
+
+        tl.set({}, {}, END);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
