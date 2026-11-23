@@ -29,7 +29,7 @@
 <section class="pg" id="p1" style="background:#000">
   <img src="assets/photos/jensen-scene.jpg" style="position:absolute; inset:0; width:1080px; height:1350px; object-fit:cover; object-position:50% 12%">
   <div style="position:absolute; left:0; right:0; bottom:0; height:720px; background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.7) 45%, rgba(0,0,0,.92) 100%)"></div>
-  <div style="position:absolute; left:80px; right:80px; top:790px; text-align:center; font-family:'League Spartan'; font-weight:700; font-size:76px; line-height:1.02; letter-spacing:-.01em; color:#fff">11 jours après sa démission, Jensen Huang revient chez Nvidia<div style="margin-top:22px; font-size:52px; color:#30d158">et l'action bondit de +26 % avant l'ouverture</div></div>
+  <div style="position:absolute; left:80px; right:80px; top:830px; text-align:center; font-family:'League Spartan'; font-weight:700; font-size:82px; line-height:1.02; letter-spacing:-.01em; color:#fff">Jensen Huang redevient le PDG de Nvidia et l'action bondit de 26 %</div>
   <img src="assets/img/fd-fleche-blanche.png" style="position:absolute; left:495px; top:1210px; width:90px; height:90px">
 </section>
 
@@ -39,7 +39,7 @@
     <p><b>Le 12 novembre, Jensen Huang quittait Nvidia</b>, après des révélations sur sa vie privée et des soupçons de liens avec le renseignement chinois.</p>
     <p><b>Ce 23 novembre, le conseil d'administration le réintègre</b> comme PDG, avec effet immédiat.</p>
   </div>
-  <div class="card vis" id="frise" style="height:560px; background:#fff; box-shadow:inset 0 0 0 2px #e3e6ee"></div>
+  <div class="vis" id="frise" style="position:absolute; left:104px; width:872px"></div>
 </section>
 
 <!-- 3. Pourquoi ce revirement -->
@@ -84,19 +84,16 @@
   function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
   function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start" }, str); }
   function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
-  // page 2 : frise des 11 jours
+  // page 2 : frise façon chronologie de journal, sans carte ni pastilles
   (function () {
-    var box = document.getElementById("frise");
-    box.insertAdjacentHTML("beforeend", "<div style='position:absolute; left:40px; top:34px; font-size:36px; font-weight:700; letter-spacing:-.02em'>Onze jours chez Nvidia</div>");
-    var g = document.createElementNS(NS, "svg"); g.setAttribute("width", 872); g.setAttribute("height", 560); g.style.left = "0"; g.style.top = "0"; box.appendChild(g);
-    var EV = [["12 nov.", "Démission de Jensen Huang", RED], ["17 nov.", "Résultats sans lui, son retour est exclu", NAVY], ["22 nov.", "Donald Trump demande son retour", NAVY], ["23 nov.", "Le conseil le réintègre comme PDG", GREEN]];
-    var x = 80, y0 = 140, step = 100;
-    el(g, "line", { x1: x, x2: x, y1: y0, y2: y0 + step * 3, stroke: "#e3e6ee", "stroke-width": 4 });
-    EV.forEach(function (e, k) { var y = y0 + k * step;
-      el(g, "circle", { cx: x, cy: y, r: 14, fill: e[2] });
-      T(g, x + 40, y - 6, e[0], 26, GREY, 600);
-      T(g, x + 40, y + 28, e[1], 30, k === 3 ? GREEN : NAVY, 700); });
-    box.insertAdjacentHTML("beforeend", "<div style='position:absolute; left:40px; bottom:26px; font-size:20px; color:#7a8299'>Sources : Nvidia, CNBC, CNN, Forbes</div>");
+    var box = document.getElementById("frise"), EV = [["12 nov.", "Il démissionne, avec effet immédiat."], ["17 nov.", "Premiers résultats sans lui. Le conseil exclut son retour."], ["22 nov.", "Donald Trump demande publiquement son retour."], ["23 nov.", "Le conseil le réintègre comme PDG."]];
+    var h = "<div style='border-top:3px solid #14234b'></div>";
+    EV.forEach(function (e, k) { var last = k === EV.length - 1;
+      h += "<div style='display:flex; gap:36px; padding:26px 0; border-bottom:1px solid " + (last ? "#14234b" : "#d5d9e3") + "'>" +
+        "<div style='flex:0 0 190px; font-family:League Spartan; font-weight:700; font-size:44px; line-height:1.05; letter-spacing:-.01em'>" + e[0] + "</div>" +
+        "<div style='flex:1; font-size:34px; line-height:1.25; padding-top:4px; " + (last ? "font-weight:700" : "") + "'>" + e[1] + "</div></div>"; });
+    h += "<div style='margin-top:18px; font-size:20px; color:#7a8299'>Sources : Nvidia, CNBC, CNN, Forbes</div>";
+    box.innerHTML = h;
   })();
   // page 4 : carte sombre, cours depuis avril, chute en rouge, point avant l'ouverture du 23/11
   (function () {
