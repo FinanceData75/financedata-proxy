@@ -37,7 +37,7 @@
 <section class="pg" id="p2">
   <div class="txt">
     <p><b>Le 12 novembre, Jensen Huang quittait Nvidia</b>, après des révélations sur sa vie privée et des soupçons de liens avec le renseignement chinois.</p>
-    <p><b>Ce 23 novembre, le conseil d'administration le réintègre</b> comme PDG, avec effet immédiat.</p>
+    <p><b>Ce 23 novembre, le conseil d'administration le réintègre</b> comme PDG.</p>
   </div>
   <div class="vis" id="frise" style="position:absolute; left:104px; width:872px"></div>
 </section>
@@ -84,15 +84,16 @@
   function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
   function T(s, x, y, str, size, fill, w, anchor) { return el(s, "text", { x: x, y: y, "font-size": size, fill: fill, "font-weight": w || 500, "text-anchor": anchor || "start" }, str); }
   function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }).replace(/[  ]/g, " "); }
-  // page 2 : frise façon chronologie de journal, sans carte ni pastilles
+  // page 2 : frise verticale sobre, un trait fin et des points pleins
   (function () {
     var box = document.getElementById("frise"), EV = [["12 nov.", "Il démissionne, avec effet immédiat."], ["17 nov.", "Premiers résultats sans lui. Le conseil exclut son retour."], ["22 nov.", "Donald Trump demande publiquement son retour."], ["23 nov.", "Le conseil le réintègre comme PDG."]];
-    var h = "<div style='border-top:3px solid #14234b'></div>";
+    var h = "<div style='position:relative; padding-left:64px'><div style='position:absolute; left:11px; top:22px; bottom:100px; width:3px; background:#14234b'></div>";
     EV.forEach(function (e, k) { var last = k === EV.length - 1;
-      h += "<div style='display:flex; gap:36px; padding:26px 0; border-bottom:1px solid " + (last ? "#14234b" : "#d5d9e3") + "'>" +
-        "<div style='flex:0 0 190px; font-family:League Spartan; font-weight:700; font-size:44px; line-height:1.05; letter-spacing:-.01em'>" + e[0] + "</div>" +
-        "<div style='flex:1; font-size:34px; line-height:1.25; padding-top:4px; " + (last ? "font-weight:700" : "") + "'>" + e[1] + "</div></div>"; });
-    h += "<div style='margin-top:18px; font-size:20px; color:#7a8299'>Sources : Nvidia, CNBC, CNN, Forbes</div>";
+      h += "<div style='position:relative; padding-bottom:38px'>" +
+        "<div style='position:absolute; left:-64px; top:12px; width:25px; height:25px; border-radius:50%; background:" + (last ? "#14234b" : "#fff") + "; border:3px solid #14234b'></div>" +
+        "<div style='font-family:League Spartan; font-weight:700; font-size:40px; line-height:1.1'>" + e[0] + "</div>" +
+        "<div style='font-size:34px; line-height:1.25; margin-top:4px; " + (last ? "font-weight:700" : "") + "'>" + e[1] + "</div></div>"; });
+    h += "</div><div style='font-size:20px; color:#7a8299'>Sources : Nvidia, CNBC, CNN, Forbes</div>";
     box.innerHTML = h;
   })();
   // page 4 : carte sombre, cours depuis avril, chute en rouge, point avant l'ouverture du 23/11
