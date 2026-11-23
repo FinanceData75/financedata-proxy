@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "8ad63c90-8388-4dfa-9495-86323787d37c",
-  "currentRevision": "f9803a68-bb82-4a9a-9827-3c09c45e4bda",
+  "currentRevision": "e51ba68e-dccc-4a09-852d-fdeefe965e3a",
   "pendingChanges": false,
   "files": {
     "assets/data.js": {
@@ -73,8 +73,8 @@
       "content": "/root/.cache/hyperframes/history/8ad63c90-8388-4dfa-9495-86323787d37c/blobs/a3/a3d17397ebcdea67eccc4492e1b0deaf256dd803deb80fa62495e9d0e84d016b"
     },
     "index.html": {
-      "hash": "c1f197962cb396802d18bfd9591bd642a9628413f6ed47f8d7252c9e471c5f2f",
-      "content": "/root/.cache/hyperframes/history/8ad63c90-8388-4dfa-9495-86323787d37c/blobs/c1/c1f197962cb396802d18bfd9591bd642a9628413f6ed47f8d7252c9e471c5f2f"
+      "hash": "557eb762c4848aafe291018e2ba5c1fce865e25c0ff2368c87ff561cdacd1158",
+      "content": "/root/.cache/hyperframes/history/8ad63c90-8388-4dfa-9495-86323787d37c/blobs/55/557eb762c4848aafe291018e2ba5c1fce865e25c0ff2368c87ff561cdacd1158"
     },
     "assets/voix.mp3": {
       "hash": "aa2bf346baf6eb67da79c6034c99cd0f921e642b140f998857bbc39f12b9d87f",
@@ -460,6 +460,36 @@
           "after": "/root/.cache/hyperframes/history/8ad63c90-8388-4dfa-9495-86323787d37c/blobs/c1/c1f197962cb396802d18bfd9591bd642a9628413f6ed47f8d7252c9e471c5f2f"
         }
       }
+    },
+    "e38358b7-d0f8-4e33-9b85-23f0374a9dff": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795432504283,
+      "endedAt": 1795432504284,
+      "files": {
+        "index.html": {
+          "before": "/root/.cache/hyperframes/history/8ad63c90-8388-4dfa-9495-86323787d37c/blobs/c1/c1f197962cb396802d18bfd9591bd642a9628413f6ed47f8d7252c9e471c5f2f",
+          "after": "/root/.cache/hyperframes/history/8ad63c90-8388-4dfa-9495-86323787d37c/blobs/bf/bfb7e7d04b5b94d13bc72f1b9b701a17629a7c8f596e5d84b6a0d4ef8710564f"
+        }
+      }
+    },
+    "e51ba68e-dccc-4a09-852d-fdeefe965e3a": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795432526853,
+      "endedAt": 1795432526855,
+      "files": {
+        "index.html": {
+          "before": "/root/.cache/hyperframes/history/8ad63c90-8388-4dfa-9495-86323787d37c/blobs/bf/bfb7e7d04b5b94d13bc72f1b9b701a17629a7c8f596e5d84b6a0d4ef8710564f",
+          "after": "/root/.cache/hyperframes/history/8ad63c90-8388-4dfa-9495-86323787d37c/blobs/55/557eb762c4848aafe291018e2ba5c1fce865e25c0ff2368c87ff561cdacd1158"
+        }
+      }
     }
   },
   "checks": {
@@ -547,8 +577,8 @@
   },
   "snapshots": {
     "latest": {
-      "revision": "f9803a68-bb82-4a9a-9827-3c09c45e4bda",
-      "id": "aced06a9-1c57-47a4-ab6b-357558830717-4"
+      "revision": "e38358b7-d0f8-4e33-9b85-23f0374a9dff",
+      "id": "2ef972cd-a670-4cdd-8308-3151e43d443b-1"
     },
     "revisions": {
       "216b230a-8157-4f4b-bd05-4aad99466903": [
@@ -1336,6 +1366,48 @@
           "inputScope": "local-project-files",
           "attribution": "recorded-revision"
         }
+      ],
+      "e38358b7-d0f8-4e33-9b85-23f0374a9dff": [
+        {
+          "scope": "full",
+          "id": "2ef972cd-a670-4cdd-8308-3151e43d443b-0",
+          "image": "/tmp/claude-0/-home-user-financedata-proxy/683251fa-d72d-587a-a53e-44421a2ba4c7/scratchpad/f3/frame-00-at-80.5s.png",
+          "time": 80.5,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1795432508791,
+          "contentHash": "aa5a7e5a849930e0ae3cfd3fdc40b17d5c6ec8846d799b2ea9fecc24ebfe5867",
+          "revision": "e38358b7-d0f8-4e33-9b85-23f0374a9dff",
+          "inputFingerprint": "c1ffc953493912305bef6b6384684f231831cdd487557f5c2740e655c52c7c4e",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "2ef972cd-a670-4cdd-8308-3151e43d443b-1",
+          "image": "/tmp/claude-0/-home-user-financedata-proxy/683251fa-d72d-587a-a53e-44421a2ba4c7/scratchpad/f3/frame-01-at-99.2s.png",
+          "time": 99.2,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1795432508793,
+          "contentHash": "c434031907dbbdb8d36c2c5b38bb000800be5435a1ddfb29729c7e4d04b34ffd",
+          "revision": "e38358b7-d0f8-4e33-9b85-23f0374a9dff",
+          "inputFingerprint": "c1ffc953493912305bef6b6384684f231831cdd487557f5c2740e655c52c7c4e",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
       ]
     },
     "unversioned": [
@@ -1543,15 +1615,15 @@
   },
   "renders": {
     "latest": {
-      "id": "26f293ce-fcfc-468d-9469-ca97e6dc7470",
-      "completedAt": 1795431124247,
+      "id": "fc04d3e2-f520-4ac1-95ba-2cea37809502",
+      "completedAt": 1795432771537,
       "output": "/home/user/financedata-proxy/reel-tout-chute/reel-tout-chute-final.mp4",
       "status": "completed",
-      "revision": "f9803a68-bb82-4a9a-9827-3c09c45e4bda"
+      "revision": "e51ba68e-dccc-4a09-852d-fdeefe965e3a"
     },
     "retainedRevisions": [
-      "f9803a68-bb82-4a9a-9827-3c09c45e4bda",
-      "3fa1632b-af1e-4697-be02-ba1592b43370"
+      "e51ba68e-dccc-4a09-852d-fdeefe965e3a",
+      "f9803a68-bb82-4a9a-9827-3c09c45e4bda"
     ]
   },
   "pendingArtifactCleanup": []

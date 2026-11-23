@@ -275,17 +275,17 @@
         // ===== 13. « D'ailleurs, regardez » : tech contre défensives depuis le 6 octobre =====
         (function () { var t0 = 72.19, s = sc(t0, 80.91);
           title(s, "Depuis le 6 octobre", t0 + .02);
-          var K = [["xlk", DN, "Tech", 75.6], ["xlp", GR, "Alimentation", 78.7], ["xlv", "#3d5afe", "Santé", 80.2]];
+          var K = [["xlk", "#ff3d57", "Tech", 75.6], ["xlp", "#10b981", "Alimentation", 78.7], ["xlv", "#8b5cf6", "Santé", 80.2]];
           var base = {}, R0 = E2.xlk.filter(function (r) { return r[0] >= "2026-10-06"; }), n = R0.length;
-          var PX = 100, PY = 600, PW = 700, PH = 620, X = function (i) { return PX + i / (n - 1) * PW; }, Y = function (v) { return PY + PH - (v - 70) / (115 - 70) * PH; };
+          var PX = 190, PY = 600, PW = 540, PH = 620, X = function (i) { return PX + i / (n - 1) * PW; }, Y = function (v) { return PY + PH - (v - 70) / (115 - 70) * PH; };
           var g = svg(s, 0, 0, 1080, 1920);
           [70, 80, 90, 100, 110].forEach(function (v) { el(g, "line", { x1: PX, x2: PX + PW, y1: Y(v), y2: Y(v), stroke: INK, "stroke-opacity": v === 100 ? .3 : .07, "stroke-width": v === 100 ? 2.5 : 1.5, "stroke-dasharray": v === 100 ? "8 8" : "" });
-            el(g, "text", { x: 60, y: Y(v) + 8, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, (v - 100 > 0 ? "+" : v === 100 ? "" : "−") + Math.abs(v - 100) + " %"); });
+            el(g, "text", { x: 168, y: Y(v) + 8, "text-anchor": "end", "font-size": 24, fill: SOFT, "font-weight": 600, }, (v - 100 > 0 ? "+" : v === 100 ? "" : "−") + Math.abs(v - 100) + " %"); });
           el(g, "line", { x1: PX, x2: PX + PW, y1: PY + PH, y2: PY + PH, stroke: SOFT, "stroke-opacity": .5, "stroke-width": 2 });
           [["2026-10-06", "6 oct."], ["2026-11-02", "2 nov."], ["2026-11-20", "20 nov."]].forEach(function (d) { var i = at(R0, d[0]); el(g, "text", { x: X(i), y: PY + PH + 46, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, d[1]); });
           K.forEach(function (k, j) { var R = E2[k[0]].filter(function (r) { return r[0] >= "2026-10-06"; }), b = R[0][1], d = "";
             R.forEach(function (r, i) { d += (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(r[1] / b * 100).toFixed(1); });
-            draw(el(g, "path", { d: d, fill: "none", stroke: k[1], "stroke-width": 5, "stroke-linejoin": "round" }), t0 + .7 + j * .25, 2.2, "power1.inOut");
+            draw(el(g, "path", { d: d, fill: "none", stroke: k[1], "stroke-width": 6, "stroke-linejoin": "round", "stroke-linecap": "round" }), t0 + .7 + j * .25, 2.2, "power1.inOut");
             var v = R[R.length - 1][1] / b * 100, ch = v - 100;
             var e = el(g, "circle", { cx: X(n - 1), cy: Y(v), r: 10, fill: "#fff", stroke: k[1], "stroke-width": 5, opacity: 0 }); fade(e, k[3] - .05, .1);
             var lb = div(s, "<span style='display:block; font-size:30px; color:" + SOFT + "'>" + k[2] + "</span>" + (ch > 0 ? "+" : "−") + fr(Math.abs(ch), 1) + " %", "left:" + (X(n - 1) + 24) + "px; top:" + (Y(v) + (k[0] === "xlp" ? -96 : k[0] === "xlv" ? 14 : -40)) + "px; font-size:46px; font-weight:700; letter-spacing:-.04em; line-height:1; color:" + k[1] + "; opacity:0");
@@ -330,7 +330,20 @@
           c.line(P, c.L, DN, 5, 93.4, .7, "power1.in");
           pill(s, "−12 %", c.X(c.L) + 20, c.Y(R[c.L][1]) + 66, DNT, "rgba(255,23,68,.1)", 94.15, "-100%");
           div(s, AMF, "top:1500px; line-height:1.3", "src"); })();
-        montage([["aube-1.jpg", 95.43, 96.8], ["aube-2.jpg", 96.8, 98.1], ["aube-3.jpg", 98.1, 99.38]]);
+        // « c'est justement dans ces phases de peur que des opportunités finiront par apparaître » : les creux du S&P 500 quand le VIX s'envole
+        (function () { var t0 = 95.43, s = sc(t0, 99.38), R = E2.spxw.filter(function (r) { return r[0] >= "2018-01-01"; });
+          title(s, "S&P 500 : les creux de la peur", t0 + .02);
+          var c = chart(s, R, { lo: 1900, hi: 10000, log: true, years: 2, pad: 6, ticks: [2000, 3000, 4000, 6000, 8000], src: "Indice S&P 500 · Hebdomadaire · Échelle logarithmique · VIX : clôture la plus haute de l'épisode · Source : Yahoo Finance" });
+          c.line(0, c.L, INK, 4, t0 + .05, 1.1, "power1.inOut");
+          [["2018-12-24", "VIX 36", 96.4], ["2020-03-23", "VIX 83", 96.8], ["2022-10-12", "VIX 34", 97.2], ["2025-04-08", "VIX 52", 97.6], ["2026-11-20", "VIX 36", 98.1]].forEach(function (m, k) {
+            var i = 0, best = 1e18; R.forEach(function (r, j) { var d = Math.abs(new Date(r[0]) - new Date(m[0])); if (d < best) { best = d; i = j; } });
+            var v = Math.min(R[i][1], R[Math.max(0, i - 1)][1], R[Math.min(R.length - 1, i + 1)][1]), last = k === 4, col = last ? DN : "#10b981", tcol = last ? DNT : GRT;
+            var cc = el(c.g, "circle", { cx: c.X(i), cy: c.Y(v), r: 0, fill: "#fff", stroke: col, "stroke-width": 6 });
+            tl.fromTo(cc, { attr: { r: 0 } }, { attr: { r: 15 }, duration: .25, ease: "back.out(3)", immediateRender: false }, m[2]);
+            var lb = div(s, "<span style='display:inline-block; transform:translateX(-50%); white-space:nowrap'>" + m[1] + "</span>", "left:" + c.X(i) + "px; top:" + (c.Y(v) + 26) + "px; font-size:30px; font-weight:700; letter-spacing:-.03em; color:" + tcol + "; opacity:0");
+            if (last) lb.style.left = (c.X(i) - 40) + "px"; if (k === 0) lb.style.left = (c.X(i) - 22) + "px"; if (k === 1) lb.style.left = (c.X(i) + 18) + "px";
+            rise(lb, m[2] + .05, .25); });
+          div(s, AMF, "top:1500px; line-height:1.3", "src"); })();
 
         // ===== 16. CTA (99,38 → fin) : fond sombre, contour de story, bouton « Suivre » sans curseur =====
         (function () { var t0 = 99.38, s = sc(t0, 999); s.style.background = "radial-gradient(ellipse 70% 45% at 50% 38%, #06204f 0%, #000a1f 55%, #00040d 100%)";
