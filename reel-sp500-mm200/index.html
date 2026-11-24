@@ -53,25 +53,25 @@
         function stock(s, o) {
           var R = o.R, L = R.length - 1, PX = 100, PY = 640, PW = 760, PH = 580, P = at(R, o.peak), lo = o.lo, hi = o.hi;
           var X = function (i) { return PX + i / (L + 6) * PW; }, Y = function (v) { return PY + PH - (v - lo) / (hi - lo) * PH; };
-          div(s, "", "left:100px; top:300px; width:72px; height:8px; background:" + INK);
-          if (o.logo) div(s, "<img src='" + o.logo + "' style='height:46px; display:block'>", "left:100px; top:336px");
+          div(s, "", "left:100px; top:300px; width:56px; height:5px; background:" + INK);
+          if (o.logo) div(s, "<img src='" + o.logo + "' style='height:40px; display:block'>", "left:100px; top:336px");
           else div(s, o.name, "left:100px; top:330px; font-size:52px; font-weight:700; letter-spacing:-.035em");
           div(s, o.sub, "left:100px; top:404px; font-size:30px; font-weight:400; color:" + SOFT);
-          var tk = div(s, "", "left:100px; top:462px; font-size:84px; font-weight:600; letter-spacing:-.045em; line-height:1; white-space:nowrap");
-          var bd = div(s, o.badge, "left:100px; top:470px; font-size:44px; font-weight:600; letter-spacing:-.03em; white-space:nowrap; color:" + ACC + "; opacity:0");
+          var tk = div(s, "", "left:100px; top:462px; font-size:76px; font-weight:500; letter-spacing:-.045em; line-height:1; white-space:nowrap");
+          var bd = div(s, o.badge, "left:100px; top:470px; font-size:38px; font-weight:500; letter-spacing:-.02em; white-space:nowrap; color:" + ACC + "; opacity:0");
           var g = svg(s, 0, 0, 1080, 1920), cid = "c" + Math.random().toString(36).slice(2), cp = el(el(g, "defs", {}), "clipPath", { id: cid });
           el(cp, "rect", { x: PX - 6, y: PY - 30, width: PW + 12, height: PH + 30 });
           var cam = el(el(g, "g", { "clip-path": "url(#" + cid + ")" }), "g", {});
-          o.ticks.forEach(function (v) { var y = Y(v); el(g, "line", { x1: PX, x2: 980, y1: y, y2: y, stroke: RULE, "stroke-width": 1.5, class: "tk" });
-            el(g, "text", { x: 980, y: y - 12, "font-size": 26, fill: SOFT, "font-weight": 500, "text-anchor": "end" }, fr(v) + (o.unit || "")); });
-          el(g, "line", { x1: PX, x2: 980, y1: PY + PH, y2: PY + PH, stroke: INK, "stroke-width": 2 });
+          o.ticks.forEach(function (v) { var y = Y(v); el(g, "line", { x1: PX, x2: 980, y1: y, y2: y, stroke: RULE, "stroke-width": 1, class: "tk" });
+            el(g, "text", { x: 980, y: y - 12, "font-size": 24, fill: SOFT, "font-weight": 400, "text-anchor": "end" }, fr(v) + (o.unit || "")); });
+          el(g, "line", { x1: PX, x2: 980, y1: PY + PH, y2: PY + PH, stroke: INK, "stroke-width": 1.5 });
           var lx = -1e9; for (var i = 1; i <= L; i++) { if (R[i][0].slice(5, 7) === R[i - 1][0].slice(5, 7)) continue; var mo = +R[i][0].slice(5, 7); if (mo % 2) continue;
-            if (X(i) - lx > 110 && X(i) > PX + 30) { lx = X(i); el(g, "line", { x1: X(i), x2: X(i), y1: PY + PH, y2: PY + PH + 12, stroke: INK, "stroke-width": 2, class: "tk" }); el(g, "text", { x: X(i), y: PY + PH + 50, "font-size": 26, fill: SOFT, "font-weight": 500, "text-anchor": "middle" }, MO[mo - 1]); } }
+            if (X(i) - lx > 110 && X(i) > PX + 30) { lx = X(i); el(g, "line", { x1: X(i), x2: X(i), y1: PY + PH, y2: PY + PH + 12, stroke: INK, "stroke-width": 2, class: "tk" }); el(g, "text", { x: X(i), y: PY + PH + 50, "font-size": 24, fill: SOFT, "font-weight": 400, "text-anchor": "middle" }, MO[mo - 1]); } }
           function path(a, b, k) { var d = ""; for (var i = a; i <= b; i++) d += (d ? "L" : "M") + X(i).toFixed(1) + " " + Y(R[i][k || 1]).toFixed(1); return d; }
-          el(cam, "path", { d: path(0, L - 1), fill: "none", stroke: INK, "stroke-width": 4.5, "stroke-linejoin": "round" });
-          var up = draw(el(cam, "path", { d: "M" + X(L - 1) + " " + Y(R[L - 1][1]) + "L" + X(L) + " " + Y(R[L][1]), fill: "none", stroke: ACC, "stroke-width": 6, "stroke-linecap": "round" }), o.tUp, .5, "power2.out");
+          el(cam, "path", { d: path(0, L - 1), fill: "none", stroke: INK, "stroke-width": 3, "stroke-linejoin": "round" });
+          var up = draw(el(cam, "path", { d: "M" + X(L - 1) + " " + Y(R[L - 1][1]) + "L" + X(L) + " " + Y(R[L][1]), fill: "none", stroke: ACC, "stroke-width": 4, "stroke-linecap": "round" }), o.tUp, .5, "power2.out");
           tl.set(up, { strokeDasharray: "none" }, o.tUp + .52);
-          var dot = el(cam, "circle", { cx: X(L), cy: Y(R[L][1]), r: 9, fill: ACC, opacity: 0 }); fade(dot, o.tUp + .45, .1);
+          var dot = el(cam, "circle", { cx: X(L), cy: Y(R[L][1]), r: 7, fill: ACC, opacity: 0 }); fade(dot, o.tUp + .45, .1);
           var v0 = R[L - 1][1], v1 = R[L][1], ob = { p: 0 };
           tk.textContent = fr(v0, o.dec) + (o.unit || "");
           tl.fromTo(ob, { p: 0 }, { p: 1, duration: .5, ease: "power2.out", immediateRender: false, onUpdate: function () { tk.textContent = fr(v0 + (v1 - v0) * ob.p, o.dec) + (o.unit || ""); } }, o.tUp);
@@ -90,7 +90,7 @@
             tl.to(g.querySelectorAll(":scope > text, :scope > .tk"), { opacity: 0, duration: .2 }, t);
             // le point final reste rond : on le remplace par un point hors caméra
             tl.to(dot, { opacity: 0, duration: .1 }, t);
-            var nd = el(g, "circle", { cx: X(L) * kx + tx, cy: Y(R[L][1]) * ky + ty, r: 11, fill: ACC, opacity: 0 }); fade(nd, t + d - .05, .15);
+            var nd = el(g, "circle", { cx: X(L) * kx + tx, cy: Y(R[L][1]) * ky + ty, r: 8, fill: ACC, opacity: 0 }); fade(nd, t + d - .05, .15);
             return function (x, y) { return [x * kx + tx, y * ky + ty]; }; }
           return { g: g, cam: cam, X: X, Y: Y, L: L, path: path, PX: PX, PW: PW, zoom: zoom };
         }
@@ -121,13 +121,13 @@
             src: "Indice S&P 500 · Clôtures quotidiennes jusqu'au 23/11/2026 · Source : Yahoo Finance" });
           // la ligne : moyenne mobile à 200 jours, sans légende (elle n'est nommée qu'après le générique)
           var mid = "m" + Math.random().toString(36).slice(2), mr = el(el(c.g.querySelector("defs"), "clipPath", { id: mid }), "rect", { x: 0, y: 0, width: 0, height: 1920 });
-          el(el(c.cam, "g", { "clip-path": "url(#" + mid + ")" }), "path", { d: c.path(0, c.L, 2), fill: "none", stroke: OR, "stroke-width": 4, "stroke-linecap": "round" });
+          el(el(c.cam, "g", { "clip-path": "url(#" + mid + ")" }), "path", { d: c.path(0, c.L, 2), fill: "none", stroke: OR, "stroke-width": 2.5, "stroke-linecap": "round" });
           tl.fromTo(mr, { attr: { width: 0 } }, { attr: { width: 1080 }, duration: 1.0, ease: "power2.inOut", immediateRender: false }, 9.0);
           // « sous cette ligne » : on resserre sur les séances depuis le record, prix et ligne dans le cadre
           var T = c.zoom(at(R, "2026-10-01"), 10.15, 1.1, [1, 2]);
           var pL = T(c.X(c.L), c.Y(R[c.L][1])), mL = T(c.X(c.L), c.Y(R[c.L][2])), bx = pL[0] + 34;
-          var br = el(c.g, "path", { d: "M" + (bx - 12) + " " + mL[1] + " H" + bx + " V" + pL[1] + " H" + (bx - 12), fill: "none", stroke: SOFT, "stroke-width": 2.5, opacity: 0 }); fade(br, 11.2, .25);
-          var gl = div(s, "<span style='display:block; font-size:44px; font-weight:600; letter-spacing:-.03em; color:" + CLARET + "'>−1,5 %</span><span style='display:block; font-size:28px; color:" + SOFT + "'>sous la ligne</span>", "left:" + (bx + 18) + "px; top:" + ((pL[1] + mL[1]) / 2 - 40) + "px; line-height:1.15; opacity:0"); fade(gl, 11.3, .25); })();
+          var br = el(c.g, "path", { d: "M" + (bx - 12) + " " + mL[1] + " H" + bx + " V" + pL[1] + " H" + (bx - 12), fill: "none", stroke: SOFT, "stroke-width": 1.5, opacity: 0 }); fade(br, 11.2, .25);
+          var gl = div(s, "<span style='display:block; font-size:36px; font-weight:500; letter-spacing:-.02em; color:" + CLARET + "'>−1,5 %</span><span style='display:block; font-size:24px; color:" + SOFT + "'>sous la ligne</span>", "left:" + (bx + 18) + "px; top:" + ((pL[1] + mL[1]) / 2 - 40) + "px; line-height:1.15; opacity:0"); fade(gl, 11.3, .25); })();
 
         // ===== 5. « car c'est un signal qui a précédé chaque grande crise » : photos fixes =====
         montage([["nyse.jpg", 12.49, 13.65], ["trader-panique.jpg", 13.65, 15.13, "50% 30%"]]);
