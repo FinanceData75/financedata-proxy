@@ -67,12 +67,14 @@
           var lx = -1e9; for (var i = 1; i <= L; i++) { if (R[i][0].slice(5, 7) === R[i - 1][0].slice(5, 7)) continue; var mo = +R[i][0].slice(5, 7); if (mo % 2) continue;
             if (X(i) - lx > 110 && X(i) > PX + 30) { lx = X(i); el(g, "line", { x1: X(i), x2: X(i), y1: PY + PH, y2: PY + PH + 12, stroke: INK, "stroke-width": 2, class: "tk" }); el(g, "text", { x: X(i), y: PY + PH + 50, "font-size": 28, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, MO[mo - 1]); } }
           function path(a, b, k) { var d = ""; for (var i = a; i <= b; i++) d += (d ? "L" : "M") + X(i).toFixed(1) + " " + Y(R[i][k || 1]).toFixed(1); return d; }
-          el(cam, "path", { d: path(0, L - 1), fill: "none", stroke: INK, "stroke-width": 5, "stroke-linejoin": "round" });
-          var up = draw(el(cam, "path", { d: "M" + X(L - 1) + " " + Y(R[L - 1][1]) + "L" + X(L) + " " + Y(R[L][1]), fill: "none", stroke: ACC, "stroke-width": 6.5, "stroke-linecap": "round" }), o.tUp, .5, "power2.out");
+          var mainP = el(cam, "path", { d: path(0, L - 1), fill: "none", stroke: INK, "stroke-width": 7, "stroke-linejoin": "round" });
+          // ce qu'on montre garde la couleur, le reste passe en gris
+          tl.fromTo(mainP, { attr: { stroke: INK } }, { attr: { stroke: "#c5cad3" }, duration: .4, ease: "power1.inOut", immediateRender: false }, o.tUp - .1);
+          var up = draw(el(cam, "path", { d: "M" + X(L - 1) + " " + Y(R[L - 1][1]) + "L" + X(L) + " " + Y(R[L][1]), fill: "none", stroke: ACC, "stroke-width": 9, "stroke-linecap": "round" }), o.tUp, .5, "power2.out");
           tl.set(up, { strokeDasharray: "none" }, o.tUp + .52);
-          var dot = el(cam, "circle", { cx: X(L), cy: Y(R[L][1]), r: 10, fill: ACC, opacity: 0 }); fade(dot, o.tUp + .45, .1);
+          var dot = el(cam, "circle", { cx: X(L), cy: Y(R[L][1]), r: 14, fill: ACC, opacity: 0 }); fade(dot, o.tUp + .45, .1);
           var ob = { p: 0 }, pf = function (v) { return (v > 0 ? "+" : v < 0 ? "−" : "") + fr(Math.abs(v), 1) + " %"; };
-          tk.textContent = pf(0);
+          tk.textContent = pf(0); tk.style.opacity = 0; fade(tk, o.tUp, .15);
           tl.fromTo(ob, { p: 0 }, { p: o.pct, duration: .6, ease: "power2.out", immediateRender: false, onUpdate: function () { tk.textContent = pf(ob.p); } }, o.tUp);
           div(s, "Source : Yahoo Finance", "top:1330px; font-size:26px; font-weight:600", "src");
           // zoom : cadre les séances depuis i0 dans la zone du graphique ; les graduations de prix disparaissent (elles ne suivent pas)
@@ -85,7 +87,7 @@
             tl.to(g.querySelectorAll(":scope > text, :scope > .tk"), { opacity: 0, duration: .2 }, t);
             // le point final reste rond : on le remplace par un point hors caméra
             tl.to(dot, { opacity: 0, duration: .1 }, t);
-            var nd = el(g, "circle", { cx: X(L) * kx + tx, cy: Y(R[L][1]) * ky + ty, r: 12, fill: ACC, opacity: 0 }); fade(nd, t + d - .05, .15);
+            var nd = el(g, "circle", { cx: X(L) * kx + tx, cy: Y(R[L][1]) * ky + ty, r: 14, fill: ACC, opacity: 0 }); fade(nd, t + d - .05, .15);
             return function (x, y) { return [x * kx + tx, y * ky + ty]; }; }
           return { g: g, cam: cam, X: X, Y: Y, L: L, path: path, PX: PX, PW: PW, zoom: zoom };
         }
@@ -116,7 +118,7 @@
             src: "Indice S&P 500 · Clôtures quotidiennes jusqu'au 23/11/2026 · Source : Yahoo Finance" });
           // la ligne : moyenne mobile à 200 jours, sans légende (elle n'est nommée qu'après le générique)
           var mid = "m" + Math.random().toString(36).slice(2), mr = el(el(c.g.querySelector("defs"), "clipPath", { id: mid }), "rect", { x: 0, y: 0, width: 0, height: 1920 });
-          el(el(c.cam, "g", { "clip-path": "url(#" + mid + ")" }), "path", { d: c.path(0, c.L, 2), fill: "none", stroke: OR, "stroke-width": 4.5, "stroke-linecap": "round" });
+          el(el(c.cam, "g", { "clip-path": "url(#" + mid + ")" }), "path", { d: c.path(0, c.L, 2), fill: "none", stroke: OR, "stroke-width": 6.5, "stroke-linecap": "round" });
           tl.fromTo(mr, { attr: { width: 0 } }, { attr: { width: 1080 }, duration: 1.0, ease: "power2.inOut", immediateRender: false }, 9.0);
           // « sous cette ligne » : on resserre sur les séances depuis le record, prix et ligne dans le cadre
           var T = c.zoom(at(R, "2026-10-01"), 10.15, 1.1, [1, 2]);
