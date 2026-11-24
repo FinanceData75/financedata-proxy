@@ -53,11 +53,14 @@
         function stock(s, o) {
           var R = o.R, L = R.length - 1, PX = 100, PY = 600, PW = 760, PH = 620, P = at(R, o.peak), lo = o.lo, hi = o.hi;
           var X = function (i) { return PX + i / (L + 6) * PW; }, Y = function (v) { return PY + PH - (v - lo) / (hi - lo) * PH; };
-          div(s, "<svg width='48' height='48' viewBox='0 0 64 64' style='position:static; vertical-align:middle'>" + o.icon + "</svg><span style='vertical-align:middle; margin-left:14px; font-size:40px; font-weight:700; letter-spacing:-.04em'>" + o.name + "</span>", "left:100px; top:330px");
+          if (o.logo) div(s, "<img src='" + o.logo + "' style='height:52px; display:block'>", "left:100px; top:326px");
+          else div(s, "<svg width='48' height='48' viewBox='0 0 64 64' style='position:static; vertical-align:middle'>" + o.icon + "</svg><span style='vertical-align:middle; margin-left:14px; font-size:40px; font-weight:700; letter-spacing:-.04em'>" + o.name + "</span>", "left:100px; top:330px");
           var tk = div(s, "", "left:100px; top:400px; font-size:100px; font-weight:700; letter-spacing:-.055em; line-height:1; white-space:nowrap");
           var bd = div(s, o.badge, "right:100px; top:322px; padding:4px 16px 8px; border-radius:6px; background:rgba(0,184,92,.12); color:" + GRT + "; font-size:46px; font-weight:700; letter-spacing:-.04em; white-space:nowrap; opacity:0");
           div(s, "en une séance", "right:100px; top:392px; font-size:24px; font-weight:600; color:" + SOFT + "; opacity:0").className = "a lab";
-          var g = svg(s, 0, 0, 1080, 1920), cam = el(g, "g", {});
+          var g = svg(s, 0, 0, 1080, 1920), cid = "c" + Math.random().toString(36).slice(2), cp = el(el(g, "defs", {}), "clipPath", { id: cid });
+          el(cp, "rect", { x: PX - 6, y: PY - 40, width: PW + 12, height: PH + 40 });
+          var cam = el(el(g, "g", { "clip-path": "url(#" + cid + ")" }), "g", {});
           o.ticks.forEach(function (v) { var y = Y(v); el(cam, "line", { x1: PX, x2: PX + PW, y1: y, y2: y, stroke: INK, "stroke-opacity": .07, "stroke-width": 1.5 });
             el(g, "text", { x: 980, y: y + 8, "font-size": 24, fill: SOFT, "font-weight": 600, "text-anchor": "end" }, fr(v) + (o.unit || "")); });
           el(g, "line", { x1: PX, x2: PX + PW, y1: PY + PH, y2: PY + PH, stroke: SOFT, "stroke-opacity": .5, "stroke-width": 2 });
@@ -67,13 +70,26 @@
           el(cam, "path", { d: path(0, P), fill: "none", stroke: INK, "stroke-width": 4, "stroke-linejoin": "round" });
           el(cam, "path", { d: path(P, L - 1), fill: "none", stroke: DN, "stroke-width": 5, "stroke-linejoin": "round" });
           var up = draw(el(cam, "path", { d: "M" + X(L - 1) + " " + Y(R[L - 1][1]) + "L" + X(L) + " " + Y(R[L][1]), fill: "none", stroke: GR, "stroke-width": 7, "stroke-linecap": "round" }), o.tUp, .5, "power2.out");
+          tl.set(up, { strokeDasharray: "none" }, o.tUp + .52);
           var dot = el(cam, "circle", { cx: X(L), cy: Y(R[L][1]), r: 11, fill: "#fff", stroke: GR, "stroke-width": 5, opacity: 0 }); fade(dot, o.tUp + .45, .1);
           var v0 = R[L - 1][1], v1 = R[L][1], ob = { p: 0 };
           tk.textContent = fr(v0, o.dec) + (o.unit || "");
           tl.fromTo(ob, { p: 0 }, { p: 1, duration: .5, ease: "power2.out", immediateRender: false, onUpdate: function () { tk.textContent = fr(v0 + (v1 - v0) * ob.p, o.dec) + (o.unit || ""); } }, o.tUp);
           tl.fromTo([bd, s.querySelector(".lab")], { opacity: 0, scale: .7, transformOrigin: "100% 50%" }, { opacity: 1, scale: 1, duration: .3, ease: "back.out(2.5)", immediateRender: false }, o.tBadge);
           div(s, o.src, "top:1300px", "src");
-          return { g: g, cam: cam, X: X, Y: Y, L: L, path: path, PX: PX, PW: PW };
+          // zoom : cadre les séances depuis i0 dans la zone du graphique ; les graduations de prix disparaissent (elles ne suivent pas)
+          function zoom(i0, t, d, keys) { var xs = [], ys = []; for (var i = i0; i <= L; i++) { xs.push(X(i)); (keys || [1]).forEach(function (k) { ys.push(Y(R[i][k])); }); }
+            var x0 = Math.min.apply(0, xs), x1 = Math.max.apply(0, xs), y0 = Math.min.apply(0, ys) - 50, y1 = Math.max.apply(0, ys) + 50;
+            var ky = PH / (y1 - y0), kx = Math.min((PW - 140) / (x1 - x0), ky * 3), tx = PX + PW - 110 - X(L) * kx, ty = PY + (PH - (y1 - y0) * ky) / 2 - y0 * ky;
+            cam.querySelectorAll("path, line").forEach(function (n) { n.setAttribute("vector-effect", "non-scaling-stroke"); });
+            var z = { a: 1, b: 1, x: 0, y: 0 }; cam.setAttribute("transform", "translate(0,0) scale(1,1)");
+            tl.fromTo(z, { a: 1, b: 1, x: 0, y: 0 }, { a: kx, b: ky, x: tx, y: ty, duration: d, ease: "power3.inOut", immediateRender: false, onUpdate: function () { cam.setAttribute("transform", "translate(" + z.x + "," + z.y + ") scale(" + z.a + "," + z.b + ")"); } }, t);
+            tl.to(g.querySelectorAll(":scope > text"), { opacity: 0, duration: .2 }, t);
+            // le point final reste rond : on le remplace par un point hors caméra
+            tl.to(dot, { opacity: 0, duration: .1 }, t);
+            var nd = el(g, "circle", { cx: X(L) * kx + tx, cy: Y(R[L][1]) * ky + ty, r: 13, fill: "#fff", stroke: GR, "stroke-width": 6, opacity: 0 }); fade(nd, t + d - .05, .15);
+            return function (x, y) { return [x * kx + tx, y * ky + ty]; }; }
+          return { g: g, cam: cam, X: X, Y: Y, L: L, path: path, PX: PX, PW: PW, zoom: zoom };
         }
 
         // ===== 1. « Le retour de Jensen Huang à la tête de Nvidia » : photo fixe =====
@@ -90,9 +106,10 @@
 
         // ===== 3. « a fait exploser l'action de 31 % hier » : Nvidia =====
         (function () { var s = sc(4.3, 7.19);
-          stock(s, { R: window.NV, peak: "2026-10-06", lo: 100, hi: 260, ticks: [100, 150, 200, 250], unit: " $", dec: 2, name: "Nvidia", badge: "+31 %", tUp: 5.0, tBadge: 5.8,
+          var c = stock(s, { R: window.NV, peak: "2026-10-06", lo: 100, hi: 260, ticks: [100, 150, 200, 250], unit: " $", dec: 2, name: "Nvidia", logo: "assets/img/nvidia-logo.svg", badge: "+31 %", tUp: 5.0, tBadge: 5.8,
             icon: "<circle cx='32' cy='32' r='32' fill='#76b900'/><text x='32' y='44' font-size='34' font-weight='800' fill='#fff' text-anchor='middle' font-family='Display'>N</text>",
-            src: "Action Nvidia · Clôtures quotidiennes jusqu'au 23/11/2026 · Source : Yahoo Finance" }); })();
+            src: "Action Nvidia · Clôtures quotidiennes jusqu'au 23/11/2026 · Source : Yahoo Finance" });
+          c.zoom(c.L - 9, 5.55, .9); })();
 
         // ===== 4. « et le S&P 500 a suivi. Mais il reste sous cette ligne… » : la ligne (non nommée) apparaît, on resserre =====
         (function () { var s = sc(7.19, 12.49), R = window.SPX;
@@ -100,16 +117,13 @@
             icon: "<circle cx='32' cy='32' r='32' fill='#00194b'/><path d='M14 42 L26 30 L34 37 L50 20' fill='none' stroke='#fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/>",
             src: "Indice S&P 500 · Clôtures quotidiennes jusqu'au 23/11/2026 · Source : Yahoo Finance" });
           // la ligne : moyenne mobile à 200 jours, sans légende (elle n'est nommée qu'après le générique)
-          var ma = draw(el(c.cam, "path", { d: c.path(0, c.L, 2), fill: "none", stroke: OR, "stroke-width": 6, "stroke-dasharray": "0", "stroke-linecap": "round" }), 9.0, .9, "power2.inOut");
-          // pointillés une fois tracée
-          tl.set(ma, { strokeDasharray: "16 12", strokeDashoffset: 0 }, 9.92);
-          // « sous cette ligne » : on resserre sur les dernières séances, l'écart prix / ligne apparaît
-          var xL = c.X(c.L), yL = c.Y(R[c.L][1]);
-          tl.to(c.cam, { attr: { transform: "translate(" + (540 - xL * 2.4) + "," + (900 - yL * 2.4) + ") scale(2.4)" }, duration: 1.0, ease: "power2.inOut" }, 10.1);
-          var gap = el(c.g, "line", { x1: 540, x2: 540, y1: 900, y2: 900 + (c.Y(R[c.L][2]) - yL) * 2.4, stroke: DN, "stroke-width": 4, opacity: 0 }); fade(gap, 11.15, .2);
-          var gl = div(s, "<span style='display:inline-block; transform:translate(0,-50%); padding:2px 14px 6px; border-radius:6px; background:rgba(255,23,68,.1); color:" + DNT + "; font-size:44px; font-weight:700; letter-spacing:-.04em'>−1,5 % sous la ligne</span>", "left:570px; top:" + (900 + (c.Y(R[c.L][2]) - yL) * 1.2) + "px; opacity:0"); fade(gl, 11.25, .25);
-          tl.to(s.querySelectorAll(".a:not(.src)"), { opacity: .15, duration: .3 }, 10.1);
-          tl.to(c.g.querySelectorAll(":scope > text"), { opacity: 0, duration: .25 }, 10.1); })();
+          var mid = "m" + Math.random().toString(36).slice(2), mr = el(el(c.g.querySelector("defs"), "clipPath", { id: mid }), "rect", { x: 0, y: 0, width: 0, height: 1920 });
+          el(el(c.cam, "g", { "clip-path": "url(#" + mid + ")" }), "path", { d: c.path(0, c.L, 2), fill: "none", stroke: OR, "stroke-width": 6, "stroke-dasharray": "16 12", "stroke-linecap": "round" });
+          tl.fromTo(mr, { attr: { width: 0 } }, { attr: { width: 1080 }, duration: 1.0, ease: "power2.inOut", immediateRender: false }, 9.0);
+          // « sous cette ligne » : on resserre sur les séances depuis le record, prix et ligne dans le cadre
+          var T = c.zoom(at(R, "2026-10-01"), 10.15, 1.1, [1, 2]);
+          var pL = T(c.X(c.L), c.Y(R[c.L][1])), mL = T(c.X(c.L), c.Y(R[c.L][2]));
+          var gl = div(s, "<span style='display:inline-block; transform:translate(-100%,-50%); padding:2px 14px 6px; border-radius:6px; background:rgba(255,23,68,.1); color:" + DNT + "; font-size:44px; font-weight:700; letter-spacing:-.04em; white-space:nowrap'>−1,5 % sous la ligne</span>", "left:" + (pL[0] - 30) + "px; top:" + (pL[1] + 110) + "px; opacity:0"); fade(gl, 11.3, .25); })();
 
         // ===== 5. « car c'est un signal qui a précédé chaque grande crise » : photos fixes =====
         montage([["nyse.jpg", 12.49, 13.65], ["trader-panique.jpg", 13.65, 15.13, "50% 30%"]]);
