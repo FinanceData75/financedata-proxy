@@ -1,0 +1,6440 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 2,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "composition_file_too_large",
+        "severity": "warning",
+        "message": "This HTML composition file has 341 lines. Smaller sub-compositions are easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "/home/user/financedata-proxy/reel-sp500-mm200/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Split coherent scenes or layers into separate .html files under compositions/, then mount them from the parent with data-composition-src so each file stays small enough to inspect, revise, and validate independently."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"bgs\"> is a timeline element that contains nested <div id=\"bg\">. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#bgs",
+        "dataAttributes": {},
+        "sourceFile": "/home/user/financedata-proxy/reel-sp500-mm200/index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"bgs\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "clip_media_fit",
+        "severity": "warning",
+        "message": "Audio \"vo\" is 80.75s but its slot (data-duration) is 81.20s — the slot is shortened to the media length when rendered. Set data-duration to ~80.75s if that isn't intended.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {
+          "data-composition-id": "main",
+          "data-start": "0",
+          "data-duration": "81.2",
+          "data-width": "1080",
+          "data-height": "1920"
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 1080,
+          "height": 1920
+        },
+        "time": 0
+      }
+    ]
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 71,
+    "infoCount": 0,
+    "findings": [
+      {
+        "selector": "#stage > div:nth-of-type(4) > div:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 390,
+          "width": 421,
+          "height": 41
+        },
+        "time": 4.511,
+        "rect": {
+          "left": 100,
+          "top": 390,
+          "right": 521,
+          "bottom": 431,
+          "width": 421,
+          "height": 41
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Cours de l'action, en dollars",
+        "message": "<div> \"Cours de l'action, en dollars\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 4.511,
+        "lastSeen": 4.511,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          4.511
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(4) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.31,
+          "y": 1221,
+          "width": 79.69,
+          "height": 34
+        },
+        "time": 4.511,
+        "rect": {
+          "left": 900.31,
+          "top": 1221,
+          "right": 980,
+          "bottom": 1255,
+          "width": 79.69,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "100 $",
+        "message": "<text> \"100 $\" is outside the safe area: TikTok (right edge), Instagram Reels (bottom edge), YouTube Shorts (right and bottom edges).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 4.511,
+        "lastSeen": 4.511,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          4.511
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(4) > svg:nth-of-type(1) > text:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.31,
+          "y": 983.5,
+          "width": 79.69,
+          "height": 34
+        },
+        "time": 4.511,
+        "rect": {
+          "left": 900.31,
+          "top": 983.5,
+          "right": 980,
+          "bottom": 1017.5,
+          "width": 79.69,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "150 $",
+        "message": "<text> \"150 $\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 4.511,
+        "lastSeen": 4.511,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          4.511
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(4) > svg:nth-of-type(1) > text:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.31,
+          "y": 746,
+          "width": 79.69,
+          "height": 34
+        },
+        "time": 4.511,
+        "rect": {
+          "left": 900.31,
+          "top": 746,
+          "right": 980,
+          "bottom": 780,
+          "width": 79.69,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "200 $",
+        "message": "<text> \"200 $\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 4.511,
+        "lastSeen": 4.511,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          4.511
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(4) > svg:nth-of-type(1) > text:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.31,
+          "y": 508.5,
+          "width": 79.69,
+          "height": 34
+        },
+        "time": 4.511,
+        "rect": {
+          "left": 900.31,
+          "top": 508.5,
+          "right": 980,
+          "bottom": 542.5,
+          "width": 79.69,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "250 $",
+        "message": "<text> \"250 $\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 4.511,
+        "lastSeen": 4.511,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          4.511
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(4) > svg:nth-of-type(1) > text:nth-of-type(5)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 326.49,
+          "y": 1283,
+          "width": 57.64,
+          "height": 34
+        },
+        "time": 4.511,
+        "rect": {
+          "left": 326.49,
+          "top": 1283,
+          "right": 384.13,
+          "bottom": 1317,
+          "width": 57.64,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "août",
+        "message": "<text> \"août\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 4.511,
+        "lastSeen": 4.511,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          4.511
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(4) > svg:nth-of-type(1) > text:nth-of-type(6)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 580.18,
+          "y": 1283,
+          "width": 49.02,
+          "height": 34
+        },
+        "time": 4.511,
+        "rect": {
+          "left": 580.18,
+          "top": 1283,
+          "right": 629.2,
+          "bottom": 1317,
+          "width": 49.02,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "oct.",
+        "message": "<text> \"oct.\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 4.511,
+        "lastSeen": 4.511,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          4.511
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(4) > div:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 1330,
+          "width": 283.94,
+          "height": 31
+        },
+        "time": 4.511,
+        "rect": {
+          "left": 100,
+          "top": 1330,
+          "right": 383.94,
+          "bottom": 1361,
+          "width": 283.94,
+          "height": 31
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Source : Yahoo Finance",
+        "message": "<div> \"Source : Yahoo Finance\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 4.511,
+        "lastSeen": 4.511,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          4.511
+        ]
+      },
+      {
+        "selector": "#top > div:nth-of-type(7)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 388.78,
+          "y": 1405,
+          "width": 302.42,
+          "height": 63
+        },
+        "time": 4.511,
+        "rect": {
+          "left": 388.78,
+          "top": 1405,
+          "right": 691.2,
+          "bottom": 1468,
+          "width": 302.42,
+          "height": 63
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "a fait exploser",
+        "message": "<div> \"a fait exploser\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 4.511,
+        "lastSeen": 4.511,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          4.511
+        ]
+      },
+      {
+        "selector": "#top > div:nth-of-type(17)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 280.27,
+          "y": 1405.16,
+          "width": 519.46,
+          "height": 63
+        },
+        "time": 13.533,
+        "rect": {
+          "left": 280.27,
+          "top": 1405.16,
+          "right": 799.73,
+          "bottom": 1468.16,
+          "width": 519.46,
+          "height": 63
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "précédé chaque grande",
+        "message": "<div> \"précédé chaque grande\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 13.533,
+        "lastSeen": 13.533,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          13.533
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(9) > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 281,
+          "width": 303.58,
+          "height": 95
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 100,
+          "top": 281,
+          "right": 403.58,
+          "bottom": 376,
+          "width": 303.58,
+          "height": 95
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "S&P 500",
+        "message": "<div> \"S&P 500\" is outside the safe area: TikTok (left edge), YouTube Shorts (top edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(9) > div:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 390,
+          "width": 248.53,
+          "height": 41
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 100,
+          "top": 390,
+          "right": 348.53,
+          "bottom": 431,
+          "width": 248.53,
+          "height": 41
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Indice, en points",
+        "message": "<div> \"Indice, en points\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(9) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.23,
+          "y": 1101,
+          "width": 79.77,
+          "height": 34
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 900.23,
+          "top": 1101,
+          "right": 980,
+          "bottom": 1135,
+          "width": 79.77,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "6 500",
+        "message": "<text> \"6 500\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(9) > svg:nth-of-type(1) > text:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.23,
+          "y": 901,
+          "width": 79.77,
+          "height": 34
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 900.23,
+          "top": 901,
+          "right": 980,
+          "bottom": 935,
+          "width": 79.77,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "7 000",
+        "message": "<text> \"7 000\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(9) > svg:nth-of-type(1) > text:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.23,
+          "y": 701,
+          "width": 79.77,
+          "height": 34
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 900.23,
+          "top": 701,
+          "right": 980,
+          "bottom": 735,
+          "width": 79.77,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "7 500",
+        "message": "<text> \"7 500\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(9) > svg:nth-of-type(1) > text:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.23,
+          "y": 501,
+          "width": 79.77,
+          "height": 34
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 900.23,
+          "top": 501,
+          "right": 980,
+          "bottom": 535,
+          "width": 79.77,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "8 000",
+        "message": "<text> \"8 000\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(9) > svg:nth-of-type(1) > text:nth-of-type(5)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 163.58,
+          "y": 1283,
+          "width": 47.92,
+          "height": 34
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 163.58,
+          "top": 1283,
+          "right": 211.5,
+          "bottom": 1317,
+          "width": 47.92,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "avr.",
+        "message": "<text> \"avr.\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(9) > svg:nth-of-type(1) > text:nth-of-type(6)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 327.71,
+          "y": 1283,
+          "width": 45.94,
+          "height": 34
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 327.71,
+          "top": 1283,
+          "right": 373.65,
+          "bottom": 1317,
+          "width": 45.94,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "juin",
+        "message": "<text> \"juin\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(9) > svg:nth-of-type(1) > text:nth-of-type(7)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 492.96,
+          "y": 1283,
+          "width": 57.64,
+          "height": 34
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 492.96,
+          "top": 1283,
+          "right": 550.6,
+          "bottom": 1317,
+          "width": 57.64,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "août",
+        "message": "<text> \"août\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(9) > svg:nth-of-type(1) > text:nth-of-type(8)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 664.39,
+          "y": 1283,
+          "width": 49.02,
+          "height": 34
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 664.39,
+          "top": 1283,
+          "right": 713.41,
+          "bottom": 1317,
+          "width": 49.02,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "oct.",
+        "message": "<text> \"oct.\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(9) > div:nth-of-type(7)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 1330,
+          "width": 283.94,
+          "height": 31
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 100,
+          "top": 1330,
+          "right": 383.94,
+          "bottom": 1361,
+          "width": 283.94,
+          "height": 31
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Source : Yahoo Finance",
+        "message": "<div> \"Source : Yahoo Finance\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#top > div:nth-of-type(23)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 417.53,
+          "y": 1405,
+          "width": 244.94,
+          "height": 63
+        },
+        "time": 22.556,
+        "rect": {
+          "left": 417.53,
+          "top": 1405,
+          "right": 662.47,
+          "bottom": 1468,
+          "width": 244.94,
+          "height": 63
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Cette ligne,",
+        "message": "<div> \"Cette ligne,\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 22.556,
+        "lastSeen": 22.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          22.556
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 281,
+          "width": 303.58,
+          "height": 95
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 100,
+          "top": 281,
+          "right": 403.58,
+          "bottom": 376,
+          "width": 303.58,
+          "height": 95
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "S&P 500",
+        "message": "<div> \"S&P 500\" is outside the safe area: TikTok (left edge), YouTube Shorts (top edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > div:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 390,
+          "width": 543.89,
+          "height": 41
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 100,
+          "top": 390,
+          "right": 643.89,
+          "bottom": 431,
+          "width": 543.89,
+          "height": 41
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Depuis 1985, échelle logarithmique",
+        "message": "<div> \"Depuis 1985, échelle logarithmique\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 925.81,
+          "y": 1168.94,
+          "width": 54.19,
+          "height": 34
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 925.81,
+          "top": 1168.94,
+          "right": 980,
+          "bottom": 1202.94,
+          "width": 54.19,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "200",
+        "message": "<text> \"200\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > svg:nth-of-type(1) > text:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 925.81,
+          "y": 1003.12,
+          "width": 54.19,
+          "height": 34
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 925.81,
+          "top": 1003.12,
+          "right": 980,
+          "bottom": 1037.12,
+          "width": 54.19,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "500",
+        "message": "<text> \"500\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > svg:nth-of-type(1) > text:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.23,
+          "y": 877.69,
+          "width": 79.77,
+          "height": 34
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 900.23,
+          "top": 877.69,
+          "right": 980,
+          "bottom": 911.69,
+          "width": 79.77,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "1 000",
+        "message": "<text> \"1 000\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > svg:nth-of-type(1) > text:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.23,
+          "y": 752.25,
+          "width": 79.77,
+          "height": 34
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 900.23,
+          "top": 752.25,
+          "right": 980,
+          "bottom": 786.25,
+          "width": 79.77,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "2 000",
+        "message": "<text> \"2 000\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > svg:nth-of-type(1) > text:nth-of-type(5)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.23,
+          "y": 586.44,
+          "width": 79.77,
+          "height": 34
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 900.23,
+          "top": 586.44,
+          "right": 980,
+          "bottom": 620.44,
+          "width": 79.77,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "5 000",
+        "message": "<text> \"5 000\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > svg:nth-of-type(1) > text:nth-of-type(6)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 154.1,
+          "y": 1283,
+          "width": 72.25,
+          "height": 34
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 154.1,
+          "top": 1283,
+          "right": 226.35,
+          "bottom": 1317,
+          "width": 72.25,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "1990",
+        "message": "<text> \"1990\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > svg:nth-of-type(1) > text:nth-of-type(7)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 334.56,
+          "y": 1283,
+          "width": 72.25,
+          "height": 34
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 334.56,
+          "top": 1283,
+          "right": 406.81,
+          "bottom": 1317,
+          "width": 72.25,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "2000",
+        "message": "<text> \"2000\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > svg:nth-of-type(1) > text:nth-of-type(8)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 515.74,
+          "y": 1283,
+          "width": 72.25,
+          "height": 34
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 515.74,
+          "top": 1283,
+          "right": 587.99,
+          "bottom": 1317,
+          "width": 72.25,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "2010",
+        "message": "<text> \"2010\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > svg:nth-of-type(1) > text:nth-of-type(9)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 695.13,
+          "y": 1283,
+          "width": 72.25,
+          "height": 34
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 695.13,
+          "top": 1283,
+          "right": 767.38,
+          "bottom": 1317,
+          "width": 72.25,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "2020",
+        "message": "<text> \"2020\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(10) > div:nth-of-type(9)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 1330,
+          "width": 283.94,
+          "height": 31
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 100,
+          "top": 1330,
+          "right": 383.94,
+          "bottom": 1361,
+          "width": 283.94,
+          "height": 31
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Source : Yahoo Finance",
+        "message": "<div> \"Source : Yahoo Finance\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#top > div:nth-of-type(34)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 391.09,
+          "y": 1405,
+          "width": 297.8,
+          "height": 63
+        },
+        "time": 31.578,
+        "rect": {
+          "left": 391.09,
+          "top": 1405,
+          "right": 688.89,
+          "bottom": 1468,
+          "width": 297.8,
+          "height": 63
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Depuis 1950,",
+        "message": "<div> \"Depuis 1950,\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 31.578,
+        "lastSeen": 31.578,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          31.578
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(11) > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 291,
+          "width": 535.42,
+          "height": 77
+        },
+        "time": 40.6,
+        "rect": {
+          "left": 100,
+          "top": 291,
+          "right": 635.42,
+          "bottom": 368,
+          "width": 535.42,
+          "height": 77
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Baisse du S&P 500",
+        "message": "<div> \"Baisse du S&P 500\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 40.6,
+        "lastSeen": 40.6,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          40.6
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(11) > div:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 390,
+          "width": 585.84,
+          "height": 41
+        },
+        "time": 40.6,
+        "rect": {
+          "left": 100,
+          "top": 390,
+          "right": 685.84,
+          "bottom": 431,
+          "width": 585.84,
+          "height": 41
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Avant et après le passage sous la ligne",
+        "message": "<div> \"Avant et après le passage sous la ligne\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 40.6,
+        "lastSeen": 40.6,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          40.6
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(11) > div:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 574,
+          "width": 92.81,
+          "height": 44
+        },
+        "time": 40.6,
+        "rect": {
+          "left": 100,
+          "top": 574,
+          "right": 192.81,
+          "bottom": 618,
+          "width": 92.81,
+          "height": 44
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "1987",
+        "message": "<div> \"1987\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 40.6,
+        "lastSeen": 40.6,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          40.6
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(11) > div:nth-of-type(7)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 704,
+          "width": 92.81,
+          "height": 44
+        },
+        "time": 40.6,
+        "rect": {
+          "left": 100,
+          "top": 704,
+          "right": 192.81,
+          "bottom": 748,
+          "width": 92.81,
+          "height": 44
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "2000",
+        "message": "<div> \"2000\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 40.6,
+        "lastSeen": 40.6,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          40.6
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(11) > div:nth-of-type(10)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 788,
+          "y": 702,
+          "width": 119.31,
+          "height": 46
+        },
+        "time": 40.6,
+        "rect": {
+          "left": 788,
+          "top": 702,
+          "right": 907.31,
+          "bottom": 748,
+          "width": 119.31,
+          "height": 46
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "−43 %",
+        "message": "<div> \"−43 %\" is outside the safe area: YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 40.6,
+        "lastSeen": 40.6,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          40.6
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(11) > div:nth-of-type(11)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 834,
+          "width": 92.81,
+          "height": 44
+        },
+        "time": 40.6,
+        "rect": {
+          "left": 100,
+          "top": 834,
+          "right": 192.81,
+          "bottom": 878,
+          "width": 92.81,
+          "height": 44
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "2008",
+        "message": "<div> \"2008\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 40.6,
+        "lastSeen": 40.6,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          40.6
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(11) > div:nth-of-type(15)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 964,
+          "width": 92.81,
+          "height": 44
+        },
+        "time": 40.6,
+        "rect": {
+          "left": 100,
+          "top": 964,
+          "right": 192.81,
+          "bottom": 1008,
+          "width": 92.81,
+          "height": 44
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "2020",
+        "message": "<div> \"2020\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 40.6,
+        "lastSeen": 40.6,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          40.6
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(11) > div:nth-of-type(19)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 1094,
+          "width": 92.81,
+          "height": 44
+        },
+        "time": 40.6,
+        "rect": {
+          "left": 100,
+          "top": 1094,
+          "right": 192.81,
+          "bottom": 1138,
+          "width": 92.81,
+          "height": 44
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "2022",
+        "message": "<div> \"2022\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 40.6,
+        "lastSeen": 40.6,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          40.6
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(11) > div:nth-of-type(23)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 132,
+          "y": 1230,
+          "width": 439.67,
+          "height": 34
+        },
+        "time": 40.6,
+        "rect": {
+          "left": 132,
+          "top": 1230,
+          "right": 571.67,
+          "bottom": 1264,
+          "width": 439.67,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Avant le signal Après le signal",
+        "message": "<div> \"Avant le signal Après le signal\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 40.6,
+        "lastSeen": 40.6,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          40.6
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(11) > div:nth-of-type(24)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 1330,
+          "width": 708.11,
+          "height": 31
+        },
+        "time": 40.6,
+        "rect": {
+          "left": 100,
+          "top": 1330,
+          "right": 808.11,
+          "bottom": 1361,
+          "width": 708.11,
+          "height": 31
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Source : Yahoo Finance · clôtures, du sommet au ",
+        "message": "<div> \"Source : Yahoo Finance · clôtures, du sommet au \" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 40.6,
+        "lastSeen": 40.6,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          40.6
+        ]
+      },
+      {
+        "selector": "#top > div:nth-of-type(41)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 420.55,
+          "y": 1405,
+          "width": 238.89,
+          "height": 63
+        },
+        "time": 40.6,
+        "rect": {
+          "left": 420.55,
+          "top": 1405,
+          "right": 659.44,
+          "bottom": 1468,
+          "width": 238.89,
+          "height": 63
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "de la chute",
+        "message": "<div> \"de la chute\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 40.6,
+        "lastSeen": 40.6,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          40.6
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(15) > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 291,
+          "width": 391.5,
+          "height": 77
+        },
+        "time": 49.622,
+        "rect": {
+          "left": 100,
+          "top": 291,
+          "right": 491.5,
+          "bottom": 368,
+          "width": 391.5,
+          "height": 77
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Pires séances",
+        "message": "<div> \"Pires séances\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 49.622,
+        "lastSeen": 49.622,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          49.622
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(15) > div:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 390,
+          "width": 417.83,
+          "height": 41
+        },
+        "time": 49.622,
+        "rect": {
+          "left": 100,
+          "top": 390,
+          "right": 517.83,
+          "bottom": 431,
+          "width": 417.83,
+          "height": 41
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Les 100 pires depuis 1950",
+        "message": "<div> \"Les 100 pires depuis 1950\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 49.622,
+        "lastSeen": 49.622,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          49.622
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(15) > div:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 885.69,
+          "y": 285,
+          "width": 94.31,
+          "height": 95
+        },
+        "time": 49.622,
+        "rect": {
+          "left": 885.69,
+          "top": 285,
+          "right": 980,
+          "bottom": 380,
+          "width": 94.31,
+          "height": 95
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "73",
+        "message": "<div> \"73\" is outside the safe area: TikTok (right edge), YouTube Shorts (top and right edges).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 49.622,
+        "lastSeen": 49.622,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          49.622
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(15) > div:nth-of-type(104)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 207,
+          "y": 1280,
+          "width": 401.59,
+          "height": 36
+        },
+        "time": 49.622,
+        "rect": {
+          "left": 207,
+          "top": 1280,
+          "right": 608.59,
+          "bottom": 1316,
+          "width": 401.59,
+          "height": 36
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Sous la moyenne à 200 jours",
+        "message": "<div> \"Sous la moyenne à 200 jours\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 49.622,
+        "lastSeen": 49.622,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          49.622
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(15) > div:nth-of-type(105)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 1330,
+          "width": 283.94,
+          "height": 31
+        },
+        "time": 49.622,
+        "rect": {
+          "left": 100,
+          "top": 1330,
+          "right": 383.94,
+          "bottom": 1361,
+          "width": 283.94,
+          "height": 31
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Source : Yahoo Finance",
+        "message": "<div> \"Source : Yahoo Finance\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 49.622,
+        "lastSeen": 49.622,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          49.622
+        ]
+      },
+      {
+        "selector": "#top > div:nth-of-type(52)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 366.81,
+          "y": 1405,
+          "width": 346.38,
+          "height": 63
+        },
+        "time": 49.622,
+        "rect": {
+          "left": 366.81,
+          "top": 1405,
+          "right": 713.19,
+          "bottom": 1468,
+          "width": 346.38,
+          "height": 63
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "produites 73 de",
+        "message": "<div> \"produites 73 de\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 49.622,
+        "lastSeen": 49.622,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          49.622
+        ]
+      },
+      {
+        "selector": "#top > div:nth-of-type(60)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 405.39,
+          "y": 1405,
+          "width": 269.2,
+          "height": 63
+        },
+        "time": 58.644,
+        "rect": {
+          "left": 405.39,
+          "top": 1405,
+          "right": 674.59,
+          "bottom": 1468,
+          "width": 269.2,
+          "height": 63
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Car le retour",
+        "message": "<div> \"Car le retour\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 58.644,
+        "lastSeen": 58.644,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          58.644
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(22) > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 291,
+          "width": 541.11,
+          "height": 77
+        },
+        "time": 67.667,
+        "rect": {
+          "left": 100,
+          "top": 291,
+          "right": 641.11,
+          "bottom": 368,
+          "width": 541.11,
+          "height": 77
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Meilleures séances",
+        "message": "<div> \"Meilleures séances\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 67.667,
+        "lastSeen": 67.667,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          67.667
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(22) > div:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 390,
+          "width": 498.23,
+          "height": 41
+        },
+        "time": 67.667,
+        "rect": {
+          "left": 100,
+          "top": 390,
+          "right": 598.23,
+          "bottom": 431,
+          "width": 498.23,
+          "height": 41
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Les 100 meilleures depuis 1950",
+        "message": "<div> \"Les 100 meilleures depuis 1950\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 67.667,
+        "lastSeen": 67.667,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          67.667
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(22) > div:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 885.69,
+          "y": 285,
+          "width": 94.31,
+          "height": 95
+        },
+        "time": 67.667,
+        "rect": {
+          "left": 885.69,
+          "top": 285,
+          "right": 980,
+          "bottom": 380,
+          "width": 94.31,
+          "height": 95
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "92",
+        "message": "<div> \"92\" is outside the safe area: TikTok (right edge), YouTube Shorts (top and right edges).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 67.667,
+        "lastSeen": 67.667,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          67.667
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(22) > div:nth-of-type(104)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 207,
+          "y": 1280,
+          "width": 401.59,
+          "height": 36
+        },
+        "time": 67.667,
+        "rect": {
+          "left": 207,
+          "top": 1280,
+          "right": 608.59,
+          "bottom": 1316,
+          "width": 401.59,
+          "height": 36
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Sous la moyenne à 200 jours",
+        "message": "<div> \"Sous la moyenne à 200 jours\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 67.667,
+        "lastSeen": 67.667,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          67.667
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(22) > div:nth-of-type(105)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 1330,
+          "width": 283.94,
+          "height": 31
+        },
+        "time": 67.667,
+        "rect": {
+          "left": 100,
+          "top": 1330,
+          "right": 383.94,
+          "bottom": 1361,
+          "width": 283.94,
+          "height": 31
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Source : Yahoo Finance",
+        "message": "<div> \"Source : Yahoo Finance\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 67.667,
+        "lastSeen": 67.667,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          67.667
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 281,
+          "width": 303.58,
+          "height": 95
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 100,
+          "top": 281,
+          "right": 403.58,
+          "bottom": 376,
+          "width": 303.58,
+          "height": 95
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "S&P 500",
+        "message": "<div> \"S&P 500\" is outside the safe area: TikTok (left edge), YouTube Shorts (top edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > div:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 390,
+          "width": 248.53,
+          "height": 41
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 100,
+          "top": 390,
+          "right": 348.53,
+          "bottom": 431,
+          "width": 248.53,
+          "height": 41
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Indice, en points",
+        "message": "<div> \"Indice, en points\" is outside the safe area: TikTok (left edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > svg:nth-of-type(1) > text:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.23,
+          "y": 1101,
+          "width": 79.77,
+          "height": 34
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 900.23,
+          "top": 1101,
+          "right": 980,
+          "bottom": 1135,
+          "width": 79.77,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "6 500",
+        "message": "<text> \"6 500\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > svg:nth-of-type(1) > text:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.23,
+          "y": 901,
+          "width": 79.77,
+          "height": 34
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 900.23,
+          "top": 901,
+          "right": 980,
+          "bottom": 935,
+          "width": 79.77,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "7 000",
+        "message": "<text> \"7 000\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > svg:nth-of-type(1) > text:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.23,
+          "y": 701,
+          "width": 79.77,
+          "height": 34
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 900.23,
+          "top": 701,
+          "right": 980,
+          "bottom": 735,
+          "width": 79.77,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "7 500",
+        "message": "<text> \"7 500\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > svg:nth-of-type(1) > text:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 900.23,
+          "y": 501,
+          "width": 79.77,
+          "height": 34
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 900.23,
+          "top": 501,
+          "right": 980,
+          "bottom": 535,
+          "width": 79.77,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "8 000",
+        "message": "<text> \"8 000\" is outside the safe area: TikTok (right edge), YouTube Shorts (right edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > svg:nth-of-type(1) > text:nth-of-type(5)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 163.58,
+          "y": 1283,
+          "width": 47.92,
+          "height": 34
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 163.58,
+          "top": 1283,
+          "right": 211.5,
+          "bottom": 1317,
+          "width": 47.92,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "avr.",
+        "message": "<text> \"avr.\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > svg:nth-of-type(1) > text:nth-of-type(6)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 327.71,
+          "y": 1283,
+          "width": 45.94,
+          "height": 34
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 327.71,
+          "top": 1283,
+          "right": 373.65,
+          "bottom": 1317,
+          "width": 45.94,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "juin",
+        "message": "<text> \"juin\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > svg:nth-of-type(1) > text:nth-of-type(7)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 492.96,
+          "y": 1283,
+          "width": 57.64,
+          "height": 34
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 492.96,
+          "top": 1283,
+          "right": 550.6,
+          "bottom": 1317,
+          "width": 57.64,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "août",
+        "message": "<text> \"août\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > svg:nth-of-type(1) > text:nth-of-type(8)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 664.39,
+          "y": 1283,
+          "width": 49.02,
+          "height": 34
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 664.39,
+          "top": 1283,
+          "right": 713.41,
+          "bottom": 1317,
+          "width": 49.02,
+          "height": 34
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "oct.",
+        "message": "<text> \"oct.\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > div:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 1501,
+          "width": 818.78,
+          "height": 60.19
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 100,
+          "top": 1501,
+          "right": 918.78,
+          "bottom": 1561.19,
+          "width": 818.78,
+          "height": 60.19
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Avis de la rédaction. Ceci n'est pas un conseil ",
+        "message": "<div> \"Avis de la rédaction. Ceci n'est pas un conseil \" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#stage > div:nth-of-type(23) > div:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 1330,
+          "width": 283.94,
+          "height": 31
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 100,
+          "top": 1330,
+          "right": 383.94,
+          "bottom": 1361,
+          "width": 283.94,
+          "height": 31
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "Source : Yahoo Finance",
+        "message": "<div> \"Source : Yahoo Finance\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      },
+      {
+        "selector": "#top > div:nth-of-type(79)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 378.95,
+          "y": 1405,
+          "width": 322.08,
+          "height": 63
+        },
+        "time": 76.689,
+        "rect": {
+          "left": 378.95,
+          "top": 1405,
+          "right": 701.03,
+          "bottom": 1468,
+          "width": 322.08,
+          "height": 63
+        },
+        "code": "outside_safe_zone",
+        "severity": "warning",
+        "text": "on préfère être",
+        "message": "<div> \"on préfère être\" is outside the safe area: TikTok (bottom edge), Instagram Reels (bottom edge), YouTube Shorts (bottom edge).",
+        "fixHint": "Move the text inside the safe area, or mark text meant to sit there with data-layout-allow-safe-zone.",
+        "firstSeen": 76.689,
+        "lastSeen": 76.689,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          76.689
+        ]
+      }
+    ],
+    "duration": 81.2,
+    "samples": [
+      4.511,
+      13.533,
+      22.556,
+      31.578,
+      40.6,
+      49.622,
+      58.644,
+      67.667,
+      76.689
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 71,
+    "truncated": false,
+    "faceCheck": {
+      "ran": true,
+      "candidates": 0,
+      "faces": 0
+    }
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      4.511,
+      22.556,
+      40.6,
+      58.644,
+      76.689
+    ],
+    "checked": 47,
+    "passed": 47
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 53,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Le retour de\" (3 words) is on screen 0.57 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Le retour de",
+        "selector": "#top > div:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 408.81,
+          "y": 1405,
+          "width": 262.36000000000007,
+          "height": 63
+        },
+        "time": 0.034,
+        "words": 3,
+        "seconds": 0.568,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 0,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 0.136,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 0.271,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 0.407,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 0.542,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 0.678,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 0.813,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 0.949,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Jensen Huang à\" (3 words) is on screen 0.84 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Jensen Huang à",
+        "selector": "#top > div:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 363.05,
+          "y": 1405.01,
+          "width": 353.89000000000004,
+          "height": 63
+        },
+        "time": 0.636,
+        "words": 3,
+        "seconds": 0.839,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 0.271,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 0.407,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 0.542,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 0.678,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 0.813,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 0.949,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 1.084,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 1.22,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 1.356,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 1.491,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 1.627,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 1.762,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"la tête de\" (3 words) is on screen 0.43 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "la tête de",
+        "selector": "#top > div:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 440.14,
+          "y": 1405,
+          "width": 199.72000000000003,
+          "height": 63
+        },
+        "time": 1.508,
+        "words": 3,
+        "seconds": 0.432,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 1.22,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 1.356,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 1.491,
+            "opacity": 0.19,
+            "heightPx": 63
+          },
+          {
+            "time": 1.627,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 1.762,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 1.898,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 2.033,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 2.169,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 2.305,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"11 jours après\" (3 words) is on screen 0.74 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "11 jours après",
+        "selector": "#top > div:nth-of-type(5)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 383.17,
+          "y": 1405,
+          "width": 313.66,
+          "height": 63
+        },
+        "time": 2.737,
+        "words": 3,
+        "seconds": 0.737,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 2.44,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 2.576,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 2.711,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 2.847,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 2.982,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 3.118,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 3.253,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 3.389,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 3.525,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.66,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.796,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Retour comme PDG\" (3 words) is on screen 0.53 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Retour comme PDG",
+        "selector": "#stage > div:nth-of-type(3) > div:nth-of-type(4)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 731.71,
+          "y": 950.98,
+          "width": 296.5799999999999,
+          "height": 41
+        },
+        "time": 3.77,
+        "words": 3,
+        "seconds": 0.534,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 3.389,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.525,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.66,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 3.796,
+            "opacity": 0.63,
+            "heightPx": 41
+          },
+          {
+            "time": 3.931,
+            "opacity": 0.99,
+            "heightPx": 41
+          },
+          {
+            "time": 4.067,
+            "opacity": 1,
+            "heightPx": 41
+          },
+          {
+            "time": 4.202,
+            "opacity": 1,
+            "heightPx": 41
+          },
+          {
+            "time": 4.338,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 4.473,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 4.609,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"a fait exploser\" (3 words) is on screen 0.93 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "a fait exploser",
+        "selector": "#top > div:nth-of-type(7)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 388.78,
+          "y": 1405,
+          "width": 302.4200000000001,
+          "height": 63
+        },
+        "time": 4.27,
+        "words": 3,
+        "seconds": 0.932,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 3.931,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 4.067,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 4.202,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 4.338,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 4.473,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 4.609,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 4.745,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 4.88,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 5.016,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 5.151,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 5.287,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.422,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.558,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"l'action de 31 %\" (4 words) is on screen 0.93 s (±0.01 s), under its 1.27 s floor: hold it about 0.5 s + 0.3 s a word (1.70 s here) before it leaves or changes; see references/motion.md.",
+        "text": "l'action de 31 %",
+        "selector": "#top > div:nth-of-type(8)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 363.28,
+          "y": 1405.22,
+          "width": 353.44000000000005,
+          "height": 63
+        },
+        "time": 5.236,
+        "words": 4,
+        "seconds": 0.932,
+        "floorSeconds": 1.275,
+        "measured": [
+          {
+            "time": 4.88,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.016,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.151,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 5.287,
+            "opacity": 0.96,
+            "heightPx": 63
+          },
+          {
+            "time": 5.422,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 5.558,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 5.693,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 5.829,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 5.965,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 6.1,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 6.236,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 6.371,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 6.507,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"et le S&P\" (4 words) is on screen 0.53 s (±0.01 s), under its 1.27 s floor: hold it about 0.5 s + 0.3 s a word (1.70 s here) before it leaves or changes; see references/motion.md.",
+        "text": "et le S&P",
+        "selector": "#top > div:nth-of-type(9)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 442.36,
+          "y": 1406.52,
+          "width": 195.26999999999998,
+          "height": 63
+        },
+        "time": 7.168,
+        "words": 4,
+        "seconds": 0.534,
+        "floorSeconds": 1.275,
+        "measured": [
+          {
+            "time": 6.778,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 6.914,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.049,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.185,
+            "opacity": 0.75,
+            "heightPx": 63
+          },
+          {
+            "time": 7.32,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 7.456,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 7.591,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 7.727,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.862,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 7.998,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Mais il reste\" (3 words) is on screen 0.77 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Mais il reste",
+        "selector": "#top > div:nth-of-type(11)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 410.67,
+          "y": 1405,
+          "width": 258.63999999999993,
+          "height": 63
+        },
+        "time": 8.837,
+        "words": 3,
+        "seconds": 0.772,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 8.54,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 8.676,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 8.811,
+            "opacity": 0.49,
+            "heightPx": 63
+          },
+          {
+            "time": 8.947,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 9.082,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 9.218,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 9.354,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 9.489,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 9.625,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.76,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.896,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"sous cette ligne,\" (3 words) is on screen 0.80 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "sous cette ligne,",
+        "selector": "#top > div:nth-of-type(12)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 364.13,
+          "y": 1405,
+          "width": 351.73,
+          "height": 63
+        },
+        "time": 9.633,
+        "words": 3,
+        "seconds": 0.805,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 9.354,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.489,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 9.625,
+            "opacity": 0.27,
+            "heightPx": 63
+          },
+          {
+            "time": 9.76,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 9.896,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 10.031,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 10.167,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 10.303,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 10.438,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 10.574,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 10.709,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"et vous devez\" (3 words) is on screen 0.64 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "et vous devez",
+        "selector": "#top > div:nth-of-type(13)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 389.77,
+          "y": 1405,
+          "width": 300.46000000000004,
+          "height": 63
+        },
+        "time": 10.472,
+        "words": 3,
+        "seconds": 0.635,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 10.167,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 10.303,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 10.438,
+            "opacity": 0.35,
+            "heightPx": 63
+          },
+          {
+            "time": 10.574,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 10.709,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 10.845,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 10.98,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 11.116,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.251,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 11.387,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"car c'est un\" (3 words) is on screen 0.36 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "car c'est un",
+        "selector": "#top > div:nth-of-type(15)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 414.89,
+          "y": 1406.52,
+          "width": 250.22000000000003,
+          "height": 63
+        },
+        "time": 12.471,
+        "words": 3,
+        "seconds": 0.365,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 12.065,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.2,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.336,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.471,
+            "opacity": 0.75,
+            "heightPx": 63
+          },
+          {
+            "time": 12.607,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 12.743,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 12.878,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 13.014,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 13.149,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"signal qui a\" (3 words) is on screen 0.57 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "signal qui a",
+        "selector": "#top > div:nth-of-type(16)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 418.69,
+          "y": 1406.52,
+          "width": 242.61999999999995,
+          "height": 63
+        },
+        "time": 12.87,
+        "words": 3,
+        "seconds": 0.567,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 12.471,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.607,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.743,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.878,
+            "opacity": 0.75,
+            "heightPx": 63
+          },
+          {
+            "time": 13.014,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 13.149,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 13.285,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 13.42,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 13.556,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 13.691,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 13.827,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Depuis son record\" (3 words) is on screen 0.73 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Depuis son record",
+        "selector": "#top > div:nth-of-type(19)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 341.95,
+          "y": 1405,
+          "width": 396.08,
+          "height": 63
+        },
+        "time": 18.072,
+        "words": 3,
+        "seconds": 0.729,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 17.758,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 17.894,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 18.029,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 18.165,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 18.301,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 18.436,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 18.572,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 18.707,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 18.843,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 18.978,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 19.114,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"du 6 octobre,\" (3 words) is on screen 0.94 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "du 6 octobre,",
+        "selector": "#top > div:nth-of-type(20)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 394.69,
+          "y": 1406.78,
+          "width": 290.61999999999995,
+          "height": 63
+        },
+        "time": 18.835,
+        "words": 3,
+        "seconds": 0.941,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 18.436,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 18.572,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 18.707,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 18.843,
+            "opacity": 0.7,
+            "heightPx": 63
+          },
+          {
+            "time": 18.978,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 19.114,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 19.249,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 19.385,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 19.521,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 19.656,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 19.792,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 19.927,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 20.063,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"l'indice a déjà\" (3 words) is on screen 0.74 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "l'indice a déjà",
+        "selector": "#top > div:nth-of-type(21)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 394.23,
+          "y": 1405,
+          "width": 291.52,
+          "height": 63
+        },
+        "time": 19.8,
+        "words": 3,
+        "seconds": 0.737,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 19.521,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 19.656,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 19.792,
+            "opacity": 0.19,
+            "heightPx": 63
+          },
+          {
+            "time": 19.927,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 20.063,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 20.198,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 20.334,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 20.469,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 20.605,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 20.741,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 20.876,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"c'est la moyenne\" (3 words) is on screen 0.63 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "c'est la moyenne",
+        "selector": "#top > div:nth-of-type(24)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 357.3,
+          "y": 1406.52,
+          "width": 365.40000000000003,
+          "height": 63
+        },
+        "time": 22.774,
+        "words": 3,
+        "seconds": 0.627,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 22.367,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 22.503,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 22.638,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 22.774,
+            "opacity": 0.75,
+            "heightPx": 63
+          },
+          {
+            "time": 22.91,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 23.045,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 23.181,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 23.316,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 23.452,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 23.587,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 23.723,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"C'est le prix\" (3 words) is on screen 0.47 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "C'est le prix",
+        "selector": "#top > div:nth-of-type(25)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 413.17,
+          "y": 1405.11,
+          "width": 253.63999999999993,
+          "height": 63
+        },
+        "time": 24.502,
+        "words": 3,
+        "seconds": 0.466,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 24.13,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 24.265,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 24.401,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 24.536,
+            "opacity": 0.98,
+            "heightPx": 63
+          },
+          {
+            "time": 24.672,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 24.807,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 24.943,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 25.078,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 25.214,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 25.35,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"moyen du S&P\" (4 words) is on screen 0.84 s (±0.01 s), under its 1.27 s floor: hold it about 0.5 s + 0.3 s a word (1.70 s here) before it leaves or changes; see references/motion.md.",
+        "text": "moyen du S&P",
+        "selector": "#top > div:nth-of-type(26)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 379.31,
+          "y": 1405,
+          "width": 321.38000000000005,
+          "height": 63
+        },
+        "time": 25.002,
+        "words": 4,
+        "seconds": 0.839,
+        "floorSeconds": 1.275,
+        "measured": [
+          {
+            "time": 24.672,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 24.807,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 24.943,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 25.078,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 25.214,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 25.35,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 25.485,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 25.621,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 25.756,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 25.892,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 26.027,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 26.163,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"dix mois de\" (3 words) is on screen 0.47 s (±0.01 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "dix mois de",
+        "selector": "#top > div:nth-of-type(28)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 416.31,
+          "y": 1405.49,
+          "width": 247.36000000000007,
+          "height": 63
+        },
+        "time": 26.934,
+        "words": 3,
+        "seconds": 0.466,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 26.57,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 26.705,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 26.841,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 26.976,
+            "opacity": 0.92,
+            "heightPx": 63
+          },
+          {
+            "time": 27.112,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 27.247,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 27.383,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 27.519,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 27.654,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 27.79,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Et le 17 %\" (4 words) is on screen 0.53 s (±0.01 s), under its 1.27 s floor: hold it about 0.5 s + 0.3 s a word (1.70 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Et le 17 %",
+        "selector": "#top > div:nth-of-type(30)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 427.78,
+          "y": 1406.78,
+          "width": 224.44000000000005,
+          "height": 63
+        },
+        "time": 28.036,
+        "words": 4,
+        "seconds": 0.534,
+        "floorSeconds": 1.275,
+        "measured": [
+          {
+            "time": 27.654,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 27.79,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 27.925,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 28.061,
+            "opacity": 0.7,
+            "heightPx": 63
+          },
+          {
+            "time": 28.196,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 28.332,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 28.467,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 28.603,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 28.739,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 28.874,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"chaque grande crise\" (3 words) is on screen 0.81 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "chaque grande crise",
+        "selector": "#top > div:nth-of-type(35)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 317.78,
+          "y": 1406.78,
+          "width": 444.44000000000005,
+          "height": 63
+        },
+        "time": 32.263,
+        "words": 3,
+        "seconds": 0.813,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 31.856,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 31.992,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 32.128,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 32.263,
+            "opacity": 0.7,
+            "heightPx": 63
+          },
+          {
+            "time": 32.399,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 32.534,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 32.67,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 32.805,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 32.941,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 33.076,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 33.212,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 33.348,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"est passée par\" (3 words) is on screen 0.54 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "est passée par",
+        "selector": "#top > div:nth-of-type(36)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 380.13,
+          "y": 1405.22,
+          "width": 319.75,
+          "height": 63
+        },
+        "time": 33.076,
+        "words": 3,
+        "seconds": 0.543,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 32.67,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 32.805,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 32.941,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 33.076,
+            "opacity": 0.96,
+            "heightPx": 63
+          },
+          {
+            "time": 33.212,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 33.348,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 33.483,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 33.619,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 33.754,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 33.89,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"là.\" (1 word) is on screen 0.27 s (±0.07 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (0.80 s here) before it leaves or changes; see references/motion.md.",
+        "text": "là.",
+        "selector": "#top > div:nth-of-type(37)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 516.16,
+          "y": 1406.3,
+          "width": 47.67999999999995,
+          "height": 63
+        },
+        "time": 33.619,
+        "words": 1,
+        "seconds": 0.271,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 33.212,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 33.348,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 33.483,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 33.619,
+            "opacity": 0.78,
+            "heightPx": 63
+          },
+          {
+            "time": 33.754,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 33.89,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 34.025,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 34.161,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Et à chaque\" (3 words) is on screen 0.54 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Et à chaque",
+        "selector": "#top > div:nth-of-type(38)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 411.17,
+          "y": 1405.49,
+          "width": 257.63999999999993,
+          "height": 63
+        },
+        "time": 38.77,
+        "words": 3,
+        "seconds": 0.543,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 38.363,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 38.499,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 38.634,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 38.77,
+            "opacity": 0.92,
+            "heightPx": 63
+          },
+          {
+            "time": 38.906,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 39.041,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 39.177,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 39.312,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 39.448,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 39.583,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"fois,\" (1 word) is on screen 0.27 s (±0.07 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (0.80 s here) before it leaves or changes; see references/motion.md.",
+        "text": "fois,",
+        "selector": "#top > div:nth-of-type(39)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 495.13,
+          "y": 1405,
+          "width": 89.73000000000002,
+          "height": 63
+        },
+        "time": 39.448,
+        "words": 1,
+        "seconds": 0.271,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 39.041,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 39.177,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 39.312,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 39.448,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 39.583,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 39.719,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 39.854,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 39.99,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"le plus gros\" (3 words) is on screen 0.54 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "le plus gros",
+        "selector": "#top > div:nth-of-type(40)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 416.23,
+          "y": 1405.05,
+          "width": 247.51999999999998,
+          "height": 63
+        },
+        "time": 39.719,
+        "words": 3,
+        "seconds": 0.543,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 39.312,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 39.448,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 39.583,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 39.719,
+            "opacity": 0.99,
+            "heightPx": 63
+          },
+          {
+            "time": 39.854,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 39.99,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 40.126,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 40.261,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 40.397,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 40.532,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"de la chute\" (3 words) is on screen 0.54 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "de la chute",
+        "selector": "#top > div:nth-of-type(41)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 420.55,
+          "y": 1405,
+          "width": 238.89000000000004,
+          "height": 63
+        },
+        "time": 40.397,
+        "words": 3,
+        "seconds": 0.542,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 39.99,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 40.126,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 40.261,
+            "opacity": 0.35,
+            "heightPx": 63
+          },
+          {
+            "time": 40.397,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 40.532,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 40.668,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 40.803,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 40.939,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 41.074,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 41.21,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"est venu après.\" (3 words) is on screen 0.81 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "est venu après.",
+        "selector": "#top > div:nth-of-type(42)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 374,
+          "y": 1405,
+          "width": 331.98,
+          "height": 63
+        },
+        "time": 40.939,
+        "words": 3,
+        "seconds": 0.814,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 40.532,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 40.668,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 40.803,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 40.939,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 41.074,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 41.21,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 41.346,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 41.481,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 41.617,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 41.752,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 41.888,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 42.023,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Car sous cette\" (3 words) is on screen 0.54 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Car sous cette",
+        "selector": "#top > div:nth-of-type(43)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 382.39,
+          "y": 1405,
+          "width": 315.19999999999993,
+          "height": 63
+        },
+        "time": 41.888,
+        "words": 3,
+        "seconds": 0.542,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 41.481,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 41.617,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 41.752,
+            "opacity": 0.35,
+            "heightPx": 63
+          },
+          {
+            "time": 41.888,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 42.023,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 42.159,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 42.294,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 42.43,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 42.566,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 42.701,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"ligne,\" (1 word) is on screen 0.27 s (±0.07 s), under its 0.40 s floor: hold it about 0.5 s + 0.3 s a word (0.80 s here) before it leaves or changes; see references/motion.md.",
+        "text": "ligne,",
+        "selector": "#top > div:nth-of-type(44)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 482.67,
+          "y": 1405.05,
+          "width": 114.64000000000004,
+          "height": 63
+        },
+        "time": 42.43,
+        "words": 1,
+        "seconds": 0.272,
+        "floorSeconds": 0.4,
+        "measured": [
+          {
+            "time": 42.023,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 42.159,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 42.294,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 42.43,
+            "opacity": 0.99,
+            "heightPx": 63
+          },
+          {
+            "time": 42.566,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 42.701,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 42.837,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 42.972,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"le marché devient\" (3 words) is on screen 0.95 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "le marché devient",
+        "selector": "#top > div:nth-of-type(45)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 346.09,
+          "y": 1405.38,
+          "width": 387.82,
+          "height": 63
+        },
+        "time": 42.701,
+        "words": 3,
+        "seconds": 0.949,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 42.294,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 42.43,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 42.566,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 42.701,
+            "opacity": 0.94,
+            "heightPx": 63
+          },
+          {
+            "time": 42.837,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 42.972,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 43.108,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 43.243,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 43.379,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 43.515,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 43.65,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 43.786,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 43.921,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"deux fois plus\" (3 words) is on screen 0.54 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "deux fois plus",
+        "selector": "#top > div:nth-of-type(46)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 389.86,
+          "y": 1405,
+          "width": 300.28,
+          "height": 63
+        },
+        "time": 43.65,
+        "words": 3,
+        "seconds": 0.542,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 43.243,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 43.379,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 43.515,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 43.65,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 43.786,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 43.921,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 44.057,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 44.192,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 44.328,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 44.463,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Sa volatilité passe\" (3 words) is on screen 0.95 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Sa volatilité passe",
+        "selector": "#top > div:nth-of-type(48)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 344.94,
+          "y": 1405,
+          "width": 390.10999999999996,
+          "height": 63
+        },
+        "time": 44.735,
+        "words": 3,
+        "seconds": 0.948,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 44.328,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 44.463,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 44.599,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 44.735,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 44.87,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 45.006,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 45.141,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 45.277,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 45.412,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 45.548,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 45.683,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 45.819,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 45.955,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"de 12 % à\" (4 words) is on screen 1.22 s (±0.07 s), under its 1.27 s floor: hold it about 0.5 s + 0.3 s a word (1.70 s here) before it leaves or changes; see references/motion.md.",
+        "text": "de 12 % à",
+        "selector": "#top > div:nth-of-type(49)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 428.34,
+          "y": 1405,
+          "width": 223.3,
+          "height": 63
+        },
+        "time": 45.683,
+        "words": 4,
+        "seconds": 1.221,
+        "floorSeconds": 1.275,
+        "measured": [
+          {
+            "time": 45.277,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 45.412,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 45.548,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 45.683,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 45.819,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 45.955,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 46.09,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 46.361,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 46.497,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 46.632,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 46.768,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 46.904,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 47.039,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 47.175,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"et c'est là\" (3 words) is on screen 0.54 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "et c'est là",
+        "selector": "#top > div:nth-of-type(50)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 437.78,
+          "y": 1405.01,
+          "width": 204.41999999999996,
+          "height": 63
+        },
+        "time": 48.124,
+        "words": 3,
+        "seconds": 0.542,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 47.717,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 47.852,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 47.988,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 48.124,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 48.259,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 48.395,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 48.53,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 48.666,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 48.801,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 48.937,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"que se sont\" (3 words) is on screen 0.41 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "que se sont",
+        "selector": "#top > div:nth-of-type(51)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 413.42,
+          "y": 1405,
+          "width": 253.13999999999993,
+          "height": 63
+        },
+        "time": 48.666,
+        "words": 3,
+        "seconds": 0.407,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 48.259,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 48.395,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 48.53,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 48.666,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 48.801,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 48.937,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 49.072,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 49.208,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 49.344,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"il passe dessous,\" (3 words) is on screen 0.95 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "il passe dessous,",
+        "selector": "#top > div:nth-of-type(55)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 355.61,
+          "y": 1405.38,
+          "width": 368.77,
+          "height": 63
+        },
+        "time": 53.41,
+        "words": 3,
+        "seconds": 0.949,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 53.004,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 53.139,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 53.275,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 53.41,
+            "opacity": 0.94,
+            "heightPx": 63
+          },
+          {
+            "time": 53.546,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 53.681,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 53.817,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 53.953,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 54.088,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 54.224,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 54.359,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 54.495,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 54.63,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"puis perd encore\" (3 words) is on screen 0.68 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "puis perd encore",
+        "selector": "#top > div:nth-of-type(56)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 357.38,
+          "y": 1405,
+          "width": 365.25,
+          "height": 63
+        },
+        "time": 54.359,
+        "words": 3,
+        "seconds": 0.678,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 53.953,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 54.088,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 54.224,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 54.359,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 54.495,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 54.63,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 54.766,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 54.902,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 55.037,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 55.173,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 55.308,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Et le rebond\" (3 words) is on screen 0.41 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Et le rebond",
+        "selector": "#top > div:nth-of-type(57)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 409.67,
+          "y": 1406.09,
+          "width": 260.63999999999993,
+          "height": 63
+        },
+        "time": 56.664,
+        "words": 3,
+        "seconds": 0.406,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 56.257,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 56.393,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 56.528,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 56.664,
+            "opacity": 0.82,
+            "heightPx": 63
+          },
+          {
+            "time": 56.799,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 56.935,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 57.07,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 57.206,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 57.342,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"d'hier n'y change\" (3 words) is on screen 0.68 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "d'hier n'y change",
+        "selector": "#top > div:nth-of-type(58)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 354.55,
+          "y": 1405,
+          "width": 370.89000000000004,
+          "height": 63
+        },
+        "time": 57.206,
+        "words": 3,
+        "seconds": 0.678,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 56.799,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 56.935,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 57.07,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 57.206,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 57.342,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 57.477,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 57.613,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 57.748,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 57.884,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 58.019,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 58.155,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Car le retour\" (3 words) is on screen 0.54 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Car le retour",
+        "selector": "#top > div:nth-of-type(60)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 405.39,
+          "y": 1405.91,
+          "width": 269.19999999999993,
+          "height": 63
+        },
+        "time": 58.29,
+        "words": 3,
+        "seconds": 0.543,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 57.884,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 58.019,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 58.155,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 58.29,
+            "opacity": 0.85,
+            "heightPx": 63
+          },
+          {
+            "time": 58.426,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 58.562,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 58.697,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 58.833,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 58.968,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 59.104,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"de Jensen Huang\" (3 words) is on screen 0.95 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "de Jensen Huang",
+        "selector": "#top > div:nth-of-type(61)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 348.58,
+          "y": 1405.38,
+          "width": 382.83,
+          "height": 63
+        },
+        "time": 58.833,
+        "words": 3,
+        "seconds": 0.949,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 58.426,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 58.562,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 58.697,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 58.833,
+            "opacity": 0.94,
+            "heightPx": 63
+          },
+          {
+            "time": 58.968,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 59.104,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 59.239,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 59.375,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 59.511,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 59.646,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 59.782,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 59.917,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 60.053,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"n'efface ni les\" (3 words) is on screen 0.81 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "n'efface ni les",
+        "selector": "#top > div:nth-of-type(62)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 393.59,
+          "y": 1405,
+          "width": 292.82,
+          "height": 63
+        },
+        "time": 59.782,
+        "words": 3,
+        "seconds": 0.813,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 59.375,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 59.511,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 59.646,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 59.782,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 59.917,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 60.053,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 60.188,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 60.324,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 60.459,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 60.595,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 60.731,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 60.866,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"craintes sur l'IA,\" (3 words) is on screen 0.95 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "craintes sur l'IA,",
+        "selector": "#top > div:nth-of-type(63)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 367.84,
+          "y": 1405.08,
+          "width": 344.32,
+          "height": 63
+        },
+        "time": 60.595,
+        "words": 3,
+        "seconds": 0.949,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 60.188,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 60.324,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 60.459,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 60.595,
+            "opacity": 0.99,
+            "heightPx": 63
+          },
+          {
+            "time": 60.731,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 60.866,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 61.002,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 61.137,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 61.273,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 61.408,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 61.544,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 61.679,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 61.815,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"ni la hausse\" (3 words) is on screen 0.41 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "ni la hausse",
+        "selector": "#top > div:nth-of-type(64)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 412.81,
+          "y": 1406.78,
+          "width": 254.38000000000005,
+          "height": 63
+        },
+        "time": 61.544,
+        "words": 3,
+        "seconds": 0.407,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 61.137,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 61.273,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 61.408,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 61.544,
+            "opacity": 0.7,
+            "heightPx": 63
+          },
+          {
+            "time": 61.679,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 61.815,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 61.951,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 62.086,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 62.222,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"sont même typiques\" (3 words) is on screen 0.81 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "sont même typiques",
+        "selector": "#top > div:nth-of-type(67)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 315.44,
+          "y": 1405.91,
+          "width": 449.11999999999995,
+          "height": 63
+        },
+        "time": 63.577,
+        "words": 3,
+        "seconds": 0.814,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 63.171,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 63.306,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 63.442,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 63.577,
+            "opacity": 0.85,
+            "heightPx": 63
+          },
+          {
+            "time": 63.713,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 63.848,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 63.984,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 64.12,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 64.255,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 64.391,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 64.526,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 64.662,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"des phases de\" (3 words) is on screen 0.41 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "des phases de",
+        "selector": "#top > div:nth-of-type(68)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 382.36,
+          "y": 1405,
+          "width": 315.28,
+          "height": 63
+        },
+        "time": 64.526,
+        "words": 3,
+        "seconds": 0.407,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 64.12,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 64.255,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 64.391,
+            "opacity": 0.19,
+            "heightPx": 63
+          },
+          {
+            "time": 64.526,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 64.662,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 64.797,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 64.933,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 65.068,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 65.204,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "text_below_floor",
+        "severity": "warning",
+        "message": "Type floor is 28 px (2.6% of the 1080 px short side, what a phone can read) and 13 text elements stay under it for 0.5 s or more, the smallest \"Avis de la rédaction. Ceci n'est pas ...\" at 24 px: set reading text to at least 28 px, or put data-layout-ignore on text that is texture rather than reading; see references/look.md.",
+        "text": "Avis de la rédaction. Ceci n'est pas un conseil en investissement. Investir comporte des risques de perte en capital.",
+        "selector": "#stage > div:nth-of-type(23) > div:nth-of-type(3)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 100,
+          "y": 1501,
+          "width": 818.78,
+          "height": 60.19
+        },
+        "time": 71.033,
+        "times": [
+          4.338,
+          7.32,
+          18.165,
+          30.772,
+          38.906,
+          44.735,
+          48.124,
+          51.648,
+          56.799,
+          62.493,
+          65.475,
+          71.033,
+          71.033
+        ],
+        "fontPx": 24,
+        "floorPx": 28,
+        "seconds": 6.507,
+        "elements": [
+          {
+            "selector": "#stage > div:nth-of-type(23) > div:nth-of-type(3)",
+            "text": "Avis de la rédaction. Ceci n'est pas un conseil en investissement. Investir comporte des risques de perte en capital.",
+            "fontPx": 24,
+            "time": 71.033,
+            "seconds": 6.507
+          },
+          {
+            "selector": "#stage > div:nth-of-type(4) > div:nth-of-type(4)",
+            "text": "Source : Yahoo Finance",
+            "fontPx": 26,
+            "time": 4.338,
+            "seconds": 2.983
+          },
+          {
+            "selector": "#stage > div:nth-of-type(5) > div:nth-of-type(4)",
+            "text": "Source : Yahoo Finance",
+            "fontPx": 26,
+            "time": 7.32,
+            "seconds": 5.287
+          },
+          {
+            "selector": "#stage > div:nth-of-type(9) > div:nth-of-type(7)",
+            "text": "Source : Yahoo Finance",
+            "fontPx": 26,
+            "time": 18.165,
+            "seconds": 12.607
+          },
+          {
+            "selector": "#stage > div:nth-of-type(10) > div:nth-of-type(9)",
+            "text": "Source : Yahoo Finance",
+            "fontPx": 26,
+            "time": 30.772,
+            "seconds": 8.134
+          },
+          {
+            "selector": "#stage > div:nth-of-type(11) > div:nth-of-type(24)",
+            "text": "Source : Yahoo Finance · clôtures, du sommet au point bas",
+            "fontPx": 26,
+            "time": 38.906,
+            "seconds": 2.982
+          },
+          {
+            "selector": "#stage > div:nth-of-type(14) > div:nth-of-type(10)",
+            "text": "Source : Yahoo Finance · écart-type des variations quotidiennes",
+            "fontPx": 26,
+            "time": 44.735,
+            "seconds": 3.389
+          },
+          {
+            "selector": "#stage > div:nth-of-type(15) > div:nth-of-type(105)",
+            "text": "Source : Yahoo Finance",
+            "fontPx": 26,
+            "time": 48.124,
+            "seconds": 3.525
+          },
+          {
+            "selector": "#stage > div:nth-of-type(16) > div:nth-of-type(4)",
+            "text": "Source : Yahoo Finance",
+            "fontPx": 26,
+            "time": 51.648,
+            "seconds": 5.152
+          },
+          {
+            "selector": "#stage > div:nth-of-type(17) > div:nth-of-type(4)",
+            "text": "Source : Yahoo Finance",
+            "fontPx": 26,
+            "time": 56.799,
+            "seconds": 1.627
+          },
+          {
+            "selector": "#stage > div:nth-of-type(21) > div:nth-of-type(5)",
+            "text": "Source : Yahoo Finance",
+            "fontPx": 26,
+            "time": 62.493,
+            "seconds": 2.983
+          },
+          {
+            "selector": "#stage > div:nth-of-type(22) > div:nth-of-type(105)",
+            "text": "Source : Yahoo Finance",
+            "fontPx": 26,
+            "time": 65.475,
+            "seconds": 5.558
+          },
+          {
+            "selector": "#stage > div:nth-of-type(23) > div:nth-of-type(4)",
+            "text": "Source : Yahoo Finance",
+            "fontPx": 26,
+            "time": 71.033,
+            "seconds": 6.507
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"c'est l'heure de\" (3 words) is on screen 0.41 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "c'est l'heure de",
+        "selector": "#top > div:nth-of-type(72)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 376.42,
+          "y": 1405,
+          "width": 327.16,
+          "height": 63
+        },
+        "time": 71.575,
+        "words": 3,
+        "seconds": 0.407,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 71.169,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 71.304,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 71.44,
+            "opacity": 0.1,
+            "heightPx": 63
+          },
+          {
+            "time": 71.575,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 71.711,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 71.846,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 71.982,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 72.118,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 72.253,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"Tant que l'indice\" (3 words) is on screen 0.54 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "Tant que l'indice",
+        "selector": "#top > div:nth-of-type(74)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 363.84,
+          "y": 1405,
+          "width": 352.3,
+          "height": 63
+        },
+        "time": 72.795,
+        "words": 3,
+        "seconds": 0.543,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 72.389,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 72.524,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 72.66,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 72.795,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 72.931,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 73.066,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 73.202,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 73.338,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 73.473,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 73.609,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"chaque rebond reste\" (3 words) is on screen 0.95 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "chaque rebond reste",
+        "selector": "#top > div:nth-of-type(76)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 313.81,
+          "y": 1405.49,
+          "width": 452.38000000000005,
+          "height": 63
+        },
+        "time": 74.286,
+        "words": 3,
+        "seconds": 0.949,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 73.88,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 74.015,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 74.151,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 74.286,
+            "opacity": 0.92,
+            "heightPx": 63
+          },
+          {
+            "time": 74.422,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 74.558,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 74.693,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 74.829,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 74.964,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 75.1,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 75.235,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 75.371,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 75.507,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "\"on préfère être\" (3 words) is on screen 0.68 s (±0.07 s), under its 1.05 s floor: hold it about 0.5 s + 0.3 s a word (1.40 s here) before it leaves or changes; see references/motion.md.",
+        "text": "on préfère être",
+        "selector": "#top > div:nth-of-type(79)",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 378.95,
+          "y": 1405.01,
+          "width": 322.08,
+          "height": 63
+        },
+        "time": 76.32,
+        "words": 3,
+        "seconds": 0.678,
+        "floorSeconds": 1.05,
+        "measured": [
+          {
+            "time": 75.913,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 76.049,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 76.184,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 76.32,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 76.455,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 76.591,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 76.727,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 76.862,
+            "opacity": 1,
+            "heightPx": 63
+          },
+          {
+            "time": 76.998,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 77.133,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 77.269,
+            "opacity": null,
+            "heightPx": null
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.13599999999999568,
+    "samples": 599
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

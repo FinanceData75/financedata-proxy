@@ -6,8 +6,13 @@
     <script src="assets/gsap.min.js"></script>
     <script src="assets/vo-words.js"></script>
     <script src="assets/data.js"></script>
+    <script src="assets/data2.js"></script>
+    <script src="assets/series.js"></script>
     <style>
-      /* Reel « Le guide de la culture financière, épisode 9 » : le S&P 500 sous sa moyenne mobile à 200 jours. Aperçu du hook (0 → 15,13 s). Fond clair, comme l'épisode 8. */
+      /* Reel « Le guide de la culture financière, épisode 9 » : le S&P 500 sous sa moyenne mobile à 200 jours. 81,2 s. Fond clair, comme l'épisode 8. */
+      @font-face { font-family: "Helv"; src: local("Helvetica Bold"), local("Helvetica-Bold"), url("assets/fonts/NimbusSans-Bold.otf"); font-weight: 700; }
+      @font-face { font-family: "Plex"; src: url("assets/fonts/IBMPlexMono-Bold.ttf"); font-weight: 700; }
+      @font-face { font-family: "Lora"; src: url("assets/fonts/Lora.ttf"); font-weight: 400 700; }
       @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: #ffffff; }
@@ -20,20 +25,24 @@
       svg { position: absolute; overflow: visible; }
       svg text { font-family: "Display"; font-feature-settings: "tnum" 1; }
       .src { position: absolute; left: 100px; right: 100px; font-size: 22px; font-weight: 500; color: #6b7280; }
+      #avatar { position: absolute; left: 380px; top: 500px; width: 320px; height: 320px; opacity: 0; }
+      #avatar .pic { position: absolute; left: 20px; top: 20px; width: 280px; height: 280px; border-radius: 50%; overflow: hidden; border: 8px solid #000a1f; }
+      #avatar .pic img { width: 100%; height: 100%; display: block; }
       .cap-line { position: absolute; left: 100px; right: 100px; top: 1400px; text-align: center; opacity: 0; }
       .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.78); font-weight: 700; font-size: 52px; line-height: 1.12; letter-spacing: -.05em; color: #fff; white-space: nowrap; }
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="15.13" data-width="1080" data-height="1920">
-      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="15.13" data-track-index="1"></audio>
-      <div id="bgs" class="clip" data-start="0" data-duration="15.13" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
-      <div id="stage" class="clip" data-start="0" data-duration="15.13" data-track-index="3" style="position:absolute; inset:0"></div>
-      <div id="top" class="clip" data-start="0" data-duration="15.13" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="81.2" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="81.2" data-track-index="1"></audio>
+      <div id="bgs" class="clip" data-start="0" data-duration="81.2" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
+      <div id="stage" class="clip" data-start="0" data-duration="81.2" data-track-index="3" style="position:absolute; inset:0"></div>
+      <div id="top" class="clip" data-start="0" data-duration="81.2" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
     </div>
     <script>
       (function () {
-        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 15.13;
+        var UID = 0; function uid(p) { UID += 1; return p + UID; }
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 81.2;
         var st = document.getElementById("stage"), top = document.getElementById("top");
         var INK = "#0b1f44", SOFT = "#6b7280", RULE = "#d9dce3", VERT = "#10b981", ROUGE = "#e5484d", OR2 = "#e0a526", ACC = VERT, CLARET = ROUGE, DN = INK, DNT = ROUGE, GR = VERT, GRT = VERT, OR = OR2;
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
@@ -58,7 +67,7 @@
           div(s, o.sub, "left:100px; top:390px; font-size:34px; font-weight:500; color:" + SOFT);
           // un seul chiffre, sur la ligne du nom, aligné à droite
           var tk = div(s, "", "right:100px; top:294px; font-size:78px; font-weight:700; letter-spacing:-.04em; line-height:1; white-space:nowrap; color:" + o.col);
-          var g = svg(s, 0, 0, 1080, 1920), cid = "c" + Math.random().toString(36).slice(2), cp = el(el(g, "defs", {}), "clipPath", { id: cid });
+          var g = svg(s, 0, 0, 1080, 1920), cid = uid("c"), cp = el(el(g, "defs", {}), "clipPath", { id: cid });
           el(cp, "rect", { x: PX - 6, y: PY - 30, width: PW + 12, height: PH + 30 });
           var grid = el(g, "g", {});
           var cam = el(el(g, "g", { "clip-path": "url(#" + cid + ")" }), "g", {});
@@ -122,7 +131,7 @@
             icon: "<circle cx='32' cy='32' r='32' fill='#00194b'/><path d='M14 42 L26 30 L34 37 L50 20' fill='none' stroke='#fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/>",
             src: "Indice S&P 500 · Clôtures quotidiennes jusqu'au 23/11/2026 · Source : Yahoo Finance" });
           // la ligne : moyenne mobile à 200 jours, sans légende (elle n'est nommée qu'après le générique)
-          var mid = "m" + Math.random().toString(36).slice(2), mr = el(el(c.g.querySelector("defs"), "clipPath", { id: mid }), "rect", { x: 0, y: 0, width: 0, height: 1920 });
+          var mid = uid("m"), mr = el(el(c.g.querySelector("defs"), "clipPath", { id: mid }), "rect", { x: 0, y: 0, width: 0, height: 1920 });
           el(el(c.cam, "g", { "clip-path": "url(#" + mid + ")" }), "path", { d: c.path(0, c.L, 2), fill: "none", stroke: OR, "stroke-width": 6.5, "stroke-linecap": "round" });
           tl.fromTo(mr, { attr: { width: 0 } }, { attr: { width: 1080 }, duration: 1.0, ease: "power2.inOut", immediateRender: false }, 9.0);
           // « sous cette ligne » : on resserre sur les séances depuis le record, prix et ligne dans le cadre
@@ -134,14 +143,214 @@
         // ===== 5. « car c'est un signal qui a précédé chaque grande crise » : photos fixes =====
         montage([["nyse.jpg", 12.49, 13.65], ["trader-panique.jpg", 13.65, 15.13, "50% 30%"]]);
 
+        // ================= SUITE DE LA VIDÉO (même style éditorial) =================
+        var GRIS = "#c5cad3", E2 = window.E, SPX = window.SPX;
+        var AMF = "Avis de la rédaction. Ceci n'est pas un conseil en investissement. Investir comporte des risques de perte en capital.";
+        function head(s, name, sub, num, col, tNum) {
+          div(s, name, "left:100px; top:" + (name.length > 12 ? 298 : 290) + "px; font-size:" + (name.length > 12 ? 64 : 78) + "px; font-weight:800; letter-spacing:-.04em; line-height:1");
+          if (sub) div(s, sub, "left:100px; top:390px; font-size:34px; font-weight:500; color:" + SOFT);
+          if (num != null) { var n = div(s, num, "right:100px; top:294px; font-size:78px; font-weight:700; letter-spacing:-.04em; line-height:1; white-space:nowrap; color:" + (col || INK) + "; opacity:0"); fade(n, tNum, .25); return n; }
+        }
+        function source(s, extra) { div(s, "Source : Yahoo Finance" + (extra ? " · " + extra : ""), "top:1330px; font-size:26px; font-weight:600", "src"); }
+        // graphique en ligne générique : grille légère derrière, axe fin, caméra découpée sur la zone
+        function ed(s, o) {
+          var R = o.R, L = R.length - 1, PX = 100, PY = o.py || 500, PW = 760, PH = o.ph || 760, lg = !!o.log, f = function (v) { return lg ? Math.log10(v) : v; };
+          var X = function (i) { return PX + i / (L + (o.pad || 6)) * PW; }, Y = function (v) { return PY + PH - (f(v) - f(o.lo)) / (f(o.hi) - f(o.lo)) * PH; };
+          var g = svg(s, 0, 0, 1080, 1920), cid = uid("c"), defs = el(g, "defs", {}), cp = el(defs, "clipPath", { id: cid });
+          el(cp, "rect", { x: PX - 6, y: PY - 30, width: PW + 12, height: PH + 30 });
+          var grid = el(g, "g", {}), cam = el(el(g, "g", { "clip-path": "url(#" + cid + ")" }), "g", {});
+          o.ticks.forEach(function (v) { var y = Y(v); el(grid, "line", { x1: PX, x2: 980, y1: y, y2: y, stroke: "#eceef2", "stroke-width": 1.2, class: "tk" });
+            el(g, "text", { x: 980, y: y - 12, "font-size": 28, fill: SOFT, "font-weight": 600, "text-anchor": "end" }, o.tf ? o.tf(v) : fr(v)); });
+          el(g, "line", { x1: PX, x2: 980, y1: PY + PH, y2: PY + PH, stroke: INK, "stroke-width": 2.5 });
+          var lx = -1e9; for (var i = 1; i <= L; i++) { var a = R[i - 1][0], b = R[i][0], lab = null;
+            if (o.years) { if (b.slice(0, 4) !== a.slice(0, 4) && +b.slice(0, 4) % o.years === 0) lab = b.slice(0, 4); }
+            else if (b.slice(5, 7) !== a.slice(5, 7)) { var mo = +b.slice(5, 7); if (mo % (o.mstep || 2) === (o.mstep === 3 ? 1 : 0)) lab = mo === 1 ? b.slice(0, 4) : MO[mo - 1]; }
+            if (lab && X(i) - lx > 110 && X(i) > PX + 30 && X(i) < PX + PW - 30) { lx = X(i); el(g, "line", { x1: X(i), x2: X(i), y1: PY + PH, y2: PY + PH + 12, stroke: INK, "stroke-width": 2, class: "tk" }); el(g, "text", { x: X(i), y: PY + PH + 50, "font-size": 28, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, lab); } }
+          function path(a, b, k) { var d = ""; for (var i = a; i <= b; i++) d += (d ? "L" : "M") + X(i).toFixed(1) + " " + Y(R[i][k || 1]).toFixed(1); return d; }
+          var c = { g: g, cam: cam, X: X, Y: Y, L: L, R: R, path: path, PX: PX, PY: PY, PW: PW, PH: PH, defs: defs };
+          c.line = function (a, b, col, w, t, d, k) { var p = el(cam, "path", { d: path(a, b, k), fill: "none", stroke: col, "stroke-width": w || 7, "stroke-linejoin": "round", "stroke-linecap": "round" }); if (t != null) { draw(p, t, d, "power1.inOut"); tl.set(p, { strokeDasharray: "none" }, t + d + .02); } return p; };
+          c.reveal = function (a, b, col, w, t, d, k) { var id = uid("r"), r = el(el(defs, "clipPath", { id: id }), "rect", { x: 0, y: 0, width: X(a) - 12, height: 1920 });
+            el(el(cam, "g", { "clip-path": "url(#" + id + ")" }), "path", { d: path(a, b, k), fill: "none", stroke: col, "stroke-width": w || 7, "stroke-linejoin": "round", "stroke-linecap": "round" });
+            tl.fromTo(r, { attr: { width: X(a) - 12 } }, { attr: { width: X(b) + 20 }, duration: d, ease: "power1.inOut", immediateRender: false }, t); };
+          c.dot = function (i, col, t, k, r) { var d = el(cam, "circle", { cx: X(i), cy: Y(R[i][k || 1]), r: 0, fill: col }); tl.fromTo(d, { attr: { r: 0 } }, { attr: { r: r || 13 }, duration: .25, ease: "back.out(2.5)", immediateRender: false }, t); return d; };
+          return c;
+        }
+
+        // ===== 6. Générique « le guide de la culture financière, épisode 9 » (15,13 → 18,1) =====
+        (function () { var t0 = 15.13, s = sc(t0, 18.1); s.style.background = "#f2f2f4";
+          div(s, "<svg width='1080' height='1920' style='position:absolute; inset:0'><filter id='gr2'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .09 0'/></filter><rect width='1080' height='1920' filter='url(#gr2)'/></svg>", "inset:0");
+          div(s, "", "inset:0; background:radial-gradient(ellipse 75% 60% at 50% 48%, rgba(0,0,0,0) 55%, rgba(0,0,0,.1) 100%)");
+          var gg = svg(s, 0, 0, 1080, 1920), D = window.SER;
+          function line(v, y0, y1, op, w, t, dur) { var lo = Math.min.apply(0, v), hi = Math.max.apply(0, v), d = "";
+            v.forEach(function (x, i) { var XX = -20 + i / (v.length - 1) * 1120, YY = y1 - (Math.log(x) - Math.log(lo)) / (Math.log(hi) - Math.log(lo)) * (y1 - y0); d += (i ? "L" : "M") + XX.toFixed(1) + " " + YY.toFixed(1); });
+            draw(el(gg, "path", { d: d, fill: "none", stroke: "#7c96e6", "stroke-width": w, "stroke-opacity": op, "stroke-linejoin": "round" }), t, dur, "power1.out"); }
+          line(D.vix, 60, 640, .75, 3.5, t0, 2.4); line(D.ndx, 1180, 1880, .35, 3, t0 + .1, 2.6); line(D.spx, 1250, 1860, .75, 3.5, t0, 2.6);
+          var blk = div(s, "", "left:0; right:0; margin:auto; width:max-content; top:720px");
+          var row = div(blk, "", "position:relative; font-family:Helv, Helvetica, sans-serif; font-size:78px; font-weight:700; letter-spacing:-.035em; line-height:1.15; color:#00194B; white-space:nowrap; text-align:left");
+          ["le", "guide", "de", "la", "culture"].forEach(function (w, k) { var sp = document.createElement("span"); sp.textContent = w + (k < 4 ? " " : ""); sp.style.display = "inline-block"; sp.style.whiteSpace = "pre"; sp.style.opacity = 0; row.appendChild(sp);
+            tl.fromTo(sp, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, [15.65, 15.8, 16.0, 16.1, 16.22][k]); });
+          var box = div(blk, "", "position:relative; margin-top:10px; background:#00194B; text-align:center; padding:10px 0 22px; font-family:Plex; font-size:116px; font-weight:700; line-height:1; color:#fff");
+          "financière".split("").forEach(function (c, k) { var sp = document.createElement("span"); sp.textContent = c; sp.style.opacity = 0; box.appendChild(sp);
+            tl.fromTo(sp, { opacity: 0 }, { opacity: 1, duration: .18, ease: "power1.out", immediateRender: false }, 16.72 + k * .035); });
+          box.style.clipPath = "inset(0 100% 0 0)";
+          tl.fromTo(box, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: .5, ease: "power3.inOut", immediateRender: false }, 16.5);
+          var ep = div(blk, "épisode 9", "position:relative; margin-top:14px; text-align:right; font-family:Lora, serif; font-size:56px; font-weight:400; letter-spacing:.01em; color:#00194B; opacity:0");
+          tl.fromTo(ep, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, 17.3); })();
+
+        // ===== 7. Le record, la ligne, le passage dessous (18,1 → 30,74) : un seul graphique qui évolue =====
+        (function () { var t0 = 18.1, s = sc(t0, 30.74), R = SPX;
+          head(s, "S&P 500", "Indice, en points");
+          var n1 = div(s, "−12 %", "right:100px; top:294px; font-size:78px; font-weight:700; letter-spacing:-.04em; line-height:1; color:" + ROUGE + "; opacity:0"); fade(n1, 21.25, .2); tl.to(n1, { opacity: 0, duration: .2 }, 22.15);
+          var n2 = div(s, "7 350", "right:100px; top:294px; font-size:78px; font-weight:700; letter-spacing:-.04em; line-height:1; color:" + OR2 + "; opacity:0"); fade(n2, 23.8, .25); tl.to(n2, { opacity: 0, duration: .2 }, 28.0);
+          var n3 = div(s, "17 nov.", "right:100px; top:294px; font-size:78px; font-weight:700; letter-spacing:-.04em; line-height:1; color:" + ROUGE + "; opacity:0"); fade(n3, 28.3, .25);
+          var c = ed(s, { R: R, lo: 6200, hi: 8100, ticks: [6500, 7000, 7500, 8000] }), P = at(R, "2026-10-06"), lo = at(R, "2026-11-20"), cx = at(R, "2026-11-17");
+          var base = c.line(0, c.L, INK, 7); var pk = c.dot(P, INK, 18.6, 1, 11);
+          // « jusqu'à 12 % » : la chute en rouge, le reste en gris
+          tl.to(base, { attr: { stroke: GRIS }, duration: .3 }, 20.2); tl.to(pk, { attr: { fill: GRIS }, duration: .3 }, 20.2);
+          var fall = c.line(P, lo, ROUGE, 8, 20.3, .9);
+          // « Cette ligne, c'est la moyenne mobile à 200 jours » : la ligne en or, la chute repasse en gris
+          tl.to(fall, { attr: { stroke: GRIS }, duration: .3 }, 22.2);
+          c.reveal(0, c.L, OR2, 7, 22.3, 1.0, 2);
+          var lab = div(s, "Moyenne mobile à 200 jours", "left:" + (c.X(40)) + "px; top:" + (c.Y(R[40][2]) + 26) + "px; font-size:34px; font-weight:700; letter-spacing:-.02em; color:" + OR2 + "; opacity:0"); fade(lab, 23.1, .3);
+          // « le prix moyen… sur environ dix mois » : la fenêtre de 200 séances apparaît sous la courbe
+          tl.to(lab, { opacity: 0, duration: .2 }, 27.9);
+          // « Et le 17 novembre, l'indice a clôturé en dessous » : zoom sur le croisement, cercle or
+          var T = c.zoom ? null : null;
+          var z = { a: 1, b: 1, x: 0, y: 0 }, i0 = at(R, "2026-09-25"), xs = [], ys = [];
+          for (var i = i0; i <= c.L; i++) { xs.push(c.X(i)); ys.push(c.Y(R[i][1]), c.Y(R[i][2])); }
+          var x0 = Math.min.apply(0, xs), x1 = Math.max.apply(0, xs), y0 = Math.min.apply(0, ys) - 50, y1 = Math.max.apply(0, ys) + 50;
+          var ky = c.PH / (y1 - y0), kx = Math.min((c.PW - 140) / (x1 - x0), ky * 3), tx = c.PX + c.PW - 110 - c.X(c.L) * kx, ty = c.PY + (c.PH - (y1 - y0) * ky) / 2 - y0 * ky;
+          c.cam.querySelectorAll("path").forEach(function (n) { n.setAttribute("vector-effect", "non-scaling-stroke"); });
+          c.cam.setAttribute("transform", "translate(0,0) scale(1,1)");
+          tl.fromTo(z, { a: 1, b: 1, x: 0, y: 0 }, { a: kx, b: ky, x: tx, y: ty, duration: 1.0, ease: "power3.inOut", immediateRender: false, onUpdate: function () { c.cam.setAttribute("transform", "translate(" + z.x + "," + z.y + ") scale(" + z.a + "," + z.b + ")"); } }, 28.05);
+          tl.to(c.g.querySelectorAll(":scope > text, .tk"), { opacity: 0, duration: .2 }, 28.05); tl.to(pk, { opacity: 0, duration: .1 }, 28.05);
+          var px = c.X(cx) * kx + tx, py = c.Y(R[cx][1]) * ky + ty;
+          var ring = el(c.g, "circle", { cx: px, cy: py, r: 0, fill: "none", stroke: OR2, "stroke-width": 5 }); tl.fromTo(ring, { attr: { r: 0 } }, { attr: { r: 34 }, duration: .35, ease: "back.out(2)", immediateRender: false }, 29.1);
+          var d17 = el(c.g, "circle", { cx: px, cy: py, r: 0, fill: ROUGE }); tl.fromTo(d17, { attr: { r: 0 } }, { attr: { r: 12 }, duration: .25, ease: "back.out(2.5)", immediateRender: false }, 29.15);
+          source(s); })();
+
+        // ===== 8. « Depuis 1950, chaque grande crise est passée par là. En 1987, 2000, 2008, 2020, 2022 » =====
+        (function () { var t0 = 30.74, s = sc(t0, 38.77), R = E2.long;
+          head(s, "S&P 500", "Depuis 1985, échelle logarithmique");
+          var c = ed(s, { R: R, lo: 150, hi: 10000, log: true, years: 5, pad: 10, ticks: [200, 500, 1000, 2000, 5000] });
+          var base = c.line(0, c.L, INK, 5, t0 + .05, 1.4);
+          tl.to(base, { attr: { stroke: GRIS }, duration: .3 }, 32.1);
+          var CR = [["1987-08-25", "1987-10-15", "1987-12-04", "1987", 33.95], ["2000-03-24", "2000-04-14", "2002-10-09", "2000", 35.32], ["2007-10-09", "2007-11-07", "2009-03-09", "2008", 36.11], ["2020-02-19", "2020-02-27", "2020-03-23", "2020", 36.95], ["2022-01-03", "2022-01-21", "2022-10-12", "2022", 37.9]];
+          CR.forEach(function (e, k) { var a = at(R, e[0]), x = at(R, e[1]), b = at(R, e[2]);
+            c.line(a, b, ROUGE, 7, e[4] - .1, .4);
+            c.dot(x, OR2, e[4] + .1, 1, 11);
+            var ly = c.Y(R[b][1]) + 40, lb = div(s, "<span style='display:inline-block; transform:translateX(-50%)'>" + e[3] + "</span>", "left:" + c.X(b) + "px; top:" + ly + "px; font-size:30px; font-weight:700; color:" + ROUGE + "; opacity:0"); fade(lb, e[4], .2); });
+          var lg = div(s, "<span style='display:inline-block; width:18px; height:18px; border-radius:50%; background:" + OR2 + "; vertical-align:middle; margin-right:12px'></span>Passage sous la moyenne à 200 jours", "left:100px; top:1385px; font-size:28px; font-weight:600; color:" + SOFT + "; opacity:0"); fade(lg, 34.1, .3);
+          source(s); })();
+
+        // ===== 9. « le plus gros de la chute est venu après » : barres avant / après le signal =====
+        (function () { var t0 = 38.77, s = sc(t0, 41.78);
+          head(s, "Baisse du S&P 500", "Avant et après le passage sous la ligne");
+          var D = [["1987", 11, 25], ["2000", 11, 43], ["2008", 6, 54], ["2020", 12, 25], ["2022", 8, 19]], K = 10, y0 = 560;
+          D.forEach(function (r, k) { var y = y0 + k * 130;
+            div(s, r[0], "left:100px; top:" + (y + 14) + "px; font-size:36px; font-weight:700");
+            var a = div(s, "", "left:230px; top:" + y + "px; width:" + r[1] * K + "px; height:70px; background:" + GRIS + "; transform-origin:0 50%"), b = div(s, "", "left:" + (230 + r[1] * K) + "px; top:" + y + "px; width:" + r[2] * K + "px; height:70px; background:" + ROUGE + "; transform-origin:0 50%");
+            tl.fromTo(a, { scaleX: 0 }, { scaleX: 1, duration: .35, ease: "power2.out", immediateRender: false }, t0 + .1 + k * .08); a.style.transform = "scaleX(0)";
+            tl.fromTo(b, { scaleX: 0 }, { scaleX: 1, duration: .5, ease: "power2.out", immediateRender: false }, 40.0 + k * .1); b.style.transform = "scaleX(0)";
+            var v = div(s, "−" + r[2] + " %", "left:" + (230 + (r[1] + r[2]) * K + 18) + "px; top:" + (y + 12) + "px; font-size:38px; font-weight:700; color:" + ROUGE + "; opacity:0"); fade(v, 40.4 + k * .1, .2); });
+          div(s, "<span style='display:inline-block; width:22px; height:22px; background:" + GRIS + "; vertical-align:middle; margin-right:10px'></span>Avant le signal&nbsp;&nbsp;&nbsp;&nbsp;<span style='display:inline-block; width:22px; height:22px; background:" + ROUGE + "; vertical-align:middle; margin-right:10px'></span>Après le signal", "left:100px; top:1230px; font-size:28px; font-weight:600; color:" + SOFT);
+          source(s, "clôtures, du sommet au point bas"); })();
+
+        // ===== 10. « le marché devient deux fois plus nerveux » =====
+        montage([["trader-panique.jpg", 41.78, 43.2, "50% 30%"], ["salle-chaos.jpg", 43.2, 44.66]]);
+
+        // ===== 11. Volatilité : 12 % au-dessus, 22 % en dessous =====
+        (function () { var t0 = 44.66, s = sc(t0, 48.07);
+          head(s, "Volatilité du S&P 500", "Annualisée, depuis 1950");
+          var base = 1180, K = 24;
+          [["Au-dessus de la ligne", 12, GRIS, INK, 45.75], ["Sous la ligne", 22, ROUGE, ROUGE, 46.8]].forEach(function (r, k) { var x = 180 + k * 400;
+            var b = div(s, "", "left:" + x + "px; top:" + (base - r[1] * K) + "px; width:300px; height:" + r[1] * K + "px; background:" + r[2] + "; transform-origin:50% 100%; transform:scaleY(0)");
+            tl.fromTo(b, { scaleY: 0 }, { scaleY: 1, duration: .45, ease: "power3.out", immediateRender: false }, r[4]);
+            var v = div(s, r[1] + " %", "left:" + x + "px; width:300px; top:" + (base - r[1] * K - 96) + "px; text-align:center; font-size:76px; font-weight:700; letter-spacing:-.04em; color:" + r[3] + "; opacity:0"); fade(v, r[4] + .2, .2);
+            div(s, r[0], "left:" + (x - 40) + "px; width:380px; top:" + (base + 24) + "px; text-align:center; font-size:34px; font-weight:600; color:" + SOFT); });
+          div(s, "", "left:100px; right:100px; top:" + base + "px; height:2.5px; background:" + INK);
+          source(s, "écart-type des variations quotidiennes"); })();
+
+        // ===== 12 et 16. Les 100 pires / meilleures journées : 100 carrés =====
+        function cents(t0, t1, titre, n, col, tCol, sub) { var s = sc(t0, t1);
+          head(s, titre, sub, String(n), col, tCol);
+          var S = 64, G = 10, x0 = 540 - (10 * S + 9 * G) / 2, y0 = 520;
+          for (var k = 0; k < 100; k++) { var r = Math.floor(k / 10), cc = k % 10, q = div(s, "", "left:" + (x0 + cc * (S + G)) + "px; top:" + (y0 + r * (S + G)) + "px; width:" + S + "px; height:" + S + "px; background:#e6e8ee");
+            if (k < n) tl.to(q, { backgroundColor: col, duration: .15 }, tCol + k * .012); }
+          div(s, "<span style='display:inline-block; width:22px; height:22px; background:" + col + "; vertical-align:middle; margin-right:10px'></span>Sous la moyenne à 200 jours", "left:" + x0 + "px; top:" + (y0 + 10 * (S + G) + 20) + "px; font-size:30px; font-weight:600; color:" + SOFT);
+          source(s); }
+        cents(48.07, 51.63, "Pires séances", 73, ROUGE, 49.5, "Les 100 pires depuis 1950");
+
+        // ===== 13. « Regardez. En janvier 2022… perd encore 17 % en cinq mois » =====
+        (function () { var t0 = 51.63, s = sc(t0, 56.65), R = E2.y22;
+          head(s, "S&P 500 en 2022", "Indice, en points", "−17 %", ROUGE, 55.05);
+          var c = ed(s, { R: R, lo: 3500, hi: 5000, ticks: [3500, 4000, 4500, 5000], mstep: 2 }), x = at(R, "2022-01-21"), b = at(R, "2022-06-16");
+          c.line(0, x, GRIS, 7, t0 + .05, 1.0);
+          c.reveal(0, c.L, OR2, 6, t0 + .3, 1.0, 2);
+          c.dot(x, OR2, 53.45, 1, 13);
+          c.line(x, b, ROUGE, 8, 54.3, 1.0);
+          c.line(b, c.L, GRIS, 7, 55.3, .3);
+          source(s); })();
+
+        // ===== 14. « Et le rebond d'hier n'y change rien » : le dernier point reste sous la ligne =====
+        (function () { var t0 = 56.65, s = sc(t0, 58.28), R = SPX.filter(function (r) { return r[0] >= "2026-09-15"; });
+          head(s, "S&P 500", "Indice, en points", "−1,5 %", ROUGE, 57.0);
+          var c = ed(s, { R: R, lo: 6800, hi: 7900, ticks: [7000, 7500], pad: 3 });
+          c.line(0, c.L - 1, GRIS, 7); el(c.cam, "path", { d: c.path(0, c.L, 2), fill: "none", stroke: OR2, "stroke-width": 6.5, "stroke-linecap": "round" });
+          c.line(c.L - 1, c.L, VERT, 9, t0 + .1, .4); c.dot(c.L, VERT, t0 + .5, 1, 14);
+          var pL = [c.X(c.L), c.Y(R[c.L][1])], mL = [c.X(c.L), c.Y(R[c.L][2])], bx = pL[0] + 34;
+          var br = el(c.g, "path", { d: "M" + (bx - 12) + " " + mL[1] + " H" + bx + " V" + pL[1] + " H" + (bx - 12), fill: "none", stroke: OR2, "stroke-width": 4, opacity: 0 }); fade(br, 57.0, .2);
+          source(s); })();
+
+        // ===== 15. « le retour de Jensen Huang n'efface ni les craintes sur l'IA, ni la hausse des taux » =====
+        montage([["jensen-scene.jpg", 58.28, 59.7, "50% 20%"], ["ia-1.jpg", 59.7, 61.5], ["fed.jpg", 61.5, 62.46, "50% 40%"]]);
+
+        // « Ces rebonds spectaculaires sont même typiques des phases de peur » : le 9 avril 2025, +9,5 % sous la ligne
+        (function () { var t0 = 62.46, s = sc(t0, 65.41), R = E2.y25;
+          head(s, "S&P 500 en 2025", "Indice, en points", "+9,5 %", VERT, 63.4);
+          var c = ed(s, { R: R, lo: 4800, hi: 6300, ticks: [5000, 5500, 6000], mstep: 1 }), j = at(R, "2025-04-09");
+          c.line(0, c.L, GRIS, 7, t0 + .05, 1.0);
+          el(c.cam, "path", { d: c.path(0, c.L, 2), fill: "none", stroke: OR2, "stroke-width": 6.5, "stroke-linecap": "round" });
+          c.line(j - 1, j, VERT, 10, 63.3, .35); c.dot(j, VERT, 63.6, 1, 14);
+          var dl = div(s, "<span style='display:inline-block; transform:translateX(-50%)'>9 avril</span>", "left:" + c.X(j) + "px; top:" + (c.Y(R[j][1]) - 80) + "px; font-size:32px; font-weight:700; color:" + VERT + "; opacity:0"); fade(dl, 63.7, .2);
+          source(s); })();
+
+        cents(65.41, 70.97, "Meilleures séances", 92, VERT, 66.6, "Les 100 meilleures depuis 1950");
+
+        // ===== 17. Avis : la méfiance =====
+        (function () { var t0 = 70.97, s = sc(t0, 77.51), R = SPX;
+          head(s, "S&P 500", "Indice, en points");
+          var c = ed(s, { R: R, lo: 6200, hi: 8100, ticks: [6500, 7000, 7500, 8000] });
+          c.line(0, c.L, GRIS, 7, t0 + .05, 1.2);
+          c.reveal(0, c.L, OR2, 6.5, t0 + .3, 1.2, 2);
+          var ring = el(c.g, "circle", { cx: c.X(c.L), cy: c.Y(R[c.L][1]), r: 0, fill: "none", stroke: ROUGE, "stroke-width": 5 }); tl.fromTo(ring, { attr: { r: 0 } }, { attr: { r: 30 }, duration: .35, ease: "back.out(2)", immediateRender: false }, 73.6);
+          c.dot(c.L, ROUGE, 73.6, 1, 11);
+          div(s, AMF, "top:1500px; line-height:1.3; font-size:24px; font-weight:600", "src");
+          source(s); })();
+
+        // ===== 18. CTA (77,51 → fin) : fond sombre, contour de story, bouton « Suivre » =====
+        (function () { var t0 = 77.51, s = sc(t0, 999); s.style.background = "radial-gradient(ellipse 70% 45% at 50% 38%, #06204f 0%, #000a1f 55%, #00040d 100%)";
+          var avt = div(s, "<svg viewBox='0 0 320 320' style='position:absolute; inset:0; width:100%; height:100%'><defs><linearGradient id='gStory' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.3' stop-color='#fa7e1e'/><stop offset='.6' stop-color='#d62976'/><stop offset='1' stop-color='#962fbf'/></linearGradient></defs><circle id='ring' cx='160' cy='160' r='152' fill='none' stroke='url(#gStory)' stroke-width='10' transform='rotate(-90 160 160)'/></svg><div class='pic'><img src='assets/img/logo-financedata.png'></div>", "", "");
+          avt.id = "avatar";
+          tl.fromTo(avt, { opacity: 0, scale: .6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .55, ease: "power3.out", immediateRender: false }, t0 + .05);
+          var ring = document.getElementById("ring"), rl = 2 * Math.PI * 152; ring.style.strokeDasharray = rl + " " + rl; ring.style.strokeDashoffset = rl;
+          tl.fromTo(ring, { strokeDashoffset: rl }, { strokeDashoffset: 0, duration: .8, ease: "power2.inOut", immediateRender: false }, t0 + .1);
+          fade(div(s, "finance_data", "left:0; right:0; top:860px; text-align:center; font-size:64px; font-weight:700; letter-spacing:-.05em; color:#fff; opacity:0"), t0 + .3);
+          var btn = div(s, "<span class='b1'>Suivre</span><span class='b2' style='display:none'>Suivi(e)</span>", "left:0; right:0; margin:auto; width:380px; top:980px; height:84px; line-height:82px; text-align:center; border-radius:12px; background:#0095f6; color:#fff; font-family:-apple-system, 'Helvetica Neue', Helv, sans-serif; font-size:38px; font-weight:600; letter-spacing:0; opacity:0");
+          tl.fromTo(btn, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, t0 + .5);
+          var tc = 80.4;
+          tl.to(btn, { scale: .95, duration: .1 }, tc); tl.to(btn, { scale: 1, duration: .2, ease: "power2.out" }, tc + .1);
+          tl.to(btn, { backgroundColor: "#363636", color: "#fff", duration: .2 }, tc + .05);
+          tl.set(btn.querySelector(".b1"), { display: "none" }, tc + .1); tl.set(btn.querySelector(".b2"), { display: "inline" }, tc + .1); })();
+
         // ===== sous-titres : 3 mots max, masqués quand le même chiffre est à l'écran =====
         var W = window.VO.words.filter(function (w) { return w.s < END; }), groups = [], cur = [];
         W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
-        var SKIP = [[5.7, 6.9]];
+        var SKIP = [[5.7, 6.9], [15.13, 18.1], [21.2, 21.9], [22.9, 24.5], [33.8, 38.7], [45.7, 47.8], [49.4, 51.63], [54.9, 56.4], [66.5, 70.7], [77.51, 999]];
         groups.forEach(function (gp, k) {
           var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
           if (SKIP.some(function (r) { return t0 >= r[0] - .05 && t0 < r[1]; })) return;
-          var d = div(top, "<span class='cap-box'>" + gp.map(function (t) { return t.w.replace(/^(31)$/, "$1 %"); }).join(" ") + "</span>", "", "cap-line");
+          var d = div(top, "<span class='cap-box'>" + gp.map(function (t) { return t.w.replace(/^(31|12|22|17)$/, "$1 %"); }).join(" ") + "</span>", "", "cap-line");
           tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out", immediateRender: false }, Math.max(0, t0 - .06));
           tl.set(d, { opacity: 0 }, Math.min(t1 - .07, gp[gp.length - 1].e + .6, END - .035));
         });
