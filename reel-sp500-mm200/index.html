@@ -93,7 +93,12 @@
         }
 
         // ===== 1. « Le retour de Jensen Huang à la tête de Nvidia » : photo fixe =====
-        montage([["jensen-hd.jpg", 0, 1.45, "50% 15%"], ["jensen-scene.jpg", 1.45, 2.76, "50% 20%"]]);
+        // photo fixe, mise au point sur le visage : flou photographique autour, qui arrive en douceur
+        (function () { var sh = sc(0, 1.45), img = "<img src='assets/img/jensen-hd.jpg' style='width:1080px; height:1920px; object-fit:cover; object-position:50% 15%; display:block'>";
+          div(sh, img, "inset:0");
+          var bl = div(sh, img, "inset:0; filter:blur(14px) brightness(.78); transform:scale(1.04); -webkit-mask-image:radial-gradient(ellipse 330px 430px at 510px 700px, transparent 55%, #000 100%); mask-image:radial-gradient(ellipse 330px 430px at 510px 700px, transparent 55%, #000 100%); opacity:0");
+          tl.fromTo(bl, { opacity: 0 }, { opacity: 1, duration: .45, ease: "power1.out", immediateRender: false }, .05); })();
+        montage([["jensen-scene.jpg", 1.45, 2.76, "50% 20%"]]);
 
         // ===== 2. « 11 jours après sa démission » : deux dates reliées par un trait fin =====
         (function () { var s = sc(2.76, 4.3), g = svg(s, 0, 0, 1080, 1920);
