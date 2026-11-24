@@ -35,7 +35,7 @@
       (function () {
         var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 15.13;
         var st = document.getElementById("stage"), top = document.getElementById("top");
-        var INK = "#0b1f44", SOFT = "#6b7280", RULE = "#d9dce3", ACC = "#1f6fe0", CLARET = "#a3123a", DN = INK, DNT = CLARET, GR = ACC, GRT = ACC, OR = CLARET;
+        var INK = "#0b1f44", SOFT = "#6b7280", RULE = "#d9dce3", VERT = "#10b981", ROUGE = "#e5484d", OR2 = "#e0a526", ACC = VERT, CLARET = ROUGE, DN = INK, DNT = ROUGE, GR = VERT, GRT = VERT, OR = OR2;
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
         function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
         function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
@@ -53,12 +53,11 @@
         function stock(s, o) {
           var R = o.R, L = R.length - 1, PX = 100, PY = 640, PW = 760, PH = 580, P = at(R, o.peak), lo = o.lo, hi = o.hi;
           var X = function (i) { return PX + i / (L + 6) * PW; }, Y = function (v) { return PY + PH - (v - lo) / (hi - lo) * PH; };
-          div(s, "", "left:100px; top:300px; width:56px; height:5px; background:" + INK);
           if (o.logo) div(s, "<img src='" + o.logo + "' style='height:40px; display:block'>", "left:100px; top:336px");
           else div(s, o.name, "left:100px; top:330px; font-size:52px; font-weight:700; letter-spacing:-.035em");
           div(s, o.sub, "left:100px; top:404px; font-size:30px; font-weight:400; color:" + SOFT);
-          var tk = div(s, "", "left:100px; top:462px; font-size:76px; font-weight:500; letter-spacing:-.045em; line-height:1; white-space:nowrap");
-          var bd = div(s, o.badge, "left:100px; top:470px; font-size:38px; font-weight:500; letter-spacing:-.02em; white-space:nowrap; color:" + ACC + "; opacity:0");
+          // un seul chiffre, sur la ligne du nom, aligné à droite
+          var tk = div(s, "", "right:100px; top:316px; font-size:68px; font-weight:500; letter-spacing:-.04em; line-height:1; white-space:nowrap; color:" + o.col);
           var g = svg(s, 0, 0, 1080, 1920), cid = "c" + Math.random().toString(36).slice(2), cp = el(el(g, "defs", {}), "clipPath", { id: cid });
           el(cp, "rect", { x: PX - 6, y: PY - 30, width: PW + 12, height: PH + 30 });
           var cam = el(el(g, "g", { "clip-path": "url(#" + cid + ")" }), "g", {});
@@ -72,14 +71,10 @@
           var up = draw(el(cam, "path", { d: "M" + X(L - 1) + " " + Y(R[L - 1][1]) + "L" + X(L) + " " + Y(R[L][1]), fill: "none", stroke: ACC, "stroke-width": 4, "stroke-linecap": "round" }), o.tUp, .5, "power2.out");
           tl.set(up, { strokeDasharray: "none" }, o.tUp + .52);
           var dot = el(cam, "circle", { cx: X(L), cy: Y(R[L][1]), r: 7, fill: ACC, opacity: 0 }); fade(dot, o.tUp + .45, .1);
-          var v0 = R[L - 1][1], v1 = R[L][1], ob = { p: 0 };
-          tk.textContent = fr(v0, o.dec) + (o.unit || "");
-          tl.fromTo(ob, { p: 0 }, { p: 1, duration: .5, ease: "power2.out", immediateRender: false, onUpdate: function () { tk.textContent = fr(v0 + (v1 - v0) * ob.p, o.dec) + (o.unit || ""); } }, o.tUp);
-          // la variation se place à droite du cours, en texte simple
-          tl.call(function () { bd.style.left = (100 + tk.offsetWidth + 28) + "px"; }, null, o.tBadge - .01);
-          bd.style.left = "560px";
-          tl.fromTo(bd, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: .3, ease: "power2.out", immediateRender: false }, o.tBadge);
-          div(s, o.src, "top:1290px", "src");
+          var ob = { p: 0 }, pf = function (v) { return (v > 0 ? "+" : v < 0 ? "−" : "") + fr(Math.abs(v), 1) + " %"; };
+          tk.textContent = pf(0);
+          tl.fromTo(ob, { p: 0 }, { p: o.pct, duration: .6, ease: "power2.out", immediateRender: false, onUpdate: function () { tk.textContent = pf(ob.p); } }, o.tUp);
+          div(s, "Source : Yahoo Finance", "top:1290px", "src");
           // zoom : cadre les séances depuis i0 dans la zone du graphique ; les graduations de prix disparaissent (elles ne suivent pas)
           function zoom(i0, t, d, keys) { var xs = [], ys = []; for (var i = i0; i <= L; i++) { xs.push(X(i)); (keys || [1]).forEach(function (k) { ys.push(Y(R[i][k])); }); }
             var x0 = Math.min.apply(0, xs), x1 = Math.max.apply(0, xs), y0 = Math.min.apply(0, ys) - 50, y1 = Math.max.apply(0, ys) + 50;
@@ -109,14 +104,14 @@
 
         // ===== 3. « a fait exploser l'action de 31 % hier » : Nvidia =====
         (function () { var s = sc(4.3, 7.19);
-          var c = stock(s, { R: window.NV, peak: "2026-10-06", lo: 100, hi: 260, ticks: [100, 150, 200, 250], unit: " $", dec: 2, name: "Nvidia", logo: "assets/img/nvidia-logo.svg", sub: "Cours de l'action, en dollars", badge: "+31,5 % lundi", tUp: 5.0, tBadge: 5.8,
+          var c = stock(s, { R: window.NV, peak: "2026-10-06", lo: 100, hi: 260, ticks: [100, 150, 200, 250], unit: " $", dec: 2, name: "Nvidia", logo: "assets/img/nvidia-logo.svg", sub: "Cours de l'action, en dollars", pct: 31.5, col: VERT, tUp: 5.0, tBadge: 5.8,
             icon: "<circle cx='32' cy='32' r='32' fill='#76b900'/><text x='32' y='44' font-size='34' font-weight='800' fill='#fff' text-anchor='middle' font-family='Display'>N</text>",
             src: "Action Nvidia · Clôtures quotidiennes jusqu'au 23/11/2026 · Source : Yahoo Finance" });
           c.zoom(c.L - 9, 5.55, .9); })();
 
         // ===== 4. « et le S&P 500 a suivi. Mais il reste sous cette ligne… » : la ligne (non nommée) apparaît, on resserre =====
         (function () { var s = sc(7.19, 12.49), R = window.SPX;
-          var c = stock(s, { R: R, peak: "2026-10-06", lo: 6200, hi: 8100, ticks: [6500, 7000, 7500, 8000], dec: 0, name: "S&P 500", sub: "Indice, en points", badge: "+4,7 % lundi", tUp: 7.3, tBadge: 7.9,
+          var c = stock(s, { R: R, peak: "2026-10-06", lo: 6200, hi: 8100, ticks: [6500, 7000, 7500, 8000], dec: 0, name: "S&P 500", sub: "Indice, en points", pct: 4.7, col: VERT, tUp: 7.3, tBadge: 7.9,
             icon: "<circle cx='32' cy='32' r='32' fill='#00194b'/><path d='M14 42 L26 30 L34 37 L50 20' fill='none' stroke='#fff' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/>",
             src: "Indice S&P 500 · Clôtures quotidiennes jusqu'au 23/11/2026 · Source : Yahoo Finance" });
           // la ligne : moyenne mobile à 200 jours, sans légende (elle n'est nommée qu'après le générique)
@@ -126,8 +121,8 @@
           // « sous cette ligne » : on resserre sur les séances depuis le record, prix et ligne dans le cadre
           var T = c.zoom(at(R, "2026-10-01"), 10.15, 1.1, [1, 2]);
           var pL = T(c.X(c.L), c.Y(R[c.L][1])), mL = T(c.X(c.L), c.Y(R[c.L][2])), bx = pL[0] + 34;
-          var br = el(c.g, "path", { d: "M" + (bx - 12) + " " + mL[1] + " H" + bx + " V" + pL[1] + " H" + (bx - 12), fill: "none", stroke: SOFT, "stroke-width": 1.5, opacity: 0 }); fade(br, 11.2, .25);
-          var gl = div(s, "<span style='display:block; font-size:36px; font-weight:500; letter-spacing:-.02em; color:" + CLARET + "'>−1,5 %</span><span style='display:block; font-size:24px; color:" + SOFT + "'>sous la ligne</span>", "left:" + (bx + 18) + "px; top:" + ((pL[1] + mL[1]) / 2 - 40) + "px; line-height:1.15; opacity:0"); fade(gl, 11.3, .25); })();
+          var br = el(c.g, "path", { d: "M" + (bx - 12) + " " + mL[1] + " H" + bx + " V" + pL[1] + " H" + (bx - 12), fill: "none", stroke: OR2, "stroke-width": 2.5, opacity: 0 }); fade(br, 11.2, .25);
+          var gl = div(s, "<span style='display:block; font-size:40px; font-weight:600; letter-spacing:-.02em; color:" + ROUGE + "'>−1,5 %</span>", "left:" + (bx + 18) + "px; top:" + ((pL[1] + mL[1]) / 2 - 26) + "px; line-height:1.15; opacity:0"); fade(gl, 11.3, .25); })();
 
         // ===== 5. « car c'est un signal qui a précédé chaque grande crise » : photos fixes =====
         montage([["nyse.jpg", 12.49, 13.65], ["trader-panique.jpg", 13.65, 15.13, "50% 30%"]]);
