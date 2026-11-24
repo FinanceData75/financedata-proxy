@@ -60,8 +60,9 @@
           var tk = div(s, "", "right:100px; top:294px; font-size:78px; font-weight:700; letter-spacing:-.04em; line-height:1; white-space:nowrap; color:" + o.col);
           var g = svg(s, 0, 0, 1080, 1920), cid = "c" + Math.random().toString(36).slice(2), cp = el(el(g, "defs", {}), "clipPath", { id: cid });
           el(cp, "rect", { x: PX - 6, y: PY - 30, width: PW + 12, height: PH + 30 });
+          var grid = el(g, "g", {});
           var cam = el(el(g, "g", { "clip-path": "url(#" + cid + ")" }), "g", {});
-          o.ticks.forEach(function (v) { var y = Y(v); el(g, "line", { x1: PX, x2: 980, y1: y, y2: y, stroke: RULE, "stroke-width": 1.5, class: "tk" });
+          o.ticks.forEach(function (v) { var y = Y(v); el(grid, "line", { x1: PX, x2: 980, y1: y, y2: y, stroke: "#eceef2", "stroke-width": 1.2, class: "tk" });
             el(g, "text", { x: 980, y: y - 12, "font-size": 28, fill: SOFT, "font-weight": 600, "text-anchor": "end" }, fr(v) + (o.unit || "")); });
           el(g, "line", { x1: PX, x2: 980, y1: PY + PH, y2: PY + PH, stroke: INK, "stroke-width": 2.5 });
           var lx = -1e9; for (var i = 1; i <= L; i++) { if (R[i][0].slice(5, 7) === R[i - 1][0].slice(5, 7)) continue; var mo = +R[i][0].slice(5, 7); if (mo % 2) continue;
@@ -84,7 +85,7 @@
             cam.querySelectorAll("path, line").forEach(function (n) { n.setAttribute("vector-effect", "non-scaling-stroke"); });
             var z = { a: 1, b: 1, x: 0, y: 0 }; cam.setAttribute("transform", "translate(0,0) scale(1,1)");
             tl.fromTo(z, { a: 1, b: 1, x: 0, y: 0 }, { a: kx, b: ky, x: tx, y: ty, duration: d, ease: "power3.inOut", immediateRender: false, onUpdate: function () { cam.setAttribute("transform", "translate(" + z.x + "," + z.y + ") scale(" + z.a + "," + z.b + ")"); } }, t);
-            tl.to(g.querySelectorAll(":scope > text, :scope > .tk"), { opacity: 0, duration: .2 }, t);
+            tl.to(g.querySelectorAll(":scope > text, :scope > .tk, .tk"), { opacity: 0, duration: .2 }, t);
             // le point final reste rond : on le remplace par un point hors caméra
             tl.to(dot, { opacity: 0, duration: .1 }, t);
             var nd = el(g, "circle", { cx: X(L) * kx + tx, cy: Y(R[L][1]) * ky + ty, r: 14, fill: ACC, opacity: 0 }); fade(nd, t + d - .05, .15);
@@ -93,11 +94,10 @@
         }
 
         // ===== 1. « Le retour de Jensen Huang à la tête de Nvidia » : photo fixe =====
-        // photo fixe, mise au point sur le visage : flou photographique autour, qui arrive en douceur
-        (function () { var sh = sc(0, 1.45), img = "<img src='assets/img/jensen-hd.jpg' style='width:1080px; height:1920px; object-fit:cover; object-position:50% 15%; display:block'>";
+        // photo fixe, cadrée serré sur le visage, mise au point dès la première image : léger flou photographique autour
+        (function () { var sh = sc(0, 1.45), img = "<img src='assets/img/jensen-hd.jpg' style='width:1080px; height:1920px; object-fit:cover; object-position:50% 15%; display:block; transform:scale(1.35); transform-origin:510px 640px'>";
           div(sh, img, "inset:0");
-          var bl = div(sh, img, "inset:0; filter:blur(14px) brightness(.78); transform:scale(1.04); -webkit-mask-image:radial-gradient(ellipse 330px 430px at 510px 700px, transparent 55%, #000 100%); mask-image:radial-gradient(ellipse 330px 430px at 510px 700px, transparent 55%, #000 100%); opacity:0");
-          tl.fromTo(bl, { opacity: 0 }, { opacity: 1, duration: .45, ease: "power1.out", immediateRender: false }, .05); })();
+          div(sh, img, "inset:0; filter:blur(7px) brightness(.92); -webkit-mask-image:radial-gradient(ellipse 430px 560px at 510px 680px, transparent 50%, #000 100%); mask-image:radial-gradient(ellipse 430px 560px at 510px 680px, transparent 50%, #000 100%)"); })();
         montage([["jensen-scene.jpg", 1.45, 2.76, "50% 20%"]]);
 
         // ===== 2. « 11 jours après sa démission » : deux dates reliées par un trait fin =====

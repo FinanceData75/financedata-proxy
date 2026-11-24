@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "421b676b-885c-4a3c-b237-f313a00dd0d0",
-  "currentRevision": "295ffecc-15c1-4a11-9a99-36074e161ec3",
+  "currentRevision": "b57e3c58-12fd-4a99-b46d-47bee5d4fe7d",
   "pendingChanges": false,
   "files": {
     "assets/data.js": {
@@ -85,8 +85,8 @@
       "content": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/31/3182c981a7a25d6874756cba699979b473eb9c2c03361f796cc3e12f04534228"
     },
     "index.html": {
-      "hash": "6619d640092784e6ab257a0ec236a410c0467f2d819f4e0a2d838180c1523bfd",
-      "content": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/66/6619d640092784e6ab257a0ec236a410c0467f2d819f4e0a2d838180c1523bfd"
+      "hash": "0b50140a71fc15fa97df0aeb6b0bfe25d9fa43e8182822695d610de87b488d84",
+      "content": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/0b/0b50140a71fc15fa97df0aeb6b0bfe25d9fa43e8182822695d610de87b488d84"
     },
     "assets/img/jensen-hd.jpg": {
       "hash": "2ab85e98d12a5b812a9fbf2b59bbdb6fcf92c0f83186e4eedfcc1a4a9931497d",
@@ -429,6 +429,21 @@
           "after": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/66/6619d640092784e6ab257a0ec236a410c0467f2d819f4e0a2d838180c1523bfd"
         }
       }
+    },
+    "b57e3c58-12fd-4a99-b46d-47bee5d4fe7d": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795532316139,
+      "endedAt": 1795532316140,
+      "files": {
+        "index.html": {
+          "before": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/66/6619d640092784e6ab257a0ec236a410c0467f2d819f4e0a2d838180c1523bfd",
+          "after": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/0b/0b50140a71fc15fa97df0aeb6b0bfe25d9fa43e8182822695d610de87b488d84"
+        }
+      }
     }
   },
   "checks": {
@@ -477,8 +492,8 @@
   },
   "snapshots": {
     "latest": {
-      "revision": "295ffecc-15c1-4a11-9a99-36074e161ec3",
-      "id": "2a4fc3df-1a54-40c4-b36a-3077982993bc-0"
+      "revision": "b57e3c58-12fd-4a99-b46d-47bee5d4fe7d",
+      "id": "e91b10c4-3081-46a7-8fda-21c5a8e2f5b3-1"
     },
     "revisions": {
       "42026a8d-f167-4add-9ee5-4877e632f07a": [
@@ -1405,6 +1420,48 @@
           "inputScope": "local-project-files",
           "attribution": "recorded-revision"
         }
+      ],
+      "b57e3c58-12fd-4a99-b46d-47bee5d4fe7d": [
+        {
+          "scope": "full",
+          "id": "e91b10c4-3081-46a7-8fda-21c5a8e2f5b3-0",
+          "image": "/tmp/claude-0/-home-user-financedata-proxy/683251fa-d72d-587a-a53e-44421a2ba4c7/scratchpad/m24/frame-00-at-0.05s.png",
+          "time": 0.05,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1795532318865,
+          "contentHash": "7fe04b44bda7401f9037ba10882b793434cc0e8d18cbc82e307b8445a22386a2",
+          "revision": "b57e3c58-12fd-4a99-b46d-47bee5d4fe7d",
+          "inputFingerprint": "2f2f34007d32d5f2ec9fe98874eb34f3d841fd635734886de9d1e40e2cc3abcd",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "e91b10c4-3081-46a7-8fda-21c5a8e2f5b3-1",
+          "image": "/tmp/claude-0/-home-user-financedata-proxy/683251fa-d72d-587a-a53e-44421a2ba4c7/scratchpad/m24/frame-01-at-9.95s.png",
+          "time": 9.95,
+          "metadata": {
+            "width": 1080,
+            "height": 1920,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1795532318866,
+          "contentHash": "bc34f9dc211e6e95cda26097230468aed5c365a1b15fb577c9ca010649bb3a9d",
+          "revision": "b57e3c58-12fd-4a99-b46d-47bee5d4fe7d",
+          "inputFingerprint": "2f2f34007d32d5f2ec9fe98874eb34f3d841fd635734886de9d1e40e2cc3abcd",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
       ]
     },
     "unversioned": [
@@ -1612,15 +1669,15 @@
   },
   "renders": {
     "latest": {
-      "id": "4c949c6d-1c53-4e4d-8ae2-f92602180139",
-      "completedAt": 1795532159338,
+      "id": "493646e4-5d6c-49d7-9059-41944d0c493e",
+      "completedAt": 1795532391429,
       "output": "/home/user/financedata-proxy/reel-sp500-mm200/hook-apercu.mp4",
       "status": "completed",
-      "revision": "295ffecc-15c1-4a11-9a99-36074e161ec3"
+      "revision": "b57e3c58-12fd-4a99-b46d-47bee5d4fe7d"
     },
     "retainedRevisions": [
-      "295ffecc-15c1-4a11-9a99-36074e161ec3",
-      "b74738e1-8744-4736-b63b-12a03b8b501e"
+      "b57e3c58-12fd-4a99-b46d-47bee5d4fe7d",
+      "295ffecc-15c1-4a11-9a99-36074e161ec3"
     ]
   },
   "pendingArtifactCleanup": []
