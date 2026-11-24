@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "421b676b-885c-4a3c-b237-f313a00dd0d0",
-  "currentRevision": "2051b494-ab1a-4ab7-b543-34825340655e",
+  "currentRevision": "5841525b-81e1-4ab9-935f-56142f614f15",
   "pendingChanges": false,
   "files": {
     "assets/data.js": {
@@ -85,8 +85,8 @@
       "content": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/31/3182c981a7a25d6874756cba699979b473eb9c2c03361f796cc3e12f04534228"
     },
     "index.html": {
-      "hash": "0ce926f5b08e5574d1c57f78b6bd3ddc357439af34f6eaff1eac734f1649de2c",
-      "content": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/0c/0ce926f5b08e5574d1c57f78b6bd3ddc357439af34f6eaff1eac734f1649de2c"
+      "hash": "af2202d6c3d01506a50995125b47407f42ee0e2798c59c016bd975404412f12d",
+      "content": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/af/af2202d6c3d01506a50995125b47407f42ee0e2798c59c016bd975404412f12d"
     },
     "assets/img/jensen-hd.jpg": {
       "hash": "2ab85e98d12a5b812a9fbf2b59bbdb6fcf92c0f83186e4eedfcc1a4a9931497d",
@@ -512,6 +512,21 @@
         "index.html": {
           "before": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/d6/d6b79a4226499430686e7b55b3ad815efbbbabf95748934e46f3206d3c081397",
           "after": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/0c/0ce926f5b08e5574d1c57f78b6bd3ddc357439af34f6eaff1eac734f1649de2c"
+        }
+      }
+    },
+    "5841525b-81e1-4ab9-935f-56142f614f15": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1795533075962,
+      "endedAt": 1795533075964,
+      "files": {
+        "index.html": {
+          "before": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/0c/0ce926f5b08e5574d1c57f78b6bd3ddc357439af34f6eaff1eac734f1649de2c",
+          "after": "/root/.cache/hyperframes/history/421b676b-885c-4a3c-b237-f313a00dd0d0/blobs/af/af2202d6c3d01506a50995125b47407f42ee0e2798c59c016bd975404412f12d"
         }
       }
     }
@@ -2219,15 +2234,15 @@
   },
   "renders": {
     "latest": {
-      "id": "79cff5f6-d037-4d0e-9fb6-af32940b7c0c",
-      "completedAt": 1795532829352,
+      "id": "5a4d8da0-f440-485c-9ff6-bc06fbad4028",
+      "completedAt": 1795533241038,
       "output": "/home/user/financedata-proxy/reel-sp500-mm200/reel-sp500-mm200-final.mp4",
       "status": "completed",
-      "revision": "2051b494-ab1a-4ab7-b543-34825340655e"
+      "revision": "5841525b-81e1-4ab9-935f-56142f614f15"
     },
     "retainedRevisions": [
-      "2051b494-ab1a-4ab7-b543-34825340655e",
-      "b57e3c58-12fd-4a99-b46d-47bee5d4fe7d"
+      "5841525b-81e1-4ab9-935f-56142f614f15",
+      "2051b494-ab1a-4ab7-b543-34825340655e"
     ]
   },
   "pendingArtifactCleanup": []

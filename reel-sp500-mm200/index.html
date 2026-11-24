@@ -335,7 +335,7 @@
           tl.fromTo(avt, { opacity: 0, scale: .6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .55, ease: "power3.out", immediateRender: false }, t0 + .05);
           var ring = document.getElementById("ring"), rl = 2 * Math.PI * 152; ring.style.strokeDasharray = rl + " " + rl; ring.style.strokeDashoffset = rl;
           tl.fromTo(ring, { strokeDashoffset: rl }, { strokeDashoffset: 0, duration: .8, ease: "power2.inOut", immediateRender: false }, t0 + .1);
-          fade(div(s, "finance_data", "left:0; right:0; top:860px; text-align:center; font-size:64px; font-weight:700; letter-spacing:-.05em; color:#fff; opacity:0"), t0 + .3);
+          fade(div(s, "financedatafr", "left:0; right:0; top:860px; text-align:center; font-size:64px; font-weight:700; letter-spacing:-.05em; color:#fff; opacity:0"), t0 + .3);
           var btn = div(s, "<span class='b1'>Suivre</span><span class='b2' style='display:none'>Suivi(e)</span>", "left:0; right:0; margin:auto; width:380px; top:980px; height:84px; line-height:82px; text-align:center; border-radius:12px; background:#0095f6; color:#fff; font-family:-apple-system, 'Helvetica Neue', Helv, sans-serif; font-size:38px; font-weight:600; letter-spacing:0; opacity:0");
           tl.fromTo(btn, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, t0 + .5);
           var tc = 80.4;
