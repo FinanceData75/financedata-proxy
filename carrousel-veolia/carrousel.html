@@ -9,6 +9,7 @@
      Page 1 = couverture photo + titre League Spartan blanc. Page 2 = graphique éditorial (fond blanc, grand titre, un seul chiffre à droite, grille légère, source).
      ?p=1 ou ?p=2 (capture : node slides/capture.cjs). */
   @font-face { font-family: "League Spartan"; src: url("assets/fonts/league-spartan-latin-wght-normal.woff2"); font-weight: 100 900; }
+  @font-face { font-family: "DM Sans"; src: url("assets/fonts/dm-sans-latin-wght-normal.woff2"); font-weight: 100 1000; }
   @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { width: 1080px; height: 1350px; overflow: hidden; background: #fff; color: #0b1f44; font-family: "Display"; -webkit-font-smoothing: antialiased; position: relative; font-feature-settings: "tnum" 1; }
@@ -36,19 +37,20 @@
   <div class="a" style="left:0; right:0; top:1262px; display:flex; justify-content:center; align-items:center; gap:34px"><img src="assets/img/fd-fleche-blanche.png" style="width:72px; height:72px"><span style="font-size:34px; color:#fff; font-weight:400">x</span><img src="assets/img/xtb-blanc.svg" style="height:52px"></div>
 </section>
 
-<!-- 3. L'offre XTB (partenariat) -->
-<section class="pg" id="p3" style="background:radial-gradient(ellipse 90% 70% at 85% 95%, #0d3a8c 0%, rgba(13,58,140,0) 70%), linear-gradient(165deg, #000000 0%, #03070f 45%, #071a44 100%)">
-  <div class="a" style="left:60px; right:60px; top:110px; text-align:center; font-family:'League Spartan'; font-weight:700; font-size:76px; line-height:1.06; color:#fff">Recevez une action Veolia offerte</div>
-  <div class="a" style="left:90px; right:90px; top:290px; text-align:center; font-size:36px; font-weight:400; line-height:1.35; color:#c9cfdb">Pour l'ouverture d'un compte sur XTB,<br><b style="color:#fff">jusqu'au 30 novembre</b></div>
-  <div class="a" style="left:190px; top:470px; width:700px; height:520px; border-radius:28px; background:#fff; box-shadow:0 30px 80px rgba(0,0,0,.45)">
-    <img src="assets/img/veolia-logo.png" style="position:absolute; left:150px; top:30px; width:400px; height:260px; object-fit:contain">
-    <div style="position:absolute; left:0; right:0; top:300px; height:2px; background:#eceef2; margin:0 60px"></div>
-    <div style="position:absolute; left:0; right:0; top:330px; text-align:center; font-family:'League Spartan'; font-weight:700; font-size:84px; line-height:1; color:#0b1f44">1 action offerte</div>
-    <div style="position:absolute; left:0; right:0; top:436px; text-align:center; font-size:30px; font-weight:500; color:#6b7280">soit environ 34 € au cours du 24 novembre</div>
+<!-- 3. Pourquoi on aime XTB + l'offre (style des carrousels sur fond blanc : texte marine DM Sans en haut, visuel en bas) -->
+<section class="pg" id="p3" style="background:#fff">
+  <div class="a" style="left:104px; top:130px; width:872px; font-family:'DM Sans'; font-size:44px; line-height:1.22; letter-spacing:-.012em; color:#14234b">
+    <p><b>Pour investir, on utilise XTB.</b> 0 % de commission sur les actions et les ETF jusqu'à 100 000 € investis par mois, et un PEA depuis 2025.</p>
+    <p style="margin-top:44px"><b>Et jusqu'au 30 novembre, XTB vous offre une action Veolia</b> pour l'ouverture d'un compte.</p>
   </div>
-  <div class="a" style="left:0; right:0; top:1060px; text-align:center"><span style="display:inline-block; padding:22px 56px 24px; border-radius:999px; background:#ff0000; color:#fff; font-size:40px; font-weight:700">Lien en bio</span></div>
-  <div class="a" style="left:90px; right:90px; top:1180px; text-align:center; font-size:19px; font-weight:500; line-height:1.4; color:#8a93a6">Communication publicitaire en partenariat avec XTB. Offre soumise à conditions, détails sur le site de XTB. Investir comporte des risques de perte en capital.</div>
-  <div class="a" style="left:0; right:0; top:1262px; display:flex; justify-content:center; align-items:center; gap:34px"><img src="assets/img/fd-fleche-blanche.png" style="width:72px; height:72px"><span style="font-size:34px; color:#fff; font-weight:400">x</span><img src="assets/img/xtb-blanc.svg" style="height:52px"></div>
+  <div class="a" style="left:104px; top:640px; width:872px; height:420px; border-radius:18px; background:#f4f5f8">
+    <img src="assets/img/veolia-logo.png" style="position:absolute; left:60px; top:70px; width:300px; height:260px; object-fit:contain; mix-blend-mode:multiply">
+    <div style="position:absolute; left:400px; top:2px; bottom:2px; width:2px; background:#e3e6ee; margin:60px 0"></div>
+    <div style="position:absolute; left:440px; top:110px; font-family:'League Spartan'; font-weight:700; font-size:72px; line-height:1; color:#14234b">1 action<br>offerte</div>
+    <div style="position:absolute; left:440px; top:270px; font-family:'DM Sans'; font-size:28px; color:#7a8299">soit environ 34 € aujourd'hui</div>
+  </div>
+  <div class="a" style="left:104px; top:1135px; width:872px; font-family:'DM Sans'; font-size:19px; line-height:1.4; color:#7a8299">Communication en partenariat avec XTB. Offre soumise à conditions, détails sur le site de XTB. Investir comporte des risques de perte en capital.</div>
+  <div class="a" style="left:0; right:0; top:1232px; display:flex; justify-content:center; align-items:center; gap:30px"><img src="assets/img/fd-fleche-marine.png" style="width:64px; height:64px"><span style="font-family:'DM Sans'; font-size:32px; color:#14234b">x</span><img src="assets/img/xtb.svg" style="height:46px"></div>
 </section>
 
 <script>
