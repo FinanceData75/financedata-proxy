@@ -37,9 +37,8 @@
       <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="78.6" data-track-index="1"></audio>
       <div id="bgs" class="clip" data-start="0" data-duration="78.6" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
       <div id="stage" class="clip" data-start="0" data-duration="78.6" data-track-index="3" style="position:absolute; inset:0"></div>
-      <video id="v-wallstreet" class="clip" src="assets/video/wallstreet.mp4" data-start="3.6" data-duration="1.49" data-track-index="4" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px"></video>
+      <video id="v-nyse-facade" class="clip" src="assets/video/nyse-facade.mp4" data-start="3.6" data-duration="1.49" data-track-index="4" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px"></video>
       <video id="v-port" class="clip" src="assets/video/port.mp4" data-start="9.9" data-duration="1.55" data-track-index="4" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px"></video>
-      <video id="v-trader-rouge" class="clip" src="assets/video/trader-rouge.mp4" data-start="44.71" data-duration="1.57" data-track-index="4" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px"></video>
       <video id="v-nyse-salle" class="clip" src="assets/video/nyse-salle.mp4" data-start="63.2" data-duration="1.5" data-track-index="4" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px"></video>
       <video id="v-gratte-ciel" class="clip" src="assets/video/gratte-ciel.mp4" data-start="64.7" data-duration="1.47" data-track-index="4" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px"></video>
       <div id="top" class="clip" data-start="0" data-duration="78.6" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
@@ -49,7 +48,7 @@
         var UID = 0; function uid(p) { UID += 1; return p + UID; }
         var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 78.6;
         var st = document.getElementById("stage"), top = document.getElementById("top");
-        var INK = "#0b1f44", SOFT = "#6b7280", RULE = "#d9dce3", VERT = "#1c7ed6", ROUGE = "#d6336c", OR2 = "#7048e8", ACC = VERT, CLARET = ROUGE, DN = INK, DNT = ROUGE, GR = VERT, GRT = VERT, OR = OR2;
+        var INK = "#0b1f44", SOFT = "#6b7280", RULE = "#d9dce3", VERT = "#00c853", ROUGE = "#ff1744", OR2 = "#ffab00", OR2T = "#f59f00", ACC = VERT, CLARET = ROUGE, DN = INK, DNT = ROUGE, GR = VERT, GRT = VERT, OR = OR2;
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
         function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
         function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
@@ -91,7 +90,7 @@
           c.reveal = function (a, b, col, w, t, d, k) { var id = uid("r"), r = el(el(defs, "clipPath", { id: id }), "rect", { x: 0, y: 0, width: X(a) - 12, height: 1920 });
             el(el(cam, "g", { "clip-path": "url(#" + id + ")" }), "path", { d: path(a, b, k), fill: "none", stroke: col, "stroke-width": w || 7, "stroke-linejoin": "round", "stroke-linecap": "round" });
             tl.fromTo(r, { attr: { width: X(a) - 12 } }, { attr: { width: X(b) + 20 }, duration: d, ease: "power1.inOut", immediateRender: false }, t); };
-          c.dot = function (i, col, t, k, r) { var d = el(cam, "circle", { cx: X(i), cy: Y(R[i][k || 1]), r: 0, fill: col }); tl.fromTo(d, { attr: { r: 0 } }, { attr: { r: r || 13 }, duration: .25, ease: "back.out(2.5)", immediateRender: false }, t); return d; };
+          c.dot = function (i, col, t, k, r) { var d = el(cam, "circle", { cx: X(i), cy: Y(R[i][k || 1]), r: 0, fill: "#fff", stroke: OR2, "stroke-width": 4 }); tl.fromTo(d, { attr: { r: 0 } }, { attr: { r: 10 }, duration: .25, ease: "back.out(2)", immediateRender: false }, t); return d; };
           return c;
         }
 
@@ -125,10 +124,10 @@
             R.forEach(function (x, i) { if (i <= L - 1) d1 += (d1 ? "L" : "M") + X(i) + " " + Y(x[1]); });
             el(g, "path", { d: d1, fill: "none", stroke: GRIS, "stroke-width": 6, "stroke-linejoin": "round" });
             draw(el(g, "path", { d: "M" + X(L - 1) + " " + Y(R[L - 1][1]) + "L" + X(L) + " " + Y(R[L][1]), fill: "none", stroke: ROUGE, "stroke-width": 8, "stroke-linecap": "round" }), r[3], .3, "power1.in");
-            var dt = el(g, "circle", { cx: X(L), cy: Y(R[L][1]), r: 0, fill: ROUGE }); tl.fromTo(dt, { attr: { r: 0 } }, { attr: { r: 11 }, duration: .2, immediateRender: false }, r[3] + .3); });
+            var dt = el(g, "circle", { cx: X(L), cy: Y(R[L][1]), r: 0, fill: "#fff", stroke: OR2, "stroke-width": 3.5 }); tl.fromTo(dt, { attr: { r: 0 } }, { attr: { r: 9 }, duration: .2, immediateRender: false }, r[3] + .3); });
           source(s); })();
         // « Et ce mercredi, l'administration Trump a dévoilé de nouveaux droits de douane, et la baisse s'est accélérée »
-        montage([["trump-2.jpg", 8.35, 9.9, "50% 25%"]]);
+        montage([["trump.jpg", 8.35, 9.9, "50% 20%"]]);
         (function () { var s = sc(11.45, 13.55), R = D.spx.filter(function (r) { return r[0] >= "2026-10-15"; });
           head(s, "S&P 500", "Indice, en points", "−2,6 %", ROUGE, 12.1);
           var c = serie(s, R, { lo: 6800, hi: 7900, ticks: [7000, 7500], mstep: 1, pad: 3 }), L = c.L;
@@ -161,9 +160,9 @@
           head(s, "Droits de douane", "Proposition américaine du 25 novembre", "14 pays", ROUGE, 20.5);
           var P = ["Chine", "Union européenne", "Japon", "Corée du Sud", "Taïwan", "Inde", "Vietnam", "Thaïlande", "Indonésie", "Malaisie", "Singapour", "Suisse", "Cambodge", "Bangladesh"];
           P.forEach(function (p, k) { var hot = k < 2, x = 100 + (k % 2) * 450, y = 500 + Math.floor(k / 2) * 96;
-            var b = div(s, p, "left:" + x + "px; top:" + y + "px; width:430px; height:80px; line-height:80px; padding-left:28px; font-size:36px; font-weight:" + (hot ? 800 : 600) + "; letter-spacing:-.02em; background:" + (hot ? "rgba(214,51,108,.1)" : "#f4f5f8") + "; color:" + (hot ? ROUGE : INK) + "; opacity:0");
+            var b = div(s, p, "left:" + x + "px; top:" + y + "px; width:430px; height:80px; line-height:80px; padding-left:28px; font-size:36px; font-weight:" + (hot ? 800 : 600) + "; letter-spacing:-.02em; background:" + (hot ? "rgba(255,23,68,.1)" : "#f4f5f8") + "; color:" + (hot ? ROUGE : INK) + "; opacity:0");
             if (hot) { b.style.background = "#f4f5f8"; b.style.color = INK; b.style.fontWeight = 600;
-              var t = k === 0 ? 21.8 : 22.25; tl.to(b, { backgroundColor: "rgba(214,51,108,.1)", color: ROUGE, borderLeftWidth: 6, duration: .2 }, t); b.style.borderLeft = "0px solid " + ROUGE; }
+              var t = k === 0 ? 21.8 : 22.25; tl.to(b, { backgroundColor: "rgba(255,23,68,.1)", color: ROUGE, borderLeftWidth: 6, duration: .2 }, t); b.style.borderLeft = "0px solid " + ROUGE; }
             b.style.opacity = 1; });
           var j = div(s, "Jusqu'à 20 %", "left:100px; top:1200px; font-size:40px; font-weight:700; color:" + ROUGE + "; opacity:0"); fade(j, 19.15, .25);
           source(s, "CNBC"); })();
@@ -207,14 +206,15 @@
           var lg = div(s, "<span style='display:inline-block; width:22px; height:22px; background:" + OR2 + "; vertical-align:middle; margin-right:10px'></span>Rebond de lundi&nbsp;&nbsp;&nbsp;&nbsp;<span style='display:inline-block; width:22px; height:22px; background:" + ROUGE + "; vertical-align:middle; margin-right:10px'></span>Déjà effacé", "left:100px; top:448px; font-size:28px; font-weight:700; color:" + SOFT + "; opacity:0"); fade(lg, 42.4, .3);
           source(s, "séance du 25/11 en cours"); })();
 
-        // ===== 6. « Surtout, la peur revient » + le VIX (44,71 → 52,13) =====
+        // ===== 6. « Surtout, la peur revient » (photo de presse) + le VIX (44,71 → 52,13) =====
+        montage([["trader-nyse.jpg", 44.71, 46.28, "50% 30%"]]);
         
         (function () { var s = sc(46.28, 52.13), R = D.vix.filter(function (r) { return r[0] >= "2026-08-01"; });
           head(s, "VIX", "L'indice de la peur", pf(pct(D.vix, "2026-11-24", "2026-11-25")), ROUGE, 48.9);
           var c = serie(s, R, { lo: 10, hi: 40, ticks: [10, 20, 30, 40], mstep: 2, pad: 3 }), L = c.L;
           var h = el(c.cam, "line", { x1: c.X(0), x2: c.X(L) + 60, y1: c.Y(30), y2: c.Y(30), stroke: OR2, "stroke-width": 4, "stroke-dasharray": "14 10" }); fade(h, 50.6, .3);
           c.line(0, L - 1, GRIS, 7); c.line(L - 1, L, ROUGE, 9, 48.5, .5); c.dot(L, ROUGE, 49.0, 1, 13);
-          var lb = div(s, "30", "left:" + (c.X(0) + 10) + "px; top:" + (c.Y(30) - 56) + "px; font-size:34px; font-weight:800; color:" + OR2 + "; opacity:0"); fade(lb, 51.5, .25);
+          var lb = div(s, "30", "left:" + (c.X(0) + 10) + "px; top:" + (c.Y(30) - 56) + "px; font-size:34px; font-weight:800; color:" + OR2T + "; opacity:0"); fade(lb, 51.5, .25);
           source(s, "séance du 25/11 en cours"); })();
 
         // ===== 7. « C'est exactement ce qu'on anticipait dans notre newsletter de mardi matin » (52,13 → 57,4) =====
@@ -223,7 +223,7 @@
           card.style.opacity = 1;
           div(card, "<img src='assets/img/logo-financedata.png' style='width:72px; height:72px; border-radius:50%; vertical-align:middle'><span style='vertical-align:middle; margin-left:18px; font-size:32px; font-weight:700'>FinanceData</span>", "left:56px; top:56px");
           div(card, "Mardi 24 novembre, 7 h 13", "left:56px; top:150px; font-size:28px; font-weight:500; color:" + SOFT);
-          var t = div(card, "Attention au faux rebond", "left:56px; right:56px; top:230px; font-size:76px; font-weight:800; letter-spacing:-.04em; line-height:1.02"); tl.fromTo(t, { color: INK }, { color: OR2, duration: .3, immediateRender: false }, 55.9);
+          var t = div(card, "Attention au faux rebond", "left:56px; right:56px; top:230px; font-size:76px; font-weight:800; letter-spacing:-.04em; line-height:1.02"); tl.fromTo(t, { color: INK }, { color: OR2T, duration: .3, immediateRender: false }, 55.9);
           var q = div(card, "« Ce rebond violent ne suffit pas à effacer une tendance de fond plutôt négative. »", "left:56px; right:56px; top:450px; font-size:38px; font-weight:500; line-height:1.3; color:" + INK + "; border-left:6px solid " + OR2 + "; padding-left:28px"); tl.fromTo(q, { borderLeftColor: "#e6e8ee" }, { borderLeftColor: OR2, duration: .3, immediateRender: false }, 54.4);
           div(card, "La newsletter du mardi", "left:56px; bottom:56px; font-size:26px; font-weight:600; color:" + SOFT); })();
 
@@ -246,8 +246,8 @@
           [["2018-12-24", "VIX 36", 67.2], ["2020-03-23", "VIX 83", 67.6], ["2022-10-12", "VIX 34", 68.0], ["2025-04-08", "VIX 52", 68.4]].forEach(function (m, k) {
             var i = 0, best = 1e18; R.forEach(function (r, j) { var d = Math.abs(new Date(r[0]) - new Date(m[0])); if (d < best) { best = d; i = j; } });
             var lo = Math.min(R[i][1], R[Math.max(0, i - 1)][1], R[Math.min(R.length - 1, i + 1)][1]);
-            var cc = el(c.g, "circle", { cx: c.X(i), cy: c.Y(lo) + 26, r: 0, fill: VERT }); tl.fromTo(cc, { attr: { r: 0 } }, { attr: { r: 14 }, duration: .25, ease: "back.out(3)", immediateRender: false }, m[2]);
-            var lb = div(s, "<span style='display:inline-block; transform:translateX(-50%); white-space:nowrap'>" + m[1] + "</span>", "left:" + (c.X(i) + (k === 0 ? -18 : k === 1 ? 26 : 0)) + "px; top:" + (k === 1 ? c.Y(lo) - 30 : c.Y(lo) + 52) + "px; font-size:30px; font-weight:700; color:" + VERT + "; opacity:0"); fade(lb, m[2] + .05, .2); });
+            var cc = el(c.g, "circle", { cx: c.X(i), cy: c.Y(lo) + 26, r: 0, fill: "none", stroke: OR2, "stroke-width": 4 }); tl.fromTo(cc, { attr: { r: 0 } }, { attr: { r: 12 }, duration: .25, ease: "back.out(2)", immediateRender: false }, m[2]);
+            var lb = div(s, "<span style='display:inline-block; transform:translateX(-50%); white-space:nowrap'>" + m[1] + "</span>", "left:" + (c.X(i) + (k === 0 ? -18 : k === 1 ? 26 : 0)) + "px; top:" + (k === 1 ? c.Y(lo) - 30 : c.Y(lo) + 52) + "px; font-size:30px; font-weight:700; color:" + OR2T + "; opacity:0"); fade(lb, m[2] + .05, .2); });
           div(s, AMF, "top:1500px; line-height:1.3; font-size:24px; font-weight:600", "src");
           source(s, "VIX : clôture la plus haute de l'épisode"); })();
 
@@ -266,7 +266,7 @@
           var pub = div(bar, "Publier", "right:44px; top:0; line-height:106px; font-size:36px; font-weight:700; color:#0095f6; opacity:.35");
           tl.set(ph, { opacity: 0 }, 72.9); tl.set(ty, { textContent: "G" }, 72.9); tl.set(ty, { textContent: "GO" }, 73.05); tl.to(pub, { opacity: 1, duration: .1 }, 73.1);
           tl.to(pub, { scale: .9, duration: .08 }, 73.6); tl.to(pub, { scale: 1, duration: .15 }, 73.68); tl.set(ty, { textContent: "" }, 73.7); tl.set(ph, { opacity: 1 }, 73.7); tl.to(pub, { opacity: .35, duration: .1 }, 73.7);
-          var cm = div(s, "<div style='position:absolute; left:0; top:0; width:84px; height:84px; border-radius:50%; background:linear-gradient(135deg,#3d5afe,#7dd0f5)'></div><div style='position:absolute; left:110px; top:4px; font-size:30px; font-weight:700; color:#fff'>vous <span style='font-weight:400; color:rgba(255,255,255,.5)'>· à l'instant</span></div><div style='position:absolute; left:110px; top:44px; font-size:44px; font-weight:800; color:#fff'>GO</div><div style='position:absolute; right:0; top:22px; font-size:40px; color:#d6336c'>♥</div>", "left:120px; top:1060px; width:840px; height:100px; opacity:0");
+          var cm = div(s, "<div style='position:absolute; left:0; top:0; width:84px; height:84px; border-radius:50%; background:linear-gradient(135deg,#3d5afe,#7dd0f5)'></div><div style='position:absolute; left:110px; top:4px; font-size:30px; font-weight:700; color:#fff'>vous <span style='font-weight:400; color:rgba(255,255,255,.5)'>· à l'instant</span></div><div style='position:absolute; left:110px; top:44px; font-size:44px; font-weight:800; color:#fff'>GO</div><div style='position:absolute; right:0; top:22px; font-size:40px; color:#ff1744'>♥</div>", "left:120px; top:1060px; width:840px; height:100px; opacity:0");
           tl.fromTo(cm, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out", immediateRender: false }, 73.75); })();
 
 
