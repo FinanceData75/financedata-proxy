@@ -95,6 +95,7 @@ Il prolonge la conclusion et parle au viewer, pas au compte. Exemples :
 
 ## Pour la voix de synthèse
 
+- **« S&P 500 » se prononce toujours à l'anglaise** (« ess-and-pi »). Dans le texte envoyé à la voix de synthèse, écris « S and P 500 » : écrit « S&P », la voix française dit « S et P ». Vérifie-le à chaque génération en écoutant le passage ou en le faisant retranscrire.
 - **Écris les chiffres comme ils doivent être dits :** « 31 % » et non « +31 % » ; « 7 237 » avec une espace.
 - **Pas de deux-points, de tirets ni de parenthèses** dans le texte destiné à la voix : ils créent des pauses étranges.
 - **Garde en anglais les termes anglais usuels** (Nvidia, data centers, S&P 500) et signale ceux à vérifier à l'écoute.

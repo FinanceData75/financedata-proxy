@@ -100,6 +100,7 @@ Avant de livrer, chaque chiffre est vérifié à la source :
 
 ## Pour la voix (ElevenLabs, Hugo)
 
+- **« S&P 500 » se prononce toujours à l'anglaise** (« ess-and-pi »). Dans le texte envoyé à la voix de synthèse, écris « S and P 500 » : écrit « S&P », la voix française dit « S et P ». Vérifie-le à chaque génération en écoutant le passage ou en le faisant retranscrire.
 - Les nombres ambigus s'écrivent comme ils doivent être dits si la voix risque de se tromper (« 126 000 dollars » passe bien ; « S&P » doit être vérifié à l'oreille).
 - Les termes anglais (Fear and Greed, death cross) restent en anglais, sans être surjoués.
 - Pas de deux-points ni de tirets dans le texte destiné à la voix : ils créent des pauses bizarres.
