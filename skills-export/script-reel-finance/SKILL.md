@@ -1,11 +1,13 @@
 ---
-name: script-reel-financedata
-description: Écrit la voix off d'un reel Instagram/TikTok FinanceData (média finance français, 60 à 80 s, ton pédagogique et vouvoiement) sur une actualité de marché, un indicateur ou une action. À utiliser dès qu'on demande un script, un hook, une voix off, un reel ou un épisode de la série « le guide de la culture financière ». Livre le texte prêt pour la synthèse vocale, la vérification de chaque chiffre, un plan visuel et les points de vigilance AMF.
+name: script-reel-finance
+description: Écrit la voix off d'un reel Instagram/TikTok de vulgarisation financière en français (60 à 80 s, ton pédagogique, vouvoiement) sur une actualité de marché, un indicateur ou une action. À utiliser dès qu'on demande un script, un hook, une voix off, un reel ou un épisode d'une série vidéo sur la Bourse. Livre le texte prêt pour la synthèse vocale, la vérification de chaque chiffre, un plan visuel et les points de vigilance AMF.
 ---
 
-# Script de reel FinanceData
+# Script de reel finance
 
-Tu écris la voix off d'un reel vertical de 60 à 80 secondes pour **FinanceData**, un média français de culture financière (compte Instagram @financedatafr, newsletter hebdomadaire écrite par Lucas Ewig). Le public : de jeunes actifs français qui investissent ou veulent s'y mettre, pas des professionnels. Le script est lu par une voix de synthèse (ElevenLabs), puis monté avec des graphiques et des photos.
+Tu écris la voix off d'un reel vertical de 60 à 80 secondes pour un compte de vulgarisation financière en français. Le public : des particuliers qui investissent ou veulent s'y mettre, pas des professionnels. Le script est lu par une voix (humaine ou de synthèse), puis monté avec des graphiques et des photos.
+
+Avant d'écrire, demande ou repère ces informations si elles manquent : le nom du compte, le nom de la série vidéo (s'il y en a une) et le numéro de l'épisode, et l'existence d'une newsletter ou d'une analyse publiée récemment par le compte.
 
 Tout est en français, et le viewer est **toujours vouvoyé**.
 
@@ -25,9 +27,9 @@ Tout est en français, et le viewer est **toujours vouvoyé**.
 - Termine sur **une promesse forte mais vérifiable** : « …car c'est un signal qui a précédé chaque grande crise ». Une rareté chiffrée marche aussi : « C'est seulement la troisième fois depuis 2014. »
 - Le hook peut aussi se terminer sur **une curiosité ouverte** qui retient le viewer pendant la carte de série : « Et en réalité, tout part d'un seul secteur. »
 
-### 2. La carte de série (juste après le hook)
+### 2. La carte de série (juste après le hook, si le compte a une série)
 
-« Bienvenue dans le guide de la culture financière, épisode N. »
+« Bienvenue dans [nom de la série], épisode N. » Si le compte n'a pas de série, enchaîne directement sur l'explication.
 
 ### 3. L'explication
 
@@ -45,7 +47,7 @@ Elle est nuancée :
 - **sereine à long terme** : « ça ne remet pas en cause la tendance de long terme, le marché corrige simplement les excès des derniers mois » ;
 - **ouverte sur la suite** : « c'est justement dans ces phases de peur que des opportunités finissent par apparaître ».
 
-Si la newsletter avait anticipé le mouvement, dis-le : « C'est exactement ce qu'on anticipait dans notre newsletter de mardi matin. »
+Si le compte avait anticipé le mouvement (newsletter, post précédent), dis-le : « C'est exactement ce qu'on anticipait dans notre newsletter de mardi matin. »
 
 ### 5. Le CTA
 
@@ -107,16 +109,16 @@ Il prolonge la conclusion et parle au viewer, pas au compte. Exemples :
 6. Une phrase peut-elle être lue comme un conseil d'achat ou de vente ? Si oui, reformule.
 7. Le texte dépasse-t-il 80 s ? Si oui, propose quoi couper.
 
-## Exemple de script validé (épisode 9, novembre 2026)
+## Exemple de script validé (novembre 2026)
 
 > Le retour de Jensen Huang à la tête de Nvidia, 11 jours après sa démission, a fait exploser l'action de 31 % hier, et le S&P 500 a suivi. Mais il reste sous cette ligne, et vous devez absolument la surveiller, car c'est un signal qui a précédé chaque grande crise.
-> Bienvenue dans le guide de la culture financière, épisode 9.
+> Bienvenue dans [nom de la série], épisode 9.
 > Depuis son record du 6 octobre, l'indice a déjà perdu jusqu'à 12 %. Cette ligne, c'est la moyenne mobile à 200 jours. C'est le prix moyen du S&P 500 sur environ dix mois de Bourse. Et le 17 novembre, l'indice a clôturé en dessous. Depuis 1950, chaque grande crise est passée par là. En 1987, en 2000, en 2008, en 2020 et en 2022. Et à chaque fois, le plus gros de la chute est venu après. Car sous cette ligne, le marché devient deux fois plus nerveux. Sa volatilité passe de 12 % à 22 % par an, et c'est là que se sont produites 73 de ses 100 pires journées. Regardez. En janvier 2022, il passe dessous, puis perd encore 17 % en cinq mois. Et le rebond d'hier n'y change rien. Car le retour de Jensen Huang n'efface ni les craintes sur l'IA, ni la hausse des taux. Ces rebonds spectaculaires sont même typiques des phases de peur. Depuis 1950, 92 des 100 meilleures journées du S&P 500 ont eu lieu sous cette ligne. Pour nous, c'est l'heure de la méfiance. Tant que l'indice reste dessous, chaque rebond reste fragile. Et nous, on préfère être plus prudents. Et si vous voulez savoir quand le signal redevient positif, abonnez-vous.
 
-## Exemple de structure « triple coup dur » (épisode 8)
+## Exemple de structure « triple coup dur »
 
 > Les actions chutent, l'or chute, l'argent chute, et le Bitcoin aussi. Vendredi, les quatre ont même perdu plus de 3 % le même jour. Or, c'est seulement la troisième fois depuis 2014. Et en réalité, tout part d'un seul secteur.
-> Bienvenue dans le guide de la culture financière, épisode 8.
+> Bienvenue dans [nom de la série], épisode 8.
 > Ce secteur, c'est l'intelligence artificielle. Depuis deux ans, c'est lui qui fait monter les marchés. Mais depuis début novembre, il encaisse un triple coup dur.
 > Premier coup dur, les élections de mi-mandat aux États-Unis. Les démocrates ont gagné le Congrès, et les investisseurs craignent maintenant une réglementation plus stricte pour l'IA, et donc moins de croissance.
 > Deuxième coup dur, les taux d'intérêt américains, qui frôlent 5 %. Or, les entreprises empruntent des milliards pour financer leurs data centers. Donc plus les taux montent, plus la rentabilité prévue de l'IA recule.
