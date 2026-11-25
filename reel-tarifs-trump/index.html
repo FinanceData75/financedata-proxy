@@ -37,6 +37,11 @@
       <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="78.6" data-track-index="1"></audio>
       <div id="bgs" class="clip" data-start="0" data-duration="78.6" data-track-index="2" style="position:absolute; inset:0"><div id="bg"><div class="grid"></div></div></div>
       <div id="stage" class="clip" data-start="0" data-duration="78.6" data-track-index="3" style="position:absolute; inset:0"></div>
+      <video id="v-wallstreet" class="clip" src="assets/video/wallstreet.mp4" data-start="3.6" data-duration="1.49" data-track-index="4" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px"></video>
+      <video id="v-port" class="clip" src="assets/video/port.mp4" data-start="9.9" data-duration="1.55" data-track-index="4" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px"></video>
+      <video id="v-trader-rouge" class="clip" src="assets/video/trader-rouge.mp4" data-start="44.71" data-duration="1.57" data-track-index="4" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px"></video>
+      <video id="v-nyse-salle" class="clip" src="assets/video/nyse-salle.mp4" data-start="63.2" data-duration="1.5" data-track-index="4" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px"></video>
+      <video id="v-gratte-ciel" class="clip" src="assets/video/gratte-ciel.mp4" data-start="64.7" data-duration="1.47" data-track-index="4" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px"></video>
       <div id="top" class="clip" data-start="0" data-duration="78.6" data-track-index="5" style="position:absolute; inset:0; pointer-events:none"></div>
     </div>
     <script>
@@ -44,7 +49,7 @@
         var UID = 0; function uid(p) { UID += 1; return p + UID; }
         var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 78.6;
         var st = document.getElementById("stage"), top = document.getElementById("top");
-        var INK = "#0b1f44", SOFT = "#6b7280", RULE = "#d9dce3", VERT = "#10b981", ROUGE = "#e5484d", OR2 = "#e0a526", ACC = VERT, CLARET = ROUGE, DN = INK, DNT = ROUGE, GR = VERT, GRT = VERT, OR = OR2;
+        var INK = "#0b1f44", SOFT = "#6b7280", RULE = "#d9dce3", VERT = "#1c7ed6", ROUGE = "#d6336c", OR2 = "#7048e8", ACC = VERT, CLARET = ROUGE, DN = INK, DNT = ROUGE, GR = VERT, GRT = VERT, OR = OR2;
         function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
         function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
         function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
@@ -104,16 +109,13 @@
           c.line(0, mo - 1, INK, 7);
           c.line(mo - 1, mo, VERT, 9, .3, .4); c.dot(mo, VERT, .65, 1, 13);
           source(s); })();
-        // « Lundi, le retour de Jensen Huang faisait bondir Wall Street » : photos fixes
-        (function () { var sh = sc(1.77, 3.6), img = "<img src='assets/img/jensen-hd.jpg' style='width:1080px; height:1920px; object-fit:cover; object-position:50% 15%; display:block; transform:scale(1.35); transform-origin:510px 640px'>";
-          div(sh, img, "inset:0");
-          div(sh, img, "inset:0; filter:blur(7px) brightness(.92); -webkit-mask-image:radial-gradient(ellipse 430px 560px at 510px 680px, transparent 50%, #000 100%); mask-image:radial-gradient(ellipse 430px 560px at 510px 680px, transparent 50%, #000 100%)"); })();
-        montage([["nyse.jpg", 3.6, 5.09]]);
+        // « Lundi, le retour de Jensen Huang faisait bondir Wall Street » : photo fixe, puis vidéo (piste 4)
+        montage([["jensen-nb.jpg", 1.77, 3.6, "50% 30%"]]);
         // « Mais dès mardi, les actions, l'or et le Bitcoin rechutaient » : trois tuiles, les deux dernières séances en rouge
         (function () { var s = sc(5.09, 8.35);
           div(s, "Mardi 24 novembre", "left:100px; top:290px; font-size:64px; font-weight:800; letter-spacing:-.04em");
           [["Actions", "S&P 500", "spx", 6.09], ["Or", "L'once, en dollars", "gold", 6.69], ["Bitcoin", "En dollars", "btc", 7.21]].forEach(function (r, k) {
-            var y = 430 + k * 300, box = div(s, "", "left:100px; top:" + y + "px; width:880px; height:260px; border-top:2px solid #eceef2; opacity:0"); fade(box, r[3] - .1, .2);
+            var y = 430 + k * 300, box = div(s, "", "left:100px; top:" + y + "px; width:880px; height:260px; border-top:2px solid #eceef2");
             div(box, r[0], "left:0; top:40px; font-size:56px; font-weight:800; letter-spacing:-.03em");
             div(box, r[1], "left:0; top:118px; font-size:28px; font-weight:500; color:" + SOFT);
             var R = D[r[2]].filter(function (x) { return x[0] >= "2026-11-05" && x[0] <= "2026-11-24"; }), L = R.length - 1;
@@ -126,7 +128,7 @@
             var dt = el(g, "circle", { cx: X(L), cy: Y(R[L][1]), r: 0, fill: ROUGE }); tl.fromTo(dt, { attr: { r: 0 } }, { attr: { r: 11 }, duration: .2, immediateRender: false }, r[3] + .3); });
           source(s); })();
         // « Et ce mercredi, l'administration Trump a dévoilé de nouveaux droits de douane, et la baisse s'est accélérée »
-        montage([["trump.jpg", 8.35, 9.9, "50% 20%"], ["port-1.jpg", 9.9, 11.45, "50% 50%"]]);
+        montage([["trump-2.jpg", 8.35, 9.9, "50% 25%"]]);
         (function () { var s = sc(11.45, 13.55), R = D.spx.filter(function (r) { return r[0] >= "2026-10-15"; });
           head(s, "S&P 500", "Indice, en points", "−2,6 %", ROUGE, 12.1);
           var c = serie(s, R, { lo: 6800, hi: 7900, ticks: [7000, 7500], mstep: 1, pad: 3 }), L = c.L;
@@ -159,9 +161,10 @@
           head(s, "Droits de douane", "Proposition américaine du 25 novembre", "14 pays", ROUGE, 20.5);
           var P = ["Chine", "Union européenne", "Japon", "Corée du Sud", "Taïwan", "Inde", "Vietnam", "Thaïlande", "Indonésie", "Malaisie", "Singapour", "Suisse", "Cambodge", "Bangladesh"];
           P.forEach(function (p, k) { var hot = k < 2, x = 100 + (k % 2) * 450, y = 500 + Math.floor(k / 2) * 96;
-            var b = div(s, p, "left:" + x + "px; top:" + y + "px; width:430px; height:80px; line-height:80px; padding-left:28px; font-size:36px; font-weight:" + (hot ? 800 : 600) + "; letter-spacing:-.02em; background:" + (hot ? "rgba(229,72,77,.1)" : "#f4f5f8") + "; color:" + (hot ? ROUGE : INK) + "; opacity:0");
-            fade(b, (k === 0 ? 21.8 : k === 1 ? 22.25 : 20.55 + k * .04), .2);
-            if (hot) b.style.borderLeft = "6px solid " + ROUGE; });
+            var b = div(s, p, "left:" + x + "px; top:" + y + "px; width:430px; height:80px; line-height:80px; padding-left:28px; font-size:36px; font-weight:" + (hot ? 800 : 600) + "; letter-spacing:-.02em; background:" + (hot ? "rgba(214,51,108,.1)" : "#f4f5f8") + "; color:" + (hot ? ROUGE : INK) + "; opacity:0");
+            if (hot) { b.style.background = "#f4f5f8"; b.style.color = INK; b.style.fontWeight = 600;
+              var t = k === 0 ? 21.8 : 22.25; tl.to(b, { backgroundColor: "rgba(214,51,108,.1)", color: ROUGE, borderLeftWidth: 6, duration: .2 }, t); b.style.borderLeft = "0px solid " + ROUGE; }
+            b.style.opacity = 1; });
           var j = div(s, "Jusqu'à 20 %", "left:100px; top:1200px; font-size:40px; font-weight:700; color:" + ROUGE + "; opacity:0"); fade(j, 19.15, .25);
           source(s, "CNBC"); })();
         (function () { var s = sc(23.1, 30.5);
@@ -169,6 +172,7 @@
           var K = 8, base = 230, rows = [["Union européenne", [[0, 15, ROUGE]], "jusqu'à 15 %", 24.7], ["Chine", [[25, 0, GRIS], [20, 0, ROUGE]], "+20 % en plus des 25 % de 2018", 26.4]];
           rows.forEach(function (r, k) { var y = 560 + k * 300;
             div(s, r[0], "left:100px; top:" + y + "px; font-size:48px; font-weight:800; letter-spacing:-.03em");
+            div(s, "", "left:100px; top:" + (y + 80) + "px; width:" + (k === 0 ? 15 : 45) * K * 2 + "px; height:80px; background:#f1f2f6");
             var x = base - 130;
             if (k === 0) { var b = div(s, "", "left:100px; top:" + (y + 80) + "px; width:" + 15 * K * 2 + "px; height:80px; background:" + ROUGE + "; transform-origin:0 50%; transform:scaleX(0)"); tl.fromTo(b, { scaleX: 0 }, { scaleX: 1, duration: .45, ease: "power2.out", immediateRender: false }, r[3]); }
             else { var a = div(s, "", "left:100px; top:" + (y + 80) + "px; width:" + 25 * K * 2 + "px; height:80px; background:" + GRIS + "; transform-origin:0 50%; transform:scaleX(0)"), b2 = div(s, "", "left:" + (100 + 25 * K * 2) + "px; top:" + (y + 80) + "px; width:" + 20 * K * 2 + "px; height:80px; background:" + ROUGE + "; transform-origin:0 50%; transform:scaleX(0)");
@@ -185,7 +189,8 @@
           var rows = [["Nasdaq", pct(D.ndx, "2026-11-23", "2026-11-25"), 33.4], ["S&P 500", pct(D.spx, "2026-11-23", "2026-11-25"), 35.6], ["Nvidia", pct(D.nvda, "2026-11-23", "2026-11-25"), 37.25], ["Bitcoin", pct(D.btc, "2026-11-23", "2026-11-25"), 38.9], ["Or", pct(D.gold, "2026-11-23", "2026-11-25"), 39.45]];
           var K = 34, x0 = 360;
           rows.forEach(function (r, k) { var y = 520 + k * 150;
-            var lb = div(s, r[0], "left:100px; top:" + (y + 14) + "px; font-size:44px; font-weight:800; letter-spacing:-.03em; opacity:0"); fade(lb, r[2] - .15, .2);
+            div(s, r[0], "left:100px; top:" + (y + 14) + "px; font-size:44px; font-weight:800; letter-spacing:-.03em");
+            div(s, "", "left:" + x0 + "px; top:" + y + "px; width:" + Math.abs(r[1]) * K + "px; height:84px; background:#f1f2f6");
             var w = Math.abs(r[1]) * K, b = div(s, "", "left:" + x0 + "px; top:" + y + "px; width:" + w + "px; height:84px; background:" + ROUGE + "; transform-origin:0 50%; transform:scaleX(0)");
             tl.fromTo(b, { scaleX: 0 }, { scaleX: 1, duration: .45, ease: "power2.out", immediateRender: false }, r[2]);
             var v = div(s, pf(r[1]), "left:" + (x0 + w + 20) + "px; top:" + (y + 14) + "px; font-size:46px; font-weight:800; letter-spacing:-.03em; color:" + ROUGE + "; opacity:0"); fade(v, r[2] + .3, .2); });
@@ -195,7 +200,7 @@
         (function () { var s = sc(41.49, 44.71), R = D.spx.filter(function (r) { return r[0] >= "2026-11-10"; });
           head(s, "S&P 500", "Indice, en points");
           var c = serie(s, R, { lo: 6800, hi: 7700, ticks: [7000, 7500], mstep: 1, pad: 2 }), L = c.L, fri = at(R, "2026-11-20"), mon = at(R, "2026-11-23");
-          c.line(0, fri, GRIS, 7); c.line(fri, mon, VERT, 9); c.line(mon, L, ROUGE, 9, 41.6, .6);
+          c.line(0, fri, GRIS, 7); c.line(fri, mon, VERT, 9); c.line(mon, L, ROUGE, 9, 41.55, .4);
           var xR = c.X(mon) + 40, yA = c.Y(R[fri][1]), yB = c.Y(R[mon][1]), yC = c.Y(R[L][1]);
           var br = el(c.g, "path", { d: "M" + (xR + 120) + " " + yB + " H" + (xR + 140) + " V" + yA + " H" + (xR + 120), fill: "none", stroke: OR2, "stroke-width": 4, opacity: 0 }); fade(br, 42.3, .25);
           var sh = el(c.g, "rect", { x: xR + 150, y: yB, width: 14, height: yC - yB, fill: ROUGE, opacity: 0 }); fade(sh, 42.6, .25);
@@ -203,23 +208,23 @@
           source(s, "séance du 25/11 en cours"); })();
 
         // ===== 6. « Surtout, la peur revient » + le VIX (44,71 → 52,13) =====
-        montage([["trader-panique.jpg", 44.71, 46.28, "50% 30%"]]);
+        
         (function () { var s = sc(46.28, 52.13), R = D.vix.filter(function (r) { return r[0] >= "2026-08-01"; });
           head(s, "VIX", "L'indice de la peur", pf(pct(D.vix, "2026-11-24", "2026-11-25")), ROUGE, 48.9);
           var c = serie(s, R, { lo: 10, hi: 40, ticks: [10, 20, 30, 40], mstep: 2, pad: 3 }), L = c.L;
           var h = el(c.cam, "line", { x1: c.X(0), x2: c.X(L) + 60, y1: c.Y(30), y2: c.Y(30), stroke: OR2, "stroke-width": 4, "stroke-dasharray": "14 10" }); fade(h, 50.6, .3);
-          c.line(0, L - 1, GRIS, 7, 46.35, 1.2); c.line(L - 1, L, ROUGE, 9, 48.5, .5); c.dot(L, ROUGE, 49.0, 1, 13);
+          c.line(0, L - 1, GRIS, 7); c.line(L - 1, L, ROUGE, 9, 48.5, .5); c.dot(L, ROUGE, 49.0, 1, 13);
           var lb = div(s, "30", "left:" + (c.X(0) + 10) + "px; top:" + (c.Y(30) - 56) + "px; font-size:34px; font-weight:800; color:" + OR2 + "; opacity:0"); fade(lb, 51.5, .25);
           source(s, "séance du 25/11 en cours"); })();
 
         // ===== 7. « C'est exactement ce qu'on anticipait dans notre newsletter de mardi matin » (52,13 → 57,4) =====
         (function () { var s = sc(52.13, 57.4); s.style.background = "#f4f5f8";
           var card = div(s, "", "left:110px; top:430px; width:860px; height:860px; background:#fff; border-radius:24px; box-shadow:0 30px 80px rgba(11,31,68,.12); opacity:0");
-          tl.fromTo(card, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .5, ease: "power3.out", immediateRender: false }, 52.2);
+          card.style.opacity = 1;
           div(card, "<img src='assets/img/logo-financedata.png' style='width:72px; height:72px; border-radius:50%; vertical-align:middle'><span style='vertical-align:middle; margin-left:18px; font-size:32px; font-weight:700'>FinanceData</span>", "left:56px; top:56px");
           div(card, "Mardi 24 novembre, 7 h 13", "left:56px; top:150px; font-size:28px; font-weight:500; color:" + SOFT);
-          var t = div(card, "Attention au faux rebond", "left:56px; right:56px; top:230px; font-size:76px; font-weight:800; letter-spacing:-.04em; line-height:1.02; opacity:0"); fade(t, 55.9, .3);
-          var q = div(card, "« Ce rebond violent ne suffit pas à effacer une tendance de fond plutôt négative. »", "left:56px; right:56px; top:450px; font-size:38px; font-weight:500; line-height:1.3; color:" + INK + "; border-left:6px solid " + OR2 + "; padding-left:28px; opacity:0"); fade(q, 54.4, .3);
+          var t = div(card, "Attention au faux rebond", "left:56px; right:56px; top:230px; font-size:76px; font-weight:800; letter-spacing:-.04em; line-height:1.02"); tl.fromTo(t, { color: INK }, { color: OR2, duration: .3, immediateRender: false }, 55.9);
+          var q = div(card, "« Ce rebond violent ne suffit pas à effacer une tendance de fond plutôt négative. »", "left:56px; right:56px; top:450px; font-size:38px; font-weight:500; line-height:1.3; color:" + INK + "; border-left:6px solid " + OR2 + "; padding-left:28px"); tl.fromTo(q, { borderLeftColor: "#e6e8ee" }, { borderLeftColor: OR2, duration: .3, immediateRender: false }, 54.4);
           div(card, "La newsletter du mardi", "left:56px; bottom:56px; font-size:26px; font-weight:600; color:" + SOFT); })();
 
         // ===== 8. « le vrai problème des marchés, des taux américains proches de 5 % » (57,4 → 63,2) =====
@@ -227,17 +232,17 @@
           head(s, "Taux à 10 ans", "Obligation d'État américaine, en %", fr(R[R.length - 1][1], 1) + " %", ROUGE, 62.4);
           var c = serie(s, R, { lo: 3.4, hi: 5.6, ticks: [3.5, 4, 4.5, 5, 5.5], tf: function (v) { return fr(v, 1) + " %"; }, mstep: 3, pad: 3 }), L = c.L;
           var h = el(c.cam, "line", { x1: c.X(0), x2: c.X(L) + 60, y1: c.Y(5), y2: c.Y(5), stroke: OR2, "stroke-width": 4, "stroke-dasharray": "14 10" }); fade(h, 62.3, .3);
-          c.line(0, at(R, "2026-06-01"), GRIS, 7, 57.5, 1.5); c.line(at(R, "2026-06-01"), L, ROUGE, 8, 59.0, 1.6); c.dot(L, ROUGE, 60.7, 1, 12);
+          c.line(0, at(R, "2026-06-01"), GRIS, 7); c.line(at(R, "2026-06-01"), L, ROUGE, 8, 57.6, 1.4); c.dot(L, ROUGE, 59.0, 1, 12);
           source(s); })();
 
         // ===== 9. « les investisseurs vendent tout, sans faire le tri » =====
-        montage([["salle-chaos.jpg", 63.2, 64.7], ["trader-ecrans.jpg", 64.7, 66.17, "50% 0%"]]);
+        
 
         // ===== 10. Opportunités : les creux du S&P 500 quand la peur explose (66,17 → 72,46) =====
         (function () { var t0 = 66.17, s = sc(t0, 72.46), R = window.E.long.filter(function (r) { return r[0] >= "2018-01-01"; });
           head(s, "S&P 500", "Les creux de la peur");
           var c = serie(s, R, { lo: 1900, hi: 10000, log: true, years: 2, pad: 8, ticks: [2000, 4000, 8000] });
-          c.line(0, c.L, GRIS, 6, t0 + .05, 1.0);
+          c.line(0, c.L, GRIS, 6);
           [["2018-12-24", "VIX 36", 67.2], ["2020-03-23", "VIX 83", 67.6], ["2022-10-12", "VIX 34", 68.0], ["2025-04-08", "VIX 52", 68.4]].forEach(function (m, k) {
             var i = 0, best = 1e18; R.forEach(function (r, j) { var d = Math.abs(new Date(r[0]) - new Date(m[0])); if (d < best) { best = d; i = j; } });
             var lo = Math.min(R[i][1], R[Math.max(0, i - 1)][1], R[Math.min(R.length - 1, i + 1)][1]);
@@ -261,7 +266,7 @@
           var pub = div(bar, "Publier", "right:44px; top:0; line-height:106px; font-size:36px; font-weight:700; color:#0095f6; opacity:.35");
           tl.set(ph, { opacity: 0 }, 72.9); tl.set(ty, { textContent: "G" }, 72.9); tl.set(ty, { textContent: "GO" }, 73.05); tl.to(pub, { opacity: 1, duration: .1 }, 73.1);
           tl.to(pub, { scale: .9, duration: .08 }, 73.6); tl.to(pub, { scale: 1, duration: .15 }, 73.68); tl.set(ty, { textContent: "" }, 73.7); tl.set(ph, { opacity: 1 }, 73.7); tl.to(pub, { opacity: .35, duration: .1 }, 73.7);
-          var cm = div(s, "<div style='position:absolute; left:0; top:0; width:84px; height:84px; border-radius:50%; background:linear-gradient(135deg,#3d5afe,#7dd0f5)'></div><div style='position:absolute; left:110px; top:4px; font-size:30px; font-weight:700; color:#fff'>vous <span style='font-weight:400; color:rgba(255,255,255,.5)'>· à l'instant</span></div><div style='position:absolute; left:110px; top:44px; font-size:44px; font-weight:800; color:#fff'>GO</div><div style='position:absolute; right:0; top:22px; font-size:40px; color:#e5484d'>♥</div>", "left:120px; top:1060px; width:840px; height:100px; opacity:0");
+          var cm = div(s, "<div style='position:absolute; left:0; top:0; width:84px; height:84px; border-radius:50%; background:linear-gradient(135deg,#3d5afe,#7dd0f5)'></div><div style='position:absolute; left:110px; top:4px; font-size:30px; font-weight:700; color:#fff'>vous <span style='font-weight:400; color:rgba(255,255,255,.5)'>· à l'instant</span></div><div style='position:absolute; left:110px; top:44px; font-size:44px; font-weight:800; color:#fff'>GO</div><div style='position:absolute; right:0; top:22px; font-size:40px; color:#d6336c'>♥</div>", "left:120px; top:1060px; width:840px; height:100px; opacity:0");
           tl.fromTo(cm, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out", immediateRender: false }, 73.75); })();
 
 
