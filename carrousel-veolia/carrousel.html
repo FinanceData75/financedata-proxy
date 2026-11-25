@@ -51,15 +51,15 @@
     var d = R.map(function (r, i) { return (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(r[1]).toFixed(1); }).join("");
     el(g, "path", { d: d, fill: "none", stroke: RED, "stroke-width": 4.5, "stroke-linejoin": "round" });
     // annotations : valeur en gras, date en italique, flèche courbe
-    var defs = el(g, "defs", {}), mk = el(defs, "marker", { id: "ah", viewBox: "0 0 10 10", refX: 8, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto-start-reverse" });
+    var defs = el(g, "defs", {}), mk = el(defs, "marker", { id: "ah", viewBox: "0 0 10 10", refX: 8, refY: 5, markerWidth: 5, markerHeight: 5, orient: "auto-start-reverse" });
     el(mk, "path", { d: "M0 0 L10 5 L0 10", fill: "none", stroke: "#fff", "stroke-width": 1.6 });
     function note(date, val, when, tx, ty, cx, cy) { var i = 0; R.forEach(function (r, k) { if (r[0] === date) i = k; }); var px = X(i), py = Y(R[i][1]);
       el(g, "text", { x: tx, y: ty, "font-size": 40, fill: "#fff", "font-weight": 700, "text-anchor": "middle" }, val);
       el(g, "text", { x: tx, y: ty + 40, "font-size": 32, fill: "#fff", "font-weight": 400, "font-style": "italic", "text-anchor": "middle" }, when);
-      el(g, "path", { d: "M" + cx[0] + " " + cx[1] + " Q" + cy[0] + " " + cy[1] + " " + (px + cy[2]) + " " + (py + cy[3]), fill: "none", stroke: "#fff", "stroke-width": 2, "marker-end": "url(#ah)" }); }
-    note("2016-11-03", "26 957€", "en novembre 2016", 400, 1000, [330, 950], [290, 900, -2, 18]);
-    note("2026-07-15", "86 545€", "en juillet 2026", 690, 360, [800, 345], [920, 330, -6, -6]);
-    note("2026-11-24", "78 887€", "en novembre 2026", 880, 960, [960, 905], [1000, 800, 0, 12]);
+      el(g, "path", { d: "M" + cx[0] + " " + cx[1] + " Q" + cy[0] + " " + cy[1] + " " + (px + cy[2]) + " " + (py + cy[3]), fill: "none", stroke: "#fff", "stroke-width": 1.8, "marker-end": "url(#ah)" }); }
+    note("2016-11-03", "26 957€", "en novembre 2016", 391, 1000, [391, 958], [386, 940, 0, 16]);
+    note("2026-07-15", "86 545€", "en juillet 2026", 830, 390, [930, 380], [960, 385, -8, -8]);
+    note("2026-11-24", "78 887€", "en novembre 2026", 780, 515, [900, 520], [960, 532, -12, 4]);
   })();
   var p = +(new URLSearchParams(location.search).get("p") || 1); document.getElementById("p" + p).style.display = "block";
 </script>
