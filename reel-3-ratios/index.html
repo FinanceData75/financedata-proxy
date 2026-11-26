@@ -37,6 +37,7 @@
       <div id="stage" class="clip" data-start="0" data-duration="86" data-track-index="2" style="position:absolute; inset:0; background:#fff"></div>
       <video id="v-bourse" class="clip vid" src="assets/video/bourse.mp4" data-start="6.59" data-duration="5.97" data-track-index="3" muted playsinline></video>
       <video id="v-billets-2" class="clip vid" src="assets/video/billets-2.mp4" data-start="47.69" data-duration="3.49" data-track-index="3" muted playsinline></video>
+      <video id="v-outil" class="clip" src="assets/video/outil.mp4" data-start="78.95" data-duration="7.05" data-track-index="3" muted playsinline style="position:absolute; left:280px; top:200px; width:520px; height:1125px; border-radius:50px; object-fit:cover"></video>
       <div id="top" class="clip" data-start="0" data-duration="86" data-track-index="4" style="position:absolute; inset:0; pointer-events:none"></div>
     </div>
     <script>
@@ -202,21 +203,18 @@
               div(row, r[3][k], "right:0; top:22px; font-size:60px; font-weight:800; letter-spacing:-.04em; color:" + (r[4][k] ? ROUGE : INK)); }); });
           div(s, AMF, "top:1230px; text-align:center; line-height:1.3; font-size:28px; font-weight:600", "src"); })();
 
-        // ===== 17. CTA (78,95 → fin) : commentez « OUTIL » =====
-        (function () { var t0 = 78.95, s = sc(t0, 999); s.style.background = "radial-gradient(ellipse 70% 45% at 50% 38%, #06204f 0%, #000a1f 55%, #00040d 100%)";
-          var avt = div(s, "<svg viewBox='0 0 320 320' style='position:absolute; inset:0; width:100%; height:100%'><defs><linearGradient id='gStory' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.3' stop-color='#fa7e1e'/><stop offset='.6' stop-color='#d62976'/><stop offset='1' stop-color='#962fbf'/></linearGradient></defs><circle id='ring' cx='160' cy='160' r='152' fill='none' stroke='url(#gStory)' stroke-width='10' transform='rotate(-90 160 160)'/></svg><div class='pic'><img src='assets/img/logo-financedata.png'></div>", "", "");
-          avt.id = "avatar";
-          tl.fromTo(avt, { opacity: 0, scale: .6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .5, ease: "power3.out", immediateRender: false }, t0 + .05);
-          var ring = document.getElementById("ring"), rl = 2 * Math.PI * 152; ring.style.strokeDasharray = rl + " " + rl; ring.style.strokeDashoffset = rl;
-          tl.fromTo(ring, { strokeDashoffset: rl }, { strokeDashoffset: 0, duration: .8, ease: "power2.inOut", immediateRender: false }, t0 + .1);
-          fade(div(s, "financedatafr", "left:0; right:0; top:730px; text-align:center; font-size:56px; font-weight:700; letter-spacing:-.04em; color:#fff; opacity:0"), t0 + .25);
-          var bar = div(s, "", "left:110px; top:880px; width:860px; height:110px; border-radius:55px; background:rgba(255,255,255,.08); border:2px solid rgba(255,255,255,.18); opacity:0"); fade(bar, t0 + .4, .3);
-          var ph = div(bar, "Ajouter un commentaire…", "left:48px; top:0; line-height:106px; font-size:36px; color:rgba(255,255,255,.45)");
+        // ===== 17. CTA (78,95 → fin) : l'outil filmé dans un téléphone, puis commentez « OUTIL » =====
+        (function () { var t0 = 78.95, s = sc(t0, 999); s.style.background = "radial-gradient(ellipse 80% 55% at 50% 40%, #0d2a63 0%, #071634 60%, #030b1d 100%)";
+          var ph = div(s, "", "left:266px; top:186px; width:548px; height:1153px; border-radius:62px; background:#000; box-shadow:0 0 0 3px rgba(255,255,255,.14), 0 40px 120px rgba(0,0,0,.55)");
+          var vid = document.getElementById("v-outil");
+          [ph, vid].forEach(function (n) { tl.fromTo(n, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: .5, ease: "power3.out", immediateRender: false }, t0); });
+          var bar = div(s, "", "left:110px; top:1420px; width:860px; height:110px; border-radius:55px; background:rgba(255,255,255,.08); border:2px solid rgba(255,255,255,.18); opacity:0"); fade(bar, t0 + .2, .3);
+          var phd = div(bar, "Ajouter un commentaire…", "left:48px; top:0; line-height:106px; font-size:36px; color:rgba(255,255,255,.45)");
           var ty = div(bar, "", "left:48px; top:0; line-height:106px; font-size:44px; font-weight:700; color:#fff");
           var pub = div(bar, "Publier", "right:44px; top:0; line-height:106px; font-size:36px; font-weight:700; color:#0095f6; opacity:.35");
-          tl.set(ph, { opacity: 0 }, 79.45); ["O", "OU", "OUT", "OUTI", "OUTIL"].forEach(function (t, k) { tl.set(ty, { textContent: t }, 79.45 + k * .07); }); tl.to(pub, { opacity: 1, duration: .1 }, 79.8);
-          tl.to(pub, { scale: .9, duration: .08 }, 80.3); tl.to(pub, { scale: 1, duration: .15 }, 80.38); tl.set(ty, { textContent: "" }, 80.4); tl.set(ph, { opacity: 1 }, 80.4); tl.to(pub, { opacity: .35, duration: .1 }, 80.4);
-          var cm = div(s, "<div style='position:absolute; left:0; top:0; width:84px; height:84px; border-radius:50%; background:linear-gradient(135deg,#3d5afe,#7dd0f5)'></div><div style='position:absolute; left:110px; top:4px; font-size:30px; font-weight:700; color:#fff'>vous <span style='font-weight:400; color:rgba(255,255,255,.5)'>· à l'instant</span></div><div style='position:absolute; left:110px; top:44px; font-size:44px; font-weight:800; color:#fff'>OUTIL</div><div style='position:absolute; right:0; top:22px; font-size:40px; color:#ff1744'>♥</div>", "left:120px; top:1060px; width:840px; height:100px; opacity:0");
+          tl.set(phd, { opacity: 0 }, 79.45); ["O", "OU", "OUT", "OUTI", "OUTIL"].forEach(function (t, k) { tl.set(ty, { textContent: t }, 79.45 + k * .07); }); tl.to(pub, { opacity: 1, duration: .1 }, 79.8);
+          tl.to(pub, { scale: .9, duration: .08 }, 80.3); tl.to(pub, { scale: 1, duration: .15 }, 80.38); tl.set(ty, { textContent: "" }, 80.4); tl.set(phd, { opacity: 1 }, 80.4); tl.to(pub, { opacity: .35, duration: .1 }, 80.4);
+          var cm = div(s, "<img src='assets/img/logo-financedata.png' style='position:absolute; left:0; top:0; width:84px; height:84px; border-radius:50%'><div style='position:absolute; left:110px; top:4px; font-size:30px; font-weight:700; color:#fff'>vous <span style='font-weight:400; color:rgba(255,255,255,.5)'>· à l'instant</span></div><div style='position:absolute; left:110px; top:44px; font-size:44px; font-weight:800; color:#fff'>OUTIL</div><div style='position:absolute; right:0; top:22px; font-size:40px; color:#ff1744'>♥</div>", "left:120px; top:1580px; width:840px; height:100px; opacity:0");
           tl.fromTo(cm, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out", immediateRender: false }, 80.45); })();
 
         // ===== sous-titres : 3 mots max, « P E » → « P/E », masqués quand le texte est déjà à l'écran =====
