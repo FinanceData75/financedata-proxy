@@ -54,13 +54,19 @@
   .rule span { display: flex; align-items: center; gap: 7px; }
   .rule i { width: 8px; height: 8px; border-radius: 50%; }
 
-  .insidr { display: block; margin-top: 56px; text-decoration: none; color: var(--navy); border: 1.5px solid var(--line); border-radius: 20px; padding: 22px 20px; transition: border-color .15s; }
-  .insidr:hover { border-color: var(--navy); }
+  .insidr { margin-top: 56px; color: var(--navy); border: 1.5px solid var(--line); border-radius: 20px; padding: 22px 20px; }
   .insidr small { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--soft); }
-  .insidr strong { display: block; font-family: "League Spartan"; font-weight: 700; font-size: 24px; line-height: 1.1; letter-spacing: -.01em; margin: 8px 0 6px; }
-  .insidr p { font-size: 14.5px; color: #4a5470; }
-  .insidr em { display: inline-block; margin-top: 14px; font-style: normal; font-weight: 600; font-size: 15px; background: var(--navy); color: #fff; padding: 10px 18px; border-radius: 999px; }
-  .insidr .sub { display: block; margin-top: 10px; font-size: 12.5px; color: var(--soft); }
+  .insidr strong { display: block; font-family: "League Spartan"; font-weight: 700; font-size: 25px; line-height: 1.08; letter-spacing: -.01em; margin: 8px 0 8px; }
+  .insidr > p { font-size: 14.5px; color: #4a5470; }
+  .insidr form { margin-top: 18px; }
+  .insidr label { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 6px; }
+  .insidr input { font-size: 17px !important; }
+  .insidr button { width: 100%; margin-top: 10px; border: 0; cursor: pointer; font: 600 16px "DM Sans"; background: var(--navy); color: #fff; padding: 15px 18px; border-radius: 12px; transition: opacity .15s; }
+  .insidr button:hover { opacity: .9; }
+  .insidr button:disabled { opacity: .5; cursor: default; }
+  .insidr [role="status"] { margin-top: 10px; font-size: 14px; font-weight: 600; color: var(--navy); }
+  .insidr [role="status"]:empty { display: none; }
+  .insidr .sub { display: block; margin-top: 10px; font-size: 12.5px; color: var(--soft); text-align: center; }
   footer { margin: 40px 0 40px; font-size: 12px; color: var(--soft); }
   footer a { color: inherit; }
 
@@ -125,13 +131,18 @@
       <span><i style="background:var(--red)"></i>Cher</span>
     </div>
 
-    <a class="insidr" id="insidr" href="#" target="_blank" rel="noopener">
+    <section class="insidr" aria-labelledby="insidr-t">
       <small>Nouveau · Insidr</small>
-      <strong>Vous savez si une action est chère. Savez-vous qui l'achète&nbsp;?</strong>
-      <p>Quand un PDG achète les actions de sa propre entreprise, ou qu'un élu passe un ordre en Bourse, c'est rarement un hasard. Insidr vous prévient en direct, dès que l'achat est déclaré.</p>
-      <em>Rejoindre la waitlist</em>
+      <strong id="insidr-t">Suivez les actions qu'achètent les meilleurs investisseurs en direct</strong>
+      <p>Quand un PDG achète les actions de sa propre entreprise, ou qu'un élu passe un ordre en Bourse, c'est rarement un hasard. Insidr vous prévient dès que l'achat est déclaré.</p>
+      <form id="insidr-waitlist">
+        <label for="insidr-email">Adresse e-mail</label>
+        <div class="box"><input id="insidr-email" name="email" type="email" autocomplete="email" placeholder="vous@exemple.com" required></div>
+        <button type="submit">Rejoindre la waitlist</button>
+        <p role="status"></p>
+      </form>
       <span class="sub">Gratuit · accès en avant-première</span>
-    </a>
+    </section>
 
     <footer>
       Ceci n'est pas un conseil en investissement. Outil pédagogique, investir comporte un risque de perte en capital. Exemples au 26/11/2026.<br>
@@ -154,10 +165,6 @@
     var d; try { d = typeof e.data === "string" ? e.data : JSON.stringify(e.data); } catch (x) { return; }
     if (/success|subscribed|submitted|confirm/i.test(d || "")) unlock();
   });
-
-  /* Lien de la waitlist Insidr (à remplacer) */
-  var INSIDR_URL = "https://insidr.app";
-  document.getElementById("insidr").href = INSIDR_URL;
 
   var EX = {
     hermes:    { cours: 1272, capi: 133900, bna: 43, bna2: 47, fcf: 4554 },
@@ -201,6 +208,42 @@
   document.querySelectorAll(".ex button").forEach(function (b) { b.addEventListener("click", function () { fill(b.dataset.ex); }); });
   fill("vide"); $("cours").blur();
 })();
+</script>
+<script>
+  /* Waitlist Insidr */
+  (() => {
+    const endpoint = 'https://script.google.com/macros/s/AKfycbyzn8KBMmQkx_qJoJcwaj_qmMTgVqJFIQNNPCcbAGdAK8t1zyO0_xNdRdwFwcdxrszS/exec';
+    const form = document.querySelector('#insidr-waitlist');
+    const button = form.querySelector('button');
+    const status = form.querySelector('[role="status"]');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (button.disabled) return;
+      button.disabled = true;
+      status.textContent = 'Inscription en cours…';
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: JSON.stringify({
+            email: form.elements.email.value.trim(),
+            source: 'insidr-waitlist',
+            page: location.origin + location.pathname,
+            ref: '',
+            ts: new Date().toISOString()
+          })
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        form.reset();
+        status.textContent = 'Merci ! Votre demande a été envoyée.';
+      } catch {
+        status.textContent = 'Impossible de confirmer l’inscription. Réessayez dans un instant.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  })();
 </script>
 </body>
 </html>
