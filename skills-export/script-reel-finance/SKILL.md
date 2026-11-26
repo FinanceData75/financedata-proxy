@@ -58,7 +58,8 @@ Il prolonge la conclusion et parle au viewer, pas au compte. Exemples :
 
 ## Le style
 
-- **Fluide, avec des connecteurs logiques dans tout le texte** : donc, or, car, résultat, alors, et du coup, d'ailleurs, en réalité, face à ces chocs, c'est pour ça que, d'abord / ensuite / enfin. Chaque phrase doit découler de la précédente.
+- **Fluide, avec des connecteurs logiques dans tout le texte** : donc, car, résultat, sauf que, le problème, c'est que, alors, et du coup, d'ailleurs, en réalité, face à ces chocs, c'est pour ça que, d'abord / ensuite / enfin. Chaque phrase doit découler de la précédente.
+- **Jamais « or » comme connecteur** : personne ne le dit à l'oral. Remplacez-le par « sauf que », « le problème, c'est que », « mais » ou « et justement ».
 - **Compréhensible par tout le monde :**
   - précise toujours le pays ou la zone : « les élections de mi-mandat aux États-Unis », « les taux d'intérêt américains » ;
   - définis chaque terme technique en quelques mots, la première fois : « le VIX, qu'on appelle aussi l'indice de la peur » ; « la moyenne mobile à 200 jours, c'est le prix moyen du S&P 500 sur environ dix mois de Bourse ».
@@ -118,11 +119,11 @@ Il prolonge la conclusion et parle au viewer, pas au compte. Exemples :
 
 ## Exemple de structure « triple coup dur »
 
-> Les actions chutent, l'or chute, l'argent chute, et le Bitcoin aussi. Vendredi, les quatre ont même perdu plus de 3 % le même jour. Or, c'est seulement la troisième fois depuis 2014. Et en réalité, tout part d'un seul secteur.
+> Les actions chutent, l'or chute, l'argent chute, et le Bitcoin aussi. Vendredi, les quatre ont même perdu plus de 3 % le même jour. Et c'est seulement la troisième fois depuis 2014. Et en réalité, tout part d'un seul secteur.
 > Bienvenue dans [nom de la série], épisode 8.
 > Ce secteur, c'est l'intelligence artificielle. Depuis deux ans, c'est lui qui fait monter les marchés. Mais depuis début novembre, il encaisse un triple coup dur.
 > Premier coup dur, les élections de mi-mandat aux États-Unis. Les démocrates ont gagné le Congrès, et les investisseurs craignent maintenant une réglementation plus stricte pour l'IA, et donc moins de croissance.
-> Deuxième coup dur, les taux d'intérêt américains, qui frôlent 5 %. Or, les entreprises empruntent des milliards pour financer leurs data centers. Donc plus les taux montent, plus la rentabilité prévue de l'IA recule.
+> Deuxième coup dur, les taux d'intérêt américains, qui frôlent 5 %. Le problème, c'est que les entreprises empruntent des milliards pour financer leurs data centers. Donc plus les taux montent, plus la rentabilité prévue de l'IA recule.
 > Troisième coup dur, la spirale négative de Nvidia, le leader mondial des puces pour l'IA. L'entreprise est visée par plusieurs enquêtes, et son action a perdu près de la moitié de sa valeur en six semaines.
 > Résultat, avec ces inquiétudes, les investisseurs vendent les actifs risqués, comme les actions technologiques, les cryptos et même les métaux. Et du coup, ils achètent les actifs plus sûrs, comme le dollar, qui est au plus haut depuis mars 2025, les obligations américaines, portées par ces taux élevés, et les actions défensives, comme l'alimentation ou la santé.
 > D'ailleurs, regardez. Depuis début octobre, les actions tech ont perdu 26 %. Alors que dans le même temps, l'alimentation a pris 10 %, et la santé 6 %.

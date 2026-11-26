@@ -48,6 +48,7 @@ Les règles du hook :
 - On passe de la peur à l'envie : la phrase 1 inquiète, la dernière fait espérer. C'est ce retournement qui retient le viewer.
 - Le hook dure au maximum 12 s à la lecture (environ 35 mots).
 - Pas de connecteurs logiques lourds (« en effet », « par conséquent »). « Et » et « mais » suffisent.
+- Jamais « or » en début de phrase : personne ne le dit à l'oral. Dites « sauf que », « le problème, c'est que », « mais » ou « et justement ».
 - On ne nomme pas l'indicateur technique dans le hook : le jargon fait perdre le grand public.
 - On vérifie que le précédent cité est exact **en clôture**, pas seulement en séance. Si ce n'était qu'un passage en séance, on le dit ou on choisit un autre précédent.
 

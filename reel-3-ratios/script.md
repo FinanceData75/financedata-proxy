@@ -1,20 +1,16 @@
 # Épisode 11 : les 3 chiffres à regarder avant d'acheter une action (P/E, P/FCF, PEG)
 
-Une action BNP Paribas coûte 90 €, une action Dassault Systèmes 22 €. Pourtant, rapportée à ses bénéfices, BNP est presque trois fois moins chère. Voici les 3 chiffres qui vous disent ce que coûte vraiment une action.
+Voici les 3 chiffres qui vous disent ce que coûte vraiment une action. Car regarder le prix seul ne veut rien dire. Une action à 1 000 euros peut être une bonne affaire, et une action à 10 euros peut être hors de prix. D'ailleurs, regardez. L'action Hermès vaut 1 272 euros, et celle de Carrefour 13,80. Pourtant, c'est Hermès qui est la plus chère. Et pour le comprendre, il vous faut ces 3 chiffres.
 
 [Carte] Bienvenue dans le guide de la culture financière, épisode 11.
 
-Car le prix d'une action, seul, ne veut rien dire. Ce qui compte, c'est ce que vous achetez avec.
+Premier chiffre, le P/E. C'est le prix de l'action divisé par son bénéfice sur un an. Autrement dit, combien vous payez pour chaque euro que l'entreprise gagne. Carrefour est à 12, donc vous payez 12 euros pour 1 euro de bénéfice. Hermès, elle, est à 30.
 
-Le premier chiffre, c'est le PER, le ratio cours sur bénéfices. Il vous dit combien vous payez pour 1 € de bénéfice annuel. Aujourd'hui, chez BNP, vous payez environ 8 €. Chez Dassault Systèmes, plus de 22 €. Autrement dit, l'action à 90 € est en réalité bien moins chère.
+Deuxième chiffre, le P/FCF. Même idée, mais avec le cash que l'entreprise génère vraiment, une fois ses investissements payés. Car un bénéfice peut être embelli, alors que le cash, lui, ne ment pas. Carrefour est autour de 4, Hermès autour de 29.
 
-Or un bénéfice reste un chiffre comptable. D'où le deuxième ratio : le cours sur free cash flow, c'est-à-dire l'argent qui reste vraiment dans les caisses une fois les investissements payés. Chez LVMH, ce ratio tombe à 14, sous son PER de 18 : le groupe génère donc plus de cash que de bénéfices. À l'inverse, chez Air Liquide, il grimpe à 45, contre un PER de 34, car l'entreprise réinvestit massivement dans ses usines.
-
-Mais une action chère n'est pas forcément trop chère, si ses bénéfices grimpent vite. C'est là qu'intervient le troisième chiffre : le PEG, le PER divisé par la croissance attendue des bénéfices. Résultat, chez Dassault Systèmes, avec une croissance attendue d'environ 5 % par an, le PEG dépasse 4. Chez LVMH, avec environ 11 %, il tombe autour de 1,7.
-
-Alors retenez cette règle simple. Sous 1, l'action paraît bon marché par rapport à sa croissance. Entre 1 et 2, le prix est raisonnable. Au-dessus de 2, vous payez déjà cher la croissance future.
+Troisième chiffre, le PEG. C'est le P/E divisé par la croissance attendue des bénéfices. Donc il vous dit si vous payez cher une vraie croissance. Et voici la règle simple. Sous 1, vous payez la croissance au rabais. Entre 1 et 2, c'est un prix juste. Au-dessus de 2, vous payez le prix fort. Carrefour est autour de 1, Hermès autour de 3.
 
 [À l'écran : Avis de la rédaction. Ceci n'est pas un conseil en investissement.]
-En réalité, aucun ratio ne suffit seul : un PER bas peut cacher une entreprise en difficulté. Mais combinés, ces trois chiffres évitent de payer trop cher, et c'est souvent dans les périodes de doute, comme aujourd'hui sur le luxe, que les meilleures opportunités apparaissent sur le long terme.
+Regardez ces 3 chiffres, et une action qui paraît chère peut devenir une bonne affaire, et inversement.
 
-Commentez « GUIDE » pour recevoir notre fiche avec les ratios des grandes actions françaises.
+Commentez « GUIDE » pour recevoir notre méthode complète pour analyser une action.
