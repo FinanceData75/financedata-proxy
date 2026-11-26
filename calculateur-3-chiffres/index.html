@@ -4,74 +4,59 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Calculateur des 3 chiffres | FinanceData</title>
-<meta name="description" content="Calculez le P/E, le P/FCF et le PEG de n'importe quelle action en 1 minute, et comprenez ce qu'ils vous disent.">
+<meta name="description" content="Le P/E, le P/FCF et le PEG de n'importe quelle action, en 1 minute.">
 <link rel="icon" href="assets/logo.png">
 <style>
   @font-face { font-family: "League Spartan"; src: url("assets/league-spartan-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
   @font-face { font-family: "DM Sans"; src: url("assets/dm-sans-latin-wght-normal.woff2") format("woff2"); font-weight: 100 1000; font-display: swap; }
-  :root {
-    --navy: #0B1F44; --ink: #14234b; --soft: #6b7385; --line: #e3e6ee; --bg: #ffffff; --panel: #f4f5f8;
-    --green: #00C853; --red: #FF1744; --orange: #FFAB00; --orange-txt: #F59F00;
-  }
+  :root { --navy: #0B1F44; --soft: #8a91a3; --line: #eceef3; --green: #00C853; --red: #FF1744; --orange: #FFAB00; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { -webkit-text-size-adjust: 100%; }
-  body { background: var(--bg); color: var(--ink); font-family: "DM Sans", system-ui, sans-serif; font-size: 17px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
-  header { padding: 22px 0 8px; display: flex; align-items: center; gap: 10px; }
-  header img { width: 34px; height: 34px; }
-  header span { font-family: "League Spartan"; font-weight: 700; font-size: 20px; color: var(--navy); letter-spacing: -.01em; }
-  h1 { font-family: "League Spartan"; font-weight: 700; font-size: clamp(34px, 7vw, 52px); line-height: 1.02; letter-spacing: -.015em; color: var(--navy); margin: 22px 0 12px; }
-  .lead { color: var(--soft); font-size: 18px; max-width: 600px; }
-  h2 { font-family: "League Spartan"; font-weight: 700; font-size: 26px; color: var(--navy); margin: 0 0 4px; letter-spacing: -.01em; }
-  .card { background: var(--panel); border-radius: 18px; padding: 24px 20px; margin-top: 28px; }
-  .examples { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-  .chip { border: 1.5px solid var(--navy); background: #fff; color: var(--navy); font: 600 15px "DM Sans"; padding: 8px 14px; border-radius: 999px; cursor: pointer; }
-  .chip:hover, .chip:focus-visible { background: var(--navy); color: #fff; outline: none; }
-  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; margin-top: 20px; }
-  @media (max-width: 560px) { .fields { grid-template-columns: 1fr; } }
-  label { display: block; font-weight: 700; font-size: 15px; color: var(--navy); }
-  label small { display: block; font-weight: 400; color: var(--soft); font-size: 13.5px; line-height: 1.35; margin-top: 2px; }
-  .inp { position: relative; margin-top: 7px; }
-  input { width: 100%; font: 600 19px "DM Sans"; color: var(--navy); padding: 12px 44px 12px 14px; border: 1.5px solid var(--line); border-radius: 12px; background: #fff; font-feature-settings: "tnum" 1; }
-  input:focus { outline: none; border-color: var(--navy); }
-  .unit { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--soft); font-weight: 600; font-size: 15px; pointer-events: none; }
-  .growth { margin-top: 14px; font-size: 15px; color: var(--soft); }
-  .growth b { color: var(--navy); }
-  .results { display: grid; gap: 16px; margin-top: 28px; }
-  .res { border: 1.5px solid var(--line); border-radius: 18px; padding: 20px; background: #fff; }
-  .res-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
-  .res-name { font-family: "League Spartan"; font-weight: 700; font-size: 22px; color: var(--navy); }
-  .res-name small { display: block; font-family: "DM Sans"; font-weight: 400; font-size: 14px; color: var(--soft); }
-  .res-val { font-family: "League Spartan"; font-weight: 700; font-size: 46px; line-height: 1; color: var(--navy); font-feature-settings: "tnum" 1; white-space: nowrap; }
-  .pill { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-weight: 700; font-size: 15px; padding: 5px 12px 5px 10px; border-radius: 999px; background: var(--panel); }
-  .pill i { width: 11px; height: 11px; border-radius: 50%; background: var(--line); display: inline-block; }
-  .pill.g i { background: var(--green); } .pill.o i { background: var(--orange); } .pill.r i { background: var(--red); }
-  .read { margin-top: 10px; font-size: 16.5px; }
-  .read b { color: var(--navy); }
-  .scale { display: flex; margin-top: 14px; height: 6px; border-radius: 3px; overflow: hidden; }
-  .scale span { flex: 1; opacity: .25; } .scale span.on { opacity: 1; }
-  .scale .sg { background: var(--green); } .scale .so { background: var(--orange); } .scale .sr { background: var(--red); }
-  .scale-l { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--soft); margin-top: 4px; }
-  .guide { margin-top: 40px; }
-  .steps { list-style: none; counter-reset: s; margin-top: 14px; display: grid; gap: 12px; }
-  .steps li { counter-increment: s; position: relative; padding-left: 44px; }
-  .steps li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--navy); color: #fff; font: 700 15px/30px "DM Sans"; text-align: center; }
-  .steps b { color: var(--navy); }
-  .note { font-size: 14.5px; color: var(--soft); margin-top: 14px; }
-  .rules { display: grid; gap: 10px; margin-top: 14px; }
-  .rule { display: flex; gap: 12px; align-items: flex-start; }
-  .rule i { flex: none; width: 12px; height: 12px; border-radius: 50%; margin-top: 7px; }
-  footer { margin: 48px 0 40px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--soft); }
-  footer a { color: var(--navy); }
+  body { background: #fff; color: var(--navy); font-family: "DM Sans", system-ui, sans-serif; font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; font-feature-settings: "tnum" 1; }
+  .wrap { max-width: 520px; margin: 0 auto; padding: 0 20px; }
+  header { padding: 28px 0 0; }
+  header img { width: 30px; height: 30px; display: block; }
+  h1 { font-family: "League Spartan"; font-weight: 700; font-size: clamp(34px, 9vw, 44px); line-height: 1; letter-spacing: -.02em; margin: 40px 0 12px; }
+  .lead { color: var(--soft); }
+
+  .ex { display: flex; gap: 18px; margin: 36px 0 6px; font-size: 14px; color: var(--soft); }
+  .ex button { border: 0; background: none; font: inherit; color: var(--soft); cursor: pointer; padding: 0 0 2px; border-bottom: 1.5px solid transparent; }
+  .ex button.on { color: var(--navy); font-weight: 600; border-color: var(--navy); }
+
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .row label { font-size: 15px; }
+  .row label small { display: block; font-size: 12.5px; color: var(--soft); }
+  .row .in { display: flex; align-items: baseline; gap: 6px; flex: none; }
+  .row input { width: 110px; border: 0; background: none; text-align: right; font: 600 20px "DM Sans"; color: var(--navy); font-feature-settings: "tnum" 1; padding: 4px 0; }
+  .row input:focus { outline: none; }
+  .row input::placeholder { color: #c9cdd6; }
+  .row .u { font-size: 13px; color: var(--soft); width: 24px; }
+  .row:focus-within { border-color: var(--navy); }
+
+  .res { margin-top: 48px; display: grid; gap: 34px; }
+  .r-top { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--soft); }
+  .r-top i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+  .r-top i.g { background: var(--green); } .r-top i.o { background: var(--orange); } .r-top i.r { background: var(--red); }
+  .r-val { font-family: "League Spartan"; font-weight: 700; font-size: 64px; line-height: 1; letter-spacing: -.02em; margin-top: 8px; }
+  .r-txt { margin-top: 8px; font-size: 15.5px; color: #4a5470; }
+  .r-txt b { color: var(--navy); }
+
+  .rule { margin-top: 48px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 13.5px; color: var(--soft); }
+  .rule span { display: flex; align-items: center; gap: 7px; }
+  .rule i { width: 8px; height: 8px; border-radius: 50%; }
+  .help { margin-top: 28px; font-size: 14px; color: var(--soft); }
+  .help b { color: var(--navy); font-weight: 600; }
+  footer { margin: 48px 0 40px; font-size: 12px; color: var(--soft); }
+  footer a { color: inherit; }
+
   /* Mur d'inscription */
-  #gate { position: fixed; inset: 0; z-index: 50; background: rgba(11,31,68,.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 16px; overflow-y: auto; }
-  #gate .box { background: #fff; border-radius: 22px; max-width: 480px; width: 100%; padding: 28px 22px 22px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,.25); }
-  #gate img { width: 52px; height: 52px; }
-  #gate h2 { font-size: 30px; line-height: 1.05; margin: 14px 0 10px; }
-  #gate p { color: var(--soft); font-size: 16px; }
-  #gate .form { margin-top: 16px; min-height: 120px; }
-  #gate .after { font-size: 13.5px; margin-top: 12px; }
-  body.locked main { filter: blur(5px); pointer-events: none; user-select: none; }
+  #gate { position: fixed; inset: 0; z-index: 50; background: rgba(255,255,255,.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+  #gate .box { background: #fff; border-radius: 20px; max-width: 420px; width: 100%; padding: 36px 24px 24px; text-align: center; box-shadow: 0 24px 70px rgba(11,31,68,.16); }
+  #gate img { width: 36px; height: 36px; }
+  #gate h2 { font-family: "League Spartan"; font-weight: 700; font-size: 28px; line-height: 1.05; letter-spacing: -.015em; margin: 18px 0 8px; }
+  #gate p { color: var(--soft); font-size: 15px; }
+  #gate .form { margin-top: 16px; min-height: 110px; }
+  body.locked main { filter: blur(6px); pointer-events: none; user-select: none; }
   body.locked { overflow: hidden; }
   body:not(.locked) #gate { display: none; }
 </style>
@@ -81,168 +66,109 @@
 <div id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-t">
   <div class="box">
     <img src="assets/logo.png" alt="FinanceData">
-    <h2 id="gate-t">Débloquez le calculateur gratuitement</h2>
-    <p>Inscrivez-vous à la newsletter FinanceData pour accéder au calculateur des 3 chiffres, et recevez chaque semaine notre analyse des marchés.</p>
+    <h2 id="gate-t">Accédez au calculateur</h2>
+    <p>Gratuit, avec la newsletter FinanceData.</p>
     <div class="form">
       <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="5c1c5e29-81c1-4ff3-9f36-4035f3aa7f7e"></script>
     </div>
-    <p class="after">Le calculateur s'ouvre dès que votre inscription est validée.</p>
   </div>
 </div>
 
 <main>
   <div class="wrap">
-    <header><img src="assets/logo.png" alt=""><span>FinanceData</span></header>
+    <header><img src="assets/logo.png" alt="FinanceData"></header>
 
-    <h1>Ce que coûte vraiment une action, en 3 chiffres</h1>
-    <p class="lead">Le prix d'une action, seul, ne veut rien dire. Entrez 5 chiffres trouvés sur Zonebourse, et le calculateur vous donne le P/E, le P/FCF et le PEG, avec ce qu'ils signifient.</p>
+    <h1>Ce que coûte vraiment une action</h1>
+    <p class="lead">Entrez 5 chiffres, obtenez les 3 ratios qui comptent.</p>
 
-    <section class="card" aria-labelledby="t-calc">
-      <h2 id="t-calc">Le calculateur</h2>
-      <p class="note" style="margin-top:2px">Essayez avec un exemple de la vidéo :</p>
-      <div class="examples">
-        <button class="chip" data-ex="hermes">Hermès</button>
-        <button class="chip" data-ex="carrefour">Carrefour</button>
-        <button class="chip" data-ex="vide">Votre action</button>
-      </div>
+    <div class="ex" role="group" aria-label="Exemples">
+      <button data-ex="hermes">Hermès</button>
+      <button data-ex="carrefour">Carrefour</button>
+      <button data-ex="vide">Votre action</button>
+    </div>
 
-      <div class="fields">
-        <div><label for="cours">Cours de l'action<small>En haut de la page de l'action</small></label><div class="inp"><input id="cours" inputmode="decimal" autocomplete="off"><span class="unit">€</span></div></div>
-        <div><label for="capi">Capitalisation<small>Onglet « Finances », ligne « Capitalisation »</small></label><div class="inp"><input id="capi" inputmode="decimal" autocomplete="off"><span class="unit">M€</span></div></div>
-        <div><label for="bna">Bénéfice par action, cette année<small>Onglet « Finances », ligne « BNA », colonne de l'année en cours</small></label><div class="inp"><input id="bna" inputmode="decimal" autocomplete="off"><span class="unit">€</span></div></div>
-        <div><label for="bna2">Bénéfice par action, l'an prochain<small>Même ligne « BNA », colonne de l'année suivante</small></label><div class="inp"><input id="bna2" inputmode="decimal" autocomplete="off"><span class="unit">€</span></div></div>
-        <div><label for="fcf">Free cash flow<small>Onglet « Finances », ligne « Free Cash Flow », année en cours</small></label><div class="inp"><input id="fcf" inputmode="decimal" autocomplete="off"><span class="unit">M€</span></div></div>
-      </div>
-      <p class="growth" id="growth"></p>
+    <div class="row"><label for="cours">Cours</label><div class="in"><input id="cours" inputmode="decimal" placeholder="0" autocomplete="off"><span class="u">€</span></div></div>
+    <div class="row"><label for="capi">Capitalisation</label><div class="in"><input id="capi" inputmode="decimal" placeholder="0" autocomplete="off"><span class="u">M€</span></div></div>
+    <div class="row"><label for="bna">Bénéfice par action<small>cette année</small></label><div class="in"><input id="bna" inputmode="decimal" placeholder="0" autocomplete="off"><span class="u">€</span></div></div>
+    <div class="row"><label for="bna2">Bénéfice par action<small>l'an prochain</small></label><div class="in"><input id="bna2" inputmode="decimal" placeholder="0" autocomplete="off"><span class="u">€</span></div></div>
+    <div class="row"><label for="fcf">Free cash flow</label><div class="in"><input id="fcf" inputmode="decimal" placeholder="0" autocomplete="off"><span class="u">M€</span></div></div>
+
+    <p class="help">Tous ces chiffres sont sur <b>Zonebourse</b>, onglet <b>Finances</b> de l'action : lignes Capitalisation, BNA et Free Cash Flow.</p>
+
+    <section class="res" aria-live="polite">
+      <div id="pe"><div class="r-top"><i></i>P/E</div><div class="r-val">–</div><p class="r-txt"></p></div>
+      <div id="pf"><div class="r-top"><i></i>P/FCF</div><div class="r-val">–</div><p class="r-txt"></p></div>
+      <div id="pg"><div class="r-top"><i></i>PEG</div><div class="r-val">–</div><p class="r-txt"></p></div>
     </section>
 
-    <section class="results" aria-live="polite">
-      <article class="res" id="r-pe">
-        <div class="res-top"><div class="res-name">P/E<small>Cours ÷ bénéfice par action</small></div><div class="res-val">–</div></div>
-        <div class="pill"><i></i><span>En attente</span></div>
-        <p class="read">Entrez le cours et le bénéfice par action.</p>
-        <div class="scale"><span class="sg"></span><span class="so"></span><span class="sr"></span></div><div class="scale-l"><span>sous 15</span><span>15 à 25</span><span>au-dessus de 25</span></div>
-      </article>
-      <article class="res" id="r-pfcf">
-        <div class="res-top"><div class="res-name">P/FCF<small>Capitalisation ÷ free cash flow</small></div><div class="res-val">–</div></div>
-        <div class="pill"><i></i><span>En attente</span></div>
-        <p class="read">Entrez la capitalisation et le free cash flow.</p>
-        <div class="scale"><span class="sg"></span><span class="so"></span><span class="sr"></span></div><div class="scale-l"><span>sous 15</span><span>15 à 25</span><span>au-dessus de 25</span></div>
-      </article>
-      <article class="res" id="r-peg">
-        <div class="res-top"><div class="res-name">PEG<small>P/E ÷ croissance attendue du bénéfice</small></div><div class="res-val">–</div></div>
-        <div class="pill"><i></i><span>En attente</span></div>
-        <p class="read">Entrez les deux bénéfices par action.</p>
-        <div class="scale"><span class="sg"></span><span class="so"></span><span class="sr"></span></div><div class="scale-l"><span>sous 1</span><span>1 à 2</span><span>au-dessus de 2</span></div>
-      </article>
-    </section>
-
-    <section class="guide" aria-labelledby="t-find">
-      <h2 id="t-find">Où trouver les chiffres sur Zonebourse</h2>
-      <ol class="steps">
-        <li>Allez sur <b>zonebourse.com</b> et tapez le nom de l'action dans la barre de recherche.</li>
-        <li>Le <b>cours</b> s'affiche en grand, en haut de la page.</li>
-        <li>Ouvrez l'onglet <b>« Finances »</b>. Dans le tableau, repérez les lignes <b>Capitalisation</b>, <b>BNA</b> (bénéfice net par action) et <b>Free Cash Flow</b>.</li>
-        <li>Prenez la colonne de <b>l'année en cours</b>, puis le BNA de <b>l'année suivante</b> pour la croissance. Ce sont des estimations d'analystes, marquées d'un « e ».</li>
-      </ol>
-      <p class="note">Les montants de Zonebourse sont souvent en millions : entrez-les tels quels, en M€. Si une action cote dans une autre devise, gardez la même devise partout, le résultat reste juste.</p>
-    </section>
-
-    <section class="guide" aria-labelledby="t-read">
-      <h2 id="t-read">Comment lire les résultats</h2>
-      <div class="rules">
-        <div class="rule"><i style="background:var(--navy)"></i><p><b>P/E de 20</b> : vous payez 20 années de bénéfices actuels. Autrement dit, si l'entreprise ne grandissait plus, il lui faudrait 20 ans de profits pour « rembourser » le prix de l'action.</p></div>
-        <div class="rule"><i style="background:var(--navy)"></i><p><b>P/FCF de 20</b> : même idée, mais avec le cash qui reste vraiment dans les caisses une fois les investissements payés. Car un bénéfice peut être embelli, alors que le cash, lui, ne ment pas.</p></div>
-        <div class="rule"><i style="background:var(--navy)"></i><p><b>PEG</b> : il compare le prix à la croissance. Un P/E de 30 peut être justifié si les bénéfices grimpent de 30 % par an.</p></div>
-        <div class="rule"><i style="background:var(--green)"></i><p><b>Sous 1</b>, vous payez la croissance au rabais.</p></div>
-        <div class="rule"><i style="background:var(--orange)"></i><p><b>Entre 1 et 2</b>, c'est un prix juste.</p></div>
-        <div class="rule"><i style="background:var(--red)"></i><p><b>Au-dessus de 2</b>, vous payez le prix fort.</p></div>
-      </div>
-      <p class="note">Aucun ratio ne suffit seul. Un P/E bas peut cacher une entreprise en difficulté, et un P/E élevé une entreprise exceptionnelle. Comparez toujours une action à son secteur et à son propre historique.</p>
-    </section>
+    <div class="rule">
+      <span><i style="background:var(--green)"></i>Bon marché</span>
+      <span><i style="background:var(--orange)"></i>Prix juste</span>
+      <span><i style="background:var(--red)"></i>Cher</span>
+    </div>
 
     <footer>
-      <p><b>Ceci n'est pas un conseil en investissement.</b> Cet outil est pédagogique : il calcule des ratios à partir des chiffres que vous saisissez, sans garantie d'exactitude. Investir comporte un risque de perte en capital.</p>
-      <p style="margin-top:8px">Exemples Hermès et Carrefour : chiffres approximatifs au 26/11/2026. © FinanceData, <a href="https://www.instagram.com/financedatafr/" rel="noopener">@financedatafr</a></p>
+      Ceci n'est pas un conseil en investissement. Outil pédagogique, investir comporte un risque de perte en capital. Exemples au 26/11/2026.<br>
+      © FinanceData · <a href="https://www.instagram.com/financedatafr/" rel="noopener">@financedatafr</a>
     </footer>
   </div>
 </main>
 
 <script>
 (function () {
-  /* ---------- Mur d'inscription ----------
-     Déblocage : 1) retour de Beehiiv sur ?inscrit=1 (à régler dans le formulaire Beehiiv),
-     2) message de réussite envoyé par le formulaire, 3) inscription déjà enregistrée sur cet appareil. */
+  /* Déblocage : retour Beehiiv sur ?inscrit=1, message de réussite du formulaire, ou inscription déjà faite sur cet appareil. */
   var KEY = "fd_calc_ok";
-  function store(get) { try { return get ? localStorage.getItem(KEY) : localStorage.setItem(KEY, "1"); } catch (e) { return null; } }
-  function unlock() { store(false); document.body.classList.remove("locked"); }
+  function ok() { try { return localStorage.getItem(KEY) === "1"; } catch (e) { return false; } }
+  function unlock() { try { localStorage.setItem(KEY, "1"); } catch (e) {} document.body.classList.remove("locked"); }
   var q = new URLSearchParams(location.search);
-  if (q.has("inscrit")) { unlock(); q.delete("inscrit"); history.replaceState(null, "", location.pathname + (q.toString() ? "?" + q : "") + location.hash); }
-  if (store(true) === "1") unlock();
+  if (q.has("inscrit")) { unlock(); q.delete("inscrit"); history.replaceState(null, "", location.pathname + (q.toString() ? "?" + q : "")); }
+  if (ok()) unlock();
   window.addEventListener("message", function (e) {
     if (!/beehiiv/i.test(e.origin || "")) return;
-    var d = e.data; try { d = typeof d === "string" ? d : JSON.stringify(d); } catch (x) { return; }
+    var d; try { d = typeof e.data === "string" ? e.data : JSON.stringify(e.data); } catch (x) { return; }
     if (/success|subscribed|submitted|confirm/i.test(d || "")) unlock();
   });
 
-  /* ---------- Calculateur ---------- */
   var EX = {
-    hermes:    { cours: 1272, capi: 133900, bna: 43.0, bna2: 47.0, fcf: 4554 },
-    carrefour: { cours: 13.8, capi: 8900,  bna: 1.12, bna2: 1.24, fcf: 2451 },
-    vide:      { cours: "", capi: "", bna: "", bna2: "", fcf: "" }
+    hermes:    { cours: 1272, capi: 133900, bna: 43, bna2: 47, fcf: 4554 },
+    carrefour: { cours: 13.8, capi: 8900, bna: 1.12, bna2: 1.24, fcf: 2451 },
+    vide:      {}
   };
-  var ids = ["cours", "capi", "bna", "bna2", "fcf"];
-  var $ = function (id) { return document.getElementById(id); };
-  function num(id) { var v = $(id).value.replace(/\s/g, "").replace(",", "."); return v === "" ? NaN : parseFloat(v); }
-  function fr(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }); }
-  function years(v) { var r = Math.round(v); return r + (r > 1 ? " années" : " année"); }
-
-  function set(card, val, cls, label, text, zone) {
-    var c = $(card);
-    c.querySelector(".res-val").textContent = val;
-    var p = c.querySelector(".pill"); p.className = "pill " + (cls || ""); p.querySelector("span").textContent = label;
-    c.querySelector(".read").innerHTML = text;
-    c.querySelectorAll(".scale span").forEach(function (s, i) { s.classList.toggle("on", i === zone); });
+  var ids = ["cours", "capi", "bna", "bna2", "fcf"], $ = function (i) { return document.getElementById(i); };
+  function n(id) { var v = $(id).value.replace(/\s/g, "").replace(",", "."); return v === "" ? NaN : parseFloat(v); }
+  function f(v, d) { return v.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  function ans(v) { var r = Math.round(v); return r + (r > 1 ? " ans" : " an"); }
+  function show(id, val, z, txt) {
+    var b = $(id); b.querySelector(".r-val").textContent = val;
+    b.querySelector("i").className = z < 0 ? "" : ["g", "o", "r"][z];
+    b.querySelector(".r-txt").innerHTML = txt;
   }
   function band(v, a, b) { return v < a ? 0 : v <= b ? 1 : 2; }
-  var CLS = ["g", "o", "r"];
 
   function calc() {
-    var cours = num("cours"), capi = num("capi"), bna = num("bna"), bna2 = num("bna2"), fcf = num("fcf");
-    var pe = NaN;
+    var c = n("cours"), k = n("capi"), e = n("bna"), e2 = n("bna2"), fc = n("fcf"), pe = NaN, g = NaN;
 
-    if (isNaN(cours) || isNaN(bna)) set("r-pe", "–", "", "En attente", "Entrez le cours et le bénéfice par action.", -1);
-    else if (bna <= 0) set("r-pe", "n.s.", "r", "Pas de bénéfice", "L'entreprise <b>perd de l'argent</b> : le P/E n'a pas de sens. Regardez plutôt le cash et la dette.", -1);
-    else {
-      pe = cours / bna; var z = band(pe, 15, 25);
-      set("r-pe", fr(pe, 1), CLS[z], ["Bon marché", "Dans la moyenne", "Cher"][z],
-        "Vous payez <b>" + years(pe) + " de bénéfices</b> actuels. Pour 1 € de bénéfice, vous mettez " + fr(pe, 0) + " € sur la table.", z);
-    }
+    if (isNaN(c) || isNaN(e)) show("pe", "–", -1, "");
+    else if (e <= 0) show("pe", "–", 2, "L'entreprise perd de l'argent, le ratio n'a pas de sens.");
+    else { pe = c / e; show("pe", f(pe, 1), band(pe, 15, 25), "Vous payez <b>" + ans(pe) + " de bénéfices</b>."); }
 
-    if (isNaN(capi) || isNaN(fcf)) set("r-pfcf", "–", "", "En attente", "Entrez la capitalisation et le free cash flow.", -1);
-    else if (fcf <= 0) set("r-pfcf", "n.s.", "r", "Cash négatif", "L'entreprise <b>brûle plus de cash qu'elle n'en génère</b> : le P/FCF n'a pas de sens cette année.", -1);
-    else {
-      var pf = capi / fcf, z2 = band(pf, 15, 25), yld = 100 / pf;
-      var extra = !isNaN(pe) ? (pf < pe * 0.8 ? " Le ratio est plus bas que le P/E : l'entreprise génère <b>plus de cash que de bénéfices</b>." : pf > pe * 1.25 ? " Le ratio est plus haut que le P/E : les bénéfices se transforment <b>moins bien en cash</b>, souvent à cause de gros investissements." : "") : "";
-      set("r-pfcf", fr(pf, 1), CLS[z2], ["Bon marché", "Dans la moyenne", "Cher"][z2],
-        "Vous payez <b>" + years(pf) + " de cash</b> généré. Chaque année, l'entreprise dégage " + fr(yld, 1) + " % de son prix en cash." + extra, z2);
-    }
+    if (isNaN(k) || isNaN(fc)) show("pf", "–", -1, "");
+    else if (fc <= 0) show("pf", "–", 2, "L'entreprise brûle du cash, le ratio n'a pas de sens.");
+    else { var p = k / fc; show("pf", f(p, 1), band(p, 15, 25), "Vous payez <b>" + ans(p) + " de cash</b> réellement généré."); }
 
-    var g = (!isNaN(bna) && !isNaN(bna2) && bna > 0) ? (bna2 / bna - 1) * 100 : NaN;
-    $("growth").innerHTML = isNaN(g) ? "" : "Croissance attendue du bénéfice : <b>" + (g > 0 ? "+" : "") + fr(g, 1) + " %</b>";
-    if (isNaN(pe) || isNaN(g)) set("r-peg", "–", "", "En attente", isNaN(pe) ? "Il faut d'abord un P/E." : "Entrez les deux bénéfices par action.", -1);
-    else if (g <= 0) set("r-peg", "n.s.", "r", "Pas de croissance", "Les analystes attendent un bénéfice <b>en baisse</b> : le PEG n'a pas de sens. Vous payez " + years(pe) + " de bénéfices sans croissance derrière.", -1);
-    else {
-      var peg = pe / g, z3 = band(peg, 1, 2);
-      set("r-peg", fr(peg, 1), CLS[z3], ["Croissance au rabais", "Prix juste", "Prix fort"][z3],
-        "Vous payez un P/E de " + fr(pe, 0) + " pour une croissance de " + fr(g, 0) + " % par an. " +
-        ["Vous payez donc <b>la croissance au rabais</b>.", "C'est <b>un prix juste</b> pour cette croissance.", "Vous payez donc <b>le prix fort</b> pour cette croissance."][z3], z3);
-    }
+    if (!isNaN(e) && !isNaN(e2) && e > 0) g = (e2 / e - 1) * 100;
+    if (isNaN(pe) || isNaN(g)) show("pg", "–", -1, "");
+    else if (g <= 0) show("pg", "–", 2, "Bénéfice attendu en baisse, le ratio n'a pas de sens.");
+    else { var x = pe / g, z = band(x, 1, 2);
+      show("pg", f(x, 1), z, "Pour une croissance de " + f(g, 0) + " % par an, " + ["<b>vous la payez au rabais</b>.", "<b>c'est un prix juste</b>.", "<b>vous payez le prix fort</b>."][z]); }
   }
-
-  function fill(k) { var e = EX[k]; ids.forEach(function (id) { $(id).value = e[id] === "" ? "" : String(e[id]).replace(".", ","); }); calc(); if (k === "vide") $("cours").focus(); }
-  ids.forEach(function (id) { $(id).addEventListener("input", calc); });
-  document.querySelectorAll(".chip").forEach(function (b) { b.addEventListener("click", function () { fill(b.dataset.ex); }); });
+  function fill(key) {
+    ids.forEach(function (id) { var v = EX[key][id]; $(id).value = v == null ? "" : v.toLocaleString("fr-FR"); });
+    document.querySelectorAll(".ex button").forEach(function (b) { b.classList.toggle("on", b.dataset.ex === key); });
+    calc(); if (key === "vide") $("cours").focus();
+  }
+  ids.forEach(function (id) { $(id).addEventListener("input", function () { document.querySelectorAll(".ex button").forEach(function (b) { b.classList.toggle("on", b.dataset.ex === "vide"); }); calc(); }); });
+  document.querySelectorAll(".ex button").forEach(function (b) { b.addEventListener("click", function () { fill(b.dataset.ex); }); });
   fill("hermes");
 })();
 </script>
