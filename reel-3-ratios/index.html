@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <script src="assets/series.js"></script>
+    <style>
+      /* Reel « Le guide de la culture financière, épisode 11 » : les 3 chiffres qui disent ce que coûte vraiment une action (P/E, P/FCF, PEG), Hermès contre Air Liquide (86 s).
+         Style éditorial (fond blanc, gris pour le contexte, couleur sur l'essentiel) alterné avec des vidéos d'illustration réelles. */
+      @font-face { font-family: "Helv"; src: local("Helvetica Bold"), local("Helvetica-Bold"), url("assets/fonts/NimbusSans-Bold.otf"); font-weight: 700; }
+      @font-face { font-family: "Plex"; src: url("assets/fonts/IBMPlexMono-Bold.ttf"); font-weight: 700; }
+      @font-face { font-family: "Lora"; src: url("assets/fonts/Lora.ttf"); font-weight: 400 700; }
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #ffffff; }
+      #root { width: 1080px; height: 1920px; position: relative; overflow: hidden; font-family: "Display", sans-serif; color: #0b1f44; background: #ffffff; font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .scene { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-feature-settings: "tnum" 1; }
+      .src { position: absolute; left: 100px; right: 100px; font-size: 22px; font-weight: 500; color: #6b7280; }
+      .vid { position: absolute; inset: 0; width: 1080px; height: 1920px; object-fit: cover; }
+      #avatar { position: absolute; left: 380px; top: 380px; width: 320px; height: 320px; opacity: 0; }
+      #avatar .pic { position: absolute; left: 20px; top: 20px; width: 280px; height: 280px; border-radius: 50%; overflow: hidden; border: 8px solid #000a1f; }
+      #avatar .pic img { width: 100%; height: 100%; display: block; }
+      .cap-line { position: absolute; left: 100px; right: 100px; top: 1400px; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.78); font-weight: 700; font-size: 52px; line-height: 1.12; letter-spacing: -.05em; color: #fff; white-space: nowrap; }
+      .w { color: #fff; text-shadow: 0 4px 30px rgba(0,0,0,.35); }
+      .pill { display: inline-block; padding: 10px 26px 14px; border-radius: 999px; font-weight: 800; letter-spacing: -.02em; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="86" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="86" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="86" data-track-index="2" style="position:absolute; inset:0; background:#fff"></div>
+      <video id="v-bourse" class="clip vid" src="assets/video/bourse.mp4" data-start="0" data-duration="3.87" data-track-index="3" muted playsinline></video>
+      <video id="v-hermes-boutique" class="clip vid" src="assets/video/hermes-boutique.mp4" data-start="11.43" data-duration="1.15" data-track-index="3" muted playsinline></video>
+      <video id="v-birkin-sac" class="clip vid" src="assets/video/birkin-sac.mp4" data-start="12.58" data-duration="2.75" data-track-index="3" muted playsinline></video>
+      <video id="v-usine" class="clip vid" src="assets/video/usine.mp4" data-start="15.33" data-duration="2.12" data-track-index="3" muted playsinline></video>
+      <video id="v-billets" class="clip vid" src="assets/video/billets.mp4" data-start="25.26" data-duration="8.7" data-track-index="3" muted playsinline></video>
+      <video id="v-usine-ciel" class="clip vid" src="assets/video/usine-ciel.mp4" data-start="40.6" data-duration="2.55" data-track-index="3" muted playsinline></video>
+      <video id="v-billets-2" class="clip vid" src="assets/video/billets-2.mp4" data-start="47.69" data-duration="3.49" data-track-index="3" muted playsinline></video>
+      <video id="v-cotations" class="clip vid" src="assets/video/cotations.mp4" data-start="54.45" data-duration="2.25" data-track-index="3" muted playsinline></video>
+      <video id="v-birkin" class="clip vid" src="assets/video/birkin.mp4" data-start="74.09" data-duration="4.86" data-track-index="3" muted playsinline></video>
+      <div id="top" class="clip" data-start="0" data-duration="86" data-track-index="4" style="position:absolute; inset:0; pointer-events:none"></div>
+    </div>
+    <script>
+      (function () {
+        var UID = 0; function uid(p) { UID += 1; return p + UID; }
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 86;
+        var st = document.getElementById("stage"), top = document.getElementById("top");
+        var INK = "#0b1f44", SOFT = "#6b7280", VERT = "#00c853", ROUGE = "#ff1744", OR2 = "#ffab00", OR2T = "#f59f00", GRIS = "#c5cad3";
+        var AMF = "Avis de la rédaction. Ceci n'est pas un conseil en investissement.";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
+        function fade(n, t, d) { tl.fromTo(n, { opacity: 0 }, { opacity: 1, duration: d || .3, ease: "power1.out", immediateRender: false }, t); return n; }
+        function rise(n, t, d) { tl.fromTo(n, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: d || .4, ease: "power3.out", immediateRender: false }, t); return n; }
+        function pop(n, t) { tl.fromTo(n, { opacity: 0, scale: .7 }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)", immediateRender: false }, t); return n; }
+        function grow(n, t, d) { tl.fromTo(n, { scaleX: 0 }, { scaleX: 1, duration: d || .45, ease: "power2.out", immediateRender: false }, t); return n; }
+        function sc(t0, t1, p) { var s = div(p || st, "", "", "scene"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1); return s; }
+        function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; p.style.strokeDashoffset = L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power1.inOut", immediateRender: false }, t); return p; }
+        function head(s, name, sub) {
+          div(s, name, "left:100px; top:290px; font-size:78px; font-weight:800; letter-spacing:-.04em; line-height:1");
+          if (sub) div(s, sub, "left:100px; top:390px; font-size:34px; font-weight:500; color:" + SOFT);
+        }
+        function source(s, txt) { div(s, txt, "top:1330px; font-size:26px; font-weight:600", "src"); }
+        // voile sombre sur une vidéo (dans la couche du dessus)
+        function veil(s, bg) { div(s, "", "inset:0; background:" + (bg || "linear-gradient(180deg, rgba(0,10,30,.55) 0%, rgba(0,10,30,.25) 45%, rgba(0,10,30,.6) 100%)")); }
+        // carton « Premier chiffre / P/E » sur vidéo
+        function chapter(t0, t1, n, label, big) { var s = sc(t0, t1, top); veil(s, "radial-gradient(ellipse 80% 55% at 50% 45%, rgba(0,10,30,.35), rgba(0,10,30,.7))");
+          rise(div(s, label, "left:0; right:0; top:690px; text-align:center; font-size:46px; font-weight:700; letter-spacing:-.02em; color:" + OR2), t0 + .05, .35);
+          pop(div(s, big, "left:0; right:0; top:770px; text-align:center; font-size:230px; font-weight:800; letter-spacing:-.05em; line-height:1", "a w"), t0 + n); }
+        function fr(v, dec) { var s = v.toFixed(dec || 0).split("."); return s[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + (s[1] ? "," + s[1] : ""); }
+
+        // ===== 1. Hook : « Voici les 3 chiffres qui vous disent ce que coûte vraiment une action » (vidéo cotations) =====
+        (function () { var s = sc(0, 3.87, top); veil(s);
+          div(s, "Ce que coûte<br>vraiment une action", "left:0; right:0; top:560px; text-align:center; font-size:96px; font-weight:800; letter-spacing:-.045em; line-height:1.02", "a w");
+          ["P/E", "P/FCF", "PEG"].forEach(function (t, k) { var p = div(s, "<span class='pill' style='background:#fff; color:" + INK + "; font-size:56px'>" + t + "</span>", "left:" + [150, 400, 720][k] + "px; top:840px; opacity:0"); pop(p, .56 + k * .2); }); })();
+
+        // ===== 2. « Car si vous regardez seulement le prix, il ne vous dira rien » =====
+        (function () { var s = sc(3.87, 6.59);
+          div(s, "Le prix de l'action", "left:0; right:0; top:520px; text-align:center; font-size:44px; font-weight:600; color:" + SOFT);
+          var n = div(s, "1 272 €", "left:0; right:0; top:600px; text-align:center; font-size:220px; font-weight:800; letter-spacing:-.05em; line-height:1");
+          rise(n, 3.9, .4); tl.to(n, { color: GRIS, duration: .25 }, 5.58);
+          var g = svg(s, 0, 0, 1080, 1920); draw(el(g, "path", { d: "M150 720 L930 700", stroke: OR2, "stroke-width": 12, "stroke-linecap": "round", fill: "none" }), 5.62, .3);
+          fade(div(s, "ne vous dit rien", "left:0; right:0; top:900px; text-align:center; font-size:72px; font-weight:800; letter-spacing:-.04em; color:" + OR2T + "; opacity:0"), 5.9, .25); })();
+
+        // ===== 3. « Une action à 1 000 euros peut être une bonne affaire, et une action à 200 euros hors de prix » =====
+        (function () { var s = sc(6.59, 11.43); s.style.background = "#f4f5f8";
+          [["1 000 €", "Bonne affaire", VERT, 7.19, 8.19, 430], ["200 €", "Hors de prix", ROUGE, 9.56, 10.77, 830]].forEach(function (r) {
+            var c = div(s, "", "left:100px; top:" + r[5] + "px; width:880px; height:330px; background:#fff; border-radius:28px; box-shadow:0 24px 60px rgba(11,31,68,.08); opacity:0"); rise(c, r[3] - .25, .35);
+            div(c, "Une action à", "left:60px; top:60px; font-size:36px; font-weight:600; color:" + SOFT);
+            div(c, r[0], "left:60px; top:130px; font-size:140px; font-weight:800; letter-spacing:-.05em; line-height:1");
+            pop(div(c, "<span class='pill' style='background:" + r[2] + "; color:#fff; font-size:44px'>" + r[1] + "</span>", "right:50px; top:44px; opacity:0; transform-origin:100% 50%"), r[4]); }); })();
+
+        // ===== 4. « D'ailleurs, regardez. L'action Hermès vaut 1 272 euros » (vidéos boutique + Birkin) =====
+        (function () { var s = sc(12.56, 15.33, top); veil(s, "linear-gradient(180deg, rgba(0,10,30,.6) 0%, rgba(0,10,30,0) 50%)");
+          rise(div(s, "Hermès", "left:100px; top:300px; font-size:110px; font-weight:800; letter-spacing:-.045em", "a w"), 12.95, .35);
+          pop(div(s, "<span class='pill' style='background:#fff; color:" + INK + "; font-size:84px'>1 272 €</span>", "left:94px; top:450px; opacity:0; transform-origin:0 50%"), 13.88); })();
+        // « et celle d'Air Liquide 190 » (vidéo usine)
+        (function () { var s = sc(15.33, 17.45, top); veil(s, "linear-gradient(180deg, rgba(0,10,30,.6) 0%, rgba(0,10,30,0) 50%)");
+          rise(div(s, "Air Liquide", "left:100px; top:300px; font-size:110px; font-weight:800; letter-spacing:-.045em", "a w"), 15.6, .35);
+          pop(div(s, "<span class='pill' style='background:#fff; color:" + INK + "; font-size:84px'>190 €</span>", "left:94px; top:450px; opacity:0; transform-origin:0 50%"), 16.41); })();
+
+        // ===== 5. « Pourtant, c'est Air Liquide qui est la plus chère. Et pour le comprendre, il vous faut ces 3 chiffres » =====
+        (function () { var s = sc(17.45, 21.96);
+          var cols = [["Hermès", "1 272 €", 100], ["Air Liquide", "190 €", 580]];
+          cols.forEach(function (c) { div(s, c[0], "left:" + c[2] + "px; top:330px; font-size:56px; font-weight:800; letter-spacing:-.03em");
+            div(s, c[1], "left:" + c[2] + "px; top:410px; font-size:96px; font-weight:800; letter-spacing:-.05em; line-height:1"); });
+          var hl = div(s, "", "left:580px; top:540px; width:400px; height:10px; background:" + ROUGE + "; transform-origin:0 50%; transform:scaleX(0)"); grow(hl, 18.17, .35);
+          pop(div(s, "<span class='pill' style='background:" + ROUGE + "; color:#fff; font-size:40px'>La plus chère</span>", "left:580px; top:230px; opacity:0; transform-origin:0 50%"), 18.9);
+          ["P/E", "P/FCF", "PEG"].forEach(function (r, k) { var y = 680 + k * 180, t = 20.9 + k * .18;
+            var row = div(s, "", "left:100px; top:" + y + "px; width:880px; height:150px; border-top:2px solid #eceef2; opacity:0"); fade(row, t, .25);
+            div(row, r, "left:0; top:38px; font-size:52px; font-weight:800; letter-spacing:-.03em");
+            div(row, "?", "left:380px; top:30px; font-size:72px; font-weight:800; color:" + GRIS);
+            div(row, "?", "left:480px; top:30px; font-size:72px; font-weight:800; color:" + GRIS); }); })();
+
+        // ===== 6. Générique « épisode 11 » (21,96 → 25,26) =====
+        (function () { var t0 = 21.96, s = sc(t0, 25.26); s.style.background = "#f2f2f4";
+          div(s, "<svg width='1080' height='1920' style='position:absolute; inset:0'><filter id='gr2'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .09 0'/></filter><rect width='1080' height='1920' filter='url(#gr2)'/></svg>", "inset:0");
+          div(s, "", "inset:0; background:radial-gradient(ellipse 75% 60% at 50% 48%, rgba(0,0,0,0) 55%, rgba(0,0,0,.1) 100%)");
+          var gg = svg(s, 0, 0, 1080, 1920), SE = window.SER;
+          function line(v, y0, y1, op, w, t, dur) { var lo = Math.min.apply(0, v), hi = Math.max.apply(0, v), d = "";
+            v.forEach(function (x, i) { var XX = -20 + i / (v.length - 1) * 1120, YY = y1 - (Math.log(x) - Math.log(lo)) / (Math.log(hi) - Math.log(lo)) * (y1 - y0); d += (i ? "L" : "M") + XX.toFixed(1) + " " + YY.toFixed(1); });
+            draw(el(gg, "path", { d: d, fill: "none", stroke: "#7c96e6", "stroke-width": w, "stroke-opacity": op, "stroke-linejoin": "round" }), t, dur, "power1.out"); }
+          line(SE.vix, 60, 640, .75, 3.5, t0, 2.4); line(SE.ndx, 1180, 1880, .35, 3, t0 + .1, 2.6); line(SE.spx, 1250, 1860, .75, 3.5, t0, 2.6);
+          var blk = div(s, "", "left:0; right:0; margin:auto; width:max-content; top:720px");
+          var row = div(blk, "", "position:relative; font-family:Helv, Helvetica, sans-serif; font-size:78px; font-weight:700; letter-spacing:-.035em; line-height:1.15; color:#00194B; white-space:nowrap; text-align:left");
+          ["le", "guide", "de", "la", "culture"].forEach(function (w, k) { var sp = document.createElement("span"); sp.textContent = w + (k < 4 ? " " : ""); sp.style.display = "inline-block"; sp.style.whiteSpace = "pre"; sp.style.opacity = 0; row.appendChild(sp);
+            tl.fromTo(sp, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, t0 + [.45, .57, .77, .89, 1.05][k]); });
+          var box = div(blk, "", "position:relative; margin-top:10px; background:#00194B; text-align:center; padding:10px 0 22px; font-family:Plex; font-size:116px; font-weight:700; line-height:1; color:#fff");
+          "financière".split("").forEach(function (c, k) { var sp = document.createElement("span"); sp.textContent = c; sp.style.opacity = 0; box.appendChild(sp);
+            tl.fromTo(sp, { opacity: 0 }, { opacity: 1, duration: .18, ease: "power1.out", immediateRender: false }, t0 + 1.55 + k * .035); });
+          box.style.clipPath = "inset(0 100% 0 0)";
+          tl.fromTo(box, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: .5, ease: "power3.inOut", immediateRender: false }, t0 + 1.35);
+          var ep = div(blk, "épisode 11", "position:relative; margin-top:14px; text-align:right; font-family:Lora, serif; font-size:56px; font-weight:400; letter-spacing:.01em; color:#00194B; opacity:0");
+          tl.fromTo(ep, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, t0 + 2.15); })();
+
+        // ===== 7. Premier chiffre, le P/E (vidéo billets) puis sa définition sur la même vidéo floutée =====
+        chapter(25.26, 27.16, 1.19, "Premier chiffre", "P/E");
+        (function () { var s = sc(27.16, 33.96, top); div(s, "", "inset:0; background:rgba(6,16,40,.78); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px)");
+          div(s, "P/E", "left:100px; top:290px; font-size:78px; font-weight:800; letter-spacing:-.04em", "a w");
+          rise(div(s, "Prix de l'action", "left:0; right:0; top:560px; text-align:center; font-size:76px; font-weight:800; letter-spacing:-.04em", "a w"), 27.8);
+          var bar = div(s, "", "left:150px; top:680px; width:780px; height:8px; background:#fff; border-radius:4px; transform-origin:0 50%; transform:scaleX(0)"); grow(bar, 28.6, .35);
+          rise(div(s, "Bénéfice par action<br><span style='font-size:44px; font-weight:600; color:rgba(255,255,255,.7)'>sur un an</span>", "left:0; right:0; top:720px; text-align:center; font-size:76px; font-weight:800; letter-spacing:-.04em; line-height:1.15", "a w"), 29.0);
+          rise(div(s, "= ce que vous payez pour <span style='color:" + VERT + "'>1 € de bénéfice</span>", "left:60px; right:60px; top:1010px; text-align:center; font-size:50px; font-weight:700; letter-spacing:-.03em", "a w"), 31.6); })();
+
+        // barres horizontales comparant Hermès et Air Liquide
+        function duel(s, a, b, ta, tb, K) {
+          [["Hermès", a, INK, ta, 560], ["Air Liquide", b, ROUGE, tb, 760]].forEach(function (r) {
+            div(s, r[0], "left:100px; top:" + r[4] + "px; font-size:44px; font-weight:800; letter-spacing:-.03em");
+            div(s, "", "left:100px; top:" + (r[4] + 66) + "px; width:" + (45 * K) + "px; height:84px; background:#f1f2f6");
+            grow(div(s, "", "left:100px; top:" + (r[4] + 66) + "px; width:" + r[1] * K + "px; height:84px; background:" + r[2] + "; transform-origin:0 50%; transform:scaleX(0)"), r[3]);
+            fade(div(s, fr(r[1], 1), "left:" + (100 + r[1] * K + 22) + "px; top:" + (r[4] + 70) + "px; font-size:62px; font-weight:800; letter-spacing:-.04em; color:" + r[2] + "; opacity:0"), r[3] + .3, .2); }); }
+
+        // ===== 8. « Le P/E d'Hermès est à 30, donc vous payez 30 euros pour 1 euro de bénéfice. Air Liquide, elle, est à 33 » =====
+        (function () { var s = sc(33.96, 40.6);
+          head(s, "P/E", "Prix ÷ bénéfice sur un an");
+          duel(s, 29.6, 32.7, 34.9, 39.7, 17);
+          var c = div(s, "", "left:100px; top:1030px; width:880px; height:200px; background:#f4f5f8; border-radius:24px; opacity:0"); rise(c, 36.5, .35);
+          div(c, "30 €", "left:60px; top:50px; font-size:90px; font-weight:800; letter-spacing:-.05em; line-height:1");
+          var g = svg(c, 0, 0, 880, 200); draw(el(g, "path", { d: "M290 100 L420 100 M395 80 L420 100 L395 120", stroke: SOFT, "stroke-width": 6, fill: "none", "stroke-linecap": "round", "stroke-linejoin": "round" }), 37.2, .3);
+          fade(div(c, "1 € de bénéfice", "left:450px; top:66px; font-size:56px; font-weight:800; letter-spacing:-.03em; color:" + VERT + "; opacity:0"), 37.5, .25);
+          source(s, "Source : Yahoo Finance, Boursorama · bénéfice publié, cours du 26/11/2026"); })();
+
+        // ===== 9. Deuxième chiffre, le P/FCF (vidéo usine vue du ciel) =====
+        chapter(40.6, 43.15, 1.4, "Deuxième chiffre", "P/FCF");
+
+        // ===== 10. « le cash que l'entreprise génère vraiment, une fois ses investissements payés » =====
+        (function () { var s = sc(43.15, 47.69);
+          head(s, "Free cash flow", "Le cash qui reste vraiment");
+          var base = 1180, cols = [["Cash<br>généré", INK, 44.43, 0, 620], ["Investis-<br>sements", ROUGE, 46.78, 0, 260], ["Free<br>cash flow", VERT, 47.2, 260, 360]];
+          cols.forEach(function (c, k) { var x = 100 + k * 300, h = c[4], y = k === 1 ? base - 620 : base - h;
+            var b = div(s, "", "left:" + x + "px; top:" + y + "px; width:240px; height:" + h + "px; background:" + c[1] + "; transform-origin:50% " + (k === 1 ? "0%" : "100%") + "; transform:scaleY(0)");
+            tl.fromTo(b, { scaleY: 0 }, { scaleY: 1, duration: .4, ease: "power2.out", immediateRender: false }, c[2] - .1);
+            fade(div(s, c[0], "left:" + x + "px; top:" + (base + 24) + "px; width:240px; text-align:center; font-size:34px; font-weight:700; line-height:1.15; color:" + c[1] + "; opacity:0"), c[2] - .05, .2); });
+          div(s, "", "left:100px; top:" + base + "px; width:840px; height:3px; background:" + INK); })();
+
+        // ===== 11. « Car un bénéfice peut être embelli, alors que le cash, lui, ne ment pas » (vidéo billets) =====
+        (function () { var s = sc(47.69, 51.18, top); veil(s, "linear-gradient(180deg, rgba(0,10,30,.15), rgba(0,10,30,.75))");
+          rise(div(s, "Un bénéfice peut être embelli.", "left:100px; right:100px; top:820px; font-size:62px; font-weight:700; letter-spacing:-.035em; line-height:1.1; color:rgba(255,255,255,.85)", "a"), 47.85);
+          rise(div(s, "Le cash, lui,<br>ne ment pas.", "left:100px; right:100px; top:960px; font-size:104px; font-weight:800; letter-spacing:-.05em; line-height:1", "a w"), 49.8); })();
+
+        // ===== 12. « Hermès est autour de 29, Air Liquide autour de 41 » =====
+        (function () { var s = sc(51.18, 54.45);
+          head(s, "P/FCF", "Prix ÷ free cash flow");
+          duel(s, 29.4, 41.0, 51.9, 53.7, 17);
+          source(s, "Source : Yahoo Finance · free cash flow sur un an, cours du 26/11/2026"); })();
+
+        // ===== 13. Troisième chiffre, le PEG (vidéo cotations) =====
+        chapter(54.45, 56.7, 1.2, "Troisième chiffre", "PEG");
+
+        // ===== 14. « C'est le P/E divisé par la croissance attendue des bénéfices » (fond marine) =====
+        (function () { var s = sc(56.7, 62.71); s.style.background = "radial-gradient(ellipse 80% 55% at 50% 40%, #0d2a63 0%, #071634 60%, #030b1d 100%)";
+          div(s, "PEG", "left:100px; top:290px; font-size:78px; font-weight:800; letter-spacing:-.04em", "a w");
+          rise(div(s, "P/E", "left:0; right:0; top:540px; text-align:center; font-size:110px; font-weight:800; letter-spacing:-.05em", "a w"), 56.95);
+          grow(div(s, "", "left:150px; top:690px; width:780px; height:8px; background:#fff; border-radius:4px; transform-origin:0 50%; transform:scaleX(0)"), 57.9, .35);
+          rise(div(s, "Croissance attendue<br>des bénéfices", "left:0; right:0; top:730px; text-align:center; font-size:76px; font-weight:800; letter-spacing:-.04em; line-height:1.08", "a w"), 58.2);
+          rise(div(s, "= le prix que vous payez <span style='color:" + OR2 + "'>pour la croissance</span>", "left:60px; right:60px; top:1040px; text-align:center; font-size:50px; font-weight:700; letter-spacing:-.03em", "a w"), 60.7); })();
+
+        // ===== 15. La règle (62,71 → 74,09) : jauge verte, orange, rouge, puis Hermès et Air Liquide =====
+        (function () { var s = sc(62.71, 74.09), X = function (v) { return 100 + v / 3.5 * 880; }, Y0 = 820;
+          head(s, "La règle du PEG");
+          div(s, "", "left:100px; top:" + Y0 + "px; width:880px; height:56px; background:#f1f2f6; border-radius:8px");
+          [[0, 1, VERT, 64.0, "Sous 1", "Au rabais"], [1, 2, OR2, 66.31, "Entre 1 et 2", "Prix juste"], [2, 3.5, ROUGE, 68.12, "Au-dessus de 2", "Prix fort"]].forEach(function (z, k) {
+            grow(div(s, "", "left:" + X(z[0]) + "px; top:" + Y0 + "px; width:" + (X(z[1]) - X(z[0])) + "px; height:56px; background:" + z[2] + "; transform-origin:0 50%; transform:scaleX(0); border-radius:" + (k === 0 ? "8px 0 0 8px" : k === 2 ? "0 8px 8px 0" : "0")), z[3], .4);
+            var lb = div(s, "<div style='font-size:" + (k === 2 ? 30 : 32) + "px; font-weight:600; color:" + SOFT + "'>" + z[4] + "</div><div style='font-size:46px; font-weight:800; letter-spacing:-.03em; color:" + (k === 1 ? OR2T : z[2]) + "'>" + z[5] + "</div>", "left:" + (X(z[0]) + 6) + "px; top:" + (Y0 + 90) + "px; width:" + (X(z[1]) - X(z[0]) - 6) + "px; opacity:0"); rise(lb, z[3] + .15, .3); });
+          [1, 2].forEach(function (v) { div(s, String(v), "left:" + (X(v) - 12) + "px; top:" + (Y0 - 54) + "px; font-size:34px; font-weight:700; color:" + SOFT); });
+          // Hermès 3,1 et Air Liquide 2,7 : petits cercles orange creux, étiquettes au-dessus
+          var g = svg(s, 0, 0, 1080, 1920);
+          [["Air Liquide", 2.7, 71.1, 640], ["Hermès", 3.1, 71.45, 540]].forEach(function (m) { var x = X(m[1]);
+            var c = el(g, "circle", { cx: x, cy: Y0 + 28, r: 0, fill: "#fff", stroke: OR2, "stroke-width": 5 }); tl.fromTo(c, { attr: { r: 0 } }, { attr: { r: 17 }, duration: .25, ease: "back.out(2)", immediateRender: false }, m[2]);
+            var ln = el(g, "line", { x1: x, x2: x, y1: m[3] + 92, y2: Y0 - 14, stroke: INK, "stroke-width": 3, opacity: 0 }); fade(ln, m[2] + .1, .2);
+            fade(div(s, "<span style='display:inline-block; transform:translateX(-100%); white-space:nowrap; text-align:right'><span style='font-size:36px; font-weight:700'>" + m[0] + "</span> <span style='font-size:52px; font-weight:800; color:" + ROUGE + "'>" + fr(m[1], 1) + "</span></span>", "left:" + (x + 20) + "px; top:" + m[3] + "px; opacity:0"), m[2] + .05, .25); });
+          var pf = div(s, "Dans les deux cas : le prix fort", "left:100px; top:1150px; font-size:50px; font-weight:800; letter-spacing:-.03em; color:" + ROUGE + "; opacity:0"); rise(pf, 72.9, .35);
+          source(s, "Source : Boursorama, TIKR · croissance attendue du bénéfice par action en 2027"); })();
+
+        // ===== 16. Récapitulatif sur la vidéo Birkin (74,09 → 78,95), avec la mention AMF =====
+        (function () { var s = sc(74.09, 78.95, top); veil(s, "rgba(0,10,30,.45)");
+          var c = div(s, "", "left:80px; top:300px; width:920px; height:960px; background:#fff; border-radius:32px; box-shadow:0 40px 100px rgba(0,0,0,.3); opacity:0"); rise(c, 74.1, .4);
+          div(c, "Hermès", "left:420px; top:60px; width:220px; text-align:center; font-size:38px; font-weight:800; letter-spacing:-.03em");
+          div(c, "Air Liquide", "left:660px; top:60px; width:220px; text-align:center; font-size:38px; font-weight:800; letter-spacing:-.03em");
+          [["Prix", "1 272 €", "190 €", 0], ["P/E", "29,6", "32,7", 2], ["P/FCF", "29,4", "41,0", 2], ["PEG", "3,1", "2,7", 3]].forEach(function (r, k) { var y = 150 + k * 165, t = 74.5 + k * .25;
+            var row = div(c, "", "left:50px; top:" + y + "px; width:820px; height:150px; border-top:2px solid #eceef2; opacity:0"); fade(row, t, .25);
+            div(row, r[0], "left:0; top:46px; font-size:50px; font-weight:800; letter-spacing:-.03em");
+            [r[1], r[2]].forEach(function (v, j) { var hot = r[3] === 2 && j === 1 || r[3] === 3;
+              div(row, v, "left:" + (370 + j * 240) + "px; top:40px; width:220px; text-align:center; font-size:" + (k === 0 ? 50 : 60) + "px; font-weight:800; letter-spacing:-.04em; color:" + (hot ? ROUGE : INK)); }); });
+          div(c, AMF, "left:50px; right:50px; bottom:44px; font-size:26px; font-weight:600; line-height:1.3; color:" + SOFT); })();
+
+        // ===== 17. CTA (78,95 → fin) : commentez « OUTIL » =====
+        (function () { var t0 = 78.95, s = sc(t0, 999); s.style.background = "radial-gradient(ellipse 70% 45% at 50% 38%, #06204f 0%, #000a1f 55%, #00040d 100%)";
+          var avt = div(s, "<svg viewBox='0 0 320 320' style='position:absolute; inset:0; width:100%; height:100%'><defs><linearGradient id='gStory' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.3' stop-color='#fa7e1e'/><stop offset='.6' stop-color='#d62976'/><stop offset='1' stop-color='#962fbf'/></linearGradient></defs><circle id='ring' cx='160' cy='160' r='152' fill='none' stroke='url(#gStory)' stroke-width='10' transform='rotate(-90 160 160)'/></svg><div class='pic'><img src='assets/img/logo-financedata.png'></div>", "", "");
+          avt.id = "avatar";
+          tl.fromTo(avt, { opacity: 0, scale: .6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .5, ease: "power3.out", immediateRender: false }, t0 + .05);
+          var ring = document.getElementById("ring"), rl = 2 * Math.PI * 152; ring.style.strokeDasharray = rl + " " + rl; ring.style.strokeDashoffset = rl;
+          tl.fromTo(ring, { strokeDashoffset: rl }, { strokeDashoffset: 0, duration: .8, ease: "power2.inOut", immediateRender: false }, t0 + .1);
+          fade(div(s, "financedatafr", "left:0; right:0; top:730px; text-align:center; font-size:56px; font-weight:700; letter-spacing:-.04em; color:#fff; opacity:0"), t0 + .25);
+          var bar = div(s, "", "left:110px; top:880px; width:860px; height:110px; border-radius:55px; background:rgba(255,255,255,.08); border:2px solid rgba(255,255,255,.18); opacity:0"); fade(bar, t0 + .4, .3);
+          var ph = div(bar, "Ajouter un commentaire…", "left:48px; top:0; line-height:106px; font-size:36px; color:rgba(255,255,255,.45)");
+          var ty = div(bar, "", "left:48px; top:0; line-height:106px; font-size:44px; font-weight:700; color:#fff");
+          var pub = div(bar, "Publier", "right:44px; top:0; line-height:106px; font-size:36px; font-weight:700; color:#0095f6; opacity:.35");
+          tl.set(ph, { opacity: 0 }, 79.45); ["O", "OU", "OUT", "OUTI", "OUTIL"].forEach(function (t, k) { tl.set(ty, { textContent: t }, 79.45 + k * .07); }); tl.to(pub, { opacity: 1, duration: .1 }, 79.8);
+          tl.to(pub, { scale: .9, duration: .08 }, 80.3); tl.to(pub, { scale: 1, duration: .15 }, 80.38); tl.set(ty, { textContent: "" }, 80.4); tl.set(ph, { opacity: 1 }, 80.4); tl.to(pub, { opacity: .35, duration: .1 }, 80.4);
+          var cm = div(s, "<div style='position:absolute; left:0; top:0; width:84px; height:84px; border-radius:50%; background:linear-gradient(135deg,#3d5afe,#7dd0f5)'></div><div style='position:absolute; left:110px; top:4px; font-size:30px; font-weight:700; color:#fff'>vous <span style='font-weight:400; color:rgba(255,255,255,.5)'>· à l'instant</span></div><div style='position:absolute; left:110px; top:44px; font-size:44px; font-weight:800; color:#fff'>OUTIL</div><div style='position:absolute; right:0; top:22px; font-size:40px; color:#ff1744'>♥</div>", "left:120px; top:1060px; width:840px; height:100px; opacity:0");
+          tl.fromTo(cm, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out", immediateRender: false }, 80.45); })();
+
+        // ===== sous-titres : 3 mots max, « P E » → « P/E », masqués quand le texte est déjà à l'écran =====
+        var W0 = window.VO.words.filter(function (w) { return w.s < END; }), W = [];
+        for (var i = 0; i < W0.length; i++) { var w = W0[i];
+          if (w.w === "P" && W0[i + 1] && /^E[.,]?$/.test(W0[i + 1].w)) { W.push({ w: "P/E" + W0[i + 1].w.slice(1), s: w.s, e: W0[i + 1].e }); i += 1; continue; }
+          if (w.w === "P" && W0[i + 1] && W0[i + 1].w === "F" && W0[i + 3]) { W.push({ w: "P/FCF" + W0[i + 3].w.slice(1), s: w.s, e: W0[i + 3].e }); i += 3; continue; }
+          W.push(w); }
+        var groups = [], cur = [];
+        W.forEach(function (t, k) { cur.push(t); if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W[k + 1]) { groups.push(cur); cur = []; } });
+        var SKIP = [[0, 3.85], [12.5, 17.45], [21.96, 27.16], [40.6, 43.15], [47.69, 51.18], [54.45, 56.7], [78.95, 999]];
+        groups.forEach(function (gp, k) {
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
+          if (SKIP.some(function (r) { return t0 >= r[0] - .05 && t0 < r[1]; })) return;
+          var d = div(top, "<span class='cap-box'>" + gp.map(function (t) { return t.w; }).join(" ") + "</span>", "", "cap-line");
+          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out", immediateRender: false }, Math.max(0, t0 - .06));
+          tl.set(d, { opacity: 0 }, Math.min(t1 - .07, gp[gp.length - 1].e + .6, END - .035));
+        });
+
+        tl.set({}, {}, END);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0);
+      })();
+    </script>
+  </body>
+</html>
