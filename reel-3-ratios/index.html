@@ -35,10 +35,7 @@
     <div id="root" data-composition-id="main" data-start="0" data-duration="86" data-width="1080" data-height="1920">
       <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="86" data-track-index="1"></audio>
       <div id="stage" class="clip" data-start="0" data-duration="86" data-track-index="2" style="position:absolute; inset:0; background:#fff"></div>
-      <video id="v-bourse" class="clip vid" src="assets/video/bourse.mp4" data-start="0" data-duration="3.87" data-track-index="3" muted playsinline></video>
-      <video id="v-hermes-boutique" class="clip vid" src="assets/video/hermes-boutique.mp4" data-start="11.43" data-duration="1.15" data-track-index="3" muted playsinline></video>
-      <video id="v-birkin-sac" class="clip vid" src="assets/video/birkin-sac.mp4" data-start="12.58" data-duration="2.75" data-track-index="3" muted playsinline></video>
-      <video id="v-usine" class="clip vid" src="assets/video/usine.mp4" data-start="15.33" data-duration="2.12" data-track-index="3" muted playsinline></video>
+      <video id="v-bourse" class="clip vid" src="assets/video/bourse.mp4" data-start="6.59" data-duration="5.97" data-track-index="3" muted playsinline></video>
       <video id="v-billets" class="clip vid" src="assets/video/billets.mp4" data-start="25.26" data-duration="8.7" data-track-index="3" muted playsinline></video>
       <video id="v-usine-ciel" class="clip vid" src="assets/video/usine-ciel.mp4" data-start="40.6" data-duration="2.55" data-track-index="3" muted playsinline></video>
       <video id="v-billets-2" class="clip vid" src="assets/video/billets-2.mp4" data-start="47.69" data-duration="3.49" data-track-index="3" muted playsinline></video>
@@ -75,48 +72,32 @@
           pop(div(s, big, "left:0; right:0; top:770px; text-align:center; font-size:230px; font-weight:800; letter-spacing:-.05em; line-height:1", "a w"), t0 + n); }
         function fr(v, dec) { var s = v.toFixed(dec || 0).split("."); return s[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + (s[1] ? "," + s[1] : ""); }
 
-        // ===== 1. Hook : « Voici les 3 chiffres qui vous disent ce que coûte vraiment une action » (vidéo cotations) =====
-        (function () { var s = sc(0, 3.87, top); veil(s);
-          div(s, "Ce que coûte<br>vraiment une action", "left:0; right:0; top:560px; text-align:center; font-size:96px; font-weight:800; letter-spacing:-.045em; line-height:1.02", "a w");
-          ["P/E", "P/FCF", "PEG"].forEach(function (t, k) { var p = div(s, "<span class='pill' style='background:#fff; color:" + INK + "; font-size:56px'>" + t + "</span>", "left:" + [150, 400, 720][k] + "px; top:840px; opacity:0"); pop(p, .56 + k * .2); }); })();
+        // ===== 1. Hook : « Voici les 3 chiffres qui vous disent ce que coûte vraiment une action » (fond bleu sombre) =====
+        (function () { var s = sc(0, 3.87); s.style.background = "radial-gradient(ellipse 80% 55% at 50% 42%, #0d2a63 0%, #071634 60%, #030b1d 100%)";
+          pop(div(s, "3 chiffres", "left:0; right:0; top:700px; text-align:center; font-size:170px; font-weight:800; letter-spacing:-.05em; line-height:1; opacity:0", "a w"), .5);
+          fade(div(s, "pour savoir ce que coûte<br>vraiment une action", "left:0; right:0; top:900px; text-align:center; font-size:52px; font-weight:600; letter-spacing:-.025em; line-height:1.2; color:rgba(255,255,255,.7); opacity:0"), 1.9, .4); })();
 
-        // ===== 2. « Car si vous regardez seulement le prix, il ne vous dira rien » =====
+        // ===== 2. « Car si vous regardez seulement le prix, il ne vous dira rien » (fond blanc) =====
         (function () { var s = sc(3.87, 6.59);
-          div(s, "Le prix de l'action", "left:0; right:0; top:520px; text-align:center; font-size:44px; font-weight:600; color:" + SOFT);
-          var n = div(s, "1 272 €", "left:0; right:0; top:600px; text-align:center; font-size:220px; font-weight:800; letter-spacing:-.05em; line-height:1");
-          rise(n, 3.9, .4); tl.to(n, { color: GRIS, duration: .25 }, 5.58);
-          var g = svg(s, 0, 0, 1080, 1920); draw(el(g, "path", { d: "M150 720 L930 700", stroke: OR2, "stroke-width": 12, "stroke-linecap": "round", fill: "none" }), 5.62, .3);
-          fade(div(s, "ne vous dit rien", "left:0; right:0; top:900px; text-align:center; font-size:72px; font-weight:800; letter-spacing:-.04em; color:" + OR2T + "; opacity:0"), 5.9, .25); })();
+          rise(div(s, "Le prix", "left:0; right:0; top:700px; text-align:center; font-size:190px; font-weight:800; letter-spacing:-.055em; line-height:1"), 3.9, .4);
+          fade(div(s, "ne vous dit rien.", "left:0; right:0; top:920px; text-align:center; font-size:64px; font-weight:700; letter-spacing:-.035em; color:" + SOFT + "; opacity:0"), 5.6, .3); })();
 
-        // ===== 3. « Une action à 1 000 euros peut être une bonne affaire, et une action à 200 euros hors de prix » =====
-        (function () { var s = sc(6.59, 11.43); s.style.background = "#f4f5f8";
-          [["1 000 €", "Bonne affaire", VERT, 7.19, 8.19, 430], ["200 €", "Hors de prix", ROUGE, 9.56, 10.77, 830]].forEach(function (r) {
-            var c = div(s, "", "left:100px; top:" + r[5] + "px; width:880px; height:330px; background:#fff; border-radius:28px; box-shadow:0 24px 60px rgba(11,31,68,.08); opacity:0"); rise(c, r[3] - .25, .35);
-            div(c, "Une action à", "left:60px; top:60px; font-size:36px; font-weight:600; color:" + SOFT);
-            div(c, r[0], "left:60px; top:130px; font-size:140px; font-weight:800; letter-spacing:-.05em; line-height:1");
-            pop(div(c, "<span class='pill' style='background:" + r[2] + "; color:#fff; font-size:44px'>" + r[1] + "</span>", "right:50px; top:44px; opacity:0; transform-origin:100% 50%"), r[4]); }); })();
+        // ===== 3. « Une action à 1 000 euros peut être une bonne affaire, et une action à 200 euros hors de prix » (vidéo cotations) =====
+        (function () { var s = sc(6.59, 11.43, top); veil(s, "rgba(0,10,30,.55)");
+          [["1 000 €", "bonne affaire", VERT, 6.6, 8.19, 8.84], ["200 €", "hors de prix", ROUGE, 8.84, 10.77, 11.43]].forEach(function (r) {
+            var g = div(s, "", "inset:0; opacity:0"); tl.set(g, { opacity: 1 }, r[3]); if (r[5] < 11.43) tl.to(g, { opacity: 0, duration: .15 }, r[5] - .15);
+            rise(div(g, r[0], "left:0; right:0; top:700px; text-align:center; font-size:190px; font-weight:800; letter-spacing:-.055em; line-height:1", "a w"), r[3], .35);
+            pop(div(g, "<span class='pill' style='background:" + r[2] + "; color:#fff; font-size:52px'>" + r[1] + "</span>", "left:0; right:0; top:920px; text-align:center; opacity:0"), r[4]); }); })();
 
-        // ===== 4. « D'ailleurs, regardez. L'action Hermès vaut 1 272 euros » (vidéos boutique + Birkin) =====
-        (function () { var s = sc(12.56, 15.33, top); veil(s, "linear-gradient(180deg, rgba(0,10,30,.6) 0%, rgba(0,10,30,0) 50%)");
-          rise(div(s, "Hermès", "left:100px; top:300px; font-size:110px; font-weight:800; letter-spacing:-.045em", "a w"), 12.95, .35);
-          pop(div(s, "<span class='pill' style='background:#fff; color:" + INK + "; font-size:84px'>1 272 €</span>", "left:94px; top:450px; opacity:0; transform-origin:0 50%"), 13.88); })();
-        // « et celle d'Air Liquide 190 » (vidéo usine)
-        (function () { var s = sc(15.33, 17.45, top); veil(s, "linear-gradient(180deg, rgba(0,10,30,.6) 0%, rgba(0,10,30,0) 50%)");
-          rise(div(s, "Air Liquide", "left:100px; top:300px; font-size:110px; font-weight:800; letter-spacing:-.045em", "a w"), 15.6, .35);
-          pop(div(s, "<span class='pill' style='background:#fff; color:" + INK + "; font-size:84px'>190 €</span>", "left:94px; top:450px; opacity:0; transform-origin:0 50%"), 16.41); })();
-
-        // ===== 5. « Pourtant, c'est Air Liquide qui est la plus chère. Et pour le comprendre, il vous faut ces 3 chiffres » =====
-        (function () { var s = sc(17.45, 21.96);
-          var cols = [["Hermès", "1 272 €", 100], ["Air Liquide", "190 €", 580]];
-          cols.forEach(function (c) { div(s, c[0], "left:" + c[2] + "px; top:330px; font-size:56px; font-weight:800; letter-spacing:-.03em");
-            div(s, c[1], "left:" + c[2] + "px; top:410px; font-size:96px; font-weight:800; letter-spacing:-.05em; line-height:1"); });
-          var hl = div(s, "", "left:580px; top:540px; width:400px; height:10px; background:" + ROUGE + "; transform-origin:0 50%; transform:scaleX(0)"); grow(hl, 18.17, .35);
-          pop(div(s, "<span class='pill' style='background:" + ROUGE + "; color:#fff; font-size:40px'>La plus chère</span>", "left:580px; top:230px; opacity:0; transform-origin:0 50%"), 18.9);
-          ["P/E", "P/FCF", "PEG"].forEach(function (r, k) { var y = 680 + k * 180, t = 20.9 + k * .18;
-            var row = div(s, "", "left:100px; top:" + y + "px; width:880px; height:150px; border-top:2px solid #eceef2; opacity:0"); fade(row, t, .25);
-            div(row, r, "left:0; top:38px; font-size:52px; font-weight:800; letter-spacing:-.03em");
-            div(row, "?", "left:380px; top:30px; font-size:72px; font-weight:800; color:" + GRIS);
-            div(row, "?", "left:480px; top:30px; font-size:72px; font-weight:800; color:" + GRIS); }); })();
+        // ===== 4. « L'action Hermès vaut 1 272 euros, et celle d'Air Liquide 190. Pourtant, c'est Air Liquide qui est la plus chère » : deux cartes =====
+        (function () { var s = sc(12.56, 21.96); s.style.background = "#f4f5f8";
+          [["hermes-logo.svg", 300, "1 272 €", 90, 12.6, 13.88], ["airliquide-logo.svg", 330, "190 €", 560, 15.33, 16.41]].forEach(function (r, k) {
+            var c = div(s, "", "left:" + r[3] + "px; top:560px; width:430px; height:520px; background:#fff; border-radius:28px; box-shadow:0 24px 60px rgba(11,31,68,.08); border:4px solid #fff; opacity:0"); rise(c, r[4], .4);
+            div(c, "<img src='assets/img/" + r[0] + "' style='width:" + r[1] + "px; display:block; margin:0 auto'>", "left:0; right:0; top:110px");
+            div(c, "Prix de l'action", "left:0; right:0; top:300px; text-align:center; font-size:30px; font-weight:600; color:" + SOFT);
+            pop(div(c, r[2], "left:0; right:0; top:350px; text-align:center; font-size:100px; font-weight:800; letter-spacing:-.05em; line-height:1; opacity:0"), r[5]);
+            if (k === 1) { tl.to(c, { borderColor: ROUGE, duration: .25 }, 18.17);
+              pop(div(s, "<span class='pill' style='background:" + ROUGE + "; color:#fff; font-size:40px'>La plus chère</span>", "left:" + r[3] + "px; width:430px; top:470px; text-align:center; opacity:0"), 18.95); } }); })();
 
         // ===== 6. Générique « épisode 11 » (21,96 → 25,26) =====
         (function () { var t0 = 21.96, s = sc(t0, 25.26); s.style.background = "#f2f2f4";
