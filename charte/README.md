@@ -20,5 +20,6 @@
   - une période = bande verticale très légère avec son nom en haut.
 - **Rien ne se chevauche** : aucun texte sur une courbe, une ligne ou un autre texte. Une courbe se nomme au bout de sa ligne ou dans un espace vide, sinon en légende au-dessus du graphique.
 - On n'annote pas tout : deux annotations par graphique au maximum, celles que la voix cite.
+- **Un trait et son texte forment un seul bloc** : ils apparaissent au même moment (le trait se dessine depuis le point en 0,3 s pendant que le texte apparaît), sur le mot que dit la voix, et disparaissent ensemble. Jamais de trait seul à l'écran, ni avant son texte, ni après. Un complément (par exemple « ×3,6 en deux ans » sous « Février 2024 ») peut s'ajouter sous le texte, jamais un second trait.
 - Tout le contexte est affiché dès la coupe ; seule la mise en couleur suit la voix (pas d'écran vide en début de scène).
 - Visuels : **jamais d'images ni de vidéos générées par IA**. Photos de presse ou vidéos réelles, variées d'une vidéo à l'autre (ne pas réutiliser les mêmes). Une photo de personne ne bouge pas.
