@@ -1,0 +1,53 @@
+<!doctype html><html lang="fr"><head><meta charset="UTF-8"><script src="../assets/data.js"></script>
+<style>
+@font-face { font-family: "Display"; src: url("../assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+*{margin:0;padding:0;box-sizing:border-box} body{width:1080px;height:1920px;overflow:hidden;background:#fff;font-family:Display;color:#0b1f44;font-feature-settings:"tnum" 1;-webkit-font-smoothing:antialiased;position:relative}
+.a{position:absolute} svg{position:absolute;overflow:visible} svg text{font-family:Display}
+</style></head><body><script>
+var V=+(new URLSearchParams(location.search).get('v')||1),NS="http://www.w3.org/2000/svg",INK="#0b1f44",SOFT="#6b7280",ROUGE="#ff1744",VERT="#00c853",OR2="#ffab00",OR2T="#f59f00",GRIS="#c5cad3";
+function el(s,t,a,x){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(x!=null)e.textContent=x;s.appendChild(e);return e}
+function div(h,st){var d=document.createElement('div');d.className='a';d.innerHTML=h;d.setAttribute('style',st);document.body.appendChild(d);return d}
+var B=AG.d.filter(function(r){return r[0]>='2025-09-15'}),L=B.length-1,LG=Math.log10,PX=100,PY=600,PW=760,PH=620,lo=LG(24),hi=LG(135);
+var X=function(i){return PX+i/(L+12)*PW},Y=function(v){return PY+PH-(LG(v)-lo)/(hi-lo)*PH};
+var PK=0,LO=0;B.forEach(function(r,i){if(r[1]>B[PK][1])PK=i});LO=PK;for(var i=PK;i<=L;i++)if(B[i][1]<B[LO][1])LO=i;
+var g=el(document.body,'svg',{width:1080,height:1920});g.style.left=0;g.style.top=0;var cp=el(el(g,'defs',{}),'clipPath',{id:'pl'});el(cp,'rect',{x:PX,y:PY-20,width:PW+30,height:PH+20});
+var titles={1:"Style FT · trait fin + texte",2:"Style Bloomberg · zone + niveau + étiquette",3:"Style The Economist · étiquettes directes"};
+div("<span style='font-size:30px;font-weight:700;color:"+SOFT+"'>Proposition "+V+"</span><div style='font-size:46px;font-weight:800;letter-spacing:-.03em;margin-top:6px'>"+titles[V]+"</div>","left:100px;top:120px");
+if(V===3){div("","left:100px;top:290px;width:90px;height:14px;background:#e3120b")}
+div("<div style='font-size:78px;font-weight:800;letter-spacing:-.04em;line-height:1'>Argent</div><div style='font-size:34px;font-weight:500;color:"+SOFT+";margin-top:18px'>L'once, en dollars</div>","left:100px;top:"+(V===3?330:300)+"px");
+// grille
+[30,40,60,80,100,120].forEach(function(v){el(g,'line',{x1:PX,x2:980,y1:Y(v),y2:Y(v),stroke:'#eceef2','stroke-width':1.5});el(g,'text',{x:980,y:Y(v)-12,'font-size':28,fill:SOFT,'font-weight':600,'text-anchor':'end'},v+' $')});
+el(g,'line',{x1:PX,x2:980,y1:PY+PH,y2:PY+PH,stroke:INK,'stroke-width':2.5});
+B.forEach(function(r,i){if(i&&r[0].slice(5,7)!==B[i-1][0].slice(5,7)&&['01','04','07','10'].indexOf(r[0].slice(5,7))>=0)el(g,'text',{x:X(i),y:PY+PH+50,'font-size':28,fill:SOFT,'font-weight':600,'text-anchor':'middle'},r[0].slice(5,7)==='01'?r[0].slice(0,4):{'04':'avr.','07':'juil.','10':'oct.'}[r[0].slice(5,7)])});
+function P(a,b,k){var d='';for(var i=a;i<=b;i++)d+=(d?'L':'M')+X(i).toFixed(1)+' '+Y(B[i][k||1]).toFixed(1);return d}
+// zone (variante 2) derrière
+var e0=0,e1=0;B.forEach(function(r,i){if(r[0]<='2025-12-01')e0=i;if(r[0]<='2026-02-02')e1=i});
+if(V===2){el(g,'rect',{x:X(e0),y:PY,width:X(e1)-X(e0),height:PH,fill:VERT,'fill-opacity':.09});el(g,'text',{x:X(e0)+12,y:PY+38,'font-size':30,'font-weight':800,fill:'#00a344'},'Euphorie')}
+var gc=el(g,'g',{'clip-path':'url(#pl)'});el(gc,'path',{d:P(0,L,2),fill:'none',stroke:OR2,'stroke-width':6,'stroke-linejoin':'round'});
+el(g,'path',{d:P(0,PK),fill:'none',stroke:INK,'stroke-width':6,'stroke-linejoin':'round'});
+el(g,'path',{d:P(PK,LO),fill:'none',stroke:ROUGE,'stroke-width':7,'stroke-linejoin':'round'});
+el(g,'path',{d:P(LO,L),fill:'none',stroke:VERT,'stroke-width':8,'stroke-linejoin':'round','stroke-linecap':'round'});
+var xp=X(PK),yp=Y(B[PK][1]),xl=X(LO),yl=Y(B[LO][1]),xe=X(L),ye=Y(B[L][2]);
+var im=Math.round(L*0.55),xm=X(im),ym=Y(B[im][2]);
+if(V===1){ // FT : filets verticaux fins jusqu'en haut du graphique, texte en tête, aucun marqueur
+  el(g,'line',{x1:xp,x2:xp,y1:PY-60,y2:yp-12,stroke:INK,'stroke-width':2,'stroke-opacity':.5});
+  div("<div style='font-size:44px;font-weight:800;letter-spacing:-.03em'>121 $</div><div style='font-size:28px;font-weight:600;color:"+SOFT+"'>record, 29 janv.</div>","left:"+(xp+14)+"px;top:"+(PY-130)+"px");
+  el(g,'line',{x1:xl,x2:xl,y1:PY-60,y2:yl-14,stroke:ROUGE,'stroke-width':2,'stroke-opacity':.6});
+  div("<div style='text-align:right'><div style='font-size:44px;font-weight:800;letter-spacing:-.03em;color:"+ROUGE+"'>40 $</div><div style='font-size:28px;font-weight:600;color:"+SOFT+"'>25 nov.</div></div>","left:"+(xl-214)+"px;top:"+(PY-130)+"px;width:200px");
+  div("<span style='font-size:30px;font-weight:800;color:"+OR2T+"'>Moyenne mobile 200 semaines</span>","left:"+(xe-470)+"px;top:"+(ye+56)+"px");
+}
+if(V===2){ // Bloomberg : zone de période, niveau pointillé, étiquette du dernier cours sur l'axe
+  el(g,'line',{x1:PX,x2:980,y1:yl,y2:yl,stroke:ROUGE,'stroke-width':2.5,'stroke-dasharray':'10 8'});
+  div("<span style='font-size:30px;font-weight:800;color:"+ROUGE+"'>Point bas · 40 $</span>","left:"+(xm-40)+"px;top:"+(yl-50)+"px");
+  var yLast=Y(B[L][1]);div("<span style='display:inline-block;background:"+VERT+";color:#fff;font-size:30px;font-weight:800;padding:4px 12px;border-radius:4px'>"+B[L][1].toFixed(1).replace('.',',')+" $</span>","left:884px;top:"+(yLast-60)+"px");
+  div("<span style='font-size:30px;font-weight:800;color:"+OR2T+"'>Moyenne mobile 200 semaines</span>","left:"+(xe-470)+"px;top:"+(ye+56)+"px");
+}
+if(V===3){ // The Economist : étiquettes directes reliées par un court trait oblique
+  el(g,'path',{d:'M'+(xp-10)+' '+(yp+4)+' L'+(xp-70)+' '+(yp+40),stroke:INK,'stroke-width':2,fill:'none'});
+  div("<div style='text-align:right'><div style='font-size:40px;font-weight:800;letter-spacing:-.03em'>121 $</div><div style='font-size:28px;font-weight:600;color:"+SOFT+"'>record, janvier</div></div>","left:"+(xp-300)+"px;top:"+(yp+30)+"px;width:220px");
+  el(g,'path',{d:'M'+(xl-12)+' '+(yl-6)+' L'+(xl-70)+' '+(yl-60),stroke:ROUGE,'stroke-width':2,fill:'none'});
+  div("<div style='text-align:right'><div style='font-size:40px;font-weight:800;color:"+ROUGE+"'>40 $</div><div style='font-size:28px;font-weight:600;color:"+SOFT+"'>novembre</div></div>","left:"+(xl-330)+"px;top:"+(yl-130)+"px;width:220px");
+  div("<span style='font-size:30px;font-weight:800;color:"+OR2T+"'>Moyenne mobile 200 semaines</span>","left:"+(xe-470)+"px;top:"+(ye+56)+"px");
+}
+div("Source : Yahoo Finance","left:100px;top:1320px;font-size:28px;font-weight:600;color:"+SOFT);
+</script></body></html>
