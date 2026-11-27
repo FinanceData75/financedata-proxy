@@ -1,18 +1,20 @@
-# L'argent rebondit sur sa moyenne mobile 200 semaines (script du 27/11/2026)
+# L'argent rebondit sur sa moyenne mobile 200 semaines (script du 27/11/2026, v2 : les raisons de la chute)
 
 L'argent a perdu jusqu'à 67 % depuis son record. Mais regardez bien cette ligne car il vient de rebondir pile dessus. Et la dernière fois qu'il l'a touchée, son prix a plus que triplé en deux ans.
 
 Bienvenue dans le guide de la culture financière, épisode 12.
 
-En janvier, l'once d'argent dépassait les 120 dollars, c'était l'euphorie totale. Mercredi, elle est tombée à 40 dollars, la faute à des taux américains proches de 5 % qui font fuir les investisseurs des métaux. Et depuis, elle a déjà repris 11 %.
+En janvier, l'once d'argent dépassait les 120 dollars. Mercredi, elle est tombée à 40 dollars, pile sur cette ligne, la moyenne mobile 200 semaines, c'est-à-dire le prix moyen de l'argent sur quatre ans.
 
-Et cette chute s'est arrêtée pile sur cette ligne, la moyenne mobile 200 semaines. C'est le prix moyen de l'argent sur les quatre dernières années. Il n'y était pas revenu depuis début 2024.
+Et cette chute s'explique par trois raisons.
 
-Regardez, en 2008, en pleine crise, l'argent est passé par cette ligne, avant d'être multiplié par 4 en moins de trois ans. Pareil en 2022, il a rebondi dessus et pris 50 % en deux ans.
+D'abord, les taux américains. Une obligation d'État américaine rapporte aujourd'hui près de 5 %, sans risque ou presque. Alors les investisseurs vendent leurs métaux, qui ne rapportent rien, pour acheter ces obligations.
 
-Et à chaque fois, un deuxième signal était là, la peur. Le RSI, le thermomètre qui dit si un actif a trop monté ou trop baissé, était à 91 en décembre, un record depuis plus de 25 ans. Il vient de passer sous 30, en zone de peur, une première depuis 2022.
+Ensuite, le dollar. Il a pris 8 % depuis janvier et vient d'atteindre son plus haut de l'année. Et comme l'argent se paie en dollars, il devient plus cher pour le reste du monde, qui en achète moins.
 
-De l'euphorie totale à la peur. Et c'est souvent dans ces moments-là que le marché touche son point bas.
+Enfin, le moral des investisseurs. En janvier, c'était l'euphorie totale. Le RSI, le thermomètre qui dit si un actif a trop monté ou trop baissé, était à 91, un record depuis plus de 25 ans. Aujourd'hui, il est passé sous 30, en zone de peur.
+
+Et c'est souvent dans ces moments-là que le marché touche son point bas.
 
 Alors retenez une chose, ne cédez jamais à l'euphorie, c'est comme ça qu'on achète au pire moment. Au contraire, c'est quand tout le monde a peur que vous devez vous y intéresser.
 
