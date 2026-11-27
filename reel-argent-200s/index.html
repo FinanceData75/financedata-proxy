@@ -55,6 +55,8 @@
         function sc(t0, t1, p) { var s = div(p || st, "", "", "scene"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1); return s; }
         function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; p.style.strokeDashoffset = L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power1.inOut", immediateRender: false }, t); tl.set(p, { strokeDasharray: "none" }, t + d + .02); return p; }
         function fr(v, dec) { var s = v.toFixed(dec || 0).split("."); return s[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + (s[1] ? "," + s[1] : ""); }
+        // style FT : trait vertical fin, du texte au point annoté, sans marqueur
+        function hair(g, x, y1, y2, col, t) { var l = el(g, "line", { x1: x, x2: x, y1: y1, y2: y1, stroke: col || INK, "stroke-width": 2, "stroke-opacity": .6 }); tl.fromTo(l, { attr: { y2: y1 } }, { attr: { y2: y2 }, duration: .35, ease: "power2.out", immediateRender: false }, t); return l; }
         function circ(g, x, y, t, r) { var c = el(g, "circle", { cx: x, cy: y, r: 0, fill: "#fff", stroke: OR2, "stroke-width": 5 }); tl.fromTo(c, { attr: { r: 0 } }, { attr: { r: r || 14 }, duration: .25, ease: "back.out(2)", immediateRender: false }, t); return c; }
         function source(s, txt) { div(s, txt, "top:1320px", "src"); }
 
@@ -77,8 +79,8 @@
         var pNew = el(plot, "path", { fill: "none", stroke: ROUGE, "stroke-width": 7, "stroke-linejoin": "round" });
         var pUp = el(plot, "path", { fill: "none", stroke: VERT, "stroke-width": 8, "stroke-linejoin": "round", "stroke-linecap": "round" });
         var p24 = el(plot, "path", { fill: "none", stroke: VERT, "stroke-width": 8, "stroke-linejoin": "round", "stroke-linecap": "round" });
-        var head = el(g, "circle", { r: 10, fill: "#fff", stroke: ROUGE, "stroke-width": 4.5 });
-        var cLow = el(g, "circle", { r: 0, fill: "#fff", stroke: OR2, "stroke-width": 5 }), c24 = el(g, "circle", { r: 0, fill: "#fff", stroke: OR2, "stroke-width": 5 });
+        var head = el(g, "circle", { r: 10, fill: "#fff", stroke: ROUGE, "stroke-width": 4.5, opacity: 0 });
+        var cLow = el(g, "line", { stroke: INK, "stroke-width": 2, "stroke-opacity": .6 }), c24 = el(g, "line", { stroke: INK, "stroke-width": 2, "stroke-opacity": .6 }), HT = { low: 540, t24: 900 };
         var S = { a: idx("2025-08-01"), b: LAST + 12, lo: LG(30), hi: LG(135), p: PEAK, m: 0, up: 0, u24: 0, rl: 0, r24: 0, oldDim: 1 };
         function X(i) { return PX + (i - S.a) / (S.b - S.a) * PW; }
         function Y(v) { return PY + PH - (LG(v) - S.lo) / (S.hi - S.lo) * PH; }
@@ -104,8 +106,8 @@
           pUp.setAttribute("d", S.up > 0 ? path(LOW, LOW + (LAST - LOW) * S.up) : "");
           p24.setAttribute("d", S.u24 > 0 ? path(T24, T24 + (T26 - T24) * S.u24) : "");
           var hp = S.up > 0 ? LOW + (LAST - LOW) * S.up : Math.min(S.p, LOW); head.setAttribute("cx", X(hp)); head.setAttribute("cy", Y(val(hp))); head.setAttribute("stroke", S.up > 0 ? VERT : ROUGE);
-          cLow.setAttribute("cx", X(LOW)); cLow.setAttribute("cy", Y(B[LOW][1]) + 30); cLow.setAttribute("r", 14 * S.rl);
-          c24.setAttribute("cx", X(T24)); c24.setAttribute("cy", Y(B[T24][1]) + 30); c24.setAttribute("r", 14 * S.r24);
+          var yL = Y(B[LOW][1]) - 16; cLow.setAttribute("x1", X(LOW)); cLow.setAttribute("x2", X(LOW)); cLow.setAttribute("y1", HT.low); cLow.setAttribute("y2", HT.low + (yL - HT.low) * S.rl); cLow.style.opacity = S.rl > 0 ? 1 : 0;
+          var y4 = Y(B[T24][1]) - 16; c24.setAttribute("x1", X(T24)); c24.setAttribute("x2", X(T24)); c24.setAttribute("y1", HT.t24); c24.setAttribute("y2", HT.t24 + (y4 - HT.t24) * S.r24); c24.style.opacity = S.r24 > 0 ? 1 : 0;
           if (ticker) { var v = val(hp); ticker.textContent = fr(v, 2) + " $"; pct.textContent = "−" + Math.max(0, Math.round((1 - v / HIGH) * 100)) + " %"; }
         }
         function cam(t, a, b, lo, hi, d) { tl.to(S, { a: a, b: b, lo: LG(lo), hi: LG(hi), duration: d || .8, ease: "power2.inOut" }, t); }
@@ -131,7 +133,8 @@
         cam(6.8, idx("2023-06-01"), LAST + 20, 17, 135, 1.0); tl.to(S, { rl: 0, duration: .2 }, 6.8);
         tl.to(S, { r24: 1, duration: .25, ease: "back.out(2)" }, 7.9);
         tl.to(S, { u24: 1, oldDim: .35, duration: 1.1, ease: "power1.inOut" }, 8.4);
-        var x3 = div(cs, "<span class='pill' style='background:" + VERT + "; color:#fff; font-size:48px'>×3,6 en deux ans</span>", "left:150px; top:620px; opacity:0"); pop(x3, 9.3);
+        var A1 = idx("2023-06-01"), X24 = PX + (T24 - A1) / (LAST + 20 - A1) * PW;
+        var x3 = div(cs, "<div style='font-size:64px; font-weight:800; letter-spacing:-.04em; line-height:1; color:#00a344'>×3,6</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "; margin-top:6px'>en deux ans</div>", "left:" + (X24 + 16) + "px; top:" + (HT.t24 - 100) + "px; opacity:0"); fade(x3, 9.3, .3);
         tl.to([x3, cs], { opacity: 0, duration: .15 }, 10.5);
 
         // ===== 2. Générique « épisode 12 » (10,63 → 13,7) =====
@@ -171,9 +174,10 @@
         // ===== 3. « En janvier, l'once d'argent dépassait les 120 dollars » : lingots (vidéo), puis le record =====
         tl.set(S, { a: idx("2025-09-15"), b: LAST + 12, lo: LG(30), hi: LG(135), p: LOW, m: 0, up: 0, u24: 0, rl: 0, r24: 0, oldDim: 1 }, 15.45);
         tl.set(cs, { opacity: 1 }, 15.5); tl.set(hd, { opacity: 0 }, 15.5);
-        var pk = div(cs, "<div style='font-size:56px; font-weight:800; letter-spacing:-.04em'>121 $</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "'>record, 29 janvier</div>", "left:100px; top:400px; opacity:0"); fade(pk, 15.55, .25); out(pk, 17.2);
+        var A0 = idx("2025-09-15"), XP = function (i) { return PX + (i - A0) / (LAST + 12 - A0) * PW; }, YP = function (v) { return PY + PH - (LG(v) - LG(30)) / (LG(135) - LG(30)) * PH; };
+        var pk = div(cs, "<div style='font-size:56px; font-weight:800; letter-spacing:-.04em'>121 $</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "'>record, 29 janvier</div>", "left:" + (XP(PEAK) + 16) + "px; top:" + (HT.low - 110) + "px; opacity:0"); fade(pk, 15.55, .25); out(pk, 17.2); var hp = hair(g, XP(PEAK), HT.low, YP(B[PEAK][1]) - 16, INK, 15.55); out(hp, 17.2);
         // « Mercredi, elle est tombée à 40 dollars, pile sur cette ligne, la moyenne mobile 200 semaines, c'est le prix moyen de l'argent sur quatre ans »
-        var lw = div(cs, "<div style='font-size:56px; font-weight:800; letter-spacing:-.04em; color:" + ROUGE + "'>40 $</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "'>mercredi 25 novembre</div>", "left:100px; top:400px; opacity:0"); fade(lw, 17.6, .25); out(lw, 19.5);
+        var lw = div(cs, "<div style='text-align:right'><div style='font-size:56px; font-weight:800; letter-spacing:-.04em; color:" + ROUGE + "'>40 $</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "'>mercredi 25 novembre</div></div>", "left:" + (XP(LOW) - 416) + "px; width:400px; top:" + (HT.low - 110) + "px; opacity:0"); fade(lw, 17.6, .25); out(lw, 19.5);
         tl.to(S, { rl: 1, duration: .25 }, 18.6); tl.to(S, { m: 1, duration: .9, ease: "power2.out" }, 18.9);
         var maLab = div(cs, "<span style='display:inline-block; width:46px; height:7px; border-radius:4px; background:" + OR2 + "; vertical-align:middle; margin-right:16px'></span><span style='vertical-align:middle'>Moyenne mobile 200 semaines</span><div style='margin:8px 0 0 62px; font-size:32px; font-weight:600; color:" + SOFT + "'>le prix moyen sur quatre ans</div>", "left:100px; top:400px; font-size:40px; font-weight:800; letter-spacing:-.03em; color:" + OR2T + "; opacity:0"); fade(maLab, 19.7, .3);
         tl.set(maLab.lastChild, { opacity: 0 }, 0); fade(maLab.lastChild, 21.3, .3);
@@ -206,8 +210,8 @@
           var c = chart(s, R, { name: "Dollar", sub: "Indice du dollar face aux grandes devises", lo: 94, hi: 106, ticks: [96, 100, 104], tf: function (v) { return String(v); }, cut: "2026-01-27", t: 36.4, d: 1.4 });
           var iHi = 0; R.forEach(function (r, i) { if (r[1] > R[iHi][1]) iHi = i; });
           var nb = div(s, "+8 %", "right:100px; top:294px; font-size:78px; font-weight:800; letter-spacing:-.04em; line-height:1; color:" + ROUGE + "; opacity:0"); fade(nb, 36.9, .25);
-          circ(c.g, c.X(c.k), c.Y(R[c.k][1]) + 30, 37.8); circ(c.g, c.X(iHi), c.Y(R[iHi][1]) - 30, 39.2);
-          fade(div(s, "Plus haut de l'année", "left:" + (c.X(iHi) - 380) + "px; top:" + (c.Y(R[iHi][1]) - 90) + "px; font-size:34px; font-weight:800; color:" + ROUGE + "; opacity:0"), 39.25, .25);
+          hair(c.g, c.X(iHi), 540, c.Y(R[iHi][1]) - 16, INK, 39.2);
+          fade(div(s, "Plus haut de l'année", "left:" + (c.X(iHi) - 416) + "px; width:400px; text-align:right; top:476px; font-size:34px; font-weight:800; color:" + INK + "; opacity:0"), 39.25, .25);
           source(s, "Source : Yahoo Finance · indice DXY, clôtures quotidiennes"); })();
 
         // ===== 8. « Et enfin, le moral des investisseurs. En janvier, c'était l'euphorie totale » (photo de lingots) =====
@@ -231,17 +235,18 @@
           el(g4, "path", { d: d, fill: "none", stroke: INK, "stroke-width": 5, "stroke-linejoin": "round" });
           var iMax = 0, iMin = L; W.forEach(function (r, i) { if (r[3] > W[iMax][3]) iMax = i; }); for (var k = L - 4; k <= L; k++) if (W[k][3] < W[iMin][3]) iMin = k;
           fade(div(s, "Euphorie", "left:110px; top:" + (Y4(100) + 14) + "px; font-size:34px; font-weight:800; color:#00a344"), 46.42, .01);
-          circ(g4, X4(iMax), Y4(W[iMax][3]) - 30, 50.8);
-          fade(div(s, "<span style='font-size:64px; font-weight:800; color:#00a344'>91</span>", "left:" + (X4(iMax) - 150) + "px; top:" + (Y4(W[iMax][3]) - 70) + "px; opacity:0"), 50.85, .25);
-          circ(g4, X4(iMin), Y4(W[iMin][3]) + 30, 55.0);
-          fade(div(s, "<span style='font-size:64px; font-weight:800; color:" + ROUGE + "'>29</span>", "left:" + (X4(iMin) - 110) + "px; top:" + (Y4(W[iMin][3]) + 10) + "px; opacity:0"), 55.05, .25);
+          hair(g4, X4(iMax), 470, Y4(W[iMax][3]) - 14, INK, 50.8);
+          fade(div(s, "<span style='font-size:56px; font-weight:800; color:#00a344'>91</span><span style='font-size:30px; font-weight:600; color:" + SOFT + "; margin-left:12px'>décembre 2025</span>", "left:" + (X4(iMax) - 416) + "px; width:400px; text-align:right; top:440px; opacity:0"), 50.85, .25);
+          hair(g4, X4(iMin), Y4(W[iMin][3]) + 14, 1150, INK, 55.0);
+          fade(div(s, "<span style='font-size:56px; font-weight:800; color:" + ROUGE + "'>29</span><span style='font-size:30px; font-weight:600; color:" + SOFT + "; margin-left:12px'>novembre 2026</span>", "left:" + (X4(iMin) - 416) + "px; width:400px; text-align:right; top:1100px; opacity:0"), 55.05, .25);
           fade(div(s, "Peur", "left:110px; top:" + (Y4(30) + 14) + "px; font-size:34px; font-weight:800; color:" + ROUGE + "; opacity:0"), 55.6, .3);
           source(s, "Source : Yahoo Finance · RSI 14 semaines, calcul FinanceData"); })();
 
         // ===== 10. « Et c'est souvent dans ces moments-là que le marché touche son point bas » : retour au graphique du hook =====
         tl.set(S, { a: idx("2026-05-01"), b: LAST + 8, lo: LG(34), hi: LG(90), p: LOW, m: 1, up: 1, u24: 0, rl: 0, r24: 0, oldDim: 1 }, 56.35);
         tl.set(cs, { opacity: 1 }, 56.39); tl.set(hd, { opacity: 0 }, 56.39); tl.to(S, { rl: 1, duration: .25, ease: "back.out(2)" }, 58.7);
-        var pb = div(cs, "<span class='pill' style='background:" + INK + "; color:#fff; font-size:44px'>Point bas</span>", "left:100px; top:420px; opacity:0"); pop(pb, 58.75);
+        var A2 = idx("2026-05-01"), XL2 = PX + (LOW - A2) / (LAST + 8 - A2) * PW;
+        var pb = div(cs, "<div style='font-size:56px; font-weight:800; letter-spacing:-.04em'>Point bas</div>", "left:" + (XL2 - 416) + "px; width:400px; text-align:right; top:" + (HT.low - 80) + "px; opacity:0"); fade(pb, 58.75, .25);
         tl.set([pb, cs], { opacity: 0 }, 59.13);
 
         // ===== 11. Le message (59,13 → 66,95), fond bleu sombre, mention AMF =====
