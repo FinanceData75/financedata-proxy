@@ -1,8 +1,8 @@
 # L'argent rebondit sur sa moyenne mobile 200 semaines (script du 27/11/2026)
 
-L'argent s'effondre, et vous devez absolument regarder cette ligne. Il vient de toucher pile dessus, et de rebondir de 11 % en deux jours. Et la dernière fois qu'il est revenu sur cette ligne, son prix a été multiplié par plus de 3 en deux ans.
+L'argent a perdu jusqu'à 67 % depuis son sommet, et vous devez absolument regarder cette ligne. Il vient de toucher pile dessus, et de rebondir de 11 % en deux jours. Et la dernière fois qu'il est revenu sur cette ligne, son prix a été multiplié par plus de 3 en deux ans.
 
-En janvier, l'once d'argent dépassait les 100 dollars, c'était l'euphorie totale. Mercredi, elle est tombée à 40 dollars, soit 60 % de chute en dix mois. La faute à des taux américains proches de 5 %, qui font fuir les investisseurs des métaux.
+En janvier, l'once d'argent dépassait les 120 dollars, c'était l'euphorie totale. Mercredi, elle est tombée à 40 dollars. La faute à des taux américains proches de 5 %, qui font fuir les investisseurs des métaux.
 
 Et cette chute s'est arrêtée pile sur cette ligne, la moyenne mobile 200 semaines. C'est le prix moyen de l'argent sur les quatre dernières années. Il n'y était pas revenu depuis début 2024.
 
