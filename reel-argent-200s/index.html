@@ -57,6 +57,14 @@
         function fr(v, dec) { var s = v.toFixed(dec || 0).split("."); return s[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + (s[1] ? "," + s[1] : ""); }
         // style FT : trait vertical fin, du texte au point annoté, sans marqueur
         function hair(g, x, y1, y2, col, t) { var l = el(g, "line", { x1: x, x2: x, y1: y1, y2: y1, stroke: col || INK, "stroke-width": 2, "stroke-opacity": .6 }); tl.fromTo(l, { attr: { y2: y1 } }, { attr: { y2: y2 }, duration: .35, ease: "power2.out", immediateRender: false }, t); return l; }
+        // annotation FT : trait fin + texte, qui apparaissent et disparaissent ensemble
+        function note(p, g, x, yFrom, yTo, html, align, top, tIn, tOut) {
+          var l = el(g, "line", { x1: x, x2: x, y1: yFrom, y2: yFrom, stroke: INK, "stroke-width": 2, "stroke-opacity": .6, opacity: 0 });
+          var d = div(p, html, (align === "right" ? "left:" + (x - 616) + "px; width:600px; text-align:right" : "left:" + (x + 16) + "px") + "; top:" + top + "px; opacity:0");
+          tl.set(l, { opacity: 1 }, tIn); tl.fromTo(l, { attr: { y2: yFrom } }, { attr: { y2: yTo } , duration: .3, ease: "power2.out", immediateRender: false }, tIn);
+          tl.fromTo(d, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .3, ease: "power2.out", immediateRender: false }, tIn);
+          if (tOut != null) tl.to([l, d], { opacity: 0, duration: .2 }, tOut);
+          return { l: l, d: d }; }
         function circ(g, x, y, t, r) { var c = el(g, "circle", { cx: x, cy: y, r: 0, fill: "#fff", stroke: OR2, "stroke-width": 5 }); tl.fromTo(c, { attr: { r: 0 } }, { attr: { r: r || 14 }, duration: .25, ease: "back.out(2)", immediateRender: false }, t); return c; }
         function source(s, txt) { div(s, txt, "top:1320px", "src"); }
 
@@ -128,14 +136,15 @@
         // « Mais regardez bien cette ligne » : la moyenne mobile (non nommée) se dessine en orange
         tl.to(S, { m: 1, duration: .9, ease: "power2.out" }, 3.6);
         // « car il vient de rebondir pile dessus » : le rebond en vert, petit cercle orange sur le point bas
-        tl.to(S, { up: 1, duration: .8, ease: "power2.out" }, 5.5); tl.to(S, { rl: 1, duration: .25, ease: "back.out(2)" }, 6.1);
+        tl.to(S, { up: 1, duration: .8, ease: "power2.out" }, 5.5); 
         // « Et la dernière fois qu'il l'a touchée, son prix a plus que triplé en deux ans » : on dézoome jusqu'à 2024
-        cam(6.8, idx("2023-06-01"), LAST + 20, 17, 135, 1.0); tl.to(S, { rl: 0, duration: .2 }, 6.8);
-        tl.to(S, { r24: 1, duration: .25, ease: "back.out(2)" }, 7.9);
+        cam(6.8, idx("2023-06-01"), LAST + 20, 17, 135, 1.0); 
         tl.to(S, { u24: 1, oldDim: .35, duration: 1.1, ease: "power1.inOut" }, 8.4);
         var A1 = idx("2023-06-01"), X24 = PX + (T24 - A1) / (LAST + 20 - A1) * PW;
-        var x3 = div(cs, "<div style='font-size:64px; font-weight:800; letter-spacing:-.04em; line-height:1; color:#00a344'>×3,6</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "; margin-top:6px'>en deux ans</div>", "left:" + (X24 + 16) + "px; top:" + (HT.t24 - 100) + "px; opacity:0"); fade(x3, 9.3, .3);
-        tl.to([x3, cs], { opacity: 0, duration: .15 }, 10.5);
+        var YH = function (v) { return PY + PH - (LG(v) - LG(17)) / (LG(135) - LG(17)) * PH; };
+        var n24 = note(cs, g, X24, YH(B[T24][1]) - 16, 900, "<div style='font-size:40px; font-weight:800; letter-spacing:-.03em'>Février 2024</div>", "left", 790, 7.9, null);
+        var x3 = div(n24.d, "×3,6 en deux ans", "position:relative; margin-top:6px; font-size:44px; font-weight:800; letter-spacing:-.03em; color:#00a344; opacity:0"); fade(x3, 9.3, .3);
+        tl.to([n24.l, n24.d, cs], { opacity: 0, duration: .15 }, 10.5);
 
         // ===== 2. Générique « épisode 12 » (10,63 → 13,7) =====
         (function () { var t0 = 10.56, s = sc(t0, 13.61); s.style.background = "#f2f2f4";
@@ -175,10 +184,10 @@
         tl.set(S, { a: idx("2025-09-15"), b: LAST + 12, lo: LG(30), hi: LG(135), p: LOW, m: 0, up: 0, u24: 0, rl: 0, r24: 0, oldDim: 1 }, 15.45);
         tl.set(cs, { opacity: 1 }, 15.5); tl.set(hd, { opacity: 0 }, 15.5);
         var A0 = idx("2025-09-15"), XP = function (i) { return PX + (i - A0) / (LAST + 12 - A0) * PW; }, YP = function (v) { return PY + PH - (LG(v) - LG(30)) / (LG(135) - LG(30)) * PH; };
-        var pk = div(cs, "<div style='font-size:56px; font-weight:800; letter-spacing:-.04em'>121 $</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "'>record, 29 janvier</div>", "left:" + (XP(PEAK) + 16) + "px; top:" + (HT.low - 110) + "px; opacity:0"); fade(pk, 15.55, .25); out(pk, 17.2); var hp = hair(g, XP(PEAK), HT.low, YP(B[PEAK][1]) - 16, INK, 15.55); out(hp, 17.2);
+        note(cs, g, XP(PEAK), YP(B[PEAK][1]) - 16, HT.low, "<div style='font-size:56px; font-weight:800; letter-spacing:-.04em'>121 $</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "'>record, 29 janvier</div>", "left", HT.low - 110, 15.55, 17.2);
         // « Mercredi, elle est tombée à 40 dollars, pile sur cette ligne, la moyenne mobile 200 semaines, c'est le prix moyen de l'argent sur quatre ans »
-        var lw = div(cs, "<div style='text-align:right'><div style='font-size:56px; font-weight:800; letter-spacing:-.04em; color:" + ROUGE + "'>40 $</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "'>mercredi 25 novembre</div></div>", "left:" + (XP(LOW) - 416) + "px; width:400px; top:" + (HT.low - 110) + "px; opacity:0"); fade(lw, 17.6, .25); out(lw, 19.5);
-        tl.to(S, { rl: 1, duration: .25 }, 18.6); tl.to(S, { m: 1, duration: .9, ease: "power2.out" }, 18.9);
+        note(cs, g, XP(LOW), YP(B[LOW][1]) - 16, HT.low, "<div style='font-size:56px; font-weight:800; letter-spacing:-.04em; color:" + ROUGE + "'>40 $</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "'>mercredi 25 novembre</div>", "right", HT.low - 110, 17.6, 19.5);
+        tl.to(S, { m: 1, duration: .9, ease: "power2.out" }, 18.9);
         var maLab = div(cs, "<span style='display:inline-block; width:46px; height:7px; border-radius:4px; background:" + OR2 + "; vertical-align:middle; margin-right:16px'></span><span style='vertical-align:middle'>Moyenne mobile 200 semaines</span><div style='margin:8px 0 0 62px; font-size:32px; font-weight:600; color:" + SOFT + "'>le prix moyen sur quatre ans</div>", "left:100px; top:400px; font-size:40px; font-weight:800; letter-spacing:-.03em; color:" + OR2T + "; opacity:0"); fade(maLab, 19.7, .3);
         tl.set(maLab.lastChild, { opacity: 0 }, 0); fade(maLab.lastChild, 21.3, .3);
         tl.set([maLab], { opacity: 0 }, 23.11); tl.set(cs, { opacity: 0 }, 23.11);
@@ -210,8 +219,7 @@
           var c = chart(s, R, { name: "Dollar", sub: "Indice du dollar face aux grandes devises", lo: 94, hi: 106, ticks: [96, 100, 104], tf: function (v) { return String(v); }, cut: "2026-01-27", t: 36.4, d: 1.4 });
           var iHi = 0; R.forEach(function (r, i) { if (r[1] > R[iHi][1]) iHi = i; });
           var nb = div(s, "+8 %", "right:100px; top:294px; font-size:78px; font-weight:800; letter-spacing:-.04em; line-height:1; color:" + ROUGE + "; opacity:0"); fade(nb, 36.9, .25);
-          hair(c.g, c.X(iHi), 540, c.Y(R[iHi][1]) - 16, INK, 39.2);
-          fade(div(s, "Plus haut de l'année", "left:" + (c.X(iHi) - 416) + "px; width:400px; text-align:right; top:476px; font-size:34px; font-weight:800; color:" + INK + "; opacity:0"), 39.25, .25);
+          note(s, c.g, c.X(iHi), c.Y(R[iHi][1]) - 16, 540, "<span style='font-size:36px; font-weight:800'>Plus haut de l'année</span>", "right", 480, 39.2, null);
           source(s, "Source : Yahoo Finance · indice DXY, clôtures quotidiennes"); })();
 
         // ===== 8. « Et enfin, le moral des investisseurs. En janvier, c'était l'euphorie totale » (photo de lingots) =====
@@ -235,19 +243,18 @@
           el(g4, "path", { d: d, fill: "none", stroke: INK, "stroke-width": 5, "stroke-linejoin": "round" });
           var iMax = 0, iMin = L; W.forEach(function (r, i) { if (r[3] > W[iMax][3]) iMax = i; }); for (var k = L - 4; k <= L; k++) if (W[k][3] < W[iMin][3]) iMin = k;
           fade(div(s, "Euphorie", "left:110px; top:" + (Y4(100) + 14) + "px; font-size:34px; font-weight:800; color:#00a344"), 46.42, .01);
-          hair(g4, X4(iMax), 470, Y4(W[iMax][3]) - 14, INK, 50.8);
-          fade(div(s, "<span style='font-size:56px; font-weight:800; color:#00a344'>91</span><span style='font-size:30px; font-weight:600; color:" + SOFT + "; margin-left:12px'>décembre 2025</span>", "left:" + (X4(iMax) - 416) + "px; width:400px; text-align:right; top:440px; opacity:0"), 50.85, .25);
-          hair(g4, X4(iMin), Y4(W[iMin][3]) + 14, 1150, INK, 55.0);
-          fade(div(s, "<span style='font-size:56px; font-weight:800; color:" + ROUGE + "'>29</span><span style='font-size:30px; font-weight:600; color:" + SOFT + "; margin-left:12px'>novembre 2026</span>", "left:" + (X4(iMin) - 416) + "px; width:400px; text-align:right; top:1100px; opacity:0"), 55.05, .25);
+          note(s, g4, X4(iMax), Y4(W[iMax][3]) - 14, 510, "<span style='font-size:56px; font-weight:800; color:#00a344'>91</span><span style='font-size:30px; font-weight:600; color:" + SOFT + "; margin-left:12px'>décembre 2025</span>", "right", 440, 50.8, null);
+          note(s, g4, X4(iMin), Y4(W[iMin][3]) + 14, 1160, "<span style='font-size:56px; font-weight:800; color:" + ROUGE + "'>29</span><span style='font-size:30px; font-weight:600; color:" + SOFT + "; margin-left:12px'>novembre 2026</span>", "right", 1100, 55.0, null);
           fade(div(s, "Peur", "left:110px; top:" + (Y4(30) + 14) + "px; font-size:34px; font-weight:800; color:" + ROUGE + "; opacity:0"), 55.6, .3);
           source(s, "Source : Yahoo Finance · RSI 14 semaines, calcul FinanceData"); })();
 
         // ===== 10. « Et c'est souvent dans ces moments-là que le marché touche son point bas » : retour au graphique du hook =====
         tl.set(S, { a: idx("2026-05-01"), b: LAST + 8, lo: LG(34), hi: LG(90), p: LOW, m: 1, up: 1, u24: 0, rl: 0, r24: 0, oldDim: 1 }, 56.35);
-        tl.set(cs, { opacity: 1 }, 56.39); tl.set(hd, { opacity: 0 }, 56.39); tl.to(S, { rl: 1, duration: .25, ease: "back.out(2)" }, 58.7);
+        tl.set(cs, { opacity: 1 }, 56.39); tl.set(hd, { opacity: 0 }, 56.39);
         var A2 = idx("2026-05-01"), XL2 = PX + (LOW - A2) / (LAST + 8 - A2) * PW;
-        var pb = div(cs, "<div style='font-size:56px; font-weight:800; letter-spacing:-.04em'>Point bas</div>", "left:" + (XL2 - 416) + "px; width:400px; text-align:right; top:" + (HT.low - 80) + "px; opacity:0"); fade(pb, 58.75, .25);
-        tl.set([pb, cs], { opacity: 0 }, 59.13);
+        var YL2 = PY + PH - (LG(B[LOW][1]) - LG(34)) / (LG(90) - LG(34)) * PH;
+        var pb = note(cs, g, XL2, YL2 - 16, HT.low, "<div style='font-size:56px; font-weight:800; letter-spacing:-.04em'>Point bas</div>", "right", HT.low - 80, 58.7, null);
+        tl.set([pb.l, pb.d, cs], { opacity: 0 }, 59.13);
 
         // ===== 11. Le message (59,13 → 66,95), fond bleu sombre, mention AMF =====
         (function () { var s = sc(59.13, 66.95); s.style.background = NAVY;
