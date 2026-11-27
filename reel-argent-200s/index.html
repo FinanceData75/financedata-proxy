@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="fr" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/gsap.min.js"></script>
+    <script src="assets/vo-words.js"></script>
+    <script src="assets/series.js"></script>
+    <script src="assets/data.js"></script>
+    <style>
+      /* Reel « Le guide de la culture financière, épisode 12 » : l'argent rebondit sur sa moyenne mobile 200 semaines (86 s).
+         Hook comme le reel sur l'or : la chute de l'argent se dessine en direct, cours qui défile, puis la ligne apparaît. Fond blanc, bleu sombre pour les temps forts. */
+      @font-face { font-family: "Helv"; src: local("Helvetica Bold"), local("Helvetica-Bold"), url("assets/fonts/NimbusSans-Bold.otf"); font-weight: 700; }
+      @font-face { font-family: "Plex"; src: url("assets/fonts/IBMPlexMono-Bold.ttf"); font-weight: 700; }
+      @font-face { font-family: "Lora"; src: url("assets/fonts/Lora.ttf"); font-weight: 400 700; }
+      @font-face { font-family: "Display"; src: url("assets/fonts/inter-display-latin-var.woff2"); font-weight: 100 900; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fff; }
+      #root { width: 1080px; height: 1920px; position: relative; overflow: hidden; font-family: "Display", sans-serif; color: #0b1f44; background: #fff; font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
+      .a { position: absolute; }
+      .scene { position: absolute; inset: 0; opacity: 0; overflow: hidden; }
+      svg { position: absolute; overflow: visible; }
+      svg text { font-family: "Display"; font-feature-settings: "tnum" 1; }
+      .src { position: absolute; left: 100px; right: 100px; font-size: 28px; font-weight: 600; color: #6b7280; }
+      .w { color: #fff; }
+      .pill { display: inline-block; padding: 8px 24px 12px; border-radius: 999px; font-weight: 800; letter-spacing: -.02em; }
+      #avatar { position: absolute; left: 380px; top: 380px; width: 320px; height: 320px; opacity: 0; }
+      #avatar .pic { position: absolute; left: 20px; top: 20px; width: 280px; height: 280px; border-radius: 50%; overflow: hidden; border: 8px solid #000a1f; }
+      #avatar .pic img { width: 100%; height: 100%; display: block; }
+      .cap-line { position: absolute; left: 100px; right: 100px; top: 1400px; text-align: center; opacity: 0; }
+      .cap-box { display: inline-block; padding: 8px 22px 13px; border-radius: 4px; background: rgba(30,34,42,.78); font-weight: 700; font-size: 52px; line-height: 1.12; letter-spacing: -.05em; color: #fff; white-space: nowrap; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="86" data-width="1080" data-height="1920">
+      <audio id="vo" src="assets/voix.mp3" data-start="0" data-duration="86" data-track-index="1"></audio>
+      <div id="stage" class="clip" data-start="0" data-duration="86" data-track-index="2" style="position:absolute; inset:0; background:#fff"></div>
+      <video id="v-lingots" class="clip" src="assets/video/lingots.mp4" data-start="13.7" data-duration="1.85" data-track-index="3" muted playsinline style="position:absolute; inset:0; width:1080px; height:1920px; object-fit:cover"></video>
+      <div id="top" class="clip" data-start="0" data-duration="86" data-track-index="4" style="position:absolute; inset:0; pointer-events:none"></div>
+    </div>
+    <script>
+      (function () {
+        var NS = "http://www.w3.org/2000/svg", tl = gsap.timeline({ paused: true }), END = 86;
+        var st = document.getElementById("stage"), top = document.getElementById("top");
+        var INK = "#0b1f44", SOFT = "#6b7280", VERT = "#00c853", ROUGE = "#ff1744", OR2 = "#ffab00", OR2T = "#f59f00", GRIS = "#c5cad3";
+        var NAVY = "radial-gradient(ellipse 80% 55% at 50% 42%, #0d2a63 0%, #071634 60%, #030b1d 100%)";
+        var AMF = "Avis de la rédaction. Ceci n'est pas un conseil en investissement.";
+        function div(p, html, style, cls) { var d = document.createElement("div"); d.className = cls || "a"; d.innerHTML = html; d.setAttribute("style", style || ""); p.appendChild(d); return d; }
+        function el(s, tag, a, text) { var e = document.createElementNS(NS, tag); for (var k in a) e.setAttribute(k, a[k]); if (text != null) e.textContent = text; s.appendChild(e); return e; }
+        function svg(p, x, y, w, h) { var g = document.createElementNS(NS, "svg"); g.setAttribute("width", w); g.setAttribute("height", h); g.style.left = x + "px"; g.style.top = y + "px"; p.appendChild(g); return g; }
+        function fade(n, t, d) { tl.fromTo(n, { opacity: 0 }, { opacity: 1, duration: d || .3, ease: "power1.out", immediateRender: false }, t); return n; }
+        function out(n, t, d) { tl.to(n, { opacity: 0, duration: d || .2 }, t); return n; }
+        function rise(n, t, d) { tl.fromTo(n, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: d || .4, ease: "power3.out", immediateRender: false }, t); return n; }
+        function pop(n, t) { tl.fromTo(n, { opacity: 0, scale: .7 }, { opacity: 1, scale: 1, duration: .35, ease: "back.out(2)", immediateRender: false }, t); return n; }
+        function sc(t0, t1, p) { var s = div(p || st, "", "", "scene"); tl.set(s, { opacity: 1 }, t0); tl.set(s, { opacity: 0 }, t1); return s; }
+        function draw(p, t, d, ease) { var L = p.getTotalLength(); p.style.strokeDasharray = L + " " + L; p.style.strokeDashoffset = L; tl.fromTo(p, { strokeDashoffset: L }, { strokeDashoffset: 0, duration: d, ease: ease || "power1.inOut", immediateRender: false }, t); tl.set(p, { strokeDasharray: "none" }, t + d + .02); return p; }
+        function fr(v, dec) { var s = v.toFixed(dec || 0).split("."); return s[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ") + (s[1] ? "," + s[1] : ""); }
+        function circ(g, x, y, t, r) { var c = el(g, "circle", { cx: x, cy: y, r: 0, fill: "#fff", stroke: OR2, "stroke-width": 5 }); tl.fromTo(c, { attr: { r: 0 } }, { attr: { r: r || 14 }, duration: .25, ease: "back.out(2)", immediateRender: false }, t); return c; }
+        function source(s, txt) { div(s, txt, "top:1320px", "src"); }
+
+        // ================= 1. Graphique « caméra » de l'argent (cours quotidiens + moyenne mobile 200 semaines) =================
+        var B = window.AG.d, N = B.length, LAST = N - 1, LG = Math.log10, HIGH = 121.3;
+        function idx(d) { for (var i = 0; i < N; i++) if (B[i][0] >= d) return i; return N - 1; }
+        var PEAK = 0; B.forEach(function (r, i) { if (r[1] > B[PEAK][1]) PEAK = i; });
+        var LOW = PEAK; for (var i = PEAK; i < N; i++) if (B[i][1] < B[LOW][1]) LOW = i;
+        var T24 = idx("2024-02-20"), T26 = idx("2026-02-17");
+        var cs = div(st, "", "inset:0; opacity:0");
+        var PX = 100, PY = 600, PW = 760, PH = 620;
+        var g = svg(cs, 0, 0, 1080, 1920), defs = el(g, "defs", {});
+        var cp = el(defs, "clipPath", { id: "plot" }); el(cp, "rect", { x: PX - 10, y: PY - 80, width: PW + 20, height: PH + 80 });
+        var gr = el(defs, "linearGradient", { id: "fall", x1: 0, y1: 0, x2: 0, y2: 1 }); el(gr, "stop", { offset: 0, "stop-color": ROUGE, "stop-opacity": .2 }); el(gr, "stop", { offset: 1, "stop-color": ROUGE, "stop-opacity": 0 });
+        var axis = el(g, "g", {}), plot = el(g, "g", { "clip-path": "url(#plot)" });
+        el(g, "line", { x1: PX, x2: PX + PW, y1: PY + PH, y2: PY + PH, stroke: INK, "stroke-width": 2.5 });
+        var area = el(plot, "path", { fill: "url(#fall)" });
+        var pMA = el(plot, "path", { fill: "none", stroke: OR2, "stroke-width": 6, "stroke-linejoin": "round", "stroke-linecap": "round" });
+        var pOld = el(plot, "path", { fill: "none", stroke: INK, "stroke-width": 6, "stroke-linejoin": "round" });
+        var pNew = el(plot, "path", { fill: "none", stroke: ROUGE, "stroke-width": 7, "stroke-linejoin": "round" });
+        var pUp = el(plot, "path", { fill: "none", stroke: VERT, "stroke-width": 8, "stroke-linejoin": "round", "stroke-linecap": "round" });
+        var p24 = el(plot, "path", { fill: "none", stroke: VERT, "stroke-width": 8, "stroke-linejoin": "round", "stroke-linecap": "round" });
+        var head = el(g, "circle", { r: 10, fill: "#fff", stroke: ROUGE, "stroke-width": 4.5 });
+        var cLow = el(g, "circle", { r: 0, fill: "#fff", stroke: OR2, "stroke-width": 5 }), c24 = el(g, "circle", { r: 0, fill: "#fff", stroke: OR2, "stroke-width": 5 });
+        var S = { a: idx("2025-08-01"), b: LAST + 12, lo: LG(30), hi: LG(135), p: PEAK, m: 0, up: 0, u24: 0, rl: 0, r24: 0, oldDim: 1 };
+        function X(i) { return PX + (i - S.a) / (S.b - S.a) * PW; }
+        function Y(v) { return PY + PH - (LG(v) - S.lo) / (S.hi - S.lo) * PH; }
+        function val(i) { var f = Math.floor(i), c = Math.min(f + 1, LAST); return B[f][1] + (B[c][1] - B[f][1]) * (i - f); }
+        function path(i0, i1, k) { k = k || 1; var d = "", s = Math.max(0, Math.floor(Math.max(i0, S.a - 2))), e = Math.min(i1, S.b + 2); if (e <= s) return "";
+          for (var i = s; i < e; i++) d += (d ? "L" : "M") + X(i).toFixed(1) + " " + Y(B[i][k]).toFixed(1);
+          var vE = k === 1 ? val(e) : B[Math.min(Math.ceil(e), LAST)][k]; return d + (d ? "L" : "M") + X(e).toFixed(1) + " " + Y(vE).toFixed(1); }
+        var YT = [20, 30, 40, 60, 80, 100, 120], MO = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+        var ticker, pct;
+        function render() {
+          axis.textContent = ""; var lastY = 1e9;
+          YT.forEach(function (v) { var y = Y(v); if (y < PY - 10 || y > PY + PH - 20 || lastY - y < 56) return; lastY = y;
+            el(axis, "line", { x1: PX, x2: PX + PW, y1: y, y2: y, stroke: "#eceef2", "stroke-width": 1.5 });
+            el(axis, "text", { x: 980, y: y + 9, "font-size": 28, fill: SOFT, "font-weight": 600, "text-anchor": "end" }, v + " $"); });
+          var span = S.b - S.a, step = span > 500 ? 12 : span > 200 ? 6 : span > 90 ? 3 : 1, lastX = -1e9;
+          for (var i = Math.max(1, Math.ceil(S.a)); i <= Math.min(LAST, S.b); i++) { var d0 = B[i - 1][0], d1 = B[i][0];
+            if (d1.slice(5, 7) !== d0.slice(5, 7)) { var mo = +d1.slice(5, 7); if ((mo - 1) % step !== 0) continue; var lab = mo === 1 ? d1.slice(0, 4) : MO[mo - 1];
+              if (X(i) - lastX > 110 && X(i) > PX + 30 && X(i) < PX + PW - 30) { lastX = X(i); el(axis, "text", { x: X(i), y: PY + PH + 50, "font-size": 28, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, lab); } } }
+          pOld.setAttribute("d", path(0, Math.min(S.p, PEAK))); pOld.style.opacity = S.oldDim;
+          var dn = S.p > PEAK ? path(PEAK, Math.min(S.p, LOW)) : ""; pNew.setAttribute("d", dn);
+          area.setAttribute("d", dn ? dn + "L" + X(Math.min(S.p, LOW)).toFixed(1) + " " + (PY + PH) + "L" + X(PEAK).toFixed(1) + " " + (PY + PH) + "Z" : "");
+          pMA.setAttribute("d", S.m > 0 ? path(S.a, S.a + (LAST - S.a) * S.m, 2) : "");
+          pUp.setAttribute("d", S.up > 0 ? path(LOW, LOW + (LAST - LOW) * S.up) : "");
+          p24.setAttribute("d", S.u24 > 0 ? path(T24, T24 + (T26 - T24) * S.u24) : "");
+          var hp = S.up > 0 ? LOW + (LAST - LOW) * S.up : Math.min(S.p, LOW); head.setAttribute("cx", X(hp)); head.setAttribute("cy", Y(val(hp))); head.setAttribute("stroke", S.up > 0 ? VERT : ROUGE);
+          cLow.setAttribute("cx", X(LOW)); cLow.setAttribute("cy", Y(B[LOW][1]) + 30); cLow.setAttribute("r", 14 * S.rl);
+          c24.setAttribute("cx", X(T24)); c24.setAttribute("cy", Y(B[T24][1]) + 30); c24.setAttribute("r", 14 * S.r24);
+          if (ticker) { var v = val(hp); ticker.textContent = fr(v, 2) + " $"; pct.textContent = "−" + Math.max(0, Math.round((1 - v / HIGH) * 100)) + " %"; }
+        }
+        function cam(t, a, b, lo, hi, d) { tl.to(S, { a: a, b: b, lo: LG(lo), hi: LG(hi), duration: d || .8, ease: "power2.inOut" }, t); }
+        tl.eventCallback("onUpdate", render);
+        var srcC = div(cs, "Argent, contrat à terme · Clôtures quotidiennes · Source : Yahoo Finance", "top:1320px", "src");
+        // en-tête : l'once d'argent, cours qui défile, baisse depuis le record
+        var hd = div(cs, "", "left:100px; top:330px; width:880px; height:220px");
+        div(hd, "<svg width='48' height='48' viewBox='0 0 64 64' style='position:static; vertical-align:middle'><circle cx='32' cy='32' r='32' fill='#aeb6c2'/><circle cx='32' cy='32' r='22' fill='none' stroke='#fff' stroke-width='3' stroke-opacity='.8'/></svg><span style='vertical-align:middle; margin-left:14px; font-size:40px; font-weight:700; letter-spacing:-.04em'>Argent · l'once</span>", "left:0; top:0");
+        ticker = div(hd, "", "left:0; top:72px; font-size:100px; font-weight:800; letter-spacing:-.055em; line-height:1; white-space:nowrap");
+        pct = div(hd, "", "right:0; top:92px; padding:4px 16px 8px; border-radius:6px; background:rgba(255,23,68,.1); color:" + ROUGE + "; font-size:46px; font-weight:800; letter-spacing:-.04em; white-space:nowrap");
+        var hdUp = div(hd, "+11 %", "right:0; top:92px; padding:4px 16px 8px; border-radius:6px; background:rgba(0,200,83,.12); color:#00a344; font-size:46px; font-weight:800; letter-spacing:-.04em; white-space:nowrap; opacity:0");
+
+        // ===== HOOK (0 → 10,63) =====
+        tl.set(cs, { opacity: 1 }, 0);
+        // « L'argent a perdu jusqu'à 67 % depuis son record » : la chute se dessine, le cours défile
+        tl.fromTo(S, { p: PEAK }, { p: LOW, duration: 2.7, ease: "power1.in" }, 0);
+        tl.fromTo(g, { scale: 1.03, transformOrigin: "50% 50%" }, { scale: 1, duration: 3.2, ease: "power1.out" }, 0);
+        // « Mais regardez bien cette ligne » : la moyenne mobile (non nommée) se dessine en orange
+        tl.to(S, { m: 1, duration: .9, ease: "power2.out" }, 3.6);
+        // « car il vient de rebondir pile dessus » : le rebond en vert, petit cercle orange sur le point bas
+        tl.to(S, { up: 1, duration: .8, ease: "power2.out" }, 5.5); tl.to(S, { rl: 1, duration: .25, ease: "back.out(2)" }, 6.1);
+        // « Et la dernière fois qu'il l'a touchée, son prix a plus que triplé en deux ans » : on dézoome jusqu'à 2024
+        cam(6.8, idx("2023-06-01"), LAST + 20, 17, 135, 1.0); tl.to(S, { rl: 0, duration: .2 }, 6.8);
+        tl.to(S, { r24: 1, duration: .25, ease: "back.out(2)" }, 7.9);
+        tl.to(S, { u24: 1, oldDim: .35, duration: 1.1, ease: "power1.inOut" }, 8.4);
+        var x3 = div(cs, "<span class='pill' style='background:" + VERT + "; color:#fff; font-size:48px'>×3,6 en deux ans</span>", "left:150px; top:620px; opacity:0"); pop(x3, 9.3);
+        tl.to([x3, cs], { opacity: 0, duration: .15 }, 10.5);
+
+        // ===== 2. Générique « épisode 12 » (10,63 → 13,7) =====
+        (function () { var t0 = 10.63, s = sc(t0, 13.7); s.style.background = "#f2f2f4";
+          div(s, "<svg width='1080' height='1920' style='position:absolute; inset:0'><filter id='gr2'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .09 0'/></filter><rect width='1080' height='1920' filter='url(#gr2)'/></svg>", "inset:0");
+          div(s, "", "inset:0; background:radial-gradient(ellipse 75% 60% at 50% 48%, rgba(0,0,0,0) 55%, rgba(0,0,0,.1) 100%)");
+          var gg = svg(s, 0, 0, 1080, 1920), SE = window.SER;
+          function line(v, y0, y1, op, w, t, dur) { var lo = Math.min.apply(0, v), hi = Math.max.apply(0, v), d = "";
+            v.forEach(function (x, i) { var XX = -20 + i / (v.length - 1) * 1120, YY = y1 - (Math.log(x) - Math.log(lo)) / (Math.log(hi) - Math.log(lo)) * (y1 - y0); d += (i ? "L" : "M") + XX.toFixed(1) + " " + YY.toFixed(1); });
+            draw(el(gg, "path", { d: d, fill: "none", stroke: "#7c96e6", "stroke-width": w, "stroke-opacity": op, "stroke-linejoin": "round" }), t, dur, "power1.out"); }
+          line(SE.vix, 60, 640, .75, 3.5, t0, 2.4); line(SE.ndx, 1180, 1880, .35, 3, t0 + .1, 2.6); line(SE.spx, 1250, 1860, .75, 3.5, t0, 2.6);
+          var blk = div(s, "", "left:0; right:0; margin:auto; width:max-content; top:720px");
+          var row = div(blk, "", "position:relative; font-family:Helv, Helvetica, sans-serif; font-size:78px; font-weight:700; letter-spacing:-.035em; line-height:1.15; color:#00194B; white-space:nowrap; text-align:left");
+          ["le", "guide", "de", "la", "culture"].forEach(function (w, k) { var sp = document.createElement("span"); sp.textContent = w + (k < 4 ? " " : ""); sp.style.display = "inline-block"; sp.style.whiteSpace = "pre"; sp.style.opacity = 0; row.appendChild(sp);
+            tl.fromTo(sp, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, t0 + [.45, .57, .77, .89, 1.0][k]); });
+          var box = div(blk, "", "position:relative; margin-top:10px; background:#00194B; text-align:center; padding:10px 0 22px; font-family:Plex; font-size:116px; font-weight:700; line-height:1; color:#fff");
+          "financière".split("").forEach(function (c, k) { var sp = document.createElement("span"); sp.textContent = c; sp.style.opacity = 0; box.appendChild(sp);
+            tl.fromTo(sp, { opacity: 0 }, { opacity: 1, duration: .18, ease: "power1.out", immediateRender: false }, t0 + 1.4 + k * .035); });
+          box.style.clipPath = "inset(0 100% 0 0)";
+          tl.fromTo(box, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: .5, ease: "power3.inOut", immediateRender: false }, t0 + 1.2);
+          var ep = div(blk, "épisode 12", "position:relative; margin-top:14px; text-align:right; font-family:Lora, serif; font-size:56px; font-weight:400; letter-spacing:.01em; color:#00194B; opacity:0");
+          tl.fromTo(ep, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", immediateRender: false }, t0 + 2.1); })();
+
+        // ===== 3. « En janvier, l'once d'argent dépassait les 120 dollars, c'était l'euphorie totale » : lingots (vidéo), puis le record =====
+        // le graphique revient sur le record (15,55 → 20,2)
+        tl.set(S, { a: idx("2025-09-15"), b: LAST + 12, lo: LG(30), hi: LG(135), p: LOW, m: 0, up: 0, u24: 0, rl: 0, r24: 0, oldDim: 1 }, 15.5);
+        tl.set(cs, { opacity: 1 }, 15.55); tl.set(hd, { opacity: 0 }, 15.55);
+        var gP = svg(cs, 0, 0, 1080, 1920), lpk = div(cs, "", "left:0; top:0; opacity:0");
+        var pk = div(cs, "<div style='font-size:56px; font-weight:800; letter-spacing:-.04em'>121 $</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "'>record, 29 janvier</div>", "left:100px; top:400px; opacity:0"); fade(pk, 15.7, .3);
+        var eu = pop(div(cs, "<span class='pill' style='background:" + VERT + "; color:#fff; font-size:44px'>Euphorie totale</span>", "left:420px; top:412px; opacity:0"), 16.8);
+        tl.to([pk, eu], { opacity: 0, duration: .2 }, 19.15);
+        var lw = div(cs, "<div style='font-size:56px; font-weight:800; letter-spacing:-.04em; color:" + ROUGE + "'>40 $</div><div style='font-size:30px; font-weight:600; color:" + SOFT + "'>mercredi 25 novembre</div>", "left:100px; top:400px; opacity:0"); fade(lw, 19.4, .3);
+        tl.to(S, { rl: 1, duration: .25 }, 19.4);
+        tl.set([pk, lw], { opacity: 0 }, 20.2); tl.set(cs, { opacity: 0 }, 20.2);
+        cs.querySelectorAll(".pill").forEach(function (p) { tl.set(p.parentNode, { opacity: 0 }, 20.2); });
+
+        // ===== 4. « la faute à des taux américains proches de 5 % qui font fuir les investisseurs des métaux » (20,2 → 24,51) =====
+        (function () { var s = sc(20.2, 24.51), R = window.AG.tnx, L = R.length - 1, PX2 = 100, PY2 = 560, PW2 = 760, PH2 = 640, lo = 3.8, hi = 5.6;
+          div(s, "Taux à 10 ans", "left:100px; top:290px; font-size:78px; font-weight:800; letter-spacing:-.04em; line-height:1");
+          div(s, "Obligation d'État américaine, en %", "left:100px; top:390px; font-size:34px; font-weight:500; color:" + SOFT);
+          var X2 = function (i) { return PX2 + i / (L + 12) * PW2; }, Y2 = function (v) { return PY2 + PH2 - (v - lo) / (hi - lo) * PH2; }, g2 = svg(s, 0, 0, 1080, 1920);
+          [4, 4.5, 5, 5.5].forEach(function (v) { el(g2, "line", { x1: PX2, x2: 980, y1: Y2(v), y2: Y2(v), stroke: "#eceef2", "stroke-width": 1.5 }); el(g2, "text", { x: 980, y: Y2(v) - 12, "font-size": 28, fill: SOFT, "font-weight": 600, "text-anchor": "end" }, fr(v, 1) + " %"); });
+          el(g2, "line", { x1: PX2, x2: 980, y1: PY2 + PH2, y2: PY2 + PH2, stroke: INK, "stroke-width": 2.5 });
+          var d = ""; R.forEach(function (r, i) { d += (i ? "L" : "M") + X2(i).toFixed(1) + " " + Y2(r[1]).toFixed(1); });
+          var i0 = 0; R.forEach(function (r, i) { if (r[0] < "2026-07-01") i0 = i; });
+          var dA = "", dB = ""; R.forEach(function (r, i) { if (i <= i0) dA += (dA ? "L" : "M") + X2(i).toFixed(1) + " " + Y2(r[1]).toFixed(1); if (i >= i0) dB += (dB ? "L" : "M") + X2(i).toFixed(1) + " " + Y2(r[1]).toFixed(1); });
+          el(g2, "path", { d: dA, fill: "none", stroke: GRIS, "stroke-width": 6, "stroke-linejoin": "round" });
+          draw(el(g2, "path", { d: dB, fill: "none", stroke: ROUGE, "stroke-width": 7, "stroke-linejoin": "round" }), 20.3, 1.2);
+          var h5 = el(g2, "line", { x1: PX2, x2: X2(L) + 40, y1: Y2(5), y2: Y2(5), stroke: OR2, "stroke-width": 4, "stroke-dasharray": "14 10", opacity: 0 }); fade(h5, 21.8, .3);
+          var t5 = div(s, "5 %", "left:110px; top:" + (Y2(5) - 60) + "px; font-size:40px; font-weight:800; color:" + OR2T + "; opacity:0"); fade(t5, 21.9, .25);
+          source(s, "Source : Yahoo Finance · taux à 10 ans américain, clôtures quotidiennes"); })();
+
+        // ===== 5. « Et depuis, elle a déjà repris 11 % » (24,51 → 26,9) : zoom sur le rebond =====
+        tl.set(S, { a: idx("2026-09-01"), b: LAST + 6, lo: LG(36), hi: LG(80), p: LOW, m: 1, up: 0, u24: 0, rl: 0, r24: 0, oldDim: 1 }, 24.5);
+        tl.set(cs, { opacity: 1 }, 24.51); tl.set(hd, { opacity: 1 }, 24.51); tl.set(pct, { opacity: 0 }, 24.51);
+        tl.to(S, { up: 1, duration: 1.0, ease: "power2.out" }, 25.2); fade(hdUp, 26.1, .25);
+
+        // ===== 6. « Et cette chute s'est arrêtée pile sur cette ligne, la moyenne mobile 200 semaines […] pas revenu depuis début 2024 » (26,9 → 36,04) =====
+        tl.set(hdUp, { opacity: 0 }, 26.9); tl.set(hd, { opacity: 0 }, 26.9);
+        cam(26.95, idx("2023-06-01"), LAST + 20, 17, 135, 1.0);
+        var maLab = div(cs, "<span style='display:inline-block; width:46px; height:7px; border-radius:4px; background:" + OR2 + "; vertical-align:middle; margin-right:16px'></span><span style='vertical-align:middle'>Moyenne mobile 200 semaines</span>", "left:100px; top:430px; font-size:40px; font-weight:800; letter-spacing:-.03em; color:" + OR2T + "; opacity:0"); fade(maLab, 29.3, .3);
+        tl.to(S, { rl: 1, duration: .25 }, 28.0);
+        var A1 = idx("2023-06-01"), X24 = PX + (T24 - A1) / (LAST + 20 - A1) * PW;
+        var y24 = div(cs, "<span style='font-size:34px; font-weight:800; color:" + OR2T + "'>début 2024</span>", "left:" + (X24 + 28) + "px; top:1155px; opacity:0");
+        tl.to(S, { r24: 1, duration: .25 }, 34.9); fade(y24, 34.95, .25);
+        tl.set([maLab, y24], { opacity: 0 }, 36.04); tl.set(cs, { opacity: 0 }, 36.04);
+
+        // ===== 7. Preuves : 2008 et 2022 sur 20 ans (36,04 → 46,93) =====
+        (function () { var s = sc(36.04, 46.93), W = window.AG.w.filter(function (r) { return r[0] >= "2006-01-01"; }), L = W.length - 1;
+          var PX3 = 100, PY3 = 520, PW3 = 760, PH3 = 700, lo = LG(4), hi = LG(140);
+          var X3 = function (i) { return PX3 + i / (L + 30) * PW3; }, Y3 = function (v) { return PY3 + PH3 - (LG(v) - lo) / (hi - lo) * PH3; }, g3 = svg(s, 0, 0, 1080, 1920);
+          div(s, "Argent", "left:100px; top:290px; font-size:78px; font-weight:800; letter-spacing:-.04em; line-height:1");
+          div(s, "L'once, en dollars, échelle logarithmique", "left:100px; top:390px; font-size:34px; font-weight:500; color:" + SOFT);
+          [5, 10, 20, 40, 80].forEach(function (v) { el(g3, "line", { x1: PX3, x2: 980, y1: Y3(v), y2: Y3(v), stroke: "#eceef2", "stroke-width": 1.5 }); el(g3, "text", { x: 980, y: Y3(v) - 12, "font-size": 28, fill: SOFT, "font-weight": 600, "text-anchor": "end" }, v + " $"); });
+          el(g3, "line", { x1: PX3, x2: 980, y1: PY3 + PH3, y2: PY3 + PH3, stroke: INK, "stroke-width": 2.5 });
+          W.forEach(function (r, i) { if (i && r[0].slice(0, 4) !== W[i - 1][0].slice(0, 4) && +r[0].slice(0, 4) % 4 === 0) el(g3, "text", { x: X3(i), y: PY3 + PH3 + 50, "font-size": 28, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, r[0].slice(0, 4)); });
+          function pth(a, b, k) { var d = ""; for (var i = a; i <= b; i++) if (W[i][k] != null) d += (d ? "L" : "M") + X3(i).toFixed(1) + " " + Y3(W[i][k]).toFixed(1); return d; }
+          function wi(d) { for (var i = 0; i < W.length; i++) if (W[i][0] >= d) return i; return L; }
+          el(g3, "path", { d: pth(0, L, 1), fill: "none", stroke: GRIS, "stroke-width": 5, "stroke-linejoin": "round" });
+          el(g3, "path", { d: pth(0, L, 2), fill: "none", stroke: OR2, "stroke-width": 6, "stroke-linejoin": "round" });
+          [["2008-09-08", "2011-04-25", 38.9, 40.4, "×4,5", 41.3], ["2022-06-27", "2024-06-24", 44.3, 45.0, "+49 %", 45.6]].forEach(function (p) { var a = wi(p[0]), b = wi(p[1]);
+            circ(g3, X3(a), Y3(W[a][1]) + 30, p[2]);
+            draw(el(g3, "path", { d: pth(a, b, 1), fill: "none", stroke: VERT, "stroke-width": 8, "stroke-linejoin": "round", "stroke-linecap": "round" }), p[3], .9);
+            fade(div(s, "<span style='display:inline-block; transform:translateX(-50%)' class='pill'>" + p[4] + "</span>", "left:" + X3(b) + "px; top:" + (Y3(W[b][1]) - 110) + "px; opacity:0; color:#fff").querySelector("span").parentNode, p[5], .25);
+            s.lastChild.querySelector("span").style.background = VERT; s.lastChild.querySelector("span").style.fontSize = "44px"; });
+          source(s, "Source : Yahoo Finance · clôtures hebdomadaires, moyenne mobile 200 semaines en orange"); })();
+
+        // ===== 8. « Et à chaque fois, un deuxième signal était là, la peur » (46,93 → 49,84), fond bleu sombre =====
+        (function () { var s = sc(46.93, 49.84); s.style.background = NAVY;
+          fade(div(s, "Deuxième signal", "left:0; right:0; top:720px; text-align:center; font-size:46px; font-weight:700; color:" + OR2 + "; opacity:0"), 47.9, .3);
+          pop(div(s, "La peur", "left:0; right:0; top:800px; text-align:center; font-size:200px; font-weight:800; letter-spacing:-.05em; line-height:1; opacity:0", "a w"), 49.2); })();
+
+        // ===== 9. Le RSI : 91 en décembre, sous 30 aujourd'hui (49,84 → 61,67) =====
+        (function () { var s = sc(49.84, 61.67), W = window.AG.w.filter(function (r) { return r[0] >= "2019-01-01"; }), L = W.length - 1;
+          var PX4 = 100, PY4 = 560, PW4 = 760, PH4 = 640, X4 = function (i) { return PX4 + i / (L + 10) * PW4; }, Y4 = function (v) { return PY4 + PH4 - v / 100 * PH4; }, g4 = svg(s, 0, 0, 1080, 1920);
+          div(s, "RSI", "left:100px; top:290px; font-size:78px; font-weight:800; letter-spacing:-.04em; line-height:1");
+          div(s, "Le thermomètre de l'argent, chaque semaine", "left:100px; top:390px; font-size:34px; font-weight:500; color:" + SOFT);
+          var zE = el(g4, "rect", { x: PX4, y: Y4(100), width: PW4 + 120, height: Y4(70) - Y4(100), fill: VERT, "fill-opacity": .08 }), zP = el(g4, "rect", { x: PX4, y: Y4(30), width: PW4 + 120, height: Y4(0) - Y4(30), fill: ROUGE, "fill-opacity": .08 });
+          [30, 50, 70].forEach(function (v) { el(g4, "line", { x1: PX4, x2: 980, y1: Y4(v), y2: Y4(v), stroke: "#eceef2", "stroke-width": 1.5 }); el(g4, "text", { x: 980, y: Y4(v) - 12, "font-size": 28, fill: SOFT, "font-weight": 600, "text-anchor": "end" }, String(v)); });
+          el(g4, "line", { x1: PX4, x2: 980, y1: PY4 + PH4, y2: PY4 + PH4, stroke: INK, "stroke-width": 2.5 });
+          W.forEach(function (r, i) { if (i && r[0].slice(0, 4) !== W[i - 1][0].slice(0, 4) && +r[0].slice(0, 4) % 2 === 0) el(g4, "text", { x: X4(i), y: PY4 + PH4 + 50, "font-size": 28, fill: SOFT, "font-weight": 600, "text-anchor": "middle" }, r[0].slice(0, 4)); });
+          var d = ""; W.forEach(function (r, i) { d += (i ? "L" : "M") + X4(i).toFixed(1) + " " + Y4(r[3]).toFixed(1); });
+          el(g4, "path", { d: d, fill: "none", stroke: INK, "stroke-width": 5, "stroke-linejoin": "round" });
+          var iMax = 0, iMin = L; W.forEach(function (r, i) { if (r[3] > W[iMax][3]) iMax = i; }); for (var k = L - 4; k <= L; k++) if (W[k][3] < W[iMin][3]) iMin = k;
+          circ(g4, X4(iMax), Y4(W[iMax][3]) - 30, 54.2);
+          fade(div(s, "<span style='font-size:64px; font-weight:800; color:#00a344'>91</span>", "left:" + (X4(iMax) - 150) + "px; top:" + (Y4(W[iMax][3]) - 70) + "px; opacity:0"), 54.25, .25);
+          fade(div(s, "Euphorie", "left:110px; top:" + (Y4(100) + 14) + "px; font-size:34px; font-weight:800; color:#00a344; opacity:0"), 55.0, .3);
+          circ(g4, X4(iMin), Y4(W[iMin][3]) + 30, 58.4);
+          fade(div(s, "<span style='font-size:64px; font-weight:800; color:" + ROUGE + "'>29</span>", "left:" + (X4(iMin) - 110) + "px; top:" + (Y4(W[iMin][3]) + 10) + "px; opacity:0"), 58.45, .25);
+          fade(div(s, "Peur", "left:110px; top:" + (Y4(30) + 14) + "px; font-size:34px; font-weight:800; color:" + ROUGE + "; opacity:0"), 59.3, .3);
+          source(s, "Source : Yahoo Finance · RSI 14 semaines, calcul FinanceData"); })();
+
+        // ===== 10. « De l'euphorie totale à la peur. Et c'est souvent dans ces moments-là que le marché touche son point bas » (fond bleu sombre) =====
+        (function () { var s = sc(61.67, 66.25); s.style.background = NAVY;
+          var e = div(s, "L'euphorie", "left:0; right:0; top:640px; text-align:center; font-size:150px; font-weight:800; letter-spacing:-.05em; line-height:1; color:" + VERT); rise(e, 61.7, .35); tl.to(e, { color: "rgba(255,255,255,.25)", duration: .3 }, 63.0);
+          rise(div(s, "la peur", "left:0; right:0; top:830px; text-align:center; font-size:150px; font-weight:800; letter-spacing:-.05em; line-height:1; opacity:0; color:" + ROUGE), 63.0, .35);
+          fade(div(s, "souvent le point bas du marché", "left:0; right:0; top:1040px; text-align:center; font-size:48px; font-weight:700; letter-spacing:-.025em; color:rgba(255,255,255,.7); opacity:0"), 65.0, .3); })();
+
+        // ===== 11. Le payoff (66,25 → 74,43) : photo d'un coffre de lingots, deux phrases, mention AMF =====
+        (function () { var s = sc(66.25, 74.43);
+          var im = div(s, "<img src='assets/img/coffre.jpg' style='width:1080px; height:1920px; object-fit:cover; display:block'>", "inset:0");
+          tl.fromTo(im, { scale: 1.08 }, { scale: 1, duration: 8.2, ease: "none", immediateRender: false }, 66.25);
+          div(s, "", "inset:0; background:linear-gradient(180deg, rgba(3,11,29,.55), rgba(3,11,29,.85))");
+          var a = div(s, "Ne cédez jamais<br>à l'euphorie.", "left:0; right:0; top:700px; text-align:center; font-size:100px; font-weight:800; letter-spacing:-.05em; line-height:1.02; opacity:0", "a w"); rise(a, 67.6); out(a, 70.9, .2);
+          rise(div(s, "C'est quand tout le monde<br>a peur qu'il faut regarder.", "left:0; right:0; top:700px; text-align:center; font-size:76px; font-weight:800; letter-spacing:-.045em; line-height:1.05; opacity:0", "a w"), 71.7);
+          div(s, AMF, "top:1270px; text-align:center; color:rgba(255,255,255,.75); line-height:1.3", "src"); })();
+
+        // ===== 12. La newsletter du mardi (74,43 → 81,53) =====
+        (function () { var s = sc(74.43, 81.53); s.style.background = "#f4f5f8";
+          var card = div(s, "", "left:110px; top:500px; width:860px; height:720px; background:#fff; border-radius:28px; box-shadow:0 30px 80px rgba(11,31,68,.12)"); rise(card, 74.45, .4);
+          div(card, "<img src='assets/img/logo-financedata.png' style='width:72px; height:72px; border-radius:50%; vertical-align:middle'><span style='vertical-align:middle; margin-left:18px; font-size:34px; font-weight:700'>FinanceData</span>", "left:56px; top:56px");
+          var t = div(card, "Chaque mardi,<br>7 h", "left:56px; top:200px; font-size:110px; font-weight:800; letter-spacing:-.05em; line-height:1; opacity:0"); fade(t, 75.4, .3);
+          var m = div(card, "Le moral des investisseurs, décrypté", "left:56px; right:56px; top:480px; font-size:44px; font-weight:700; letter-spacing:-.025em; line-height:1.2; color:" + INK + "; border-left:6px solid " + OR2 + "; padding-left:26px; opacity:0"); fade(m, 78.9, .3);
+          div(card, "La newsletter de FinanceData", "left:56px; bottom:52px; font-size:28px; font-weight:600; color:" + SOFT); })();
+
+        // ===== 13. CTA (81,53 → fin) : commentez « GO » =====
+        (function () { var t0 = 81.53, s = sc(t0, 999); s.style.background = NAVY;
+          var avt = div(s, "<svg viewBox='0 0 320 320' style='position:absolute; inset:0; width:100%; height:100%'><defs><linearGradient id='gStory' x1='0' y1='1' x2='1' y2='0'><stop offset='0' stop-color='#feda75'/><stop offset='.3' stop-color='#fa7e1e'/><stop offset='.6' stop-color='#d62976'/><stop offset='1' stop-color='#962fbf'/></linearGradient></defs><circle id='ring' cx='160' cy='160' r='152' fill='none' stroke='url(#gStory)' stroke-width='10' transform='rotate(-90 160 160)'/></svg><div class='pic'><img src='assets/img/logo-financedata.png'></div>", "", "");
+          avt.id = "avatar";
+          tl.fromTo(avt, { opacity: 0, scale: .6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: .5, ease: "power3.out", immediateRender: false }, t0 + .05);
+          var ring = document.getElementById("ring"), rl = 2 * Math.PI * 152; ring.style.strokeDasharray = rl + " " + rl; ring.style.strokeDashoffset = rl;
+          tl.fromTo(ring, { strokeDashoffset: rl }, { strokeDashoffset: 0, duration: .8, ease: "power2.inOut", immediateRender: false }, t0 + .1);
+          fade(div(s, "financedatafr", "left:0; right:0; top:730px; text-align:center; font-size:56px; font-weight:700; letter-spacing:-.04em; color:#fff; opacity:0"), t0 + .25);
+          var bar = div(s, "", "left:110px; top:880px; width:860px; height:110px; border-radius:55px; background:rgba(255,255,255,.08); border:2px solid rgba(255,255,255,.18); opacity:0"); fade(bar, t0 + .4, .3);
+          var ph = div(bar, "Ajouter un commentaire…", "left:48px; top:0; line-height:106px; font-size:36px; color:rgba(255,255,255,.45)");
+          var ty = div(bar, "", "left:48px; top:0; line-height:106px; font-size:44px; font-weight:700; color:#fff");
+          var pub = div(bar, "Publier", "right:44px; top:0; line-height:106px; font-size:36px; font-weight:700; color:#0095f6; opacity:.35");
+          tl.set(ph, { opacity: 0 }, 83.1); tl.set(ty, { textContent: "G" }, 83.1); tl.set(ty, { textContent: "GO" }, 83.22); tl.to(pub, { opacity: 1, duration: .1 }, 83.3);
+          tl.to(pub, { scale: .9, duration: .08 }, 83.8); tl.to(pub, { scale: 1, duration: .15 }, 83.88); tl.set(ty, { textContent: "" }, 83.9); tl.set(ph, { opacity: 1 }, 83.9); tl.to(pub, { opacity: .35, duration: .1 }, 83.9);
+          var cm = div(s, "<img src='assets/img/logo-financedata.png' style='position:absolute; left:0; top:0; width:84px; height:84px; border-radius:50%'><div style='position:absolute; left:110px; top:4px; font-size:30px; font-weight:700; color:#fff'>vous <span style='font-weight:400; color:rgba(255,255,255,.5)'>· à l'instant</span></div><div style='position:absolute; left:110px; top:44px; font-size:44px; font-weight:800; color:#fff'>GO</div><div style='position:absolute; right:0; top:22px; font-size:40px; color:#ff1744'>♥</div>", "left:120px; top:1060px; width:840px; height:100px; opacity:0");
+          tl.fromTo(cm, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: .4, ease: "power3.out", immediateRender: false }, 83.95); })();
+
+        // ===== sous-titres : 3 mots max, « % » rétabli, masqués quand le texte est déjà à l'écran =====
+        var PCT = [1.3, 21.9, 26.2, 45.6];
+        var W0 = window.VO.words.filter(function (w) { return w.s < END; }), groups = [], cur = [];
+        W0.forEach(function (t, k) { var w = { w: t.w, s: t.s, e: t.e }; if (PCT.some(function (p) { return Math.abs(p - t.s) < .1; })) w.w = w.w.replace(/[,.]?$/, function (m) { return " %" + m; }); cur.push(w);
+          if (/[,.?:!…]$/.test(t.w) || cur.length >= 3 || !W0[k + 1] || /^[A-ZÉ]/.test(W0[k + 1].w)) { groups.push(cur); cur = []; } });
+        var SKIP = [[10.6, 13.7], [47.8, 49.84], [61.67, 63.5], [66.25, 74.43], [81.53, 999]];
+        groups.forEach(function (gp, k) {
+          var t0 = gp[0].s, t1 = k + 1 < groups.length ? groups[k + 1][0].s : END;
+          if (SKIP.some(function (r) { return t0 >= r[0] - .05 && t0 < r[1]; })) return;
+          var d = div(top, "<span class='cap-box'>" + gp.map(function (t) { return t.w; }).join(" ") + "</span>", "", "cap-line");
+          tl.fromTo(d, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: .1, ease: "power2.out", immediateRender: false }, Math.max(0, t0 - .06));
+          tl.set(d, { opacity: 0 }, Math.min(t1 - .07, gp[gp.length - 1].e + .6, END - .035));
+        });
+
+        tl.set({}, {}, END);
+        window.__timelines = window.__timelines || {}; window.__timelines["main"] = tl; tl.seek(0); render();
+      })();
+    </script>
+  </body>
+</html>
