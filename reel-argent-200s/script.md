@@ -1,6 +1,8 @@
 # L'argent rebondit sur sa moyenne mobile 200 semaines (script du 27/11/2026)
 
-L'argent a perdu jusqu'à 67 % depuis son record. Mais regardez bien cette ligne, il vient de rebondir pile dessus. Et la dernière fois qu'il l'a touchée, son prix a plus que triplé en deux ans.
+L'argent a perdu jusqu'à 67 % depuis son record. Mais regardez bien cette ligne car il vient de rebondir pile dessus. Et la dernière fois qu'il l'a touchée, son prix a plus que triplé en deux ans.
+
+Bienvenue dans le guide de la culture financière, épisode 12.
 
 En janvier, l'once d'argent dépassait les 120 dollars, c'était l'euphorie totale. Mercredi, elle est tombée à 40 dollars, la faute à des taux américains proches de 5 % qui font fuir les investisseurs des métaux. Et depuis, elle a déjà repris 11 %.
 
@@ -12,6 +14,6 @@ Et à chaque fois, un deuxième signal était là, la peur. Le RSI, le thermomè
 
 De l'euphorie totale à la peur. Et c'est souvent dans ces moments-là que le marché touche son point bas.
 
-Pour nous, la volatilité peut encore durer à court terme. Mais sur le long terme, ces moments ont souvent offert de belles opportunités.
+Alors retenez une chose, ne cédez jamais à l'euphorie, c'est comme ça qu'on achète au pire moment. Au contraire, c'est quand tout le monde a peur que vous devez vous y intéresser.
 
-Et si vous voulez comprendre les mécanismes invisibles des marchés avant tout le monde, abonnez-vous.
+Et justement, chaque mardi à 7 heures, on vous envoie une analyse des marchés dans laquelle on décrypte le moral des investisseurs, pour vous éviter ces erreurs. Pour recevoir la prochaine, commentez « GO » et on vous enverra le lien.
